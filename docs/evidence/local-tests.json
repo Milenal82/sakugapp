@@ -1,30 +1,9 @@
 {
-  "version": "0.3.0",
+  "version": "0.4.0",
   "suites": [
-    {
-      "name": "com.sakugapp.RepositoryTest",
-      "tests": "7",
-      "skipped": "0",
-      "failures": "0",
-      "errors": "0"
-    },
     {
       "name": "com.sakugapp.CommunityTest",
       "tests": "16",
-      "skipped": "0",
-      "failures": "0",
-      "errors": "0"
-    },
-    {
-      "name": "com.sakugapp.LiveFixtureTest",
-      "tests": "2",
-      "skipped": "0",
-      "failures": "0",
-      "errors": "0"
-    },
-    {
-      "name": "com.sakugapp.FeedViewModelTest",
-      "tests": "4",
       "skipped": "0",
       "failures": "0",
       "errors": "0"
@@ -37,13 +16,41 @@
       "errors": "0"
     },
     {
+      "name": "com.sakugapp.FeedViewModelTest",
+      "tests": "4",
+      "skipped": "0",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.sakugapp.LiveFixtureTest",
+      "tests": "2",
+      "skipped": "0",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
       "name": "com.sakugapp.PreferencesAndFramesTest",
       "tests": "9",
       "skipped": "0",
       "failures": "0",
       "errors": "0"
+    },
+    {
+      "name": "com.sakugapp.RepositoryTest",
+      "tests": "7",
+      "skipped": "0",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.sakugapp.SearchAndCaptionTest",
+      "tests": "10",
+      "skipped": "0",
+      "failures": "0",
+      "errors": "0"
     }
   ],
-  "apk_sha256": "9d6a12a29bf5e2ae5c7e607088402b46258e6efeaa97604682a4cce65a259805",
-  "apk_bytes": 20120369
+  "apk_sha256": "92c84ca5b99222d2767bcd7c5d088a9d03f1e51f65e461617ae60a21ad34def9",
+  "apk_bytes": 16026121
 }

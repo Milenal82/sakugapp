@@ -22,6 +22,12 @@ class PublicBrowseTest {
         ui.onNode(hasSetTextAction()).performTextReplacement("id:319947")
         ui.onNodeWithText("Search",useUnmergedTree=true).performClick()
         ui.waitUntil(90000){ui.onAllNodesWithContentDescription("Post 319947").fetchSemanticsNodes().isNotEmpty()}
+        val caption=ui.onNodeWithTag("post-caption-319947").fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].first()
+        assertTrue("Verified animator tag below thumbnail",caption.text.contains("mokmok"))
+        assertTrue("Verified copyright tag below thumbnail",caption.text.contains("jujutsu_kaisen"))
+        assertTrue(caption.spanStyles.any{it.item.color==androidx.compose.ui.graphics.Color(0xFFFFD54F)})
+        assertTrue(caption.spanStyles.any{it.item.color==androidx.compose.ui.graphics.Color(0xFFCE93D8)})
+        assertTrue("Real score remains visible",Regex("Score -?[0-9]+").containsMatchIn(caption.text))
         ui.onNodeWithContentDescription("Post 319947").performClick()
         ui.onNodeWithText("#319947").assertIsDisplayed()
         ui.waitUntil(90000){ui.onAllNodesWithContentDescription("Video frame rendered").fetchSemanticsNodes().isNotEmpty()}
@@ -37,13 +43,16 @@ class PublicBrowseTest {
         ui.onNodeWithText("1.5×").performScrollTo().performClick();ui.onNodeWithText("[1.5×]").assertExists()
         ui.onNodeWithText("Full screen").performScrollTo().performClick();ui.onNodeWithText("Exit full screen").assertExists()
         ui.onNodeWithText("Exit full screen").performClick()
-        ui.onNodeWithText("Exact frames").performScrollTo().performClick()
+        ui.onNodeWithTag("open-frame-controls").performScrollTo().performClick()
         ui.onNodeWithText("Download and decode").performClick()
         ui.waitUntil(120000){ui.onAllNodesWithContentDescription("Decoded frame").fetchSemanticsNodes().isNotEmpty()}
         ui.onNodeWithText("Next frame").performScrollTo().performClick()
         ui.waitUntil(15000){ui.onAllNodes(frameCounter(2)).fetchSemanticsNodes().isNotEmpty()}
         ui.onNodeWithText("Previous frame").performScrollTo().performClick()
         ui.waitUntil(15000){ui.onAllNodes(frameCounter(1)).fetchSemanticsNodes().isNotEmpty()}
+        ui.onNodeWithTag("frame-number").performScrollTo().performTextReplacement("3")
+        ui.onNodeWithTag("go-to-frame").performScrollTo().performClick()
+        ui.waitUntil(15000){ui.onAllNodes(frameCounter(3)).fetchSemanticsNodes().isNotEmpty()}
         ui.onNodeWithText("Close").performClick()
         ui.runOnUiThread{ui.activity.onBackPressedDispatcher.onBackPressed()}
         ui.onNodeWithContentDescription("Post 319947").assertExists()

@@ -1,0 +1,100 @@
+[
+  {
+    "url": "https://www.sakugabooru.com/post.json?tags=id%3A319947&limit=3&page=1",
+    "query": "id:319947",
+    "exit_code": 0,
+    "verified_at_utc": "2026-10-22T13:48:24.872498+00:00",
+    "posts": [
+      {
+        "id": 319947,
+        "tags": "animated genga jujutsu_kaisen_season_3 jujutsu_kaisen_series mokmok production_materials",
+        "score": 96,
+        "width": 860,
+        "height": 480,
+        "rating": "s"
+      }
+    ]
+  },
+  {
+    "url": "https://www.sakugabooru.com/post.json?tags=mokmok+genga&limit=3&page=1",
+    "query": "mokmok genga",
+    "exit_code": 0,
+    "verified_at_utc": "2026-10-22T13:48:25.195946+00:00",
+    "posts": [
+      {
+        "id": 319947,
+        "tags": "animated genga jujutsu_kaisen_season_3 jujutsu_kaisen_series mokmok production_materials",
+        "score": 96,
+        "width": 860,
+        "height": 480,
+        "rating": "s"
+      }
+    ],
+    "returned_tags_satisfy_query": true
+  },
+  {
+    "url": "https://www.sakugabooru.com/post.json?tags=~mokmok+~artist_unknown&limit=3&page=1",
+    "query": "~mokmok ~artist_unknown",
+    "exit_code": 0,
+    "verified_at_utc": "2026-10-22T13:48:26.054725+00:00",
+    "posts": [
+      {
+        "id": 319948,
+        "tags": "animated artist_unknown effects macademi_wasshoi smears smoke",
+        "score": 0,
+        "width": 854,
+        "height": 480,
+        "rating": "s"
+      },
+      {
+        "id": 319947,
+        "tags": "animated genga jujutsu_kaisen_season_3 jujutsu_kaisen_series mokmok production_materials",
+        "score": 96,
+        "width": 860,
+        "height": 480,
+        "rating": "s"
+      },
+      {
+        "id": 319946,
+        "tags": "animated artist_unknown effects lightning macademi_wasshoi smoke",
+        "score": 0,
+        "width": 854,
+        "height": 480,
+        "rating": "s"
+      }
+    ],
+    "returned_tags_satisfy_query": true
+  },
+  {
+    "url": "https://www.sakugabooru.com/post.json?tags=rating%3Asafe+score%3A1..+id%3A..319947+order%3Aid_desc&limit=3&page=1",
+    "query": "rating:safe score:1.. id:..319947 order:id_desc",
+    "exit_code": 0,
+    "verified_at_utc": "2026-10-22T13:48:26.518675+00:00",
+    "posts": [
+      {
+        "id": 319947,
+        "tags": "animated genga jujutsu_kaisen_season_3 jujutsu_kaisen_series mokmok production_materials",
+        "score": 96,
+        "width": 860,
+        "height": 480,
+        "rating": "s"
+      },
+      {
+        "id": 319945,
+        "tags": "animated artist_unknown fabric macademi_wasshoi smears",
+        "score": 3,
+        "width": 852,
+        "height": 480,
+        "rating": "s"
+      },
+      {
+        "id": 319944,
+        "tags": "animated artist_unknown effects macademi_wasshoi smears",
+        "score": 3,
+        "width": 852,
+        "height": 480,
+        "rating": "s"
+      }
+    ]
+  }
+]

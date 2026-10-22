@@ -13,6 +13,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -35,6 +36,7 @@ import java.io.File
 @Composable
 fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=false,seekRequest:Pair<Long,Int>?=null) {
     val context=LocalContext.current;val owner=LocalLifecycleOwner.current;val scope=rememberCoroutineScope()
+    val shareTitle=text("Share frame","フレーム共有")
     var fullscreen by rememberSaveable(url){mutableStateOf(false)}
     var frames by remember{mutableStateOf(false)}
     var muted by rememberSaveable(url){mutableStateOf(if(preview)true else settings.muted)}
@@ -63,6 +65,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
     LaunchedEffect(muted,loop,speed,volume){player.volume=if(muted)0f else volume;player.repeatMode=if(loop)Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF;player.setPlaybackSpeed(speed)}
     LaunchedEffect(seekRequest){seekRequest?.let{player.seekTo(it.first)}}
     BackHandler(fullscreen){fullscreen=false}
+    fun openFrames(){position=player.currentPosition;player.pause();player.stop();frames=true}
     val content: @Composable (Modifier) -> Unit = { modifier ->
         Column(modifier.background(Color.Black)){
             AndroidView(factory={LayoutInflater.from(it).inflate(R.layout.native_player,android.widget.FrameLayout(it),false) as PlayerView},
@@ -77,18 +80,20 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                     }
                 })
             if(!preview){
+                OutlinedButton(onClick=::openFrames,modifier=Modifier.fillMaxWidth().padding(horizontal=8.dp).testTag("open-frame-controls")){
+                    Text(text("Frame by frame","コマ送り・フレーム解析"))
+                }
                 FlowRow(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.spacedBy(4.dp)){
                     TextButton(onClick={muted=!muted}){Text(if(muted)text("Unmute","ミュート解除")else text("Mute","ミュート"))}
                     TextButton(onClick={loop=!loop}){Text(if(loop)text("Loop on","ループ：オン")else text("Loop off","ループ：オフ"))}
                     TextButton(onClick={fullscreen=!fullscreen}){Text(if(fullscreen)text("Exit full screen","全画面解除")else text("Full screen","全画面"))}
-                    TextButton(onClick={position=player.currentPosition;player.pause();player.stop();frames=true}){Text(text("Exact frames","フレーム解析"))}
                     if(settings.screenshot)TextButton(onClick={
                         val bitmap=(view?.videoSurfaceView as? TextureView)?.bitmap
                         if(bitmap==null)error="No decoded frame is available to capture."
                         else scope.launch{
                             try{
                                 val uri=withContext(Dispatchers.IO){val dir=File(context.cacheDir,"screenshots").apply{mkdirs()};val file=File(dir,"frame-${System.currentTimeMillis()}.png");file.outputStream().use{bitmap.compress(Bitmap.CompressFormat.PNG,100,it)};FileProvider.getUriForFile(context,"${context.packageName}.files",file)}
-                                context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("image/png").putExtra(Intent.EXTRA_STREAM,uri).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION),"Share frame"))
+                                context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("image/png").putExtra(Intent.EXTRA_STREAM,uri).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION),shareTitle))
                             }catch(e:Exception){error="Unable to share the screenshot."}finally{bitmap.recycle()}
                         }
                     }){Text(text("Snapshot","スクリーンショット"))}
@@ -100,7 +105,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                     Text(text("Volume","音量"));Slider(value=volume,onValueChange={volume=it;muted=it==0f},modifier=Modifier.weight(1f))
                 }
             }
-            error?.let{message->Text(message,color=MaterialTheme.colorScheme.error,modifier=Modifier.padding(8.dp));TextButton(onClick={error=null;player.prepare();player.play()}){Text(text("Retry","再試行"))}}
+            error?.let{message->Text(translateMessage(message),color=MaterialTheme.colorScheme.error,modifier=Modifier.padding(8.dp));TextButton(onClick={error=null;player.prepare();player.play()}){Text(text("Retry","再試行"))}}
         }
     }
     if(fullscreen){Dialog(onDismissRequest={fullscreen=false},properties=DialogProperties(usePlatformDefaultWidth=false,decorFitsSystemWindows=false)){content(Modifier.fillMaxSize().systemBarsPadding())};Text(text("Video is in full screen","動画は全画面表示中です"))}

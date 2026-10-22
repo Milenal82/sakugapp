@@ -9,12 +9,15 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.input.KeyboardType
 import com.sakugapp.data.FrameIndex
 import com.sakugapp.data.PostParser
 import kotlinx.coroutines.*
@@ -87,11 +90,21 @@ fun StrictFrameDialog(url:String,close:()->Unit) {
     var bitmap by remember { mutableStateOf<Bitmap?>(null) }
     var busy by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
+    var attempt by remember { mutableIntStateOf(0) }
+    var frameInput by remember { mutableStateOf("1") }
+    var slider by remember { mutableFloatStateOf(0f) }
     val scope=rememberCoroutineScope()
-    LaunchedEffect(decoder,consent) {
+    fun decode(target:Int) { scope.launch {
+        busy=true;error=null
+        try { if(Build.VERSION.SDK_INT>=28) {
+            val result=decoder.frame(target)
+            bitmap=result;index=index?.copy(index=target);frameInput=(target+1).toString();slider=target.toFloat()
+        } }catch(e:CancellationException){throw e}catch(e:Exception){error=e.message}finally{busy=false}
+    } }
+    LaunchedEffect(decoder,consent,attempt) {
         if(!consent)return@LaunchedEffect
         try {
-            busy=true
+            busy=true;error=null;index=null;bitmap=null;frameInput="1";slider=0f
             if(Build.VERSION.SDK_INT<28)error="Exact indexing requires Android 9 or later."
             else { index=FrameIndex(decoder.open());bitmap=decoder.frame(0) }
             busy=false
@@ -105,14 +118,18 @@ fun StrictFrameDialog(url:String,close:()->Unit) {
             if(busy)LinearProgressIndicator(Modifier.fillMaxWidth())
             bitmap?.let { Image(it.asImageBitmap(),"Decoded frame",Modifier.fillMaxWidth().heightIn(max=280.dp)) }
             index?.let { current ->
-                Text("${current.index+1} / ${current.count}")
+                Text("${current.index+1} / ${current.count}",Modifier.testTag("frame-counter"))
+                Text(text("Use the actual decoded frame index, not a time estimate.","時刻の推定ではなく、実際のデコード索引で移動します。"),style=MaterialTheme.typography.bodySmall)
                 Row {
                     for(delta in listOf(-1,1))TextButton(enabled=!busy && (if(delta<0)current.index>0 else current.index<current.count-1),onClick={
-                        scope.launch { busy=true;error=null;try { val next=current.move(delta);if(Build.VERSION.SDK_INT>=28){bitmap=decoder.frame(next.index);index=next} }catch(e:CancellationException){throw e}catch(e:Exception){error=e.message}finally{busy=false} }
+                        decode(current.move(delta).index)
                     }){Text(if(delta<0)text("Previous frame","前のフレーム") else text("Next frame","次のフレーム"))}
                 }
+                if(current.count>1)Slider(value=slider,onValueChange={slider=it},onValueChangeFinished={decode(slider.toInt().coerceIn(0,current.count-1))},valueRange=0f..(current.count-1).toFloat(),enabled=!busy,modifier=Modifier.testTag("frame-slider"))
+                OutlinedTextField(frameInput,{frameInput=it},label={Text(text("Frame number","フレーム番号"))},singleLine=true,enabled=!busy,keyboardOptions=KeyboardOptions(keyboardType=KeyboardType.Number),modifier=Modifier.fillMaxWidth().testTag("frame-number"))
+                TextButton(enabled=!busy && frameInput.toIntOrNull()?.let{it in 1..current.count}==true,onClick={decode(frameInput.toInt()-1)},modifier=Modifier.testTag("go-to-frame")){Text(text("Go to frame","フレームに移動"))}
             }
-            error?.let { Text(it,color=MaterialTheme.colorScheme.error) }
+            error?.let { Text(translateMessage(it),color=MaterialTheme.colorScheme.error);TextButton(enabled=!busy,onClick={attempt++}){Text(text("Retry","再試行"))} }
         }
     },confirmButton={if(!consent)TextButton(onClick={consent=true}){Text(text("Download and decode","保存して解析"))}else TextButton(onClick=close){Text(text("Close","閉じる"))}},dismissButton={if(!consent)TextButton(onClick=close){Text(text("Cancel","キャンセル"))}})
 }

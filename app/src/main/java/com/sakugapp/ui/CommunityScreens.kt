@@ -43,7 +43,7 @@ fun AccountScreen(model:AppViewModel,openSite:(String)->Unit) {
             TextButton(onClick={openSite("https://www.sakugabooru.com/user/login")}){Text(text("Registration / reset on website","公式サイトで登録・再設定"))}
         }
         if(busy)LinearProgressIndicator(Modifier.fillMaxWidth())
-        error?.let{Text(it,color=MaterialTheme.colorScheme.error)}
+        error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error)}
     }
 }
 
@@ -89,7 +89,7 @@ fun CommunityPanel(post:Post,model:AppViewModel,onScore:(Int?)->Unit,onLogin:()-
             try{val result=model.community.vote(post.id,score);onScore(result.score);refreshVote();notice="Vote confirmed by the server."}
             catch(e:CancellationException){throw e}catch(e:Exception){voteError=e.message}finally{voteBusy=false}
         }}){Text(if(vote==score)"[$score]"else"$score")}}
-        voteError?.let{Text(it,color=MaterialTheme.colorScheme.error);TextButton(onClick={scope.launch{refreshVote()}}){Text(text("Reload vote","評価を再読込"))}}
+        voteError?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error);TextButton(onClick={scope.launch{refreshVote()}}){Text(text("Reload vote","評価を再読込"))}}
     }
     HorizontalDivider();Text(text("Comments","コメント"),style=MaterialTheme.typography.titleLarge)
     if(account!=null){
@@ -108,7 +108,7 @@ fun CommunityPanel(post:Post,model:AppViewModel,onScore:(Int?)->Unit,onLogin:()-
     comments.forEach{comment->
         Surface(color=MaterialTheme.colorScheme.surfaceVariant,shape=MaterialTheme.shapes.medium){
             Column(Modifier.padding(12.dp),verticalArrangement=Arrangement.spacedBy(6.dp)){
-                Text("${comment.author ?: "Unknown"} · ${comment.createdAt.orEmpty()}",style=MaterialTheme.typography.labelMedium)
+                Text("${comment.author ?: translateMessage("Unknown")} · ${comment.createdAt.orEmpty()}",style=MaterialTheme.typography.labelMedium)
                 // Raw DText is displayed as text. Never evaluate scripts or render untrusted HTML.
                 Text(comment.body)
                 FlowRow{CommunityParser.timecodes(comment.body).forEach{(label,ms)->TextButton(onClick={seek(ms)}){Text(label)}}}
@@ -119,9 +119,9 @@ fun CommunityPanel(post:Post,model:AppViewModel,onScore:(Int?)->Unit,onLogin:()-
             }
         }
     }
-    commentError?.let{Text(it,color=MaterialTheme.colorScheme.error);TextButton(enabled=!loading,onClick={scope.launch{load(retryReset)}}){Text(text("Retry comments","コメントを再試行"))}}
+    commentError?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error);TextButton(enabled=!loading,onClick={scope.launch{load(retryReset)}}){Text(text("Retry comments","コメントを再試行"))}}
     if(!loading && !end && commentError==null)TextButton(onClick={scope.launch{load()}}){Text(text("More comments","コメントをさらに表示"))}
-    notice?.let{Text(it,style=MaterialTheme.typography.bodySmall)}
+    notice?.let{Text(translateMessage(it),style=MaterialTheme.typography.bodySmall)}
     deleting?.let{target->AlertDialog(onDismissRequest={deleting=null},title={Text(text("Delete this comment?","このコメントを削除しますか？"))},text={Text(target.body.take(300))},confirmButton={TextButton(onClick={deleting=null;scope.launch{
         sending=true;try{model.community.deleteComment(post.id,target.id);notice="Deletion confirmed by the server.";load(true)}catch(e:CancellationException){throw e}catch(e:Exception){commentError=e.message}finally{sending=false}
     }}){Text(text("Delete","削除"))}},dismissButton={TextButton(onClick={deleting=null}){Text(text("Cancel","キャンセル"))}})}

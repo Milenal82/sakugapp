@@ -49,21 +49,24 @@ object PostParser {
         if (!root.isJsonObject) throw DataFailure("Invalid tag classification response.")
         val data = root.asJsonObject.text("data") ?: throw DataFailure("Missing tag classification data.")
         buildMap {
-            data.trim().split(Regex("\\s+")).forEach { record ->
+            // A bad site record must not erase every valid classification. Split at record
+            // starts, not within a name: the live summary contains a whitespace-bearing name.
+            data.trim().split(Regex("\\s+(?=\\d+`)")).forEach { record ->
                 val parts = record.split('`')
                 val type = parts.firstOrNull()?.toIntOrNull()
-                    ?: throw DataFailure("Invalid tag classification record.")
-                if (parts.size < 3 || parts[1].isBlank() || parts.last() != "")
-                    throw DataFailure("Incomplete tag classification record.")
+                    ?: return@forEach
+                val names = parts.drop(1).dropLast(1)
+                if (parts.size < 3 || parts[1].isBlank() || parts.last() != "" ||
+                    names.any { it.isBlank() || it.any(Char::isWhitespace) }) return@forEach
                 val category = when (type) {
                     1 -> TagCategory.ARTIST
                     3 -> TagCategory.COPYRIGHT
                     0, 4 -> TagCategory.OTHER
                     else -> TagCategory.UNKNOWN
                 }
-                parts.drop(1).filter { it.isNotEmpty() }.forEach { put(it, category) }
+                names.forEach { put(it, category) }
             }
-        }
+        }.also { if (it.isEmpty()) throw DataFailure("No valid tag classifications were returned.") }
     } catch (e: DataFailure) { throw e }
     catch (e: Exception) { throw DataFailure("Unable to parse tag categories.", e) }
 }

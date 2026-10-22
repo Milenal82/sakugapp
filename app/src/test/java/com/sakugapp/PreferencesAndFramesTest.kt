@@ -10,7 +10,11 @@ class PreferencesAndFramesTest {
         assertEquals(listOf("old"),PreferenceRules.history(listOf("old")," "))
         assertEquals(30,PreferenceRules.history((1..30).map{"tag$it"},"new").size)
     }
-    @Test fun languageChoicesAreExactlyTheOfficialPair(){assertEquals(setOf("en","ja"),PreferenceRules.languages)}
+    @Test fun traditionalChineseIsNativeWhileWebsiteLanguagesRemainOfficial(){
+        assertEquals(setOf("en","ja","zh-TW"),PreferenceRules.languages)
+        assertEquals("en",PreferenceRules.siteLanguage("zh-TW"));assertEquals("ja",PreferenceRules.siteLanguage("ja"))
+        assertEquals("zh-TW,zh;q=0.9,en;q=0.7",PreferenceRules.acceptLanguage("zh-TW"))
+    }
     @Test fun advancedFiltersPreserveTagsAndExclusions(){assertEquals("artist -genga order:score rating:safe",PreferenceRules.advanced("artist -genga order:random rating:explicit","score","safe"))}
     @Test fun unsupportedFiltersAreRejected(){assertThrows(IllegalArgumentException::class.java){PreferenceRules.advanced("","invented","safe")}}
     @Test fun exactIndexMovesByFramesAndClampsWithoutFps(){
@@ -30,6 +34,7 @@ class PreferencesAndFramesTest {
     }
     @Test fun languageIsAppliedToRealSiteQueryNotAnAnchor(){
         assertEquals("https://www.sakugabooru.com/forum?locale=ja",UrlPolicy.localized("https://www.sakugabooru.com/forum","ja"))
+        assertEquals("https://www.sakugabooru.com/forum?locale=en",UrlPolicy.localized("https://www.sakugabooru.com/forum","zh-TW"))
         assertThrows(IllegalArgumentException::class.java){UrlPolicy.localized("https://www.sakugabooru.com/forum","zh")}
     }
 }

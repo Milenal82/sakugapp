@@ -47,7 +47,7 @@ class BrowserActivity:ComponentActivity() {
                         TextButton(onClick={browser?.reload();error=null}){Text(text("Reload","再読み込み"))}
                     }
                     if(loading)LinearProgressIndicator(Modifier.fillMaxWidth())
-                    error?.let{Text(it,color=MaterialTheme.colorScheme.error)}
+                    error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error)}
                     if(ready)AndroidView(factory={context->WebView(context).apply{
                         browser=this
                         settings.javaScriptEnabled=true;settings.domStorageEnabled=true
@@ -72,7 +72,7 @@ class BrowserActivity:ComponentActivity() {
                             override fun onPageFinished(view:WebView,url:String){loading=false;CookieManager.getInstance().flush()}
                             override fun onReceivedError(view:WebView,request:WebResourceRequest,failure:WebResourceError){if(request.isForMainFrame){loading=false;error="Page load failed (${failure.errorCode})."}}
                         }
-                        loadUrl(UrlPolicy.localized(target,language),mapOf("Accept-Language" to language))
+                        loadUrl(UrlPolicy.localized(target,language),mapOf("Accept-Language" to PreferenceRules.acceptLanguage(language)))
                     }},modifier=Modifier.fillMaxWidth().weight(1f))
                 }
             }}

@@ -33,7 +33,8 @@ data class Post(
     }
 }
 
-data class PostPage(val posts: List<Post>, val rawCount: Int, val categoryWarning: String? = null)
+data class PostPage(val posts: List<Post>, val rawCount: Int, val categoryWarning: String? = null,
+    val classifications: Map<String, TagCategory> = emptyMap())
 
 data class FeedState(
     val query: String = "",
@@ -45,7 +46,10 @@ data class FeedState(
     val categoryWarning: String? = null,
 ) {
     fun append(page: PostPage, pageSize: Int): FeedState = copy(
-        posts = (posts + page.posts).distinctBy { it.id },
+        // Also repair earlier cards when a classification request succeeds on a later page.
+        posts = (posts + page.posts).distinctBy { it.id }.map { post ->
+            post.copy(tags = post.tags.map { tag -> page.classifications[tag.name]?.let { tag.copy(category=it) } ?: tag })
+        },
         nextPage = nextPage + 1,
         loading = false,
         endReached = page.rawCount < pageSize,

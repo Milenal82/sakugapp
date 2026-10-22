@@ -19,16 +19,16 @@ data class AppSettings(
 )
 
 object PreferenceRules {
-    val languages = setOf("en", "ja")
+    val languages = setOf("en", "ja", "zh-TW")
+    // Traditional Chinese translates the native app; the official site only offers en/ja.
+    fun siteLanguage(language: String): String { require(language in languages); return if(language == "ja") "ja" else "en" }
+    fun acceptLanguage(language: String): String { require(language in languages); return if(language == "zh-TW") "zh-TW,zh;q=0.9,en;q=0.7" else language }
     val speeds = listOf(0.1f, 0.25f, 0.5f, 0.75f, 1f, 1.25f, 1.5f, 2f, 3f)
     fun history(previous: List<String>, query: String): List<String> = query.trim().let { text ->
         if (text.isBlank()) previous else (listOf(text) + previous.filter { it != text }).take(30)
     }
     fun advanced(query: String, order: String, rating: String): String {
-        require(order in setOf("date", "score", "score_asc", "id", "id_desc", "random"))
-        require(rating in setOf("all", "safe", "questionable", "explicit"))
-        val base = query.split(Regex("\\s+")).filter { it.isNotBlank() && !it.startsWith("order:") && !it.startsWith("rating:") }
-        return (base + listOfNotNull(if (order == "date") null else "order:$order", if (rating == "all") null else "rating:$rating")).joinToString(" ")
+        return SearchSyntax.filters(query, order, rating)
     }
 }
 

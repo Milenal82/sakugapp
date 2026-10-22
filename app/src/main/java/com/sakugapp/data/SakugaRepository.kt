@@ -51,12 +51,12 @@ class SakugaRepository(
         }
         return PostPage(posts.map { post -> post.copy(tags = post.tags.map {
             it.copy(category = types[it.name] ?: TagCategory.UNKNOWN)
-        }) }, posts.size, warning)
+        }) }, posts.size, warning, types)
     }
 
     private suspend fun get(url: HttpUrl): String = suspendCancellableCoroutine { continuation ->
         val request = Request.Builder().url(url).header("Accept", "application/json")
-            .header("User-Agent", "Sakugapp/0.3 (+https://github.com/Milenal82/sakugapp)").build()
+            .header("User-Agent", "Sakugapp/0.4 (+https://github.com/Milenal82/sakugapp)").build()
         val call = client.newCall(request)
         continuation.invokeOnCancellation { call.cancel() }
         call.enqueue(object : Callback {

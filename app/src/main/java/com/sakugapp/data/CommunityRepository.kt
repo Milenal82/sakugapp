@@ -20,10 +20,10 @@ class CommunityRepository(
     var language: String = "en"
         set(value) { require(value in PreferenceRules.languages);field=value }
     private fun request(path: String,fields: Map<String,String>? = null,csrf: String? = null): Request {
-        val builder=Request.Builder().url(base.resolve(path)!!.newBuilder().addQueryParameter("locale",language).build())
+        val builder=Request.Builder().url(base.resolve(path)!!.newBuilder().addQueryParameter("locale",PreferenceRules.siteLanguage(language)).build())
             .header("Accept",if(path.substringBefore('?').endsWith(".json"))"application/json" else "text/html")
-            .header("User-Agent","Sakugapp/0.3 (+https://github.com/Milenal82/sakugapp)")
-            .header("Accept-Language",language)
+            .header("User-Agent","Sakugapp/0.4 (+https://github.com/Milenal82/sakugapp)")
+            .header("Accept-Language",PreferenceRules.acceptLanguage(language))
         csrf?.let { builder.header("X-CSRF-Token",it).header("X-Requested-With","XMLHttpRequest").header("Referer",base.toString()) }
         fields?.let { builder.post(FormBody.Builder().apply { it.forEach { (key,value)->add(key,value) } }.build()) }
         return builder.build()

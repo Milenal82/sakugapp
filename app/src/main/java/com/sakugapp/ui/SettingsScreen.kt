@@ -29,9 +29,9 @@ fun meteredNetwork(context:Context)=callbackFlow {
 @Composable
 fun LanguageScreen(current:String,choose:(String)->Unit) {
     Column(Modifier.padding(16.dp)){
-        Text(text("Website and app language","サイト・アプリの言語"),style=MaterialTheme.typography.titleLarge)
-        // These are the only languages offered by the official website.
-        for((code,label)in listOf("en" to "English","ja" to "日本語"))Row{
+        Text(text("App language","アプリの言語"),style=MaterialTheme.typography.titleLarge)
+        Text(text("The official website supports English and Japanese. Traditional Chinese translates the native app; official pages use English.","公式サイトは英語・日本語のみです。繁体字中国語はアプリ画面を翻訳し、公式ページは英語になります。"),style=MaterialTheme.typography.bodySmall)
+        for((code,label)in listOf("en" to "English","ja" to "日本語","zh-TW" to "繁體中文"))Row{
             RadioButton(selected=current==code,onClick={choose(code)})
             TextButton(onClick={choose(code)}){Text(label)}
         }
@@ -74,7 +74,7 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel) {
             catch(e:Exception){message="Unable to clear all cache files."}finally{clearing=false}
         }}){Text(text("Clear media cache","メディアキャッシュを削除"))}
         TextButton(onClick={model.clearHistory();message="Search history cleared."}){Text(text("Clear search history","検索履歴を削除"))}
-        message?.let{Text(it)}
+        message?.let{Text(translateMessage(it))}
     }
 }
 

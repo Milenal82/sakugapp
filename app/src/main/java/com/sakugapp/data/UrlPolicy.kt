@@ -23,6 +23,6 @@ object UrlPolicy {
     fun localized(value:String,language:String):String {
         require(language in PreferenceRules.languages && trusted(value))
         val u=value.toHttpUrlOrNull()!!
-        return if(u.host in site)u.newBuilder().setQueryParameter("locale",language).build().toString() else value
+        return if(u.host in site)u.newBuilder().setQueryParameter("locale",PreferenceRules.siteLanguage(language)).build().toString() else value
     }
 }

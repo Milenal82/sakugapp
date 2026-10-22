@@ -1,0 +1,12 @@
+{
+  "verified_at_utc": "2026-10-22T13:39:02.799473+00:00",
+  "url": "https://www.sakugabooru.com/tag/summary.json",
+  "http_status": 200,
+  "version": 7358,
+  "response_bytes": 435527,
+  "sha256": "55bd3431c201e891e38a1a46b138888399b2fadaf1b8e3fce73397a81a5903f4",
+  "observed_issue": "One record contains whitespace in its canonical name; splitting on all whitespace caused the entire classification map to fail.",
+  "malformed_record": "1`emil_lundmark laura_begliomini`",
+  "fixture": "app/src/test/resources/live/tag-summary-malformed-record.json",
+  "fixture_redaction": "Public tag data only, selected exact records, no account data or cookies."
+}

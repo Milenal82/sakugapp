@@ -66,11 +66,11 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                 if(entry?.destination?.route!="posts")TextButton(onClick={nav.popBackStack()}){Text("‹")}
                 Text("Sakugapp",style=MaterialTheme.typography.titleLarge,modifier=Modifier.weight(1f))
                 Box{TextButton(onClick={menu=true}){Text(text("Menu","メニュー"))};DropdownMenu(expanded=menu,onDismissRequest={menu=false}){
-                    DropdownMenuItem(text={Text("Posts")},onClick={menu=false;nav.popBackStack("posts",false)})
+                    DropdownMenuItem(text={Text(text("Posts","投稿"))},onClick={menu=false;nav.popBackStack("posts",false)})
                     DropdownMenuItem(text={Text(text("My Account","アカウント"))},onClick={menu=false;nav.navigate("account")})
-                    DropdownMenuItem(text={Text("Blog")},onClick={menu=false;openSite("https://blog.sakugabooru.com/")})
-                    DropdownMenuItem(text={Text("Forum")},onClick={menu=false;openSite("https://www.sakugabooru.com/forum")})
-                    DropdownMenuItem(text={Text("Language")},onClick={menu=false;nav.navigate("language")})
+                    DropdownMenuItem(text={Text(text("Blog","ブログ"))},onClick={menu=false;openSite("https://blog.sakugabooru.com/")})
+                    DropdownMenuItem(text={Text(text("Forum","フォーラム"))},onClick={menu=false;openSite("https://www.sakugabooru.com/forum")})
+                    DropdownMenuItem(text={Text(text("Language","言語"))},onClick={menu=false;nav.navigate("language")})
                     DropdownMenuItem(text={Text(text("Settings","設定"))},onClick={menu=false;nav.navigate("settings")})
                     DropdownMenuItem(text={Text(text("About and licenses","アプリ・ライセンス"))},onClick={menu=false;about=true})
                 }}
@@ -112,12 +112,13 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
         if(settings.autoPreview && allowedPreview && !grid.isScrollInProgress && active==null)active=state.posts.firstOrNull{it.id in visible && it.isVideo}?.id
     }
     LaunchedEffect(query){
-        suggestions=emptyList();val prefix=query.substringAfterLast(' ').removePrefix("-")
-        if(prefix.length>=2){delay(450);try{suggestions=app.community.suggestions(prefix)}catch(e:CancellationException){throw e}catch(_:Exception){}}
+        suggestions=emptyList();val prefix=SearchSyntax.suggestionPrefix(query)
+        if(prefix!=null){delay(450);try{suggestions=app.community.suggestions(prefix)}catch(e:CancellationException){throw e}catch(_:Exception){}}
     }
     fun submit(value:String){focus.clearFocus();suggestions=emptyList();active=null;search(value)}
     Column(Modifier.fillMaxSize().padding(horizontal=10.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
         OutlinedTextField(query,{query=it},modifier=Modifier.fillMaxWidth(),singleLine=true,label={Text(text("Tags · separate with spaces","タグ・スペースで区切る"))},keyboardOptions=KeyboardOptions(imeAction=ImeAction.Search),keyboardActions=KeyboardActions(onSearch={submit(query)}),trailingIcon={Row{TextButton(onClick={query=""}){Text("×")};TextButton(onClick={submit(query)}){Text(text("Search","検索"))}}})
+        SearchSyntax.warnings(query).forEach{Text(translateMessage(it),style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.tertiary)}
         FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
             TextButton(onClick={advanced=true}){Text(text("Filters","絞り込み"))}
             TextButton(onClick={historyOpen=true}){Text(text("History","履歴"))}
@@ -127,22 +128,22 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
                 catch(e:CancellationException){throw e}catch(e:Exception){average=e.message}finally{averaging=false}
             }}){Text(text("Average color","平均色"))}
             (if(query!=state.query && query.isNotBlank())suggestions.take(4) else history.take(4)).forEach{value->
-                TextButton(onClick={val selected=if(query!=state.query && query.isNotBlank())query.substringBeforeLast(' ',"").let{if(it.isBlank())""else"$it "}+(if(query.substringAfterLast(' ').startsWith('-'))"-"else"")+value else value;query=selected;submit(selected)}){Text(value,maxLines=1,overflow=TextOverflow.Ellipsis)}
+                TextButton(onClick={val selected=if(query!=state.query && query.isNotBlank())SearchSyntax.suggestion(query,value) else value;query=selected;submit(selected)}){Text(value,maxLines=1,overflow=TextOverflow.Ellipsis)}
             }
         }
         average?.let{Text(it,style=MaterialTheme.typography.labelSmall)}
         LazyVerticalGrid(columns=GridCells.Fixed(2),state=grid,modifier=Modifier.weight(1f).testTag("post-grid"),contentPadding=PaddingValues(bottom=16.dp),horizontalArrangement=Arrangement.spacedBy(8.dp),verticalArrangement=Arrangement.spacedBy(12.dp)){
-            state.categoryWarning?.let{item(span={GridItemSpan(2)}){Text(it,style=MaterialTheme.typography.bodySmall)}}
+            state.categoryWarning?.let{item(span={GridItemSpan(2)}){Column{Text(text("Tag categories unavailable. Unknown categories are not guessed.","タグ分類を取得できません。未確認の分類は推測しません。"),style=MaterialTheme.typography.bodySmall);Text(it,style=MaterialTheme.typography.labelSmall);TextButton(enabled=!state.loading,onClick={submit(state.query)}){Text(text("Reload posts and tags","投稿とタグを再読込"))}}}}
             items(state.posts,key={it.id}){post->PostCard(post,settings,metered,active==post.id,{open(post)},search,{if(!allowedPreview)policy=true else active=if(active==post.id)null else post.id})}
             if(state.loading)items(6,key={"skeleton-$it"}){SkeletonCard()}
             item(span={GridItemSpan(2)}){Column{
-                state.error?.let{Text(it,color=MaterialTheme.colorScheme.error);Button(onClick=loadMore){Text(text("Retry this page","このページを再試行"))}}
+                state.error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error);Button(onClick=loadMore){Text(text("Retry this page","このページを再試行"))}}
                 if(!state.loading && state.error==null){if(state.posts.isEmpty())Text(text("No posts found.","該当する投稿はありません。"))else if(state.endReached)Text(text("End of results","すべて表示しました"))else Button(onClick=loadMore,modifier=Modifier.fillMaxWidth()){Text(text("Load more","さらに表示"))}}
             }}
         }
     }
     if(historyOpen)AlertDialog(onDismissRequest={historyOpen=false},title={Text(text("Search history","検索履歴"))},text={Column(Modifier.heightIn(max=400.dp).verticalScroll(rememberScrollState())){if(history.isEmpty())Text(text("No saved searches.","検索履歴はありません。"));history.forEach{item->TextButton(onClick={query=item;submit(item);historyOpen=false}){Text(item)}}}},confirmButton={TextButton(onClick={historyOpen=false}){Text(text("Close","閉じる"))}},dismissButton={TextButton(onClick=app::clearHistory){Text(text("Clear","削除"))}})
-    if(advanced)AdvancedDialog(query,{value->query=value;submit(value);advanced=false},{advanced=false})
+    if(advanced)SearchDialog(query,{value->query=value;submit(value);advanced=false},{advanced=false})
     if(policy)AlertDialog(onDismissRequest={policy=false},title={Text(text("Network policy","ネットワーク設定"))},text={Text(text("Previews on metered networks are disabled in Settings.","従量制回線でのプレビューは設定で無効になっています。"))},confirmButton={TextButton(onClick={policy=false}){Text("OK")}})
 }
 
@@ -168,13 +169,9 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
 }
 
 @Composable private fun PostCaption(post:Post,settings:AppSettings,search:(String)->Unit){
-    val tags=post.tags.filter{(it.category==TagCategory.COPYRIGHT && settings.showCopyright)||(it.category==TagCategory.ARTIST && settings.showArtist)}
-    val caption=buildAnnotatedString{
-        for(tag in tags){if(length>0)append(" ");pushStringAnnotation("tag",tag.name);withStyle(SpanStyle(color=if(tag.category==TagCategory.COPYRIGHT)Color(0xFFFFD54F)else Color(0xFFCE93D8))){append(tag.name)};pop()}
-        if(settings.showScore){if(length>0)append(" ");append("Score ${post.score?.toString() ?: "?"}")}
-    }
+    val caption=postCaption(post,settings)
     @Suppress("DEPRECATION")
-    ClickableText(caption,modifier=Modifier.fillMaxWidth().padding(top=5.dp),style=MaterialTheme.typography.labelMedium.copy(color=MaterialTheme.colorScheme.onSurfaceVariant),maxLines=if(settings.wrapTags)Int.MAX_VALUE else 1,overflow=TextOverflow.Ellipsis,onClick={offset->caption.getStringAnnotations("tag",offset,offset).firstOrNull()?.let{search(it.item)}})
+    ClickableText(caption,modifier=Modifier.fillMaxWidth().padding(top=5.dp).testTag("post-caption-${post.id}"),style=MaterialTheme.typography.labelMedium.copy(color=MaterialTheme.colorScheme.onSurfaceVariant),maxLines=if(settings.wrapTags)Int.MAX_VALUE else 1,overflow=TextOverflow.Ellipsis,onClick={offset->caption.getStringAnnotations("tag",offset,offset).firstOrNull()?.let{search(it.item)}})
 }
 
 @Composable private fun PostImage(post:Post,modifier:Modifier,settings:AppSettings,metered:Boolean,detail:Boolean=false){
@@ -194,20 +191,12 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
         Text("Score: ${post.score?.toString() ?: "?"}")
         if(post.width!=null && post.height!=null)Text("${post.width} × ${post.height}")
         post.fileExt?.let{Text(it)};post.uploader?.let{Text(text("Uploader: ","投稿者：")+it)}
-        post.rating?.let{Text("Rating: $it")};post.status?.let{Text("Status: $it")}
+        post.rating?.let{Text(text("Rating: ","レーティング：")+it)};post.status?.let{Text(text("Status: ","状態：")+it)}
         post.createdAt?.let{timestamp->runCatching{DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(Instant.ofEpochSecond(timestamp).atZone(ZoneId.systemDefault()))}.getOrNull()?.let{Text(it)}}
-        post.source?.let{Text("Source: $it")}
+        post.source?.let{Text(text("Source: ","出典：")+it)}
         OutlinedButton(onClick={linkError=runCatching{uri.openUri(post.pageUrl)}.isFailure}){Text(text("Open original post","元の投稿を開く"))}
         if(linkError)Text(text("No browser available.","ブラウザーがありません。"))
         for(tag in post.tags)TextButton(onClick={search(tag.name)}){Text(tag.name,color=when(tag.category){TagCategory.COPYRIGHT->Color(0xFFFFD54F);TagCategory.ARTIST->Color(0xFFCE93D8);else->MaterialTheme.colorScheme.onSurfaceVariant})}
         CommunityPanel(post,app,onScore,login){time->seek=time to ((seek?.second ?: 0)+1)}
     }
-}
-
-@Composable private fun AdvancedDialog(query:String,apply:(String)->Unit,close:()->Unit){
-    var order by remember{mutableStateOf("date")};var rating by remember{mutableStateOf("all")}
-    AlertDialog(onDismissRequest=close,title={Text(text("Search filters","検索条件"))},text={Column(Modifier.heightIn(max=460.dp).verticalScroll(rememberScrollState())){
-        Text(text("Order","並び順"));for(value in listOf("date","score","score_asc","id","id_desc","random"))Row{RadioButton(selected=order==value,onClick={order=value});Text(value,Modifier.padding(top=12.dp))}
-        Text("Rating");for(value in listOf("all","safe","questionable","explicit"))Row{RadioButton(selected=rating==value,onClick={rating=value});Text(value,Modifier.padding(top=12.dp))}
-    }},confirmButton={TextButton(onClick={apply(PreferenceRules.advanced(query,order,rating))}){Text(text("Apply","適用"))}},dismissButton={TextButton(onClick=close){Text(text("Cancel","キャンセル"))}})
 }

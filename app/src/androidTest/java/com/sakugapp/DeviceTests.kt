@@ -18,6 +18,15 @@ import java.io.File
 @RunWith(AndroidJUnit4::class)
 class DeviceTests {
     private val context get()=ApplicationProvider.getApplicationContext<android.app.Application>()
+    @Test fun unicodeSeparatorInRealSummaryCannotEraseEveryCategory() {
+        val testContext=androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().context
+        val body=testContext.assets.open("tag-summary-malformed-record.json").bufferedReader().use{it.readText()}
+        android.util.Log.i("TagSummaryRegression","Android regex splits U+2028: ${"a\u2028b".split(Regex("\\s+")).size == 2}")
+        // Android's ICU regex whitespace differs from the host JVM: exercise the production runtime.
+        val types=PostParser.tagSummary(body)
+        assertEquals(TagCategory.ARTIST,types["mokmok"]);assertEquals(TagCategory.COPYRIGHT,types["bakemonogatari"])
+        assertFalse(types.containsKey("emil_lundmark"));assertFalse(types.containsKey("laura_begliomini"))
+    }
     @Test fun exactFrameIndexesDecodeDistinctNonKeyFramesAndCanGoBack()=runBlocking {
         Assume.assumeTrue(Build.VERSION.SDK_INT>=28)
         val testContext=androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().context
@@ -41,9 +50,9 @@ class DeviceTests {
     @Test fun preferencesAndHistorySurviveNewStoreInstance()=runBlocking {
         val first=PreferencesStore(context)
         try {
-            first.language("ja");first.flag("muted",false);first.remember("device_test_tag")
+            first.language("zh-TW");first.flag("muted",false);first.remember("device_test_tag")
             val second=PreferencesStore(context)
-            assertEquals("ja",second.settings.first{it.language=="ja"}.language)
+            assertEquals("zh-TW",second.settings.first{it.language=="zh-TW"}.language)
             assertFalse(second.settings.first{!it.muted}.muted)
             assertEquals("device_test_tag",second.history.first{it.isNotEmpty()}.first())
         } finally {first.language("en");first.flag("muted",true);first.clearHistory()}

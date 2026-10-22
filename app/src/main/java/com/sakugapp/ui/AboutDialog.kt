@@ -24,7 +24,7 @@ fun AboutDialog(dismiss: () -> Unit) {
     }
     AlertDialog(
         onDismissRequest = dismiss,
-        title = { Text("Sakugapp 0.3.0") },
+        title = { Text("Sakugapp 0.4.0") },
         text = {
             Column {
                 Text(text("Sakugapp contributors · GPL-3.0-only\nNo warranty. Modification and redistribution are permitted under the license.","Sakugapp contributors · GPL-3.0-only\n無保証です。ライセンスに従った改変・再配布が可能です。"))

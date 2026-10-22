@@ -1,3 +1,7 @@
+# 0.4.0 接口补充
+
+2026-10-22 重新读取官方标签汇总（版本 7358）并捕获 Unicode U+2028 异常名称记录。解析器现隔离该记录，保留其他真实分类；详见 `evidence/tag-summary-regression.json`。实际 AND、OR 及范围/排序组合请求与返回值在 `evidence/search-live-2026-10-22.json`。搜索表达式作为一个 tags 参数原样编码，不在客户端发明组合语义。官网 locale 仍仅 en/ja，新增 zh-TW 只翻译原生应用。用户反馈 Vote 正常，本轮未执行官网受保护写入。
+
 # Sakugabooru 数据源调查
 
 验证日期：**2026-10-22（UTC+8）**。本次确实请求了站点公开接口、帮助页、帖子页、缩略图和视频片段，没有使用需求中的示例 JSON 作为接口证据。HTTP 证据见 [live-source-2026-10-22.json](evidence/live-source-2026-10-22.json)；脱敏响应见 `app/src/test/resources/live/`。
