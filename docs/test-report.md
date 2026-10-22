@@ -21,7 +21,7 @@ source /workspace/tooling/sakugapp-env.sh
 | `apksigner verify` | 通过，APK v2 调试签名 | 未使用发布密钥 |
 | Wrapper/分发包完整性 | 官方 SHA-256 一致 | Wrapper JAR 与 Gradle 8.13 ZIP；distributionSha256Sum 保留 |
 | SDK CLI 完整性 | 官方仓库元数据 SHA-1 一致，并记录 SHA-256 | 固定 11076708 ZIP；CI 同样校验 SHA-256 |
-| 实际 APK ABI | arm64-v8a、armeabi-v7a、x86_64、x86 | `libandroidx.graphics.path.so`；无 32 位限定，无 FFmpeg native 扩展 |
+| 实际 APK ABI | arm64-v8a、armeabi-v7a、x86_64、x86 | `libandroidx.graphics.path.so`；ELF 头确认 ARM64/x86_64 为 64 位；无 32 位限定，无 FFmpeg native 扩展 |
 
 最新本地套件计数及 APK 摘要见 `docs/evidence/local-tests.json`。报告来自实际执行，不把 NO-SOURCE 的 Java 编译任务、SKIPPED 的 Kotlin 配置检查或未存在的 Android instrumentation 测试计为已通过测试。
 
@@ -42,7 +42,7 @@ source /workspace/tooling/sakugapp-env.sh
 
 本轮移除此步骤，固定 Ubuntu 24.04、JDK 17、经过校验的 CLI ZIP，只安装 platform 35/build-tools 35/platform-tools。工作流自动运行全部单测、Lint、APK 构建、签名与 ABI 检查，并上传 APK、源码 ZIP 和测试报告。源码用 `git archive HEAD` 打包，额外校验不含私钥、本地配置或缓存，并确认 Wrapper JAR 存在。
 
-本次提交的实际 CI 运行链接及下载链接在最终交付报告提供；源码中的本地验证结果不替代 GitHub Actions 的远端结果。
+首个实现提交 `980c3918d656b0fd3df811a09524f9a4349eb89a` 的实际远端运行 [39753225420](https://github.com/Milenal82/sakugapp/actions/runs/39753225420) 已成功完成：全部单测/Lint/构建、APK 签名/ABI 检查、源码 ZIP 打包和三个 artifact 上传步骤均成功。随后仅整理许可证文本与验证文档，没有改变应用逻辑；最终提交的新运行链接和下载链接在交付报告提供。源码中的本地验证结果不替代远端结果。
 
 ## 尚未执行的运行测试
 

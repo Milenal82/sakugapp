@@ -1,0 +1,22 @@
+[
+  {
+    "path": "lib/arm64-v8a/libandroidx.graphics.path.so",
+    "elf_bits": 64,
+    "elf_machine": 183
+  },
+  {
+    "path": "lib/armeabi-v7a/libandroidx.graphics.path.so",
+    "elf_bits": 32,
+    "elf_machine": 40
+  },
+  {
+    "path": "lib/x86/libandroidx.graphics.path.so",
+    "elf_bits": 32,
+    "elf_machine": 3
+  },
+  {
+    "path": "lib/x86_64/libandroidx.graphics.path.so",
+    "elf_bits": 64,
+    "elf_machine": 62
+  }
+]
