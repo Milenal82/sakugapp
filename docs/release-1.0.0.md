@@ -27,6 +27,8 @@
 
 所有者按 [正式签名手册](release-signing.md) 先复用既有正式密钥；确实没有时只生成一次、做好加密备份。在 GitHub 保护 `release-signing` 环境，只允许 `v*` 标签，配置五项 Secrets，然后从 **v1.0.0 标签**重跑 [Signed Release draft](https://github.com/Milenal82/sakugapp/actions/workflows/release.yml)。预检 job 独立完成不依赖 Secrets 的检查；缺签名的 job 明确失败。Secrets/环境保护配置完成前，不应将草稿公开。
 
+当前云代理对 `uploads.github.com` 返回 CONNECT 403，获得网络授权后仍然拒绝；直接连接无法解析主机。新工作流文件在远端已存在，但 Actions 列表未索引，直接触发/启用返回 404。main 的现有 Android 工作流因此提供 `release_tag` 备用入口，从 GitHub runner 执行精确标签的未签名预检和草稿附件上传，不改动 `v1.0.0` 标签，也不触碰签名 Secrets。实际 CI 及附件结果以对应运行和草稿资产列表为准。
+
 签名成功后，工作流核对固定证书指纹、有效签名、非 Debug 证书、不可调试、包名、版本和 ELF；将正式 APK、源码 ZIP、SHA-256、发布说明及验证 JSON 上传到 **Draft**，不会公开发布。若签名仍不可用，准备草稿只包含源码 ZIP、SHA-256、说明和标明 unsigned 的预检报告，**不附未签名 APK**。
 
 ## 许可与已知问题

@@ -48,6 +48,14 @@ gh auth login --hostname github.com
 gh workflow run release.yml --repo Milenal82/sakugapp --ref v1.0.0 -f tag=v1.0.0
 ```
 
+若新发布工作流尚未被 GitHub 索引、触发返回 404，可以先使用已有入口完成不依赖 Secrets 的 Release 检查与草稿附件上传：
+
+```sh
+gh workflow run android.yml --repo Milenal82/sakugapp --ref main -f release_tag=v1.0.0
+```
+
+该备用 job 只检出 `v1.0.0` 的精确提交，验证其属于 main，运行 Release 单测/Lint/未签名预检，并将源码、SHA-256、说明及 unsigned 报告上传到同一提交的**既有草稿**。它不读取签名 Secrets、不上传未签名 APK；发现已有 APK 时拒绝覆盖。它也尝试从 GitHub runner 触发正式工作流，避免云环境代理造成的工作流索引/附件域名访问限制。正式工作流能触发、签名校验成功后，才会有正式 APK。
+
 预检会检查标签与版本一致、标签提交属于 main、Release 单测/Lint、未签名构建的清单和 ELF。签名 job 仅从该提交检出，在环境授权后读取既有 Secrets；缺一项就明确失败，不回退 Debug、不生成新密钥。关闭签名 job 的 Gradle 构建/配置缓存；keystore 仅在 runner 临时目录以 600 权限存在，结束时清理。
 
 成功后会验证包名/版本、不可调试、APK 签名、证书指纹固定、非 Debug 证书及实际 ABI，再上传：正式 APK、同一提交完整源码 ZIP、SHA256SUMS.txt、发布说明和验证 JSON。工作流只创建/更新 **Draft**，拒绝覆盖公开 Release，不执行公开发布。

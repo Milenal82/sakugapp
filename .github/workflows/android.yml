@@ -4,6 +4,11 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Optional: unsigned Release checks and draft source attachment relay for an existing version tag'
+        required: false
+        default: ''
 permissions:
   contents: read
 concurrency:
@@ -11,6 +16,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build:
+    if: ${{ !github.event.inputs.release_tag }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
@@ -52,6 +58,7 @@ jobs:
             app/build/test-results/testDebugUnitTest/
           if-no-files-found: warn
   device-tests:
+    if: ${{ !github.event.inputs.release_tag }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
@@ -83,3 +90,90 @@ jobs:
             app/build/reports/androidTests/
             app/build/outputs/androidTest-results/
           if-no-files-found: warn
+  release-preflight:
+    # Existing workflow entry point also works when a new workflow is not yet indexed.
+    # No signing Secrets, no APK attachment, and no public publication.
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.release_tag != '' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.inputs.release_tag }}
+          fetch-depth: 0
+      - name: Validate exact version tag and main ancestry
+        env:
+          RELEASE_TAG: ${{ github.event.inputs.release_tag }}
+        run: |
+          python3 - <<'PY'
+          import os,sys,subprocess
+          sys.path.insert(0,'scripts')
+          from release_common import exact_tag
+          sha=exact_tag(os.environ['RELEASE_TAG'])
+          subprocess.run(['git','merge-base','--is-ancestor',sha,'origin/main'],check=True)
+          PY
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: ./scripts/ci-android-sdk.sh
+      - uses: gradle/actions/setup-gradle@v5
+      - run: python3 -m unittest discover -s scripts/tests -v
+      - run: ./gradlew --no-daemon --no-configuration-cache testReleaseUnitTest lintRelease assembleRelease -PreleaseUnsignedCheck=true
+      - name: Prepare exact-tag source and unsigned verification report
+        env:
+          RELEASE_TAG: ${{ github.event.inputs.release_tag }}
+        run: python3 scripts/prepare-release-bundle.py --tag "$RELEASE_TAG" --apk app/build/outputs/apk/release/app-release-unsigned.apk --unsigned-preflight --output "$RUNNER_TEMP/release-preflight"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-preflight-${{ github.event.inputs.release_tag }}
+          path: ${{ runner.temp }}/release-preflight/
+          if-no-files-found: error
+      - name: Upload source and preflight files to existing DRAFT only
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.inputs.release_tag }}
+        run: |
+          python3 - <<'PY'
+          import json,os,pathlib,subprocess,sys
+          sys.path.insert(0,'scripts')
+          from release_common import exact_tag,verify_checksums
+          tag=os.environ['RELEASE_TAG']
+          sha=exact_tag(tag)
+          repo=os.environ['GITHUB_REPOSITORY']
+          folder=pathlib.Path(os.environ['RUNNER_TEMP'])/'release-preflight'
+          expected={f'Sakugapp-{tag}-source.zip','release-notes.md','release-verification.json','SHA256SUMS.txt'}
+          if {p.name for p in folder.iterdir()} != expected:
+              raise SystemExit('Unexpected preflight assets; no files uploaded.')
+          verify_checksums(folder,expected-{'SHA256SUMS.txt'})
+          report=json.loads((folder/'release-verification.json').read_text())
+          if report.get('signed') is not False or report.get('source_commit') != sha:
+              raise SystemExit('Not an unsigned exact-tag preflight.')
+          result=subprocess.check_output(['gh','release','view',tag,'--repo',repo,'--json','isDraft,targetCommitish'],text=True)
+          release=json.loads(result)
+          if not release['isDraft'] or release['targetCommitish'] != sha:
+              raise SystemExit('Release is public or targets different source; no changes made.')
+          assets=json.loads(subprocess.check_output(['gh','release','view',tag,'--repo',repo,'--json','assets'],text=True))['assets']
+          if any(a['name'].endswith('.apk') for a in assets):
+              raise SystemExit('A signed APK is already attached; do not overwrite with preflight files.')
+          subprocess.run(['gh','release','edit',tag,'--repo',repo,'--notes-file',str(folder/'release-notes.md')],check=True)
+          subprocess.run(['gh','release','upload',tag,'--repo',repo,'--clobber']+[str(folder/n) for n in sorted(expected)],check=True)
+          print('Source, checksums, notes and unsigned report uploaded to DRAFT. No APK or keys attached.')
+          PY
+      - name: Attempt official signed workflow from GitHub runner
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.inputs.release_tag }}
+        run: gh workflow run release.yml --repo "$GITHUB_REPOSITORY" --ref "$RELEASE_TAG" -f "tag=$RELEASE_TAG"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: release-check-reports
+          path: |
+            app/build/reports/tests/testReleaseUnitTest/
+            app/build/test-results/testReleaseUnitTest/
+            app/build/reports/lint-results-release.*
