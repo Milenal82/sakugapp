@@ -53,7 +53,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
     LaunchedEffect(feed.query){grid.scrollToItem(0)}
     fun search(value:String){app.search(value);model.search(value);nav.popBackStack("posts",false)}
     val browser=rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()){result->
-        app.syncBrowserSession()
+        if(result.resultCode==android.app.Activity.RESULT_OK)app.syncBrowserSession()
         val data=result.data
         if(data?.hasExtra("postId")==true){val id=data.getLongExtra("postId",0);if(id>0){model.openId(id);nav.navigate("post/$id")}}
         else data?.getStringExtra("query")?.let{search(it)}

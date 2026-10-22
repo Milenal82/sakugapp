@@ -36,7 +36,7 @@ class BrowserActivity:ComponentActivity() {
                 val cookies=withContext(Dispatchers.IO){SecureSession(applicationContext).apply{restore()}.browserCookies()}
                 val manager=CookieManager.getInstance();manager.setAcceptCookie(true)
                 for(cookie in cookies)withContext(Dispatchers.Main){suspendCancellableCoroutine<Unit>{continuation->manager.setCookie("https://www.sakugabooru.com",cookie){continuation.resumeWith(Result.success(Unit))}}}
-                manager.flush();ready=true
+                manager.flush();ready=true;setResult(Activity.RESULT_OK)
             }
             DisposableEffect(Unit){onDispose{browser?.stopLoading();browser?.destroy();browser=null}}
             CompositionLocalProvider(LocalLanguage provides language){MaterialTheme(colorScheme=darkColorScheme()){
