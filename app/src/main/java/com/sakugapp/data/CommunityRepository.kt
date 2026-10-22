@@ -2,6 +2,7 @@
 package com.sakugapp.data
 
 import java.io.IOException
+import com.sakugapp.BuildConfig
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.sync.Mutex
@@ -22,7 +23,7 @@ class CommunityRepository(
     private fun request(path: String,fields: Map<String,String>? = null,csrf: String? = null): Request {
         val builder=Request.Builder().url(base.resolve(path)!!.newBuilder().addQueryParameter("locale",PreferenceRules.siteLanguage(language)).build())
             .header("Accept",if(path.substringBefore('?').endsWith(".json"))"application/json" else "text/html")
-            .header("User-Agent","Sakugapp/0.5 (+https://github.com/Milenal82/sakugapp)")
+            .header("User-Agent","Sakugapp/${BuildConfig.VERSION_NAME} (+https://github.com/Milenal82/sakugapp)")
             .header("Accept-Language",PreferenceRules.acceptLanguage(language))
         csrf?.let { builder.header("X-CSRF-Token",it).header("X-Requested-With","XMLHttpRequest").header("Referer",base.toString()) }
         fields?.let { builder.post(FormBody.Builder().apply { it.forEach { (key,value)->add(key,value) } }.build()) }

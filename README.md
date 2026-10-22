@@ -1,6 +1,8 @@
-# Sakugapp · Sakuga Mobile 0.5.0
+# Sakugapp · Sakuga Mobile 1.0.0
 
-Kotlin / Compose / Material 3 原生 Android 客户端，内容来自 [Sakugabooru](https://www.sakugabooru.com/post)。保留 0.2.0 成果并继续开发，没有重新初始化仓库。首页、列表、搜索、详情、设置和社区操作均为原生界面；不使用虚构帖子、标签、Score、登录或操作结果。
+Kotlin / Compose / Material 3 原生 Android 客户端，内容来自 [Sakugabooru](https://www.sakugabooru.com/post)。延续已由用户测试的 0.5.0，保留现有功能。首页、列表、搜索、详情、设置和社区操作均为原生界面；不使用虚构帖子、标签、Score、登录或操作结果。
+
+正式身份：应用名 **Sakugapp**，applicationId **`com.sakugapp`**，versionName **`1.0.0`**，versionCode **`6`**，发布标签 **`v1.0.0`**。本次只准备 GitHub Release **草稿**，不公开发布。签名、安装与实际验证范围见 [正式版准备报告](docs/release-1.0.0.md)。
 
 ## 本轮功能
 
@@ -21,9 +23,13 @@ Kotlin / Compose / Material 3 原生 Android 客户端，内容来自 [Sakugaboo
 
 ## 下载和安装
 
-在 [GitHub Actions](https://github.com/Milenal82/sakugapp/actions/workflows/android.yml) 的本次运行下载 `sakugapp-debug`（APK）、`sakugapp-source`（完整源码 ZIP）、`check-reports` 和 `device-test-reports`。源码包包含 Wrapper、测试与许可证，排除密钥、本地配置和缓存；GitHub 构件下载可能需要登录。
+正式版本入口：[GitHub Releases](https://github.com/Milenal82/sakugapp/releases)。草稿仅有仓库授权用户可见；在所有者配置正式签名并完成验证前，草稿**没有可安装的正式 APK**。签名工作流成功后提供 `Sakugapp-v1.0.0-release.apk`、`Sakugapp-v1.0.0-source.zip`、`SHA256SUMS.txt`、发布说明和验证报告；预检只提供源码及标明 unsigned 的报告，不把未签名 APK 作为附件。
 
-APK 最低支持 API 26。帧分析需要 API 28+。本版本是 Debug 签名，不是发布签名。不同构建来源/CI 运行可能使用不同调试密钥；签名不同时 Android 会拒绝覆盖安装，卸载旧应用会删除其本地数据。无需用户配置 Android Studio。
+正式 APK 下载后，对照 `SHA256SUMS.txt` 校验 SHA-256；有 SDK 时可用 `apksigner verify --verbose --print-certs` 核对发布说明中的公开证书指纹。在 Android 文件管理器中打开 APK，按系统提示允许该来源安装。最低 Android 8.0 / API 26，严格帧分析需 API 28+，无需 Android Studio。
+
+升级正式版时，下载更高 versionCode 且使用同一正式证书签名的 APK，直接覆盖安装以保留本地数据；签名不匹配时不要更换包名或随意卸载，应先核对下载来源和指纹。**Debug 切换正式版**通常必须先退出测试版账户、记录必要设置，再卸载旧 Debug 版并安装正式 APK；卸载会删除本地历史、设置及会话。不同 CI 的 Debug 密钥也可能不同。
+
+测试版仍由 [Android checks and artifacts](https://github.com/Milenal82/sakugapp/actions/workflows/android.yml) 提供 `sakugapp-debug`、`sakugapp-source`、`check-reports` 和 `device-test-reports`。Debug APK 使用调试证书，不能充当正式版；构件下载可能需要 GitHub 登录。
 
 ## 云端构建与验证
 
@@ -33,6 +39,15 @@ source /workspace/tooling/sakugapp-env.sh
 ./gradlew testDebugUnitTest lintDebug assembleDebug assembleDebugAndroidTest
 ./scripts/package-source.sh /workspace/artifacts/sakugapp-source.zip
 ```
+
+正式发布流程为 [Signed Release draft](https://github.com/Milenal82/sakugapp/actions/workflows/release.yml)，仅允许从对应版本标签构建，使用受保护的 `release-signing` 环境和固定证书 SHA-256，缺少签名即失败。所有者的密钥生成、加密备份和五项 Secrets 配置见 [签名操作手册](docs/release-signing.md)；不要将私钥或密码贴到聊天。无签名时可运行明确的预检：
+
+```sh
+python3 -m unittest discover -s scripts/tests -v
+./gradlew testReleaseUnitTest lintRelease assembleRelease -PreleaseUnsignedCheck=true
+```
+
+它只验证 Release 变体的编译、测试和元数据，输出未签名 APK，不能安装或作为正式交付。正常 `./gradlew assembleRelease` 不允许回退 Debug 签名；签名工作流同时验证 APK 包名、版本、证书、debuggable 与 ELF ABI，再仅更新 Release 草稿。
 
 兼容工具链保持：JDK 17、Gradle 8.13、AGP 8.9.2、Kotlin 2.1.20、Compose BOM 2025.04.01、compile/target SDK 35、Build Tools 35.0.0、min SDK 26。添加 Navigation Compose 2.9.0、DataStore 1.1.7、jsoup 1.18.3 和 Coil GIF 2.7.0。依赖更新建议不等同于编译错误，未盲目升级工具链。
 
@@ -58,4 +73,4 @@ API、解析和状态单测使用合法公开脱敏样本与明确标注的故�
 
 [接口调查](docs/data-source.md) · [功能对照](docs/feature-matrix.md) · [测试报告](docs/test-report.md) · [第三方声明](docs/third-party-notices.md)
 
-项目代码 GPL-3.0-only，见 [LICENSE](LICENSE)。APK 随附 GPL/Apache/MPL/MIT 许可全文和来源声明。
+项目代码 GPL-3.0-only，见 [LICENSE](LICENSE)。APK 随附 GPL/Apache/MPL/MIT 许可全文和来源声明。Release 的源码 ZIP 对应同一标签和提交，包含源文件、Wrapper、测试、资源和构建/签名脚本，排除私有密钥、本地配置和缓存。源码接收者可以用自己的证书构建；官方私钥不属于对应源码。下载的站点媒体仍归各自权利人。

@@ -1,6 +1,6 @@
 # 许可证与来源
 
-本项目新编写的应用代码按 **GPL-3.0-only** 发布，完整许可证见根目录 `LICENSE`，APK 同时包含 `assets/licenses/GPL-3.0.txt`。修改、再分发时请保留许可证并按 GPL 提供对应源码；每次 CI 构建提供同一提交的完整源码 ZIP。Debug APK 使用调试签名，不含发布密钥。
+本项目新编写的应用代码按 **GPL-3.0-only** 发布，完整许可证见根目录 `LICENSE`，APK 同时包含 `assets/licenses/GPL-3.0.txt`。修改、再分发时请保留许可证并按 GPL 提供对应源码；每次 CI 构建和正式 Release 提供同一提交的完整源码 ZIP，含 Wrapper、构建脚本、资源、测试和签名配置方法。官方私有签名密钥不公开，接收者可使用自己的密钥构建。Debug 与正式签名严格区分，密钥均不随源码或 APK 附件分发。
 
 ## Sakuga Extended 调查
 
@@ -25,7 +25,7 @@
 | Gson | 2.12.1 / Google | Apache-2.0 |
 | Gradle Wrapper | 8.13 / Gradle | Apache-2.0；生成脚本保留原声明 |
 | JUnit | 4.13.2，仅测试 | EPL-1.0 |
-| MockWebServer | 4.12.0，仅测试 / Square contributors | Apache-2.0 |
+| MockWebServer / okhttp-tls | 4.12.0，仅测试 / Square contributors | Apache-2.0 |
 
 Apache-2.0 全文随 APK 放在 `assets/licenses/APACHE-2.0.txt`。OkHttp 的 Public Suffix List 数据另按 MPL-2.0 授权，原始 NOTICE 与 MPL 全文随 APK 保留；来源为 https://publicsuffix.org/list/public_suffix_list.dat ，本项目未修改该数据。构建依赖自身的版权与 NOTICE 保持不变；不将第三方库改为本项目许可证。组件的依赖图可通过 `./gradlew :app:dependencies` 检查。
 

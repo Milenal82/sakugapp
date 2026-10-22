@@ -1,0 +1,132 @@
+name: Signed Release draft
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing immutable version tag (run this workflow FROM that same tag)'
+        required: true
+        default: 'v1.0.0'
+permissions:
+  contents: read
+concurrency:
+  group: release-${{ github.event.inputs.tag || github.ref_name }}
+  cancel-in-progress: false
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    outputs:
+      commit: ${{ steps.target.outputs.commit }}
+      tag: ${{ steps.target.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Validate immutable release source
+        id: target
+        env:
+          REQUESTED_TAG: ${{ github.event.inputs.tag || github.ref_name }}
+        run: |
+          python3 - <<'PY'
+          import os,sys,subprocess
+          sys.path.insert(0,'scripts')
+          from release_common import exact_tag
+          tag=os.environ['REQUESTED_TAG']
+          if os.environ['GITHUB_REF'] != 'refs/tags/'+tag:
+              raise SystemExit('Run the workflow from the same existing version TAG, not main.')
+          sha=exact_tag(tag)
+          subprocess.run(['git','merge-base','--is-ancestor',sha,'origin/main'],check=True)
+          with open(os.environ['GITHUB_OUTPUT'],'a') as out:
+              out.write('commit='+sha+'\ntag='+tag+'\n')
+          PY
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: ./scripts/ci-android-sdk.sh
+      - uses: gradle/actions/setup-gradle@v5
+      - name: Release tooling safety tests
+        run: python3 -m unittest discover -s scripts/tests -v
+      - name: Release unit tests, Lint and UNSIGNED preflight
+        run: ./gradlew --no-daemon --no-configuration-cache testReleaseUnitTest lintRelease assembleRelease -PreleaseUnsignedCheck=true
+      - name: Validate unsigned metadata and corresponding source
+        env:
+          RELEASE_TAG: ${{ steps.target.outputs.tag }}
+        run: python3 scripts/prepare-release-bundle.py --tag "$RELEASE_TAG" --apk app/build/outputs/apk/release/app-release-unsigned.apk --unsigned-preflight --output "$RUNNER_TEMP/release-preflight"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-preflight-${{ steps.target.outputs.tag }}
+          path: ${{ runner.temp }}/release-preflight/
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: release-check-reports
+          path: |
+            app/build/reports/tests/testReleaseUnitTest/
+            app/build/test-results/testReleaseUnitTest/
+            app/build/reports/lint-results-release.*
+  signed-release:
+    needs: preflight
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    environment: release-signing
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.preflight.outputs.commit }}
+          fetch-depth: 0
+      - name: Require protected owner-provided signing Secrets
+        env:
+          ANDROID_RELEASE_KEYSTORE_BASE64: ${{ secrets.ANDROID_RELEASE_KEYSTORE_BASE64 }}
+          ANDROID_RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD }}
+          ANDROID_RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS }}
+          ANDROID_RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
+          ANDROID_RELEASE_CERT_SHA256: ${{ secrets.ANDROID_RELEASE_CERT_SHA256 }}
+        run: python3 scripts/prepare-signing.py
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: ./scripts/ci-android-sdk.sh
+      - uses: gradle/actions/setup-gradle@v5
+        with:
+          cache-disabled: true
+      - name: Build with the existing official signing key
+        env:
+          ANDROID_RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD }}
+          ANDROID_RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS }}
+          ANDROID_RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
+        run: ./gradlew --no-daemon --no-configuration-cache --no-build-cache testReleaseUnitTest lintRelease assembleRelease
+      - name: Verify pinned signing identity and prepare allowlisted assets
+        env:
+          ANDROID_RELEASE_CERT_SHA256: ${{ secrets.ANDROID_RELEASE_CERT_SHA256 }}
+          RELEASE_TAG: ${{ needs.preflight.outputs.tag }}
+        run: python3 scripts/prepare-release-bundle.py --tag "$RELEASE_TAG" --apk app/build/outputs/apk/release/app-release.apk --output "$RUNNER_TEMP/release-dist"
+      - name: Upload to DRAFT only
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ needs.preflight.outputs.tag }}
+        run: python3 scripts/upload-release-draft.py --tag "$RELEASE_TAG" --directory "$RUNNER_TEMP/release-dist"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: signed-release-${{ needs.preflight.outputs.tag }}
+          path: ${{ runner.temp }}/release-dist/
+          if-no-files-found: error
+      - name: Remove temporary private signing material
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import os,pathlib,shutil
+          value=os.environ.get('ANDROID_RELEASE_KEYSTORE')
+          if value:
+              folder=pathlib.Path(value).parent.resolve()
+              root=pathlib.Path(os.environ['RUNNER_TEMP']).resolve()
+              if folder.is_relative_to(root) and folder.name.startswith('sakugapp-signing-'):
+                  shutil.rmtree(folder,ignore_errors=True)
+          PY

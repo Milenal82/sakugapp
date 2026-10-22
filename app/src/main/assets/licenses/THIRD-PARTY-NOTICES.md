@@ -1,4 +1,4 @@
-Sakugapp 0.3.0 — Sakugapp contributors
+Sakugapp 1.0.0 — Sakugapp contributors
 Application source: GPL-3.0-only. See GPL-3.0.txt and the complete corresponding source ZIP distributed with each build. No warranty is provided.
 
 Sakuga Extended (ftLoic): https://github.com/ftLoic/Sakuga-Extended
@@ -17,5 +17,5 @@ Apache-2.0 components (license in APACHE-2.0.txt):
 jsoup 1.18.3 — Jonathan Hedley. MIT license in JSOUP-MIT.txt.
 OkHttp includes Public Suffix List data under MPL-2.0. Original notice: OKHTTP-PUBLICSUFFIX-NOTICE.txt. Full license: MPL-2.0.txt. Data source: https://publicsuffix.org/list/public_suffix_list.dat (not modified here).
 
-JUnit, MockWebServer and AndroidX testing tools are test-only dependencies, not application features.
+JUnit (EPL-1.0), MockWebServer / okhttp-tls (Apache-2.0) and AndroidX testing tools (Apache-2.0) are test-only dependencies, not bundled application features.
 Sakugabooru content remains the property of its respective rights holders. This APK does not bundle website media. The synthetic video in androidTest is only a decoder test pattern and is never displayed as a website post.

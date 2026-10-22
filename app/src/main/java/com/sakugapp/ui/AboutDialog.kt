@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.sakugapp.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -24,7 +25,7 @@ fun AboutDialog(dismiss: () -> Unit) {
     }
     AlertDialog(
         onDismissRequest = dismiss,
-        title = { Text("Sakugapp 0.5.0") },
+        title = { Text("Sakugapp ${BuildConfig.VERSION_NAME}") },
         text = {
             Column {
                 Text(text("Sakugapp contributors · GPL-3.0-only\nNo warranty. Modification and redistribution are permitted under the license.","Sakugapp contributors · GPL-3.0-only\n無保証です。ライセンスに従った改変・再配布が可能です。"))

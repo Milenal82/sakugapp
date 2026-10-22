@@ -8,6 +8,18 @@ local.properties
 .cxx/
 *.jks
 *.keystore
+*.p12
+*.pfx
+*.pem
+*.key
+*.b64
+*.base64
+.env*
+keystore.properties
+signing.properties
+key.properties
+/private/
+/dist/
 .DS_Store
 
 __pycache__/

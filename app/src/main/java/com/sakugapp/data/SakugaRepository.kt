@@ -2,6 +2,7 @@
 package com.sakugapp.data
 
 import java.io.IOException
+import com.sakugapp.BuildConfig
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -56,7 +57,7 @@ class SakugaRepository(
 
     private suspend fun get(url: HttpUrl): String = suspendCancellableCoroutine { continuation ->
         val request = Request.Builder().url(url).header("Accept", "application/json")
-            .header("User-Agent", "Sakugapp/0.5 (+https://github.com/Milenal82/sakugapp)").build()
+            .header("User-Agent", "Sakugapp/${BuildConfig.VERSION_NAME} (+https://github.com/Milenal82/sakugapp)").build()
         val call = client.newCall(request)
         continuation.invokeOnCancellation { call.cancel() }
         call.enqueue(object : Callback {

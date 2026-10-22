@@ -3,6 +3,20 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
 }
+// No secrets in Gradle properties, source, or command-line arguments.
+val unsignedReleaseCheck = providers.gradleProperty("releaseUnsignedCheck").orNull == "true"
+val releaseSigningNames = listOf("ANDROID_RELEASE_KEYSTORE", "ANDROID_RELEASE_STORE_PASSWORD", "ANDROID_RELEASE_KEY_ALIAS", "ANDROID_RELEASE_KEY_PASSWORD")
+val releaseSigningValues = releaseSigningNames.associateWith { providers.environmentVariable(it).orNull.orEmpty() }
+val releaseSigningComplete = releaseSigningValues.values.all { it.isNotBlank() }
+val checkReleaseSigning by tasks.registering {
+    doLast {
+        if (!unsignedReleaseCheck) {
+            val missing = releaseSigningNames.filter { releaseSigningValues.getValue(it).isBlank() }
+            check(missing.isEmpty()) { "Release signing is required. Missing environment variables: ${missing.joinToString()}. See docs/release-signing.md. No Debug signing fallback is allowed." }
+            check(file(releaseSigningValues.getValue("ANDROID_RELEASE_KEYSTORE")).isFile) { "Configured Release keystore file is unavailable." }
+        } else logger.lifecycle("UNSIGNED PREFLIGHT ONLY: this APK must not be installed or published as a signed release.")
+    }
+}
 android {
     namespace = "com.sakugapp"
     compileSdk = 35
@@ -10,8 +24,8 @@ android {
         applicationId = "com.sakugapp"
         minSdk = 26
         targetSdk = 35
-        versionCode = 5
-        versionName = "0.5.0"
+        versionCode = 6
+        versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
@@ -19,7 +33,26 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions { jvmTarget = "17" }
-    buildFeatures { compose = true }
+    buildFeatures { compose = true; buildConfig = true }
+    signingConfigs {
+        if (releaseSigningComplete && !unsignedReleaseCheck) create("release") {
+            storeFile = file(releaseSigningValues.getValue("ANDROID_RELEASE_KEYSTORE"))
+            storePassword = releaseSigningValues.getValue("ANDROID_RELEASE_STORE_PASSWORD")
+            keyAlias = releaseSigningValues.getValue("ANDROID_RELEASE_KEY_ALIAS")
+            keyPassword = releaseSigningValues.getValue("ANDROID_RELEASE_KEY_PASSWORD")
+        }
+    }
+    buildTypes {
+        getByName("release") {
+            isDebuggable = false
+            // Preserve the tested implementation; introduce R8 separately after device validation.
+            isMinifyEnabled = false
+            signingConfig = if(releaseSigningComplete && !unsignedReleaseCheck) signingConfigs.getByName("release") else null
+        }
+    }
+}
+tasks.configureEach {
+    if (name in setOf("validateSigningRelease", "packageRelease", "assembleRelease")) dependsOn(checkReleaseSigning)
 }
 dependencies {
     implementation(platform("androidx.compose:compose-bom:2025.04.01"))
