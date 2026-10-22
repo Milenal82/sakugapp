@@ -1,0 +1,6 @@
+{
+  "url": "https://www.sakugabooru.com/comment.json?post_id=317910&page=1",
+  "retrieved_at": "2026-10-22T11:13:28.100222+00:00",
+  "raw_sha256": "b050b3686f97cccd842c798a4972476e5d7f3a14bbcbeb0a30ca103b3d7626f4",
+  "sanitization": "Removed creator/creator_id; preserved public credit text, IDs, timestamps."
+}

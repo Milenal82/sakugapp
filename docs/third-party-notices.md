@@ -18,7 +18,9 @@
 | Kotlin Coroutines | 1.10.2 / kotlinx.coroutines | Apache-2.0 |
 | AndroidX Activity、Lifecycle、Compose、Material 3 | `app/build.gradle.kts`、Compose BOM 2025.04.01 / Android Open Source Project | Apache-2.0 |
 | AndroidX Media3 | 1.6.1 / Android Open Source Project | Apache-2.0 |
-| Coil | 2.7.0 / Coil contributors | Apache-2.0 |
+| Coil / Coil GIF | 2.7.0 / Coil contributors | Apache-2.0 |
+| AndroidX DataStore / Navigation Compose | 1.1.7 / 2.9.0 / Android Open Source Project | Apache-2.0 |
+| jsoup | 1.18.3 / Jonathan Hedley | MIT，全文随 APK |
 | OkHttp、Okio（传递依赖） | OkHttp 4.12.0 / Square contributors | Apache-2.0 |
 | Gson | 2.12.1 / Google | Apache-2.0 |
 | Gradle Wrapper | 8.13 / Gradle | Apache-2.0；生成脚本保留原声明 |

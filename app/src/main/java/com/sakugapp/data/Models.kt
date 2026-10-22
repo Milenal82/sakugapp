@@ -57,8 +57,8 @@ data class FeedState(
 class DataFailure(message: String, cause: Throwable? = null) : Exception(message, cause)
 
 fun httpError(code: Int): String = when (code) {
-    401, 403 -> "网站拒绝访问（HTTP $code）。请稍后重试或打开原站；不会绕过访问限制。"
-    421, 429 -> "网站请求频率受限（HTTP $code）。请稍后手动重试。"
-    in 500..599 -> "网站服务暂不可用（HTTP $code）。"
-    else -> "请求失败（HTTP $code）。"
+    401, 403 -> "Access denied (HTTP $code). Retry later or open the original site; access restrictions are not bypassed."
+    421, 429 -> "Rate limited (HTTP $code). Wait before retrying."
+    in 500..599 -> "The website is temporarily unavailable (HTTP $code)."
+    else -> "Request failed (HTTP $code)."
 }

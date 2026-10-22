@@ -46,7 +46,7 @@ class SakugaRepository(
             }
         } catch (e: CancellationException) { throw e }
         catch (e: Exception) {
-            warning = "标签分类未获取成功，未核实的标签显示为中性色。${e.message.orEmpty()}"
+            warning = "Tag categories could not be loaded. Unverified categories are not shown on post cards. ${e.message.orEmpty()}"
             emptyMap()
         }
         return PostPage(posts.map { post -> post.copy(tags = post.tags.map {
@@ -56,28 +56,28 @@ class SakugaRepository(
 
     private suspend fun get(url: HttpUrl): String = suspendCancellableCoroutine { continuation ->
         val request = Request.Builder().url(url).header("Accept", "application/json")
-            .header("User-Agent", "Sakugapp/0.2 (+https://github.com/Milenal82/sakugapp)").build()
+            .header("User-Agent", "Sakugapp/0.3 (+https://github.com/Milenal82/sakugapp)").build()
         val call = client.newCall(request)
         continuation.invokeOnCancellation { call.cancel() }
         call.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 if (!continuation.isCancelled) continuation.resumeWithException(
-                    DataFailure("网络连接失败，请检查网络后重试。", e))
+                    DataFailure("Network connection failed. Check the connection and retry.", e))
             }
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val text = response.use {
                         if (!it.isSuccessful) throw DataFailure(httpError(it.code))
-                        val body = it.body ?: throw DataFailure("服务器返回空响应。")
+                        val body = it.body ?: throw DataFailure("The server returned an empty response.")
                         // Bound responses, including chunked responses; never treat a truncated body as JSON.
                         val source = body.source()
-                        if (source.request(8L * 1024 * 1024 + 1)) throw DataFailure("服务器响应过大。")
+                        if (source.request(8L * 1024 * 1024 + 1)) throw DataFailure("The server response is too large.")
                         body.string()
                     }
                     continuation.resume(text)
                 } catch (e: Exception) {
                     if (!continuation.isCancelled) continuation.resumeWithException(
-                        if (e is DataFailure) e else DataFailure("读取网络响应失败。", e))
+                        if (e is DataFailure) e else DataFailure("Unable to read the network response.", e))
                 }
             }
         })

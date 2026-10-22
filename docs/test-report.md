@@ -1,51 +1,42 @@
-# 构建与测试报告
+# 0.3.0 验证报告（2026-10-22）
 
-日期：2026-10-22（UTC+8）。对象：Sakugapp 0.2.0 首个真实数据实现。机器上 JDK 17.0.18+8、Gradle 8.13、AGP 8.9.2、Kotlin 2.1.20、SDK/target 35、Build Tools 35.0.0，min SDK 26。
+本轮在 0.2.0 已通过的构建基线上继续开发。DATA.zip 是旧源码/报告副本，未执行其中脚本或覆盖仓库；旧 CI 的 6 条 GradleDependency 为版本更新建议。JDK/Gradle/SDK 主工具链保持兼容。
 
-## 基线与本地检查
+## 本地构建与 JVM 测试
 
-修改前先运行现有 `assembleDebug`，结果通过；仓库从 `eeb5d8e` 继续开发，未重新初始化、reset 或改写历史。
+执行 `./gradlew testDebugUnitTest lintDebug assembleDebug assembleDebugAndroidTest`，最终构建结果见交付运行。当前新增测试后共有 **53 项 JVM 单测，0 失败、0 错误、0 跳过**：DataTest 15、RepositoryTest 7、FeedViewModelTest 4、LiveFixtureTest 2、CommunityTest 16、PreferencesAndFramesTest 9。
 
-最终必须运行的命令：
+新增覆盖：unknown-user / wrong-password 即使 success=true 不得登录；身份必须服务端确认；CSRF 解析；凭据只放 POST body；投票匹配帖子 ID、真实 Score 与整数溢出；查询票值不发送 score；评论创建/编辑/删除字段、归属检查、真实脱敏样本与时间码；历史去重/容量；严格帧索引边界；浏览 URL 欺骗/非 HTTPS 拒绝；只有 en/ja。
 
-```sh
-source /workspace/tooling/sakugapp-env.sh
-./gradlew testDebugUnitTest lintDebug assembleDebug
-```
+Lint 当前 **0 errors / 1 warning（SetJavaScriptEnabled）**：官网账户/Forum/Blog 的独立浏览窗口确实需要官网 JavaScript。已检查同源白名单、禁混合内容/文件/内容 URI、禁第三方 Cookie、无 JS bridge、外部导航过滤、无忽略 SSL 错误；不关闭该警告。CI 可能另列新版本依赖建议，不混同为错误。此前 LocalContext 强转 Activity 的 Lint 错误已改为 LocalActivity，未使用 baseline/disable 隐藏。
 
-| 检查 | 结果 | 范围 |
-| --- | --- | --- |
-| `testDebugUnitTest` | 28 通过，0 失败、0 错误、0 跳过 | DataTest 15，RepositoryTest 7，FeedViewModelTest 4，LiveFixtureTest 2 |
-| `lintDebug` | 通过，No issues found | 静态检查；没有用 baseline 或 disable 关闭问题 |
-| `assembleDebug` | 通过 | `app/build/outputs/apk/debug/app-debug.apk` |
-| `apksigner verify` | 通过，APK v2 调试签名 | 未使用发布密钥 |
-| Wrapper/分发包完整性 | 官方 SHA-256 一致 | Wrapper JAR 与 Gradle 8.13 ZIP；distributionSha256Sum 保留 |
-| SDK CLI 完整性 | 官方仓库元数据 SHA-1 一致，并记录 SHA-256 | 固定 11076708 ZIP；CI 同样校验 SHA-256 |
-| 实际 APK ABI | arm64-v8a、armeabi-v7a、x86_64、x86 | `libandroidx.graphics.path.so`；ELF 头确认 ARM64/x86_64 为 64 位；无 32 位限定，无 FFmpeg native 扩展 |
+## 已完成的设备测试
 
-最新本地套件计数及 APK 摘要见 `docs/evidence/local-tests.json`。报告来自实际执行，不把 NO-SOURCE 的 Java 编译任务、SKIPPED 的 Kotlin 配置检查或未存在的 Android instrumentation 测试计为已通过测试。
+在本云机器准备 Android 9/API 28 x86_64 软件模拟器（无 KVM）。成功运行：
 
-真实公开样本来自 `scripts/capture-public-fixture.py`，保留字段白名单与 provenance；2 项 LiveFixtureTest 和 1 项 RepositoryTest 使用这些样本。其余手写 JSON/MockWebServer 响应明确用于边界与故障注入，包括：缺失/null/非数字 Score、真实 0、未知分类、别名、无效 URL、坏 JSON/HTML、去重、空页、403/421/429/503、编码、分类请求失败、取消搜索、同页重试和详情返回不重载。
+- `DeviceTests`：3/3 通过。Android Keystore/AES-GCM 会话恢复与清理；DataStore 设置/历史跨实例保留；12 帧 VFR 且含 B/P 非关键帧的视频真实索引读取，按 0、1、7、8、7、11、0 顺序检查每帧像素颜色。
+- `UiSmokeTest`：1/1 通过。启动原生界面、设置滚动、English/日本語切换、账户页面和空凭据按钮禁用。
 
-## 真实网站现场检查
+原始结果在 `evidence/device-tests-api28.txt`、`evidence/native-ui-api28.txt`。测试片段先前生成过程产生丢帧，已修复编码时间基/MP4 edit list；FFprobe 与设备均确认 12 帧可解码，而不是修改断言去迁就错误样本。片段是测试图案，不是伪造网站数据，不进入正常 APK 内容。
 
-- 帖子数组、第一页/第二页、标签搜索、空结果、分类摘要、原帖 HTML 成功。
-- 多标签/排除查询 `jujutsu_kaisen_series animated -genga` 返回满足条件的两个帖子。
-- JPEG 缩略图返回 HTTP 200，MP4 的 64 KiB Range 请求返回 HTTP 206 和有效 ftyp 头。
-- 分类用真实 summary、帖子 HTML sidebar 交叉确认，未从标签名称猜测。
+## 真实浏览/播放测试与环境问题
 
-详细地址、ID、类型和时间见 `data-source.md` 与 `evidence/live-source-2026-10-22.json`。不提交媒体文件或账号数据。
+`PublicBrowseTest` 已实际搜索公开 ID 319947、进入详情、收到 Media3 原生 onRenderedFirstFrame（真实视频已解码到表面）。此后软件模拟器的 System UI ANR 遮挡了播放控制；再次尝试遭 `android.view.ThreadedRenderer.finalize() timed out after 10 seconds` / instrumentation system crash。该流程**未通过**，不能宣称本地完整播放/全屏/真实视频帧分析全部已验证。
 
-## GitHub Actions
+云模拟器使用正常云代理；先验证网站 TLS 链，再把云环境已有的公开代理 CA 加入此测试模拟器系统信任库。没有在 APK 中增加测试 CA、关闭证书校验或忽略 SSL 错误。系统配置、代理证书与账户资料不进入源码 ZIP。
 
-原有运行 [39747155731](https://github.com/Milenal82/sakugapp/actions/runs/39747155731) 在 `android-actions/setup-android@v3` 失败，日志明确显示它执行 `sdkmanager tools`，报 `Failed to find package 'tools'`，应用编译步骤尚未执行。这是 CI 工具安装问题，不是当时本地 APK 构建失败。
+新增 GitHub KVM 设备任务运行同一组测试（含真实浏览），最终远端结果和构件链接见交付报告；不以软件环境失败或 JVM 单测替代实际设备结果。测试只读取真实内容，不向官网写入票值/评论。
 
-本轮移除此步骤，固定 Ubuntu 24.04、JDK 17、经过校验的 CLI ZIP，只安装 platform 35/build-tools 35/platform-tools。工作流自动运行全部单测、Lint、APK 构建、签名与 ABI 检查，并上传 APK、源码 ZIP 和测试报告。源码用 `git archive HEAD` 打包，额外校验不含私钥、本地配置或缓存，并确认 Wrapper JAR 存在。
+## 官网接口与受保护操作
 
-首个实现提交 `980c3918d656b0fd3df811a09524f9a4349eb89a` 的实际远端运行 [39753225420](https://github.com/Milenal82/sakugapp/actions/runs/39753225420) 已成功完成：全部单测/Lint/构建、APK 签名/ABI 检查、源码 ZIP 打包和三个 artifact 上传步骤均成功。随后仅整理许可证文本与验证文档，没有改变应用逻辑；最终提交的新运行链接和下载链接在交付报告提供。源码中的本地验证结果不替代远端结果。
+- 帖子/分类/缩略图、普通及排除搜索、分页、原帖、MP4 Range 读取已经验证。
+- 评论 ID 317910 的公开接口现场 200 / 3 条；脱敏样本保留真实正文与时间码。Blog、Forum、en/ja 页面现场 200。
+- 登录检查空账户响应真实为 unknown-user + success:true，客户端正确拒绝；匿名查询当前 vote 的 POST（没有 score）现场 403。GET vote 实测 404，已改为正确 POST。
+- 注册/重置在官网窗口执行；没有获取真实密码/测试账号，没有运行官网成功认证、投票更改、评论写入或资料修改。请求流程与错误测试只证明代码协议，不等同实账号通过。
+- 官方聚合 JS `.jsout` 资源访问得到 403，未绕过；协议以可检查公开源码、实际 HTML 与接口观察相互核对，不宣称已审阅无法取得的部署资源。
 
-## 尚未执行的运行测试
+## 交付与后续
 
-本机没有安装模拟器、system image，也没有连接设备或 `/dev/kvm`。因此以下均**未验证**：安装及启动、真实列表呈现/滑动、软键盘搜索、点标签、详情返回滚动位置、视频解码与播放/暂停/进度拖动/静音/循环/全屏、旋转和生命周期恢复。构建与 JVM 测试通过不能替代这些测试。
+CI 构建 APK/测试 APK、单测、Lint、签名/ABI 检查、完整源码 ZIP，并执行 KVM 设备测试、上传报告。最终提交与运行结果在交付报告列出。新的 ELF/签名/测试摘要位于 `evidence/local-tests.json` 和 `evidence/abi-check.json`。
 
-下一阶段先在可用的 Android 设备/云模拟器上验证上述流程；不要求用户安装 Android Studio。随后补充 UI/播放器测试、触屏预览、设置与搜索历史，最后再做认证写操作、站点入口与扩展高级能力。
+未验证或未实现的项目明确列入 `feature-matrix.md`。尤其不能把 MockWebServer 的写入成功当作官网账号行为，也不能把帧索引 API 自动推广为所有设备/格式都支持。

@@ -16,25 +16,25 @@ import kotlinx.coroutines.withContext
 fun AboutDialog(dismiss: () -> Unit) {
     val context = LocalContext.current
     var document by remember { mutableStateOf("THIRD-PARTY-NOTICES.md") }
-    val text by produceState("正在读取许可…", document) {
+    val licenseText by produceState("Loading license…", document) {
         value = withContext(Dispatchers.IO) {
             runCatching { context.assets.open("licenses/$document").bufferedReader().use { it.readText() } }
-                .getOrDefault("无法读取许可文件，请在项目源码的 LICENSE 和 docs/third-party-notices.md 中查看。")
+                .getOrDefault("Unable to read the license. See LICENSE and docs/third-party-notices.md in the source project.")
         }
     }
     AlertDialog(
         onDismissRequest = dismiss,
-        title = { Text("Sakugapp 0.2.0") },
+        title = { Text("Sakugapp 0.3.0") },
         text = {
             Column {
-                Text("Sakugapp contributors · GPL-3.0-only\n本应用不提供任何保证，允许按许可证修改和再分发。")
+                Text(text("Sakugapp contributors · GPL-3.0-only\nNo warranty. Modification and redistribution are permitted under the license.","Sakugapp contributors · GPL-3.0-only\n無保証です。ライセンスに従った改変・再配布が可能です。"))
                 Row {
-                    TextButton(onClick = { document = "THIRD-PARTY-NOTICES.md" }) { Text("来源与声明") }
-                    TextButton(onClick = { document = "GPL-3.0.txt" }) { Text("GPL 全文") }
+                    TextButton(onClick = { document = "THIRD-PARTY-NOTICES.md" }) { Text(text("Notices","出典と通知")) }
+                    TextButton(onClick = { document = "GPL-3.0.txt" }) { Text(text("GPL license","GPL本文")) }
                 }
-                Text(text, Modifier.heightIn(max = 400.dp).verticalScroll(rememberScrollState()), style = MaterialTheme.typography.bodySmall)
+                Text(licenseText, Modifier.heightIn(max = 400.dp).verticalScroll(rememberScrollState()), style = MaterialTheme.typography.bodySmall)
             }
         },
-        confirmButton = { TextButton(onClick = dismiss) { Text("关闭") } },
+        confirmButton = { TextButton(onClick = dismiss) { Text(text("Close","閉じる")) } },
     )
 }

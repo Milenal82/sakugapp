@@ -5,7 +5,17 @@
     "elf_machine": 183
   },
   {
+    "path": "lib/arm64-v8a/libdatastore_shared_counter.so",
+    "elf_bits": 64,
+    "elf_machine": 183
+  },
+  {
     "path": "lib/armeabi-v7a/libandroidx.graphics.path.so",
+    "elf_bits": 32,
+    "elf_machine": 40
+  },
+  {
+    "path": "lib/armeabi-v7a/libdatastore_shared_counter.so",
     "elf_bits": 32,
     "elf_machine": 40
   },
@@ -15,7 +25,17 @@
     "elf_machine": 3
   },
   {
+    "path": "lib/x86/libdatastore_shared_counter.so",
+    "elf_bits": 32,
+    "elf_machine": 3
+  },
+  {
     "path": "lib/x86_64/libandroidx.graphics.path.so",
+    "elf_bits": 64,
+    "elf_machine": 62
+  },
+  {
+    "path": "lib/x86_64/libdatastore_shared_counter.so",
     "elf_bits": 64,
     "elf_machine": 62
   }

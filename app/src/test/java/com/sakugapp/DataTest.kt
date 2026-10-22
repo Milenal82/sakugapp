@@ -73,7 +73,7 @@ class DataTest {
         assertEquals(3, result.nextPage); assertEquals(1, result.posts.size); assertFalse(result.endReached)
     }
     @Test fun accessRestrictionsHaveExplicitMessages() {
-        assertTrue(httpError(403).contains("不会绕过")); assertTrue(httpError(429).contains("频率"))
-        assertTrue(httpError(503).contains("暂不可用")); assertTrue(httpError(421).contains("频率"))
+        assertTrue(httpError(403).contains("not bypassed")); assertTrue(httpError(429).contains("Rate limited"))
+        assertTrue(httpError(503).contains("temporarily unavailable")); assertTrue(httpError(421).contains("Rate limited"))
     }
 }

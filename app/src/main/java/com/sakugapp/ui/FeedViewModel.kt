@@ -22,6 +22,9 @@ class FeedViewModel @JvmOverloads constructor(
     val state = _state.asStateFlow()
     private val _selected = MutableStateFlow<Post?>(null)
     val selected = _selected.asStateFlow()
+    private val _detailError = MutableStateFlow<String?>(null)
+    val detailError = _detailError.asStateFlow()
+    private var detailRequest: Job? = null
     private var request: Job? = null
     private var generation = 0
     init { loadMore() }
@@ -35,8 +38,21 @@ class FeedViewModel @JvmOverloads constructor(
         _state.value = FeedState(query = normalized)
         loadMore()
     }
-    fun open(post: Post) { _selected.value = post }
-    fun close() { _selected.value = null }
+    fun open(post: Post) { detailRequest?.cancel(); _detailError.value=null; _selected.value = post }
+    fun openId(id: Long) {
+        require(id>0)
+        detailRequest?.cancel();_detailError.value=null;_selected.value=null
+        detailRequest=viewModelScope.launch {
+            try { _selected.value=repository.page("id:$id",1).posts.firstOrNull{it.id==id} ?: throw com.sakugapp.data.DataFailure("Post not found.") }
+            catch(e:CancellationException){throw e}
+            catch(e:Exception){_detailError.value=e.message ?: "Unable to load post."}
+        }
+    }
+    fun updateScore(id: Long, score: Int?) {
+        _state.value=_state.value.copy(posts=_state.value.posts.map{if(it.id==id)it.copy(score=score)else it})
+        _selected.value=_selected.value?.let{if(it.id==id)it.copy(score=score)else it}
+    }
+    fun close() { detailRequest?.cancel();_detailError.value=null;_selected.value = null }
     fun loadMore() {
         if (_state.value.loading || _state.value.endReached) return
         val current = _state.value
@@ -49,7 +65,7 @@ class FeedViewModel @JvmOverloads constructor(
             } catch (e: CancellationException) { throw e }
             catch (e: Exception) {
                 if (version == generation) _state.value = _state.value.copy(
-                    loading = false, error = e.message ?: "加载失败，请重试。")
+                    loading = false, error = e.message ?: "Loading failed. Please retry.")
             }
         }
     }

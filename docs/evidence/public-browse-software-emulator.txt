@@ -1,0 +1,34 @@
+INSTRUMENTATION_STATUS: class=com.sakugapp.PublicBrowseTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=
+com.sakugapp.PublicBrowseTest:
+INSTRUMENTATION_STATUS: test=actualPostSearchDetailsPlaybackAndFrameAnalysis
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.sakugapp.PublicBrowseTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stack=java.util.concurrent.TimeoutException: android.view.ThreadedRenderer.finalize() timed out after 10 seconds
+	at android.view.ThreadedRenderer.nDeleteProxy(Native Method)
+	at android.view.ThreadedRenderer.finalize(ThreadedRenderer.java:967)
+	at java.lang.Daemons$FinalizerDaemon.doFinalize(Daemons.java:250)
+	at java.lang.Daemons$FinalizerDaemon.runInternal(Daemons.java:237)
+	at java.lang.Daemons$Daemon.run(Daemons.java:103)
+	at java.lang.Thread.run(Thread.java:764)
+
+INSTRUMENTATION_STATUS: stream=
+Process crashed while executing actualPostSearchDetailsPlaybackAndFrameAnalysis(com.sakugapp.PublicBrowseTest):
+java.util.concurrent.TimeoutException: android.view.ThreadedRenderer.finalize() timed out after 10 seconds
+	at android.view.ThreadedRenderer.nDeleteProxy(Native Method)
+	at android.view.ThreadedRenderer.finalize(ThreadedRenderer.java:967)
+	at java.lang.Daemons$FinalizerDaemon.doFinalize(Daemons.java:250)
+	at java.lang.Daemons$FinalizerDaemon.runInternal(Daemons.java:237)
+	at java.lang.Daemons$Daemon.run(Daemons.java:103)
+	at java.lang.Thread.run(Thread.java:764)
+
+INSTRUMENTATION_STATUS: test=actualPostSearchDetailsPlaybackAndFrameAnalysis
+INSTRUMENTATION_STATUS_CODE: -2
+onError: commandError=false message=INSTRUMENTATION_ABORTED: System has crashed.
+INSTRUMENTATION_ABORTED: System has crashed.

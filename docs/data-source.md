@@ -74,3 +74,18 @@ API 请求每个 ViewModel 最多一个列表任务；搜索取消旧任务，�
 ## Language 后续调查线索
 
 默认帖子 HTML 的 Language 子菜单实际链接为 `/post?locale=en` 和 `/post?locale=ja`，父项才是 `#`。本轮仅检查了链接结构，没有登录/持久化语言切换验证，也没有在应用中放置假 Language 菜单。后续实现需核实 locale 的 Cookie/账户持久化与原生文案策略。
+
+
+## 0.3.0 社区接口与语言补充（2026-10-22）
+
+- 现场读取 `/user/login`，解析真实 `meta[name=csrf-token]`；仅向 `/user/check.json` POST 空用户名/密码做无账户检查，响应 `{response:"unknown-user", exists:false, success:true}`。所以成功条件必须额外要求 `response=="success"` 和有效 id/name，不能仅判断 success。该请求不会注册账户。
+- 上游 `user_controller.rb#check` 和公开源码中的 User.check 使用 username/password 的 POST，成功建立会话。App 不保存 password/pass_hash；仅将服务器 Cookie 与身份 AES-GCM 加密到 noBackupFilesDir，密钥在 Android Keystore。
+- 写操作前取同源页面 CSRF token，带 Cookie/X-CSRF-Token/Referer；不把凭据放在 URL，不跟随认证请求外部重定向。会话过期/权限不足如实报错。
+- `/post/vote.json` 的 GET 实测 404。正确的当前票值查询是 POST `{id}`（不带 score，不改变投票）；匿名现场结果 HTTP 403 / success:false / access denied。提交投票为 POST `{id,score}`，score 在 0..3。接口设计同时核对原站 JS/上游 controller；没有实账号，未在官网执行投票更改。
+- `/comment.json?post_id=317910&page=1` 实测 200，返回 3 条真实评论；字段 id/post_id/creator/creator_id/body/created_at。无 post_id 的查询可能返回空，不用它假定全站无评论。测试样本删除 creator/creator_id，保留公开作画说明和时间码，摘要/地址见 evidence/community-comments-provenance.json。
+- 评论 create/update/destroy 使用明确 POST，站点权限与 CSRF 保留；本地测试服务校验字段、失败和归属，未在官网创建/编辑/删除评论。正文只按文本显示，时间码单独解析，不执行 HTML/JavaScript。
+- `/tag.json?name=mokmok&limit=8` 实测 200，可用于输入建议；`/post.json?tags=id:319947&limit=1` 实测可定位原帖。
+- `/forum`、`https://blog.sakugabooru.com/` 与 `post?locale=en/ja` 均实测 200。Blog 保留作者原文，不宣称用 booru 的 locale 参数翻译 Blog 内容。
+- 官方 Language 的两个链接为 `locale=en`、`locale=ja`，上游 set_locale 会保存 locale Cookie；没有中文或无效 `#` 菜单选项。Native API 和官方网页采用同一设置，账号页浏览 Cookie 双向同步后通过服务端账户菜单/公开用户对象重新确认身份，不信任 user_info Cookie 自报的登录状态。
+
+证据：evidence/community-api-2026-10-22.json、evidence/blog-2026-10-22.json。所有实账号写操作仍待用户在安装应用后自行验证，不能用 MockWebServer 代替该结论。

@@ -1,0 +1,33 @@
+{
+  "comment": {
+    "http": 200,
+    "bytes": 86921,
+    "sha256": "6948d11a56435ffe55d23f4b14a5924878de8a9149492c47e6da079c58f013bf"
+  },
+  "comment.json?post_id=317910&page=1": {
+    "http": 200,
+    "bytes": 691,
+    "sha256": "b050b3686f97cccd842c798a4972476e5d7f3a14bbcbeb0a30ca103b3d7626f4"
+  },
+  "post/vote.json?id=319947": {
+    "http": 404
+  },
+  "post?locale=en": {
+    "http": 200,
+    "bytes": 155605,
+    "sha256": "c13833cc24bb0efdab765d4a9a720d1f153d5a5d2a6bf03061e3a495312598e3"
+  },
+  "post?locale=ja": {
+    "http": 200,
+    "bytes": 156629,
+    "sha256": "dc45f6f9703f8501e35bd9fca79617a1a147a6e8ce053ccb5d8972022e20978d"
+  },
+  "verified_at": "2026-10-22T11:12:22.561660+00:00",
+  "POST post/vote.json (id only, no mutation)": {
+    "http": 403,
+    "response": {
+      "success": false,
+      "reason": "access denied"
+    }
+  }
+}

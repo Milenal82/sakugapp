@@ -1,66 +1,58 @@
-# Sakugapp · Sakuga Mobile
+# Sakugapp · Sakuga Mobile 0.3.0
 
-Kotlin + Jetpack Compose + Material 3 的原生 Android 客户端首版（0.2.0），真实内容来自 [Sakugabooru](https://www.sakugabooru.com/post)。列表和详情没有使用 WebView，也不使用虚构帖子填充失败结果。
+Kotlin / Compose / Material 3 原生 Android 客户端，内容来自 [Sakugabooru](https://www.sakugabooru.com/post)。保留 0.2.0 成果并继续开发，没有重新初始化仓库。首页、列表、搜索、详情、设置和社区操作均为原生界面；不使用虚构帖子、标签、Score、登录或操作结果。
 
-## 当前可用能力
+## 本轮功能
 
-- 深色两列网格，Coil 加载真实缩略图并保持比例。
-- 真实 Score；缺失值显示“未知”。分类来自公开 tag summary，版权黄色、动画师紫色，未知类别中性色。
-- 标签输入、点标签搜索、多标签/排除表达式、手动加载更多、帖子 ID 去重。
-- 加载进度、真实空结果、网络失败/重试和分类不可用提示。
-- 原生帖子详情，显示真实字段与原帖链接；返回保留当前列表和搜索条件，滚动状态保留在列表外。
-- Media3 详情播放器：原生播放/暂停与进度条，静音、循环、全屏、后台暂停和释放。
-- 原生“关于与许可”，GPL 全文和第三方声明随 APK 提供。
-
-**验证边界：**公开 API、搜索、分页、标签分类、帖子 HTML、JPEG 与 MP4 Range 请求已现场验证。28 项 JVM 单元测试通过，Android Lint 无问题，Debug APK 编译及签名校验通过。当前环境没有模拟器或设备，**安装启动、列表交互、返回滚动、Media3 播放和全屏操作尚未在 Android 运行验证**。可达的 MP4 文件头不等同于设备解码通过。
+- **Posts**：两列统一 16:9 长方形媒体区域，默认按原比例 Fit，可选裁切；下方只显示黄色版权标签、紫色动画师标签和真实 Score，用空格分隔，默认换行。其他标签仍可在详情中搜索。
+- **加载与搜索**：脉动骨架屏、错误/空状态、分页去重、450ms 防抖建议、排序/rating 筛选、最近 30 条搜索历史、完整历史列表与清空。
+- **触屏预览**：点播放按钮启停，最多一个活动视频，移出可视区释放；自动预览和计费网络策略可设置，预览默认静音。
+- **播放器**：Media3 播放/暂停、进度、全屏、旋转适配、音量、静音、循环、0.1×–3× 共 9 档倍速；镜像、亮度、对比度、饱和度；当前画面截图分享。
+- **严格帧分析**：独立模式，明确下载原视频（≤200 MiB）到私有缓存，从第 1 个真实帧索引开始前后浏览，不按 FPS 或时间步长猜帧。要求 Android 9/API 28+、设备提供实际帧数和索引解码、视频像素不超过 3840×2160。不支持时明确报错；不以近似 seek 替代。切入释放播放解码器，关闭后重新准备播放器。
+- **账户**：官方 HTTPS 登录检查 + CSRF / Cookie；密码不落盘；会话 Cookie 与服务端确认的身份用 Android Keystore/AES-GCM 保存；退出清理；官方账户管理/注册/重置入口。
+- **Vote**：官方 0–3 票值，0 为解除，3 为网站收藏级；当前票值查询不带 score；帖子 Score 只按服务端响应更新。
+- **评论**：真实分页阅读、时间码定位、登录后发表、本人编辑/删除并确认；成功后重读服务器，不插入虚构评论。
+- **Blog / Forum**：受限独立浏览窗口、返回应用、同源会话衔接；帖子链接返回原生界面。注册/重置使用官网原流程，不模拟注册成功。
+- **Language**：只有 **English / 日本語**。原生文案和官网 locale 参数同步，站点内容与许可证保持原文，不提供假中文翻译开关。
+- **其他扩展替代**：GIF 图片、可见缩略图平均色、关于/许可、图片加载策略、媒体缓存清理。完整状态见 [功能对照](docs/feature-matrix.md)。
 
 ## 下载和安装
 
-打开 [GitHub Actions](https://github.com/Milenal82/sakugapp/actions/workflows/android.yml)，选择绿色成功的 **Android checks and artifacts** 运行，在 Artifacts 下载：
+在 [GitHub Actions](https://github.com/Milenal82/sakugapp/actions/workflows/android.yml) 的本次运行下载 `sakugapp-debug`（APK）、`sakugapp-source`（完整源码 ZIP）、`check-reports` 和 `device-test-reports`。源码包包含 Wrapper、测试与许可证，排除密钥、本地配置和缓存；GitHub 构件下载可能需要登录。
 
-- `sakugapp-debug`：解压后的 `app-debug.apk` 可直接在 API 26+ Android 设备安装。
-- `sakugapp-source`：内含 `sakugapp-source.zip`，完整项目、Gradle Wrapper、测试、文档与许可证；不包含密钥、本地配置或构建缓存。
-- `check-reports`：单元测试与 Lint 报告。
+APK 最低支持 API 26。帧分析需要 API 28+。本版本是 Debug 签名，不是发布签名。不同构建来源/CI 运行可能使用不同调试密钥；签名不同时 Android 会拒绝覆盖安装，卸载旧应用会删除其本地数据。无需用户配置 Android Studio。
 
-GitHub 下载构件可能要求登录，构件保留期由仓库设置决定。安装 APK 时按 Android 提示允许对应来源；这是调试签名版本，不是生产发布包。无需用户安装 Android Studio。已有同包名且签名不同的应用时，Android 可能拒绝覆盖安装；卸载会删除其本地数据。
-
-本地云端构建路径：`app/build/outputs/apk/debug/app-debug.apk`。最终交付中的 APK/ZIP 链接对应当次实际构建，不将旧构件当作新版本。
-
-## 云端构建
-
-工具链：JDK 17、Gradle Wrapper 8.13、AGP 8.9.2、Kotlin/Compose 插件 2.1.20、Compose BOM 2025.04.01、Android SDK Platform 35 与 Build Tools 35.0.0。最低 API 26，target API 35，JVM 编译目标 17。
-
-当前配置好的云机器上：
+## 云端构建与验证
 
 ```sh
 cd /workspace/sakugapp
 source /workspace/tooling/sakugapp-env.sh
-./gradlew testDebugUnitTest lintDebug assembleDebug
+./gradlew testDebugUnitTest lintDebug assembleDebug assembleDebugAndroidTest
 ./scripts/package-source.sh /workspace/artifacts/sakugapp-source.zip
 ```
 
-helper 激活工作区内的 JDK/SDK/缓存及已配置的系统信任链，不在仓库中保存代理凭据。其他构建机器设置 `JAVA_HOME` 为完整 JDK 17，并设置 `ANDROID_HOME` 或未跟踪的 `local.properties` 的 `sdk.dir`。CI 安装经过校验的固定命令行工具，避免安装已废弃的 SDK `tools` 包。
+兼容工具链保持：JDK 17、Gradle 8.13、AGP 8.9.2、Kotlin 2.1.20、Compose BOM 2025.04.01、compile/target SDK 35、Build Tools 35.0.0、min SDK 26。添加 Navigation Compose 2.9.0、DataStore 1.1.7、jsoup 1.18.3 和 Coil GIF 2.7.0。依赖更新建议不等同于编译错误，未盲目升级工具链。
 
-如需刷新公开测试样本，执行 `python3 scripts/capture-public-fixture.py` 后审阅脱敏内容、来源记录并更新相应快照断言；日常测试使用已提交样本，CI 不依赖网站即时状态。
+现有云端 Android 9 软件模拟器可运行：
 
-## 代码与文档
+```sh
+./gradlew connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.sakugapp.DeviceTests,com.sakugapp.UiSmokeTest
+```
 
-- `data/`：不可变模型、独立 JSON/分类解析、可取消 OkHttp 请求、分类缓存和分页合并。
-- `ui/FeedViewModel.kt`：Coroutines + Flow、搜索取消、错误与重试状态。
-- `MainActivity.kt` / `ui/VideoPanel.kt`：原生列表/详情与 Media3 控件。
-- [接口调查与现场证据](docs/data-source.md)
-- [Sakuga Extended 功能对照与完整需求待办](docs/feature-matrix.md)
-- [测试报告与已知问题](docs/test-report.md)
-- [许可证与第三方来源](docs/third-party-notices.md)
+实际网站设备测试单独为 `com.sakugapp.PublicBrowseTest`，会读取公开帖子、播放视频并下载原视频进行帧分析；不登录、不投票、不发表真实评论。CI 增加 KVM 设备任务，运行持久化、加密、帧索引、原生导航与真实浏览测试。结果以具体运行和 [测试报告](docs/test-report.md) 为准。
 
-本轮基于明确的首版范围采用可取消 OkHttp 与独立解析器，单 Activity 中维护详情状态。完整需求中优先采用的 Retrofit、Navigation Compose、DataStore 将在多页面、设置和持久化功能加入时评估；当前没有声称已使用这些组件。
+API、解析和状态单测使用合法公开脱敏样本与明确标注的故障注入数据。androidTest 内的小视频是自己生成的 VFR/B 帧解码测试图案，不会出现在帖子流中；`scripts/generate-frame-fixture.py` 可用 FFmpeg 复现。
 
-## 尚未完成
+输出 APK：`app/build/outputs/apk/debug/app-debug.apk`。没有 abiFilters；实际打包 ABI 和 ELF 验证记录在测试报告。
 
-触屏预览、自动预览策略、骨架屏、搜索建议/历史、设置、账户/登录、收藏/评分写入、评论、Blog/Forum/Language、中文翻译、倍速/音量滑块、严格逐帧与扩展其他功能。没有对应的无效按钮或模拟成功结果。
+## 安全与验证边界
 
-分页使用站点偏移接口，动态插入/删除可能导致漏项；已去重，但不能承诺对动态数据集绝不遗漏。分类会话缓存可能滞后。进程死亡后完整列表恢复、GIF 动画、所有设备/编码兼容性和横屏专用布局仍待验证或开发。
+网页登录和 Native 登录共用官网会话，认证/写请求保留 CSRF、Cookie 和权限检查，不在 URL 放密码，不自动重试写入，不绕过访问限制。Cookie 在 noBackupFilesDir 加密，密钥不导出；DataStore 只放普通设置和搜索历史。浏览窗口只接受指定 HTTPS 站点，禁 file/content/mixed-content/第三方 Cookie，不注入 JS bridge；官网交互所需 JS 保留，帖子列表不进入 WebView。公开内容仍属于各自权利人。
 
-没有 `abiFilters` 或仅限 32 位限制；实际 APK 的 Compose graphics native library 包含 `arm64-v8a`、`armeabi-v7a`、`x86_64`、`x86`。Media3 主要依赖设备解码器，本轮未引入 FFmpeg 原生解码库。
+**没有真实测试账户**，成功认证、Vote/评论写入和网站账户资料修改的实账号验证尚未执行；测试服务不能代替该结论。软件模拟器曾出现 System UI/ThreadedRenderer 超时；不要把该失败流程标为通过，详见测试报告与硬件 CI 结果。
 
-项目新编写代码采用 GPL-3.0-only，见 [LICENSE](LICENSE)。Sakuga Extended 只用于功能/协议调查，未复制其实现或资源。站点内容仍属于各自权利人；依赖保留各自许可证。
+剩余：原扩展的小游戏、全部 CSS 主题、GIF 严格逐帧、模糊/色相/sepia、自动推断作者/AD 角色、完整 DText 富文本/用户 tooltip 等未全部移植。系统/编解码器对具体格式的支持仍需更多设备覆盖；Android 8 没有严格索引解码替代。动态偏移分页仍可能因站点插入/删除而漏项，已做 ID 去重但不承诺动态快照无遗漏。
+
+[接口调查](docs/data-source.md) · [功能对照](docs/feature-matrix.md) · [测试报告](docs/test-report.md) · [第三方声明](docs/third-party-notices.md)
+
+项目代码 GPL-3.0-only，见 [LICENSE](LICENSE)。APK 随附 GPL/Apache/MPL/MIT 许可全文和来源声明。

@@ -26,11 +26,11 @@ object PostParser {
 
     fun posts(body: String, categories: Map<String, TagCategory> = emptyMap()): List<Post> = try {
         val root = JsonParser.parseString(body)
-        if (!root.isJsonArray) throw DataFailure("帖子响应格式错误，未展示替代数据。")
+        if (!root.isJsonArray) throw DataFailure("Invalid post response; no substitute data is shown.")
         root.asJsonArray.map { element ->
-            if (!element.isJsonObject) throw DataFailure("帖子数据格式错误。")
+            if (!element.isJsonObject) throw DataFailure("Invalid post data.")
             val o = element.asJsonObject
-            val id = o.integer("id")?.takeIf { it > 0 } ?: throw DataFailure("帖子缺少有效 ID。")
+            val id = o.integer("id")?.takeIf { it > 0 } ?: throw DataFailure("Post has no valid ID.")
             Post(id,
                 o.text("tags").orEmpty().split(Regex("\\s+")).filter { it.isNotEmpty() }
                     .distinct().map { Tag(it, categories[it] ?: TagCategory.UNKNOWN) },
@@ -41,20 +41,20 @@ object PostParser {
                 o.text("source"), o.text("rating"), o.integer("created_at"), o.text("status"), o.text("author"))
         }
     } catch (e: DataFailure) { throw e }
-    catch (e: Exception) { throw DataFailure("无法解析帖子响应，未展示替代数据。", e) }
+    catch (e: Exception) { throw DataFailure("Unable to parse posts; no substitute data is shown.", e) }
 
     // Format: type`canonical_name`alias` ...; never infer categories from names.
     fun tagSummary(body: String): Map<String, TagCategory> = try {
         val root = JsonParser.parseString(body)
-        if (!root.isJsonObject) throw DataFailure("标签分类响应格式错误。")
-        val data = root.asJsonObject.text("data") ?: throw DataFailure("标签分类响应缺少 data。")
+        if (!root.isJsonObject) throw DataFailure("Invalid tag classification response.")
+        val data = root.asJsonObject.text("data") ?: throw DataFailure("Missing tag classification data.")
         buildMap {
             data.trim().split(Regex("\\s+")).forEach { record ->
                 val parts = record.split('`')
                 val type = parts.firstOrNull()?.toIntOrNull()
-                    ?: throw DataFailure("标签分类记录无效。")
+                    ?: throw DataFailure("Invalid tag classification record.")
                 if (parts.size < 3 || parts[1].isBlank() || parts.last() != "")
-                    throw DataFailure("标签分类记录不完整。")
+                    throw DataFailure("Incomplete tag classification record.")
                 val category = when (type) {
                     1 -> TagCategory.ARTIST
                     3 -> TagCategory.COPYRIGHT
@@ -65,5 +65,5 @@ object PostParser {
             }
         }
     } catch (e: DataFailure) { throw e }
-    catch (e: Exception) { throw DataFailure("无法解析标签分类响应。", e) }
+    catch (e: Exception) { throw DataFailure("Unable to parse tag categories.", e) }
 }
