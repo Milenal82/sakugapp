@@ -1,0 +1,40 @@
+{
+  "suites": [
+    {
+      "name": "com.sakugapp.RepositoryTest",
+      "tests": "7",
+      "skipped": "0",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.sakugapp.LiveFixtureTest",
+      "tests": "2",
+      "skipped": "0",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.sakugapp.FeedViewModelTest",
+      "tests": "4",
+      "skipped": "0",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.sakugapp.DataTest",
+      "tests": "15",
+      "skipped": "0",
+      "failures": "0",
+      "errors": "0"
+    }
+  ],
+  "abi_libraries": [
+    "lib/arm64-v8a/libandroidx.graphics.path.so",
+    "lib/armeabi-v7a/libandroidx.graphics.path.so",
+    "lib/x86/libandroidx.graphics.path.so",
+    "lib/x86_64/libandroidx.graphics.path.so"
+  ],
+  "apk_sha256": "b11b87af4ecbb35f444998c1bc7b93b355ee05b4e66da2934bf0f5d27eaf9066",
+  "apk_bytes": 15285042
+}

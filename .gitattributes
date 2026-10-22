@@ -1,3 +1,14 @@
 * text=auto
 gradlew text eol=lf
 *.bat text eol=crlf
+local.properties export-ignore
+.env export-ignore
+*.jks export-ignore
+*.keystore export-ignore
+*.pem export-ignore
+*.key export-ignore
+.gradle export-ignore
+.kotlin export-ignore
+.idea export-ignore
+build export-ignore
+app/build export-ignore

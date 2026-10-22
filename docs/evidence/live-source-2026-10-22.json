@@ -1,0 +1,173 @@
+{
+  "checked_at": "2026-10-22T08:57:23.762830+00:00",
+  "checks": [
+    {
+      "path": "post.json?limit=2&page=1&tags=rating%3Asafe",
+      "http": 200,
+      "content_type": "application/json; charset=utf-8",
+      "content_range": null,
+      "bytes_read": 2447
+    },
+    {
+      "path": "post.json?limit=2&page=2&tags=rating%3Asafe",
+      "http": 200,
+      "content_type": "application/json; charset=utf-8",
+      "content_range": null,
+      "bytes_read": 2419
+    },
+    {
+      "path": "post.json?limit=2&page=1&tags=jujutsu_kaisen_season_3",
+      "http": 200,
+      "content_type": "application/json; charset=utf-8",
+      "content_range": null,
+      "bytes_read": 2519
+    },
+    {
+      "path": "post.json?limit=2&page=1&tags=sakugapp_verification_nonexistent_tag_20261022",
+      "http": 200,
+      "content_type": "application/json; charset=utf-8",
+      "content_range": null,
+      "bytes_read": 2
+    },
+    {
+      "path": "post/show/319947",
+      "http": 200,
+      "content_type": "text/html; charset=utf-8",
+      "content_range": null,
+      "bytes_read": 33055
+    },
+    {
+      "path": "data/preview/0618e7f33173d8122094a1a23e33da49.jpg",
+      "http": 200,
+      "content_type": "image/jpeg",
+      "content_range": null,
+      "bytes_read": 15593
+    },
+    {
+      "path": "data/0618e7f33173d8122094a1a23e33da49.mp4",
+      "http": 206,
+      "content_type": "video/mp4",
+      "content_range": "bytes 0-65535/16992437",
+      "bytes_read": 65536
+    }
+  ],
+  "page_1_ids": [
+    319947,
+    319946
+  ],
+  "page_2_ids": [
+    319943,
+    319942
+  ],
+  "search_matches": true,
+  "empty_query_is_empty_array": true,
+  "post_fields": [
+    "actual_preview_height",
+    "actual_preview_width",
+    "approver_id",
+    "author",
+    "change",
+    "created_at",
+    "creator_id",
+    "file_ext",
+    "file_size",
+    "file_url",
+    "frames",
+    "frames_pending",
+    "frames_pending_string",
+    "frames_string",
+    "has_children",
+    "height",
+    "id",
+    "is_held",
+    "is_note_locked",
+    "is_pending",
+    "is_rating_locked",
+    "is_shown_in_index",
+    "jpeg_file_size",
+    "jpeg_height",
+    "jpeg_url",
+    "jpeg_width",
+    "last_commented_at",
+    "last_noted_at",
+    "md5",
+    "parent_id",
+    "preview_height",
+    "preview_url",
+    "preview_width",
+    "rating",
+    "sample_file_size",
+    "sample_height",
+    "sample_url",
+    "sample_width",
+    "score",
+    "source",
+    "status",
+    "tags",
+    "updated_at",
+    "width"
+  ],
+  "field_types": {
+    "id": "int",
+    "tags": "str",
+    "created_at": "int",
+    "updated_at": "int",
+    "creator_id": "int",
+    "approver_id": "NoneType",
+    "author": "str",
+    "change": "int",
+    "source": "str",
+    "score": "int",
+    "md5": "str",
+    "file_size": "int",
+    "file_ext": "str",
+    "file_url": "str",
+    "is_shown_in_index": "bool",
+    "preview_url": "str",
+    "preview_width": "int",
+    "preview_height": "int",
+    "actual_preview_width": "int",
+    "actual_preview_height": "int",
+    "sample_url": "str",
+    "sample_width": "int",
+    "sample_height": "int",
+    "sample_file_size": "int",
+    "jpeg_url": "str",
+    "jpeg_width": "int",
+    "jpeg_height": "int",
+    "jpeg_file_size": "int",
+    "rating": "str",
+    "is_rating_locked": "bool",
+    "has_children": "bool",
+    "parent_id": "int",
+    "status": "str",
+    "is_pending": "bool",
+    "width": "int",
+    "height": "int",
+    "is_held": "bool",
+    "frames_pending_string": "str",
+    "frames_pending": "list",
+    "frames_string": "str",
+    "frames": "list",
+    "is_note_locked": "bool",
+    "last_noted_at": "int",
+    "last_commented_at": "int"
+  },
+  "thumbnail_is_jpeg": true,
+  "mp4_ftyp_present": true,
+  "html_category_classes": [
+    "tag-type-artist",
+    "tag-type-copyright",
+    "tag-type-general"
+  ],
+  "multi_and_negative_search": {
+    "url": "https://www.sakugabooru.com/post.json?limit=2&page=1&tags=jujutsu_kaisen_series+animated+-genga",
+    "http": 200,
+    "ids": [
+      318288,
+      318287
+    ],
+    "matched": true,
+    "checked_at": "2026-10-22T09:05:49.879399+00:00"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "retrieved_at": "2026-10-22T08:56:17.248310+00:00",
+  "post_url": "https://www.sakugabooru.com/post.json?limit=2&page=1&tags=rating%3Asafe",
+  "summary_url": "https://www.sakugabooru.com/tag/summary.json",
+  "raw_sha256": {
+    "posts": "ce3f707530a847c4fd35f5152f65b70dfd447404cfa2bbe0355bb4ba2f5c4abd",
+    "tag_summary": "41249b91d554204551e75ab0ce946ccd246b0cc3f3629155e3453f3b1b5c1f23"
+  },
+  "sanitization": "Whitelisted post fields; URL query/fragment removed; summary reduced to sampled tags; no credentials or response headers."
+}
