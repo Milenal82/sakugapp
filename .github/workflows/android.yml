@@ -9,6 +9,11 @@ on:
         description: 'Optional: unsigned Release checks and draft source attachment relay for an existing version tag'
         required: false
         default: ''
+      sign_release:
+        description: 'Use protected signing Secrets and build a DRAFT official APK for release_tag'
+        required: false
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
@@ -93,12 +98,11 @@ jobs:
   release-preflight:
     # Existing workflow entry point also works when a new workflow is not yet indexed.
     # No signing Secrets, no APK attachment, and no public publication.
-    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.release_tag != '' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.release_tag != '' && github.event.inputs.sign_release != 'true' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     permissions:
       contents: write
-      actions: write
     steps:
       - uses: actions/checkout@v5
         with:
@@ -163,12 +167,6 @@ jobs:
           subprocess.run(['gh','release','upload',tag,'--repo',repo,'--clobber']+[str(folder/n) for n in sorted(expected)],check=True)
           print('Source, checksums, notes and unsigned report uploaded to DRAFT. No APK or keys attached.')
           PY
-      - name: Attempt official signed workflow from GitHub runner
-        continue-on-error: true
-        env:
-          GH_TOKEN: ${{ github.token }}
-          RELEASE_TAG: ${{ github.event.inputs.release_tag }}
-        run: gh workflow run release.yml --repo "$GITHUB_REPOSITORY" --ref "$RELEASE_TAG" -f "tag=$RELEASE_TAG"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -177,3 +175,11 @@ jobs:
             app/build/reports/tests/testReleaseUnitTest/
             app/build/test-results/testReleaseUnitTest/
             app/build/reports/lint-results-release.*
+  release-signing:
+    # Reusable workflows are resolved from this commit even before a new workflow is indexed.
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.release_tag != '' && github.event.inputs.sign_release == 'true' && github.ref == 'refs/heads/main' }}
+    permissions:
+      contents: write
+    uses: ./.github/workflows/release.yml
+    with:
+      tag: ${{ github.event.inputs.release_tag }}

@@ -1,17 +1,22 @@
 name: Signed Release draft
 on:
+  workflow_call:
+    inputs:
+      tag:
+        type: string
+        required: true
   push:
     tags: ['v*']
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Existing immutable version tag (run this workflow FROM that same tag)'
+        description: 'Existing immutable version tag (run from main or that same tag)'
         required: true
         default: 'v1.0.0'
 permissions:
   contents: read
 concurrency:
-  group: release-${{ github.event.inputs.tag || github.ref_name }}
+  group: release-${{ inputs.tag || github.ref_name }}
   cancel-in-progress: false
 jobs:
   preflight:
@@ -23,19 +28,22 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
+          ref: ${{ inputs.tag || github.ref_name }}
           fetch-depth: 0
       - name: Validate immutable release source
         id: target
         env:
-          REQUESTED_TAG: ${{ github.event.inputs.tag || github.ref_name }}
+          REQUESTED_TAG: ${{ inputs.tag || github.ref_name }}
         run: |
           python3 - <<'PY'
           import os,sys,subprocess
           sys.path.insert(0,'scripts')
           from release_common import exact_tag
           tag=os.environ['REQUESTED_TAG']
-          if os.environ['GITHUB_REF'] != 'refs/tags/'+tag:
-              raise SystemExit('Run the workflow from the same existing version TAG, not main.')
+          from_tag=os.environ['GITHUB_REF']=='refs/tags/'+tag
+          from_main=os.environ['GITHUB_REF']=='refs/heads/main' and os.environ['GITHUB_EVENT_NAME']=='workflow_dispatch'
+          if not (from_tag or from_main):
+              raise SystemExit('Release automation must run from main or the same immutable version tag.')
           sha=exact_tag(tag)
           subprocess.run(['git','merge-base','--is-ancestor',sha,'origin/main'],check=True)
           with open(os.environ['GITHUB_OUTPUT'],'a') as out:
@@ -51,6 +59,13 @@ jobs:
         run: python3 -m unittest discover -s scripts/tests -v
       - name: Release unit tests, Lint and UNSIGNED preflight
         run: ./gradlew --no-daemon --no-configuration-cache testReleaseUnitTest lintRelease assembleRelease -PreleaseUnsignedCheck=true
+      - name: Report actual Lint diagnostics
+        run: |
+          python3 - <<'PY'
+          import collections,xml.etree.ElementTree as ET
+          issues=ET.parse('app/build/reports/lint-results-release.xml').getroot().findall('issue')
+          print('Release Lint diagnostics:',dict(collections.Counter((i.get('severity'),i.get('id')) for i in issues)))
+          PY
       - name: Validate unsigned metadata and corresponding source
         env:
           RELEASE_TAG: ${{ steps.target.outputs.tag }}

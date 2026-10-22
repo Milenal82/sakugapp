@@ -21,7 +21,7 @@ keytool 交互提示密码，输入不会回显；使用密码管理器生成并
 
 ## GitHub 受保护配置
 
-打开仓库 Settings → Environments → 新建 **release-signing**。先设置部署规则，仅允许发布标签 `v*`；按账户方案可用性配置 required reviewers 和标签 ruleset，限制标签修改/删除以及工作流变更。不要把 Secrets 放进公开 Variables。为此环境增加：
+打开仓库 Settings → Environments → 新建 **release-signing**。先设置部署规则，只允许 `main` 分支与发布标签 `v*`：现有工作流的手动入口从 main 运行，但签名源码始终检出并核对精确版本标签；不接受 PR 或其他分支。按账户方案可用性配置 required reviewers 和 main / 标签 ruleset，限制工作流修改及标签修改/删除。不要把 Secrets 放进公开 Variables。为此环境增加：
 
 | Secret 名称 | 内容 |
 | --- | --- |
@@ -42,7 +42,13 @@ gh auth login --hostname github.com
 
 ## 完成已经准备的草稿
 
-配置完成后，在 Actions → Signed Release draft 运行工作流，**工作流 ref 和 tag 输入都选择 v1.0.0**：
+配置完成后，优先使用已注册的 Actions → Android checks and artifacts，选择 main，`release_tag` 填 v1.0.0，勾选 `sign_release`：
+
+```sh
+gh workflow run android.yml --repo Milenal82/sakugapp --ref main -f release_tag=v1.0.0 -f sign_release=true
+```
+
+这个入口调用同一份 `release.yml`；main 只提供发布编排，APK 与源码 ZIP 始终来自经校验的 `v1.0.0` 提交。新工作流已被 GitHub 索引后，也可直接在 Actions → Signed Release draft 从对应标签运行：
 
 ```sh
 gh workflow run release.yml --repo Milenal82/sakugapp --ref v1.0.0 -f tag=v1.0.0
@@ -54,7 +60,7 @@ gh workflow run release.yml --repo Milenal82/sakugapp --ref v1.0.0 -f tag=v1.0.0
 gh workflow run android.yml --repo Milenal82/sakugapp --ref main -f release_tag=v1.0.0
 ```
 
-该备用 job 只检出 `v1.0.0` 的精确提交，验证其属于 main，运行 Release 单测/Lint/未签名预检，并将源码、SHA-256、说明及 unsigned 报告上传到同一提交的**既有草稿**。它不读取签名 Secrets、不上传未签名 APK；发现已有 APK 时拒绝覆盖。它也尝试从 GitHub runner 触发正式工作流，避免云环境代理造成的工作流索引/附件域名访问限制。正式工作流能触发、签名校验成功后，才会有正式 APK。
+未勾选 `sign_release` 时，该备用 job 只检出 `v1.0.0` 的精确提交，验证其属于 main，运行 Release 单测/Lint/未签名预检，并将源码、SHA-256、说明及 unsigned 报告上传到同一提交的**既有草稿**。它不读取签名 Secrets、不上传未签名 APK；发现已有 APK 时拒绝覆盖。勾选时使用上面的受保护签名流程，避开新工作流尚未索引的问题。只有签名校验成功后，才会有正式 APK。
 
 预检会检查标签与版本一致、标签提交属于 main、Release 单测/Lint、未签名构建的清单和 ELF。签名 job 仅从该提交检出，在环境授权后读取既有 Secrets；缺一项就明确失败，不回退 Debug、不生成新密钥。关闭签名 job 的 Gradle 构建/配置缓存；keystore 仅在 runner 临时目录以 600 权限存在，结束时清理。
 
