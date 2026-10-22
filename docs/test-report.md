@@ -25,7 +25,7 @@ Lint 当前 **0 errors / 1 warning（SetJavaScriptEnabled）**：官网账户/Fo
 
 云模拟器使用正常云代理；先验证网站 TLS 链，再把云环境已有的公开代理 CA 加入此测试模拟器系统信任库。没有在 APK 中增加测试 CA、关闭证书校验或忽略 SSL 错误。系统配置、代理证书与账户资料不进入源码 ZIP。
 
-新增 GitHub KVM 设备任务运行同一组测试（含真实浏览），最终远端结果和构件链接见交付报告；不以软件环境失败或 JVM 单测替代实际设备结果。测试只读取真实内容，不向官网写入票值/评论。
+GitHub KVM 运行 [39774912127](https://github.com/Milenal82/sakugapp/actions/runs/39774912127) 已成功完成：构建任务与设备任务均为 success。设备日志明确记录 Starting/Finished **5 tests**，并且 BUILD SUCCESSFUL。3 项 DeviceTests、1 项 UiSmokeTest、1 项 PublicBrowseTest 全部执行，覆盖真实 ID 搜索、真实视频原生首帧/播放状态、倍速、全屏、下载原始视频并按真实索引前进/后退、返回保留查询。摘要在 evidence/kvm-device-results.txt，完整报告在 CI 的 device-test-reports 构件。没有把本地软件环境失败记作成功；此次通过来自独立 KVM 环境。测试只读取真实内容，不向官网写入票值/评论。
 
 ## 官网接口与受保护操作
 

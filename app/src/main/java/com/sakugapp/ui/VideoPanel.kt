@@ -66,7 +66,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
     val content: @Composable (Modifier) -> Unit = { modifier ->
         Column(modifier.background(Color.Black)){
             AndroidView(factory={LayoutInflater.from(it).inflate(R.layout.native_player,android.widget.FrameLayout(it),false) as PlayerView},
-                modifier=Modifier.fillMaxWidth().weight(1f).semantics{contentDescription=if(rendered)"Video frame rendered"else"Video loading";stateDescription=if(playing)"Playing"else"Paused"},onRelease={it.player=null;view=null},update={v->
+                modifier=Modifier.fillMaxWidth().weight(1f).semantics{contentDescription=if(rendered)"Video frame rendered"else"Video loading";stateDescription=if(playing)"Playing"else"Paused"},onRelease={if(view===it)view=null;it.player=null},update={v->
                     view=v;v.player=player;v.useController=true;v.setShowNextButton(false);v.setShowPreviousButton(false)
                     (v.videoSurfaceView as? TextureView)?.apply{
                         scaleX=if(settings.mirror)-1f else 1f
