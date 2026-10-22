@@ -1,0 +1,8 @@
+<resources>
+    <style name="Theme.Sakugapp" parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowBackground">#101114</item>
+        <item name="android:colorAccent">#B9C3FF</item>
+    </style>
+</resources>

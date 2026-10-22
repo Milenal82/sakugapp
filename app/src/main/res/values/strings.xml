@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Sakugapp</string>
+    <string name="home_subtitle">动画作画探索</string>
+    <string name="placeholder_notice">界面预览 · 尚未连接 Sakugabooru，以下均为占位卡片</string>
+    <string name="placeholder_title">帖子占位 %1$d</string>
+    <string name="placeholder_media">暂无媒体</string>
+    <string name="placeholder_detail">接入数据后展示真实帖子</string>
+</resources>
