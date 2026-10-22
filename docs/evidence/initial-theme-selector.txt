@@ -1,0 +1,9 @@
+Initial CI: https://github.com/Milenal82/sakugapp/actions/runs/39814590964
+Commit: e39896ebc61d47f168acec3396ee38a3e5e2539f
+Build/unit/Lint/APK/source jobs succeeded. Device run finished 9 tests, 0 skipped, 1 failed.
+Only failure: UiSmokeTest.lightBackgroundSwitchAppliesAndCanReturnToDark, before interacting with the switch.
+Assertion: Expected exactly 1 node but found 13 nodes satisfying hasAnySibling(Light background) && isToggleable.
+Resolution: each settings switch now has its own accessible content description; select the exact Light background switch.
+Keep the real rendered light/dark luminance and Activity recreation persistence assertions.
+Actual original-video save via the system picker, artist Wiki return and the other device cases passed in this initial run.
+Individual job log Blob redirect was denied by the environment; official aggregate workflow log ZIP was retrieved successfully.

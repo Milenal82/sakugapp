@@ -12,6 +12,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.*
 import androidx.compose.ui.unit.dp
 import com.sakugapp.data.*
 import coil.Coil
@@ -79,4 +80,4 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel) {
     }
 }
 
-@Composable private fun SettingSwitch(label:String,value:Boolean,change:(Boolean)->Unit){Row(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.SpaceBetween){Text(label,Modifier.weight(1f).padding(top=12.dp));Switch(checked=value,onCheckedChange=change)}}
+@Composable private fun SettingSwitch(label:String,value:Boolean,change:(Boolean)->Unit){Row(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.SpaceBetween){Text(label,Modifier.weight(1f).padding(top=12.dp));Switch(checked=value,onCheckedChange=change,modifier=Modifier.semantics{contentDescription=label})}}

@@ -40,7 +40,7 @@ class UiSmokeTest {
     }
     @Test fun lightBackgroundSwitchAppliesAndCanReturnToDark(){
         ui.onNodeWithText("Menu").performClick();ui.onNodeWithText("Settings").performClick()
-        val switch=hasAnySibling(hasText("Light background")) and isToggleable()
+        val switch=hasContentDescription("Light background") and isToggleable()
         ui.onNode(switch).assertIsOff().performClick()
         ui.waitUntil(10000){ui.onAllNodes(switch and isOn()).fetchSemanticsNodes().isNotEmpty()}
         org.junit.Assert.assertTrue("The rendered settings background is light",screenLuminance()>0.6f)

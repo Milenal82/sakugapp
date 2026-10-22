@@ -17,6 +17,8 @@
 
 ## 验证
 
+首轮 CI 39814590964 构建成功，9 项设备测试仅主题测试失败：测试的 sibling 定位误匹配 13 个开关，未进入实际切换。已为每个设置开关补充独立无障碍说明，并按精确说明定位；保留截图亮度与重建状态断言。其余 8 项（含真实下载及 Wiki 返回）已通过。初始失败证据在 `evidence/initial-theme-selector.txt`，最终提交会重新执行完整 CI。
+
 - 在原基线上执行 Debug 构建；修改后执行 `./gradlew clean testDebugUnitTest lintDebug assembleDebug assembleDebugAndroidTest`。资源移动触发的本地增量缓存问题通过 clean 排除，未删除源码或隐藏检查。
 - JVM 共 73 项测试：新增 TLS 流式下载完整性、错误状态、HTML 响应、截断、目标写入失败、取消清理；Wiki 参数编码；Score 条件替换；深浅主题及文字对比度。测试 TLS 证书在运行时生成，仅用于本地 MockWebServer，不进入 APK，不关闭生产 TLS 校验。
 - KVM 设备任务增加为 9 项，测试浅色实际截图亮度、Activity 重建后的设置、两个 Score 快捷项；真实浏览流程扩展到动画师 Wiki 返回和系统另存为下载。实际运行结论以对应提交的 CI 日志及交付报告为准，不将“测试已编译”写成“设备已验证”。
