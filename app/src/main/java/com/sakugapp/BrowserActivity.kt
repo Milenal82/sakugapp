@@ -9,6 +9,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -27,21 +28,23 @@ class BrowserActivity:ComponentActivity() {
         if(!UrlPolicy.trusted(target) || UrlPolicy.isPosts(target) || UrlPolicy.postId(target)!=null)return finish()
         setContent {
             var language by remember{mutableStateOf("en")}
+            var lightTheme by remember{mutableStateOf(false)}
             var ready by remember{mutableStateOf(false)}
             var browser by remember{mutableStateOf<WebView?>(null)}
             var error by remember{mutableStateOf<String?>(null)}
             var loading by remember{mutableStateOf(true)}
             LaunchedEffect(Unit) {
-                language=PreferencesStore(applicationContext).settings.first().language
+                val preferences=PreferencesStore(applicationContext).settings.first()
+                language=preferences.language;lightTheme=preferences.lightTheme
                 val cookies=withContext(Dispatchers.IO){SecureSession(applicationContext).apply{restore()}.browserCookies()}
                 val manager=CookieManager.getInstance();manager.setAcceptCookie(true)
                 for(cookie in cookies)withContext(Dispatchers.Main){suspendCancellableCoroutine<Unit>{continuation->manager.setCookie("https://www.sakugabooru.com",cookie){continuation.resumeWith(Result.success(Unit))}}}
                 manager.flush();ready=true;setResult(Activity.RESULT_OK)
             }
             DisposableEffect(Unit){onDispose{browser?.stopLoading();browser?.destroy();browser=null}}
-            CompositionLocalProvider(LocalLanguage provides language){MaterialTheme(colorScheme=darkColorScheme()){
+            CompositionLocalProvider(LocalLanguage provides language){SakugappTheme(lightTheme){
                 BackHandler{if(browser?.canGoBack()==true)browser?.goBack()else finish()}
-                Column(Modifier.fillMaxSize().systemBarsPadding()){
+                Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background).systemBarsPadding()){
                     Row{
                         TextButton(onClick={finish()}){Text(text("Back to app","アプリに戻る"))}
                         TextButton(onClick={browser?.reload();error=null}){Text(text("Reload","再読み込み"))}

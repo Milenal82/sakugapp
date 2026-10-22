@@ -15,7 +15,7 @@ data class AppSettings(
     val autoPreview: Boolean = false, val mobilePreview: Boolean = false, val wifiImages: Boolean = false,
     val muted: Boolean = true, val loop: Boolean = true, val speed: Float = 1f,
     val mirror: Boolean = false, val saturation: Float = 1f, val brightness: Float = 1f,
-    val contrast: Float = 1f, val screenshot: Boolean = true,
+    val contrast: Float = 1f, val screenshot: Boolean = true, val lightTheme:Boolean = false,
 )
 
 object PreferenceRules {
@@ -44,7 +44,7 @@ class PreferencesStore(context: Context) {
             loop=p.flag("loop",true),speed=p[floatPreferencesKey("speed")]?.takeIf { it in PreferenceRules.speeds } ?: 1f,
             mirror=p.flag("mirror",false),saturation=(p[floatPreferencesKey("saturation")] ?: 1f).coerceIn(0f,2f),
             brightness=(p[floatPreferencesKey("brightness")] ?: 1f).coerceIn(0.5f,1.5f),contrast=(p[floatPreferencesKey("contrast")] ?: 1f).coerceIn(0.5f,1.5f),
-            screenshot=p.flag("screenshot",true))
+            screenshot=p.flag("screenshot",true),lightTheme=p.flag("lightTheme",false))
     }
     val history: Flow<List<String>> = data.map { it[stringPreferencesKey("history")]?.split('\n')?.filter(String::isNotBlank).orEmpty() }
     suspend fun remember(query: String) { store.edit { p ->
@@ -52,7 +52,7 @@ class PreferencesStore(context: Context) {
         p[stringPreferencesKey("history")] = PreferenceRules.history(previous,query.replace('\n',' ')).joinToString("\n")
     } }
     suspend fun clearHistory() { store.edit { it.remove(stringPreferencesKey("history")) } }
-    suspend fun flag(name: String,value: Boolean) { require(name in setOf("copyright","artist","score","wrap","crop","auto","mobile","wifiImages","muted","loop","mirror","screenshot")); store.edit { it[booleanPreferencesKey(name)]=value } }
+    suspend fun flag(name: String,value: Boolean) { require(name in setOf("copyright","artist","score","wrap","crop","auto","mobile","wifiImages","muted","loop","mirror","screenshot","lightTheme")); store.edit { it[booleanPreferencesKey(name)]=value } }
     suspend fun language(value: String) { require(value in PreferenceRules.languages);store.edit { it[stringPreferencesKey("language")]=value } }
     suspend fun number(name: String,value: Float) { require(value.isFinite()); require(when(name) { "speed"->value in PreferenceRules.speeds; "brightness","contrast"->value in 0.5f..1.5f; "saturation"->value in 0f..2f; else->false });store.edit { it[floatPreferencesKey(name)]=value } }
 }

@@ -13,7 +13,7 @@ internal fun postCaption(post: Post, settings: AppSettings): AnnotatedString = b
     }) {
         if (length > 0) append(" ")
         pushStringAnnotation("tag", tag.name)
-        withStyle(SpanStyle(color=if(tag.category == TagCategory.COPYRIGHT) Color(0xFFFFD54F) else Color(0xFFCE93D8))) { append(tag.name) }
+        withStyle(SpanStyle(color=if(tag.category == TagCategory.COPYRIGHT) copyrightColor(settings.lightTheme) else artistColor(settings.lightTheme))) { append(tag.name) }
         pop()
     }
     if(settings.showScore) { if(length > 0) append(" ");append("Score ${post.score?.toString() ?: "?"}") }

@@ -1,6 +1,13 @@
 {
-  "version": "0.4.0",
+  "version": "0.5.0",
   "suites": [
+    {
+      "name": "com.sakugapp.AppearanceAndDownloadTest",
+      "tests": "10",
+      "skipped": "0",
+      "failures": "0",
+      "errors": "0"
+    },
     {
       "name": "com.sakugapp.CommunityTest",
       "tests": "16",
@@ -51,6 +58,6 @@
       "errors": "0"
     }
   ],
-  "apk_sha256": "92c84ca5b99222d2767bcd7c5d088a9d03f1e51f65e461617ae60a21ad34def9",
-  "apk_bytes": 16026121
+  "apk_sha256": "c3017fef5779eaf1703e402c379ff2b5cd1d3e813cce9bec8ba881d03c0633dc",
+  "apk_bytes": 15952377
 }

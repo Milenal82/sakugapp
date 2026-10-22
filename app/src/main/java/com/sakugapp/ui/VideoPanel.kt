@@ -108,7 +108,9 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
             error?.let{message->Text(translateMessage(message),color=MaterialTheme.colorScheme.error,modifier=Modifier.padding(8.dp));TextButton(onClick={error=null;player.prepare();player.play()}){Text(text("Retry","再試行"))}}
         }
     }
+    androidx.compose.material3.MaterialTheme(colorScheme=appColors(false)){
     if(fullscreen){Dialog(onDismissRequest={fullscreen=false},properties=DialogProperties(usePlatformDefaultWidth=false,decorFitsSystemWindows=false)){content(Modifier.fillMaxSize().systemBarsPadding())};Text(text("Video is in full screen","動画は全画面表示中です"))}
     else content(if(preview)Modifier.fillMaxWidth().aspectRatio(16f/9f) else Modifier.fillMaxWidth().height(480.dp))
     if(frames)StrictFrameDialog(url){frames=false;player.seekTo(position);player.prepare()}
+    }
 }

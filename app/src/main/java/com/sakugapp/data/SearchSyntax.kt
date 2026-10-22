@@ -4,6 +4,11 @@ package com.sakugapp.data
 /** The site's query language is sent intact. The builder adds tokens, never expands OR into AND. */
 object SearchSyntax {
     val orders = listOf("id", "id_desc", "score", "score_asc", "mpixels", "mpixels_asc", "landscape", "portrait", "vote", "random")
+    val scorePresets = listOf("score:>=3", "score:>=100")
+    fun score(query:String,preset:String):String {
+        require(preset in scorePresets)
+        return (tokens(query).filterNot{field(it)=="score"}+preset).joinToString(" ")
+    }
     fun tokens(query: String) = query.trim().split(Regex("\\s+")).filter(String::isNotBlank)
     fun field(token: String): String? = token.removePrefix("-").substringBefore(':', "").takeIf(String::isNotBlank)
     fun filters(query: String, order: String = "keep", rating: String = "keep"): String {

@@ -1,0 +1,58 @@
+// SPDX-License-Identifier: GPL-3.0-only
+package com.sakugapp.ui
+
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
+import com.sakugapp.data.*
+import kotlinx.coroutines.*
+
+@Composable fun VideoDownloadButton(post:Post) {
+    val resolver=LocalContext.current.contentResolver
+    val plan=remember(post.id,post.fileUrl){VideoDownloadPlan.from(post)}
+    val scope=rememberCoroutineScope()
+    var job by remember{mutableStateOf<Job?>(null)}
+    var busy by remember{mutableStateOf(false)}
+    var done by remember{mutableStateOf(false)}
+    var cancelled by remember{mutableStateOf(false)}
+    var error by remember{mutableStateOf<String?>(null)}
+    var bytes by remember{mutableLongStateOf(0L)}
+    var total by remember{mutableLongStateOf(-1L)}
+    val picker=rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument(plan.mime)){uri->
+        if(uri!=null) {
+            busy=true;done=false;cancelled=false;error=null;bytes=0;total=-1
+            job=scope.launch {
+                var updated=0L
+                try {
+                    VideoDownloader().download(plan,
+                        open={checkNotNull(resolver.openOutputStream(uri,"w"))},
+                        discard={android.provider.DocumentsContract.deleteDocument(resolver,uri)},
+                        progress={received,length->
+                            val now=System.nanoTime()
+                            if(now-updated>100_000_000L || received==length){updated=now;scope.launch{bytes=received;total=length}}
+                        })
+                    done=true
+                }catch(e:CancellationException){cancelled=true;throw e}
+                catch(e:Exception){error=e.message ?: "Video download failed. Please retry."}
+                finally{busy=false}
+            }
+        }
+    }
+    Column {
+        OutlinedButton(enabled=!busy,onClick={picker.launch(plan.filename)},modifier=Modifier.testTag("download-video")){Text(text("Download video","動画を保存"))}
+        if(busy) {
+            if(total>0)LinearProgressIndicator(progress={(bytes.toDouble()/total).toFloat().coerceIn(0f,1f)},modifier=Modifier.fillMaxWidth())else LinearProgressIndicator(Modifier.fillMaxWidth())
+            Text("${bytes/1024} KiB"+(if(total>0)" / ${total/1024} KiB"else""))
+            Text(text("Keep this page open while downloading.","保存中はこの画面を開いたままにしてください。"),style=MaterialTheme.typography.bodySmall)
+            TextButton(onClick={job?.cancel()}){Text(text("Cancel download","保存を中止"))}
+        }
+        if(done)Text(text("Video saved.","動画を保存しました。"),modifier=Modifier.testTag("download-complete"))
+        if(cancelled)Text(text("Download cancelled.","保存を中止しました。"))
+        error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error)}
+    }
+}

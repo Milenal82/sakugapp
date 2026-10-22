@@ -37,7 +37,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 class MainActivity:ComponentActivity(){
-    override fun onCreate(savedInstanceState:Bundle?){super.onCreate(savedInstanceState);enableEdgeToEdge();setContent{MaterialTheme(colorScheme=darkColorScheme(primary=Color(0xFFB9C3FF),background=Color(0xFF101114),surface=Color(0xFF191B22))){Sakugapp()}}}
+    override fun onCreate(savedInstanceState:Bundle?){super.onCreate(savedInstanceState);enableEdgeToEdge();setContent{Sakugapp()}}
 }
 
 @Composable
@@ -59,7 +59,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
         else data?.getStringExtra("query")?.let{search(it)}
     }
     val openSite:(String)->Unit={url->browser.launch(Intent(context,BrowserActivity::class.java).putExtra("url",url))}
-    CompositionLocalProvider(LocalLanguage provides settings.language){
+    SakugappTheme(settings.lightTheme){CompositionLocalProvider(LocalLanguage provides settings.language){
         if(about)AboutDialog{about=false}
         Scaffold(topBar={Column(Modifier.statusBarsPadding()){
             Row(Modifier.fillMaxWidth().padding(horizontal=8.dp),verticalAlignment=Alignment.CenterVertically){
@@ -84,11 +84,11 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                 val id=backStack.arguments?.getString("id")?.toLongOrNull()
                 LaunchedEffect(id){if(id!=null && selected?.id!=id)model.openId(id)}
                 val post=selected?.takeIf{it.id==id}
-                if(post!=null)PostDetail(post,settings,metered,app,::search,{nav.navigate("account")},{score->model.updateScore(post.id,score)})
+                if(post!=null)PostDetail(post,settings,metered,app,::search,openSite,{nav.navigate("account")},{score->model.updateScore(post.id,score)})
                 else Column(Modifier.padding(16.dp)){if(detailError==null)CircularProgressIndicator()else{Text(detailError.orEmpty(),color=MaterialTheme.colorScheme.error);TextButton(onClick={id?.let(model::openId)}){Text(text("Retry","再試行"))}}}
             }
         }}
-    }
+    }}
 }
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -181,13 +181,14 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
     else SubcomposeAsyncImage(model=url,contentDescription="Post ${post.id}",modifier=modifier,contentScale=if(!detail && settings.cropThumbnails)ContentScale.Crop else ContentScale.Fit,loading={Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surfaceVariant))},error={Text(text("Image failed to load","画像の読み込みに失敗"),Modifier.padding(8.dp))})
 }
 
-@Composable private fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,search:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit){
+@Composable private fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,search:(String)->Unit,wiki:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit){
     val uri=LocalUriHandler.current;var linkError by remember{mutableStateOf(false)}
     var seek by remember{mutableStateOf<Pair<Long,Int>?>(null)}
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(12.dp),verticalArrangement=Arrangement.spacedBy(12.dp)){
         Text("#${post.id}",style=MaterialTheme.typography.headlineMedium)
         if(post.isVideo)VideoPanel(post.fileUrl!!,settings,seekRequest=seek)
         else PostImage(post,Modifier.fillMaxWidth().height(320.dp),settings,metered,true)
+        if(post.isVideo)VideoDownloadButton(post)
         Text("Score: ${post.score?.toString() ?: "?"}")
         if(post.width!=null && post.height!=null)Text("${post.width} × ${post.height}")
         post.fileExt?.let{Text(it)};post.uploader?.let{Text(text("Uploader: ","投稿者：")+it)}
@@ -196,7 +197,7 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
         post.source?.let{Text(text("Source: ","出典：")+it)}
         OutlinedButton(onClick={linkError=runCatching{uri.openUri(post.pageUrl)}.isFailure}){Text(text("Open original post","元の投稿を開く"))}
         if(linkError)Text(text("No browser available.","ブラウザーがありません。"))
-        for(tag in post.tags)TextButton(onClick={search(tag.name)}){Text(tag.name,color=when(tag.category){TagCategory.COPYRIGHT->Color(0xFFFFD54F);TagCategory.ARTIST->Color(0xFFCE93D8);else->MaterialTheme.colorScheme.onSurfaceVariant})}
+        DetailTags(post.tags,settings.lightTheme,search,wiki)
         CommunityPanel(post,app,onScore,login){time->seek=time to ((seek?.second ?: 0)+1)}
     }
 }

@@ -50,12 +50,13 @@ class DeviceTests {
     @Test fun preferencesAndHistorySurviveNewStoreInstance()=runBlocking {
         val first=PreferencesStore(context)
         try {
-            first.language("zh-TW");first.flag("muted",false);first.remember("device_test_tag")
+            first.language("zh-TW");first.flag("muted",false);first.flag("lightTheme",true);first.remember("device_test_tag")
             val second=PreferencesStore(context)
             assertEquals("zh-TW",second.settings.first{it.language=="zh-TW"}.language)
             assertFalse(second.settings.first{!it.muted}.muted)
+            assertTrue(second.settings.first{it.lightTheme}.lightTheme)
             assertEquals("device_test_tag",second.history.first{it.isNotEmpty()}.first())
-        } finally {first.language("en");first.flag("muted",true);first.clearHistory()}
+        } finally {first.language("en");first.flag("muted",true);first.flag("lightTheme",false);first.clearHistory()}
     }
     @Test fun accountSessionIsEncryptedAndRestoredWithoutSavingPasswords() {
         val session=SecureSession(context)

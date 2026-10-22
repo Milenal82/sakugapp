@@ -32,6 +32,10 @@ import com.sakugapp.data.*
                 Text(text("Wildcard and mixed OR combinations have website limitations. Repeated fields cannot express multiple values; different fields can be combined.","ワイルドカード・OR混在にはサイト側の制限があります。同種フィールドの重複を避け、異なるフィールドを組み合わせてください。"))
             } else {
                 OutlinedTextField(expression,{expression=it},label={Text(text("Query","検索式"))},modifier=Modifier.fillMaxWidth().testTag("query-expression"),minLines=2)
+                Text(text("Score shortcuts","スコア条件"))
+                FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp)) {
+                    for(preset in SearchSyntax.scorePresets)FilterChip(selected=preset in SearchSyntax.tokens(expression),onClick={expression=SearchSyntax.score(expression,preset)},label={Text(preset)})
+                }
                 OutlinedTextField(name,{name=it},label={Text(text("Tag or field condition","タグ・フィールド条件"))},modifier=Modifier.fillMaxWidth(),singleLine=true)
                 FlowRow { for((value,label) in listOf("and" to text("AND · all tags","AND・すべて"),"or" to text("OR · ~tag","OR・~タグ"),"exclude" to text("Exclude · -tag","除外・-タグ"))) FilterChip(selected=mode==value,onClick={mode=value},label={Text(label)}) }
                 TextButton(enabled=name.isNotBlank() && name.none(Char::isWhitespace) && !name.startsWith('-') && !name.startsWith('~') && (mode!="or" || ':' !in name),onClick={expression=SearchSyntax.add(expression,name.trim(),mode);name=""}){Text(text("Add condition","条件を追加"))}

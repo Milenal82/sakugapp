@@ -4,6 +4,7 @@ package com.sakugapp.ui
 import android.content.Context
 import android.graphics.Color
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.graphics.get
 import coil.Coil
 import coil.request.ImageRequest
 import coil.request.SuccessResult
@@ -17,7 +18,7 @@ suspend fun averagePreviewColor(context:Context,urls:List<String>):Pair<String,I
         val result=Coil.imageLoader(context).execute(ImageRequest.Builder(context).data(url).allowHardware(false).size(32).build())
         if(result is SuccessResult){
             val bitmap=result.drawable.toBitmap(32,32)
-            for(y in 0 until bitmap.height)for(x in 0 until bitmap.width){val c=bitmap.getPixel(x,y);if(Color.alpha(c)>0){red+=Color.red(c);green+=Color.green(c);blue+=Color.blue(c);pixels++}}
+            for(y in 0 until bitmap.height)for(x in 0 until bitmap.width){val c=bitmap[x,y];if(Color.alpha(c)>0){red+=Color.red(c);green+=Color.green(c);blue+=Color.blue(c);pixels++}}
             loaded++
         }
     }

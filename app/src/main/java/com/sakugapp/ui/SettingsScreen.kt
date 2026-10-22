@@ -45,7 +45,8 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel) {
     var message by remember{mutableStateOf<String?>(null)}
     var clearing by remember{mutableStateOf(false)}
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
-        Text(text("Appearance · Dark theme","外観・ダークテーマ"),style=MaterialTheme.typography.titleLarge)
+        Text(text("Appearance","外観"),style=MaterialTheme.typography.titleLarge)
+        SettingSwitch(text("Light background","明るい背景"),settings.lightTheme){model.flag("lightTheme",it)}
         SettingSwitch(text("Crop rectangular thumbnails","長方形サムネイルを切り抜く"),settings.cropThumbnails){model.flag("crop",it)}
         SettingSwitch(text("Wrap tags","タグを折り返す"),settings.wrapTags){model.flag("wrap",it)}
         SettingSwitch(text("Copyright tags","作品タグ"),settings.showCopyright){model.flag("copyright",it)}

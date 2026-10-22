@@ -4,6 +4,10 @@ package com.sakugapp.data
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
 object UrlPolicy {
+    fun artistWiki(name:String):String {
+        require(name.isNotBlank())
+        return "https://www.sakugabooru.com/wiki/show".toHttpUrlOrNull()!!.newBuilder().addQueryParameter("title",name).build().toString()
+    }
     private val site=setOf("www.sakugabooru.com","sakugabooru.com")
     fun trusted(value:String):Boolean {
         val u=value.toHttpUrlOrNull() ?: return false

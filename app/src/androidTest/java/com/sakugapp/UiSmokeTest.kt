@@ -4,16 +4,23 @@ package com.sakugapp
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.graphics.toPixelMap
 import org.junit.*
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class UiSmokeTest {
     @get:Rule val ui=createAndroidComposeRule<MainActivity>()
+    private fun screenLuminance():Float {
+        val pixels=ui.onRoot().captureToImage().toPixelMap();var sum=0f;var count=0
+        for(y in 8 until pixels.height step 24)for(x in 8 until pixels.width step 24){sum+=pixels[x,y].luminance();count++}
+        return sum/count
+    }
     @Test fun launchSettingsLanguageAndAccountAreNativeAndUsable(){
         ui.onNodeWithText("Menu").assertIsDisplayed().performClick()
         ui.onNodeWithText("Settings").performClick()
-        ui.onNodeWithText("Appearance · Dark theme").assertIsDisplayed()
+        ui.onNodeWithText("Appearance").assertIsDisplayed()
         ui.onNodeWithText("Default mute").performScrollTo().assertIsDisplayed()
         ui.onNodeWithText("Menu").performClick();ui.onNodeWithText("Language").performClick()
         ui.onNodeWithText("日本語").performClick()
@@ -22,7 +29,7 @@ class UiSmokeTest {
         ui.onNodeWithText("繁體中文").performClick()
         ui.waitUntil(10000){ui.onAllNodesWithText("選單").fetchSemanticsNodes().isNotEmpty()}
         ui.onNodeWithText("選單").performClick();ui.onNodeWithText("設定").performClick()
-        ui.onNodeWithText("外觀 · 深色主題").assertIsDisplayed()
+        ui.onNodeWithText("外觀").assertIsDisplayed()
         ui.onNodeWithText("選單").performClick();ui.onNodeWithText("語言").performClick()
         ui.onNodeWithText("English").performClick()
         ui.waitUntil(10000){ui.onAllNodesWithText("Menu").fetchSemanticsNodes().isNotEmpty()}
@@ -30,6 +37,27 @@ class UiSmokeTest {
         ui.onNodeWithText("Username").assertIsDisplayed()
         ui.onNodeWithText("Password").assertIsDisplayed()
         ui.onNodeWithText("Log in").assertIsNotEnabled()
+    }
+    @Test fun lightBackgroundSwitchAppliesAndCanReturnToDark(){
+        ui.onNodeWithText("Menu").performClick();ui.onNodeWithText("Settings").performClick()
+        val switch=hasAnySibling(hasText("Light background")) and isToggleable()
+        ui.onNode(switch).assertIsOff().performClick()
+        ui.waitUntil(10000){ui.onAllNodes(switch and isOn()).fetchSemanticsNodes().isNotEmpty()}
+        org.junit.Assert.assertTrue("The rendered settings background is light",screenLuminance()>0.6f)
+        ui.activityRule.scenario.recreate()
+        ui.waitUntil(10000){ui.onAllNodesWithText("Light background").fetchSemanticsNodes().isNotEmpty()}
+        ui.onNode(switch).assertIsOn().performClick()
+        ui.waitUntil(10000){ui.onAllNodes(switch and isOff()).fetchSemanticsNodes().isNotEmpty()}
+        org.junit.Assert.assertTrue("The rendered settings background is dark",screenLuminance()<0.2f)
+    }
+    @Test fun scoreShortcutsReplaceOnlyTheScoreCondition(){
+        ui.onNode(hasSetTextAction()).performTextReplacement("~mokmok ~artist_unknown score:>1 -rating:questionable order:score")
+        ui.onNodeWithText("Filters").performClick()
+        ui.onNodeWithText("score:>=3",substring=false).performScrollTo().performClick()
+        ui.onNodeWithTag("query-expression").assertTextContains("~mokmok ~artist_unknown -rating:questionable order:score score:>=3")
+        ui.onNodeWithText("score:>=100",substring=false).performScrollTo().performClick()
+        ui.onNodeWithTag("query-expression").assertTextContains("~mokmok ~artist_unknown -rating:questionable order:score score:>=100")
+        ui.onNodeWithText("Cancel").performClick()
     }
     @Test fun searchDialogKeepsCombinedQueryAndDisplaysTheReference(){
         val query="~mokmok ~artist_unknown -genga -rating:questionable id:>=100 order:mpixels"
