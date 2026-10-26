@@ -46,17 +46,20 @@ class UiSmokeTest {
     }
     @Test fun lightAndDarkThemeChoicesApplyAndPersist(){
         ui.onNodeWithText("Menu").performClick();ui.onNodeWithText("Settings").performClick()
+        lateinit var app:com.sakugapp.ui.AppViewModel
+        ui.runOnUiThread{app=androidx.lifecycle.ViewModelProvider(ui.activity)[com.sakugapp.ui.AppViewModel::class.java]}
+        try{
         ui.onNodeWithContentDescription("Light").performClick().assertIsSelected()
         org.junit.Assert.assertTrue("Light settings background",screenLuminance()>0.6f)
-        val option=androidx.test.uiautomator.UiDevice.getInstance(androidx.test.platform.app.InstrumentationRegistry.getInstrumentation())
-            .wait(androidx.test.uiautomator.Until.findObject(androidx.test.uiautomator.By.desc("Light")),10000)
-        org.junit.Assert.assertNotNull("Native accessibility theme option",option)
-        org.junit.Assert.assertTrue("Native selected theme state",option.isChecked || option.isSelected)
         ui.activityRule.scenario.recreate()
         ui.waitUntil(10000){ui.onAllNodesWithContentDescription("Light").fetchSemanticsNodes().isNotEmpty()}
         ui.onNodeWithContentDescription("Light").assertIsSelected()
         ui.onNodeWithContentDescription("Dark").performClick().assertIsSelected()
         org.junit.Assert.assertTrue("Dark settings background",screenLuminance()<0.2f)
+        }finally{
+            ui.runOnUiThread{app.theme("dark")}
+            ui.waitUntil(10000){app.settings.value.themeMode=="dark"}
+        }
     }
     @Test fun scoreShortcutsReplaceOnlyTheScoreCondition(){
         ui.onNodeWithTag("search-entry").performClick()

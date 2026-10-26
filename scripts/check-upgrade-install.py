@@ -2,6 +2,7 @@
 """Real emulator upgrade: retain the published APK's settings/history, without uninstall or clear-data."""
 import json,os,pathlib,re,subprocess,sys,time,xml.etree.ElementTree as ET
 from release_common import metadata,verify_checksums
+from screenshot_pixels import edge_background
 old_dir,candidate_dir,out=map(pathlib.Path,sys.argv[1:4]);out.mkdir(parents=True,exist_ok=True)
 old_files=list(old_dir.glob('*.apk'));new_files=list(candidate_dir.glob('*.apk'))
 if len(old_files)!=1 or len(new_files)!=1:raise SystemExit('Exactly one previous and one candidate APK are required.')
@@ -52,6 +53,8 @@ def screenshot(name):
     with (out/name).open('wb') as output:subprocess.run(['adb','exec-out','screencap','-p'],stdout=output,check=True)
 def launch():run('adb','shell','am','start','-W','-n',package+'/.MainActivity')
 try:
+    night=run('adb','shell','cmd','uimode','night','yes')
+    assert 'yes' in night.lower(),'Cannot force a dark system theme for the upgrade check'
     assert 'Success' in run('adb','install',str(old))
     launch();wait_node(lambda n:n.get('text')=='Menu')
     tap(wait_node(lambda n:n.get('class')=='android.widget.EditText'))
@@ -67,7 +70,13 @@ try:
     run('adb','shell','am','force-stop',package)
     assert 'Success' in run('adb','install','-r',str(new))
     launch();tap_text('Menu');tap_text('Settings')
-    wait_node(lambda n:n.get('content-desc')=='Light' and (n.get('selected')=='true' or n.get('checked')=='true'))
+    wait_node(lambda n:n.get('content-desc')=='Light')
+    raw=subprocess.check_output(['adb','exec-out','screencap'])
+    pixels=edge_background(raw)
+    expected=(245,246,248) # AppTheme light background, distinct from the forced-dark system default.
+    matching=sum(max(abs(a-b) for a,b in zip(pixel,expected))<=3 for pixel in pixels)
+    assert matching>=len(pixels)*0.75,f'Legacy light theme was not rendered after upgrade: {pixels}'
+    print('Retained light background samples:',matching,'/',len(pixels),'with system night mode forced on')
     settings_switch('Wrap tags','false')
     screenshot('after-upgrade-settings.png')
     tap_text('Menu');tap_text('Posts')
@@ -75,7 +84,7 @@ try:
     tap_text('History')
     wait_node(lambda n:n.get('text')=='id:319947' and n.get('class')!='android.widget.EditText')
     screenshot('after-upgrade-history.png')
-    result={'previous':previous,'candidate':current,'retained_light_theme':True,'retained_wrap_tags':True,'retained_search_history':True,'uninstall_or_clear_data':False,'result':'passed'}
+    result={'previous':previous,'candidate':current,'retained_light_theme':True,'system_night_mode':'yes','theme_verification':'actual rendered background pixels','retained_wrap_tags':True,'retained_search_history':True,'uninstall_or_clear_data':False,'result':'passed'}
     (out/'upgrade-install.json').write_text(json.dumps(result,indent=2)+'\n')
     print('Public upgrade verification:',json.dumps(result,sort_keys=True))
     print('Published APK -> signed candidate upgrade succeeded; settings and search history retained.')

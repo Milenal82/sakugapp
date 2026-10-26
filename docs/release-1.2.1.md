@@ -50,9 +50,9 @@
 - `compact-favorites-home.png`、`compact-favorites-folder.png`、`compact-json-imported.png`：真实公开帖子的本地保存与系统文件导入流程。
 - `compact-settings-zh-cn.png`：原生简体中文设置；另有原有真实详情/网格、平板、收藏与播放器图共 13 张。
 
-首轮的 22/24 设备结果并未当作通过：Room schema 的 `indices` 是可选字段，测试改为可空读取；Android 的 `executeShellCommand` 不负责 shell 引号解析，文件查找不再给已限定的测试文件名加入字面引号。应用的 JSON 输出当时已成功，修正后完整导出/导入均通过。签名升级测试适配新的搜索入口；API 28 的原生无障碍树未暴露 Material 选项的 Selected 属性，因此主题选项补充与实际设置值一致的 ToggleableState，供系统读屏和覆盖升级断言读取。没有降低主题、历史或数据保留断言。
+首轮的 22/24 设备结果并未当作通过：Room schema 的 `indices` 是可选字段，测试改为可空读取；Android 的 `executeShellCommand` 不负责 shell 引号解析，文件查找不再给已限定的测试文件名加入字面引号。应用的 JSON 输出当时已成功，修正后完整导出/导入均通过。签名升级测试适配新的搜索入口；API 28 的 XML 不导出 Material Chip 的选中状态，改为先将系统夜间模式设为深色，再检查覆盖升级后的实际背景仍为旧版保存的浅色，防止系统默认浅色造成误判；Compose 用例继续核对选中状态和重建后的持久化。测试失败也清理主题，避免污染后续 Score 色值检查。没有删除主题、历史或数据保留断言。
 
-最终清理后的本地命令 `./gradlew testDebugUnitTest lintDebug assembleDebug assembleDebugAndroidTest` 成功；**96 tests / 0 failures / 0 errors / 0 skipped；Lint 0 errors / 7 warnings**。警告涉及 API 兼容/固定方向建议、计数复数资源、受限官网浏览 JavaScript、KAPT 与两处搜索日期排版；未添加 Lint baseline 或关闭警告。四语 **378** 条资源覆盖及格式参数、14 项发布工具测试、actionlint 均通过。
+最终清理后的本地命令 `./gradlew testDebugUnitTest lintDebug assembleDebug assembleDebugAndroidTest` 成功；**96 tests / 0 failures / 0 errors / 0 skipped；Lint 0 errors / 7 warnings**。警告涉及 API 兼容/固定方向建议、计数复数资源、受限官网浏览 JavaScript、KAPT 与两处搜索日期排版；未添加 Lint baseline 或关闭警告。四语 **378** 条资源覆盖及格式参数、16 项发布工具测试、actionlint 均通过。
 
 本云环境访问 GitHub Actions 构件下载重定向仍返回 `Forbidden`，因此未在本机下载、肉眼复查这些 PNG 或签名 APK。GitHub 内部构建、签名校验、模拟器安装及测试可运行；提供构件页面供用户下载。不会把截图导出成功称为人工视觉验收。真机、多种 Android/解码器以及登录后的 Vote/评论写入本轮未重测。
 

@@ -24,6 +24,8 @@ class PublicPaginationTest {
         lateinit var feed:FeedViewModel;lateinit var app:AppViewModel
         ui.runOnUiThread{feed=ViewModelProvider(ui.activity)[FeedViewModel::class.java];app=ViewModelProvider(ui.activity)[AppViewModel::class.java]}
         try {
+            ui.runOnUiThread{app.theme("dark")}
+            ui.waitUntil(10000){app.settings.value.themeMode=="dark"}
             device.executeShellCommand("wm size 720x1280");device.executeShellCommand("wm density 320")
             ui.waitUntil(20000){ui.activity.resources.configuration.screenWidthDp in 340..380}
             ui.waitUntil(90000){feed.state.value.posts.size>=60 && !feed.state.value.loading}
