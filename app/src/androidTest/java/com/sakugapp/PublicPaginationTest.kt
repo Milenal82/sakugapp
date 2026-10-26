@@ -4,6 +4,7 @@ package com.sakugapp
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.semantics.SemanticsActions
+import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.lifecycle.ViewModelProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -62,9 +63,17 @@ class PublicPaginationTest {
             ui.onNodeWithText("History",substring=false).performClick()
             ui.onNodeWithTag("search-history").assertDoesNotExist()
             ui.onNodeWithTag("post-grid").performScrollToIndex(32)
-            // Choose a fully visible row beneath the expanded chrome, not the covered top row.
-            val anchor=feed.state.value.posts[44]
-            ui.onNodeWithContentDescription("Post ${anchor.id}").performClick()
+            // Pick a real, fully visible thumbnail below the overlay rather than assuming row heights.
+            fun visibleThumbnails():List<androidx.compose.ui.semantics.SemanticsNode>{
+                val divider=ui.onNodeWithTag("search-divider").fetchSemanticsNode().boundsInRoot.bottom
+                val bottom=ui.onNodeWithTag("post-grid").fetchSemanticsNode().boundsInRoot.bottom
+                return ui.onAllNodesWithContentDescription("Post ",substring=true).fetchSemanticsNodes()
+                    .filter{it.boundsInRoot.top>divider && it.boundsInRoot.bottom<bottom}
+            }
+            ui.waitUntil(30000){visibleThumbnails().isNotEmpty()}
+            val description=visibleThumbnails().first().config[SemanticsProperties.ContentDescription].first{it.startsWith("Post ")}
+            val anchor=feed.state.value.posts.first{it.id==description.substringAfter(' ').toLong()}
+            ui.onNodeWithContentDescription(description).performClick()
             ui.onNodeWithText("#${anchor.id}").performScrollTo().assertIsDisplayed()
             device.pressBack()
             ui.onNodeWithContentDescription("Post ${anchor.id}").assertExists()

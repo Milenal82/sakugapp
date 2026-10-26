@@ -6,7 +6,7 @@
 
 ## 简体中文
 
-本轮在已发布 1.0.0 上增量开发 **1.1.0 / versionCode 7**，分支 `feature/browsing-search-zh-cn`；包名和正式签名配置不变，不覆盖已有 Release。九项升级、兼容性、实际测试与限制见 [升级记录](docs/release-1.1.0.md)，[接口验证](docs/evidence/browse-upgrade-2026-10-26.json)。
+本轮在已发布 1.0.0 上增量开发 **1.1.0 / versionCode 7**，分支 `feature/browsing-search-zh-cn`；包名和正式签名配置不变，不覆盖已有 Release。九项升级、兼容性、实际测试与限制见 [升级记录](docs/release-1.1.0.md)，[实际文件清单](docs/changed-files-1.1.0.md)，[当前 PR 检查](https://github.com/Milenal82/sakugapp/pull/1/checks)，[接口验证](docs/evidence/browse-upgrade-2026-10-26.json)。
 
 新增每批 60 条和预加载、搜索区滚动收放、红色 Score、紧凑详情、简体中文、全屏旋转、1–4 列、统一的 50 条历史和带真实分类的标签联想。系统简体中文默认显示简体中文，其他系统语言默认英文；原有手动语言选择保留。所有界面文案使用 Android 资源，不自动翻译网站标签、作品、姓名或评论。
 

@@ -158,7 +158,10 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
         if(settings.autoPreview && allowedPreview && !grid.isScrollInProgress && active==null)active=state.posts.firstOrNull{it.id in visible && it.isVideo}?.id
     }
     fun submit(value:String){focus.clearFocus();active=null;historyOpen=false;chromeVisible=true;search(value)}
-    fun complete(name:String){val edit=SearchEditing.complete(query.text,query.selection.start,name);query=TextFieldValue(edit.text,TextRange(edit.cursor))}
+    fun complete(name:String){
+        if(!query.selection.collapsed || query.composition!=null)return
+        val edit=SearchEditing.complete(query.text,query.selection.start,name);query=TextFieldValue(edit.text,TextRange(edit.cursor))
+    }
     Box(Modifier.fillMaxSize().clipToBounds()){
         LazyVerticalGrid(columns=GridCells.Fixed(settings.columns),state=grid,
             modifier=Modifier.fillMaxSize().nestedScroll(connection).testTag("post-grid"),

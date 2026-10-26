@@ -33,7 +33,7 @@ class PlayerRotationDeviceTest {
         fun awaitStage(name:String,timeout:Long,condition:()->Boolean){
             println("Rotation stage: $name")
             try{ui.waitUntil(timeout){condition()}}
-            catch(failure:Exception){
+            catch(failure:Throwable){
                 var diagnostic=""
                 ui.runOnUiThread{diagnostic="stage=$name state=${player?.playbackState} error=${player?.playerError?.errorCodeName} orientation=${ui.activity.resources.configuration.orientation} requested=${ui.activity.requestedOrientation} instances=${instances.get()}"}
                 throw AssertionError("Rotation stage failed: $diagnostic",failure)
@@ -59,6 +59,12 @@ class PlayerRotationDeviceTest {
             awaitStage("restore portrait",15000){ui.activity.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT}
             ui.onNodeWithText("Full screen",substring=false).assertExists()
             assertSame(activity,ui.activity);assertEquals(1,instances.get())
+            ui.runOnUiThread{
+                assertFalse(player!!.playWhenReady)
+                assertEquals(1.5f,player!!.playbackParameters.speed,0.001f)
+                assertEquals(Player.REPEAT_MODE_ONE,player!!.repeatMode);assertEquals(0f,player!!.volume,0.001f)
+                assertTrue(kotlin.math.abs(player!!.currentPosition-400)<=100)
+            }
         }finally{device.executeShellCommand("settings put system accelerometer_rotation ${oldLock.toIntOrNull() ?: 1}");file.delete()}
     }
 }

@@ -12,11 +12,14 @@ object SearchEditing {
     }
     fun prefix(text:String,cursor:Int):String? {
         val range=bounds(text,cursor)
+        val token=text.substring(range.first,range.last+1)
+        if(':' in token || '*' in token)return null
         return text.substring(range.first,cursor).removePrefix("-").removePrefix("~")
             .takeIf{it.length in 2..100 && it.none{c->c==':' || c=='*'}}
     }
     fun complete(text:String,cursor:Int,name:String):SearchEdit {
         require(name.isNotBlank() && name.none(Char::isWhitespace) && !name.startsWith('-') && !name.startsWith('~'))
+        if(prefix(text,cursor)==null)return SearchEdit(text,cursor)
         val range=bounds(text,cursor);val end=range.last+1
         val token=text.substring(range.first,end)
         val operator=token.firstOrNull()?.takeIf{it=='-' || it=='~'}?.toString().orEmpty()

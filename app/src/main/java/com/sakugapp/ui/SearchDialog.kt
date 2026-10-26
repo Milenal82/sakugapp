@@ -28,7 +28,10 @@ import com.sakugapp.data.*
     var nameFocused by remember{mutableStateOf(false)}
     val expressionSuggestions=rememberSuggestions(expression,expressionFocused,source)
     val nameSuggestions=rememberSuggestions(name,nameFocused,source)
-    fun complete(value:TextFieldValue,tag:String):TextFieldValue {val edit=SearchEditing.complete(value.text,value.selection.start,tag);return TextFieldValue(edit.text,TextRange(edit.cursor))}
+    fun complete(value:TextFieldValue,tag:String):TextFieldValue {
+        if(value.composition!=null || !value.selection.collapsed)return value
+        val edit=SearchEditing.complete(value.text,value.selection.start,tag);return TextFieldValue(edit.text,TextRange(edit.cursor))
+    }
     val finalQuery=SearchSyntax.filters(expression.text,order,rating)
     AlertDialog(onDismissRequest=close,title={Text(text(R.string.ui_search_tools))},text={
         Column(Modifier.heightIn(max=500.dp).verticalScroll(rememberScrollState()),verticalArrangement=Arrangement.spacedBy(8.dp)) {

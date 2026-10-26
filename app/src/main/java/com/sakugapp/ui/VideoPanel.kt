@@ -60,6 +60,15 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
     var speedMenu by remember{mutableStateOf(false)}
     val activity=LocalActivity.current
     val orientation=LocalConfiguration.current.orientation
+    var normalOrientation by rememberSaveable(url){mutableIntStateOf(activity?.requestedOrientation ?: ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)}
+    fun exitFullscreen(){
+        activity?.requestedOrientation=normalOrientation
+        fullscreen=false
+    }
+    fun enterFullscreen(){
+        normalOrientation=activity?.requestedOrientation ?: ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        fullscreen=true
+    }
     val player=remember(url){ExoPlayer.Builder(context.applicationContext).build().apply{
         setMediaItem(MediaItem.fromUri(url));seekTo(position);prepare();playWhenReady=preview
     }}
@@ -77,11 +86,10 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
     }
     LaunchedEffect(muted,loop,speed,volume){player.volume=if(muted)0f else volume;player.repeatMode=if(loop)Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF;player.setPlaybackSpeed(speed)}
     LaunchedEffect(seekRequest){seekRequest?.let{player.seekTo(it.first)}}
-    BackHandler(fullscreen){fullscreen=false}
+    BackHandler(fullscreen){exitFullscreen()}
     DisposableEffect(fullscreen,activity){
-        val previous=activity?.requestedOrientation
         if(fullscreen)activity?.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_FULL_USER
-        onDispose{if(fullscreen && previous!=null)activity?.requestedOrientation=previous}
+        onDispose{if(fullscreen)activity?.requestedOrientation=normalOrientation}
     }
     fun openFrames(){position=player.currentPosition;player.pause();player.stop();frames=true}
     val content: @Composable (Modifier) -> Unit = { modifier ->
@@ -104,7 +112,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                 FlowRow(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.spacedBy(4.dp)){
                     TextButton(onClick={muted=!muted}){Text(if(muted)text(R.string.ui_unmute)else text(R.string.ui_mute))}
                     TextButton(onClick={loop=!loop}){Text(if(loop)text(R.string.ui_loop_on)else text(R.string.ui_loop_off))}
-                    TextButton(onClick={fullscreen=!fullscreen}){Text(if(fullscreen)text(R.string.ui_exit_full_screen)else text(R.string.ui_full_screen))}
+                    TextButton(onClick={if(fullscreen)exitFullscreen()else enterFullscreen()}){Text(if(fullscreen)text(R.string.ui_exit_full_screen)else text(R.string.ui_full_screen))}
                     if(fullscreen){
                         TextButton(onClick={activity?.requestedOrientation=if(orientation==Configuration.ORIENTATION_LANDSCAPE)ActivityInfo.SCREEN_ORIENTATION_PORTRAIT else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE},modifier=Modifier.testTag("rotate-video")){Text(text(R.string.ui_rotate_screen))}
                         TextButton(onClick={activity?.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_FULL_USER}){Text(text(R.string.ui_follow_rotation_lock))}
@@ -132,13 +140,21 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
         }
     }
     androidx.compose.material3.MaterialTheme(colorScheme=appColors(false)){
-    if(fullscreen){Dialog(onDismissRequest={fullscreen=false},properties=DialogProperties(usePlatformDefaultWidth=false,decorFitsSystemWindows=false)){
+    if(fullscreen){Dialog(onDismissRequest={exitFullscreen()},properties=DialogProperties(usePlatformDefaultWidth=false,decorFitsSystemWindows=false)){
+        BackHandler{exitFullscreen()}
         val window=(LocalView.current.parent as? DialogWindowProvider)?.window
         DisposableEffect(window){
+            val dialog=window?.callback as? android.app.Dialog
+            dialog?.setOnKeyListener{_,code,event->
+                if(code==KeyEvent.KEYCODE_BACK){
+                    if(event.action==KeyEvent.ACTION_UP && !event.isCanceled)exitFullscreen()
+                    true
+                }else false
+            }
             val controller=window?.let{WindowCompat.getInsetsController(it,it.decorView)}
             controller?.systemBarsBehavior=WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
             controller?.hide(WindowInsetsCompat.Type.systemBars())
-            onDispose{controller?.show(WindowInsetsCompat.Type.systemBars())}
+            onDispose{dialog?.setOnKeyListener(null);controller?.show(WindowInsetsCompat.Type.systemBars())}
         }
         content(Modifier.fillMaxSize().displayCutoutPadding())
     };Text(text(R.string.ui_video_is_in_full_screen))}

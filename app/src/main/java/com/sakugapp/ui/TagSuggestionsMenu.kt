@@ -18,21 +18,23 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 
 internal data class SuggestionState(val active:Boolean=false,val loading:Boolean=false,
-    val values:List<TagSuggestion> = emptyList(),val error:String?=null)
+    val values:List<TagSuggestion> = emptyList(),val error:String?=null,val prefix:String?=null)
 
 @Composable internal fun rememberSuggestions(value:TextFieldValue,focused:Boolean,source:SuggestionSource):SuggestionState {
     val context=LocalContext.current
     var state by remember{mutableStateOf(SuggestionState())}
+    val currentPrefix=SearchEditing.prefix(value.text,value.selection.start)
+    val valid=focused && value.composition==null && value.selection.collapsed && currentPrefix!=null
     LaunchedEffect(value.text,value.selection,value.composition,focused,source){
         val prefix=SearchEditing.prefix(value.text,value.selection.start)
         if(!focused || value.composition!=null || !value.selection.collapsed || prefix==null){state=SuggestionState();return@LaunchedEffect}
-        state=SuggestionState(active=true,loading=true)
+        state=SuggestionState(active=true,loading=true,prefix=prefix)
         delay(300)
-        try{state=SuggestionState(active=true,values=source.suggestions(prefix))}
+        try{state=SuggestionState(active=true,values=source.suggestions(prefix),prefix=prefix)}
         catch(e:CancellationException){throw e}
-        catch(e:Exception){state=SuggestionState(active=true,error=e.message ?: context.getString(R.string.ui_unable_to_load_tag_suggestions))}
+        catch(e:Exception){state=SuggestionState(active=true,error=e.message ?: context.getString(R.string.ui_unable_to_load_tag_suggestions),prefix=prefix)}
     }
-    return state
+    return if(!valid)SuggestionState()else if(state.prefix==currentPrefix)state else SuggestionState(active=true,loading=true,prefix=currentPrefix)
 }
 
 @Composable internal fun TagSuggestionsMenu(state:SuggestionState,light:Boolean,select:(String)->Unit){

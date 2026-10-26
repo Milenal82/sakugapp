@@ -23,6 +23,8 @@ class BrowsingUpgradeTest {
         assertEquals("first -gundam last rating:safe",SearchEditing.complete(middle,10,"gundam").text)
         assertEquals("mokmok ",SearchEditing.complete("mok",3,"mokmok").text)
         assertNull(SearchEditing.prefix("source:https://site.com",22))
+        assertNull(SearchEditing.prefix("source:https://site.com",2))
+        assertEquals("source:https://site.com",SearchEditing.complete("source:https://site.com",2,"sakura").text)
         assertNull(SearchEditing.prefix("tag*",4))
         assertEquals("gu",SearchEditing.prefix("a ~gund b",5))
     }
