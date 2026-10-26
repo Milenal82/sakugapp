@@ -55,6 +55,11 @@ def screenshot(name):
     with (out/name).open('wb') as output:subprocess.run(['adb','exec-out','screencap','-p'],stdout=output,check=True)
 def launch():run('adb','shell','am','start','-W','-n',package+'/.MainActivity')
 try:
+    run('adb','shell','svc','power','stayon','true')
+    run('adb','shell','input','keyevent','224')
+    run('adb','shell','wm','dismiss-keyguard')
+    power=run('adb','shell','dumpsys','power')
+    assert 'mWakefulness=Awake' in power,'Test device must be awake'
     night=run('adb','shell','cmd','uimode','night','yes')
     assert 'yes' in night.lower(),'Cannot force a dark system theme for the upgrade check'
     assert 'Success' in run('adb','install',str(old))
@@ -100,6 +105,7 @@ try:
     print('Public upgrade verification:',json.dumps(result,sort_keys=True))
     print('Published APK -> signed candidate upgrade succeeded; settings and search history retained.')
 except Exception:
+    print('Power state:',[line.strip() for line in run('adb','shell','dumpsys','power').splitlines() if any(key in line for key in ['mWakefulness=','mInteractive=','Display Power:'])])
     print('Focused windows:',[line.strip() for line in run('adb','shell','dumpsys','window','windows').splitlines() if 'mCurrentFocus' in line or 'mFocusedApp' in line])
     print('Search nodes:',[n.attrib for n in hierarchy().iter('node') if any(label in (n.get('text','')+' '+n.get('content-desc','')+' '+n.get('resource-id','')) for label in ['Search','History','search-'])])
     print('Theme options:',[n.attrib for n in hierarchy().iter('node') if n.get('content-desc') in ['Light','Dark','Follow system theme']])
