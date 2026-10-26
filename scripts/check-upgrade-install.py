@@ -85,9 +85,9 @@ try:
     # Dropdown/NavHost exit animations can still consume a first physical tap.
     # Synchronize with the real focused field, never infer expansion from a click.
     for attempt in range(3):
-        tap(wait_node(lambda n:n.get('content-desc')=='Search'))
+        tap(wait_node(lambda n:n.get('resource-id')=='search-entry'))
         try:
-            wait_node(lambda n:n.get('package')==package and n.get('class')=='android.widget.EditText' and n.get('focused')=='true',timeout=5)
+            wait_node(lambda n:n.get('package')==package and n.get('resource-id')=='search-input' and n.get('focused')=='true',timeout=5)
             print('Native search field focused after tap attempt',attempt+1)
             break
         except AssertionError:
@@ -101,7 +101,7 @@ try:
     print('Published APK -> signed candidate upgrade succeeded; settings and search history retained.')
 except Exception:
     print('Focused windows:',[line.strip() for line in run('adb','shell','dumpsys','window','windows').splitlines() if 'mCurrentFocus' in line or 'mFocusedApp' in line])
-    print('Search nodes:',[n.attrib for n in hierarchy().iter('node') if any(label in (n.get('text','')+' '+n.get('content-desc','')) for label in ['Search','History'])])
+    print('Search nodes:',[n.attrib for n in hierarchy().iter('node') if any(label in (n.get('text','')+' '+n.get('content-desc','')+' '+n.get('resource-id','')) for label in ['Search','History','search-'])])
     print('Theme options:',[n.attrib for n in hierarchy().iter('node') if n.get('content-desc') in ['Light','Dark','Follow system theme']])
     screenshot('failure.png')
     (out/'failure-ui.xml').write_text(ET.tostring(hierarchy(),encoding='unicode'))

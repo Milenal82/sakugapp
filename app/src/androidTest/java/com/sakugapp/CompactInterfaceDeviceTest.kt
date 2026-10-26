@@ -38,7 +38,7 @@ class CompactInterfaceDeviceTest {
         ui.onNodeWithText("Menu",substring=false).performClick();ui.onNodeWithText("Settings",substring=false).performClick()
         ui.onNodeWithText("Menu",substring=false).performClick();ui.onNodeWithText("Posts",substring=false).performClick()
         val nativeDevice=UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-        val nativeEntry=nativeDevice.wait(androidx.test.uiautomator.Until.findObject(androidx.test.uiautomator.By.desc("Search")),10000)
+        val nativeEntry=nativeDevice.wait(androidx.test.uiautomator.Until.findObject(androidx.test.uiautomator.By.res("search-entry")),10000)
         assertNotNull("Native search entry",nativeEntry)
         println("Native search bounds=${nativeEntry.visibleBounds}, Compose bounds=${ui.onNodeWithTag("search-entry").fetchSemanticsNode().boundsInRoot}")
         assertTrue("Native search button is clickable",nativeEntry.isClickable)

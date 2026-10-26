@@ -19,6 +19,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.Alignment
@@ -70,6 +71,7 @@ class MainActivity:AppCompatActivity(),VideoOrientationHost{
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel()) {
     val savedSettings by app.settings.collectAsStateWithLifecycle()
@@ -113,7 +115,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                     DropdownMenuItem(text={Text(text(R.string.ui_about_and_licenses))},onClick={menu=false;about=true})
                 }}
             }
-        }}){insets->NavHost(navController=nav,startDestination="posts",modifier=Modifier.padding(insets)){
+        }}){insets->NavHost(navController=nav,startDestination="posts",modifier=Modifier.padding(insets).semantics{testTagsAsResourceId=true}){
             composable("posts"){PostsScreen(feed,grid,settings,history,metered,app,::search,{post->model.open(post);nav.navigate("post/${post.id}")},model::loadMore)}
             composable("library"){LibraryScreen(app,::search){post,order->model.openLocal(post,order);nav.navigate("post/${post.id}")}}
             composable("account"){AccountScreen(app,openSite)}
