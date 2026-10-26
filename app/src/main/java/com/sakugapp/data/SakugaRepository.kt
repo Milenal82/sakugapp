@@ -19,6 +19,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 interface PostRepository {
+    val pageSize: Int get() = SakugaRepository.PAGE_SIZE
     suspend fun page(query: String, page: Int): PostPage
 }
 
@@ -26,15 +27,17 @@ class SakugaRepository(
     private val baseUrl: HttpUrl = "https://www.sakugabooru.com/".toHttpUrl(),
     private val client: OkHttpClient = OkHttpClient.Builder()
         .callTimeout(30, TimeUnit.SECONDS).retryOnConnectionFailure(false).build(),
+    override val pageSize: Int = PAGE_SIZE,
 ) : PostRepository {
-    companion object { const val PAGE_SIZE = 20 }
+    companion object { const val PAGE_SIZE = 60 }
+    init { require(pageSize in 1..100) }
     private var categories: Map<String, TagCategory>? = null
     private val categoryMutex = Mutex()
 
     override suspend fun page(query: String, page: Int): PostPage {
         require(page > 0)
         val url = baseUrl.newBuilder().addPathSegment("post.json")
-            .addQueryParameter("limit", PAGE_SIZE.toString()).addQueryParameter("page", page.toString())
+            .addQueryParameter("limit", pageSize.toString()).addQueryParameter("page", page.toString())
             .addQueryParameter("tags", query).build()
         // Validate posts before making the optional classification request.
         val posts = PostParser.posts(get(url))
@@ -55,7 +58,9 @@ class SakugaRepository(
         }) }, posts.size, warning, types)
     }
 
-    private suspend fun get(url: HttpUrl): String = suspendCancellableCoroutine { continuation ->
+    private suspend fun get(url: HttpUrl): String {
+        PublicReadThrottle.awaitTurn()
+        return suspendCancellableCoroutine { continuation ->
         val request = Request.Builder().url(url).header("Accept", "application/json")
             .header("User-Agent", "Sakugapp/${BuildConfig.VERSION_NAME} (+https://github.com/Milenal82/sakugapp)").build()
         val call = client.newCall(request)
@@ -82,5 +87,6 @@ class SakugaRepository(
                 }
             }
         })
+        }
     }
 }

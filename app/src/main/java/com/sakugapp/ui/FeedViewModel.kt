@@ -61,7 +61,7 @@ class FeedViewModel @JvmOverloads constructor(
         request = viewModelScope.launch {
             try {
                 val page = repository.page(current.query, current.nextPage)
-                if (version == generation) _state.value = _state.value.append(page, SakugaRepository.PAGE_SIZE)
+                if (version == generation) _state.value = _state.value.append(page, repository.pageSize)
             } catch (e: CancellationException) { throw e }
             catch (e: Exception) {
                 if (version == generation) _state.value = _state.value.copy(

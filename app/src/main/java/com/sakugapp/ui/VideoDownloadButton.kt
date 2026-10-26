@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-only
 package com.sakugapp.ui
 
+import com.sakugapp.R
+
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
@@ -13,7 +15,8 @@ import com.sakugapp.data.*
 import kotlinx.coroutines.*
 
 @Composable fun VideoDownloadButton(post:Post) {
-    val resolver=LocalContext.current.contentResolver
+    val context=LocalContext.current
+    val resolver=context.contentResolver
     val plan=remember(post.id,post.fileUrl){VideoDownloadPlan.from(post)}
     val scope=rememberCoroutineScope()
     var job by remember{mutableStateOf<Job?>(null)}
@@ -38,21 +41,21 @@ import kotlinx.coroutines.*
                         })
                     done=true
                 }catch(e:CancellationException){cancelled=true;throw e}
-                catch(e:Exception){error=e.message ?: "Video download failed. Please retry."}
+                catch(e:Exception){error=e.message ?: context.getString(R.string.ui_video_download_failed_please_retry)}
                 finally{busy=false}
             }
         }
     }
     Column {
-        OutlinedButton(enabled=!busy,onClick={picker.launch(plan.filename)},modifier=Modifier.testTag("download-video")){Text(text("Download video","動画を保存"))}
+        OutlinedButton(enabled=!busy,onClick={picker.launch(plan.filename)},modifier=Modifier.testTag("download-video")){Text(text(R.string.ui_download_video))}
         if(busy) {
             if(total>0)LinearProgressIndicator(progress={(bytes.toDouble()/total).toFloat().coerceIn(0f,1f)},modifier=Modifier.fillMaxWidth())else LinearProgressIndicator(Modifier.fillMaxWidth())
-            Text("${bytes/1024} KiB"+(if(total>0)" / ${total/1024} KiB"else""))
-            Text(text("Keep this page open while downloading.","保存中はこの画面を開いたままにしてください。"),style=MaterialTheme.typography.bodySmall)
-            TextButton(onClick={job?.cancel()}){Text(text("Cancel download","保存を中止"))}
+            Text(if(total>0)text(R.string.ui_download_total,bytes/1024,total/1024)else text(R.string.ui_download_bytes,bytes/1024))
+            Text(text(R.string.ui_keep_this_page_open_while_downloading),style=MaterialTheme.typography.bodySmall)
+            TextButton(onClick={job?.cancel()}){Text(text(R.string.ui_cancel_download))}
         }
-        if(done)Text(text("Video saved.","動画を保存しました。"),modifier=Modifier.testTag("download-complete"))
-        if(cancelled)Text(text("Download cancelled.","保存を中止しました。"))
+        if(done)Text(text(R.string.ui_video_saved),modifier=Modifier.testTag("download-complete"))
+        if(cancelled)Text(text(R.string.ui_download_cancelled))
         error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error)}
     }
 }

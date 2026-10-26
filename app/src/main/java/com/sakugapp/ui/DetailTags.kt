@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-only
 package com.sakugapp.ui
 
+import com.sakugapp.R
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -19,7 +21,7 @@ import com.sakugapp.data.*
             Surface(shape=MaterialTheme.shapes.small,border=BorderStroke(1.dp,color.copy(alpha=0.65f)),modifier=Modifier.testTag("detail-tag-${tag.name}")) {
                 Row {
                     if(tag.category==TagCategory.ARTIST) {
-                        val description=text("Artist wiki: ","アーティストWiki：")+tag.name
+                        val description=text(R.string.ui_artist_wiki)+tag.name
                         TextButton(onClick={wiki(UrlPolicy.artistWiki(tag.name))},modifier=Modifier.testTag("artist-wiki-${tag.name}").semantics{contentDescription=description}){Text("?",color=color)}
                         VerticalDivider(Modifier.height(40.dp),color=color.copy(alpha=0.35f))
                     }

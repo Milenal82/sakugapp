@@ -16,7 +16,7 @@ class FeedViewModelTest {
     private val dispatcher = StandardTestDispatcher()
     @Before fun setup() { Dispatchers.setMain(dispatcher) }
     @After fun cleanup() { Dispatchers.resetMain() }
-    private fun page(id: Long) = PostPage(PostParser.posts("""[{"id":$id}]"""), 20)
+    private fun page(id: Long) = PostPage(PostParser.posts("""[{"id":$id}]"""), SakugaRepository.PAGE_SIZE)
     @Test fun failedAppendKeepsPostsAndRetriesTheSamePage() = runTest(dispatcher) {
         var failSecond = true
         val requests = mutableListOf<Int>()

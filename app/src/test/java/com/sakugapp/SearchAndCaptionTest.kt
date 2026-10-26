@@ -29,15 +29,14 @@ class SearchAndCaptionTest {
         assertEquals(4,state.nextPage);assertEquals(-4,state.posts.single().score)
         assertEquals(TagCategory.ARTIST,state.posts.single().tags.single().category)
     }
-    @Test fun captionContainsOnlyVerifiedColoredNamesAndActualScoreWithSpaces() {
+    @Test fun captionIncludesOnlyVerifiedCategoriesAndBoundsDenseGrids() {
         val types=PostParser.tagSummary(javaClass.getResource("/live/tags.json")!!.readText())
         val post=PostParser.posts(javaClass.getResource("/live/posts.json")!!.readText(),types).first()
-        val caption=postCaption(post,AppSettings())
-        assertEquals("jujutsu_kaisen_season_3 jujutsu_kaisen_series mokmok Score 33",caption.text)
-        assertEquals(listOf(Color(0xFFFFD54F),Color(0xFFFFD54F),Color(0xFFCE93D8)),caption.spanStyles.map{it.item.color})
-        assertEquals(listOf("jujutsu_kaisen_season_3","jujutsu_kaisen_series","mokmok"),caption.getStringAnnotations("tag",0,caption.length).map{it.item})
-        assertEquals("jujutsu_kaisen_season_3 jujutsu_kaisen_series mokmok Score ?",postCaption(post.copy(score=null),AppSettings()).text)
-        assertEquals("Score 0",postCaption(post.copy(tags=listOf(Tag("unknown_name",TagCategory.UNKNOWN)),score=0),AppSettings()).text)
+        assertEquals(listOf("jujutsu_kaisen_season_3","jujutsu_kaisen_series","mokmok"),captionTags(post,AppSettings()).map{it.name})
+        assertEquals(2,captionTags(post,AppSettings(columns=4)).size)
+        assertTrue(captionTags(post,AppSettings(showArtist=false)).none{it.category==TagCategory.ARTIST})
+        assertTrue(captionTags(post.copy(tags=listOf(Tag("unknown",TagCategory.UNKNOWN))),AppSettings()).isEmpty())
+        assertEquals(33,post.score)
     }
     @Test fun openingFiltersKeepsAllExistingOperatorsRangesAndNegativeRating() {
         val query="~tag1 ~tag2 -tag3 tag4* -rating:questionable id:>=100 source:http://site.com order:mpixels"
@@ -77,9 +76,5 @@ class SearchAndCaptionTest {
             assertEquals("vote:3:bob id:100..200 order:$order",SearchSyntax.filters("vote:3:bob id:100..200 order:score",order))
         }
         assertEquals("-tag id:>=100",SearchSyntax.filters("-tag -rating:questionable id:>=100 order:score","date","all"))
-    }
-    @Test fun traditionalChineseDoesNotTranslateTagNamesOrQueryTokens() {
-        assertEquals("搜尋",TraditionalChinese.get("Search"));assertEquals("上一幀",TraditionalChinese.get("Previous frame"))
-        assertEquals("~tag1 ~tag2",TraditionalChinese.get("~tag1 ~tag2"));assertEquals("mokmok",TraditionalChinese.get("mokmok"))
     }
 }

@@ -22,15 +22,15 @@ class PublicBrowseTest {
         ui.onNode(hasSetTextAction()).performTextReplacement("id:319947")
         ui.onNodeWithText("Search",useUnmergedTree=true).performClick()
         ui.waitUntil(90000){ui.onAllNodesWithContentDescription("Post 319947").fetchSemanticsNodes().isNotEmpty()}
-        val caption=ui.onNodeWithTag("post-caption-319947").fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].first()
-        assertTrue("Verified animator tag below thumbnail",caption.text.contains("mokmok"))
-        assertTrue("Verified copyright tag below thumbnail",caption.text.contains("jujutsu_kaisen"))
-        assertTrue(caption.spanStyles.any{it.item.color==androidx.compose.ui.graphics.Color(0xFFFFD54F)})
-        assertTrue(caption.spanStyles.any{it.item.color==androidx.compose.ui.graphics.Color(0xFFCE93D8)})
-        assertTrue("Real score remains visible",Regex("Score -?[0-9]+").containsMatchIn(caption.text))
+        val caption=ui.onNodeWithTag("post-caption-319947").fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].joinToString(" "){it.text}
+        assertTrue("Verified animator tag below thumbnail",caption.contains("mokmok"))
+        assertTrue("Verified copyright tag below thumbnail",caption.contains("jujutsu_kaisen"))
+        ui.onNodeWithTag("post-score-319947",useUnmergedTree=true).assertIsDisplayed()
+        assertTrue("Real score remains visible",Regex("Score -?[0-9]+").containsMatchIn(caption))
         ui.onNodeWithContentDescription("Post 319947").performClick()
-        ui.onNodeWithText("#319947").assertIsDisplayed()
+        ui.onNodeWithText("#319947").performScrollTo().assertIsDisplayed()
         ui.waitUntil(90000){ui.onAllNodesWithContentDescription("Video frame rendered").fetchSemanticsNodes().isNotEmpty()}
+        ui.onNodeWithContentDescription("Video frame rendered").performScrollTo()
         val device=UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         // A software emulator can show a System UI ANR during cold boot. Never dismiss an app ANR.
         if(device.hasObject(By.text("System UI isn't responding"))) {

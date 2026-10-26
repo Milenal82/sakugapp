@@ -8,6 +8,7 @@ import androidx.activity.compose.*
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.*
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
@@ -16,12 +17,27 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.*
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.*
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.zIndex
+import androidx.compose.ui.semantics.*
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -36,21 +52,30 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-class MainActivity:ComponentActivity(){
+class MainActivity:AppCompatActivity(){
     override fun onCreate(savedInstanceState:Bundle?){super.onCreate(savedInstanceState);enableEdgeToEdge();setContent{Sakugapp()}}
 }
 
 @Composable
 private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel()) {
     val settings by app.settings.collectAsStateWithLifecycle()
+    val settingsReady by app.settingsReady.collectAsStateWithLifecycle()
     val context=LocalContext.current
     val metered by remember(context){meteredNetwork(context.applicationContext)}.collectAsStateWithLifecycle(initialValue=true)
     val nav=rememberNavController();val entry by nav.currentBackStackEntryAsState()
     val selected by model.selected.collectAsStateWithLifecycle();val detailError by model.detailError.collectAsStateWithLifecycle()
     val feed by model.state.collectAsStateWithLifecycle();val history by app.history.collectAsStateWithLifecycle()
     val grid=rememberLazyGridState()
+    val systemTag=android.content.res.Resources.getSystem().configuration.locales[0].toLanguageTag()
+    val language=PreferenceRules.resolveLanguage(settings.language,systemTag)
+    LaunchedEffect(language,settingsReady){
+        if(!settingsReady)return@LaunchedEffect
+        if(AppCompatDelegate.getApplicationLocales().toLanguageTags()!=language)
+            AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(language))
+    }
     var menu by remember{mutableStateOf(false)};var about by remember{mutableStateOf(false)}
-    LaunchedEffect(feed.query){grid.scrollToItem(0)}
+    var scrollQuery by rememberSaveable{mutableStateOf(feed.query)}
+    LaunchedEffect(feed.query){if(scrollQuery!=feed.query){grid.scrollToItem(0);scrollQuery=feed.query}}
     fun search(value:String){app.search(value);model.search(value);nav.popBackStack("posts",false)}
     val browser=rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()){result->
         if(result.resultCode==android.app.Activity.RESULT_OK)app.syncBrowserSession()
@@ -59,20 +84,20 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
         else data?.getStringExtra("query")?.let{search(it)}
     }
     val openSite:(String)->Unit={url->browser.launch(Intent(context,BrowserActivity::class.java).putExtra("url",url))}
-    SakugappTheme(settings.lightTheme){CompositionLocalProvider(LocalLanguage provides settings.language){
+    SakugappTheme(settings.lightTheme){CompositionLocalProvider(LocalLanguage provides language){
         if(about)AboutDialog{about=false}
         Scaffold(topBar={Column(Modifier.statusBarsPadding()){
             Row(Modifier.fillMaxWidth().padding(horizontal=8.dp),verticalAlignment=Alignment.CenterVertically){
-                if(entry?.destination?.route!="posts")TextButton(onClick={nav.popBackStack()}){Text("‹")}
-                Text("Sakugapp",style=MaterialTheme.typography.titleLarge,modifier=Modifier.weight(1f))
-                Box{TextButton(onClick={menu=true}){Text(text("Menu","メニュー"))};DropdownMenu(expanded=menu,onDismissRequest={menu=false}){
-                    DropdownMenuItem(text={Text(text("Posts","投稿"))},onClick={menu=false;nav.popBackStack("posts",false)})
-                    DropdownMenuItem(text={Text(text("My Account","アカウント"))},onClick={menu=false;nav.navigate("account")})
-                    DropdownMenuItem(text={Text(text("Blog","ブログ"))},onClick={menu=false;openSite("https://blog.sakugabooru.com/")})
-                    DropdownMenuItem(text={Text(text("Forum","フォーラム"))},onClick={menu=false;openSite("https://www.sakugabooru.com/forum")})
-                    DropdownMenuItem(text={Text(text("Language","言語"))},onClick={menu=false;nav.navigate("language")})
-                    DropdownMenuItem(text={Text(text("Settings","設定"))},onClick={menu=false;nav.navigate("settings")})
-                    DropdownMenuItem(text={Text(text("About and licenses","アプリ・ライセンス"))},onClick={menu=false;about=true})
+                if(entry?.destination?.route!="posts")TextButton(onClick={nav.popBackStack()},modifier=Modifier.semantics{contentDescription=context.getString(R.string.ui_back_to_app)}){Text("‹")}
+                Text(text(R.string.app_name),style=MaterialTheme.typography.titleLarge,modifier=Modifier.weight(1f))
+                Box{TextButton(onClick={menu=true}){Text(text(R.string.ui_menu))};DropdownMenu(expanded=menu,onDismissRequest={menu=false}){
+                    DropdownMenuItem(text={Text(text(R.string.ui_posts))},onClick={menu=false;nav.popBackStack("posts",false)})
+                    DropdownMenuItem(text={Text(text(R.string.ui_my_account))},onClick={menu=false;nav.navigate("account")})
+                    DropdownMenuItem(text={Text(text(R.string.ui_blog))},onClick={menu=false;openSite("https://blog.sakugabooru.com/")})
+                    DropdownMenuItem(text={Text(text(R.string.ui_forum))},onClick={menu=false;openSite("https://www.sakugabooru.com/forum")})
+                    DropdownMenuItem(text={Text(text(R.string.ui_language))},onClick={menu=false;nav.navigate("language")})
+                    DropdownMenuItem(text={Text(text(R.string.ui_settings))},onClick={menu=false;nav.navigate("settings")})
+                    DropdownMenuItem(text={Text(text(R.string.ui_about_and_licenses))},onClick={menu=false;about=true})
                 }}
             }
         }}){insets->NavHost(navController=nav,startDestination="posts",modifier=Modifier.padding(insets)){
@@ -85,7 +110,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                 LaunchedEffect(id){if(id!=null && selected?.id!=id)model.openId(id)}
                 val post=selected?.takeIf{it.id==id}
                 if(post!=null)PostDetail(post,settings,metered,app,::search,openSite,{nav.navigate("account")},{score->model.updateScore(post.id,score)})
-                else Column(Modifier.padding(16.dp)){if(detailError==null)CircularProgressIndicator()else{Text(detailError.orEmpty(),color=MaterialTheme.colorScheme.error);TextButton(onClick={id?.let(model::openId)}){Text(text("Retry","再試行"))}}}
+                else Column(Modifier.padding(16.dp)){if(detailError==null)CircularProgressIndicator()else{Text(translateMessage(detailError.orEmpty()),color=MaterialTheme.colorScheme.error);TextButton(onClick={id?.let(model::openId)}){Text(text(R.string.ui_retry))}}}
             }
         }}
     }}
@@ -94,57 +119,108 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,history:List<String>,metered:Boolean,app:AppViewModel,search:(String)->Unit,open:(Post)->Unit,loadMore:()->Unit) {
-    var query by rememberSaveable(state.query){mutableStateOf(state.query)}
+    var query by rememberSaveable(state.query,stateSaver=TextFieldValue.Saver){mutableStateOf(TextFieldValue(state.query,TextRange(state.query.length)))}
     var active by rememberSaveable{mutableStateOf<Long?>(null)}
-    var suggestions by remember{mutableStateOf<List<String>>(emptyList())}
     var advanced by remember{mutableStateOf(false)}
-    var historyOpen by remember{mutableStateOf(false)}
+    var historyOpen by rememberSaveable{mutableStateOf(false)}
     var policy by remember{mutableStateOf(false)}
+    var gridMenu by remember{mutableStateOf(false)}
+    var searchFocused by remember{mutableStateOf(false)}
+    var chromeVisible by rememberSaveable{mutableStateOf(true)}
+    var baseHeight by remember{mutableIntStateOf(0)}
+    var fullHeight by remember{mutableIntStateOf(0)}
     var average by remember(state.query){mutableStateOf<String?>(null)}
     var averaging by remember{mutableStateOf(false)}
-    val context=LocalContext.current
-    val scope=rememberCoroutineScope()
-    val focus=LocalFocusManager.current
+    val context=LocalContext.current;val density=LocalDensity.current
+    val scope=rememberCoroutineScope();val focus=LocalFocusManager.current
     val allowedPreview=!metered || settings.mobilePreview
+    val suggestions=rememberSuggestions(query,searchFocused,app.suggestions)
+    val pinned=searchFocused || suggestions.active || historyOpen || advanced
+    val pinnedNow by rememberUpdatedState(pinned)
+    val chrome=remember(density){ScrollChrome(with(density){64.dp.toPx()},with(density){28.dp.toPx()})}
+    val connection=remember(chrome){object:NestedScrollConnection{
+        override fun onPostScroll(consumed:Offset,available:Offset,source:NestedScrollSource):Offset {
+            if(!pinnedNow)chromeVisible=chrome.consume(consumed.y,chromeVisible)
+            return Offset.Zero
+        }
+    }}
+    val offset by animateFloatAsState(if(chromeVisible || pinned)0f else -fullHeight.toFloat(),tween(200),label="search-chrome")
+    LaunchedEffect(pinned){if(pinned){chromeVisible=true;chrome.reset()}}
+    LaunchedEffect(grid,state.query){snapshotFlow{!grid.canScrollBackward}.collect{if(it){chromeVisible=true;chrome.reset()}}}
+    val latestState by rememberUpdatedState(state)
+    LaunchedEffect(grid,settings.columns){
+        snapshotFlow {
+            val current=latestState
+            val last=grid.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: -1
+            current.posts.isNotEmpty() && last>=current.posts.size-12 && !current.loading && current.error==null && !current.endReached && !current.autoLoadPaused
+        }.distinctUntilChanged().filter{it}.collect{loadMore()}
+    }
     val visible by remember(grid){derivedStateOf{grid.layoutInfo.visibleItemsInfo.mapNotNull{it.key as? Long}}}
     LaunchedEffect(visible,settings.autoPreview,allowedPreview,grid.isScrollInProgress){
         if(!allowedPreview || active !in visible)active=null
         if(settings.autoPreview && allowedPreview && !grid.isScrollInProgress && active==null)active=state.posts.firstOrNull{it.id in visible && it.isVideo}?.id
     }
-    LaunchedEffect(query){
-        suggestions=emptyList();val prefix=SearchSyntax.suggestionPrefix(query)
-        if(prefix!=null){delay(450);try{suggestions=app.community.suggestions(prefix)}catch(e:CancellationException){throw e}catch(_:Exception){}}
-    }
-    fun submit(value:String){focus.clearFocus();suggestions=emptyList();active=null;search(value)}
-    Column(Modifier.fillMaxSize().padding(horizontal=10.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
-        OutlinedTextField(query,{query=it},modifier=Modifier.fillMaxWidth(),singleLine=true,label={Text(text("Tags · separate with spaces","タグ・スペースで区切る"))},keyboardOptions=KeyboardOptions(imeAction=ImeAction.Search),keyboardActions=KeyboardActions(onSearch={submit(query)}),trailingIcon={Row{TextButton(onClick={query=""}){Text("×")};TextButton(onClick={submit(query)}){Text(text("Search","検索"))}}})
-        SearchSyntax.warnings(query).forEach{Text(translateMessage(it),style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.tertiary)}
-        FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
-            TextButton(onClick={advanced=true}){Text(text("Filters","絞り込み"))}
-            TextButton(onClick={historyOpen=true}){Text(text("History","履歴"))}
-            TextButton(enabled=!averaging && state.posts.isNotEmpty() && !(settings.wifiImages && metered),onClick={scope.launch{
-                averaging=true
-                try { val urls=state.posts.filter{it.id in visible}.mapNotNull{it.previewUrl};val result=averagePreviewColor(context,urls);average="${result.first} (${result.second}/${urls.size})" }
-                catch(e:CancellationException){throw e}catch(e:Exception){average=e.message}finally{averaging=false}
-            }}){Text(text("Average color","平均色"))}
-            (if(query!=state.query && query.isNotBlank())suggestions.take(4) else history.take(4)).forEach{value->
-                TextButton(onClick={val selected=if(query!=state.query && query.isNotBlank())SearchSyntax.suggestion(query,value) else value;query=selected;submit(selected)}){Text(value,maxLines=1,overflow=TextOverflow.Ellipsis)}
-            }
-        }
-        average?.let{Text(it,style=MaterialTheme.typography.labelSmall)}
-        LazyVerticalGrid(columns=GridCells.Fixed(2),state=grid,modifier=Modifier.weight(1f).testTag("post-grid"),contentPadding=PaddingValues(bottom=16.dp),horizontalArrangement=Arrangement.spacedBy(8.dp),verticalArrangement=Arrangement.spacedBy(12.dp)){
-            state.categoryWarning?.let{item(span={GridItemSpan(2)}){Column{Text(text("Tag categories unavailable. Unknown categories are not guessed.","タグ分類を取得できません。未確認の分類は推測しません。"),style=MaterialTheme.typography.bodySmall);Text(it,style=MaterialTheme.typography.labelSmall);TextButton(enabled=!state.loading,onClick={submit(state.query)}){Text(text("Reload posts and tags","投稿とタグを再読込"))}}}}
+    fun submit(value:String){focus.clearFocus();active=null;historyOpen=false;chromeVisible=true;search(value)}
+    fun complete(name:String){val edit=SearchEditing.complete(query.text,query.selection.start,name);query=TextFieldValue(edit.text,TextRange(edit.cursor))}
+    Box(Modifier.fillMaxSize().clipToBounds()){
+        LazyVerticalGrid(columns=GridCells.Fixed(settings.columns),state=grid,
+            modifier=Modifier.fillMaxSize().nestedScroll(connection).testTag("post-grid"),
+            contentPadding=PaddingValues(start=10.dp,end=10.dp,top=with(density){baseHeight.toDp()},bottom=16.dp),
+            horizontalArrangement=Arrangement.spacedBy(if(settings.columns>=3)4.dp else 8.dp),verticalArrangement=Arrangement.spacedBy(12.dp)){
+            state.categoryWarning?.let{item(span={GridItemSpan(maxLineSpan)}){Column{
+                Text(text(R.string.ui_tag_categories_unavailable_unknown_categories_are_not_guessed),style=MaterialTheme.typography.bodySmall)
+                Text(translateMessage(it),style=MaterialTheme.typography.labelSmall)
+                TextButton(enabled=!state.loading,onClick={submit(state.query)}){Text(text(R.string.ui_reload_posts_and_tags))}
+            }}}
             items(state.posts,key={it.id}){post->PostCard(post,settings,metered,active==post.id,{open(post)},search,{if(!allowedPreview)policy=true else active=if(active==post.id)null else post.id})}
-            if(state.loading)items(6,key={"skeleton-$it"}){SkeletonCard()}
-            item(span={GridItemSpan(2)}){Column{
-                state.error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error);Button(onClick=loadMore){Text(text("Retry this page","このページを再試行"))}}
-                if(!state.loading && state.error==null){if(state.posts.isEmpty())Text(text("No posts found.","該当する投稿はありません。"))else if(state.endReached)Text(text("End of results","すべて表示しました"))else Button(onClick=loadMore,modifier=Modifier.fillMaxWidth()){Text(text("Load more","さらに表示"))}}
+            if(state.loading && state.posts.isEmpty())items(6,key={"skeleton-$it"}){SkeletonCard()}
+            item(span={GridItemSpan(maxLineSpan)}){Column(Modifier.fillMaxWidth().padding(vertical=8.dp)){
+                if(state.loading){LinearProgressIndicator(Modifier.fillMaxWidth());Text(text(R.string.ui_loading_more_posts),style=MaterialTheme.typography.bodySmall)}
+                state.error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error);Button(onClick=loadMore){Text(text(R.string.ui_retry_this_page))}}
+                if(!state.loading && state.error==null){if(state.posts.isEmpty())Text(text(R.string.ui_no_posts_found))else if(state.endReached)Text(text(R.string.ui_end_of_results))else Button(onClick=loadMore,modifier=Modifier.fillMaxWidth()){Text(text(R.string.ui_load_more))}}
+                if(grid.canScrollBackward)TextButton(onClick={scope.launch{grid.animateScrollToItem(0)}}){Text(text(R.string.ui_back_to_top))}
             }}
         }
+        Surface(Modifier.fillMaxWidth().offset{IntOffset(0,offset.toInt())}.zIndex(1f).onSizeChanged{fullHeight=it.height},shadowElevation=2.dp){
+            Column(Modifier.padding(horizontal=10.dp).heightIn(max=with(LocalConfiguration.current){screenHeightDp.dp*0.7f})){
+                Column(Modifier.onSizeChanged{baseHeight=it.height},verticalArrangement=Arrangement.spacedBy(4.dp)){
+                    OutlinedTextField(query,{query=it},modifier=Modifier.fillMaxWidth().onFocusChanged{searchFocused=it.isFocused}.testTag("search-input"),singleLine=true,
+                        label={Text(text(R.string.ui_tags_separate_with_spaces))},keyboardOptions=KeyboardOptions(imeAction=ImeAction.Search),
+                        keyboardActions=KeyboardActions(onSearch={if(query.composition==null)submit(query.text)}),
+                        trailingIcon={Row{TextButton(onClick={query=TextFieldValue("")},modifier=Modifier.semantics{contentDescription=context.getString(R.string.ui_clear_search)}){Text("×")};TextButton(onClick={if(query.composition==null)submit(query.text)}){Text(text(R.string.ui_search))}}})
+                    SearchSyntax.warnings(query.text).forEach{Text(translateMessage(it),style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.tertiary)}
+                    FlowRow(horizontalArrangement=Arrangement.spacedBy(2.dp)){
+                        TextButton(onClick={advanced=true}){Text(text(R.string.ui_filters))}
+                        TextButton(onClick={historyOpen=!historyOpen;focus.clearFocus()}){Text(text(R.string.ui_history))}
+                        TextButton(enabled=!averaging && state.posts.isNotEmpty() && !(settings.wifiImages && metered),onClick={scope.launch{
+                            averaging=true
+                            try{val urls=state.posts.filter{it.id in visible}.mapNotNull{it.previewUrl};val result=averagePreviewColor(context,urls);average="${result.first} (${result.second}/${urls.size})"}
+                            catch(e:CancellationException){throw e}catch(e:Exception){average=localizedMessage(context,e.message.orEmpty())}finally{averaging=false}
+                        }}){Text(text(R.string.ui_average_color))}
+                        Box{
+                            TextButton(onClick={gridMenu=true},modifier=Modifier.testTag("grid-columns").semantics{contentDescription=context.getString(R.string.ui_grid_selection,settings.columns)}){Text("▦ ${settings.columns}")}
+                            DropdownMenu(expanded=gridMenu,onDismissRequest={gridMenu=false}){for(columns in 1..4)DropdownMenuItem(text={Text(text(R.string.ui_columns_count,columns))},onClick={
+                                val index=grid.firstVisibleItemIndex;val scroll=grid.firstVisibleItemScrollOffset
+                                app.columns(columns);grid.requestScrollToItem(index,scroll);gridMenu=false
+                            })}
+                        }
+                    }
+                    average?.let{Text(it,style=MaterialTheme.typography.labelSmall)}
+                    HorizontalDivider(thickness=1.dp,color=MaterialTheme.colorScheme.outlineVariant,modifier=Modifier.testTag("search-divider"))
+                }
+                if(historyOpen)Column(Modifier.heightIn(max=200.dp).verticalScroll(rememberScrollState()).testTag("search-history")){
+                    if(history.isEmpty())Text(text(R.string.ui_no_saved_searches),Modifier.padding(8.dp))
+                    history.forEach{item->Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically){
+                        TextButton(onClick={query=TextFieldValue(item,TextRange(item.length));submit(item)},modifier=Modifier.weight(1f)){Text(item)}
+                        TextButton(onClick={app.deleteHistory(item)},modifier=Modifier.semantics{contentDescription=context.getString(R.string.ui_delete_search,item)}){Text("×")}
+                    }}
+                    TextButton(onClick=app::clearHistory){Text(text(R.string.ui_clear_search_history))}
+                }else TagSuggestionsMenu(suggestions,settings.lightTheme,::complete)
+            }
+        }
     }
-    if(historyOpen)AlertDialog(onDismissRequest={historyOpen=false},title={Text(text("Search history","検索履歴"))},text={Column(Modifier.heightIn(max=400.dp).verticalScroll(rememberScrollState())){if(history.isEmpty())Text(text("No saved searches.","検索履歴はありません。"));history.forEach{item->TextButton(onClick={query=item;submit(item);historyOpen=false}){Text(item)}}}},confirmButton={TextButton(onClick={historyOpen=false}){Text(text("Close","閉じる"))}},dismissButton={TextButton(onClick=app::clearHistory){Text(text("Clear","削除"))}})
-    if(advanced)SearchDialog(query,{value->query=value;submit(value);advanced=false},{advanced=false})
-    if(policy)AlertDialog(onDismissRequest={policy=false},title={Text(text("Network policy","ネットワーク設定"))},text={Text(text("Previews on metered networks are disabled in Settings.","従量制回線でのプレビューは設定で無効になっています。"))},confirmButton={TextButton(onClick={policy=false}){Text("OK")}})
+    if(advanced)SearchDialog(query.text,app.suggestions,settings.lightTheme,{value->query=TextFieldValue(value,TextRange(value.length));submit(value);advanced=false},{advanced=false})
+    if(policy)AlertDialog(onDismissRequest={policy=false},title={Text(text(R.string.ui_network_policy))},text={Text(text(R.string.ui_previews_on_metered_networks_are_disabled_in_settings))},confirmButton={TextButton(onClick={policy=false}){Text(text(R.string.ui_ok))}})
 }
 
 @Composable private fun SkeletonCard(){
@@ -158,8 +234,8 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
 }
 
 @Composable private fun PostCard(post:Post,settings:AppSettings,metered:Boolean,preview:Boolean,open:()->Unit,search:(String)->Unit,toggle:()->Unit){
-    Column{
-        Box(Modifier.fillMaxWidth().aspectRatio(16f/9f).background(Color.Black).clickable(onClick=open)){
+    Column(Modifier.clickable(onClick=open)){
+        Box(Modifier.fillMaxWidth().heightIn(min=48.dp).aspectRatio(16f/9f).background(Color.Black)){
             if(preview && post.fileUrl!=null)VideoPanel(post.fileUrl,settings,preview=true)
             else PostImage(post,Modifier.fillMaxSize(),settings,metered)
             if(post.isVideo)TextButton(onClick=toggle,modifier=Modifier.align(Alignment.BottomEnd).background(Color.Black.copy(alpha=0.65f))){Text(if(preview)"■"else"▶",color=Color.White)}
@@ -168,36 +244,62 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable private fun PostCaption(post:Post,settings:AppSettings,search:(String)->Unit){
-    val caption=postCaption(post,settings)
-    @Suppress("DEPRECATION")
-    ClickableText(caption,modifier=Modifier.fillMaxWidth().padding(top=5.dp).testTag("post-caption-${post.id}"),style=MaterialTheme.typography.labelMedium.copy(color=MaterialTheme.colorScheme.onSurfaceVariant),maxLines=if(settings.wrapTags)Int.MAX_VALUE else 1,overflow=TextOverflow.Ellipsis,onClick={offset->caption.getStringAnnotations("tag",offset,offset).firstOrNull()?.let{search(it.item)}})
+    val size=when(settings.columns){1->14.sp;2->12.sp;else->11.sp}
+    val tags=captionTags(post,settings)
+    FlowRow(Modifier.fillMaxWidth().padding(top=5.dp).testTag("post-caption-${post.id}").semantics(mergeDescendants=true){},horizontalArrangement=Arrangement.spacedBy(4.dp)){
+        for(tag in tags)Text(tag.name,modifier=Modifier.clickable{search(tag.name)},color=if(tag.category==TagCategory.COPYRIGHT)copyrightColor(settings.lightTheme)else artistColor(settings.lightTheme),fontSize=size,
+            maxLines=if(settings.wrapTags && settings.columns<=2)Int.MAX_VALUE else 2,overflow=TextOverflow.Ellipsis)
+        if(settings.showScore)Text(text(R.string.ui_score_value,post.score?.toString() ?: "?"),modifier=Modifier.testTag("post-score-${post.id}"),fontSize=size,color=scoreColor(settings.lightTheme),fontWeight=FontWeight.Medium)
+    }
 }
 
 @Composable private fun PostImage(post:Post,modifier:Modifier,settings:AppSettings,metered:Boolean,detail:Boolean=false){
-    if(settings.wifiImages && metered){Box(modifier,contentAlignment=Alignment.Center){Text(text("Images: Wi-Fi only","画像：非従量制回線のみ"),Modifier.padding(8.dp))};return}
+    if(settings.wifiImages && metered){Box(modifier,contentAlignment=Alignment.Center){Text(text(R.string.ui_images_wi_fi_only),Modifier.padding(8.dp))};return}
     val url=if(detail)post.fileUrl ?: post.previewUrl else post.previewUrl
-    if(url==null)Box(modifier,contentAlignment=Alignment.Center){Text(text("Image unavailable","画像がありません"))}
-    else SubcomposeAsyncImage(model=url,contentDescription="Post ${post.id}",modifier=modifier,contentScale=if(!detail && settings.cropThumbnails)ContentScale.Crop else ContentScale.Fit,loading={Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surfaceVariant))},error={Text(text("Image failed to load","画像の読み込みに失敗"),Modifier.padding(8.dp))})
+    if(url==null)Box(modifier,contentAlignment=Alignment.Center){Text(text(R.string.ui_image_unavailable))}
+    else SubcomposeAsyncImage(model=url,contentDescription=text(R.string.ui_post_description,post.id),modifier=modifier,contentScale=if(!detail && settings.cropThumbnails)ContentScale.Crop else ContentScale.Fit,loading={Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surfaceVariant))},error={Text(text(R.string.ui_image_failed_to_load),Modifier.padding(8.dp))})
 }
 
 @Composable private fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,search:(String)->Unit,wiki:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit){
     val uri=LocalUriHandler.current;var linkError by remember{mutableStateOf(false)}
     var seek by remember{mutableStateOf<Pair<Long,Int>?>(null)}
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(12.dp),verticalArrangement=Arrangement.spacedBy(12.dp)){
-        Text("#${post.id}",style=MaterialTheme.typography.headlineMedium)
         if(post.isVideo)VideoPanel(post.fileUrl!!,settings,seekRequest=seek)
         else PostImage(post,Modifier.fillMaxWidth().height(320.dp),settings,metered,true)
         if(post.isVideo)VideoDownloadButton(post)
-        Text("Score: ${post.score?.toString() ?: "?"}")
-        if(post.width!=null && post.height!=null)Text("${post.width} × ${post.height}")
-        post.fileExt?.let{Text(it)};post.uploader?.let{Text(text("Uploader: ","投稿者：")+it)}
-        post.rating?.let{Text(text("Rating: ","レーティング：")+it)};post.status?.let{Text(text("Status: ","状態：")+it)}
-        post.createdAt?.let{timestamp->runCatching{DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(Instant.ofEpochSecond(timestamp).atZone(ZoneId.systemDefault()))}.getOrNull()?.let{Text(it)}}
-        post.source?.let{Text(text("Source: ","出典：")+it)}
-        OutlinedButton(onClick={linkError=runCatching{uri.openUri(post.pageUrl)}.isFailure}){Text(text("Open original post","元の投稿を開く"))}
-        if(linkError)Text(text("No browser available.","ブラウザーがありません。"))
+        Text(text(R.string.ui_score_detail,post.score?.toString() ?: "?"))
+        PostMetadata(post){url->linkError=runCatching{uri.openUri(url)}.isFailure}
+        OutlinedButton(onClick={linkError=runCatching{uri.openUri(post.pageUrl)}.isFailure}){Text(text(R.string.ui_open_original_post))}
+        if(linkError)Text(text(R.string.ui_no_browser_available))
         DetailTags(post.tags,settings.lightTheme,search,wiki)
         CommunityPanel(post,app,onScore,login){time->seek=time to ((seek?.second ?: 0)+1)}
     }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable private fun PostMetadata(post:Post,open:(String)->Unit){
+    val context=LocalContext.current
+    val fields=buildList{
+        add(text(R.string.ui_post_id) to "#${post.id}")
+        post.uploader?.let{add(text(R.string.ui_uploader) to it)}
+        post.createdAt?.let{time->runCatching{DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(Instant.ofEpochSecond(time).atZone(ZoneId.systemDefault()))}.getOrNull()?.let{add(text(R.string.ui_uploaded) to it)}}
+        if(post.width!=null && post.height!=null)add(text(R.string.ui_resolution) to "${post.width} × ${post.height}")
+        post.fileExt?.let{add(text(R.string.ui_format) to it)}
+        post.fileSize?.let{add(text(R.string.ui_file_size) to android.text.format.Formatter.formatFileSize(context,it))}
+        post.rating?.let{add(text(R.string.ui_rating) to it)}
+        post.status?.let{add(text(R.string.ui_status) to it)}
+    }
+    FlowRow(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.spacedBy(16.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
+        fields.forEach{(label,value)->Column(Modifier.widthIn(max=280.dp)){
+            Text(label,style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.onSurfaceVariant)
+            SelectionContainer{Text(value,style=MaterialTheme.typography.bodyMedium)}
+        }}
+    }
+    post.source?.let{source->Column{
+        Text(text(R.string.ui_source),style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.onSurfaceVariant)
+        SelectionContainer{Text(source,style=MaterialTheme.typography.bodyMedium)}
+        PostParser.safeUrl(source)?.let{url->TextButton(onClick={open(url)}){Text(text(R.string.ui_open_source))}}
+    }}
 }

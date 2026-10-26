@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-only
 package com.sakugapp.ui
 
+import com.sakugapp.R
+
 import android.content.Context
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
@@ -105,31 +107,31 @@ fun StrictFrameDialog(url:String,close:()->Unit) {
         if(!consent)return@LaunchedEffect
         try {
             busy=true;error=null;index=null;bitmap=null;frameInput="1";slider=0f
-            if(Build.VERSION.SDK_INT<28)error="Exact indexing requires Android 9 or later."
+            if(Build.VERSION.SDK_INT<28)error=context.getString(R.string.ui_exact_indexing_requires_android_9_or_later)
             else { index=FrameIndex(decoder.open());bitmap=decoder.frame(0) }
             busy=false
             awaitCancellation()
         } catch(e:CancellationException){throw e} catch(e:Exception){error=e.message;busy=false}
         finally { withContext(NonCancellable){decoder.close()} }
     }
-    AlertDialog(onDismissRequest=close,title={Text(text("Exact frame analysis","正確なフレーム解析"))},text={
+    AlertDialog(onDismissRequest=close,title={Text(text(R.string.ui_exact_frame_analysis))},text={
         Column(Modifier.heightIn(max=500.dp).verticalScroll(rememberScrollState()),verticalArrangement=Arrangement.spacedBy(8.dp)) {
-            if(!consent)Text(text("Downloads the original video into private cache (up to 200 MiB). Android 9+ and a decoder supporting frame indexes are required. Starts at actual frame 1, independent of playback position.","元動画を専用キャッシュに保存します（最大200 MiB）。Android 9以上とフレーム索引対応デコーダーが必要です。再生時刻とは別に、実際の先頭フレームから解析します。"))
+            if(!consent)Text(text(R.string.ui_downloads_the_original_video_into_private_cache_up_to_200_mib_and))
             if(busy)LinearProgressIndicator(Modifier.fillMaxWidth())
-            bitmap?.let { Image(it.asImageBitmap(),"Decoded frame",Modifier.fillMaxWidth().heightIn(max=280.dp)) }
+            bitmap?.let { Image(it.asImageBitmap(),text(R.string.ui_decoded_frame),Modifier.fillMaxWidth().heightIn(max=280.dp)) }
             index?.let { current ->
                 Text("${current.index+1} / ${current.count}",Modifier.testTag("frame-counter"))
-                Text(text("Use the actual decoded frame index, not a time estimate.","時刻の推定ではなく、実際のデコード索引で移動します。"),style=MaterialTheme.typography.bodySmall)
+                Text(text(R.string.ui_use_the_actual_decoded_frame_index_not_a_time_estimate),style=MaterialTheme.typography.bodySmall)
                 Row {
                     for(delta in listOf(-1,1))TextButton(enabled=!busy && (if(delta<0)current.index>0 else current.index<current.count-1),onClick={
                         decode(current.move(delta).index)
-                    }){Text(if(delta<0)text("Previous frame","前のフレーム") else text("Next frame","次のフレーム"))}
+                    }){Text(if(delta<0)text(R.string.ui_previous_frame) else text(R.string.ui_next_frame))}
                 }
                 if(current.count>1)Slider(value=slider,onValueChange={slider=it},onValueChangeFinished={decode(slider.toInt().coerceIn(0,current.count-1))},valueRange=0f..(current.count-1).toFloat(),enabled=!busy,modifier=Modifier.testTag("frame-slider"))
-                OutlinedTextField(frameInput,{frameInput=it},label={Text(text("Frame number","フレーム番号"))},singleLine=true,enabled=!busy,keyboardOptions=KeyboardOptions(keyboardType=KeyboardType.Number),modifier=Modifier.fillMaxWidth().testTag("frame-number"))
-                TextButton(enabled=!busy && frameInput.toIntOrNull()?.let{it in 1..current.count}==true,onClick={decode(frameInput.toInt()-1)},modifier=Modifier.testTag("go-to-frame")){Text(text("Go to frame","フレームに移動"))}
+                OutlinedTextField(frameInput,{frameInput=it},label={Text(text(R.string.ui_frame_number))},singleLine=true,enabled=!busy,keyboardOptions=KeyboardOptions(keyboardType=KeyboardType.Number),modifier=Modifier.fillMaxWidth().testTag("frame-number"))
+                TextButton(enabled=!busy && frameInput.toIntOrNull()?.let{it in 1..current.count}==true,onClick={decode(frameInput.toInt()-1)},modifier=Modifier.testTag("go-to-frame")){Text(text(R.string.ui_go_to_frame))}
             }
-            error?.let { Text(translateMessage(it),color=MaterialTheme.colorScheme.error);TextButton(enabled=!busy,onClick={attempt++}){Text(text("Retry","再試行"))} }
+            error?.let { Text(translateMessage(it),color=MaterialTheme.colorScheme.error);TextButton(enabled=!busy,onClick={attempt++}){Text(text(R.string.ui_retry))} }
         }
-    },confirmButton={if(!consent)TextButton(onClick={consent=true}){Text(text("Download and decode","保存して解析"))}else TextButton(onClick=close){Text(text("Close","閉じる"))}},dismissButton={if(!consent)TextButton(onClick=close){Text(text("Cancel","キャンセル"))}})
+    },confirmButton={if(!consent)TextButton(onClick={consent=true}){Text(text(R.string.ui_download_and_decode))}else TextButton(onClick=close){Text(text(R.string.ui_close))}},dismissButton={if(!consent)TextButton(onClick=close){Text(text(R.string.ui_cancel))}})
 }

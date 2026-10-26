@@ -1,4 +1,4 @@
-Sakugapp 1.0.0 — Sakugapp contributors
+Sakugapp 1.1.0 — Sakugapp contributors
 Application source: GPL-3.0-only. See GPL-3.0.txt and the complete corresponding source ZIP distributed with each build. No warranty is provided.
 
 Sakuga Extended (ftLoic): https://github.com/ftLoic/Sakuga-Extended
@@ -8,7 +8,7 @@ The native Kotlin implementation was written independently using the extension's
 Apache-2.0 components (license in APACHE-2.0.txt):
 - Kotlin 2.1.20 — JetBrains and Kotlin contributors
 - Kotlin Coroutines 1.10.2 — kotlinx.coroutines contributors
-- AndroidX Activity, Lifecycle, Compose, Material 3, DataStore, Navigation and Media3 — Android Open Source Project
+- AndroidX AppCompat 1.7.1, Activity, Lifecycle, Compose, Material 3, DataStore, Navigation and Media3 — Android Open Source Project
 - OkHttp 4.12.0 / Okio — Square and contributors
 - Gson 2.12.1 — Google
 - Coil and Coil GIF 2.7.0 — Coil contributors

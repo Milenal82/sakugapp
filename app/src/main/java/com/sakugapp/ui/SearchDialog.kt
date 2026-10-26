@@ -1,50 +1,62 @@
 // SPDX-License-Identifier: GPL-3.0-only
 package com.sakugapp.ui
 
+import com.sakugapp.R
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.sakugapp.data.*
 
 @OptIn(ExperimentalLayoutApi::class)
-@Composable fun SearchDialog(query:String,apply:(String)->Unit,close:()->Unit) {
-    var expression by remember { mutableStateOf(query) }
-    var name by remember { mutableStateOf("") }
+@Composable fun SearchDialog(query:String,source:SuggestionSource,light:Boolean,apply:(String)->Unit,close:()->Unit) {
+    var expression by remember { mutableStateOf(TextFieldValue(query,TextRange(query.length))) }
+    var name by remember { mutableStateOf(TextFieldValue("")) }
     var mode by remember { mutableStateOf("and") }
     var order by remember { mutableStateOf("keep") }
     var rating by remember { mutableStateOf("keep") }
     var guide by remember { mutableStateOf(false) }
-    val finalQuery=SearchSyntax.filters(expression,order,rating)
-    AlertDialog(onDismissRequest=close,title={Text(text("Search tools","検索ツール"))},text={
+    var expressionFocused by remember{mutableStateOf(false)}
+    var nameFocused by remember{mutableStateOf(false)}
+    val expressionSuggestions=rememberSuggestions(expression,expressionFocused,source)
+    val nameSuggestions=rememberSuggestions(name,nameFocused,source)
+    fun complete(value:TextFieldValue,tag:String):TextFieldValue {val edit=SearchEditing.complete(value.text,value.selection.start,tag);return TextFieldValue(edit.text,TextRange(edit.cursor))}
+    val finalQuery=SearchSyntax.filters(expression.text,order,rating)
+    AlertDialog(onDismissRequest=close,title={Text(text(R.string.ui_search_tools))},text={
         Column(Modifier.heightIn(max=500.dp).verticalScroll(rememberScrollState()),verticalArrangement=Arrangement.spacedBy(8.dp)) {
-            Row { TextButton(onClick={guide=false}) { Text(text("Compose query","検索式を作成")) };TextButton(onClick={guide=true}){Text(text("Search reference","検索構文一覧"))} }
+            Row { TextButton(onClick={guide=false}) { Text(text(R.string.ui_compose_query)) };TextButton(onClick={guide=true}){Text(text(R.string.ui_search_reference_language))} }
             if(guide) {
-                Text(text("Examples replace the draft; Apply runs the search. Fields and operators are sent to the website unchanged.","例を選ぶと下書きを置換します。適用で検索します。構文はそのままサイトに送信します。"))
+                Text(text(R.string.ui_examples_replace_the_draft_apply_runs_the_search_fields_and_opera))
                 for(example in SearchGuide.examples) {
-                    TextButton(onClick={expression=example.query;order="keep";rating="keep";guide=false}) { Text(example.query) }
-                    Text(when(LocalLanguage.current) { "zh-TW" -> example.zh;"ja" -> example.ja;else -> example.en },style=MaterialTheme.typography.bodySmall)
+                    TextButton(onClick={expression=TextFieldValue(example.query,TextRange(example.query.length));order="keep";rating="keep";guide=false}) { Text(example.query) }
+                    Text(text(example.description),style=MaterialTheme.typography.bodySmall)
                 }
-                Text(text("Wildcard and mixed OR combinations have website limitations. Repeated fields cannot express multiple values; different fields can be combined.","ワイルドカード・OR混在にはサイト側の制限があります。同種フィールドの重複を避け、異なるフィールドを組み合わせてください。"))
+                Text(text(R.string.ui_wildcard_and_mixed_or_combinations_have_website_limitations_repea))
             } else {
-                OutlinedTextField(expression,{expression=it},label={Text(text("Query","検索式"))},modifier=Modifier.fillMaxWidth().testTag("query-expression"),minLines=2)
-                Text(text("Score shortcuts","スコア条件"))
+                OutlinedTextField(expression,{expression=it},label={Text(text(R.string.ui_query))},modifier=Modifier.fillMaxWidth().testTag("query-expression").onFocusChanged{expressionFocused=it.isFocused},minLines=2)
+                TagSuggestionsMenu(expressionSuggestions,light){expression=complete(expression,it)}
+                Text(text(R.string.ui_score_shortcuts))
                 FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp)) {
-                    for(preset in SearchSyntax.scorePresets)FilterChip(selected=preset in SearchSyntax.tokens(expression),onClick={expression=SearchSyntax.score(expression,preset)},label={Text(preset)})
+                    for(preset in SearchSyntax.scorePresets)FilterChip(selected=preset in SearchSyntax.tokens(expression.text),onClick={expression=SearchSyntax.score(expression.text,preset).let{TextFieldValue(it,TextRange(it.length))}},label={Text(preset)})
                 }
-                OutlinedTextField(name,{name=it},label={Text(text("Tag or field condition","タグ・フィールド条件"))},modifier=Modifier.fillMaxWidth(),singleLine=true)
-                FlowRow { for((value,label) in listOf("and" to text("AND · all tags","AND・すべて"),"or" to text("OR · ~tag","OR・~タグ"),"exclude" to text("Exclude · -tag","除外・-タグ"))) FilterChip(selected=mode==value,onClick={mode=value},label={Text(label)}) }
-                TextButton(enabled=name.isNotBlank() && name.none(Char::isWhitespace) && !name.startsWith('-') && !name.startsWith('~') && (mode!="or" || ':' !in name),onClick={expression=SearchSyntax.add(expression,name.trim(),mode);name=""}){Text(text("Add condition","条件を追加"))}
-                Text(text("OR applies to ordinary tags. Enter field conditions such as -rating:questionable directly in Query.","ORは通常タグ用です。-rating:questionableなどの条件は検索式へ直接入力してください。"),style=MaterialTheme.typography.bodySmall)
-                Text(text("Order","並び順"));FlowRow { for(value in listOf("keep","date")+SearchSyntax.orders) FilterChip(selected=order==value,onClick={order=value},label={Text(when(value){"keep"->text("Keep current","変更しない");"date"->text("Website default","サイトの既定");else->"order:$value"})}) }
-                Text(text("Rating","レーティング"));FlowRow { for(value in listOf("keep","all","safe","questionable","explicit")) FilterChip(selected=rating==value,onClick={rating=value},label={Text(when(value){"keep"->text("Keep current","変更しない");"all"->text("Clear rating filter","評価条件を解除");else->value})}) }
+                OutlinedTextField(name,{name=it},label={Text(text(R.string.ui_tag_or_field_condition))},modifier=Modifier.fillMaxWidth().onFocusChanged{nameFocused=it.isFocused},singleLine=true)
+                TagSuggestionsMenu(nameSuggestions,light){name=complete(name,it)}
+                FlowRow { for((value,label) in listOf("and" to text(R.string.ui_and_all_tags),"or" to text(R.string.ui_or_tag),"exclude" to text(R.string.ui_exclude_tag))) FilterChip(selected=mode==value,onClick={mode=value},label={Text(label)}) }
+                TextButton(enabled=name.text.isNotBlank() && name.text.trim().none(Char::isWhitespace) && !name.text.trim().startsWith('-') && !name.text.trim().startsWith('~') && (mode!="or" || ':' !in name.text),onClick={expression=SearchSyntax.add(expression.text,name.text.trim(),mode).let{TextFieldValue(it,TextRange(it.length))};name=TextFieldValue("")}){Text(text(R.string.ui_add_condition))}
+                Text(text(R.string.ui_or_applies_to_ordinary_tags_enter_field_conditions_such_as_rating),style=MaterialTheme.typography.bodySmall)
+                Text(text(R.string.ui_order));FlowRow { for(value in listOf("keep","date")+SearchSyntax.orders) FilterChip(selected=order==value,onClick={order=value},label={Text(when(value){"keep"->text(R.string.ui_keep_current);"date"->text(R.string.ui_website_default);else->"order:$value"})}) }
+                Text(text(R.string.ui_rating));FlowRow { for(value in listOf("keep","all","safe","questionable","explicit")) FilterChip(selected=rating==value,onClick={rating=value},label={Text(when(value){"keep"->text(R.string.ui_keep_current);"all"->text(R.string.ui_clear_rating_filter);else->value})}) }
                 Text(finalQuery,style=MaterialTheme.typography.bodySmall)
                 SearchSyntax.warnings(finalQuery).forEach { Text(translateMessage(it),color=MaterialTheme.colorScheme.tertiary,style=MaterialTheme.typography.bodySmall) }
             }
         }
-    },confirmButton={TextButton(onClick={apply(finalQuery)}){Text(text("Apply","適用"))}},dismissButton={TextButton(onClick=close){Text(text("Cancel","キャンセル"))}})
+    },confirmButton={TextButton(onClick={apply(finalQuery)}){Text(text(R.string.ui_apply))}},dismissButton={TextButton(onClick=close){Text(text(R.string.ui_cancel))}})
 }

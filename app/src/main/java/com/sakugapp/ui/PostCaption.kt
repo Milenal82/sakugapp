@@ -1,20 +1,16 @@
 // SPDX-License-Identifier: GPL-3.0-only
 package com.sakugapp.ui
 
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.*
 import com.sakugapp.data.*
 
-/** Only verified copyright/artist names and the server score belong below the thumbnail. */
-internal fun postCaption(post: Post, settings: AppSettings): AnnotatedString = buildAnnotatedString {
-    for (tag in post.tags.filter {
-        (it.category == TagCategory.COPYRIGHT && settings.showCopyright) ||
-            (it.category == TagCategory.ARTIST && settings.showArtist)
-    }) {
-        if (length > 0) append(" ")
-        pushStringAnnotation("tag", tag.name)
-        withStyle(SpanStyle(color=if(tag.category == TagCategory.COPYRIGHT) copyrightColor(settings.lightTheme) else artistColor(settings.lightTheme))) { append(tag.name) }
-        pop()
+/** Density only limits verified labels. Score is rendered separately and is never ellipsized away. */
+internal fun captionTags(post:Post,settings:AppSettings):List<Tag> {
+    val limit=when(settings.columns){1->20;2->10;3->3;else->2}
+    val allowed=post.tags.filter {
+        (it.category==TagCategory.COPYRIGHT && settings.showCopyright)||
+            (it.category==TagCategory.ARTIST && settings.showArtist)
     }
-    if(settings.showScore) { if(length > 0) append(" ");append("Score ${post.score?.toString() ?: "?"}") }
+    val required=listOfNotNull(allowed.firstOrNull{it.category==TagCategory.COPYRIGHT},allowed.firstOrNull{it.category==TagCategory.ARTIST})
+    val selected=(required+allowed).distinctBy{it.name}.take(limit).toSet()
+    return allowed.filter{it in selected}
 }

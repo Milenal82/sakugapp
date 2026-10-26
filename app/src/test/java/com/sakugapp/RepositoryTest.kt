@@ -33,7 +33,7 @@ class RepositoryTest {
         val request = server.takeRequest()
         assertEquals("a&b c", request.requestUrl!!.queryParameter("tags"))
         assertEquals("1", request.requestUrl!!.queryParameter("page"))
-        assertEquals("20", request.requestUrl!!.queryParameter("limit"))
+        assertEquals("60", request.requestUrl!!.queryParameter("limit"))
         assertEquals("/tag/summary.json", server.takeRequest().path)
         repo.page("", 2)
         assertEquals("2", server.takeRequest().requestUrl!!.queryParameter("page"))

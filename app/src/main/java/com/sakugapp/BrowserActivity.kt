@@ -20,7 +20,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
 
 /** Used only for official account management, Blog and Forum. Posts always return to native UI. */
-class BrowserActivity:ComponentActivity() {
+class BrowserActivity:androidx.appcompat.app.AppCompatActivity() {
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         window.addFlags(android.view.WindowManager.LayoutParams.FLAG_SECURE)
@@ -46,8 +46,8 @@ class BrowserActivity:ComponentActivity() {
                 BackHandler{if(browser?.canGoBack()==true)browser?.goBack()else finish()}
                 Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background).systemBarsPadding()){
                     Row{
-                        TextButton(onClick={finish()}){Text(text("Back to app","アプリに戻る"))}
-                        TextButton(onClick={browser?.reload();error=null}){Text(text("Reload","再読み込み"))}
+                        TextButton(onClick={finish()}){Text(text(R.string.ui_back_to_app))}
+                        TextButton(onClick={browser?.reload();error=null}){Text(text(R.string.ui_reload))}
                     }
                     if(loading)LinearProgressIndicator(Modifier.fillMaxWidth())
                     error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error)}
@@ -73,7 +73,7 @@ class BrowserActivity:ComponentActivity() {
                             }
                             override fun onPageStarted(view:WebView,url:String,favicon:android.graphics.Bitmap?){loading=true;error=null}
                             override fun onPageFinished(view:WebView,url:String){loading=false;CookieManager.getInstance().flush()}
-                            override fun onReceivedError(view:WebView,request:WebResourceRequest,failure:WebResourceError){if(request.isForMainFrame){loading=false;error="Page load failed (${failure.errorCode})."}}
+                            override fun onReceivedError(view:WebView,request:WebResourceRequest,failure:WebResourceError){if(request.isForMainFrame){loading=false;error=view.context.getString(R.string.ui_page_load_failed,failure.errorCode.toString())}}
                         }
                         loadUrl(UrlPolicy.localized(target,language),mapOf("Accept-Language" to PreferenceRules.acceptLanguage(language)))
                     }},modifier=Modifier.fillMaxWidth().weight(1f))

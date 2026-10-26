@@ -93,3 +93,13 @@ API 请求每个 ViewModel 最多一个列表任务；搜索取消旧任务，�
 - 官方 Language 的两个链接为 `locale=en`、`locale=ja`，上游 set_locale 会保存 locale Cookie；没有中文或无效 `#` 菜单选项。Native API 和官方网页采用同一设置，账号页浏览 Cookie 双向同步后通过服务端账户菜单/公开用户对象重新确认身份，不信任 user_info Cookie 自报的登录状态。
 
 证据：evidence/community-api-2026-10-22.json、evidence/blog-2026-10-22.json。所有实账号写操作仍待用户在安装应用后自行验证，不能用 MockWebServer 代替该结论。
+
+## 2026-10-26：1.1.0 分页与联想重新验证
+
+`/help/api` 明确写单次帖子请求上限 100；实际串行请求 `/post.json?limit=60&page=1..5&tags=rating:safe` 均 HTTP 200，每页 60 条，共 300 个不重复 ID。应用默认由 20 改为 60，保留原偏移页/标签/排序语义，开发构造参数可配置 1–100；没有请求上限以上的数据。末页按原始响应条数判断，失败不推进页码，完整重复页暂停自动加载。站点实时变化仍有偏移遗漏风险，不承诺静态快照。
+
+官网 `/post` 在 Accept: text/html 下返回 HTML，部署的 application `.jsout` 与 classic JS 本次均可正常读取（与此前历史 403 的时点不同）。只读检查确认 `TagCompletion` / `TagCompletionBox` 使用 `/tag/summary.json`（含 version）缓存并在本地匹配当前词，且维护最近标签。应用不执行或复制这些网页脚本，继续用已验证、文档化的 `/tag.json?name=gund&limit=8` 做有界候选查询：顶层数组，字段 id/name/count/type/ambiguous；name 是实际匹配条件（实测也匹配词中包含 gund 的标签），不冒称前缀精确搜索。type=1 是 artist，3 是 copyright，0/4 为其他，未知 type 不猜测。count 缺失为 null，不伪造 0。
+
+原生输入 300ms debounce，IME composition 完成前不请求；候选至多 8 个，同一前缀 120 秒缓存、至多 32 个缓存查询；与帖子/分类读取共用 650ms 请求起始间隔，支持取消且 403/429 不自动重试、不找替代绕过地址。候选只替换光标所在词，保留 -/~ 与后面的其他条件；失败时仍可提交原始查询。
+
+URL、日期、响应摘要和 5 页 ID 见 [验证证据](evidence/browse-upgrade-2026-10-26.json)。新增真实样本 `posts-five-pages.json` 只留 id/tags/score/file_ext/file_size；`tag-suggestions.json` 保留公开标签元数据。移除上传者、创建者、来源等字段；不提交原始 HTML、Cookie、CSRF 或脚本。SHA-256 与来源均记录在同一证据文件。

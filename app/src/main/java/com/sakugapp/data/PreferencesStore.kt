@@ -4,54 +4,66 @@ package com.sakugapp.data
 import android.content.Context
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.datastore.core.DataStore
 import kotlinx.coroutines.flow.*
 import java.io.IOException
 
 private val Context.preferences by preferencesDataStore("settings_v1")
 
 data class AppSettings(
-    val language: String = "en", val showCopyright: Boolean = true, val showArtist: Boolean = true,
+    val language: String = "system", val showCopyright: Boolean = true, val showArtist: Boolean = true,
     val showScore: Boolean = true, val wrapTags: Boolean = true, val cropThumbnails: Boolean = false,
     val autoPreview: Boolean = false, val mobilePreview: Boolean = false, val wifiImages: Boolean = false,
     val muted: Boolean = true, val loop: Boolean = true, val speed: Float = 1f,
     val mirror: Boolean = false, val saturation: Float = 1f, val brightness: Float = 1f,
     val contrast: Float = 1f, val screenshot: Boolean = true, val lightTheme:Boolean = false,
+    val columns: Int = 2,
 )
 
 object PreferenceRules {
-    val languages = setOf("en", "ja", "zh-TW")
+    val languages = setOf("system", "en", "ja", "zh-TW", "zh-CN")
+    fun resolveLanguage(language: String, systemTag: String): String {
+        require(language in languages)
+        if (language != "system") return language
+        val locale=java.util.Locale.forLanguageTag(systemTag)
+        return if(locale.language=="zh" && locale.script!="Hant" && locale.country !in setOf("TW","HK","MO")) "zh-CN" else "en"
+    }
     // Traditional Chinese translates the native app; the official site only offers en/ja.
     fun siteLanguage(language: String): String { require(language in languages); return if(language == "ja") "ja" else "en" }
-    fun acceptLanguage(language: String): String { require(language in languages); return if(language == "zh-TW") "zh-TW,zh;q=0.9,en;q=0.7" else language }
+    fun acceptLanguage(language: String): String { require(language in languages); return when(language){"zh-TW"->"zh-TW,zh;q=0.9,en;q=0.7";"zh-CN"->"zh-CN,zh;q=0.9,en;q=0.7";"system"->"en";else->language} }
     val speeds = listOf(0.1f, 0.25f, 0.5f, 0.75f, 1f, 1.25f, 1.5f, 2f, 3f)
     fun history(previous: List<String>, query: String): List<String> = query.trim().let { text ->
-        if (text.isBlank()) previous else (listOf(text) + previous.filter { it != text }).take(30)
+        (if (text.isBlank()) previous else listOf(text) + previous).filter(String::isNotBlank).distinct().take(50)
     }
     fun advanced(query: String, order: String, rating: String): String {
         return SearchSyntax.filters(query, order, rating)
     }
 }
 
-class PreferencesStore(context: Context) {
-    private val store = context.applicationContext.preferences
+class PreferencesStore(context: Context,private val store:DataStore<Preferences> = context.applicationContext.preferences) {
     private val data = store.data.catch { if (it is IOException) emit(emptyPreferences()) else throw it }
     private fun Preferences.flag(key: String, default: Boolean) = this[booleanPreferencesKey(key)] ?: default
     val settings: Flow<AppSettings> = data.map { p ->
-        AppSettings(language = p[stringPreferencesKey("language")]?.takeIf { it in PreferenceRules.languages } ?: "en",
+        AppSettings(language = p[stringPreferencesKey("language")]?.takeIf { it in PreferenceRules.languages } ?: "system",
             showCopyright=p.flag("copyright",true),showArtist=p.flag("artist",true),showScore=p.flag("score",true),
             wrapTags=p.flag("wrap",true),cropThumbnails=p.flag("crop",false),autoPreview=p.flag("auto",false),
             mobilePreview=p.flag("mobile",false),wifiImages=p.flag("wifiImages",false),muted=p.flag("muted",true),
             loop=p.flag("loop",true),speed=p[floatPreferencesKey("speed")]?.takeIf { it in PreferenceRules.speeds } ?: 1f,
             mirror=p.flag("mirror",false),saturation=(p[floatPreferencesKey("saturation")] ?: 1f).coerceIn(0f,2f),
             brightness=(p[floatPreferencesKey("brightness")] ?: 1f).coerceIn(0.5f,1.5f),contrast=(p[floatPreferencesKey("contrast")] ?: 1f).coerceIn(0.5f,1.5f),
-            screenshot=p.flag("screenshot",true),lightTheme=p.flag("lightTheme",false))
+            screenshot=p.flag("screenshot",true),lightTheme=p.flag("lightTheme",false),
+            columns=(p[intPreferencesKey("columns")] ?: 2).coerceIn(1,4))
     }
-    val history: Flow<List<String>> = data.map { it[stringPreferencesKey("history")]?.split('\n')?.filter(String::isNotBlank).orEmpty() }
+    val history: Flow<List<String>> = data.map { PreferenceRules.history(it[stringPreferencesKey("history")]?.split('\n').orEmpty(), "") }
     suspend fun remember(query: String) { store.edit { p ->
         val previous=p[stringPreferencesKey("history")]?.split('\n').orEmpty()
         p[stringPreferencesKey("history")] = PreferenceRules.history(previous,query.replace('\n',' ')).joinToString("\n")
     } }
     suspend fun clearHistory() { store.edit { it.remove(stringPreferencesKey("history")) } }
+    suspend fun deleteHistory(query:String) { store.edit { p ->
+        p[stringPreferencesKey("history")] = p[stringPreferencesKey("history")]?.split('\n').orEmpty().filterNot { it==query }.joinToString("\n")
+    } }
+    suspend fun columns(value:Int) { require(value in 1..4);store.edit{it[intPreferencesKey("columns")]=value} }
     suspend fun flag(name: String,value: Boolean) { require(name in setOf("copyright","artist","score","wrap","crop","auto","mobile","wifiImages","muted","loop","mirror","screenshot","lightTheme")); store.edit { it[booleanPreferencesKey(name)]=value } }
     suspend fun language(value: String) { require(value in PreferenceRules.languages);store.edit { it[stringPreferencesKey("language")]=value } }
     suspend fun number(name: String,value: Float) { require(value.isFinite()); require(when(name) { "speed"->value in PreferenceRules.speeds; "brightness","contrast"->value in 0.5f..1.5f; "saturation"->value in 0f..2f; else->false });store.edit { it[floatPreferencesKey(name)]=value } }

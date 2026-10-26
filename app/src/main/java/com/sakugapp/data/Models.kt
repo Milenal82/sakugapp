@@ -21,6 +21,7 @@ data class Post(
     val createdAt: Long?,
     val status: String?,
     val uploader: String? = null,
+    val fileSize: Long? = null,
 ) {
     val pageUrl: String get() = "https://www.sakugabooru.com/post/show/$id"
     val isVideo: Boolean get() = fileUrl != null &&
@@ -44,6 +45,7 @@ data class FeedState(
     val endReached: Boolean = false,
     val error: String? = null,
     val categoryWarning: String? = null,
+    val autoLoadPaused: Boolean = false,
 ) {
     fun append(page: PostPage, pageSize: Int): FeedState = copy(
         // Also repair earlier cards when a classification request succeeds on a later page.
@@ -55,6 +57,9 @@ data class FeedState(
         endReached = page.rawCount < pageSize,
         error = null,
         categoryWarning = page.categoryWarning,
+        // A server returning the same full page must not cause an automatic request loop.
+        // The explicit Load more action can still advance to the following page.
+        autoLoadPaused = posts.isNotEmpty() && page.rawCount>0 && posts.mapTo(HashSet()){it.id}.let{ids->page.posts.all{it.id in ids}},
     )
 }
 

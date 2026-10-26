@@ -8,10 +8,10 @@ class PreferencesAndFramesTest {
     @Test fun historyIsRecentUniqueBoundedAndSkipsEmpty(){
         assertEquals(listOf("new","old"),PreferenceRules.history(listOf("old","new")," new "))
         assertEquals(listOf("old"),PreferenceRules.history(listOf("old")," "))
-        assertEquals(30,PreferenceRules.history((1..30).map{"tag$it"},"new").size)
+        assertEquals(50,PreferenceRules.history((1..50).map{"tag$it"},"new").size)
     }
     @Test fun traditionalChineseIsNativeWhileWebsiteLanguagesRemainOfficial(){
-        assertEquals(setOf("en","ja","zh-TW"),PreferenceRules.languages)
+        assertEquals(setOf("system","en","ja","zh-TW","zh-CN"),PreferenceRules.languages)
         assertEquals("en",PreferenceRules.siteLanguage("zh-TW"));assertEquals("ja",PreferenceRules.siteLanguage("ja"))
         assertEquals("zh-TW,zh;q=0.9,en;q=0.7",PreferenceRules.acceptLanguage("zh-TW"))
     }

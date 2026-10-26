@@ -16,6 +16,7 @@ internal fun appColors(light:Boolean):ColorScheme = if(light) lightColorScheme(
 
 internal fun copyrightColor(light:Boolean)=if(light)Color(0xFF806000)else Color(0xFFFFD54F)
 internal fun artistColor(light:Boolean)=if(light)Color(0xFF7536A5)else Color(0xFFCE93D8)
+internal fun scoreColor(light:Boolean)=if(light)Color(0xFFB71C1C)else Color(0xFFFF5252)
 
 @Composable fun SakugappTheme(light:Boolean,content:@Composable ()->Unit) {
     val activity=LocalActivity.current as? ComponentActivity

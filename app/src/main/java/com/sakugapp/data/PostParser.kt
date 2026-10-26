@@ -38,7 +38,8 @@ object PostParser {
                 o.intValue("preview_width")?.takeIf { it > 0 }, o.intValue("preview_height")?.takeIf { it > 0 },
                 safeUrl(o.text("file_url")), o.text("file_ext"),
                 o.intValue("width")?.takeIf { it > 0 }, o.intValue("height")?.takeIf { it > 0 },
-                o.text("source"), o.text("rating"), o.integer("created_at"), o.text("status"), o.text("author"))
+                o.text("source"), o.text("rating"), o.integer("created_at"), o.text("status"), o.text("author"),
+                o.integer("file_size")?.takeIf { it >= 0 })
         }
     } catch (e: DataFailure) { throw e }
     catch (e: Exception) { throw DataFailure("Unable to parse posts; no substitute data is shown.", e) }

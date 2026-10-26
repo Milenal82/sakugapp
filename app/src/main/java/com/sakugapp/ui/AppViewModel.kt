@@ -12,9 +12,12 @@ import java.util.concurrent.TimeUnit
 
 class AppViewModel(application:Application):AndroidViewModel(application) {
     val preferences=PreferencesStore(application)
-    val settings=preferences.settings.stateIn(viewModelScope,SharingStarted.Eagerly,AppSettings())
+    private val _settingsReady=MutableStateFlow(false)
+    val settingsReady=_settingsReady.asStateFlow()
+    val settings=preferences.settings.onEach{_settingsReady.value=true}.stateIn(viewModelScope,SharingStarted.Eagerly,AppSettings())
     val history=preferences.history.stateIn(viewModelScope,SharingStarted.Eagerly,emptyList())
     val session=SecureSession(application)
+    val suggestions:SuggestionSource=TagSuggestionRepository()
     val community=CommunityRepository(client=OkHttpClient.Builder().cookieJar(session).callTimeout(30,TimeUnit.SECONDS)
         .followRedirects(false).retryOnConnectionFailure(false).build())
     private val _account=MutableStateFlow<Account?>(null);val account=_account.asStateFlow()
@@ -29,6 +32,8 @@ class AppViewModel(application:Application):AndroidViewModel(application) {
     fun number(name:String,value:Float) { viewModelScope.launch { preferences.number(name,value) } }
     fun language(value:String) { viewModelScope.launch { preferences.language(value) } }
     fun clearHistory() { viewModelScope.launch { preferences.clearHistory() } }
+    fun deleteHistory(query:String) { viewModelScope.launch { preferences.deleteHistory(query) } }
+    fun columns(value:Int) { viewModelScope.launch { preferences.columns(value) } }
     fun login(name:String,password:String) {
         if(_authBusy.value)return
         _authBusy.value=true;_authError.value=null

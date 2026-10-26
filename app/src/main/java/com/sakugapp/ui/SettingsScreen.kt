@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-only
 package com.sakugapp.ui
 
+import com.sakugapp.R
+
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
@@ -30,9 +32,9 @@ fun meteredNetwork(context:Context)=callbackFlow {
 @Composable
 fun LanguageScreen(current:String,choose:(String)->Unit) {
     Column(Modifier.padding(16.dp)){
-        Text(text("App language","アプリの言語"),style=MaterialTheme.typography.titleLarge)
-        Text(text("The official website supports English and Japanese. Traditional Chinese translates the native app; official pages use English.","公式サイトは英語・日本語のみです。繁体字中国語はアプリ画面を翻訳し、公式ページは英語になります。"),style=MaterialTheme.typography.bodySmall)
-        for((code,label)in listOf("en" to "English","ja" to "日本語","zh-TW" to "繁體中文"))Row{
+        Text(text(R.string.ui_app_language),style=MaterialTheme.typography.titleLarge)
+        Text(text(R.string.ui_language_explanation),style=MaterialTheme.typography.bodySmall)
+        for((code,label)in listOf("system" to text(R.string.ui_follow_system),"en" to text(R.string.language_english),"zh-CN" to text(R.string.language_simplified),"ja" to text(R.string.language_japanese),"zh-TW" to text(R.string.language_traditional)))Row{
             RadioButton(selected=current==code,onClick={choose(code)})
             TextButton(onClick={choose(code)}){Text(label)}
         }
@@ -46,36 +48,38 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel) {
     var message by remember{mutableStateOf<String?>(null)}
     var clearing by remember{mutableStateOf(false)}
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
-        Text(text("Appearance","外観"),style=MaterialTheme.typography.titleLarge)
-        SettingSwitch(text("Light background","明るい背景"),settings.lightTheme){model.flag("lightTheme",it)}
-        SettingSwitch(text("Crop rectangular thumbnails","長方形サムネイルを切り抜く"),settings.cropThumbnails){model.flag("crop",it)}
-        SettingSwitch(text("Wrap tags","タグを折り返す"),settings.wrapTags){model.flag("wrap",it)}
-        SettingSwitch(text("Copyright tags","作品タグ"),settings.showCopyright){model.flag("copyright",it)}
-        SettingSwitch(text("Animator tags","アニメータータグ"),settings.showArtist){model.flag("artist",it)}
-        SettingSwitch("Score",settings.showScore){model.flag("score",it)}
-        HorizontalDivider();Text(text("Video","動画"),style=MaterialTheme.typography.titleLarge)
-        SettingSwitch(text("Auto preview visible posts","表示中の投稿を自動プレビュー"),settings.autoPreview){model.flag("auto",it)}
-        SettingSwitch(text("Allow previews on metered networks","従量制回線でプレビューを許可"),settings.mobilePreview){model.flag("mobile",it)}
-        SettingSwitch(text("Default mute","既定でミュート"),settings.muted){model.flag("muted",it)}
-        SettingSwitch(text("Default loop","既定でループ"),settings.loop){model.flag("loop",it)}
-        SettingSwitch(text("Enable snapshot sharing","スクリーンショット共有"),settings.screenshot){model.flag("screenshot",it)}
-        SettingSwitch(text("Mirror video","動画を左右反転"),settings.mirror){model.flag("mirror",it)}
-        Text(text("Default playback speed","既定の再生速度"))
+        Text(text(R.string.ui_appearance),style=MaterialTheme.typography.titleLarge)
+        Text(text(R.string.ui_grid_columns))
+        Row{for(columns in 1..4)FilterChip(selected=settings.columns==columns,onClick={model.columns(columns)},label={Text(columns.toString())})}
+        SettingSwitch(text(R.string.ui_light_background),settings.lightTheme){model.flag("lightTheme",it)}
+        SettingSwitch(text(R.string.ui_crop_rectangular_thumbnails),settings.cropThumbnails){model.flag("crop",it)}
+        SettingSwitch(text(R.string.ui_wrap_tags),settings.wrapTags){model.flag("wrap",it)}
+        SettingSwitch(text(R.string.ui_copyright_tags),settings.showCopyright){model.flag("copyright",it)}
+        SettingSwitch(text(R.string.ui_animator_tags),settings.showArtist){model.flag("artist",it)}
+        SettingSwitch(text(R.string.ui_score),settings.showScore){model.flag("score",it)}
+        HorizontalDivider();Text(text(R.string.ui_video),style=MaterialTheme.typography.titleLarge)
+        SettingSwitch(text(R.string.ui_auto_preview_visible_posts),settings.autoPreview){model.flag("auto",it)}
+        SettingSwitch(text(R.string.ui_allow_previews_on_metered_networks),settings.mobilePreview){model.flag("mobile",it)}
+        SettingSwitch(text(R.string.ui_default_mute),settings.muted){model.flag("muted",it)}
+        SettingSwitch(text(R.string.ui_default_loop),settings.loop){model.flag("loop",it)}
+        SettingSwitch(text(R.string.ui_enable_snapshot_sharing),settings.screenshot){model.flag("screenshot",it)}
+        SettingSwitch(text(R.string.ui_mirror_video),settings.mirror){model.flag("mirror",it)}
+        Text(text(R.string.ui_default_playback_speed))
         FlowRow{for(speed in PreferenceRules.speeds)TextButton(onClick={model.number("speed",speed)}){Text(if(settings.speed==speed)"[$speed×]"else"$speed×")}}
-        for((key,value,label)in listOf(Triple("brightness",settings.brightness,text("Brightness","明るさ")),Triple("contrast",settings.contrast,text("Contrast","コントラスト")),Triple("saturation",settings.saturation,text("Saturation","彩度")))){
-            Text("$label: ${"%.2f".format(value)}")
+        for((key,value,label)in listOf(Triple("brightness",settings.brightness,text(R.string.ui_brightness)),Triple("contrast",settings.contrast,text(R.string.ui_contrast)),Triple("saturation",settings.saturation,text(R.string.ui_saturation)))){
+            Text(text(R.string.ui_label_value,label,"%.2f".format(value)))
             var draft by remember(value){mutableFloatStateOf(value)}
             Slider(value=draft,onValueChange={draft=it},onValueChangeFinished={model.number(key,draft)},valueRange=if(key=="saturation")0f..2f else 0.5f..1.5f)
         }
-        TextButton(onClick={model.number("brightness",1f);model.number("contrast",1f);model.number("saturation",1f);model.flag("mirror",false)}){Text(text("Reset video effects","動画効果をリセット"))}
-        HorizontalDivider();Text(text("Network and storage","ネットワーク・保存領域"),style=MaterialTheme.typography.titleLarge)
-        SettingSwitch(text("Load images only on unmetered networks","非従量制回線のみで画像を読み込む"),settings.wifiImages){model.flag("wifiImages",it)}
+        TextButton(onClick={model.number("brightness",1f);model.number("contrast",1f);model.number("saturation",1f);model.flag("mirror",false)}){Text(text(R.string.ui_reset_video_effects))}
+        HorizontalDivider();Text(text(R.string.ui_network_and_storage),style=MaterialTheme.typography.titleLarge)
+        SettingSwitch(text(R.string.ui_load_images_only_on_unmetered_networks),settings.wifiImages){model.flag("wifiImages",it)}
         TextButton(enabled=!clearing,onClick={scope.launch{
             clearing=true
-            try{withContext(Dispatchers.IO){Coil.imageLoader(context).diskCache?.clear();java.io.File(context.cacheDir,"frames").deleteRecursively();java.io.File(context.cacheDir,"screenshots").deleteRecursively()};Coil.imageLoader(context).memoryCache?.clear();message="Cache cleared."}
-            catch(e:Exception){message="Unable to clear all cache files."}finally{clearing=false}
-        }}){Text(text("Clear media cache","メディアキャッシュを削除"))}
-        TextButton(onClick={model.clearHistory();message="Search history cleared."}){Text(text("Clear search history","検索履歴を削除"))}
+            try{withContext(Dispatchers.IO){Coil.imageLoader(context).diskCache?.clear();java.io.File(context.cacheDir,"frames").deleteRecursively();java.io.File(context.cacheDir,"screenshots").deleteRecursively()};Coil.imageLoader(context).memoryCache?.clear();message=context.getString(R.string.ui_cache_cleared)}
+            catch(e:Exception){message=context.getString(R.string.ui_unable_to_clear_all_cache_files)}finally{clearing=false}
+        }}){Text(text(R.string.ui_clear_media_cache))}
+        TextButton(onClick={model.clearHistory();message=context.getString(R.string.ui_search_history_cleared)}){Text(text(R.string.ui_clear_search_history))}
         message?.let{Text(translateMessage(it))}
     }
 }
