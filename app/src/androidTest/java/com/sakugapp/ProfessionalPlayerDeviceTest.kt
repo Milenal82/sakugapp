@@ -73,21 +73,24 @@ class ProfessionalPlayerDeviceTest {
             ui.waitUntil(5000){ui.onAllNodesWithText("1 / 12",substring=false).fetchSemanticsNodes().isNotEmpty()}
             ui.onNodeWithText("Close",substring=false).performClick()
             ui.waitUntil(15000){matches{it.playbackState==Player.STATE_READY && !it.playWhenReady}}
+            ui.onNodeWithTag("more-controls").performClick()
             val beforeDouble=seeks.get()
-            ui.onNodeWithTag("video-gestures").performTouchInput{doubleClick()}
+            ui.onNodeWithTag("video-gestures").performTouchInput{doubleClick(androidx.compose.ui.geometry.Offset(center.x,center.y*0.5f))}
             ui.waitUntil(5000){matches{it.playWhenReady}}
             Thread.sleep(350) // Separate two intentional double taps beyond Android's double-tap timeout.
-            ui.onNodeWithTag("video-gestures").performTouchInput{advanceEventTime(400);doubleClick()}
+            ui.onNodeWithTag("video-gestures").performTouchInput{advanceEventTime(400);doubleClick(androidx.compose.ui.geometry.Offset(center.x,center.y*0.5f))}
             ui.waitUntil(5000){matches{!it.playWhenReady}}
             assertEquals("Double tap must not seek",beforeDouble,seeks.get())
             val native=device.wait(Until.findObject(By.desc("Video frame rendered")),15000)
             assertNotNull(native);native.pinchOpen(0.6f,1600)
             ui.waitUntil(10000){var zoom=1f;ui.runOnUiThread{zoom=host()!!.transform.scale};zoom>1.05f}
-            ui.onNodeWithTag("video-gestures").performTouchInput{swipeLeft(durationMillis=400)}
+            ui.onNodeWithTag("video-gestures").performTouchInput{swipe(start=androidx.compose.ui.geometry.Offset(center.x*1.6f,center.y*0.5f),end=androidx.compose.ui.geometry.Offset(center.x*0.4f,center.y*0.5f),durationMillis=400)}
             ui.runOnUiThread{assertTrue(host()!!.transform.panX!=0f);assertTrue(directions.isEmpty())}
+            ui.onNodeWithTag("more-controls").performClick()
             ui.onNodeWithTag("reset-zoom").performScrollTo().performClick()
+            ui.onNodeWithTag("more-controls").performClick()
             ui.runOnUiThread{assertEquals(1f,host()!!.transform.scale,0.001f)}
-            ui.onNodeWithTag("video-gestures").performTouchInput{swipeLeft(durationMillis=400)}
+            ui.onNodeWithTag("video-gestures").performTouchInput{swipe(start=androidx.compose.ui.geometry.Offset(center.x*1.6f,center.y*0.5f),end=androidx.compose.ui.geometry.Offset(center.x*0.4f,center.y*0.5f),durationMillis=400)}
             ui.waitUntil(5000){directions==listOf(1)}
             UiEvidence.capture("professional-controls.png")
         }finally{file.delete()}
