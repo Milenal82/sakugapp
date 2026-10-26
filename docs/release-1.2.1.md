@@ -61,3 +61,5 @@
 交付下载：本分支 [Actions](https://github.com/Milenal82/sakugapp/actions/workflows/android.yml) 成功的签名运行中，`sakugapp-signed-candidate` 包含 `Sakugapp-1.2.1-candidate.apk`、对应源码 ZIP、`SHA256SUMS.txt` 与公开验证报告。`signed-upgrade-install-report` 保存已发布 v1.0.0 → 候选版的实际同证书 `adb install -r` 检查与主题/历史截图；1.2.0 收藏数据的兼容性另由上面的真实 v1 schema 迁移用例检查，不混同这两类验证。最终运行链接随 PR 交付结果提供。
 
 验收补充：提交 `1fcb94f` 的 [完整检查](https://github.com/Milenal82/sakugapp/actions/runs/40373215579)再次通过全部 24 项设备测试、96 项单测和 13 张截图。其签名覆盖流程实际 `adb install -r` 成功，系统深色下保留浅色背景（12/12 采样匹配）及换行设置；之后的历史入口定位去掉对描述子节点的 clickable 属性要求，仍通过其真实边界点击并核对旧历史文本。应用代码不因该定位调整而变化。最终下载以最新提交的签名构件为准。
+
+黑盒覆盖检查还会等待搜索输入框真正展开并获焦，再点击历史，避免 Dropdown/NavHost 退出动画消费首次物理点击后误报；最多三次真实点击，始终保留最终旧历史内容核对。该同步仅位于验收脚本，不改应用搜索逻辑。

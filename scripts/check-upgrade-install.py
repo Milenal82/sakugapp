@@ -80,7 +80,16 @@ try:
     settings_switch('Wrap tags','false')
     screenshot('after-upgrade-settings.png')
     tap_text('Menu');tap_text('Posts')
-    tap(wait_node(lambda n:n.get('content-desc')=='Search'))
+    # Dropdown/NavHost exit animations can still consume a first physical tap.
+    # Synchronize with the real focused field, never infer expansion from a click.
+    for attempt in range(3):
+        tap(wait_node(lambda n:n.get('content-desc')=='Search'))
+        try:
+            wait_node(lambda n:n.get('package')==package and n.get('class')=='android.widget.EditText' and n.get('focused')=='true',timeout=5)
+            print('Native search field focused after tap attempt',attempt+1)
+            break
+        except AssertionError:
+            if attempt==2:raise
     tap_text('History')
     wait_node(lambda n:n.get('text')=='id:319947' and n.get('class')!='android.widget.EditText')
     screenshot('after-upgrade-history.png')
