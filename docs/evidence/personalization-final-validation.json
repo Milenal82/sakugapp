@@ -1,0 +1,45 @@
+{
+  "verified_at": "2026-10-26T18:11:09.643502+08:00",
+  "app_verification_commit": "df836f4bd51d0e845a26e82e9e70d2d60185227e",
+  "checks": "https://github.com/Milenal82/sakugapp/actions/runs/40303737605",
+  "signed_and_upgrade": "https://github.com/Milenal82/sakugapp/actions/runs/40303730796",
+  "jvm_tests": 96,
+  "device_tests": 20,
+  "device_failures": 0,
+  "device_api": 28,
+  "device_abi": "x86_64",
+  "ui_png_count": 5,
+  "release_lint_errors": 0,
+  "release_lint_warnings": 26,
+  "applicationId": "com.sakugapp",
+  "versionName": "1.2.0",
+  "versionCode": 8,
+  "debuggable": false,
+  "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff",
+  "abis": [
+    "arm64-v8a",
+    "armeabi-v7a",
+    "x86",
+    "x86_64"
+  ],
+  "upgrade": {
+    "previous_version": "1.0.0",
+    "previous_code": 6,
+    "new_code": 8,
+    "same_certificate": true,
+    "kept_light_theme": true,
+    "kept_wrap_setting": true,
+    "kept_history": true,
+    "uninstalled_or_cleared": false
+  },
+  "artifact_download_in_this_environment": "Forbidden; redirect URL omitted",
+  "unverified": [
+    "physical devices",
+    "other Android and codecs",
+    "sensor auto rotation",
+    "Android 13+ predictive back",
+    "real account writes across upgrade",
+    "live whole-folder bulk download",
+    "full peak-memory and GPU profiling"
+  ]
+}

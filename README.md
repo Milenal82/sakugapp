@@ -16,7 +16,7 @@
 
 [逐项状态、数据兼容和精度限制](docs/release-1.2.0.md) · [实际修改文件](docs/changed-files-1.2.0.md) · [版本说明](release-notes/v1.2.0.md)
 
-在 [GitHub Actions](https://github.com/Milenal82/sakugapp/actions/workflows/android.yml) 选择本分支的成功运行，下载 **sakugapp-signed-candidate**：内含正式证书签名候选 APK、同提交完整源码、SHA-256 校验、许可及验证报告。此候选可按证书和递增版本覆盖旧正式版；**不要卸载含有重要数据的旧版来试装 Debug APK**。正式 Release 保持原状。最终设备和升级结果以对应成功运行及草稿 PR 报告为准。
+在 [GitHub Actions](https://github.com/Milenal82/sakugapp/actions/workflows/android.yml) 选择本分支的成功运行，下载 **sakugapp-signed-candidate**：内含正式证书签名候选 APK、同提交完整源码、SHA-256 校验、许可及验证报告。此候选可按证书和递增版本覆盖旧正式版；**不要卸载含有重要数据的旧版来试装 Debug APK**。正式 Release 保持原状。96 项单测、20/20 项 API 28 设备验收及同证书覆盖升级已通过，5 张 PNG 已导出；[实际结果与限制](docs/release-1.2.0.md#最终实际验收)。最终封装提交见构件元数据。
 
 收藏 JSON 仅备份本地元数据/译名，不含账户凭据或视频文件。导入按 ID 和同名文件夹合并，保留既有记录；删除收藏关系保留媒体文件。新批量下载位于应用私有存储，最多 20 个/批、200 MiB/文件、1 GiB 总额，需保持页面开启；旧的系统文件选择器下载保留。元数据可离线查看，未完成媒体下载时不会标记可离线播放。
 

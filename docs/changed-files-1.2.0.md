@@ -54,6 +54,7 @@
 - M [build.gradle.kts](../build.gradle.kts)
 - A [docs/changed-files-1.2.0.md](../docs/changed-files-1.2.0.md)
 - A [docs/evidence/personalization-data-check.json](../docs/evidence/personalization-data-check.json)
+- A [docs/evidence/personalization-final-validation.json](../docs/evidence/personalization-final-validation.json)
 - M [docs/feature-matrix.md](../docs/feature-matrix.md)
 - A [docs/release-1.2.0.md](../docs/release-1.2.0.md)
 - M [docs/test-report.md](../docs/test-report.md)
