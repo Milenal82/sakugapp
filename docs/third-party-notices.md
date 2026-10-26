@@ -17,6 +17,7 @@
 | Kotlin 标准库、Compose 编译插件 | 2.1.20 / JetBrains | Apache-2.0 |
 | Kotlin Coroutines | 1.10.2 / kotlinx.coroutines | Apache-2.0 |
 | AndroidX AppCompat 1.7.1、Activity、Lifecycle、Compose、Material 3 | `app/build.gradle.kts`、Compose BOM 2025.04.01 / Android Open Source Project | Apache-2.0 |
+| Material Design 基础按钮向量图标（调整尺寸与路径） | Google / https://github.com/google/material-design-icons | Apache-2.0 |
 | AndroidX Media3 | 1.6.1 / Android Open Source Project | Apache-2.0 |
 | Coil / Coil GIF | 2.7.0 / Coil contributors | Apache-2.0 |
 | AndroidX DataStore / Navigation Compose | 1.1.7 / 2.9.0 / Android Open Source Project | Apache-2.0 |

@@ -50,6 +50,7 @@ class LibraryDocumentsDeviceTest {
                 document=device.wait(Until.findObject(By.text(filename)),15000)
             }
             assertNotNull("Exported file is selectable",document);document!!.click()
+            ui.waitUntil(15000){ui.onAllNodesWithText("Merge",substring=false).fetchSemanticsNodes().isNotEmpty()}
             ui.onNodeWithText("Merge",substring=false).performClick()
             ui.waitUntil(15000){app.library.value.folders.firstOrNull{it.name==folderName}?.let{app.library.value.contains(post.id,it.id)}==true}
             assertEquals(1,app.library.value.folders.count{it.name==folderName})

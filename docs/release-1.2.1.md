@@ -35,4 +35,27 @@
 - 保留真实公开读取/播放/严格帧、旋转、手势、受控下载失败/配额测试。不会自动登录、投票或发评论。
 - 窄屏 320 dp、日常 360 dp 与平板布局；中英原生 UI 和四语资源覆盖。
 
-构建与设备结果将在实际完成后记录；不能从编译通过推断运行通过。真机/其他解码器、登录后写入和外部浏览器选择器不作未经测试的保证。A–B 仍为时间戳循环，严格帧和离线下载沿用既有边界。
+实际构建与设备结果见下方记录；不能从编译通过推断运行通过。真机/其他解码器、登录后写入和外部浏览器选择器不作未经测试的保证。A–B 仍为时间戳循环，严格帧和离线下载沿用既有边界。
+
+## 实际验收结果（2026-10-27，UTC+8）
+
+验收提交 `45ef7b0` 的 [GitHub 检查](https://github.com/Milenal82/sakugapp/actions/runs/40369422178)成功：96 项 JVM 单测、Lint 无错误、Debug APK/测试 APK，API 28 x86_64 KVM **24/24 项设备测试通过**。不是只生成了测试文件；日志记录实际执行 24 项、成功完成并导出 13 张 PNG。
+
+设备覆盖：详情五按钮排列与边界禁用、原帖 URL 路由、长按提示、正确且不重复的 Score；收藏单入口、多夹、默认夹、取消；搜索自动焦点、默认折叠历史、组合条件、展开不移动列表顶部；收藏首页无视频/搜索框、点击收藏夹进入 Post 卡片；实际系统 JSON 导出/再导入；旧 v1 schema 迁移后保留帖子、关系、封面与媒体时长；中英及既有日/繁界面；320/360 dp 手机及平板布局断言；原有公开分页/播放/逐帧、旋转、手势、加密会话、下载错误和配额回归。
+
+截图在 [device-test-reports](https://github.com/Milenal82/sakugapp/actions/runs/40369422178/artifacts/12673120295) 的 `ui-evidence` 中，包括：
+
+- `compact-detail-phone-dark.png`、`compact-detail-tablet-light.png`：公开响应样本构成的隔离详情测试屏，未把测试样本注入正式列表。
+- `compact-search-expanded.png`、`compact-post-grid.png`：真实读取的搜索/列表屏。
+- `compact-favorites-home.png`、`compact-favorites-folder.png`、`compact-json-imported.png`：真实公开帖子的本地保存与系统文件导入流程。
+- `compact-settings-zh-cn.png`：原生简体中文设置；另有原有真实详情/网格、平板、收藏与播放器图共 13 张。
+
+首轮的 22/24 设备结果并未当作通过：Room schema 的 `indices` 是可选字段，测试改为可空读取；Android 的 `executeShellCommand` 不负责 shell 引号解析，文件查找不再给已限定的测试文件名加入字面引号。应用的 JSON 输出当时已成功，修正后完整导出/导入均通过。签名升级测试适配新的搜索入口；API 28 的原生无障碍树未暴露 Material 选项的 Selected 属性，因此主题选项补充与实际设置值一致的 ToggleableState，供系统读屏和覆盖升级断言读取。没有降低主题、历史或数据保留断言。
+
+最终清理后的本地命令 `./gradlew testDebugUnitTest lintDebug assembleDebug assembleDebugAndroidTest` 成功；**96 tests / 0 failures / 0 errors / 0 skipped；Lint 0 errors / 7 warnings**。警告涉及 API 兼容/固定方向建议、计数复数资源、受限官网浏览 JavaScript、KAPT 与两处搜索日期排版；未添加 Lint baseline 或关闭警告。四语 **378** 条资源覆盖及格式参数、14 项发布工具测试、actionlint 均通过。
+
+本云环境访问 GitHub Actions 构件下载重定向仍返回 `Forbidden`，因此未在本机下载、肉眼复查这些 PNG 或签名 APK。GitHub 内部构建、签名校验、模拟器安装及测试可运行；提供构件页面供用户下载。不会把截图导出成功称为人工视觉验收。真机、多种 Android/解码器以及登录后的 Vote/评论写入本轮未重测。
+
+签名构建沿用受保护 Secrets 和原证书（SHA-256 `9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff`），不生成新密钥。已完成的 45ef7b0 Release 构建通过 96 项单测、Lint 0 errors / 24 warnings、包名/版本/非 Debug/证书/许可证校验，包含 `arm64-v8a`、`armeabi-v7a`、`x86`、`x86_64`；后续封装以构件 `release-verification.json` 中的 `source_commit` 为准。
+
+交付下载：本分支 [Actions](https://github.com/Milenal82/sakugapp/actions/workflows/android.yml) 成功的签名运行中，`sakugapp-signed-candidate` 包含 `Sakugapp-1.2.1-candidate.apk`、对应源码 ZIP、`SHA256SUMS.txt` 与公开验证报告。`signed-upgrade-install-report` 保存已发布 v1.0.0 → 候选版的实际同证书 `adb install -r` 检查与主题/历史截图；1.2.0 收藏数据的兼容性另由上面的真实 v1 schema 迁移用例检查，不混同这两类验证。最终运行链接随 PR 交付结果提供。

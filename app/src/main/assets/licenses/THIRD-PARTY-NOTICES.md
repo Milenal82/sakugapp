@@ -1,4 +1,4 @@
-Sakugapp 1.2.0 — Sakugapp contributors
+Sakugapp 1.2.1 — Sakugapp contributors
 Application source: GPL-3.0-only. See GPL-3.0.txt and the complete corresponding source ZIP distributed with each build. No warranty is provided.
 
 Sakuga Extended (ftLoic): https://github.com/ftLoic/Sakuga-Extended
@@ -6,6 +6,7 @@ Inspected revision: 8229ac56e022d51343cdfd12b997e5ddc2edd4b9, GPL version 3.
 The native Kotlin implementation was written independently using the extension's feature descriptions and the site's public protocol. Extension JavaScript, CSS, icons, fonts, games and bundled libraries were not copied into this application.
 
 Apache-2.0 components (license in APACHE-2.0.txt):
+- Material Design icons (adapted button vector paths and sizes) — Google, https://github.com/google/material-design-icons
 - Kotlin 2.1.20 — JetBrains and Kotlin contributors
 - Kotlin Coroutines 1.10.2 — kotlinx.coroutines contributors
 - AndroidX AppCompat 1.7.1, Activity, Lifecycle, Compose, Material 3, DataStore, Navigation and Media3 — Android Open Source Project

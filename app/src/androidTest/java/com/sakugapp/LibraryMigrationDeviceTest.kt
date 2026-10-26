@@ -37,7 +37,8 @@ class LibraryMigrationDeviceTest {
         val upgraded=Room.databaseBuilder(context,LibraryDatabase::class.java,name).addMigrations(LibraryDatabase.MIGRATION_1_2).build()
         try{
             val store=LocalLibraryStore(upgraded);val data=store.state.first()
-            assertEquals(1,data.posts.size);assertEquals(post,data.decoded[post.id]);assertEquals(2,data.links.size)
+            assertEquals(1,data.posts.size);assertEquals(post,data.decoded[post.id]);assertEquals(123L,data.posts.single().savedAt);assertEquals(2,data.links.size)
+            assertEquals(setOf(123L,124L),data.links.map{it.addedAt}.toSet())
             assertEquals(post.id,data.folders.single{it.id==8L}.coverPostId)
             assertEquals(1234L,data.durations[post.fileUrl]);assertTrue(data.contains(post.id,1));assertTrue(data.contains(post.id,8))
             upgraded.openHelper.readableDatabase.query("SELECT name FROM sqlite_master WHERE name='tag_translations'").use{assertFalse(it.moveToFirst())}

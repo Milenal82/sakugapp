@@ -160,7 +160,7 @@ import kotlinx.coroutines.*
                     }
                     PostCard(post,settings,metered,preview==post.id,{if(manage){selected=if(post.id in selected)selected-post.id else selected+post.id}else open(post,candidates.mapNotNull{state.decoded[it.id]})},
                         search,
-                        {if(!metered || settings.mobilePreview)preview=if(preview==post.id)null else post.id},
+                        {if(!metered || settings.mobilePreview)preview=if(preview==post.id)null else post.id else message=context.getString(R.string.ui_previews_on_metered_networks_are_disabled_in_settings)},
                         {duration->app.duration(post.fileUrl.orEmpty(),duration)})
                     if(app.offlineMedia.existing(post)!=null)Text(text(R.string.ui_offline_ready),style=MaterialTheme.typography.labelSmall)
                 }

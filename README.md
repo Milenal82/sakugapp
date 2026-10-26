@@ -28,7 +28,7 @@ python3 scripts/check-localization.py
 ./gradlew testDebugUnitTest lintDebug assembleDebug assembleDebugAndroidTest
 ```
 
-JDK 17 / Gradle 8.13 / SDK 35 / Room 2.7.1。源码 GPL-3.0-only，完整许可证和第三方声明随项目/APK 提供。实际测试结果见升级记录；不把编译当成真机验证。
+JDK 17 / Gradle 8.13 / SDK 35 / Room 2.7.1。源码 GPL-3.0-only，完整许可证和第三方声明随项目/APK 提供。96 项 JVM 单测及 24/24 项 API 28 KVM 设备测试通过，13 张截图已导出。完整结果见升级记录；真机与登录后的写操作本轮未重测。
 
 ---
 

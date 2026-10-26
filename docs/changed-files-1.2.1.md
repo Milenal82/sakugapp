@@ -1,6 +1,6 @@
 # 1.2.1 修改文件
 
-相对 1.2.0 基线 `07ca42cab25d256208928b5ca3cb389b1ba66cac`。`A` 新增、`M` 修改、`D` 删除。
+相对 1.2.0 基线 `07ca42cab25d256208928b5ca3cb389b1ba66cac`；共 59 个文件。`A` 新增、`M` 修改、`D` 删除。
 
 | 状态 | 文件 |
 | --- | --- |
@@ -17,6 +17,7 @@
 | M | `app/src/androidTest/java/com/sakugapp/PublicBrowseTest.kt` |
 | M | `app/src/androidTest/java/com/sakugapp/PublicPaginationTest.kt` |
 | M | `app/src/androidTest/java/com/sakugapp/UiSmokeTest.kt` |
+| M | `app/src/main/assets/licenses/THIRD-PARTY-NOTICES.md` |
 | D | `app/src/main/assets/tag-translations.json` |
 | M | `app/src/main/java/com/sakugapp/MainActivity.kt` |
 | M | `app/src/main/java/com/sakugapp/data/LibraryCodec.kt` |
@@ -54,10 +55,11 @@
 | M | `app/src/main/res/values-zh-rTW/strings.xml` |
 | M | `app/src/main/res/values/strings.xml` |
 | M | `app/src/test/java/com/sakugapp/LibraryCodecTest.kt` |
+| A | `docs/changed-files-1.2.1.md` |
 | M | `docs/feature-matrix.md` |
 | A | `docs/release-1.2.1.md` |
 | M | `docs/test-report.md` |
+| M | `docs/third-party-notices.md` |
 | A | `release-notes/v1.2.1.md` |
 | M | `scripts/check-upgrade-install.py` |
 | M | `scripts/run-device-checks.sh` |
-| A | `docs/changed-files-1.2.1.md` |
