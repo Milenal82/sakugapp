@@ -34,9 +34,9 @@ class LibraryDocumentsDeviceTest {
             val save=device.wait(Until.findObject(By.text(java.util.regex.Pattern.compile("(?i)save"))),15000)
             assertNotNull("System save action",save);save.click()
             ui.waitUntil(15000){ui.onAllNodesWithText("Exported",substring=false).fetchSemanticsNodes().isNotEmpty()}
-            exportedPath=device.executeShellCommand("find /sdcard/Download /sdcard/Documents -name '$filename'").lineSequence().firstOrNull{it.endsWith(filename) && it.startsWith("/")}
-            assertNotNull("Exported JSON exists in shared storage",exportedPath)
-            val body=device.executeShellCommand("cat '$exportedPath'")
+            exportedPath=device.executeShellCommand("find /sdcard/Download /sdcard/Documents -name $filename").lineSequence().firstOrNull{it.endsWith(filename) && it.startsWith("/")}
+            assertNotNull("Exported JSON exists in shared storage: "+device.executeShellCommand("find /sdcard/Download -maxdepth 1 -name sakugapp-ui-*"),exportedPath)
+            val body=device.executeShellCommand("cat $exportedPath")
             val decoded=LibraryCodec.decode(body)
             assertTrue(decoded.posts.any{it.id==post.id});assertTrue(decoded.folders.any{it.name==folderName})
             assertFalse(com.google.gson.JsonParser.parseString(body).asJsonObject.has("translations"))
@@ -56,7 +56,7 @@ class LibraryDocumentsDeviceTest {
             UiEvidence.capture("compact-json-imported.png")
         }finally{
             runBlocking{app.library.value.folders.firstOrNull{it.name==folderName}?.let{app.localLibrary.deleteFolder(it.id)}}
-            exportedPath?.let{device.executeShellCommand("rm -f '$it'")}
+            exportedPath?.let{device.executeShellCommand("rm -f $it")}
         }
     }
 }

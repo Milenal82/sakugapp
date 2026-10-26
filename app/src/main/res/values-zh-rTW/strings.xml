@@ -300,7 +300,6 @@
     <string name="ui_card_spacing">卡片間距：%1$s dp</string>
     <string name="ui_duration_unknown">尚未取得時長</string>
     <string name="ui_preview_options">預覽選項</string>
-    <string name="ui_tablet_density_hint">8 欄和 12 欄適用於平板（最小寬度 600 dp）。</string>
     <string name="ui_gestures_enabled">影片手勢</string>
     <string name="ui_show_other_tags">其他標籤</string>
     <string name="ui_local_library">收藏夾</string>
@@ -363,12 +362,10 @@
     <string name="ui_ab_precision">A–B 按時間循環，跳轉存在解碼延遲。</string>
     <string name="ui_zoom_value">縮放 %1$s×</string>
     <string name="ui_reset_zoom">重設縮放</string>
-    <string name="ui_gesture_hint">雙指縮放，放大後單指平移；雙擊播放或暫停。重設縮放後可左右切換貼文。</string>
     <string name="ui_post_boundary">沒有相鄰的已載入貼文，可返回清單載入更多。</string>
     <string name="ui_previous_post">上一個貼文</string>
     <string name="ui_next_post">下一個貼文</string>
     <string name="ui_nominal_fps">影片回報影格率：%1$s fps（不作為精確影格編號依據）。</string>
-    <string name="ui_frame_number_hint">精確影格編號僅在實際解碼的影格分析中顯示。</string>
     <string name="ui_frame_alignment_unknown">此格式未提供可核實的播放時間對應，分析從第 1 格開始。</string>
     <string name="ui_playback_time_value">%1$s / %2$s</string>
     <string name="ui_decode_local_video">解碼本機影片</string>

@@ -229,7 +229,7 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
                         ActionIcon(R.drawable.ic_search,text(R.string.ui_search),{if(query.composition==null)submit(query.text)},Modifier.testTag("submit-search"))
                         ActionIcon(R.drawable.ic_close,text(R.string.ui_close),::collapseSearch,Modifier.testTag("collapse-search"))
                     }else{
-                        TextButton(onClick={chromeVisible=true;historyOpen=false;searchExpanded=true},modifier=Modifier.weight(1f).testTag("search-entry")){
+                        TextButton(onClick={chromeVisible=true;historyOpen=false;searchExpanded=true},modifier=Modifier.weight(1f).testTag("search-entry").semantics{contentDescription=context.getString(R.string.ui_search)}){
                             Icon(androidx.compose.ui.res.painterResource(R.drawable.ic_search),contentDescription=null,modifier=Modifier.size(20.dp))
                             Spacer(Modifier.width(8.dp))
                             Text(state.query.ifBlank{text(R.string.ui_search)},maxLines=1,overflow=TextOverflow.Ellipsis,modifier=Modifier.weight(1f))
@@ -351,7 +351,7 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
         if(localSnapshot)Text(text(R.string.ui_library_snapshot_hint),style=MaterialTheme.typography.bodySmall)
         if(post.isVideo)VideoPanel(app.offlineMedia.existing(post)?.toURI()?.toString() ?: post.fileUrl!!,settings,seekRequest=seek,onDurationChanged=onDuration,onNavigate=onNavigate)
         else PostImage(post,Modifier.fillMaxWidth().height(320.dp),settings,metered,true)
-        Row(Modifier.fillMaxWidth().testTag("detail-actions"),horizontalArrangement=Arrangement.SpaceEvenly,verticalAlignment=Alignment.CenterVertically){
+        Row(Modifier.widthIn(max=360.dp).fillMaxWidth().testTag("detail-actions"),horizontalArrangement=Arrangement.SpaceEvenly,verticalAlignment=Alignment.CenterVertically){
             ActionIcon(R.drawable.ic_previous,text(R.string.ui_previous_post),{onNavigate(-1)},Modifier.testTag("previous-post"),enabled=hasPrevious)
             ActionIcon(R.drawable.ic_next,text(R.string.ui_next_post),{onNavigate(1)},Modifier.testTag("next-post"),enabled=hasNext)
             if(post.isVideo)VideoDownloadButton(post)else ActionIcon(R.drawable.ic_download,text(R.string.ui_download_video),{},enabled=false)

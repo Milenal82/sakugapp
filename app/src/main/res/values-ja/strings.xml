@@ -300,7 +300,6 @@
     <string name="ui_card_spacing">カード間隔：%1$s dp</string>
     <string name="ui_duration_unknown">再生時間は未取得です</string>
     <string name="ui_preview_options">プレビュー操作</string>
-    <string name="ui_tablet_density_hint">8・12 列は最小幅 600 dp 以上のタブレットで利用できます。</string>
     <string name="ui_gestures_enabled">動画ジェスチャー</string>
     <string name="ui_show_other_tags">その他のタグ</string>
     <string name="ui_local_library">お気に入り</string>
@@ -363,12 +362,10 @@
     <string name="ui_ab_precision">A–B は時間指定のループです。シークに遅延があります。</string>
     <string name="ui_zoom_value">拡大率 %1$s×</string>
     <string name="ui_reset_zoom">拡大率を戻す</string>
-    <string name="ui_gesture_hint">ピンチで拡大し、拡大中はドラッグで移動。ダブルタップで再生・一時停止。投稿の切替前に拡大率を戻してください。</string>
     <string name="ui_post_boundary">読み込み済みの隣の投稿がありません。必要に応じて一覧で追加読み込みしてください。</string>
     <string name="ui_previous_post">前の投稿</string>
     <string name="ui_next_post">次の投稿</string>
     <string name="ui_nominal_fps">動画の公称フレームレート：%1$s fps（正確なフレーム番号ではありません）。</string>
-    <string name="ui_frame_number_hint">正確なフレーム番号はデコード済みフレームの解析画面だけに表示します。</string>
     <string name="ui_frame_alignment_unknown">再生時刻との対応を確認できない形式です。1 フレーム目から解析します。</string>
     <string name="ui_playback_time_value">%1$s / %2$s</string>
     <string name="ui_decode_local_video">保存済みの動画を解析</string>

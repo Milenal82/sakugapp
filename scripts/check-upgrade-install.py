@@ -67,10 +67,12 @@ try:
     run('adb','shell','am','force-stop',package)
     assert 'Success' in run('adb','install','-r',str(new))
     launch();tap_text('Menu');tap_text('Settings')
-    wait_node(lambda n:n.get('content-desc')=='Light' and n.get('selected')=='true')
+    wait_node(lambda n:n.get('content-desc')=='Light' and (n.get('selected')=='true' or n.get('checked')=='true'))
     settings_switch('Wrap tags','false')
     screenshot('after-upgrade-settings.png')
-    tap_text('Menu');tap_text('Posts');tap_text('Search');tap_text('History')
+    tap_text('Menu');tap_text('Posts')
+    tap(wait_node(lambda n:n.get('content-desc')=='Search' and n.get('clickable')=='true'))
+    tap_text('History')
     wait_node(lambda n:n.get('text')=='id:319947' and n.get('class')!='android.widget.EditText')
     screenshot('after-upgrade-history.png')
     result={'previous':previous,'candidate':current,'retained_light_theme':True,'retained_wrap_tags':True,'retained_search_history':True,'uninstall_or_clear_data':False,'result':'passed'}
@@ -78,6 +80,7 @@ try:
     print('Public upgrade verification:',json.dumps(result,sort_keys=True))
     print('Published APK -> signed candidate upgrade succeeded; settings and search history retained.')
 except Exception:
+    print('Theme options:',[(n.get('content-desc'),n.get('checked'),n.get('selected')) for n in hierarchy().iter('node') if n.get('content-desc') in ['Light','Dark','Follow system theme']])
     screenshot('failure.png')
     (out/'failure-ui.xml').write_text(ET.tostring(hierarchy(),encoding='unicode'))
     raise

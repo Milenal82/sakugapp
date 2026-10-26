@@ -305,7 +305,6 @@
     <string name="ui_card_spacing">Card spacing: %1$s dp</string>
     <string name="ui_duration_unknown">Duration not yet available</string>
     <string name="ui_preview_options">Preview options</string>
-    <string name="ui_tablet_density_hint">8 and 12 columns are available on tablets (600 dp or wider).</string>
     <string name="ui_gestures_enabled">Video gestures</string>
     <string name="ui_show_other_tags">Other tags</string>
     <string name="ui_local_library">Favorites</string>
@@ -368,12 +367,10 @@
     <string name="ui_ab_precision">A–B uses timestamps; seeks may have decoder latency.</string>
     <string name="ui_zoom_value">Zoom %1$s×</string>
     <string name="ui_reset_zoom">Reset zoom</string>
-    <string name="ui_gesture_hint">Pinch to zoom, drag to pan when zoomed. Double tap plays/pauses. Reset zoom before swiping posts.</string>
     <string name="ui_post_boundary">No adjacent loaded post. Load more results in the list if needed.</string>
     <string name="ui_previous_post">Previous post</string>
     <string name="ui_next_post">Next post</string>
     <string name="ui_nominal_fps">Reported stream rate: %1$s fps (not an exact frame counter).</string>
-    <string name="ui_frame_number_hint">Exact frame numbers are shown only in decoded-frame analysis.</string>
     <string name="ui_frame_alignment_unknown">This format does not expose a verified playback-time mapping. Analysis starts at frame 1.</string>
     <string name="ui_playback_time_value">%1$s / %2$s</string>
     <string name="ui_decode_local_video">Decode local video</string>

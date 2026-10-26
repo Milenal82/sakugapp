@@ -23,7 +23,7 @@ class LibraryMigrationDeviceTest {
         SQLiteDatabase.openOrCreateDatabase(file,null).use{old->
             schema.getAsJsonArray("entities").forEach{entity->
                 val table=entity.asJsonObject;old.execSQL(table["createSql"].asString.replace("\${TABLE_NAME}",table["tableName"].asString))
-                table.getAsJsonArray("indices").forEach{old.execSQL(it.asJsonObject["createSql"].asString.replace("\${TABLE_NAME}",table["tableName"].asString))}
+                table.getAsJsonArray("indices")?.forEach{old.execSQL(it.asJsonObject["createSql"].asString.replace("\${TABLE_NAME}",table["tableName"].asString))}
             }
             old.execSQL("INSERT INTO favorite_folders VALUES(1,'',0,NULL)")
             old.execSQL("INSERT INTO favorite_folders VALUES(8,'Keep me',1,?)",arrayOf(post.id))

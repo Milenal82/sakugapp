@@ -300,7 +300,6 @@
     <string name="ui_card_spacing">卡片间距：%1$s dp</string>
     <string name="ui_duration_unknown">尚未取得时长</string>
     <string name="ui_preview_options">预览选项</string>
-    <string name="ui_tablet_density_hint">8 列和 12 列适用于平板（最小宽度 600 dp）。</string>
     <string name="ui_gestures_enabled">视频手势</string>
     <string name="ui_show_other_tags">其他标签</string>
     <string name="ui_local_library">收藏夹</string>
@@ -363,12 +362,10 @@
     <string name="ui_ab_precision">A–B 按时间循环，跳转存在解码延迟。</string>
     <string name="ui_zoom_value">缩放 %1$s×</string>
     <string name="ui_reset_zoom">重置缩放</string>
-    <string name="ui_gesture_hint">双指缩放，放大后单指平移；双击播放或暂停。重置缩放后可左右切帖。</string>
     <string name="ui_post_boundary">没有相邻的已加载帖子，可返回列表加载更多。</string>
     <string name="ui_previous_post">上一个帖子</string>
     <string name="ui_next_post">下一个帖子</string>
     <string name="ui_nominal_fps">视频报告帧率：%1$s fps（不作为精确帧号依据）。</string>
-    <string name="ui_frame_number_hint">精确帧号仅在实际解码的帧分析中显示。</string>
     <string name="ui_frame_alignment_unknown">此格式未提供可核实的播放时间映射，分析从第 1 帧开始。</string>
     <string name="ui_playback_time_value">%1$s / %2$s</string>
     <string name="ui_decode_local_video">解码本地视频</string>
