@@ -5,7 +5,7 @@ import com.google.gson.*
 import java.net.URI
 
 class LibraryFailure(val code:String):Exception(code)
-data class LibraryBackup(val folders:List<FavoriteFolder>,val posts:List<FavoritePost>,val links:List<FavoriteLink>,val translations:List<LocalTagTranslation>)
+data class LibraryBackup(val folders:List<FavoriteFolder>,val posts:List<FavoritePost>,val links:List<FavoriteLink>)
 object LibraryCodec {
     const val MAX_BYTES=20*1024*1024
     private val gson=Gson()
@@ -45,7 +45,7 @@ object LibraryCodec {
     }catch(e:LibraryFailure){throw e}catch(e:Exception){throw LibraryFailure("invalid_backup")}
     fun encode(value:LibraryBackup):String {
         val o=JsonObject();o.addProperty("format","sakugapp.library");o.addProperty("version",1)
-        o.add("folders",gson.toJsonTree(value.folders));o.add("links",gson.toJsonTree(value.links));o.add("translations",gson.toJsonTree(value.translations))
+        o.add("folders",gson.toJsonTree(value.folders));o.add("links",gson.toJsonTree(value.links))
         o.add("posts",JsonArray().apply{value.posts.forEach{p->add(JsonObject().apply{addProperty("savedAt",p.savedAt);add("post",JsonParser.parseString(p.snapshot))})}})
         return gson.toJson(o).also{if(it.toByteArray().size>MAX_BYTES)throw LibraryFailure("library_limit")}
     }
@@ -59,7 +59,7 @@ object LibraryCodec {
         val folderIds=folders.map{it.id}.toSet();val postIds=posts.map{it.id}.toSet()
         val links=array("links",50000).map{v->val l=v.asJsonObject;FavoriteLink(l.long("postId",true)!!,l.long("folderId",true)!!,l.long("addedAt",true)!!.also{if(it<0)throw LibraryFailure("invalid_backup")})}.distinctBy{it.postId to it.folderId}
         if(links.any{it.postId !in postIds || it.folderId !in folderIds})throw LibraryFailure("invalid_backup")
-        val translations=array("translations",2000).map{v->val t=v.asJsonObject;val name=t.text("original",200) ?: "";val translated=t.text("translation",300)?.trim() ?: "";if(!tagName(name)||translated.isBlank()||translated.any{it.isISOControl()})throw LibraryFailure("invalid_backup");LocalTagTranslation(name,translated)}.distinctBy{it.original}
-        LibraryBackup(folders,posts,links,translations)
+        // Legacy v1 backup translation fields are ignored, never read into the database.
+        LibraryBackup(folders,posts,links)
     }catch(e:LibraryFailure){throw e}catch(e:Exception){throw LibraryFailure("invalid_backup")}
 }

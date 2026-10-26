@@ -19,8 +19,9 @@ class PublicBrowseTest {
         node.config.getOrNull(androidx.compose.ui.semantics.SemanticsProperties.Text)?.any{Regex("$index / [0-9]+").matches(it.text)}==true
     }
     @Test fun actualPostSearchDetailsPlaybackAndFrameAnalysis(){
+        ui.onNodeWithTag("search-entry").performClick()
         ui.onNode(hasSetTextAction()).performTextReplacement("id:319947")
-        ui.onNodeWithText("Search",useUnmergedTree=true).performClick()
+        ui.onNodeWithTag("submit-search").performClick()
         ui.waitUntil(90000){ui.onAllNodesWithContentDescription("Post 319947").fetchSemanticsNodes().isNotEmpty()}
         val inCaption=hasAnyAncestor(hasTestTag("post-caption-319947"))
         ui.onNode(hasText("mokmok") and inCaption,useUnmergedTree=true).assertIsDisplayed()
@@ -29,7 +30,7 @@ class PublicBrowseTest {
         val score=ui.onNodeWithTag("post-score-319947",useUnmergedTree=true).fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].single().text
         assertTrue("Real score remains visible",Regex("Score -?[0-9]+").matches(score))
         ui.onNodeWithContentDescription("Post 319947").performClick()
-        ui.onNodeWithText("#319947").performScrollTo().assertIsDisplayed()
+        ui.onNodeWithTag("detail-post-id").performScrollTo().assertIsDisplayed()
         ui.waitUntil(90000){ui.onAllNodesWithContentDescription("Video frame rendered").fetchSemanticsNodes().isNotEmpty()}
         ui.onNodeWithContentDescription("Video frame rendered").performScrollTo()
         val device=UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
@@ -70,9 +71,10 @@ class PublicBrowseTest {
         val save=device.wait(Until.findObject(By.text(java.util.regex.Pattern.compile("(?i)save"))),15000)
         assertNotNull("System save document picker",save);save.click()
         ui.waitUntil(90000){ui.onAllNodesWithTag("download-complete").fetchSemanticsNodes().isNotEmpty()}
-        ui.onNodeWithTag("download-complete").assertTextContains("Video saved.")
+        ui.onNodeWithTag("download-complete").assertTextContains("Saved")
+        ui.onNodeWithText("Close",substring=false).performClick()
         ui.runOnUiThread{ui.activity.onBackPressedDispatcher.onBackPressed()}
         ui.onNodeWithContentDescription("Post 319947").assertExists()
-        ui.onNode(hasSetTextAction()).assertTextContains("id:319947")
+        ui.onNodeWithTag("search-entry").assertTextContains("id:319947")
     }
 }

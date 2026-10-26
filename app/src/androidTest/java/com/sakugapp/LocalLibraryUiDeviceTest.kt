@@ -25,42 +25,51 @@ import java.io.File
 @RunWith(AndroidJUnit4::class)
 class LocalLibraryUiDeviceTest {
     @get:Rule val ui=createAndroidComposeRule<MainActivity>()
-    @Test fun realPostCanBeSavedToMultipleFoldersAndCustomTranslationNeverChangesSearchTag(){
+    @Test fun oneFavoriteEntrySupportsMultipleFoldersAndOriginalTagSearch(){
         val instrumentation=InstrumentationRegistry.getInstrumentation()
         val post=PostParser.posts(instrumentation.context.assets.open("library-real-posts.json").bufferedReader().use{it.readText()}).first()
         lateinit var app:AppViewModel;var searched=""
         val folderName="Device UI collection"
         ui.runOnUiThread{app=ViewModelProvider(ui.activity)[AppViewModel::class.java]}
         try{
-            ui.runOnUiThread{ui.activity.setContent{val local by app.library.collectAsStateWithLifecycle();SakugappTheme(false){
-                CompositionLocalProvider(LocalTagPresentation provides TagPresentation(true,mapOf("character_animation" to "角色作画"),local.translations,app.localLibrary)){
-                    Column{FavoriteControl(post,app);TranslatedTag(Tag("character_animation",TagCategory.OTHER),MaterialTheme.colorScheme.onSurface,{searched=it},Modifier.testTag("translation-sample"))}
-                }
+            ui.runOnUiThread{ui.activity.setContent{SakugappTheme(false){
+                Column{FavoriteControl(post,app);OriginalTag(Tag("character_animation",TagCategory.OTHER),MaterialTheme.colorScheme.onSurface,{searched=it},Modifier.testTag("original-tag-sample"))}
             }}}
             ui.waitUntil(15000){app.library.value.folders.any{it.id==1L}}
-            if(!app.library.value.contains(post.id,1))ui.onNodeWithTag("quick-favorite").performClick()
+            ui.onNodeWithTag("favorite-action").performClick()
+            ui.onNodeWithTag("save-default").performClick()
             ui.waitUntil(10000){app.library.value.contains(post.id,1)}
-            ui.onNodeWithTag("favorite-folders").performClick()
             ui.onNode(hasSetTextAction()).performTextReplacement(folderName)
             ui.onNodeWithText("New folder",substring=false).performClick()
             ui.waitUntil(10000){app.library.value.folders.firstOrNull{it.name==folderName}?.let{app.library.value.contains(post.id,it.id)}==true}
             ui.onNodeWithText("Close",substring=false).performClick()
-            ui.onNodeWithTag("translation-sample").performTouchInput{longClick()}
-            ui.onNode(hasSetTextAction()).assertTextContains("角色作画",substring=true)
-            ui.onNode(hasSetTextAction()).performTextReplacement("自定义作画译名")
-            ui.onNodeWithText("Save local translation",substring=false).performClick()
-            ui.waitUntil(10000){app.library.value.translations["character_animation"]=="自定义作画译名"}
-            ui.onNodeWithText("自定义作画译名",substring=false).assertExists()
-            ui.onNodeWithTag("translation-sample").performClick();assertEquals("character_animation",searched)
-            ui.onNodeWithTag("translation-sample").performTouchInput{longClick()}
-            ui.onNodeWithText("Remove local override",substring=false).performClick()
-            ui.waitUntil(10000){"character_animation" !in app.library.value.translations}
-            ui.onNodeWithTag("translation-sample").assertTextContains("角色作画",substring=true)
+            ui.onNodeWithTag("original-tag-sample").performClick();assertEquals("character_animation",searched)
+            ui.onNodeWithTag("favorite-action").assertIsSelected()
             ui.runOnUiThread{ui.activity.setContent{SakugappTheme(false){LibraryScreen(app){_,_->}}}}
+            val id=app.library.value.folders.single{it.name==folderName}.id
             ui.onNodeWithText(folderName,substring=false).assertExists()
+            ui.onNodeWithTag("post-media-${post.id}").assertDoesNotExist()
+            ui.onNode(hasSetTextAction()).assertDoesNotExist()
+            UiEvidence.capture("compact-favorites-home.png")
+            ui.onNodeWithTag("folder-entry-$id").performClick()
+            ui.onNodeWithTag("folder-header").assertIsDisplayed()
+            ui.onNodeWithTag("post-media-${post.id}").assertIsDisplayed()
+            UiEvidence.capture("compact-favorites-folder.png")
+            ui.onNodeWithTag("folder-back").performClick()
+            ui.onNodeWithTag("folder-entry-0").assertIsDisplayed()
+            ui.onNodeWithTag("post-media-${post.id}").assertDoesNotExist()
+            ui.onNodeWithTag("folder-entry-0").performClick()
+            ui.onNodeWithTag("post-media-${post.id}").assertIsDisplayed()
             UiEvidence.capture("phone-local-favorites.png")
+            ui.onNodeWithTag("folder-back").performClick()
+            ui.runOnUiThread{ui.activity.setContent{SakugappTheme(false){FavoriteControl(post,app)}}}
+            ui.onNodeWithTag("favorite-action").performClick()
+            ui.onNodeWithTag("remove-favorite").performClick()
+            ui.waitUntil(10000){!app.library.value.contains(post.id)}
+            ui.onNodeWithText("Close",substring=false).performClick()
+            ui.onNodeWithTag("favorite-action").assertIsNotSelected()
         }finally{
-            runBlocking{app.library.value.folders.firstOrNull{it.name==folderName}?.let{app.localLibrary.deleteFolder(it.id)};app.localLibrary.membership(post,1,false);app.localLibrary.translation("character_animation",null)}
+            runBlocking{app.library.value.folders.firstOrNull{it.name==folderName}?.let{app.localLibrary.deleteFolder(it.id)};app.localLibrary.membership(post,1,false)}
         }
     }
 }

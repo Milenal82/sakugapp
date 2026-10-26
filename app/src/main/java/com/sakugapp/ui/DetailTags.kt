@@ -25,7 +25,7 @@ import com.sakugapp.data.*
                         TextButton(onClick={wiki(UrlPolicy.artistWiki(tag.name))},modifier=Modifier.testTag("artist-wiki-${tag.name}").semantics{contentDescription=description}){Text("?",color=color)}
                         VerticalDivider(Modifier.height(40.dp),color=color.copy(alpha=0.35f))
                     }
-                    TranslatedTag(tag,color,search,Modifier.padding(horizontal=12.dp,vertical=4.dp))
+                    OriginalTag(tag,color,search,Modifier.padding(horizontal=12.dp,vertical=4.dp))
                 }
             }
         }

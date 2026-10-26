@@ -6,34 +6,35 @@
 
 ## 简体中文
 
-本轮增量版本 **1.2.0 / versionCode 8**，分支 `feature/personalization-pro-player`，基于上一轮 1.1.0 开发成果。包名 `com.sakugapp`、正式证书及旧设置/历史/账户/下载保持兼容，不替换已发布 v1.0.0。
+开发测试版本 **1.2.1 / versionCode 9**，分支 `feature/compact-interface`，基于 1.2.0。包名 `com.sakugapp` 和正式签名保持不变，不改 main 或已发布 v1.0.0。
 
-- 手机 1–4 列；平板 8/12 列、紧凑卡片；缩略图左下时长、右下红色 Score，标签及可选译文在图下。
-- 本地 Room 收藏库：多收藏夹、封面、排序、批量移动/移除、本地搜索、JSON 导入/导出和顺序批量离线下载。
-- 小型维护词典及可编辑的中文译名，长按复制/搜索/修改/删除覆盖；不猜测未知姓名，不改变原始搜索标签。
-- 专业控制分组折叠，A–B 时间戳循环、真实解码逐帧、已有九档速度、1–5× 缩放和平移、双击播放暂停、按当前结果顺序切帖。
-- 跟随系统/深/浅主题，四种 UI 语言，集中动画时长与可调卡片间距。
+- 详情页五个统一图标：上一帖、下一帖、下载、原帖、收藏。长按查看名称，无法切帖时禁用。
+- 一个收藏入口选择多个收藏夹、保存到默认夹或取消收藏。Score 与来源、Post ID 等信息紧凑换行。
+- 搜索按需展开；组合搜索、历史和平均色彩位于展开区，历史默认收起，原搜索能力和记录保留。
+- 收藏首页仅显示收藏夹，夹内复用 Post 网格。新建/导入/导出为描边按钮，批量管理、封面、重命名等位于更多菜单。
+- 删除 Tags 翻译、词典/译名编辑和收藏页搜索；保留原标签、分类颜色、Post 搜索和四语界面。
+- 保留深浅主题、平板列数、视频速度、严格帧分析、A–B 循环、手势、账户、Vote、评论和原视频下载。
 
-[逐项状态、数据兼容和精度限制](docs/release-1.2.0.md) · [实际修改文件](docs/changed-files-1.2.0.md) · [版本说明](release-notes/v1.2.0.md)
+[前后对比、删除清单与验证](docs/release-1.2.1.md) · [修改文件](docs/changed-files-1.2.1.md) · [版本说明](release-notes/v1.2.1.md)
 
-在 [GitHub Actions](https://github.com/Milenal82/sakugapp/actions/workflows/android.yml) 选择本分支的成功运行，下载 **sakugapp-signed-candidate**：内含正式证书签名候选 APK、同提交完整源码、SHA-256 校验、许可及验证报告。此候选可按证书和递增版本覆盖旧正式版；**不要卸载含有重要数据的旧版来试装 Debug APK**。正式 Release 保持原状。96 项单测、20/20 项 API 28 设备验收及同证书覆盖升级已通过，5 张 PNG 已导出；[实际结果与限制](docs/release-1.2.0.md#最终实际验收)。最终封装提交见构件元数据。
+在 [GitHub Actions](https://github.com/Milenal82/sakugapp/actions/workflows/android.yml) 选择本分支的成功运行，下载 **sakugapp-signed-candidate**：内含既有正式证书签名的候选 APK、同提交源码 ZIP、SHA-256 和验证报告。Debug APK 另见 **sakugapp-debug**。候选仅通过 Actions 提供，不替换正式 Release。
 
-收藏 JSON 仅备份本地元数据/译名，不含账户凭据或视频文件。导入按 ID 和同名文件夹合并，保留既有记录；删除收藏关系保留媒体文件。新批量下载位于应用私有存储，最多 20 个/批、200 MiB/文件、1 GiB 总额，需保持页面开启；旧的系统文件选择器下载保留。元数据可离线查看，未完成媒体下载时不会标记可离线播放。
+同证书旧版可以直接覆盖安装以保留数据。Debug 版不能覆盖正式签名版；切换前导出收藏 JSON，再卸载 Debug 并安装候选、导入 JSON。JSON 不含凭据、设置、搜索历史或媒体，卸载会清除这些应用内数据。
 
-时长只有从真实播放器取得后才显示，未知为“—”。A–B 有 30ms 检查与解码 seek 延迟；严格帧分析需 Android 9/API 28+、可用解码器，无法核实时间映射时从第 1 帧开始，不用固定 FPS 冒充当前帧号。详见升级记录。
+数据库升级只删除已废弃译名表，保留收藏夹、帖子、关系和媒体信息。旧 JSON 可导入，新备份不含译名。下载配额仍为 20 个/批、200 MiB/文件、1 GiB 总额，下载时保持页面打开。时长未知显示“—”，A–B 是带解码延迟的时间戳循环，严格帧分析要求 API 28+ 与受支持解码器。
 
 ```sh
 python3 scripts/check-localization.py
 ./gradlew testDebugUnitTest lintDebug assembleDebug assembleDebugAndroidTest
 ```
 
-JDK 17 / Gradle 8.13 / SDK 35 保持不变，新增 Room 2.7.1。源码 GPL-3.0-only，随附完整许可证与第三方声明。附件未提供功能 2，已按用户确认排除；未擅自添加壁纸功能。
+JDK 17 / Gradle 8.13 / SDK 35 / Room 2.7.1。源码 GPL-3.0-only，完整许可证和第三方声明随项目/APK 提供。实际测试结果见升级记录；不把编译当成真机验证。
 
 ---
 
 ## 繁體中文
 
-1.2.0 新增本機收藏夾與 JSON 備份、可編輯標籤譯名、A–B 循環、縮放手勢、折疊播放器和 8/12 欄平板瀏覽。[範圍與測試](docs/release-1.2.0.md)。
+1.2.1 精簡詳情操作、按需搜尋與收藏夾首頁；移除 Tags 翻譯及收藏頁搜尋，保留原標籤、JSON、播放器及四語介面。[變更與驗證](docs/release-1.2.1.md)。
 
 Kotlin + Jetpack Compose 開發的原生 Android 客戶端，用於瀏覽 [Sakugabooru](https://www.sakugabooru.com/post) 的標籤與貼文。
 
@@ -50,10 +51,10 @@ Kotlin + Jetpack Compose 開發的原生 Android 客戶端，用於瀏覽 [Sakug
 
 正式版本見 [GitHub Releases](https://github.com/Milenal82/sakugapp/releases)。
 
-- `v1.0.0` 已正式發布；本輪 1.2.0 候選只透過開發分支 Actions 提供，不替換既有 Release。
+- `v1.0.0` 已正式發布；本輪 1.2.1 候選只透過開發分支 Actions 提供，不替換既有 Release。
 - 最低支援 Android 8.0（API 26）；嚴格逐幀分析需 API 28+。
 - 升級時請確保安裝**相同正式證書簽名**且 `versionCode` 更高的 APK，直接覆蓋以保留資料。
-- Debug 版無法直接覆蓋正式版；切換前請先備份設定與歷史。
+- Debug 版無法覆蓋正式版。切換前匯出收藏 JSON；JSON 不含設定、歷史或帳號，解除安裝會清除這些資料。
 
 ### 建置
 
@@ -77,7 +78,7 @@ JDK 17、Gradle 8.13、AGP 8.9.2、Kotlin 2.1.20、Compose BOM 2025.04.01、comp
 
 ## 日本語
 
-1.2.0 ではローカルのお気に入り、JSON バックアップ、独自のタグ訳、A–B リピート、拡大・移動、折りたたみ操作、タブレットの 8/12 列を追加。[対応範囲と検証](docs/release-1.2.0.md)。
+1.2.1 では詳細の5アイコン、必要時に開く検索、フォルダ中心のお気に入りに整理。タグ翻訳とお気に入り内検索を削除し、元のタグ、JSON、プレーヤーと4言語UIを保持。[変更と検証](docs/release-1.2.1.md)。
 
 Kotlin + Jetpack Compose で開発された Android ネイティブクライアント。[Sakugabooru](https://www.sakugabooru.com/post) のタグと投稿を閲覧できます。
 
@@ -94,10 +95,10 @@ Kotlin + Jetpack Compose で開発された Android ネイティブクライア�
 
 正式版は [GitHub Releases](https://github.com/Milenal82/sakugapp/releases) を参照してください。
 
-- `v1.0.0` は公開済みです。1.2.0 候補は開発ブランチの Actions で提供し、公開済み Release を置き換えません。
+- `v1.0.0` は公開済みです。1.2.1 候補は開発ブランチの Actions で提供し、公開済み Release を置き換えません。
 - 最低要件は Android 8.0（API 26）。厳密なフレーム解析には API 28+ が必要です。
 - アップデート時は、**同じ正式証明書で署名**され、`versionCode` がより大きい APK を上書きインストールしてください。データが保持されます。
-- Debug 版から正式版への上書きはできません。切り替え前に設定と履歴をバックアップしてください。
+- Debug 版は正式署名版に上書きできません。切り替え前にお気に入り JSON を保存してください。設定・履歴・アカウントは JSON に含まれず、アンインストールで消えます。
 
 ### ビルド
 
@@ -121,7 +122,7 @@ JDK 17、Gradle 8.13、AGP 8.9.2、Kotlin 2.1.20、Compose BOM 2025.04.01、comp
 
 ## English
 
-1.2.0 adds local collections and JSON backups, editable Chinese tag translations, time-based A–B loops, pinch/pan and playback gestures, collapsible controls, and 8/12-column tablet browsing. [Scope and validation](docs/release-1.2.0.md).
+1.2.1 simplifies detail actions, expands search on demand and opens Favorites with folders only. Tag translation and favorites search are removed; original tags, JSON backups, player tools and all four interface languages remain. [Changes and validation](docs/release-1.2.1.md).
 
 
 A native Android client built with Kotlin + Jetpack Compose for browsing tags and posts on [Sakugabooru](https://www.sakugabooru.com/post).
@@ -139,10 +140,10 @@ A native Android client built with Kotlin + Jetpack Compose for browsing tags an
 
 See [GitHub Releases](https://github.com/Milenal82/sakugapp/releases) for official builds.
 
-- `v1.0.0` is published. The 1.2.0 candidate is distributed through development-branch Actions without replacing the existing Release.
+- `v1.0.0` is published. The 1.2.1 candidate is distributed through development-branch Actions without replacing the existing Release.
 - Minimum requirement: Android 8.0 (API 26). Strict frame analysis requires API 28+.
 - To upgrade, install an APK signed with the **same official certificate** and a higher `versionCode`. Overwrite installation preserves local data.
-- Debug builds cannot overwrite official builds. Back up settings and history before switching.
+- Debug builds cannot overwrite official builds. Export favorites JSON first; settings, history and accounts are not in JSON and are lost on uninstall.
 
 ### Build
 
