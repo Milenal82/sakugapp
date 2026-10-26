@@ -48,6 +48,12 @@ class FeedViewModel @JvmOverloads constructor(
             catch(e:Exception){_detailError.value=e.message ?: "Unable to load post."}
         }
     }
+    fun updateDuration(id:Long,url:String,value:Long){
+        if(value<=0)return
+        fun Post.update()=if(this.id==id && fileUrl==url)copy(durationMs=value)else this
+        _state.value=_state.value.copy(posts=_state.value.posts.map{it.update()})
+        _selected.value=_selected.value?.update()
+    }
     fun updateScore(id: Long, score: Int?) {
         _state.value=_state.value.copy(posts=_state.value.posts.map{if(it.id==id)it.copy(score=score)else it})
         _selected.value=_selected.value?.let{if(it.id==id)it.copy(score=score)else it}

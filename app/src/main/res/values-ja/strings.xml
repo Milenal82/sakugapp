@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="ui_0_clears_your_vote_3_is_the_site_s_favorite_level">0で評価解除・3はサイトのお気に入りレベル</string>
     <string name="ui_about_and_licenses">アプリ・ライセンス</string>
@@ -293,4 +293,15 @@
     <string name="ui_wrap_tags">タグを折り返す</string>
     <string name="ui_play_preview">プレビュー</string>
     <string name="ui_stop_preview">プレビュー停止</string>
+    <string name="ui_theme_mode">テーマ</string>
+    <string name="ui_theme_system">システムに合わせる</string>
+    <string name="ui_theme_dark">ダーク</string>
+    <string name="ui_theme_light">ライト</string>
+    <string name="ui_card_spacing">カード間隔：%1$s dp</string>
+    <string name="ui_duration_unknown">再生時間は未取得です</string>
+    <string name="ui_preview_options">プレビュー操作</string>
+    <string name="ui_tablet_density_hint">8・12 列は最小幅 600 dp 以上のタブレットで利用できます。</string>
+    <string name="ui_gestures_enabled">動画ジェスチャー</string>
+    <string name="ui_tag_translations">タグの中国語訳</string>
+    <string name="ui_show_other_tags">その他のタグ</string>
 </resources>

@@ -14,6 +14,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.unit.dp
 import com.sakugapp.data.*
@@ -50,7 +51,15 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel) {
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
         Text(text(R.string.ui_appearance),style=MaterialTheme.typography.titleLarge)
         Text(text(R.string.ui_grid_columns))
-        Row{for(columns in 1..4)FilterChip(selected=settings.columns==columns,onClick={model.columns(columns)},label={Text(columns.toString())})}
+        FlowRow{for(columns in GridPolicy.options(LocalConfiguration.current.smallestScreenWidthDp))FilterChip(selected=settings.columns==columns,onClick={model.columns(columns)},label={Text(columns.toString())})}
+        Text(text(R.string.ui_tablet_density_hint),style=MaterialTheme.typography.bodySmall)
+        Text(text(R.string.ui_theme_mode))
+        FlowRow{for((mode,label)in listOf("system" to R.string.ui_theme_system,"dark" to R.string.ui_theme_dark,"light" to R.string.ui_theme_light))FilterChip(selected=settings.themeMode==mode,onClick={model.theme(mode)},label={Text(text(label))})}
+        Text(text(R.string.ui_card_spacing,settings.cardSpacing.toInt().toString()))
+        var spacing by remember(settings.cardSpacing){mutableFloatStateOf(settings.cardSpacing)}
+        Slider(value=spacing,onValueChange={spacing=it},onValueChangeFinished={model.number("cardSpacing",spacing)},valueRange=0f..10f,steps=9)
+        SettingSwitch(text(R.string.ui_show_other_tags),settings.showOtherTags){model.flag("otherTags",it)}
+        SettingSwitch(text(R.string.ui_gestures_enabled),settings.gestures){model.flag("gestures",it)}
         SettingSwitch(text(R.string.ui_light_background),settings.lightTheme){model.flag("lightTheme",it)}
         SettingSwitch(text(R.string.ui_crop_rectangular_thumbnails),settings.cropThumbnails){model.flag("crop",it)}
         SettingSwitch(text(R.string.ui_wrap_tags),settings.wrapTags){model.flag("wrap",it)}

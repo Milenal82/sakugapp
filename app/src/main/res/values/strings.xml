@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="app_name" translatable="false">Sakugapp</string>
     <string name="language_english" translatable="false">English</string>
@@ -298,4 +298,15 @@
     <string name="ui_wrap_tags">Wrap tags</string>
     <string name="ui_play_preview">Play preview</string>
     <string name="ui_stop_preview">Stop preview</string>
+    <string name="ui_theme_mode">Theme mode</string>
+    <string name="ui_theme_system">Follow system theme</string>
+    <string name="ui_theme_dark">Dark</string>
+    <string name="ui_theme_light">Light</string>
+    <string name="ui_card_spacing">Card spacing: %1$s dp</string>
+    <string name="ui_duration_unknown">Duration not yet available</string>
+    <string name="ui_preview_options">Preview options</string>
+    <string name="ui_tablet_density_hint">8 and 12 columns are available on tablets (600 dp or wider).</string>
+    <string name="ui_gestures_enabled">Video gestures</string>
+    <string name="ui_tag_translations">Chinese tag translations</string>
+    <string name="ui_show_other_tags">Other tags</string>
 </resources>

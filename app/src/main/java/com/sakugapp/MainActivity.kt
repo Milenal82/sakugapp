@@ -7,6 +7,8 @@ import androidx.activity.compose.*
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.*
+import androidx.compose.animation.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
@@ -51,7 +53,7 @@ import java.time.format.DateTimeFormatter
 
 class MainActivity:AppCompatActivity(){
     override fun onCreate(savedInstanceState:Bundle?){
-        super.onCreate(savedInstanceState);enableEdgeToEdge();setContent{Sakugapp()}
+        super.onCreate(savedInstanceState);requestedOrientation=if(resources.configuration.smallestScreenWidthDp>=600)android.content.pm.ActivityInfo.SCREEN_ORIENTATION_USER else android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;enableEdgeToEdge();setContent{Sakugapp()}
     }
     override fun onResume(){
         super.onResume()
@@ -61,7 +63,8 @@ class MainActivity:AppCompatActivity(){
 
 @Composable
 private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel()) {
-    val settings by app.settings.collectAsStateWithLifecycle()
+    val savedSettings by app.settings.collectAsStateWithLifecycle()
+    val settings=savedSettings.copy(lightTheme=themeIsLight(savedSettings.themeMode,isSystemInDarkTheme()),columns=GridPolicy.effective(savedSettings.columns,LocalConfiguration.current.smallestScreenWidthDp))
     val context=LocalContext.current
     val metered by remember(context){meteredNetwork(context.applicationContext)}.collectAsStateWithLifecycle(initialValue=true)
     val nav=rememberNavController();val entry by nav.currentBackStackEntryAsState()
@@ -106,7 +109,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                 val id=backStack.arguments?.getString("id")?.toLongOrNull()
                 LaunchedEffect(id){if(id!=null && selected?.id!=id)model.openId(id)}
                 val post=selected?.takeIf{it.id==id}
-                if(post!=null)PostDetail(post,settings,metered,app,::search,openSite,{nav.navigate("account")},{score->model.updateScore(post.id,score)})
+                if(post!=null)PostDetail(post,settings,metered,app,::search,openSite,{nav.navigate("account")},{score->model.updateScore(post.id,score)},{duration->model.updateDuration(post.id,post.fileUrl.orEmpty(),duration)})
                 else Column(Modifier.padding(16.dp)){if(detailError==null)CircularProgressIndicator()else{Text(translateMessage(detailError.orEmpty()),color=MaterialTheme.colorScheme.error);TextButton(onClick={id?.let(model::openId)}){Text(text(R.string.ui_retry))}}}
             }
         }}
@@ -141,7 +144,7 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
             return Offset.Zero
         }
     }}
-    val offset by animateFloatAsState(if(chromeVisible || pinned)0f else -fullHeight.toFloat(),tween(200),label="search-chrome")
+    val offset by animateFloatAsState(if(chromeVisible || pinned)0f else -fullHeight.toFloat(),tween(Motion.search,easing=FastOutSlowInEasing),label="search-chrome")
     LaunchedEffect(pinned){if(pinned){chromeVisible=true;chrome.reset()}}
     LaunchedEffect(grid,state.query){snapshotFlow{!grid.canScrollBackward}.collect{if(it){chromeVisible=true;chrome.reset()}}}
     val latestState by rememberUpdatedState(state)
@@ -166,7 +169,7 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
         LazyVerticalGrid(columns=GridCells.Fixed(settings.columns),state=grid,
             modifier=Modifier.fillMaxSize().nestedScroll(connection).testTag("post-grid"),
             contentPadding=PaddingValues(start=10.dp,end=10.dp,top=with(density){baseHeight.toDp()},bottom=16.dp),
-            horizontalArrangement=Arrangement.spacedBy(if(settings.columns>=3)4.dp else 8.dp),verticalArrangement=Arrangement.spacedBy(12.dp)){
+            horizontalArrangement=Arrangement.spacedBy(if(settings.columns>=8)settings.cardSpacing.coerceAtMost(2f).dp else settings.cardSpacing.dp),verticalArrangement=Arrangement.spacedBy(if(settings.columns>=8)2.dp else (settings.cardSpacing+2f).dp)){
             state.categoryWarning?.let{item(span={GridItemSpan(maxLineSpan)}){Column{
                 Text(text(R.string.ui_tag_categories_unavailable_unknown_categories_are_not_guessed),style=MaterialTheme.typography.bodySmall)
                 Text(translateMessage(it),style=MaterialTheme.typography.labelSmall)
@@ -199,7 +202,7 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
                         }}){Text(text(R.string.ui_average_color))}
                         Box{
                             TextButton(onClick={gridMenu=true},modifier=Modifier.testTag("grid-columns").semantics{contentDescription=context.getString(R.string.ui_grid_selection,settings.columns)}){Text("▦ ${settings.columns}")}
-                            DropdownMenu(expanded=gridMenu,onDismissRequest={gridMenu=false}){for(columns in 1..4)DropdownMenuItem(text={Text(text(R.string.ui_columns_count,columns))},onClick={
+                            DropdownMenu(expanded=gridMenu,onDismissRequest={gridMenu=false}){for(columns in GridPolicy.options(LocalConfiguration.current.smallestScreenWidthDp))DropdownMenuItem(text={Text(text(R.string.ui_columns_count,columns))},onClick={
                                 val index=grid.firstVisibleItemIndex;val scroll=grid.firstVisibleItemScrollOffset
                                 app.columns(columns);grid.requestScrollToItem(index,scroll);gridMenu=false
                             })}
@@ -208,14 +211,15 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
                     average?.let{Text(it,style=MaterialTheme.typography.labelSmall)}
                     HorizontalDivider(thickness=1.dp,color=MaterialTheme.colorScheme.outlineVariant,modifier=Modifier.testTag("search-divider"))
                 }
-                if(historyOpen)Column(Modifier.heightIn(max=200.dp).verticalScroll(rememberScrollState()).testTag("search-history")){
+                AnimatedVisibility(historyOpen,enter=expandVertically(tween(Motion.history)),exit=shrinkVertically(tween(Motion.history))){Column(Modifier.heightIn(max=200.dp).verticalScroll(rememberScrollState()).testTag("search-history")){
                     if(history.isEmpty())Text(text(R.string.ui_no_saved_searches),Modifier.padding(8.dp))
                     history.forEach{item->Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically){
                         TextButton(onClick={query=TextFieldValue(item,TextRange(item.length));submit(item)},modifier=Modifier.weight(1f)){Text(item)}
                         TextButton(onClick={app.deleteHistory(item)},modifier=Modifier.semantics{contentDescription=context.getString(R.string.ui_delete_search,item)}){Text("×")}
                     }}
                     TextButton(onClick=app::clearHistory){Text(text(R.string.ui_clear_search_history))}
-                }else TagSuggestionsMenu(suggestions,settings.lightTheme,::complete)
+                }}
+                if(!historyOpen)TagSuggestionsMenu(suggestions,settings.lightTheme,::complete)
             }
         }
     }
@@ -233,18 +237,34 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable private fun PostCard(post:Post,settings:AppSettings,metered:Boolean,preview:Boolean,open:()->Unit,search:(String)->Unit,toggle:()->Unit){
-    val previewDescription=text(if(preview)R.string.ui_stop_preview else R.string.ui_play_preview)
-    Column{
-        Box(Modifier.fillMaxWidth().heightIn(min=48.dp).aspectRatio(16f/9f).background(Color.Black).clickable(onClick=open)){
+    val contextDescriptionDurationUnknown=text(R.string.ui_duration_unknown)
+    var options by remember(post.id){mutableStateOf(false)}
+    Surface(shape=RoundedCornerShape(if(settings.columns>=8)6.dp else 12.dp),color=MaterialTheme.colorScheme.surface,
+        shadowElevation=if(settings.columns>=8)0.dp else 1.dp,tonalElevation=1.dp){Column{
+        Box(Modifier.fillMaxWidth().heightIn(min=48.dp).aspectRatio(16f/9f).background(MaterialTheme.colorScheme.surfaceVariant)
+            .combinedClickable(onClick=open,onLongClick={options=true},onLongClickLabel=text(R.string.ui_preview_options))){
             if(preview && post.fileUrl!=null)VideoPanel(post.fileUrl,settings,preview=true)
             else PostImage(post,Modifier.fillMaxSize(),settings,metered)
-            if(post.isVideo)Box(Modifier.size(if(settings.columns>=3)28.dp else 48.dp).align(Alignment.BottomEnd)
-                .background(Color.Black.copy(alpha=0.65f)).clickable(role=Role.Button,onClick=toggle)
-                .semantics{contentDescription=previewDescription},contentAlignment=Alignment.Center){Text(if(preview)"■"else"▶",color=Color.White)}
+            Row(Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(2.dp),horizontalArrangement=Arrangement.SpaceBetween,verticalAlignment=Alignment.Bottom){
+                Surface(color=MaterialTheme.colorScheme.surface.copy(alpha=0.92f),shape=RoundedCornerShape(3.dp)){
+                    Text(post.durationMs?.let(::mediaTime) ?: "—",fontSize=if(settings.columns>=8)9.sp else 11.sp,
+                        modifier=Modifier.padding(horizontal=3.dp,vertical=1.dp).semantics{if(post.durationMs==null)contentDescription=contextDescriptionDurationUnknown})
+                }
+                if(settings.showScore)Surface(color=MaterialTheme.colorScheme.surface.copy(alpha=0.92f),shape=RoundedCornerShape(3.dp)){
+                    Text(if(settings.columns>=8)post.score?.toString() ?: "?" else text(R.string.ui_score_value,post.score?.toString() ?: "?"),
+                        color=scoreColor(settings.lightTheme),fontSize=if(settings.columns>=8)9.sp else 11.sp,fontWeight=FontWeight.Medium,
+                        modifier=Modifier.padding(horizontal=3.dp,vertical=1.dp).testTag("post-score-${post.id}"))
+                }
+            }
+            DropdownMenu(options,{options=false}){
+                DropdownMenuItem(text={Text(text(R.string.ui_open_original_post))},onClick={options=false;open()})
+                if(post.isVideo)DropdownMenuItem(text={Text(text(if(preview)R.string.ui_stop_preview else R.string.ui_play_preview))},onClick={options=false;toggle()})
+            }
         }
-        PostCaption(post,settings,search)
-    }
+        Box(Modifier.padding(horizontal=if(settings.columns>=8)2.dp else 6.dp,vertical=3.dp)){PostCaption(post,settings,search)}
+    }}
 }
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -255,16 +275,14 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
         Column(Modifier.fillMaxWidth().padding(top=5.dp).testTag("post-caption-${post.id}").semantics(mergeDescendants=true){}){
             Row(horizontalArrangement=Arrangement.spacedBy(4.dp)){
                 tags.forEach{tag->Text(tag.name,modifier=Modifier.weight(1f).clickable{search(tag.name)},
-                    color=if(tag.category==TagCategory.COPYRIGHT)copyrightColor(settings.lightTheme)else artistColor(settings.lightTheme),fontSize=size,maxLines=1,overflow=TextOverflow.Ellipsis)}
+                    color=when(tag.category){TagCategory.COPYRIGHT->copyrightColor(settings.lightTheme);TagCategory.ARTIST->artistColor(settings.lightTheme);else->MaterialTheme.colorScheme.onSurfaceVariant},fontSize=size,maxLines=1,overflow=TextOverflow.Ellipsis)}
             }
-            if(settings.showScore)Text(text(R.string.ui_score_value,post.score?.toString() ?: "?"),modifier=Modifier.testTag("post-score-${post.id}"),fontSize=size,color=scoreColor(settings.lightTheme),fontWeight=FontWeight.Medium)
         }
         return
     }
     FlowRow(Modifier.fillMaxWidth().padding(top=5.dp).testTag("post-caption-${post.id}").semantics(mergeDescendants=true){},horizontalArrangement=Arrangement.spacedBy(4.dp)){
-        for(tag in tags)Text(tag.name,modifier=Modifier.clickable{search(tag.name)},color=if(tag.category==TagCategory.COPYRIGHT)copyrightColor(settings.lightTheme)else artistColor(settings.lightTheme),fontSize=size,
+        for(tag in tags)Text(tag.name,modifier=Modifier.clickable{search(tag.name)},color=when(tag.category){TagCategory.COPYRIGHT->copyrightColor(settings.lightTheme);TagCategory.ARTIST->artistColor(settings.lightTheme);else->MaterialTheme.colorScheme.onSurfaceVariant},fontSize=size,
             maxLines=if(settings.wrapTags && settings.columns<=2)Int.MAX_VALUE else 2,overflow=TextOverflow.Ellipsis)
-        if(settings.showScore)Text(text(R.string.ui_score_value,post.score?.toString() ?: "?"),modifier=Modifier.testTag("post-score-${post.id}"),fontSize=size,color=scoreColor(settings.lightTheme),fontWeight=FontWeight.Medium)
     }
 }
 
@@ -275,11 +293,11 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
     else SubcomposeAsyncImage(model=url,contentDescription=text(R.string.ui_post_description,post.id),modifier=modifier,contentScale=if(!detail && settings.cropThumbnails)ContentScale.Crop else ContentScale.Fit,loading={Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surfaceVariant))},error={Text(text(R.string.ui_image_failed_to_load),Modifier.padding(8.dp))})
 }
 
-@Composable private fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,search:(String)->Unit,wiki:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit){
+@Composable private fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,search:(String)->Unit,wiki:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit,onDuration:(Long)->Unit){
     val uri=LocalUriHandler.current;var linkError by remember{mutableStateOf(false)}
     var seek by remember{mutableStateOf<Pair<Long,Int>?>(null)}
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(12.dp),verticalArrangement=Arrangement.spacedBy(12.dp)){
-        if(post.isVideo)VideoPanel(post.fileUrl!!,settings,seekRequest=seek)
+        if(post.isVideo)VideoPanel(post.fileUrl!!,settings,seekRequest=seek,onDurationChanged=onDuration)
         else PostImage(post,Modifier.fillMaxWidth().height(320.dp),settings,metered,true)
         if(post.isVideo)VideoDownloadButton(post)
         Text(text(R.string.ui_score_detail,post.score?.toString() ?: "?"))

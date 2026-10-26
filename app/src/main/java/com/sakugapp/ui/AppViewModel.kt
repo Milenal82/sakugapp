@@ -31,6 +31,7 @@ class AppViewModel(application:Application):AndroidViewModel(application) {
     fun language(value:String) { viewModelScope.launch { LocaleCoordinator.choose(getApplication(),value,preferences) } }
     fun clearHistory() { viewModelScope.launch { preferences.clearHistory() } }
     fun deleteHistory(query:String) { viewModelScope.launch { preferences.deleteHistory(query) } }
+    fun theme(value:String){viewModelScope.launch{preferences.theme(value)}}
     fun columns(value:Int) { viewModelScope.launch { preferences.columns(value) } }
     fun login(name:String,password:String) {
         if(_authBusy.value)return

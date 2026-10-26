@@ -22,6 +22,7 @@ data class Post(
     val status: String?,
     val uploader: String? = null,
     val fileSize: Long? = null,
+    val durationMs:Long? = null,
 ) {
     val pageUrl: String get() = "https://www.sakugabooru.com/post/show/$id"
     val isVideo: Boolean get() = fileUrl != null &&

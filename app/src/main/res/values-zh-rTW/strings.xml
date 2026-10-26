@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="ui_0_clears_your_vote_3_is_the_site_s_favorite_level">0 表示取消評分 · 3 為網站的收藏等級</string>
     <string name="ui_about_and_licenses">關於與授權條款</string>
@@ -293,4 +293,15 @@
     <string name="ui_wrap_tags">標籤自動換行</string>
     <string name="ui_play_preview">預覽影片</string>
     <string name="ui_stop_preview">停止預覽</string>
+    <string name="ui_theme_mode">主題模式</string>
+    <string name="ui_theme_system">跟隨系統主題</string>
+    <string name="ui_theme_dark">深色</string>
+    <string name="ui_theme_light">淺色</string>
+    <string name="ui_card_spacing">卡片間距：%1$s dp</string>
+    <string name="ui_duration_unknown">尚未取得時長</string>
+    <string name="ui_preview_options">預覽選項</string>
+    <string name="ui_tablet_density_hint">8 欄和 12 欄適用於平板（最小寬度 600 dp）。</string>
+    <string name="ui_gestures_enabled">影片手勢</string>
+    <string name="ui_tag_translations">中文標籤翻譯</string>
+    <string name="ui_show_other_tags">其他標籤</string>
 </resources>

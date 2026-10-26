@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="ui_0_clears_your_vote_3_is_the_site_s_favorite_level">0 表示取消评分 · 3 为网站的收藏等级</string>
     <string name="ui_about_and_licenses">关于与授权条款</string>
@@ -293,4 +293,15 @@
     <string name="ui_wrap_tags">标签自动换行</string>
     <string name="ui_play_preview">预览视频</string>
     <string name="ui_stop_preview">停止预览</string>
+    <string name="ui_theme_mode">主题模式</string>
+    <string name="ui_theme_system">跟随系统主题</string>
+    <string name="ui_theme_dark">深色</string>
+    <string name="ui_theme_light">浅色</string>
+    <string name="ui_card_spacing">卡片间距：%1$s dp</string>
+    <string name="ui_duration_unknown">尚未取得时长</string>
+    <string name="ui_preview_options">预览选项</string>
+    <string name="ui_tablet_density_hint">8 列和 12 列适用于平板（最小宽度 600 dp）。</string>
+    <string name="ui_gestures_enabled">视频手势</string>
+    <string name="ui_tag_translations">中文标签翻译</string>
+    <string name="ui_show_other_tags">其他标签</string>
 </resources>

@@ -35,7 +35,7 @@ class BrowserActivity:androidx.appcompat.app.AppCompatActivity() {
             var loading by remember{mutableStateOf(true)}
             LaunchedEffect(Unit) {
                 val preferences=PreferencesStore(applicationContext).settings.first()
-                language=preferences.language;lightTheme=preferences.lightTheme
+                language=preferences.language;lightTheme=themeIsLight(preferences.themeMode,(resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK)==android.content.res.Configuration.UI_MODE_NIGHT_YES)
                 val cookies=withContext(Dispatchers.IO){SecureSession(applicationContext).apply{restore()}.browserCookies()}
                 val manager=CookieManager.getInstance();manager.setAcceptCookie(true)
                 for(cookie in cookies)withContext(Dispatchers.Main){suspendCancellableCoroutine<Unit>{continuation->manager.setCookie("https://www.sakugabooru.com",cookie){continuation.resumeWith(Result.success(Unit))}}}

@@ -44,7 +44,7 @@ import java.io.File
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=false,seekRequest:Pair<Long,Int>?=null,onPlayerReady:((Player)->Unit)?=null) {
+fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=false,seekRequest:Pair<Long,Int>?=null,onPlayerReady:((Player)->Unit)?=null,onDurationChanged:(Long)->Unit={}) {
     val context=LocalContext.current;val owner=LocalLifecycleOwner.current;val scope=rememberCoroutineScope()
     val shareTitle=text(R.string.ui_share_frame)
     var fullscreen by rememberSaveable(url){mutableStateOf(false)}
@@ -78,7 +78,9 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
     }}
     DisposableEffect(player,owner){
         onPlayerReady?.invoke(player)
+        var reportedDuration=-1L
         val listener=object:Player.Listener{
+            override fun onEvents(player:Player,events:Player.Events){val actual=player.duration;if(actual>0 && actual!=C.TIME_UNSET && actual!=reportedDuration){reportedDuration=actual;onDurationChanged(actual)}}
             override fun onPlayerError(failure:PlaybackException){error=context.getString(R.string.ui_playback_failed,failure.errorCodeName)}
             override fun onRenderedFirstFrame(){rendered=true}
             override fun onIsPlayingChanged(isPlaying:Boolean){playing=isPlaying}

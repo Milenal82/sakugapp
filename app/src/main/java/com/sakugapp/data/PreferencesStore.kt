@@ -17,10 +17,14 @@ data class AppSettings(
     val muted: Boolean = true, val loop: Boolean = true, val speed: Float = 1f,
     val mirror: Boolean = false, val saturation: Float = 1f, val brightness: Float = 1f,
     val contrast: Float = 1f, val screenshot: Boolean = true, val lightTheme:Boolean = false,
-    val columns: Int = 2,
+    val columns: Int = 2, val themeMode:String = "system", val cardSpacing:Float = 8f,
+    val gestures:Boolean = true, val tagTranslations:Boolean = false, val showOtherTags:Boolean = true,
 )
 
 object PreferenceRules {
+    val columnOptions = listOf(1,2,3,4,8,12)
+    val themeModes = setOf("system","dark","light")
+    fun legacyTheme(mode:String?,light:Boolean?,hasLegacyData:Boolean):String = mode?.takeIf{it in themeModes} ?: when(light){true->"light";false->"dark";null->if(hasLegacyData)"dark" else "system"}
     val languages = setOf("system", "en", "ja", "zh-TW", "zh-CN")
     fun resolveLanguage(language: String, systemTag: String): String {
         require(language in languages)
@@ -57,7 +61,10 @@ class PreferencesStore(context: Context,private val store:DataStore<Preferences>
             mirror=p.flag("mirror",false),saturation=(p[floatPreferencesKey("saturation")] ?: 1f).coerceIn(0f,2f),
             brightness=(p[floatPreferencesKey("brightness")] ?: 1f).coerceIn(0.5f,1.5f),contrast=(p[floatPreferencesKey("contrast")] ?: 1f).coerceIn(0.5f,1.5f),
             screenshot=p.flag("screenshot",true),lightTheme=p.flag("lightTheme",false),
-            columns=(p[intPreferencesKey("columns")] ?: 2).coerceIn(1,4))
+            columns=(p[intPreferencesKey("columns")] ?: 2).takeIf{it in PreferenceRules.columnOptions} ?: 2,
+            themeMode=PreferenceRules.legacyTheme(p[stringPreferencesKey("themeMode")],p[booleanPreferencesKey("lightTheme")],p.asMap().isNotEmpty()),
+            cardSpacing=(p[floatPreferencesKey("cardSpacing")] ?: 8f).coerceIn(0f,10f),gestures=p.flag("gestures",true),
+            tagTranslations=p.flag("tagTranslations",false),showOtherTags=p.flag("otherTags",true))
     }
     val history: Flow<List<String>> = data.map { PreferenceRules.history(it[stringPreferencesKey("history")]?.split('\n').orEmpty(), "") }
     val localeState:Flow<Pair<String,String?>> = data.map { p ->
@@ -72,8 +79,9 @@ class PreferencesStore(context: Context,private val store:DataStore<Preferences>
     suspend fun deleteHistory(query:String) { store.edit { p ->
         p[stringPreferencesKey("history")] = p[stringPreferencesKey("history")]?.split('\n').orEmpty().filterNot { it==query }.joinToString("\n")
     } }
-    suspend fun columns(value:Int) { require(value in 1..4);store.edit{it[intPreferencesKey("columns")]=value} }
-    suspend fun flag(name: String,value: Boolean) { require(name in setOf("copyright","artist","score","wrap","crop","auto","mobile","wifiImages","muted","loop","mirror","screenshot","lightTheme")); store.edit { it[booleanPreferencesKey(name)]=value } }
+    suspend fun columns(value:Int) { require(value in PreferenceRules.columnOptions);store.edit{it[intPreferencesKey("columns")]=value} }
+    suspend fun flag(name: String,value: Boolean) { require(name in setOf("copyright","artist","score","wrap","crop","auto","mobile","wifiImages","muted","loop","mirror","screenshot","lightTheme","gestures","tagTranslations","otherTags")); store.edit { it[booleanPreferencesKey(name)]=value;if(name=="lightTheme")it[stringPreferencesKey("themeMode")]=if(value)"light"else"dark" } }
+    suspend fun theme(value:String){require(value in PreferenceRules.themeModes);store.edit{it[stringPreferencesKey("themeMode")]=value;if(value!="system")it[booleanPreferencesKey("lightTheme")]=value=="light"}}
     suspend fun language(value: String) { require(value in PreferenceRules.languages);store.edit { it[stringPreferencesKey("language")]=value } }
-    suspend fun number(name: String,value: Float) { require(value.isFinite()); require(when(name) { "speed"->value in PreferenceRules.speeds; "brightness","contrast"->value in 0.5f..1.5f; "saturation"->value in 0f..2f; else->false });store.edit { it[floatPreferencesKey(name)]=value } }
+    suspend fun number(name: String,value: Float) { require(value.isFinite()); require(when(name) { "speed"->value in PreferenceRules.speeds; "brightness","contrast"->value in 0.5f..1.5f; "saturation"->value in 0f..2f; "cardSpacing"->value in 0f..10f; else->false });store.edit { it[floatPreferencesKey(name)]=value } }
 }
