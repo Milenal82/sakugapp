@@ -157,7 +157,7 @@ fun StrictFrameDialog(url:String,startPositionMs:Long?=null,initialDelta:Int=0,o
                 Text("${current.index+1} / ${current.count}",Modifier.testTag("frame-counter"))
                 Text(text(R.string.ui_use_the_actual_decoded_frame_index_not_a_time_estimate),style=MaterialTheme.typography.bodySmall)
                 Row {
-                    for(delta in listOf(-1,1))TextButton(enabled=!busy && (if(delta<0)current.index>0 else current.index<current.count-1),onClick={
+                    for(delta in listOf(-1,1))TextButton(modifier=Modifier.testTag(if(delta<0)"exact-previous-frame"else"exact-next-frame"),enabled=!busy && (if(delta<0)current.index>0 else current.index<current.count-1),onClick={
                         decode(current.move(delta).index)
                     }){Text(if(delta<0)text(R.string.ui_previous_frame) else text(R.string.ui_next_frame))}
                 }

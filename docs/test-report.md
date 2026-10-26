@@ -1,3 +1,7 @@
+# 1.2.0 验证入口
+
+本轮逐阶段检查、20 项设备用例范围、截图和未验证事项见 [1.2.0 升级记录](release-1.2.0.md#运行证据与明确限制)。最终结果以相同提交的 GitHub Actions / 草稿 PR 报告为准；下方为旧版历史。
+
 # 1.1.0 验证（2026-10-26）
 
 完整范围、成功运行、修复证据及未验证事项见 [1.1.0 验收记录](release-1.1.0.md#实际验收结果2026-10-26)。开发分支验收提交 03612b8 的 [CI](https://github.com/Milenal82/sakugapp/actions/runs/40270216665) 全部成功：82 项 JVM 单测、Debug 构建/Lint、15 项 API 28 KVM 设备测试。正式证书 Release 构建及从已发布 1.0.0 实际覆盖升级成功，保留主题、换行和历史；最后封装提交以候选构件报告为准。本地 Lint 0 errors / 6 warnings，CI Release 0 errors / 20 warnings；14 项发布脚本安全测试、资源覆盖与 actionlint 均通过。

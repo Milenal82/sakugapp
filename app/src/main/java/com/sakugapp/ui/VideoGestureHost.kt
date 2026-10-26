@@ -15,6 +15,7 @@ import kotlin.math.abs
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 class VideoGestureHost(context:Context):FrameLayout(context){
     val playerView=LayoutInflater.from(context).inflate(R.layout.native_player,this,false) as PlayerView
+    var lastGestureSummary="";private set
     var gesturesEnabled=true
     var onPostSwipe:(Int)->Unit={}
     var onPlaybackRequest:(Boolean)->Unit={}
@@ -40,7 +41,7 @@ class VideoGestureHost(context:Context):FrameLayout(context){
             change(transform.copy(scale=transform.scale*detector.scaleFactor));return true
         }
     })
-    init{addView(playerView,LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));clipChildren=true}
+    init{scales.isQuickScaleEnabled=false;scales.isStylusScaleEnabled=false;addView(playerView,LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));clipChildren=true}
     fun configure(value:AppSettings,requested:VideoTransform){
         gesturesEnabled=value.gestures
         val changed=settings?.let{listOf(it.mirror,it.saturation,it.contrast,it.brightness)!=listOf(value.mirror,value.saturation,value.contrast,value.brightness)} ?: true
@@ -94,6 +95,7 @@ class VideoGestureHost(context:Context):FrameLayout(context){
             }
         }
         if(event.actionMasked==MotionEvent.ACTION_POINTER_UP && event.pointerCount==2){val remaining=if(event.actionIndex==0)1 else 0;lastX=event.getX(remaining);lastY=event.getY(remaining)}else{lastX=event.x;lastY=event.y}
+        if(event.actionMasked in listOf(MotionEvent.ACTION_UP,MotionEvent.ACTION_CANCEL))lastGestureSummary="action=${event.actionMasked}, excluded=$excluded, intercepted=$intercepting, multi=$multitouch, double=$doubled, scale=${transform.scale}, dx=${event.x-downX}, dy=${event.y-downY}, size=${width}x$height"
         val result=super.dispatchTouchEvent(event)
         if(event.actionMasked==MotionEvent.ACTION_UP || event.actionMasked==MotionEvent.ACTION_CANCEL){intercepting=false;multitouch=false;doubled=false}
         return result

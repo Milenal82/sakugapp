@@ -5,8 +5,7 @@ import androidx.room.withTransaction
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
-data class LibrarySnapshot(val posts:List<FavoritePost> = emptyList(),val folders:List<FavoriteFolder> = emptyList(),val links:List<FavoriteLink> = emptyList(),val translations:Map<String,String> = emptyMap(),val durations:Map<String,Long> = emptyMap(),val error:Boolean=false){
-    val decoded:Map<Long,Post> = posts.associate{it.id to LibraryCodec.decodePost(it.snapshot)}
+data class LibrarySnapshot(val posts:List<FavoritePost> = emptyList(),val folders:List<FavoriteFolder> = emptyList(),val links:List<FavoriteLink> = emptyList(),val translations:Map<String,String> = emptyMap(),val durations:Map<String,Long> = emptyMap(),val error:Boolean=false,val decoded:Map<Long,Post> = posts.associate{it.id to LibraryCodec.decodePost(it.snapshot)}){
     private val byFolder=links.groupBy{it.folderId}.mapValues{it.value.map{l->l.postId}.toSet()}
     private val byPost=links.groupBy{it.postId}.mapValues{it.value.map{l->l.folderId}.toSet()}
     fun inFolder(id:Long?)=posts.filter{p->if(id==null)p.id in byPost else p.id in byFolder[id].orEmpty()}
@@ -14,7 +13,16 @@ data class LibrarySnapshot(val posts:List<FavoritePost> = emptyList(),val folder
 }
 class LocalLibraryStore(private val db:LibraryDatabase){
     private val dao=db.library()
-    val state=combine(dao.posts(),dao.folders(),dao.links(),dao.translations(),dao.facts()){posts,folders,links,translations,facts->LibrarySnapshot(posts,folders,links,translations.associate{it.original to it.translation},facts.associate{it.url to it.durationMs})}.flowOn(Dispatchers.Default)
+    // One transaction observes a coherent library. Duration-only changes do not reread or decode all posts.
+    private val libraryData=flow{
+        var cache=emptyMap<Long,Pair<String,Post>>()
+        db.invalidationTracker.createFlow("favorite_posts","favorite_folders","favorite_links","tag_translations").collect{
+            val raw=db.withTransaction{LibraryBackup(dao.foldersOnce(),dao.postsOnce(),dao.linksOnce(),dao.translationsOnce())}
+            cache=raw.posts.associate{p->p.id to (cache[p.id]?.takeIf{it.first==p.snapshot} ?: (p.snapshot to LibraryCodec.decodePost(p.snapshot)))}
+            emit(LibrarySnapshot(raw.posts,raw.folders,raw.links,raw.translations.associate{it.original to it.translation},decoded=cache.mapValues{it.value.second}))
+        }
+    }
+    val state=combine(libraryData,dao.facts()){data,facts->data.copy(durations=facts.associate{it.url to it.durationMs})}.flowOn(Dispatchers.Default)
     suspend fun ready(){dao.folder(FavoriteFolder(1,"",0))}
     private fun validateName(name:String):String=name.trim().also{if(it.isBlank()||it.length>80||it.any(Char::isISOControl))throw LibraryFailure("folder_name")}
     suspend fun createFolder(name:String):Long=db.withTransaction{

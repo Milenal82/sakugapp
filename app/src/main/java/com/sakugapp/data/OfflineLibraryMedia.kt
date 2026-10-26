@@ -12,8 +12,7 @@ import java.io.OutputStream
 import java.security.MessageDigest
 
 /** User-initiated, sequential, bounded private downloads; never deletes media when a relation is removed. */
-class OfflineLibraryMedia(context:Context){
-    private val root=File(context.filesDir,"favorites-media")
+class OfflineLibraryMedia(context:Context,private val downloader:VideoDownloader=VideoDownloader(),private val root:File=File(context.filesDir,"favorites-media")){
     companion object {private val lock=Mutex();const val MAX_FILE=200L*1024*1024;const val MAX_TOTAL=1024L*1024*1024;const val BATCH_SIZE=20}
     private fun destination(post:Post):File {
         val plan=VideoDownloadPlan.from(post);LibraryCodec.trustedMedia(plan.url.toString())
@@ -32,7 +31,7 @@ class OfflineLibraryMedia(context:Context){
             var written=0L
             try {
                 PublicReadThrottle.awaitTurn()
-                VideoDownloader().download(VideoDownloadPlan.from(post),open={object:FilterOutputStream(part.outputStream()){
+                downloader.download(VideoDownloadPlan.from(post),open={object:FilterOutputStream(part.outputStream()){
                     override fun write(buffer:ByteArray,offset:Int,count:Int){if(written+count>minOf(MAX_FILE,available))throw LibraryFailure("media_limit");out.write(buffer,offset,count);written+=count}
                     override fun write(value:Int){if(written+1>minOf(MAX_FILE,available))throw LibraryFailure("media_limit");out.write(value);written++}
                 }},discard={part.delete()},progress=progress)

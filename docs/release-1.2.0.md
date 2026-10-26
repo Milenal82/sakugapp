@@ -12,7 +12,35 @@
 - 阶段 3：新增独立 Room 收藏库（多对多、封面、排序、批量移动/删除、按 ID/时间排序、本地搜索、JSON 安全合并）；导出/导入原始记录并保留已有数据，异常回滚。提供用户主动确认的顺序批量私有下载（20 个/批，200 MiB/文件，总额 1 GiB）；删除收藏关系不删除文件，显式清理与系统下载分离。标签翻译支持本地词典、用户覆盖、长按复制/搜索/编辑/删除；8/12 列隐藏翻译行。新增真实响应解析和 Room 设备用例，运行结果待 CI。
 - 阶段 3 本地验证：91 项 JVM 单测、Lint、Debug APK 与设备测试 APK 编译全部通过；Room 设备行为将在最终 KVM 实测。
 - 阶段 4：播放器高级控制分组折叠、A–B 时间戳循环、已有 0.25× 等倍速保留、真实帧索引及可核实时间映射、1–5× 双指缩放/平移/重置、双击播放暂停与按当前结果顺序切帖；必要邻帖元数据复用，预取最多两张缩略图，不预取邻帖视频。新增本地视频设备测试检查 A–B 实际跳回、旋转状态、严格帧、双击不 seek、缩放/平移不切帖与单指切帖。96 项 JVM 单测、Lint、Debug / 设备 APK 编译成功；设备实际结果待 CI。
-- 阶段 5：验证与交付进行中。
+- 阶段 5：扩充 20 项设备用例与原生截图导出，保留旧功能回归；新增受控 TLS 实际文件传输/损坏流/配额验证、新旧主题默认及列数持久化验证。发布脚本和签名流程沿用，候选仅上传 Actions，不创建标签或修改 Release。最终实际结果以本分支成功 CI 和草稿 PR 报告为准，不能把设备 APK 编译当作运行通过。
+
+## 附件功能对照
+
+| 编号 | 实现范围 | 实现位置 / 验证入口 |
+| --- | --- | --- |
+| 1 | 手机 1–4、平板 8/12；保留设置，响应式降密度 | AppTheme.GridPolicy / MainActivity / PublicPaginationTest |
+| 2 | 未提供；用户确认不开发 | 不推断为壁纸、不提供无效入口 |
+| 3 | 本地多对多收藏、封面、排序、批量移动/删除、搜索、JSON 备份、离线元数据与批量下载 | LibraryDatabase / LocalLibraryStore / LibraryCodec / LibraryScreen / OfflineLibraryMedia；Room / UI / TLS 设备用例 |
+| 4 | 图下独立译文、本地维护词典和用户覆盖；长按操作；高密度隐藏译文 | TagDictionary / TranslatedTag / tag-translations.json；LibraryCodecTest / LocalLibraryUiDeviceTest |
+| 5 | A–B、实际解码帧、标称 FPS、九档速度、缩放平移 | VideoPanel / PlayerTools / StrictFrames / VideoGestureHost；PlayerToolsTest / ProfessionalPlayerDeviceTest |
+| 6 | 12dp 圆角卡片、轻表面/阴影、按压反馈；高密度减少间距 | MainActivity.PostCard / AppTheme |
+| 7 | 默认原生播放/进度/时间、全屏和更多；高级操作分三组折叠 | VideoPanel；PublicBrowseTest / PlayerRotationDeviceTest |
+| 8 | 系统/深/浅，原设置迁移；统一 Token 与 AA 对比度检查 | AppTheme / PreferencesStore / PersonalizationTest / BrowsingUpgradeDeviceTest |
+| 9 | 搜索 340ms、控制 320ms、历史 300ms、收藏弹窗 280ms、卡片反馈 150ms | Motion / PacedAlertDialog；Compose 原生时长比例支持快速反向和系统关闭动画 |
+| 10 | 左下真实时长/未知状态、右下真实红色 Score；图下分类标签及可选译文 | MainActivity.PostCard / PostCaption；真实分页与实际视频测试 |
+| 11 | 按当前搜索/收藏顺序左右切帖，双击播放/暂停；缩放优先与边缘/进度条保护 | FeedViewModel / MainActivity / VideoGestureHost；顺序单测及手势设备用例 |
+
+对照表“实现”表示有实际代码；运行验收必须查看相同提交的 Actions，设备用例未运行或失败时不记作已通过。
+
+## 运行证据与明确限制
+
+- 开发基线 82 项、阶段 1 为 85 项、阶段 2 为 86 项、阶段 3 为 91 项；阶段 4–5 当前 96 项 JVM 单测。各阶段执行了单测、Lint、Debug / 测试 APK 编译并分别提交。首轮阶段 3 CI 的手机/平板功能断言通过，最后截图保存失败；已修正为目标应用可写目录，等待最终运行证据。
+- 最终设备计划：API 28 x86_64 KVM；手机 360dp、平板 1920×1200 / 160dpi 的 8/12 列、真实 5 批帖子、详情/切帖、现有登录会话加密/设置/语言/严格帧/真实视频下载回归；Room 多对多/封面/合并/失败回滚；真实 UI 收藏/译名操作；本地 VFR 视频 A–B/旋转/双击/缩放/平移；受控 TLS 下载到实际文件并验证字节、损坏清理和限额拒绝。最终结果由成功 CI 报告给出。
+- UI PNG 位于 device-test-reports 构件的 ui-evidence（手机网格、12 列平板、本地收藏和专业控制）。专业工具截图使用明确的测试视频；正常帖子界面使用实际官网内容，不把测试图案当网站数据。
+- 批量下载用受控 TLS 视频验证存储行为；没有自动抓取整夹真实大视频来增加网站负担。系统下载按钮仍有真实官网视频测试。没有真实账号来验证投票/评论写入或跨版本账号升级，沿用已有实现。
+- 真机、其他 Android/编解码器、系统传感器自动旋转和 Android 13+ 预测返回仍需验证；本次截图/交互来自模拟器，不等同实机验收。未做完整 GPU/内存峰值剖析，不声称所有设备无卡顿或所有格式逐帧支持。
+- 可选的平板列表＋详情双栏、用户备注和在线机器翻译未实现；功能 2 未提供，壁纸不在本轮范围。没有这些功能的无效按钮。
+
 
 ## 播放精度与手势边界
 

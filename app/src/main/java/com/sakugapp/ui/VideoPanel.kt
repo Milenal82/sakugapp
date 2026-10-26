@@ -124,7 +124,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                 contentDescription=context.getString(if(rendered)R.string.ui_video_frame_rendered else R.string.ui_video_loading)
                 stateDescription=context.getString(if(playing)R.string.ui_playing else R.string.ui_paused)
             },onRelease={host->if(view===host.playerView)view=null;host.playerView.player=null;host.onPostSwipe={};host.onPlaybackRequest={};host.playbackRequested={false};host.onTransform={}},update={host->
-                val v=host.playerView;view=v;v.player=player;v.useController=true
+                val v=host.playerView;view=v;v.player=player;v.useController=!preview
                 v.setShowNextButton(false);v.setShowPreviousButton(false);v.setShowFastForwardButton(false);v.setShowRewindButton(false)
                 host.configure(settings,VideoTransform(zoom,panX,panY));host.gesturesEnabled=settings.gestures && !preview
                 host.playbackRequested={player.playWhenReady};host.onPlaybackRequest={if(it)player.play()else player.pause()}

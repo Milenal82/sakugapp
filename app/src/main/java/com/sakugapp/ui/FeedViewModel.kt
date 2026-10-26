@@ -43,6 +43,7 @@ class FeedViewModel @JvmOverloads constructor(
     fun open(post: Post) {localSequence=null;select(post)}
     private fun select(post:Post){detailRequest?.cancel();_detailError.value=null;_selected.value=post}
     fun openLocal(post:Post,ordered:List<Post>){localSequence=ordered.distinctBy{it.id};select(post)}
+    fun usesLocalSnapshot()=localSequence!=null
     fun adjacent(delta:Int):Post?{require(delta in setOf(-1,1));val posts=localSequence ?: _state.value.posts;val current=posts.indexOfFirst{it.id==_selected.value?.id};return if(current>=0)posts.getOrNull(current+delta)else null}
     fun selectAdjacent(post:Post){select(post)}
     fun prefetchNeighbors(){

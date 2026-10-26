@@ -58,8 +58,7 @@ class LocalLibraryUiDeviceTest {
             ui.onNodeWithTag("translation-sample").assertTextContains("角色作画",substring=true)
             ui.runOnUiThread{ui.activity.setContent{SakugappTheme(false){LibraryScreen(app){_,_->}}}}
             ui.onNodeWithText(folderName,substring=false).assertExists()
-            val output=File(instrumentation.targetContext.getExternalFilesDir(null),"ui-evidence").apply{mkdirs()}
-            assertTrue(UiDevice.getInstance(instrumentation).takeScreenshot(File(output,"phone-local-favorites.png")))
+            UiEvidence.capture("phone-local-favorites.png")
         }finally{
             runBlocking{app.library.value.folders.firstOrNull{it.name==folderName}?.let{app.localLibrary.deleteFolder(it.id)};app.localLibrary.membership(post,1,false);app.localLibrary.translation("character_animation",null)}
         }

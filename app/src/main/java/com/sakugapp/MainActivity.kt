@@ -9,6 +9,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.*
 import androidx.compose.animation.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.interaction.*
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
@@ -125,7 +127,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                         val requests=if(settings.wifiImages && metered)emptyList()else neighboringUrls.map{url->coil.Coil.imageLoader(context).enqueue(coil.request.ImageRequest.Builder(context.applicationContext).data(url).size(320).build())}
                         onDispose{requests.forEach{it.dispose()}}
                     }
-                    PostDetail(post,settings,metered,app,::search,openSite,{nav.navigate("account")},{score->model.updateScore(post.id,score)},{duration->model.updateDuration(post.id,post.fileUrl.orEmpty(),duration);app.duration(post.fileUrl.orEmpty(),duration)},{delta->
+                    PostDetail(post,settings,metered,app,model.usesLocalSnapshot(),::search,openSite,{nav.navigate("account")},{score->model.updateScore(post.id,score)},{duration->model.updateDuration(post.id,post.fileUrl.orEmpty(),duration);app.duration(post.fileUrl.orEmpty(),duration)},{delta->
                         val next=model.adjacent(delta)
                         if(next==null){model.prefetchNeighbors();false}else{
                             model.selectAdjacent(next)
@@ -192,14 +194,14 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
     Box(Modifier.fillMaxSize().clipToBounds()){
         LazyVerticalGrid(columns=GridCells.Fixed(settings.columns),state=grid,
             modifier=Modifier.fillMaxSize().nestedScroll(connection).testTag("post-grid"),
-            contentPadding=PaddingValues(start=10.dp,end=10.dp,top=with(density){baseHeight.toDp()},bottom=16.dp),
-            horizontalArrangement=Arrangement.spacedBy(if(settings.columns>=8)settings.cardSpacing.coerceAtMost(2f).dp else settings.cardSpacing.dp),verticalArrangement=Arrangement.spacedBy(if(settings.columns>=8)2.dp else (settings.cardSpacing+2f).dp)){
+            contentPadding=PaddingValues(start=if(settings.columns>=8)2.dp else 10.dp,end=if(settings.columns>=8)2.dp else 10.dp,top=with(density){baseHeight.toDp()},bottom=16.dp),
+            horizontalArrangement=Arrangement.spacedBy(if(settings.columns>=8)settings.cardSpacing.coerceAtMost(1f).dp else settings.cardSpacing.dp),verticalArrangement=Arrangement.spacedBy(if(settings.columns>=8)1.dp else (settings.cardSpacing+2f).dp)){
             state.categoryWarning?.let{item(span={GridItemSpan(maxLineSpan)}){Column{
                 Text(text(R.string.ui_tag_categories_unavailable_unknown_categories_are_not_guessed),style=MaterialTheme.typography.bodySmall)
                 Text(translateMessage(it),style=MaterialTheme.typography.labelSmall)
                 TextButton(enabled=!state.loading,onClick={submit(state.query)}){Text(text(R.string.ui_reload_posts_and_tags))}
             }}}
-            items(state.posts,key={it.id}){post->PostCard(post,settings,metered,active==post.id,{open(post)},search,{if(!allowedPreview)policy=true else active=if(active==post.id)null else post.id})}
+            items(state.posts,key={it.id}){post->PostCard(post,settings,metered,active==post.id,{open(post)},search,{if(!allowedPreview)policy=true else active=if(active==post.id)null else post.id},{actual->app.duration(post.fileUrl.orEmpty(),actual)})}
             if(state.loading && state.posts.isEmpty())items(settings.columns.coerceAtLeast(6),key={"skeleton-$it"}){SkeletonCard()}
             item(span={GridItemSpan(maxLineSpan)}){Column(Modifier.fillMaxWidth().padding(vertical=8.dp)){
                 if(state.loading){LinearProgressIndicator(Modifier.fillMaxWidth());Text(text(R.string.ui_loading_more_posts),style=MaterialTheme.typography.bodySmall)}
@@ -262,20 +264,23 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
 }
 
 @OptIn(ExperimentalFoundationApi::class)
-@Composable private fun PostCard(post:Post,settings:AppSettings,metered:Boolean,preview:Boolean,open:()->Unit,search:(String)->Unit,toggle:()->Unit){
+@Composable private fun PostCard(post:Post,settings:AppSettings,metered:Boolean,preview:Boolean,open:()->Unit,search:(String)->Unit,toggle:()->Unit,onDuration:(Long)->Unit){
     val contextDescriptionDurationUnknown=text(R.string.ui_duration_unknown)
     var options by remember(post.id){mutableStateOf(false)}
-    Surface(shape=RoundedCornerShape(if(settings.columns>=8)6.dp else 12.dp),color=MaterialTheme.colorScheme.surface,
+    val interaction=remember(post.id){MutableInteractionSource()};val pressed by interaction.collectIsPressedAsState()
+    val pressScale by animateFloatAsState(if(pressed && settings.columns<=4)0.985f else 1f,tween(Motion.press,easing=FastOutSlowInEasing),label="card-press")
+    Surface(modifier=if(settings.columns<=4)Modifier.graphicsLayer{scaleX=pressScale;scaleY=pressScale}else Modifier,shape=RoundedCornerShape(if(settings.columns>=8)6.dp else 12.dp),color=MaterialTheme.colorScheme.surface,
         shadowElevation=if(settings.columns>=8)0.dp else 1.dp,tonalElevation=1.dp){Column{
         Box(Modifier.fillMaxWidth().heightIn(min=48.dp).aspectRatio(16f/9f).background(MaterialTheme.colorScheme.surfaceVariant)
-            .testTag("post-media-${post.id}").combinedClickable(onClick=open,onLongClick={options=true},onLongClickLabel=text(R.string.ui_preview_options))){
-            if(preview && post.fileUrl!=null)VideoPanel(post.fileUrl,settings,preview=true)
+            .testTag("post-media-${post.id}").combinedClickable(interactionSource=interaction,indication=LocalIndication.current,onClick=open,onLongClick={options=true},onLongClickLabel=text(R.string.ui_preview_options))){
+            if(preview && post.fileUrl!=null)VideoPanel(post.fileUrl,settings,preview=true,onDurationChanged=onDuration)
             else PostImage(post,Modifier.fillMaxSize(),settings,metered)
             Row(Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(2.dp),horizontalArrangement=Arrangement.SpaceBetween,verticalAlignment=Alignment.Bottom){
                 if(post.isVideo)Surface(color=MaterialTheme.colorScheme.surface.copy(alpha=0.96f),shape=RoundedCornerShape(3.dp)){
                     Text(post.durationMs?.let(::mediaTime) ?: "—",fontSize=if(settings.columns>=8)9.sp else 11.sp,
                         modifier=Modifier.padding(horizontal=3.dp,vertical=1.dp).semantics{if(post.durationMs==null)contentDescription=contextDescriptionDurationUnknown})
                 }
+                Spacer(Modifier.weight(1f))
                 if(settings.showScore)Surface(color=MaterialTheme.colorScheme.surface.copy(alpha=0.96f),shape=RoundedCornerShape(3.dp)){
                     Text(if(settings.columns>=8)post.score?.toString() ?: "?" else text(R.string.ui_score_value,post.score?.toString() ?: "?"),
                         color=scoreColor(settings.lightTheme),fontSize=if(settings.columns>=8)9.sp else 11.sp,fontWeight=FontWeight.Medium,
@@ -317,10 +322,11 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
     else SubcomposeAsyncImage(model=url,contentDescription=text(R.string.ui_post_description,post.id),modifier=modifier,contentScale=if(!detail && settings.cropThumbnails)ContentScale.Crop else ContentScale.Fit,loading={Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surfaceVariant))},error={Text(text(R.string.ui_image_failed_to_load),Modifier.padding(8.dp))})
 }
 
-@Composable private fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,search:(String)->Unit,wiki:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit,onDuration:(Long)->Unit,onNavigate:(Int)->Boolean){
+@Composable private fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,localSnapshot:Boolean,search:(String)->Unit,wiki:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit,onDuration:(Long)->Unit,onNavigate:(Int)->Boolean){
     val uri=LocalUriHandler.current;var linkError by remember{mutableStateOf(false)}
     var seek by remember{mutableStateOf<Pair<Long,Int>?>(null)}
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(12.dp),verticalArrangement=Arrangement.spacedBy(12.dp)){
+        if(localSnapshot)Text(text(R.string.ui_library_snapshot_hint),style=MaterialTheme.typography.bodySmall)
         if(post.isVideo)VideoPanel(app.offlineMedia.existing(post)?.toURI()?.toString() ?: post.fileUrl!!,settings,seekRequest=seek,onDurationChanged=onDuration,onNavigate=onNavigate)
         else PostImage(post,Modifier.fillMaxWidth().height(320.dp),settings,metered,true)
         Row{

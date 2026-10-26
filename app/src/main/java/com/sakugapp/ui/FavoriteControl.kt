@@ -30,7 +30,7 @@ internal fun folderName(folder:FavoriteFolder,context:android.content.Context)=i
         if(state.error)Text(text(R.string.ui_library_failed),color=MaterialTheme.colorScheme.error)
         error?.let{Text(it,color=MaterialTheme.colorScheme.error)}
     }
-    if(manage)AlertDialog(onDismissRequest={manage=false},title={Text(text(R.string.ui_manage_folders))},text={Column(Modifier.heightIn(max=400.dp).verticalScroll(rememberScrollState())){
+    PacedAlertDialog(visible=manage,onDismissRequest={manage=false},title={Text(text(R.string.ui_manage_folders))},text={Column(Modifier.heightIn(max=400.dp).verticalScroll(rememberScrollState())){
         state.folders.forEach{folder->Row{
             Checkbox(checked=state.contains(post.id,folder.id),onCheckedChange={checked->operation{app.localLibrary.membership(post,folder.id,checked)}})
             TextButton(onClick={operation{app.localLibrary.membership(post,folder.id,!state.contains(post.id,folder.id))}}){Text(folderName(folder,context))}

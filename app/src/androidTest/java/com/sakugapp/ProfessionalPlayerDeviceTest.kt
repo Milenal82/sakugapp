@@ -41,16 +41,16 @@ class ProfessionalPlayerDeviceTest {
             ui.waitUntil(20000){matches{it.playbackState==Player.STATE_READY}}
             ui.onNodeWithText("Set A").assertDoesNotExist()
             ui.onNodeWithTag("more-controls").performClick()
-            ui.runOnUiThread{player!!.pause();player!!.seekTo(100)}
-            ui.waitUntil(10000){matches{it.playbackState==Player.STATE_READY && it.currentPosition==100L}}
+            ui.runOnUiThread{player!!.pause();player!!.seekTo(500)}
+            ui.waitUntil(10000){matches{it.playbackState==Player.STATE_READY && it.currentPosition==500L}}
             ui.onNodeWithText("Set A",substring=false).performScrollTo().performClick()
-            ui.runOnUiThread{player!!.seekTo(800)}
-            ui.waitUntil(10000){matches{it.playbackState==Player.STATE_READY && it.currentPosition==800L}}
+            ui.runOnUiThread{player!!.seekTo(1200)}
+            ui.waitUntil(10000){matches{it.playbackState==Player.STATE_READY && it.currentPosition==1200L}}
             ui.onNodeWithText("Set B",substring=false).performScrollTo().performClick()
             ui.onNodeWithTag("ab-toggle").performScrollTo().performClick()
             val beforeLoop=seeks.get()
-            ui.runOnUiThread{player!!.seekTo(400);player!!.play()}
-            ui.waitUntil(15000){seeks.get()>beforeLoop+1 && matches{it.currentPosition in 100..300}}
+            ui.runOnUiThread{player!!.seekTo(800);player!!.play()}
+            ui.waitUntil(15000){seeks.get()>beforeLoop+1 && matches{it.currentPosition in 500..700}}
             ui.onNodeWithText("Disable A–B loop",substring=false).assertExists()
             ui.runOnUiThread{player!!.pause()}
             ui.onNodeWithText("Full screen",substring=false).performClick()
@@ -67,9 +67,9 @@ class ProfessionalPlayerDeviceTest {
             ui.waitUntil(20000){ui.onAllNodesWithContentDescription("Decoded frame").fetchSemanticsNodes().isNotEmpty()}
             ui.onNodeWithTag("frame-number").performScrollTo().performTextReplacement("1")
             ui.onNodeWithTag("go-to-frame").performScrollTo().performClick()
-            ui.onNodeWithText("Next frame",substring=false).performScrollTo().performClick()
+            ui.onNodeWithTag("exact-next-frame").performScrollTo().performClick()
             ui.waitUntil(5000){ui.onAllNodesWithText("2 / 12",substring=false).fetchSemanticsNodes().isNotEmpty()}
-            ui.onNodeWithText("Previous frame",substring=false).performClick()
+            ui.onNodeWithTag("exact-previous-frame").performClick()
             ui.waitUntil(5000){ui.onAllNodesWithText("1 / 12",substring=false).fetchSemanticsNodes().isNotEmpty()}
             ui.onNodeWithText("Close",substring=false).performClick()
             ui.waitUntil(15000){matches{it.playbackState==Player.STATE_READY && !it.playWhenReady}}
@@ -89,8 +89,7 @@ class ProfessionalPlayerDeviceTest {
             ui.runOnUiThread{assertEquals(1f,host()!!.transform.scale,0.001f)}
             ui.onNodeWithTag("video-gestures").performTouchInput{swipeLeft(durationMillis=400)}
             ui.waitUntil(5000){directions==listOf(1)}
-            val output=File(instrumentation.targetContext.getExternalFilesDir(null),"ui-evidence").apply{mkdirs()}
-            assertTrue(device.takeScreenshot(File(output,"professional-controls.png")))
+            UiEvidence.capture("professional-controls.png")
         }finally{file.delete()}
     }
 }

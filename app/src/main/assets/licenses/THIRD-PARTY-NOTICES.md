@@ -1,4 +1,4 @@
-Sakugapp 1.1.0 — Sakugapp contributors
+Sakugapp 1.2.0 — Sakugapp contributors
 Application source: GPL-3.0-only. See GPL-3.0.txt and the complete corresponding source ZIP distributed with each build. No warranty is provided.
 
 Sakuga Extended (ftLoic): https://github.com/ftLoic/Sakuga-Extended

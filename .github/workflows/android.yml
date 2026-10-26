@@ -93,7 +93,7 @@ jobs:
           profile: Nexus 6
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
-          script: ./gradlew connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.sakugapp.DeviceTests,com.sakugapp.UiSmokeTest,com.sakugapp.PublicBrowseTest,com.sakugapp.BrowsingUpgradeDeviceTest,com.sakugapp.SuggestionInputDeviceTest,com.sakugapp.PlayerRotationDeviceTest,com.sakugapp.PublicPaginationTest
+          script: ./scripts/run-device-checks.sh
       - name: Explain failed device assertions
         if: failure()
         run: |
@@ -114,6 +114,7 @@ jobs:
           path: |
             app/build/reports/androidTests/
             app/build/outputs/androidTest-results/
+            app/build/reports/ui-evidence/
           if-no-files-found: warn
   release-preflight:
     # Existing workflow entry point also works when a new workflow is not yet indexed.

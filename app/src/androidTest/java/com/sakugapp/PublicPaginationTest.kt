@@ -78,13 +78,19 @@ class PublicPaginationTest {
             val next=feed.adjacent(1)
             assertNotNull("Five batches provide a real adjacent result",next)
             ui.onNodeWithTag("video-gestures").performScrollTo().performTouchInput{swipeLeft(durationMillis=400)}
+            try{ui.waitUntil(15000){feed.selected.value?.id==next!!.id && ui.onAllNodesWithText("#${next.id}",substring=false).fetchSemanticsNodes().isNotEmpty()}}
+            catch(failure:Throwable){
+                val diagnostics=mutableListOf<String>()
+                fun scan(view:android.view.View){if(view is VideoGestureHost)diagnostics+=view.lastGestureSummary;if(view is android.view.ViewGroup)for(i in 0 until view.childCount)scan(view.getChildAt(i))}
+                ui.runOnUiThread{scan(ui.activity.window.decorView)}
+                throw AssertionError("Post swipe selected=${feed.selected.value?.id}, expected=${next!!.id}, gestures=$diagnostics",failure)
+            }
             ui.onNodeWithText("#${next!!.id}").performScrollTo().assertIsDisplayed()
             assertEquals(next.id,feed.selected.value!!.id)
             device.pressBack()
             ui.onNodeWithContentDescription("Post ${anchor.id}").assertExists()
             assertTrue(feed.state.value.nextPage>=6);assertEquals(ids,feed.state.value.posts.take(ids.size).map{it.id})
-            val phoneCapture=java.io.File(InstrumentationRegistry.getInstrumentation().targetContext.getExternalFilesDir(null),"ui-evidence").apply{mkdirs()}
-            assertTrue(device.takeScreenshot(java.io.File(phoneCapture,"phone-post-grid.png")))
+            UiEvidence.capture("phone-post-grid.png")
             device.executeShellCommand("wm size 1920x1200");device.executeShellCommand("wm density 160")
             ui.waitUntil(20000){ui.activity.resources.configuration.smallestScreenWidthDp>=600}
             ui.onNodeWithTag("post-grid").performScrollToIndex(0)
@@ -97,8 +103,7 @@ class PublicPaginationTest {
                 assertTrue(bounds.width<=full.width/columns+2f)
                 ui.onNodeWithTag("post-score-${ids.first()}",useUnmergedTree=true).assertIsDisplayed()
             }
-            val capture=java.io.File(InstrumentationRegistry.getInstrumentation().targetContext.getExternalFilesDir(null),"ui-evidence").apply{mkdirs()}
-            assertTrue(device.takeScreenshot(java.io.File(capture,"tablet-12-columns.png")))
+            UiEvidence.capture("tablet-12-columns.png")
 
         }finally{
             ui.runOnUiThread{app.columns(2)}

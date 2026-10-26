@@ -42,6 +42,7 @@ class LocalLibraryDeviceTest {
             assertEquals(merged.posts,target.state.first().posts)
             store.batch(setOf(posts[0].id),a,b)
             val moved=store.state.first();assertTrue(moved.contains(posts[0].id,1));assertTrue(moved.contains(posts[0].id,b));assertFalse(moved.contains(posts[0].id,a))
+            store.duration(posts[0].fileUrl!!,1234);assertEquals(1234L,LocalLibraryStore(db).state.first().durations[posts[0].fileUrl])
             store.deleteFolder(a);assertTrue(retained.isFile);assertTrue(retained.length()>0)
             val final=store.state.first();assertEquals(1,final.posts.size);assertTrue(final.contains(posts[0].id,b))
             try{store.deleteFolder(1);fail("Default folder cannot be deleted")}catch(_:LibraryFailure){}
