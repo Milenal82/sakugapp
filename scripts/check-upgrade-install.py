@@ -80,7 +80,7 @@ try:
     settings_switch('Wrap tags','false')
     screenshot('after-upgrade-settings.png')
     tap_text('Menu');tap_text('Posts')
-    tap(wait_node(lambda n:n.get('content-desc')=='Search' and n.get('clickable')=='true'))
+    tap(wait_node(lambda n:n.get('content-desc')=='Search'))
     tap_text('History')
     wait_node(lambda n:n.get('text')=='id:319947' and n.get('class')!='android.widget.EditText')
     screenshot('after-upgrade-history.png')
@@ -89,6 +89,7 @@ try:
     print('Public upgrade verification:',json.dumps(result,sort_keys=True))
     print('Published APK -> signed candidate upgrade succeeded; settings and search history retained.')
 except Exception:
+    print('Search nodes:',[n.attrib for n in hierarchy().iter('node') if any(label in (n.get('text','')+' '+n.get('content-desc','')) for label in ['Search','History'])])
     print('Theme options:',[n.attrib for n in hierarchy().iter('node') if n.get('content-desc') in ['Light','Dark','Follow system theme']])
     screenshot('failure.png')
     (out/'failure-ui.xml').write_text(ET.tostring(hierarchy(),encoding='unicode'))
