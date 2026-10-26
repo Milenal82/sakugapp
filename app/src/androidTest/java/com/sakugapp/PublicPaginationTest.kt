@@ -78,6 +78,21 @@ class PublicPaginationTest {
             device.pressBack()
             ui.onNodeWithContentDescription("Post ${anchor.id}").assertExists()
             assertTrue(feed.state.value.nextPage>=6);assertEquals(ids,feed.state.value.posts.take(ids.size).map{it.id})
+            device.executeShellCommand("wm size 1920x1200");device.executeShellCommand("wm density 160")
+            ui.waitUntil(20000){ui.activity.resources.configuration.smallestScreenWidthDp>=600}
+            ui.onNodeWithTag("post-grid").performScrollToIndex(0)
+            for(columns in listOf(8,12)){
+                ui.onNodeWithTag("grid-columns").performClick()
+                ui.onNodeWithText(ui.activity.getString(R.string.ui_columns_count,columns),substring=false).performClick()
+                ui.waitUntil(10000){app.settings.value.columns==columns}
+                val bounds=ui.onNodeWithTag("post-media-${ids.first()}").fetchSemanticsNode().boundsInRoot
+                val full=ui.onNodeWithTag("post-grid").fetchSemanticsNode().boundsInRoot
+                assertTrue(bounds.width<=full.width/columns+2f)
+                ui.onNodeWithTag("post-score-${ids.first()}",useUnmergedTree=true).assertIsDisplayed()
+            }
+            val capture=java.io.File(InstrumentationRegistry.getInstrumentation().context.getExternalFilesDir(null),"ui-evidence").apply{mkdirs()}
+            assertTrue(device.takeScreenshot(java.io.File(capture,"tablet-12-columns.png")))
+
         }finally{
             ui.runOnUiThread{app.columns(2)}
             ui.waitUntil(10000){app.settings.value.columns==2}

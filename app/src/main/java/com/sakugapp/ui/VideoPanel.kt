@@ -41,6 +41,8 @@ import com.sakugapp.data.PreferenceRules
 import kotlinx.coroutines.*
 import java.io.File
 
+interface VideoOrientationHost { var hasFullscreenPlayer:Boolean }
+
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -94,10 +96,11 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
     LaunchedEffect(seekRequest){seekRequest?.let{player.seekTo(it.first)}}
     BackHandler(fullscreen){exitFullscreen()}
     DisposableEffect(fullscreen,activity){
+        (activity as? VideoOrientationHost)?.hasFullscreenPlayer=fullscreen
         val restoreOnDispose=fullscreen
         val restoreOrientation=normalOrientation
         if(fullscreen)activity?.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_FULL_USER
-        onDispose{if(restoreOnDispose)activity?.requestedOrientation=restoreOrientation}
+        onDispose{if(restoreOnDispose){(activity as? VideoOrientationHost)?.hasFullscreenPlayer=false;activity?.requestedOrientation=restoreOrientation}}
     }
     fun openFrames(){position=player.currentPosition;player.pause();player.stop();frames=true}
     val content: @Composable (Modifier) -> Unit = { modifier ->

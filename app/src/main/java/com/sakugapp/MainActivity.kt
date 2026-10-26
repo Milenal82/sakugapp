@@ -51,9 +51,13 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-class MainActivity:AppCompatActivity(){
+class MainActivity:AppCompatActivity(),VideoOrientationHost{
+    override var hasFullscreenPlayer=false
+    private fun browseOrientation(){requestedOrientation=if(resources.configuration.smallestScreenWidthDp>=600)android.content.pm.ActivityInfo.SCREEN_ORIENTATION_USER else android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT}
+    override fun onConfigurationChanged(newConfig:android.content.res.Configuration){super.onConfigurationChanged(newConfig);if(!hasFullscreenPlayer)browseOrientation()}
+
     override fun onCreate(savedInstanceState:Bundle?){
-        super.onCreate(savedInstanceState);requestedOrientation=if(resources.configuration.smallestScreenWidthDp>=600)android.content.pm.ActivityInfo.SCREEN_ORIENTATION_USER else android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;enableEdgeToEdge();setContent{Sakugapp()}
+        super.onCreate(savedInstanceState);browseOrientation();enableEdgeToEdge();setContent{Sakugapp()}
     }
     override fun onResume(){
         super.onResume()
@@ -176,7 +180,7 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
                 TextButton(enabled=!state.loading,onClick={submit(state.query)}){Text(text(R.string.ui_reload_posts_and_tags))}
             }}}
             items(state.posts,key={it.id}){post->PostCard(post,settings,metered,active==post.id,{open(post)},search,{if(!allowedPreview)policy=true else active=if(active==post.id)null else post.id})}
-            if(state.loading && state.posts.isEmpty())items(6,key={"skeleton-$it"}){SkeletonCard()}
+            if(state.loading && state.posts.isEmpty())items(settings.columns.coerceAtLeast(6),key={"skeleton-$it"}){SkeletonCard()}
             item(span={GridItemSpan(maxLineSpan)}){Column(Modifier.fillMaxWidth().padding(vertical=8.dp)){
                 if(state.loading){LinearProgressIndicator(Modifier.fillMaxWidth());Text(text(R.string.ui_loading_more_posts),style=MaterialTheme.typography.bodySmall)}
                 state.error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error);Button(onClick=loadMore){Text(text(R.string.ui_retry_this_page))}}
@@ -244,11 +248,11 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
     Surface(shape=RoundedCornerShape(if(settings.columns>=8)6.dp else 12.dp),color=MaterialTheme.colorScheme.surface,
         shadowElevation=if(settings.columns>=8)0.dp else 1.dp,tonalElevation=1.dp){Column{
         Box(Modifier.fillMaxWidth().heightIn(min=48.dp).aspectRatio(16f/9f).background(MaterialTheme.colorScheme.surfaceVariant)
-            .combinedClickable(onClick=open,onLongClick={options=true},onLongClickLabel=text(R.string.ui_preview_options))){
+            .testTag("post-media-${post.id}").combinedClickable(onClick=open,onLongClick={options=true},onLongClickLabel=text(R.string.ui_preview_options))){
             if(preview && post.fileUrl!=null)VideoPanel(post.fileUrl,settings,preview=true)
             else PostImage(post,Modifier.fillMaxSize(),settings,metered)
             Row(Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(2.dp),horizontalArrangement=Arrangement.SpaceBetween,verticalAlignment=Alignment.Bottom){
-                Surface(color=MaterialTheme.colorScheme.surface.copy(alpha=0.92f),shape=RoundedCornerShape(3.dp)){
+                if(post.isVideo)Surface(color=MaterialTheme.colorScheme.surface.copy(alpha=0.92f),shape=RoundedCornerShape(3.dp)){
                     Text(post.durationMs?.let(::mediaTime) ?: "—",fontSize=if(settings.columns>=8)9.sp else 11.sp,
                         modifier=Modifier.padding(horizontal=3.dp,vertical=1.dp).semantics{if(post.durationMs==null)contentDescription=contextDescriptionDurationUnknown})
                 }

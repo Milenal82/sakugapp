@@ -8,6 +8,13 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class PersonalizationTest {
+    @Test fun tabletDensityNeverOverwritesTheSavedChoiceOnAPhone(){
+        assertEquals(listOf(1,2,3,4),GridPolicy.options(599))
+        assertEquals(listOf(1,2,3,4,8,12),GridPolicy.options(600))
+        assertEquals(12,GridPolicy.effective(12,800));assertEquals(4,GridPolicy.effective(12,360))
+        assertEquals(8,GridPolicy.effective(8,600));assertEquals(3,GridPolicy.effective(3,360))
+        assertEquals(2,GridPolicy.effective(5,800))
+    }
     @Test fun legacyExplicitThemeWinsAndOnlyNewInstallFollowsSystem(){
         assertEquals("light",PreferenceRules.legacyTheme(null,true,true))
         assertEquals("dark",PreferenceRules.legacyTheme(null,false,true))
