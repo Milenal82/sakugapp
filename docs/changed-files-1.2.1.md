@@ -1,9 +1,10 @@
 # 1.2.1 修改文件
 
-相对 1.2.0 基线 `07ca42cab25d256208928b5ca3cb389b1ba66cac`；共 61 个文件。`A` 新增、`M` 修改、`D` 删除。
+相对 1.2.0 基线 `07ca42cab25d256208928b5ca3cb389b1ba66cac`；共 66 个文件。`A` 新增、`M` 修改、`D` 删除。
 
 | 状态 | 文件 |
 | --- | --- |
+| M | `.github/workflows/android.yml` |
 | M | `README.md` |
 | M | `app/build.gradle.kts` |
 | A | `app/schemas/com.sakugapp.data.LibraryDatabase/2.json` |
@@ -65,3 +66,7 @@
 | M | `scripts/run-device-checks.sh` |
 | A | `scripts/screenshot_pixels.py` |
 | A | `scripts/tests/test_screenshot_pixels.py` |
+| M | `settings.gradle.kts` |
+| A | `upgrade-ui-check/build.gradle.kts` |
+| A | `upgrade-ui-check/src/androidTest/java/com/sakugapp/upgradecheck/UpgradeHistoryTest.kt` |
+| A | `upgrade-ui-check/src/main/AndroidManifest.xml` |

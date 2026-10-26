@@ -87,18 +87,17 @@ try:
     settings_switch('Wrap tags','false')
     screenshot('after-upgrade-settings.png')
     tap_text('Menu');tap_text('Posts')
-    # Dropdown/NavHost exit animations can still consume a first physical tap.
-    # Synchronize with the real focused field, never infer expansion from a click.
-    for attempt in range(3):
-        tap(wait_node(lambda n:n.get('resource-id')=='search-entry'))
-        try:
-            wait_node(lambda n:n.get('package')==package and n.get('resource-id')=='search-input' and n.get('focused')=='true',timeout=5)
-            print('Native search field focused after tap attempt',attempt+1)
-            break
-        except AssertionError:
-            if attempt==2:raise
-    tap_text('History')
-    wait_node(lambda n:n.get('text')=='id:319947' and n.get('class')!='android.widget.EditText')
+    # A persistent, self-instrumented UiAutomator process controls the signed app.
+    # Its independent debug certificate never instruments the production package.
+    helper=pathlib.Path('upgrade-ui-check/build/outputs/apk')
+    files=[helper/'debug/upgrade-ui-check-debug.apk',helper/'androidTest/debug/upgrade-ui-check-debug-androidTest.apk']
+    for path in files:
+        assert path.is_file(),'Build the isolated upgrade UI checker first'
+        assert 'Success' in run('adb','install','-r',str(path))
+    native=run('adb','shell','am','instrument','-w','-r','-e','class','com.sakugapp.upgradecheck.UpgradeHistoryTest','com.sakugapp.upgradecheck.test/androidx.test.runner.AndroidJUnitRunner')
+    (out/'native-ui-result.txt').write_text(native)
+    print(native)
+    assert 'OK (1 test)' in native and 'FAILURES' not in native,'Signed app native history verification failed'
     screenshot('after-upgrade-history.png')
     result={'previous':previous,'candidate':current,'retained_light_theme':True,'system_night_mode':'yes','theme_verification':'actual rendered background pixels','retained_wrap_tags':True,'retained_search_history':True,'uninstall_or_clear_data':False,'result':'passed'}
     (out/'upgrade-install.json').write_text(json.dumps(result,indent=2)+'\n')

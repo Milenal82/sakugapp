@@ -37,37 +37,18 @@
 
 实际构建与设备结果见下方记录；不能从编译通过推断运行通过。真机/其他解码器、登录后写入和外部浏览器选择器不作未经测试的保证。A–B 仍为时间戳循环，严格帧和离线下载沿用既有边界。
 
-## 实际验收结果（2026-10-27，UTC+8）
+## 实际验收记录（2026-10-27，UTC+8）
 
-验收提交 `45ef7b0` 的 [GitHub 检查](https://github.com/Milenal82/sakugapp/actions/runs/40369422178)成功：96 项 JVM 单测、Lint 无错误、Debug APK/测试 APK，API 28 x86_64 KVM **24/24 项设备测试通过**。不是只生成了测试文件；日志记录实际执行 24 项、成功完成并导出 13 张 PNG。
+应用侧最新已完成验收提交 `1b60279` 的 [完整检查](https://github.com/Milenal82/sakugapp/actions/runs/40389463257)成功：96 项 JVM 单测、Lint 无错误、Debug APK/测试 APK，API 28 x86_64 KVM **24/24 项设备测试通过**。包含浅色/关闭换行、设置返回后的原生 UiAutomator 点击、自动聚焦，以及旧 v1 数据库迁移和系统 JSON 导入/导出。之前各轮失败未当作通过；最终下载以构件报告中的 source_commit 为准。
 
-设备覆盖：详情五按钮排列与边界禁用、原帖 URL 路由、长按提示、正确且不重复的 Score；收藏单入口、多夹、默认夹、取消；搜索自动焦点、默认折叠历史、组合条件、展开不移动列表顶部；收藏首页无视频/搜索框、点击收藏夹进入 Post 卡片；实际系统 JSON 导出/再导入；旧 v1 schema 迁移后保留帖子、关系、封面与媒体时长；中英及既有日/繁界面；320/360 dp 手机及平板布局断言；原有公开分页/播放/逐帧、旋转、手势、加密会话、下载错误和配额回归。
+本地完整命令 `./gradlew testDebugUnitTest lintDebug assembleDebug assembleDebugAndroidTest` 成功，96 tests / 0 failures / 0 errors / 0 skipped。Debug Lint 0 errors / 7 warnings，Release 0 errors / 24 warnings；未加 baseline 或关闭警告。378 条四语资源及格式参数、16 项发布工具测试、actionlint 均通过。警告包括 API 兼容、方向建议、复数资源、受限官网浏览 JavaScript、KAPT、日期排版及 CI 依赖版本建议。
 
-截图在 [device-test-reports](https://github.com/Milenal82/sakugapp/actions/runs/40369422178/artifacts/12673120295) 的 `ui-evidence` 中，包括：
+签名构建使用既有受保护 Secrets 与原证书，SHA-256 `9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff`。已验证 `com.sakugapp`、1.2.1 / code 9、非 Debug 和四种 ABI：arm64-v8a、armeabi-v7a、x86、x86_64。源码 ZIP 经过完整构建输入/敏感文件检查。
 
-- `compact-detail-phone-dark.png`、`compact-detail-tablet-light.png`：公开响应样本构成的隔离详情测试屏，未把测试样本注入正式列表。
-- `compact-search-expanded.png`、`compact-post-grid.png`：真实读取的搜索/列表屏。
-- `compact-favorites-home.png`、`compact-favorites-folder.png`、`compact-json-imported.png`：真实公开帖子的本地保存与系统文件导入流程。
-- `compact-settings-zh-cn.png`：原生简体中文设置；另有原有真实详情/网格、平板、收藏与播放器图共 13 张。
+正式证书升级作业先安装已发布 v1.0.0，再同证书 `adb install -r`，不卸载或清数据；已实际确认安装、系统强制深色时仍渲染保存的浅色（12/12 背景采样匹配）及换行设置保留。旧 1.2.0 收藏数据另由设备上的原始 v1 schema 迁移检查覆盖，不混同这两类验证。
 
-首轮的 22/24 设备结果并未当作通过：Room schema 的 `indices` 是可选字段，测试改为可空读取；Android 的 `executeShellCommand` 不负责 shell 引号解析，文件查找不再给已限定的测试文件名加入字面引号。应用的 JSON 输出当时已成功，修正后完整导出/导入均通过。签名升级测试适配新的搜索入口；API 28 的 XML 不导出 Material Chip 的选中状态，改为先将系统夜间模式设为深色，再检查覆盖升级后的实际背景仍为旧版保存的浅色，防止系统默认浅色造成误判；Compose 用例继续核对选中状态和重建后的持久化。测试失败也清理主题，避免污染后续 Score 色值检查。没有删除主题、历史或数据保留断言。
+签名版本的搜索/历史检查使用独立的 `upgrade-ui-check` 测试模块，由持续连接的 UiAutomator 进程操作真实签名应用。模块只在 `-PupgradeUiCheck=true` 时启用，用独立 Debug 证书自测，不注入主应用、不读取私有数据、不使用正式密钥签测试包；测试 APK 不上传。输入框、焦点和旧历史内容断言均保留，结果写入 signed-upgrade-install-report/native-ui-result.txt。完整运行结果与最终下载链接随草稿 PR 提供。
 
-最终清理后的本地命令 `./gradlew testDebugUnitTest lintDebug assembleDebug assembleDebugAndroidTest` 成功；**96 tests / 0 failures / 0 errors / 0 skipped；Lint 0 errors / 7 warnings**。警告涉及 API 兼容/固定方向建议、计数复数资源、受限官网浏览 JavaScript、KAPT 与两处搜索日期排版；未添加 Lint baseline 或关闭警告。四语 **378** 条资源覆盖及格式参数、16 项发布工具测试、actionlint 均通过。
+下载本分支 [Actions](https://github.com/Milenal82/sakugapp/actions/workflows/android.yml) 成功的签名运行中的 **sakugapp-signed-candidate**，包含候选 APK、同提交源码 ZIP、SHA256SUMS.txt、公开验证报告和版本说明。**device-test-reports** 包含实际运行报告与截图；**signed-upgrade-install-report** 包含覆盖安装记录。13 张截图含手机深色/平板浅色详情、搜索、列表、收藏首页/夹内、JSON 导入及简中设置；部分详情/收藏屏使用合法捕获的公开响应隔离测试，正式列表仍只读真实网络数据。
 
-本云环境访问 GitHub Actions 构件下载重定向仍返回 `Forbidden`，因此未在本机下载、肉眼复查这些 PNG 或签名 APK。GitHub 内部构建、签名校验、模拟器安装及测试可运行；提供构件页面供用户下载。不会把截图导出成功称为人工视觉验收。真机、多种 Android/解码器以及登录后的 Vote/评论写入本轮未重测。
-
-签名构建沿用受保护 Secrets 和原证书（SHA-256 `9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff`），不生成新密钥。已完成的 45ef7b0 Release 构建通过 96 项单测、Lint 0 errors / 24 warnings、包名/版本/非 Debug/证书/许可证校验，包含 `arm64-v8a`、`armeabi-v7a`、`x86`、`x86_64`；后续封装以构件 `release-verification.json` 中的 `source_commit` 为准。
-
-交付下载：本分支 [Actions](https://github.com/Milenal82/sakugapp/actions/workflows/android.yml) 成功的签名运行中，`sakugapp-signed-candidate` 包含 `Sakugapp-1.2.1-candidate.apk`、对应源码 ZIP、`SHA256SUMS.txt` 与公开验证报告。`signed-upgrade-install-report` 保存已发布 v1.0.0 → 候选版的实际同证书 `adb install -r` 检查与主题/历史截图；1.2.0 收藏数据的兼容性另由上面的真实 v1 schema 迁移用例检查，不混同这两类验证。最终运行链接随 PR 交付结果提供。
-
-验收补充：提交 `1fcb94f` 的 [完整检查](https://github.com/Milenal82/sakugapp/actions/runs/40373215579)再次通过全部 24 项设备测试、96 项单测和 13 张截图。其签名覆盖流程实际 `adb install -r` 成功，系统深色下保留浅色背景（12/12 采样匹配）及换行设置；之后的历史入口定位去掉对描述子节点的 clickable 属性要求，仍通过其真实边界点击并核对旧历史文本。应用代码不因该定位调整而变化。最终下载以最新提交的签名构件为准。
-
-黑盒覆盖检查还会等待搜索输入框真正展开并获焦，再点击历史，避免 Dropdown/NavHost 退出动画消费首次物理点击后误报；最多三次真实点击，始终保留最终旧历史内容核对。该同步仅位于验收脚本，不改应用搜索逻辑。
-
-原生点击验收使用 UiAutomator 的标准 100 ms 按压；独立升级脚本改为相同点的 100 ms 系统输入，不再发送零时长的 Down/Up。设备用例直接用 UiAutomator 点击搜索节点并断言展开和焦点，记录原生/Compose 边界供排查；不只依赖 Compose 交互驱动。本机无 KVM 的软件模拟器曾被 System UI ANR 遮挡，该轮本机尝试未记为通过。
-
-搜索入口整行采用一个明确的 Button 语义与 48 dp 可点击区域，合并图标/文字描述，避免无障碍描述落在独立通用 View。原生回归还覆盖浅色、关闭标签换行及从设置返回，明确断言搜索节点可点击；不只检查初次启动路径。
-
-Compose 会额外输出描述用的无障碍子节点；点击驱动使用导出的 `search-entry` / `search-input` 资源 ID 定位实际语义控件，避免把描述节点当成按钮。导出已有测试标签不改变界面内容或业务数据；真实点击、可点击状态和自动聚焦断言仍保留。
-
-独立黑盒升级测试显式唤醒模拟器、解除测试锁屏并保持亮屏，失败时记录电源/窗口状态；混合 Compose/UiAutomator 测试在原生查询前推进测试时钟完成导航。两项均为验收环境同步，不改变应用数据。
+本云下载 Actions 构件重定向返回 Forbidden，未在本机人工复查 PNG 或签名 APK；GitHub 内部构建、校验、安装和测试正常提供证据。本地无 KVM 的软件模拟器被 System UI ANR 遮挡，未把该尝试记为通过。真机、其他 Android/解码器以及登录后 Vote/评论写入本轮未重测。A–B 精度和严格帧/离线下载限制沿用旧版。

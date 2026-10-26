@@ -275,6 +275,9 @@ jobs:
         run: gh release download v1.0.0 --repo "$GITHUB_REPOSITORY" --pattern '*release.apk' --dir "$RUNNER_TEMP/previous-release"
       - run: sudo chmod a+rw /dev/kvm
       - run: ./scripts/ci-android-sdk.sh
+      - uses: gradle/actions/setup-gradle@v5
+      - name: Build isolated native UI checker (not distributed)
+        run: ./gradlew --no-daemon -PupgradeUiCheck=true :upgrade-ui-check:assembleDebug :upgrade-ui-check:assembleDebugAndroidTest
       - name: Verify same-certificate upgrade and retained preferences/history
         uses: reactivecircus/android-emulator-runner@v2
         with:
