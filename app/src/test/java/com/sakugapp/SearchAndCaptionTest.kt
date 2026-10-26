@@ -32,11 +32,11 @@ class SearchAndCaptionTest {
     @Test fun captionIncludesOnlyVerifiedCategoriesAndBoundsDenseGrids() {
         val types=PostParser.tagSummary(javaClass.getResource("/live/tags.json")!!.readText())
         val post=PostParser.posts(javaClass.getResource("/live/posts.json")!!.readText(),types).first()
-        assertEquals(listOf("jujutsu_kaisen_season_3","jujutsu_kaisen_series","mokmok"),captionTags(post,AppSettings()).map{it.name})
+        assertEquals(listOf("jujutsu_kaisen_season_3","jujutsu_kaisen_series","mokmok"),captionTags(post,AppSettings(showOtherTags=false)).map{it.name})
         assertEquals(2,captionTags(post,AppSettings(columns=4)).size)
         assertEquals(setOf(TagCategory.COPYRIGHT,TagCategory.ARTIST),captionTags(post,AppSettings(wrapTags=false)).map{it.category}.toSet())
         assertTrue(captionTags(post,AppSettings(showArtist=false)).none{it.category==TagCategory.ARTIST})
-        assertTrue(captionTags(post.copy(tags=listOf(Tag("unknown",TagCategory.UNKNOWN))),AppSettings()).isEmpty())
+        assertTrue(captionTags(post.copy(tags=listOf(Tag("unknown",TagCategory.UNKNOWN))),AppSettings(showOtherTags=false)).isEmpty())
         assertEquals(33,post.score)
     }
     @Test fun openingFiltersKeepsAllExistingOperatorsRangesAndNegativeRating() {

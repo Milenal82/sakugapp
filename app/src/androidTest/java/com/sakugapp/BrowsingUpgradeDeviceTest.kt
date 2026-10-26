@@ -20,6 +20,20 @@ import java.util.Locale
 
 @RunWith(AndroidJUnit4::class)
 class BrowsingUpgradeDeviceTest {
+    @Test fun newThemeDefaultsIgnoreTheInternalLocaleMarkerAndOldLightFlagStillMigrates()=runBlocking{
+        val context=InstrumentationRegistry.getInstrumentation().targetContext
+        val file=File(context.cacheDir,"theme-${System.nanoTime()}.preferences_pb")
+        val job=SupervisorJob();val data=PreferenceDataStoreFactory.create(scope=CoroutineScope(job+Dispatchers.IO),produceFile={file})
+        try{
+            data.edit{it[stringPreferencesKey("locale_last_applied")]=""}
+            val store=PreferencesStore(context,data);assertEquals("system",store.settings.first().themeMode)
+            store.initializeTheme();store.remember("real_new_search");assertEquals("system",store.settings.first().themeMode)
+            store.theme("light");assertTrue(store.settings.first().lightTheme);assertEquals("light",store.settings.first().themeMode)
+            store.theme("system");assertEquals("system",store.settings.first().themeMode)
+            store.columns(12);store.librarySort(3)
+            val restored=PreferencesStore(context,data);assertEquals(12,restored.settings.first().columns);assertEquals(3,restored.settings.first().librarySort)
+        }finally{job.cancelAndJoin();file.delete()}
+    }
     @Test fun platformLanguagePickerAndInAppChoicesUseOneReconciledState()=runBlocking {
         val context=InstrumentationRegistry.getInstrumentation().targetContext
         val file=File(context.cacheDir,"locale-${System.nanoTime()}.preferences_pb")

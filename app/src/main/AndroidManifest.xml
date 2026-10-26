@@ -13,7 +13,7 @@
         <service android:name="androidx.appcompat.app.AppLocalesMetadataHolderService" android:enabled="false" android:exported="false">
             <meta-data android:name="autoStoreLocales" android:value="true" />
         </service>
-        <activity android:name=".MainActivity" android:exported="true" android:screenOrientation="portrait"
+        <activity android:name=".MainActivity" android:exported="true" android:screenOrientation="unspecified"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

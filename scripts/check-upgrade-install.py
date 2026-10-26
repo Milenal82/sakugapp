@@ -33,6 +33,17 @@ def wait_node(predicate,timeout=45):
             if predicate(node):return node
         time.sleep(0.5)
     raise AssertionError('Expected native UI element did not appear')
+def settings_switch(label,checked=None):
+    dimensions=run('adb','shell','wm','size')
+    match=re.findall(r'(\d+)x(\d+)',dimensions)[-1]
+    width,height=map(int,match)
+    for _ in range(12):
+        for node in hierarchy().iter('node'):
+            bounds=re.findall(r'\d+',node.get('bounds',''))
+            if node.get('content-desc')==label and (checked is None or node.get('checked')==checked) and len(bounds)==4 and int(bounds[3])>int(bounds[1]):return node
+        run('adb','shell','input','swipe',str(width//2),str(int(height*0.82)),str(width//2),str(int(height*0.3)),'350')
+        time.sleep(0.25)
+    raise AssertionError('Native setting switch not found: '+label)
 def tap(node):
     x1,y1,x2,y2=map(int,re.fullmatch(r'\[(\d+),(\d+)\]\[(\d+),(\d+)\]',node.get('bounds')).groups())
     run('adb','shell','input','tap',str((x1+x2)//2),str((y1+y2)//2))
@@ -46,18 +57,18 @@ try:
     tap(wait_node(lambda n:n.get('class')=='android.widget.EditText'))
     run('adb','shell','input','text','id:319947');tap_text('Search')
     tap_text('Menu');tap_text('Settings')
-    switch=wait_node(lambda n:n.get('content-desc')=='Light background' and n.get('checkable')=='true')
+    switch=settings_switch('Light background')
     if switch.get('checked')!='true':tap(switch)
-    wait_node(lambda n:n.get('content-desc')=='Light background' and n.get('checked')=='true')
-    wrap=wait_node(lambda n:n.get('content-desc')=='Wrap tags' and n.get('checkable')=='true')
+    settings_switch('Light background','true')
+    wrap=settings_switch('Wrap tags')
     if wrap.get('checked')=='true':tap(wrap)
-    wait_node(lambda n:n.get('content-desc')=='Wrap tags' and n.get('checked')=='false')
+    settings_switch('Wrap tags','false')
     screenshot('before-upgrade.png')
     run('adb','shell','am','force-stop',package)
     assert 'Success' in run('adb','install','-r',str(new))
     launch();tap_text('Menu');tap_text('Settings')
-    wait_node(lambda n:n.get('content-desc')=='Light background' and n.get('checked')=='true')
-    wait_node(lambda n:n.get('content-desc')=='Wrap tags' and n.get('checked')=='false')
+    settings_switch('Light background','true')
+    settings_switch('Wrap tags','false')
     screenshot('after-upgrade-settings.png')
     tap_text('Menu');tap_text('Posts');tap_text('History')
     wait_node(lambda n:n.get('text')=='id:319947' and n.get('class')!='android.widget.EditText')

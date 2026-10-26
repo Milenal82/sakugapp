@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt")
     id("org.jetbrains.kotlin.plugin.compose")
 }
 // No secrets in Gradle properties, source, or command-line arguments.
@@ -24,8 +25,8 @@ android {
         applicationId = "com.sakugapp"
         minSdk = 26
         targetSdk = 35
-        versionCode = 7
-        versionName = "1.1.0"
+        versionCode = 8
+        versionName = "1.2.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
@@ -54,6 +55,7 @@ android {
 tasks.configureEach {
     if (name in setOf("validateSigningRelease", "packageRelease", "assembleRelease")) dependsOn(checkReleaseSigning)
 }
+kapt { arguments { arg("room.schemaLocation", "$projectDir/schemas") } }
 dependencies {
     implementation(platform("androidx.compose:compose-bom:2025.04.01"))
     implementation("androidx.activity:activity-compose:1.10.1")
@@ -67,6 +69,9 @@ dependencies {
     implementation("com.google.code.gson:gson:2.12.1")
     implementation("io.coil-kt:coil-compose:2.7.0")
     implementation("io.coil-kt:coil-gif:2.7.0")
+    implementation("androidx.room:room-runtime:2.7.1")
+    implementation("androidx.room:room-ktx:2.7.1")
+    kapt("androidx.room:room-compiler:2.7.1")
     implementation("androidx.datastore:datastore-preferences:1.1.7")
     implementation("androidx.navigation:navigation-compose:2.9.0")
     implementation("org.jsoup:jsoup:1.18.3")
@@ -76,6 +81,8 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
     testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
     testImplementation("com.squareup.okhttp3:okhttp-tls:4.12.0")
+    androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
+    androidTestImplementation("com.squareup.okhttp3:okhttp-tls:4.12.0")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test:runner:1.6.2")
     androidTestImplementation("androidx.test.uiautomator:uiautomator:2.3.0")

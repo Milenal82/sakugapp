@@ -31,3 +31,5 @@
 Apache-2.0 全文随 APK 放在 `assets/licenses/APACHE-2.0.txt`。OkHttp 的 Public Suffix List 数据另按 MPL-2.0 授权，原始 NOTICE 与 MPL 全文随 APK 保留；来源为 https://publicsuffix.org/list/public_suffix_list.dat ，本项目未修改该数据。构建依赖自身的版权与 NOTICE 保持不变；不将第三方库改为本项目许可证。组件的依赖图可通过 `./gradlew :app:dependencies` 检查。
 
 Sakugabooru 帖子和媒体仍归其各自权利人所有，应用许可证不授予帖子内容的版权。测试样本仅保留公开 API 的必要字段；获取地址、时间、摘要和脱敏规则在 `app/src/test/resources/live/provenance.json` 中。应用不捆绑站点图片或视频文件。
+
+Room 2.7.1 / AndroidX SQLite（runtime 与编译器）：Apache-2.0，https://developer.android.com/jetpack/androidx/releases/room ，源码 https://android.googlesource.com/platform/frameworks/support/ 。Kotlin KAPT 2.1.20 为构建工具，不包含任何私有凭据。

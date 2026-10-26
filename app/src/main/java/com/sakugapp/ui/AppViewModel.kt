@@ -14,6 +14,10 @@ class AppViewModel(application:Application):AndroidViewModel(application) {
     val preferences=PreferencesStore(application)
     val settings=preferences.settings.stateIn(viewModelScope,SharingStarted.Eagerly,AppSettings())
     val history=preferences.history.stateIn(viewModelScope,SharingStarted.Eagerly,emptyList())
+    val localLibrary=LocalLibraryStore(LibraryDatabase.get(application))
+    val library=localLibrary.state.catch{emit(LibrarySnapshot(error=true))}.stateIn(viewModelScope,SharingStarted.Eagerly,LibrarySnapshot())
+    val offlineMedia=OfflineLibraryMedia(application)
+    val dictionaries=MutableStateFlow<Map<String,Map<String,String>>>(emptyMap())
     val session=SecureSession(application)
     val suggestions:SuggestionSource=TagSuggestionRepository()
     val community=CommunityRepository(client=OkHttpClient.Builder().cookieJar(session).callTimeout(30,TimeUnit.SECONDS)
@@ -22,15 +26,21 @@ class AppViewModel(application:Application):AndroidViewModel(application) {
     private val _authBusy=MutableStateFlow(false);val authBusy=_authBusy.asStateFlow()
     private val _authError=MutableStateFlow<String?>(null);val authError=_authError.asStateFlow()
     init {
+        viewModelScope.launch{preferences.initializeTheme()}
+        viewModelScope.launch{runCatching{localLibrary.ready()}}
+        viewModelScope.launch(Dispatchers.IO){val body=application.assets.open("tag-translations.json").bufferedReader().use{it.readText()};dictionaries.value=listOf("zh-CN","zh-TW").associateWith{TagDictionary.parse(body,it)}}
         viewModelScope.launch { _account.value=withContext(Dispatchers.IO){session.restore()} }
         viewModelScope.launch { settings.collect { community.language=it.language } }
     }
+    fun duration(url:String,value:Long){if(library.value.durations[url]!=value)viewModelScope.launch{runCatching{localLibrary.duration(url,value)}}}
     fun search(query:String) { viewModelScope.launch { preferences.remember(query) } }
     fun flag(name:String,value:Boolean) { viewModelScope.launch { preferences.flag(name,value) } }
     fun number(name:String,value:Float) { viewModelScope.launch { preferences.number(name,value) } }
     fun language(value:String) { viewModelScope.launch { LocaleCoordinator.choose(getApplication(),value,preferences) } }
     fun clearHistory() { viewModelScope.launch { preferences.clearHistory() } }
     fun deleteHistory(query:String) { viewModelScope.launch { preferences.deleteHistory(query) } }
+    fun theme(value:String){viewModelScope.launch{preferences.theme(value)}}
+    fun librarySort(value:Int){viewModelScope.launch{preferences.librarySort(value)}}
     fun columns(value:Int) { viewModelScope.launch { preferences.columns(value) } }
     fun login(name:String,password:String) {
         if(_authBusy.value)return
