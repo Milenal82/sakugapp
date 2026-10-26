@@ -35,7 +35,6 @@ fun AccountScreen(model:AppViewModel,openSite:(String)->Unit) {
         Text(text(R.string.ui_my_account),style=MaterialTheme.typography.headlineMedium)
         account?.let{user->
             Text(user.name,style=MaterialTheme.typography.titleLarge)
-            Text(text(R.string.ui_saved_website_session_protected_actions_are_confirmed_by_the_serv))
             Button(onClick={openSite("https://www.sakugabooru.com/user/home")}){Text(text(R.string.ui_official_account_management))}
             OutlinedButton(enabled=!busy,onClick=model::logout){Text(text(R.string.ui_log_out_on_this_device))}
         } ?: run {

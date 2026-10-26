@@ -19,7 +19,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -28,6 +30,8 @@ import androidx.compose.ui.text.*
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.*
 import androidx.compose.ui.layout.onSizeChanged
@@ -67,6 +71,7 @@ class MainActivity:AppCompatActivity(),VideoOrientationHost{
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel()) {
     val savedSettings by app.settings.collectAsStateWithLifecycle()
@@ -76,7 +81,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
     val nav=rememberNavController();val entry by nav.currentBackStackEntryAsState()
     val selected by model.selected.collectAsStateWithLifecycle();val detailError by model.detailError.collectAsStateWithLifecycle()
     val rawFeed by model.state.collectAsStateWithLifecycle()
-    val library by app.library.collectAsStateWithLifecycle();val dictionaries by app.dictionaries.collectAsStateWithLifecycle()
+    val library by app.library.collectAsStateWithLifecycle()
     val feed=remember(rawFeed,library.durations){rawFeed.copy(posts=rawFeed.posts.map{p->library.durations[p.fileUrl]?.let{p.copy(durationMs=it)} ?: p})}
     val history by app.history.collectAsStateWithLifecycle()
     val grid=rememberLazyGridState()
@@ -93,11 +98,11 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
         else data?.getStringExtra("query")?.let{search(it)}
     }
     val openSite:(String)->Unit={url->browser.launch(Intent(context,BrowserActivity::class.java).putExtra("url",url))}
-    SakugappTheme(settings.lightTheme){CompositionLocalProvider(LocalLanguage provides language,LocalTagPresentation provides TagPresentation(settings.tagTranslations,dictionaries[if(language=="zh-TW")"zh-TW"else"zh-CN"].orEmpty(),library.translations,app.localLibrary)){
+    SakugappTheme(settings.lightTheme){CompositionLocalProvider(LocalLanguage provides language){
         if(about)AboutDialog{about=false}
         Scaffold(topBar={Column(Modifier.statusBarsPadding()){
             Row(Modifier.fillMaxWidth().padding(horizontal=8.dp),verticalAlignment=Alignment.CenterVertically){
-                if(entry?.destination?.route!="posts")TextButton(onClick={nav.popBackStack()},modifier=Modifier.semantics{contentDescription=context.getString(R.string.ui_back_to_app)}){Text("‹")}
+                if(entry?.destination?.route !in setOf("posts","library"))TextButton(onClick={nav.popBackStack()},modifier=Modifier.semantics{contentDescription=context.getString(R.string.ui_back_to_app)}){Text("‹")}
                 Text(text(R.string.app_name),style=MaterialTheme.typography.titleLarge,modifier=Modifier.weight(1f))
                 Box{TextButton(onClick={menu=true}){Text(text(R.string.ui_menu))};DropdownMenu(expanded=menu,onDismissRequest={menu=false}){
                     DropdownMenuItem(text={Text(text(R.string.ui_posts))},onClick={menu=false;nav.popBackStack("posts",false)})
@@ -110,9 +115,9 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                     DropdownMenuItem(text={Text(text(R.string.ui_about_and_licenses))},onClick={menu=false;about=true})
                 }}
             }
-        }}){insets->NavHost(navController=nav,startDestination="posts",modifier=Modifier.padding(insets)){
+        }}){insets->NavHost(navController=nav,startDestination="posts",modifier=Modifier.padding(insets).semantics{testTagsAsResourceId=true}){
             composable("posts"){PostsScreen(feed,grid,settings,history,metered,app,::search,{post->model.open(post);nav.navigate("post/${post.id}")},model::loadMore)}
-            composable("library"){LibraryScreen(app){post,order->model.openLocal(post,order);nav.navigate("post/${post.id}")}}
+            composable("library"){LibraryScreen(app,::search){post,order->model.openLocal(post,order);nav.navigate("post/${post.id}")}}
             composable("account"){AccountScreen(app,openSite)}
             composable("language"){LanguageScreen(settings.language,app::language)}
             composable("settings"){SettingsScreen(settings,app)}
@@ -127,7 +132,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                         val requests=if(settings.wifiImages && metered)emptyList()else neighboringUrls.map{url->coil.Coil.imageLoader(context).enqueue(coil.request.ImageRequest.Builder(context.applicationContext).data(url).size(320).build())}
                         onDispose{requests.forEach{it.dispose()}}
                     }
-                    PostDetail(post,settings,metered,app,model.usesLocalSnapshot(),::search,openSite,{nav.navigate("account")},{score->model.updateScore(post.id,score)},{duration->model.updateDuration(post.id,post.fileUrl.orEmpty(),duration);app.duration(post.fileUrl.orEmpty(),duration)},{delta->
+                    PostDetail(post,settings,metered,app,model.usesLocalSnapshot(),::search,openSite,{nav.navigate("account")},{score->model.updateScore(post.id,score)},{duration->model.updateDuration(post.id,post.fileUrl.orEmpty(),duration);app.duration(post.fileUrl.orEmpty(),duration)},model.adjacent(-1)!=null,model.adjacent(1)!=null,{delta->
                         val next=model.adjacent(delta)
                         if(next==null){model.prefetchNeighbors();false}else{
                             model.selectAdjacent(next)
@@ -152,6 +157,8 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
     var policy by remember{mutableStateOf(false)}
     var gridMenu by remember{mutableStateOf(false)}
     var searchFocused by remember{mutableStateOf(false)}
+    var searchExpanded by rememberSaveable{mutableStateOf(false)}
+    val searchFocus=remember{FocusRequester()}
     var chromeVisible by rememberSaveable{mutableStateOf(true)}
     var baseHeight by remember{mutableIntStateOf(0)}
     var fullHeight by remember{mutableIntStateOf(0)}
@@ -161,7 +168,7 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
     val scope=rememberCoroutineScope();val focus=LocalFocusManager.current
     val allowedPreview=!metered || settings.mobilePreview
     val suggestions=rememberSuggestions(query,searchFocused,app.suggestions)
-    val pinned=searchFocused || suggestions.active || historyOpen || advanced
+    val pinned=searchExpanded || advanced
     val pinnedNow by rememberUpdatedState(pinned)
     val chrome=remember(density){ScrollChrome(with(density){64.dp.toPx()},with(density){28.dp.toPx()})}
     val connection=remember(chrome){object:NestedScrollConnection{
@@ -186,7 +193,11 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
         if(!allowedPreview || active !in visible)active=null
         if(settings.autoPreview && allowedPreview && !grid.isScrollInProgress && active==null)active=state.posts.firstOrNull{it.id in visible && it.isVideo}?.id
     }
-    fun submit(value:String){focus.clearFocus();active=null;historyOpen=false;chromeVisible=true;search(value)}
+    fun collapseSearch(){searchExpanded=false;historyOpen=false;focus.clearFocus()}
+    fun submit(value:String){collapseSearch();active=null;chromeVisible=true;search(value)}
+    BackHandler(enabled=searchExpanded && !advanced){collapseSearch()}
+    LaunchedEffect(searchExpanded){if(searchExpanded){searchFocus.requestFocus()}else focus.clearFocus()}
+
     fun complete(name:String){
         if(!query.selection.collapsed || query.composition!=null)return
         val edit=SearchEditing.complete(query.text,query.selection.start,name);query=TextFieldValue(edit.text,TextRange(edit.cursor))
@@ -201,7 +212,7 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
                 Text(translateMessage(it),style=MaterialTheme.typography.labelSmall)
                 TextButton(enabled=!state.loading,onClick={submit(state.query)}){Text(text(R.string.ui_reload_posts_and_tags))}
             }}}
-            items(state.posts,key={it.id}){post->PostCard(post,settings,metered,active==post.id,{open(post)},search,{if(!allowedPreview)policy=true else active=if(active==post.id)null else post.id},{actual->app.duration(post.fileUrl.orEmpty(),actual)})}
+            items(state.posts,key={it.id}){post->PostCard(post,settings,metered,active==post.id,{collapseSearch();open(post)},::submit,{if(!allowedPreview)policy=true else active=if(active==post.id)null else post.id},{actual->app.duration(post.fileUrl.orEmpty(),actual)})}
             if(state.loading && state.posts.isEmpty())items(settings.columns.coerceAtLeast(6),key={"skeleton-$it"}){SkeletonCard()}
             item(span={GridItemSpan(maxLineSpan)}){Column(Modifier.fillMaxWidth().padding(vertical=8.dp)){
                 if(state.loading){LinearProgressIndicator(Modifier.fillMaxWidth());Text(text(R.string.ui_loading_more_posts),style=MaterialTheme.typography.bodySmall)}
@@ -210,22 +221,25 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
                 if(grid.canScrollBackward)TextButton(onClick={scope.launch{grid.animateScrollToItem(0)}}){Text(text(R.string.ui_back_to_top))}
             }}
         }
-        Surface(Modifier.fillMaxWidth().offset{IntOffset(0,offset.toInt())}.zIndex(1f).onSizeChanged{fullHeight=it.height},shadowElevation=2.dp){
+        Surface(Modifier.fillMaxWidth().offset{IntOffset(0,offset.toInt())}.zIndex(1f).onSizeChanged{fullHeight=it.height},tonalElevation=0.dp){
             Column(Modifier.padding(horizontal=10.dp).heightIn(max=with(LocalConfiguration.current){screenHeightDp.dp*0.7f})){
-                Column(Modifier.onSizeChanged{baseHeight=it.height},verticalArrangement=Arrangement.spacedBy(4.dp)){
-                    OutlinedTextField(query,{query=it},modifier=Modifier.fillMaxWidth().onFocusChanged{searchFocused=it.isFocused}.testTag("search-input"),singleLine=true,
-                        label={Text(text(R.string.ui_tags_separate_with_spaces))},keyboardOptions=KeyboardOptions(imeAction=ImeAction.Search),
-                        keyboardActions=KeyboardActions(onSearch={if(query.composition==null)submit(query.text)}),
-                        trailingIcon={Row{TextButton(onClick={query=TextFieldValue("")},modifier=Modifier.semantics{contentDescription=context.getString(R.string.ui_clear_search)}){Text("×")};TextButton(onClick={if(query.composition==null)submit(query.text)}){Text(text(R.string.ui_search))}}})
-                    SearchSyntax.warnings(query.text).forEach{Text(translateMessage(it),style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.tertiary)}
-                    FlowRow(horizontalArrangement=Arrangement.spacedBy(2.dp)){
-                        TextButton(onClick={advanced=true}){Text(text(R.string.ui_filters))}
-                        TextButton(onClick={historyOpen=!historyOpen;focus.clearFocus()}){Text(text(R.string.ui_history))}
-                        TextButton(enabled=!averaging && state.posts.isNotEmpty() && !(settings.wifiImages && metered),onClick={scope.launch{
-                            averaging=true
-                            try{val urls=state.posts.filter{it.id in visible}.mapNotNull{it.previewUrl};val result=averagePreviewColor(context,urls);average="${result.first} (${result.second}/${urls.size})"}
-                            catch(e:CancellationException){throw e}catch(e:Exception){average=localizedMessage(context,e.message.orEmpty())}finally{averaging=false}
-                        }}){Text(text(R.string.ui_average_color))}
+                Row(Modifier.fillMaxWidth().height(64.dp).onSizeChanged{baseHeight=it.height},verticalAlignment=Alignment.CenterVertically){
+                    if(searchExpanded){
+                        OutlinedTextField(query,{query=it},modifier=Modifier.weight(1f).focusRequester(searchFocus).onFocusChanged{searchFocused=it.isFocused}.testTag("search-input"),singleLine=true,
+                            label={Text(text(R.string.ui_search))},keyboardOptions=KeyboardOptions(imeAction=ImeAction.Search),
+                            keyboardActions=KeyboardActions(onSearch={if(query.composition==null)submit(query.text)}),
+                            trailingIcon={ActionIcon(R.drawable.ic_close,text(R.string.ui_clear_search),{query=TextFieldValue("")},Modifier.testTag("clear-search"))})
+                        ActionIcon(R.drawable.ic_search,text(R.string.ui_search),{if(query.composition==null)submit(query.text)},Modifier.testTag("submit-search"))
+                        ActionIcon(R.drawable.ic_close,text(R.string.ui_close),::collapseSearch,Modifier.testTag("collapse-search"))
+                    }else{
+                        Row(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(8.dp))
+                            .clickable(role=Role.Button){chromeVisible=true;historyOpen=false;searchExpanded=true}
+                            .testTag("search-entry").semantics(mergeDescendants=true){contentDescription=context.getString(R.string.ui_search)}
+                            .padding(horizontal=12.dp),verticalAlignment=Alignment.CenterVertically){
+                            Icon(androidx.compose.ui.res.painterResource(R.drawable.ic_search),contentDescription=null,modifier=Modifier.size(20.dp),tint=MaterialTheme.colorScheme.onSurfaceVariant)
+                            Spacer(Modifier.width(8.dp))
+                            Text(state.query.ifBlank{text(R.string.ui_search)},maxLines=1,overflow=TextOverflow.Ellipsis,modifier=Modifier.weight(1f),color=MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
                         Box{
                             TextButton(onClick={gridMenu=true},modifier=Modifier.testTag("grid-columns").semantics{contentDescription=context.getString(R.string.ui_grid_selection,settings.columns)}){Text("▦ ${settings.columns}")}
                             DropdownMenu(expanded=gridMenu,onDismissRequest={gridMenu=false}){for(columns in GridPolicy.options(LocalConfiguration.current.smallestScreenWidthDp))DropdownMenuItem(text={Text(text(R.string.ui_columns_count,columns))},onClick={
@@ -234,18 +248,32 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
                             })}
                         }
                     }
-                    average?.let{Text(it,style=MaterialTheme.typography.labelSmall)}
-                    HorizontalDivider(thickness=1.dp,color=MaterialTheme.colorScheme.outlineVariant,modifier=Modifier.testTag("search-divider"))
                 }
-                AnimatedVisibility(historyOpen,enter=expandVertically(tween(Motion.history)),exit=shrinkVertically(tween(Motion.history))){Column(Modifier.heightIn(max=200.dp).verticalScroll(rememberScrollState()).testTag("search-history")){
-                    if(history.isEmpty())Text(text(R.string.ui_no_saved_searches),Modifier.padding(8.dp))
-                    history.forEach{item->Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically){
-                        TextButton(onClick={query=TextFieldValue(item,TextRange(item.length));submit(item)},modifier=Modifier.weight(1f)){Text(item)}
-                        TextButton(onClick={app.deleteHistory(item)},modifier=Modifier.semantics{contentDescription=context.getString(R.string.ui_delete_search,item)}){Text("×")}
-                    }}
-                    TextButton(onClick=app::clearHistory){Text(text(R.string.ui_clear_search_history))}
-                }}
-                if(!historyOpen)TagSuggestionsMenu(suggestions,settings.lightTheme,::complete)
+                AnimatedVisibility(searchExpanded,enter=expandVertically(tween(Motion.search))+fadeIn(tween(Motion.search)),exit=shrinkVertically(tween(Motion.search))+fadeOut(tween(Motion.search))){
+                    Column(Modifier.verticalScroll(rememberScrollState()).testTag("search-expanded")){
+                        SearchSyntax.warnings(query.text).forEach{Text(translateMessage(it),style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.tertiary)}
+                        FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
+                            TextButton(onClick={advanced=true}){Text(text(R.string.ui_filters))}
+                            TextButton(onClick={historyOpen=!historyOpen;focus.clearFocus()}){Text(text(R.string.ui_history))}
+                            TextButton(enabled=!averaging && state.posts.isNotEmpty() && !(settings.wifiImages && metered),onClick={scope.launch{
+                                averaging=true
+                                try{val urls=state.posts.filter{it.id in visible}.mapNotNull{it.previewUrl};val result=averagePreviewColor(context,urls);average="${result.first} (${result.second}/${urls.size})"}
+                                catch(e:CancellationException){throw e}catch(e:Exception){average=localizedMessage(context,e.message.orEmpty())}finally{averaging=false}
+                            }}){Text(text(R.string.ui_average_color))}
+                        }
+                        average?.let{Text(it,style=MaterialTheme.typography.labelSmall)}
+                        AnimatedVisibility(historyOpen,enter=expandVertically(tween(Motion.history)),exit=shrinkVertically(tween(Motion.history))){Column(Modifier.testTag("search-history")){
+                            if(history.isEmpty())Text(text(R.string.ui_no_saved_searches),Modifier.padding(8.dp))
+                            history.forEach{item->Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically){
+                                TextButton(onClick={query=TextFieldValue(item,TextRange(item.length));submit(item)},modifier=Modifier.weight(1f)){Text(item,maxLines=2,overflow=TextOverflow.Ellipsis)}
+                                ActionIcon(R.drawable.ic_close,context.getString(R.string.ui_delete_search,item),{app.deleteHistory(item)})
+                            }}
+                            if(history.isNotEmpty())TextButton(onClick=app::clearHistory){Text(text(R.string.ui_clear_search_history))}
+                        }}
+                        if(!historyOpen)TagSuggestionsMenu(suggestions,settings.lightTheme,::complete)
+                    }
+                }
+                HorizontalDivider(thickness=1.dp,color=MaterialTheme.colorScheme.outlineVariant,modifier=Modifier.testTag("search-divider"))
             }
         }
     }
@@ -264,7 +292,7 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
 }
 
 @OptIn(ExperimentalFoundationApi::class)
-@Composable private fun PostCard(post:Post,settings:AppSettings,metered:Boolean,preview:Boolean,open:()->Unit,search:(String)->Unit,toggle:()->Unit,onDuration:(Long)->Unit){
+@Composable internal fun PostCard(post:Post,settings:AppSettings,metered:Boolean,preview:Boolean,open:()->Unit,search:(String)->Unit,toggle:()->Unit,onDuration:(Long)->Unit){
     val contextDescriptionDurationUnknown=text(R.string.ui_duration_unknown)
     var options by remember(post.id){mutableStateOf(false)}
     val interaction=remember(post.id){MutableInteractionSource()};val pressed by interaction.collectIsPressedAsState()
@@ -303,14 +331,14 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
     if(!settings.wrapTags){
         Column(Modifier.fillMaxWidth().padding(top=5.dp).testTag("post-caption-${post.id}").semantics(mergeDescendants=true){}){
             Row(horizontalArrangement=Arrangement.spacedBy(4.dp)){
-                tags.forEach{tag->TranslatedTag(tag,search=search,modifier=Modifier.weight(1f),dense=settings.columns>=8,
+                tags.forEach{tag->OriginalTag(tag,search=search,modifier=Modifier.weight(1f),
                     color=when(tag.category){TagCategory.COPYRIGHT->copyrightColor(settings.lightTheme);TagCategory.ARTIST->artistColor(settings.lightTheme);else->MaterialTheme.colorScheme.onSurfaceVariant},fontSize=size,maxLines=1)}
             }
         }
         return
     }
     FlowRow(Modifier.fillMaxWidth().padding(top=5.dp).testTag("post-caption-${post.id}").semantics(mergeDescendants=true){},horizontalArrangement=Arrangement.spacedBy(4.dp)){
-        for(tag in tags)TranslatedTag(tag,search=search,dense=settings.columns>=8,color=when(tag.category){TagCategory.COPYRIGHT->copyrightColor(settings.lightTheme);TagCategory.ARTIST->artistColor(settings.lightTheme);else->MaterialTheme.colorScheme.onSurfaceVariant},fontSize=size,
+        for(tag in tags)OriginalTag(tag,search=search,color=when(tag.category){TagCategory.COPYRIGHT->copyrightColor(settings.lightTheme);TagCategory.ARTIST->artistColor(settings.lightTheme);else->MaterialTheme.colorScheme.onSurfaceVariant},fontSize=size,
             maxLines=if(settings.wrapTags && settings.columns<=2)Int.MAX_VALUE else 2)
     }
 }
@@ -322,22 +350,21 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
     else SubcomposeAsyncImage(model=url,contentDescription=text(R.string.ui_post_description,post.id),modifier=modifier,contentScale=if(!detail && settings.cropThumbnails)ContentScale.Crop else ContentScale.Fit,loading={Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surfaceVariant))},error={Text(text(R.string.ui_image_failed_to_load),Modifier.padding(8.dp))})
 }
 
-@Composable private fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,localSnapshot:Boolean,search:(String)->Unit,wiki:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit,onDuration:(Long)->Unit,onNavigate:(Int)->Boolean){
+@Composable internal fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,localSnapshot:Boolean,search:(String)->Unit,wiki:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit,onDuration:(Long)->Unit,hasPrevious:Boolean,hasNext:Boolean,onNavigate:(Int)->Boolean){
     val uri=LocalUriHandler.current;var linkError by remember{mutableStateOf(false)}
     var seek by remember{mutableStateOf<Pair<Long,Int>?>(null)}
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(12.dp),verticalArrangement=Arrangement.spacedBy(12.dp)){
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(12.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
         if(localSnapshot)Text(text(R.string.ui_library_snapshot_hint),style=MaterialTheme.typography.bodySmall)
         if(post.isVideo)VideoPanel(app.offlineMedia.existing(post)?.toURI()?.toString() ?: post.fileUrl!!,settings,seekRequest=seek,onDurationChanged=onDuration,onNavigate=onNavigate)
         else PostImage(post,Modifier.fillMaxWidth().height(320.dp),settings,metered,true)
-        Row{
-            TextButton(onClick={onNavigate(-1)}){Text(text(R.string.ui_previous_post))}
-            TextButton(onClick={onNavigate(1)}){Text(text(R.string.ui_next_post))}
+        Row(Modifier.widthIn(max=360.dp).fillMaxWidth().testTag("detail-actions"),horizontalArrangement=Arrangement.SpaceEvenly,verticalAlignment=Alignment.CenterVertically){
+            ActionIcon(R.drawable.ic_previous,text(R.string.ui_previous_post),{onNavigate(-1)},Modifier.testTag("previous-post"),enabled=hasPrevious)
+            ActionIcon(R.drawable.ic_next,text(R.string.ui_next_post),{onNavigate(1)},Modifier.testTag("next-post"),enabled=hasNext)
+            if(post.isVideo)VideoDownloadButton(post)else ActionIcon(R.drawable.ic_download,text(R.string.ui_download_video),{},enabled=false)
+            ActionIcon(R.drawable.ic_open,text(R.string.ui_open_original_post),{linkError=runCatching{uri.openUri(post.pageUrl)}.isFailure},Modifier.testTag("original-post"))
+            FavoriteControl(post,app)
         }
-        FavoriteControl(post,app)
-        if(post.isVideo)VideoDownloadButton(post)
-        Text(text(R.string.ui_score_detail,post.score?.toString() ?: "?"))
-        PostMetadata(post){url->linkError=runCatching{uri.openUri(url)}.isFailure}
-        OutlinedButton(onClick={linkError=runCatching{uri.openUri(post.pageUrl)}.isFailure}){Text(text(R.string.ui_open_original_post))}
+        PostMetadata(post,settings.lightTheme){url->linkError=runCatching{uri.openUri(url)}.isFailure}
         if(linkError)Text(text(R.string.ui_no_browser_available))
         DetailTags(post.tags,settings.lightTheme,search,wiki)
         CommunityPanel(post,app,onScore,login){time->seek=time to ((seek?.second ?: 0)+1)}
@@ -345,10 +372,9 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
 }
 
 @OptIn(ExperimentalLayoutApi::class)
-@Composable private fun PostMetadata(post:Post,open:(String)->Unit){
+@Composable private fun PostMetadata(post:Post,light:Boolean,open:(String)->Unit){
     val context=LocalContext.current
     val fields=buildList{
-        add(text(R.string.ui_post_id) to "#${post.id}")
         post.uploader?.let{add(text(R.string.ui_uploader) to it)}
         post.createdAt?.let{time->runCatching{DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(Instant.ofEpochSecond(time).atZone(ZoneId.systemDefault()))}.getOrNull()?.let{add(text(R.string.ui_uploaded) to it)}}
         if(post.width!=null && post.height!=null)add(text(R.string.ui_resolution) to "${post.width} × ${post.height}")
@@ -357,15 +383,16 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
         post.rating?.let{add(text(R.string.ui_rating) to it)}
         post.status?.let{add(text(R.string.ui_status) to it)}
     }
-    FlowRow(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.spacedBy(16.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
-        fields.forEach{(label,value)->Column(Modifier.widthIn(max=280.dp)){
-            Text(label,style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.onSurfaceVariant)
-            SelectionContainer{Text(value,style=MaterialTheme.typography.bodyMedium)}
-        }}
+    FlowRow(Modifier.fillMaxWidth().testTag("post-metadata"),horizontalArrangement=Arrangement.spacedBy(12.dp),verticalArrangement=Arrangement.spacedBy(6.dp)){
+        Text("${text(R.string.ui_post_id)} #${post.id}",style=MaterialTheme.typography.bodySmall,modifier=Modifier.testTag("detail-post-id"))
+        post.source?.takeIf{it.isNotBlank()}?.let{source->
+            val url=PostParser.safeUrl(source)
+            Text("${text(R.string.ui_source)}: $source",style=MaterialTheme.typography.bodySmall,
+                color=if(url==null)MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.primary,
+                maxLines=2,overflow=TextOverflow.Ellipsis,
+                modifier=Modifier.widthIn(max=280.dp).testTag("post-source").then(if(url==null)Modifier else Modifier.clickable{open(url)}))
+        }
+        Text(text(R.string.ui_score_value,post.score?.toString() ?: "?"),color=scoreColor(light),style=MaterialTheme.typography.bodySmall,modifier=Modifier.testTag("detail-score"))
+        fields.forEach{(label,value)->SelectionContainer{Text("$label: $value",style=MaterialTheme.typography.bodySmall,modifier=Modifier.widthIn(max=280.dp))}}
     }
-    post.source?.let{source->Column{
-        Text(text(R.string.ui_source),style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.onSurfaceVariant)
-        SelectionContainer{Text(source,style=MaterialTheme.typography.bodyMedium)}
-        PostParser.safeUrl(source)?.let{url->TextButton(onClick={open(url)}){Text(text(R.string.ui_open_source))}}
-    }}
 }

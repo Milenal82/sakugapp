@@ -5,7 +5,7 @@ import androidx.room.withTransaction
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
-data class LibrarySnapshot(val posts:List<FavoritePost> = emptyList(),val folders:List<FavoriteFolder> = emptyList(),val links:List<FavoriteLink> = emptyList(),val translations:Map<String,String> = emptyMap(),val durations:Map<String,Long> = emptyMap(),val error:Boolean=false,val decoded:Map<Long,Post> = posts.associate{it.id to LibraryCodec.decodePost(it.snapshot)}){
+data class LibrarySnapshot(val posts:List<FavoritePost> = emptyList(),val folders:List<FavoriteFolder> = emptyList(),val links:List<FavoriteLink> = emptyList(),val durations:Map<String,Long> = emptyMap(),val error:Boolean=false,val decoded:Map<Long,Post> = posts.associate{it.id to LibraryCodec.decodePost(it.snapshot)}){
     private val byFolder=links.groupBy{it.folderId}.mapValues{it.value.map{l->l.postId}.toSet()}
     private val byPost=links.groupBy{it.postId}.mapValues{it.value.map{l->l.folderId}.toSet()}
     fun inFolder(id:Long?)=posts.filter{p->if(id==null)p.id in byPost else p.id in byFolder[id].orEmpty()}
@@ -16,10 +16,10 @@ class LocalLibraryStore(private val db:LibraryDatabase){
     // One transaction observes a coherent library. Duration-only changes do not reread or decode all posts.
     private val libraryData=flow{
         var cache=emptyMap<Long,Pair<String,Post>>()
-        db.invalidationTracker.createFlow("favorite_posts","favorite_folders","favorite_links","tag_translations").collect{
-            val raw=db.withTransaction{LibraryBackup(dao.foldersOnce(),dao.postsOnce(),dao.linksOnce(),dao.translationsOnce())}
+        db.invalidationTracker.createFlow("favorite_posts","favorite_folders","favorite_links").collect{
+            val raw=db.withTransaction{LibraryBackup(dao.foldersOnce(),dao.postsOnce(),dao.linksOnce())}
             cache=raw.posts.associate{p->p.id to (cache[p.id]?.takeIf{it.first==p.snapshot} ?: (p.snapshot to LibraryCodec.decodePost(p.snapshot)))}
-            emit(LibrarySnapshot(raw.posts,raw.folders,raw.links,raw.translations.associate{it.original to it.translation},decoded=cache.mapValues{it.value.second}))
+            emit(LibrarySnapshot(raw.posts,raw.folders,raw.links,decoded=cache.mapValues{it.value.second}))
         }
     }
     val state=combine(libraryData,dao.facts()){data,facts->data.copy(durations=facts.associate{it.url to it.durationMs})}.flowOn(Dispatchers.Default)
@@ -61,21 +61,13 @@ class LocalLibraryStore(private val db:LibraryDatabase){
             links[id].orEmpty().filter{(from==null || it.folderId==from) && it.folderId!=to}.forEach{dao.unlink(id,it.folderId)}
         };dao.pruneOrphans()
     }
-    suspend fun translation(original:String,value:String?)=db.withTransaction{
-        if(!LibraryCodec.tagName(original))throw LibraryFailure("invalid_backup")
-        if(value==null)dao.deleteTranslation(original)else{
-            val clean=value.trim();if(clean.isBlank()||clean.length>300||clean.any(Char::isISOControl))throw LibraryFailure("invalid_backup")
-            val existing=dao.translationsOnce();if(existing.size>=2000 && existing.none{it.original==original})throw LibraryFailure("library_limit")
-            dao.translation(LocalTagTranslation(original,clean))
-        }
-    }
     suspend fun duration(url:String,milliseconds:Long){if(milliseconds !in 1..86400000)return;LibraryCodec.trustedMedia(url);db.withTransaction{dao.fact(MediaFact(url,milliseconds,System.currentTimeMillis()));dao.trimFacts()}}
-    suspend fun export():String=db.withTransaction{ready();LibraryCodec.encode(LibraryBackup(dao.foldersOnce(),dao.postsOnce(),dao.linksOnce(),dao.translationsOnce()))}
+    suspend fun export():String=db.withTransaction{ready();LibraryCodec.encode(LibraryBackup(dao.foldersOnce(),dao.postsOnce(),dao.linksOnce()))}
     suspend fun import(body:String)=withContext(Dispatchers.Default){
         val incoming=LibraryCodec.decode(body)
         db.withTransaction{
-            ready();val oldFolders=dao.foldersOnce();val oldPosts=dao.postsOnce();val oldTranslations=dao.translationsOnce()
-            if((oldPosts.map{it.id}+incoming.posts.map{it.id}).distinct().size>10000 || (oldTranslations.map{it.original}+incoming.translations.map{it.original}).distinct().size>2000)throw LibraryFailure("library_limit")
+            ready();val oldFolders=dao.foldersOnce();val oldPosts=dao.postsOnce()
+            if((oldPosts.map{it.id}+incoming.posts.map{it.id}).distinct().size>10000)throw LibraryFailure("library_limit")
             val map=mutableMapOf<Long,Long>();var position=(oldFolders.maxOfOrNull{it.position} ?: 0)+1
             for(folder in incoming.folders){
                 val existing=if(folder.id==1L)oldFolders.first{it.id==1L}else dao.foldersOnce().firstOrNull{it.id!=1L && it.name.equals(folder.name,true)}
@@ -86,7 +78,6 @@ class LocalLibraryStore(private val db:LibraryDatabase){
             if((dao.linksOnce()+incoming.links.map{it.copy(folderId=map[it.folderId]!!)}).distinctBy{it.postId to it.folderId}.size>50000)throw LibraryFailure("library_limit")
             incoming.posts.forEach{dao.post(it)}
             incoming.links.forEach{dao.link(it.copy(folderId=checkNotNull(map[it.folderId])))}
-            incoming.translations.filter{n->oldTranslations.none{it.original==n.original}}.forEach{dao.translation(it)}
             incoming.folders.forEach{folder->val target=map[folder.id]!!;val cover=folder.coverPostId;if(cover!=null && dao.foldersOnce().first{it.id==target}.coverPostId==null && dao.linksOnce().any{it.folderId==target && it.postId==cover})dao.cover(target,cover)}
             dao.pruneOrphans()
         }

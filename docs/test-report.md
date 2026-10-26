@@ -1,3 +1,7 @@
+# 1.2.1 验证入口
+
+[验收检查](https://github.com/Milenal82/sakugapp/actions/runs/40369422178)通过：96 项 JVM 单测、Debug 构建、Lint 0 错误、24/24 项 API 28 KVM 设备测试及 13 张截图。迁移、系统 JSON 文件选择器和界面覆盖范围见 [1.2.1 记录](release-1.2.1.md#实际验收结果2026-10-27utc8)。以下保留旧版结果，不能代替本轮测试。
+
 # 1.2.0 验证入口
 
 本轮逐阶段检查、20 项设备用例范围、截图和未验证事项见 [1.2.0 升级记录](release-1.2.0.md#运行证据与明确限制)。[验收提交 df836f4 的检查](https://github.com/Milenal82/sakugapp/actions/runs/40303737605)成功：96 项 JVM 单测、Lint 0 错误、20/20 项 API 28 KVM 测试、5 张 PNG 实际导出。[正式签名与覆盖升级](https://github.com/Milenal82/sakugapp/actions/runs/40303730796)同样成功。最终封装提交见构件元数据；下方为旧版历史。

@@ -24,6 +24,8 @@ class PublicPaginationTest {
         lateinit var feed:FeedViewModel;lateinit var app:AppViewModel
         ui.runOnUiThread{feed=ViewModelProvider(ui.activity)[FeedViewModel::class.java];app=ViewModelProvider(ui.activity)[AppViewModel::class.java]}
         try {
+            ui.runOnUiThread{app.theme("dark")}
+            ui.waitUntil(10000){app.settings.value.themeMode=="dark"}
             device.executeShellCommand("wm size 720x1280");device.executeShellCommand("wm density 320")
             ui.waitUntil(20000){ui.activity.resources.configuration.screenWidthDp in 340..380}
             ui.waitUntil(90000){feed.state.value.posts.size>=60 && !feed.state.value.loading}
@@ -54,14 +56,16 @@ class PublicPaginationTest {
             ui.onNodeWithTag("grid-columns").assertContentDescriptionEquals(persistedLabel)
             ui.onNodeWithTag("post-grid").performScrollToIndex(32)
             ui.onNodeWithTag("post-grid").performTouchInput{swipeUp(durationMillis=400)}
-            ui.waitForIdle();ui.onNodeWithTag("search-input").assertIsNotDisplayed()
+            ui.waitForIdle();ui.onNodeWithTag("search-entry").assertIsNotDisplayed()
             ui.onNodeWithTag("post-grid").performTouchInput{swipeDown(durationMillis=400)}
-            ui.waitForIdle();ui.onNodeWithTag("search-input").assertIsDisplayed()
+            ui.waitForIdle();ui.onNodeWithTag("search-entry").assertIsDisplayed()
             ui.onNodeWithTag("post-grid").performScrollToIndex(0)
+            ui.onNodeWithTag("search-entry").performClick()
             ui.onNodeWithText("History",substring=false).performClick()
             ui.onNodeWithTag("search-history").assertIsDisplayed()
             ui.onNodeWithText("History",substring=false).performClick()
             ui.onNodeWithTag("search-history").assertDoesNotExist()
+            ui.onNodeWithTag("collapse-search").performClick()
             ui.onNodeWithTag("post-grid").performScrollToIndex(32)
             // Pick a real, fully visible thumbnail below the overlay rather than assuming row heights.
             fun visibleThumbnails():List<androidx.compose.ui.semantics.SemanticsNode>{
@@ -74,21 +78,26 @@ class PublicPaginationTest {
             val description=visibleThumbnails().first().config[SemanticsProperties.ContentDescription].first{it.startsWith("Post ")}
             val anchor=feed.state.value.posts.first{it.id==description.substringAfter(' ').toLong()}
             ui.onNodeWithContentDescription(description).performClick()
-            ui.onNodeWithText("#${anchor.id}").performScrollTo().assertIsDisplayed()
-            val next=feed.adjacent(1)
+            ui.onNodeWithTag("detail-post-id").performScrollTo().assertIsDisplayed()
+            val next=checkNotNull(feed.adjacent(1))
             assertNotNull("Five batches provide a real adjacent result",next)
             ui.onNodeWithTag("video-gestures").performScrollTo().performTouchInput{swipeLeft(durationMillis=400)}
             assertEquals("Edge gestures must not change posts",anchor.id,feed.selected.value!!.id)
             ui.onNodeWithTag("video-gestures").performTouchInput{swipe(start=androidx.compose.ui.geometry.Offset(center.x*1.6f,center.y),end=androidx.compose.ui.geometry.Offset(center.x*0.4f,center.y),durationMillis=400)}
-            try{ui.waitUntil(15000){feed.selected.value?.id==next!!.id && ui.onAllNodesWithText("#${next.id}",substring=false).fetchSemanticsNodes().isNotEmpty()}}
+            try{ui.waitUntil(15000){feed.selected.value?.id==next.id && ui.onAllNodes(hasTestTag("detail-post-id") and hasText("#${next.id}",substring=true)).fetchSemanticsNodes().isNotEmpty()}}
             catch(failure:Throwable){
                 val diagnostics=mutableListOf<String>()
                 fun scan(view:android.view.View){if(view is VideoGestureHost)diagnostics+=view.lastGestureSummary;if(view is android.view.ViewGroup)for(i in 0 until view.childCount)scan(view.getChildAt(i))}
                 ui.runOnUiThread{scan(ui.activity.window.decorView)}
-                throw AssertionError("Post swipe selected=${feed.selected.value?.id}, expected=${next!!.id}, gestures=$diagnostics",failure)
+                throw AssertionError("Post swipe selected=${feed.selected.value?.id}, expected=${next.id}, gestures=$diagnostics",failure)
             }
-            ui.onNodeWithText("#${next!!.id}").performScrollTo().assertIsDisplayed()
+            ui.onNodeWithTag("detail-post-id").performScrollTo().assertIsDisplayed()
             assertEquals(next.id,feed.selected.value!!.id)
+            ui.onNodeWithTag("previous-post").performScrollTo().performClick()
+            ui.waitUntil(10000){feed.selected.value?.id==anchor.id}
+            ui.onNodeWithTag("next-post").performScrollTo().performClick()
+            ui.waitUntil(10000){feed.selected.value?.id==next.id}
+
             device.pressBack()
             ui.onNodeWithContentDescription("Post ${anchor.id}").assertExists()
             assertTrue(feed.state.value.nextPage>=6);assertEquals(ids,feed.state.value.posts.take(ids.size).map{it.id})

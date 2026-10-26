@@ -52,23 +52,18 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel) {
         Text(text(R.string.ui_appearance),style=MaterialTheme.typography.titleLarge)
         Text(text(R.string.ui_grid_columns))
         FlowRow{for(columns in GridPolicy.options(LocalConfiguration.current.smallestScreenWidthDp))FilterChip(selected=settings.columns==columns,onClick={model.columns(columns)},label={Text(columns.toString())})}
-        Text(text(R.string.ui_tablet_density_hint),style=MaterialTheme.typography.bodySmall)
         Text(text(R.string.ui_theme_mode))
-        FlowRow{for((mode,label)in listOf("system" to R.string.ui_theme_system,"dark" to R.string.ui_theme_dark,"light" to R.string.ui_theme_light))FilterChip(selected=settings.themeMode==mode,onClick={model.theme(mode)},label={Text(text(label))})}
+        FlowRow{for((mode,label)in listOf("system" to R.string.ui_theme_system,"dark" to R.string.ui_theme_dark,"light" to R.string.ui_theme_light))FilterChip(selected=settings.themeMode==mode,onClick={model.theme(mode)},modifier=Modifier.semantics{contentDescription=context.getString(label)},label={Text(text(label))})}
         Text(text(R.string.ui_card_spacing,settings.cardSpacing.toInt().toString()))
         var spacing by remember(settings.cardSpacing){mutableFloatStateOf(settings.cardSpacing)}
         Slider(value=spacing,onValueChange={spacing=it},onValueChangeFinished={model.number("cardSpacing",spacing)},valueRange=0f..10f,steps=9)
         SettingSwitch(text(R.string.ui_show_other_tags),settings.showOtherTags){model.flag("otherTags",it)}
         SettingSwitch(text(R.string.ui_gestures_enabled),settings.gestures){model.flag("gestures",it)}
-        SettingSwitch(text(R.string.ui_light_background),settings.lightTheme){model.flag("lightTheme",it)}
         SettingSwitch(text(R.string.ui_crop_rectangular_thumbnails),settings.cropThumbnails){model.flag("crop",it)}
         SettingSwitch(text(R.string.ui_wrap_tags),settings.wrapTags){model.flag("wrap",it)}
         SettingSwitch(text(R.string.ui_copyright_tags),settings.showCopyright){model.flag("copyright",it)}
         SettingSwitch(text(R.string.ui_animator_tags),settings.showArtist){model.flag("artist",it)}
         SettingSwitch(text(R.string.ui_score),settings.showScore){model.flag("score",it)}
-        HorizontalDivider();Text(text(R.string.ui_tag_translations),style=MaterialTheme.typography.titleLarge)
-        SettingSwitch(text(R.string.ui_tag_translations),settings.tagTranslations){model.flag("tagTranslations",it)}
-        Text(text(R.string.ui_tag_dictionary_hint),style=MaterialTheme.typography.bodySmall)
         HorizontalDivider();Text(text(R.string.ui_video),style=MaterialTheme.typography.titleLarge)
         SettingSwitch(text(R.string.ui_auto_preview_visible_posts),settings.autoPreview){model.flag("auto",it)}
         SettingSwitch(text(R.string.ui_allow_previews_on_metered_networks),settings.mobilePreview){model.flag("mobile",it)}

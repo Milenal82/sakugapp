@@ -8,7 +8,7 @@ import org.junit.Test
 
 class LibraryCodecTest {
     private fun post()=PostParser.posts(javaClass.getResource("/live/posts.json")!!.readText()).first()
-    private fun backup()=LibraryBackup(listOf(FavoriteFolder(1,"",0),FavoriteFolder(8,"动画研究",1)),listOf(FavoritePost(post().id,LibraryCodec.encodePost(post()),100)),listOf(FavoriteLink(post().id,1,100),FavoriteLink(post().id,8,101)),listOf(LocalTagTranslation("original_tag","本地译名")))
+    private fun backup()=LibraryBackup(listOf(FavoriteFolder(1,"",0),FavoriteFolder(8,"动画研究",1)),listOf(FavoritePost(post().id,LibraryCodec.encodePost(post()),100)),listOf(FavoriteLink(post().id,1,100),FavoriteLink(post().id,8,101)))
     @Test fun capturedPostRoundTripsWithoutInventingMissingScoreOrDuration(){
         val p=post();assertEquals(p,LibraryCodec.decodePost(LibraryCodec.encodePost(p)))
         val unknown=p.copy(score=null,durationMs=null)
@@ -38,11 +38,15 @@ class LibraryCodecTest {
         }
         assertThrows(LibraryFailure::class.java){LibraryCodec.decodePost(LibraryCodec.encodePost(post().copy(tags=listOf(Tag("bad\nname",TagCategory.UNKNOWN)))))}
     }
-    @Test fun customTermsOverrideCuratedTermsAndNeverRewriteOriginalNames(){
-        val curated=mapOf("character_animation" to "角色作画")
-        assertEquals("用户译名",TagDictionary.resolve("character_animation",curated,mapOf("character_animation" to "用户译名")))
-        assertEquals("角色作画",TagDictionary.resolve("character_animation",curated,emptyMap()))
-        assertNull(TagDictionary.resolve("unknown_artist",curated,emptyMap()))
+    @Test fun legacyTranslationFieldIsIgnoredAndNeverExportedAgain(){
+        val legacy=JsonParser.parseString(LibraryCodec.encode(backup())).asJsonObject
+        legacy.add("translations",JsonParser.parseString("""[{"original":"original_tag","translation":"旧译名"}]"""))
+        val imported=LibraryCodec.decode(legacy.toString())
+        assertEquals(backup().posts,imported.posts);assertEquals(backup().links,imported.links)
+        assertFalse(JsonParser.parseString(LibraryCodec.encode(imported)).asJsonObject.has("translations"))
+        // Even an obsolete field's unknown representation cannot block otherwise valid favorites.
+        legacy.addProperty("translations","obsolete")
+        assertEquals(imported,LibraryCodec.decode(legacy.toString()))
         assertTrue(LibraryCodec.tagName("original_artist"));assertFalse(LibraryCodec.tagName("original artist"))
     }
 }

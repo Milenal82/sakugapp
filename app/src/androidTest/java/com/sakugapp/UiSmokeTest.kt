@@ -35,6 +35,7 @@ class UiSmokeTest {
         ui.waitUntil(10000){ui.onAllNodesWithText("菜单").fetchSemanticsNodes().isNotEmpty()}
         ui.onNodeWithText("菜单").performClick();ui.onNodeWithText("设置").performClick()
         ui.onNodeWithText("外观").assertIsDisplayed()
+        UiEvidence.capture("compact-settings-zh-cn.png")
         ui.onNodeWithText("菜单").performClick();ui.onNodeWithText("语言").performClick()
         ui.onNodeWithText("English").performClick()
         ui.waitUntil(10000){ui.onAllNodesWithText("Menu").fetchSemanticsNodes().isNotEmpty()}
@@ -43,19 +44,25 @@ class UiSmokeTest {
         ui.onNodeWithText("Password").assertIsDisplayed()
         ui.onNodeWithText("Log in").assertIsNotEnabled()
     }
-    @Test fun lightBackgroundSwitchAppliesAndCanReturnToDark(){
+    @Test fun lightAndDarkThemeChoicesApplyAndPersist(){
         ui.onNodeWithText("Menu").performClick();ui.onNodeWithText("Settings").performClick()
-        val switch=hasContentDescription("Light background") and isToggleable()
-        ui.onNode(switch).assertIsOff().performClick()
-        ui.waitUntil(10000){ui.onAllNodes(switch and isOn()).fetchSemanticsNodes().isNotEmpty()}
-        org.junit.Assert.assertTrue("The rendered settings background is light",screenLuminance()>0.6f)
+        lateinit var app:com.sakugapp.ui.AppViewModel
+        ui.runOnUiThread{app=androidx.lifecycle.ViewModelProvider(ui.activity)[com.sakugapp.ui.AppViewModel::class.java]}
+        try{
+        ui.onNodeWithContentDescription("Light").performClick().assertIsSelected()
+        org.junit.Assert.assertTrue("Light settings background",screenLuminance()>0.6f)
         ui.activityRule.scenario.recreate()
-        ui.waitUntil(10000){ui.onAllNodesWithText("Light background").fetchSemanticsNodes().isNotEmpty()}
-        ui.onNode(switch).assertIsOn().performClick()
-        ui.waitUntil(10000){ui.onAllNodes(switch and isOff()).fetchSemanticsNodes().isNotEmpty()}
-        org.junit.Assert.assertTrue("The rendered settings background is dark",screenLuminance()<0.2f)
+        ui.waitUntil(10000){ui.onAllNodesWithContentDescription("Light").fetchSemanticsNodes().isNotEmpty()}
+        ui.onNodeWithContentDescription("Light").assertIsSelected()
+        ui.onNodeWithContentDescription("Dark").performClick().assertIsSelected()
+        org.junit.Assert.assertTrue("Dark settings background",screenLuminance()<0.2f)
+        }finally{
+            ui.runOnUiThread{app.theme("dark")}
+            ui.waitUntil(10000){app.settings.value.themeMode=="dark"}
+        }
     }
     @Test fun scoreShortcutsReplaceOnlyTheScoreCondition(){
+        ui.onNodeWithTag("search-entry").performClick()
         ui.onNode(hasSetTextAction()).performTextReplacement("~mokmok ~artist_unknown score:>1 -rating:questionable order:score")
         ui.onNodeWithText("Filters").performClick()
         ui.onNodeWithText("score:>=3",substring=false).performScrollTo().performClick()
@@ -66,6 +73,7 @@ class UiSmokeTest {
     }
     @Test fun searchDialogKeepsCombinedQueryAndDisplaysTheReference(){
         val query="~mokmok ~artist_unknown -genga -rating:questionable id:>=100 order:mpixels"
+        ui.onNodeWithTag("search-entry").performClick()
         ui.onNode(hasSetTextAction()).performTextReplacement(query)
         ui.onNodeWithText("Filters").performClick()
         ui.onNodeWithTag("query-expression").assertTextContains(query)

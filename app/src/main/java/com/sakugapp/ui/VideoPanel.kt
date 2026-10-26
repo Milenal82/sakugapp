@@ -162,7 +162,6 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                         TextButton(onClick={openFrames(-1)}){Text(text(R.string.ui_previous_frame))}
                         TextButton(onClick={openFrames(1)}){Text(text(R.string.ui_next_frame))}
                     }
-                    Text(text(R.string.ui_frame_number_hint),style=MaterialTheme.typography.labelSmall)
                     nominalFps?.let{Text(text(R.string.ui_nominal_fps,String.format(Locale.ROOT,"%.3f",it)),style=MaterialTheme.typography.labelSmall)}
                     HorizontalDivider();Text(text(R.string.ui_audio_display),style=MaterialTheme.typography.titleSmall)
                     FlowRow{
@@ -181,7 +180,6 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                         }){Text(text(R.string.ui_snapshot))}
                     }
                     Row{Text(text(R.string.ui_volume));Slider(value=volume,onValueChange={volume=it;muted=it==0f},modifier=Modifier.weight(1f))}
-                    Text(text(R.string.ui_gesture_hint),style=MaterialTheme.typography.labelSmall)
                 }}
             }
             error?.let{message->Text(translateMessage(message),color=MaterialTheme.colorScheme.error,modifier=Modifier.padding(8.dp));TextButton(onClick={error=null;player.prepare();player.play()}){Text(text(R.string.ui_retry))}}

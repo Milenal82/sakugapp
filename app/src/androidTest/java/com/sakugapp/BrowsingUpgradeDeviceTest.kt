@@ -60,8 +60,9 @@ class BrowsingUpgradeDeviceTest {
         val file=File(context.cacheDir,"legacy-${System.nanoTime()}.preferences_pb")
         val job=SupervisorJob();val store=PreferenceDataStoreFactory.create(scope=CoroutineScope(job+Dispatchers.IO),produceFile={file})
         try {
-            store.edit{p->p[stringPreferencesKey("language")]="zh-TW";p[stringPreferencesKey("history")]=(1..30).joinToString("\n"){"old_tag$it"};p[booleanPreferencesKey("muted")]=false;p[booleanPreferencesKey("lightTheme")]=true}
+            store.edit{p->p[stringPreferencesKey("language")]="zh-TW";p[stringPreferencesKey("history")]=(1..30).joinToString("\n"){"old_tag$it"};p[booleanPreferencesKey("muted")]=false;p[booleanPreferencesKey("lightTheme")]=true;p[booleanPreferencesKey("tagTranslations")]=true}
             val upgraded=PreferencesStore(context,store)
+            upgraded.initializeTheme();assertNull(store.data.first()[booleanPreferencesKey("tagTranslations")])
             val settings=upgraded.settings.first()
             assertEquals("zh-TW",settings.language);assertFalse(settings.muted);assertTrue(settings.lightTheme);assertEquals(2,settings.columns)
             assertEquals(30,upgraded.history.first().size)

@@ -17,7 +17,6 @@ class AppViewModel(application:Application):AndroidViewModel(application) {
     val localLibrary=LocalLibraryStore(LibraryDatabase.get(application))
     val library=localLibrary.state.catch{emit(LibrarySnapshot(error=true))}.stateIn(viewModelScope,SharingStarted.Eagerly,LibrarySnapshot())
     val offlineMedia=OfflineLibraryMedia(application)
-    val dictionaries=MutableStateFlow<Map<String,Map<String,String>>>(emptyMap())
     val session=SecureSession(application)
     val suggestions:SuggestionSource=TagSuggestionRepository()
     val community=CommunityRepository(client=OkHttpClient.Builder().cookieJar(session).callTimeout(30,TimeUnit.SECONDS)
@@ -28,7 +27,6 @@ class AppViewModel(application:Application):AndroidViewModel(application) {
     init {
         viewModelScope.launch{preferences.initializeTheme()}
         viewModelScope.launch{runCatching{localLibrary.ready()}}
-        viewModelScope.launch(Dispatchers.IO){val body=application.assets.open("tag-translations.json").bufferedReader().use{it.readText()};dictionaries.value=listOf("zh-CN","zh-TW").associateWith{TagDictionary.parse(body,it)}}
         viewModelScope.launch { _account.value=withContext(Dispatchers.IO){session.restore()} }
         viewModelScope.launch { settings.collect { community.language=it.language } }
     }
