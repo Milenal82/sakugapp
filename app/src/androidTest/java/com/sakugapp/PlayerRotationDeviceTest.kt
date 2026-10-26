@@ -24,6 +24,7 @@ class PlayerRotationDeviceTest {
     @Test fun manualRotationWithSystemLockPreservesThePlayerPositionAndControls(){
         val instrumentation=InstrumentationRegistry.getInstrumentation();val device=UiDevice.getInstance(instrumentation)
         val oldLock=device.executeShellCommand("settings get system accelerometer_rotation").trim()
+        val oldImmersive=device.executeShellCommand("settings get secure immersive_mode_confirmations").trim()
         val file=File(ui.activity.cacheDir,"rotation-fixture.mp4")
         instrumentation.context.assets.open("frame-index-vfr.mp4").use{input->file.outputStream().use{input.copyTo(it)}}
         val instances=AtomicInteger();var player:Player?=null
@@ -43,6 +44,9 @@ class PlayerRotationDeviceTest {
         }
         try {
             device.executeShellCommand("settings put system accelerometer_rotation 0")
+            // Android's first-use immersive education is a separate System UI window.
+            // Confirm it in the emulator fixture so the single Back targets the app.
+            device.executeShellCommand("settings put secure immersive_mode_confirmations confirmed")
             // Establish the ordinary browsing policy before mounting this isolated player scene.
             ui.runOnUiThread{activity.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_PORTRAIT}
             awaitStage("initial portrait",15000){ui.activity.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT}
@@ -62,6 +66,12 @@ class PlayerRotationDeviceTest {
             }
             ui.waitForIdle()
             ui.onNodeWithText("Exit full screen",substring=false).assertIsDisplayed()
+            println("Rotation active package before Back: ${device.currentPackageName}")
+            if(device.currentPackageName!=activity.packageName){
+                val hierarchy=java.io.ByteArrayOutputStream()
+                device.dumpWindowHierarchy(hierarchy)
+                throw AssertionError("Unexpected foreground window before Back: ${hierarchy.toString("UTF-8")}")
+            }
             androidx.test.espresso.Espresso.pressBack()
             awaitStage("restore portrait",15000){ui.activity.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT}
             ui.onNodeWithText("Full screen",substring=false).assertExists()
@@ -72,6 +82,11 @@ class PlayerRotationDeviceTest {
                 assertEquals(Player.REPEAT_MODE_ONE,player!!.repeatMode);assertEquals(0f,player!!.volume,0.001f)
                 assertTrue(kotlin.math.abs(player!!.currentPosition-400)<=100)
             }
-        }finally{device.executeShellCommand("settings put system accelerometer_rotation ${oldLock.toIntOrNull() ?: 1}");file.delete()}
+        }finally{
+            device.executeShellCommand("settings put system accelerometer_rotation ${oldLock.toIntOrNull() ?: 1}")
+            if(oldImmersive=="null")device.executeShellCommand("settings delete secure immersive_mode_confirmations")
+            else if(oldImmersive.matches(Regex("[A-Za-z0-9_,.-]+")))device.executeShellCommand("settings put secure immersive_mode_confirmations $oldImmersive")
+            file.delete()
+        }
     }
 }
