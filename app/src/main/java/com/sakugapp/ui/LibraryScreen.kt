@@ -23,17 +23,17 @@ import com.sakugapp.data.*
 import kotlinx.coroutines.*
 
 @OptIn(ExperimentalLayoutApi::class)
-@Composable fun LibraryScreen(app:AppViewModel,open:(Post)->Unit){
+@Composable fun LibraryScreen(app:AppViewModel,open:(Post,List<Post>)->Unit){
     val state by app.library.collectAsStateWithLifecycle();val context=LocalContext.current;val scope=rememberCoroutineScope()
     var folderId by rememberSaveable{mutableStateOf<Long?>(null)}
-    var query by rememberSaveable{mutableStateOf("")};var sort by rememberSaveable{mutableIntStateOf(0)}
+    var query by rememberSaveable{mutableStateOf("")};val preferences by app.settings.collectAsStateWithLifecycle();val sort=preferences.librarySort
     var selected by remember{mutableStateOf(setOf<Long>())}
     var folderDialog by remember{mutableStateOf(false)};var rename by remember{mutableStateOf(false)};var name by remember{mutableStateOf("")}
     var deleting by remember{mutableStateOf(false)};var removing by remember{mutableStateOf(false)};var moving by remember{mutableStateOf(false)}
     var importBody by remember{mutableStateOf<String?>(null)}
     var message by remember{mutableStateOf<String?>(null)}
     var busy by remember{mutableStateOf(false)};var downloadConfirm by remember{mutableStateOf(false)}
-    var job by remember{mutableStateOf<Job?>(null)};var done by remember{mutableIntStateOf(0)};var total by remember{mutableIntStateOf(0)}
+    var job by remember{mutableStateOf<Job?>(null)};var done by remember{mutableIntStateOf(0)};var total by remember{mutableIntStateOf(0)};var currentBytes by remember{mutableLongStateOf(0)};var currentSize by remember{mutableLongStateOf(-1L)}
     var usage by remember{mutableLongStateOf(app.offlineMedia.bytes())};var clearMedia by remember{mutableStateOf(false)}
     val folder=state.folders.firstOrNull{it.id==folderId}
     fun operation(action:suspend()->Unit){scope.launch{try{action()}catch(e:CancellationException){throw e}catch(e:Exception){message=libraryError(context,e)}}}
@@ -89,21 +89,21 @@ import kotlinx.coroutines.*
                 TextButton(enabled=!busy && candidates.any{state.decoded[it.id]?.let{p->p.isVideo && app.offlineMedia.existing(p)==null}==true},onClick={downloadConfirm=true}){Text(text(R.string.ui_batch_download))}
             }
             OutlinedTextField(query,{query=it},label={Text(text(R.string.ui_library_search))},singleLine=true,modifier=Modifier.fillMaxWidth().testTag("library-search"))
-            FlowRow{for((index,label)in listOf(R.string.ui_sort_saved_desc,R.string.ui_sort_saved_asc,R.string.ui_sort_id_desc,R.string.ui_sort_id_asc).withIndex())FilterChip(selected=sort==index,onClick={sort=index},label={Text(text(label))})}
+            FlowRow{for((index,label)in listOf(R.string.ui_sort_saved_desc,R.string.ui_sort_saved_asc,R.string.ui_sort_id_desc,R.string.ui_sort_id_asc).withIndex())FilterChip(selected=sort==index,onClick={app.librarySort(index)},label={Text(text(label))})}
             if(selected.isNotEmpty())FlowRow{
                 Text(text(R.string.ui_selected_count,selected.size))
                 TextButton(onClick={moving=true}){Text(text(R.string.ui_move_selected))}
                 TextButton(onClick={removing=true}){Text(text(R.string.ui_remove_selected))}
                 TextButton(onClick={selected=emptySet()}){Text(text(R.string.ui_cancel))}
             }
-            if(busy){LinearProgressIndicator(Modifier.fillMaxWidth());Text(text(R.string.ui_download_batch_progress,done,total));TextButton(onClick={job?.cancel()}){Text(text(R.string.ui_cancel_download))}}
+            if(busy){if(currentSize>0)LinearProgressIndicator(progress={(currentBytes.toDouble()/currentSize).toFloat().coerceIn(0f,1f)},modifier=Modifier.fillMaxWidth())else LinearProgressIndicator(Modifier.fillMaxWidth());Text(text(R.string.ui_download_bytes,currentBytes/1024));Text(text(R.string.ui_download_batch_progress,done,total));TextButton(onClick={job?.cancel()}){Text(text(R.string.ui_cancel_download))}}
             if(candidates.isEmpty())Text(text(R.string.ui_library_empty))
         }
         items(candidates,key={"post-${it.id}"}){entry->state.decoded[entry.id]?.let{post->
             Card{Row(Modifier.fillMaxWidth().padding(6.dp),horizontalArrangement=Arrangement.spacedBy(6.dp)){
                 Checkbox(checked=post.id in selected,onCheckedChange={selected=if(it)selected+post.id else selected-post.id},modifier=Modifier.semantics{contentDescription=context.getString(R.string.ui_select_post,post.id)})
-                AsyncImage(post.previewUrl,text(R.string.ui_post_description,post.id),Modifier.width(80.dp).height(56.dp).clickable{open(post)},contentScale=ContentScale.Fit)
-                Column(Modifier.weight(1f).clickable{open(post)}){
+                AsyncImage(post.previewUrl,text(R.string.ui_post_description,post.id),Modifier.width(80.dp).height(56.dp).clickable{open(post,candidates.mapNotNull{state.decoded[it.id]})},contentScale=ContentScale.Fit)
+                Column(Modifier.weight(1f).clickable{open(post,candidates.mapNotNull{state.decoded[it.id]})}){
                     Text("#${post.id}");Text(post.tags.take(3).joinToString(" "){it.name},style=MaterialTheme.typography.bodySmall)
                     Text(text(R.string.ui_score_value,post.score?.toString() ?: "?"),color=scoreColor(MaterialTheme.colorScheme.background.luminance()>0.5f))
                     if(app.offlineMedia.existing(post)!=null)Text(text(R.string.ui_offline_ready),style=MaterialTheme.typography.labelSmall)
@@ -127,6 +127,6 @@ import kotlinx.coroutines.*
     if(downloadConfirm)AlertDialog(onDismissRequest={downloadConfirm=false},title={Text(text(R.string.ui_batch_download))},text={Text(text(R.string.ui_batch_download_hint))},confirmButton={TextButton(onClick={
         downloadConfirm=false;val pending=state.inFolder(folderId).mapNotNull{state.decoded[it.id]}.filter{it.isVideo && app.offlineMedia.existing(it)==null}.take(OfflineLibraryMedia.BATCH_SIZE)
         busy=true;done=0;total=pending.size
-        job=scope.launch{try{for(post in pending){app.offlineMedia.download(post);done++};message=context.getString(R.string.ui_video_saved)}catch(e:CancellationException){message=context.getString(R.string.ui_download_cancelled);throw e}catch(e:Exception){message=libraryError(context,e)}finally{busy=false;usage=app.offlineMedia.bytes()}}
+        job=scope.launch{try{for(post in pending){currentBytes=0;currentSize=-1;var updated=0L;app.offlineMedia.download(post){received,length->val now=System.nanoTime();if(now-updated>100000000L || received==length){updated=now;scope.launch{currentBytes=received;currentSize=length}}};done++};message=context.getString(R.string.ui_video_saved)}catch(e:CancellationException){message=context.getString(R.string.ui_download_cancelled);throw e}catch(e:Exception){message=libraryError(context,e)}finally{busy=false;usage=app.offlineMedia.bytes()}}
     }){Text(text(R.string.ui_download_video))}},dismissButton={TextButton(onClick={downloadConfirm=false}){Text(text(R.string.ui_cancel))}})
 }

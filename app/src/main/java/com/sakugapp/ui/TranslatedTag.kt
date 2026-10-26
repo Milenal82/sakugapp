@@ -7,9 +7,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.*
 import com.sakugapp.R
@@ -18,9 +16,12 @@ import kotlinx.coroutines.*
 
 internal data class TagPresentation(val enabled:Boolean=false,val curated:Map<String,String> = emptyMap(),val custom:Map<String,String> = emptyMap(),val store:LocalLibraryStore?=null)
 internal val LocalTagPresentation=staticCompositionLocalOf{TagPresentation()}
-internal fun libraryError(context:android.content.Context,error:Exception)=context.getString(when(((error as? LibraryFailure) ?: (error.cause as? LibraryFailure))?.code){
+internal fun libraryError(context:android.content.Context,error:Exception):String{
+    if(error is DataFailure && error.cause !is LibraryFailure)return localizedMessage(context,error.message.orEmpty())
+    return context.getString(when(((error as? LibraryFailure) ?: (error.cause as? LibraryFailure))?.code){
     "invalid_backup"->R.string.ui_invalid_backup;"folder_name"->R.string.ui_folder_name_error;"library_limit"->R.string.ui_library_limit;"media_limit"->R.string.ui_media_limit;else->R.string.ui_library_failed
 })
+}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable internal fun TranslatedTag(tag:Tag,color:Color,search:(String)->Unit,modifier:Modifier=Modifier,fontSize:TextUnit=14.sp,maxLines:Int=Int.MAX_VALUE,dense:Boolean=false){
@@ -34,13 +35,13 @@ internal fun libraryError(context:android.content.Context,error:Exception)=conte
     if(editor)TagEditor(tag.name,translated,search){editor=false}
 }
 @Composable private fun TagEditor(original:String,current:String?,search:(String)->Unit,close:()->Unit){
-    val context=LocalContext.current;val clipboard=LocalClipboardManager.current;val scope=rememberCoroutineScope()
+    val context=LocalContext.current;val clipboard=context.getSystemService(android.content.ClipboardManager::class.java);val scope=rememberCoroutineScope()
     val presentation=LocalTagPresentation.current
     var custom by remember(original){mutableStateOf(presentation.custom[original] ?: current.orEmpty())}
     var error by remember{mutableStateOf<String?>(null)}
     AlertDialog(onDismissRequest=close,title={Text(original)},text={Column(verticalArrangement=Arrangement.spacedBy(8.dp)){
         Text(current ?: text(R.string.ui_untranslated))
-        TextButton(onClick={clipboard.setText(AnnotatedString(original));close()}){Text(text(R.string.ui_copy_original_tag))}
+        TextButton(onClick={clipboard.setPrimaryClip(android.content.ClipData.newPlainText(original,original));close()}){Text(text(R.string.ui_copy_original_tag))}
         TextButton(onClick={search(original);close()}){Text(text(R.string.ui_search_original_tag))}
         if(presentation.store!=null){
             OutlinedTextField(custom,{custom=it.take(300)},label={Text(text(R.string.ui_custom_translation))})

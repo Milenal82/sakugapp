@@ -52,7 +52,8 @@ class PlayerRotationDeviceTest {
             awaitStage("initial portrait",15000){ui.activity.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT}
             ui.runOnUiThread{activity.setContent{SakugappTheme(false){VideoPanel(file.toURI().toString(),AppSettings(),onPlayerReady={player=it;instances.incrementAndGet()})}}}
             awaitStage("video ready",15000){playerMatches{it?.playbackState==Player.STATE_READY}}
-            ui.onNodeWithText("1.5×",substring=false).performClick()
+            ui.onNodeWithTag("more-controls").performClick()
+            ui.onNodeWithText("1.5×",substring=false).performScrollTo().performClick()
             ui.runOnUiThread{player!!.pause();player!!.seekTo(400)}
             awaitStage("seek paused video",5000){playerMatches{it!=null && it.currentPosition>=350}}
             val retained=player

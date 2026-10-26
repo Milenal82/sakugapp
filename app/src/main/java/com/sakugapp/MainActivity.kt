@@ -110,7 +110,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
             }
         }}){insets->NavHost(navController=nav,startDestination="posts",modifier=Modifier.padding(insets)){
             composable("posts"){PostsScreen(feed,grid,settings,history,metered,app,::search,{post->model.open(post);nav.navigate("post/${post.id}")},model::loadMore)}
-            composable("library"){LibraryScreen(app){post->model.open(post);nav.navigate("post/${post.id}")}}
+            composable("library"){LibraryScreen(app){post,order->model.openLocal(post,order);nav.navigate("post/${post.id}")}}
             composable("account"){AccountScreen(app,openSite)}
             composable("language"){LanguageScreen(settings.language,app::language)}
             composable("settings"){SettingsScreen(settings,app)}
@@ -118,7 +118,22 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                 val id=backStack.arguments?.getString("id")?.toLongOrNull()
                 LaunchedEffect(id){if(id!=null && selected?.id!=id)model.openId(id)}
                 val post=selected?.takeIf{it.id==id}
-                if(post!=null)PostDetail(post,settings,metered,app,::search,openSite,{nav.navigate("account")},{score->model.updateScore(post.id,score)},{duration->model.updateDuration(post.id,post.fileUrl.orEmpty(),duration);app.duration(post.fileUrl.orEmpty(),duration)})
+                if(post!=null)key(post.id){
+                    LaunchedEffect(post.id){model.prefetchNeighbors()}
+                    val neighboringUrls=listOfNotNull(model.adjacent(-1)?.previewUrl,model.adjacent(1)?.previewUrl).distinct()
+                    DisposableEffect(post.id,neighboringUrls,settings.wifiImages,metered){
+                        val requests=if(settings.wifiImages && metered)emptyList()else neighboringUrls.map{url->coil.Coil.imageLoader(context).enqueue(coil.request.ImageRequest.Builder(context.applicationContext).data(url).size(320).build())}
+                        onDispose{requests.forEach{it.dispose()}}
+                    }
+                    PostDetail(post,settings,metered,app,::search,openSite,{nav.navigate("account")},{score->model.updateScore(post.id,score)},{duration->model.updateDuration(post.id,post.fileUrl.orEmpty(),duration);app.duration(post.fileUrl.orEmpty(),duration)},{delta->
+                        val next=model.adjacent(delta)
+                        if(next==null){model.prefetchNeighbors();false}else{
+                            model.selectAdjacent(next)
+                            nav.navigate("post/${next.id}"){popUpTo(entry!!.destination.id){inclusive=true};launchSingleTop=true}
+                            true
+                        }
+                    })}
+
                 else Column(Modifier.padding(16.dp)){if(detailError==null)CircularProgressIndicator()else{Text(translateMessage(detailError.orEmpty()),color=MaterialTheme.colorScheme.error);TextButton(onClick={id?.let(model::openId)}){Text(text(R.string.ui_retry))}}}
             }
         }}
@@ -257,11 +272,11 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
             if(preview && post.fileUrl!=null)VideoPanel(post.fileUrl,settings,preview=true)
             else PostImage(post,Modifier.fillMaxSize(),settings,metered)
             Row(Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(2.dp),horizontalArrangement=Arrangement.SpaceBetween,verticalAlignment=Alignment.Bottom){
-                if(post.isVideo)Surface(color=MaterialTheme.colorScheme.surface.copy(alpha=0.92f),shape=RoundedCornerShape(3.dp)){
+                if(post.isVideo)Surface(color=MaterialTheme.colorScheme.surface.copy(alpha=0.96f),shape=RoundedCornerShape(3.dp)){
                     Text(post.durationMs?.let(::mediaTime) ?: "—",fontSize=if(settings.columns>=8)9.sp else 11.sp,
                         modifier=Modifier.padding(horizontal=3.dp,vertical=1.dp).semantics{if(post.durationMs==null)contentDescription=contextDescriptionDurationUnknown})
                 }
-                if(settings.showScore)Surface(color=MaterialTheme.colorScheme.surface.copy(alpha=0.92f),shape=RoundedCornerShape(3.dp)){
+                if(settings.showScore)Surface(color=MaterialTheme.colorScheme.surface.copy(alpha=0.96f),shape=RoundedCornerShape(3.dp)){
                     Text(if(settings.columns>=8)post.score?.toString() ?: "?" else text(R.string.ui_score_value,post.score?.toString() ?: "?"),
                         color=scoreColor(settings.lightTheme),fontSize=if(settings.columns>=8)9.sp else 11.sp,fontWeight=FontWeight.Medium,
                         modifier=Modifier.padding(horizontal=3.dp,vertical=1.dp).testTag("post-score-${post.id}"))
@@ -302,12 +317,16 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
     else SubcomposeAsyncImage(model=url,contentDescription=text(R.string.ui_post_description,post.id),modifier=modifier,contentScale=if(!detail && settings.cropThumbnails)ContentScale.Crop else ContentScale.Fit,loading={Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surfaceVariant))},error={Text(text(R.string.ui_image_failed_to_load),Modifier.padding(8.dp))})
 }
 
-@Composable private fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,search:(String)->Unit,wiki:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit,onDuration:(Long)->Unit){
+@Composable private fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,search:(String)->Unit,wiki:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit,onDuration:(Long)->Unit,onNavigate:(Int)->Boolean){
     val uri=LocalUriHandler.current;var linkError by remember{mutableStateOf(false)}
     var seek by remember{mutableStateOf<Pair<Long,Int>?>(null)}
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(12.dp),verticalArrangement=Arrangement.spacedBy(12.dp)){
-        if(post.isVideo)VideoPanel(app.offlineMedia.existing(post)?.toURI()?.toString() ?: post.fileUrl!!,settings,seekRequest=seek,onDurationChanged=onDuration)
+        if(post.isVideo)VideoPanel(app.offlineMedia.existing(post)?.toURI()?.toString() ?: post.fileUrl!!,settings,seekRequest=seek,onDurationChanged=onDuration,onNavigate=onNavigate)
         else PostImage(post,Modifier.fillMaxWidth().height(320.dp),settings,metered,true)
+        Row{
+            TextButton(onClick={onNavigate(-1)}){Text(text(R.string.ui_previous_post))}
+            TextButton(onClick={onNavigate(1)}){Text(text(R.string.ui_next_post))}
+        }
         FavoriteControl(post,app)
         if(post.isVideo)VideoDownloadButton(post)
         Text(text(R.string.ui_score_detail,post.score?.toString() ?: "?"))

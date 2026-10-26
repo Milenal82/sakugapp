@@ -17,7 +17,7 @@ object LibraryCodec {
         return safe
     }
     fun tagName(value:String)=value.isNotBlank() && value.length<=200 && value.none{it.isWhitespace() || it.isISOControl()}
-    fun encodePost(post:Post)=gson.toJson(post)
+    fun encodePost(post:Post)=gson.toJson(gson.toJsonTree(post).asJsonObject.apply{addProperty("pageUrl",post.pageUrl)})
     private fun JsonObject.long(key:String,required:Boolean=false):Long? {
         val v=get(key)
         if(v==null || v.isJsonNull){if(required)throw LibraryFailure("invalid_backup");return null}
@@ -33,6 +33,7 @@ object LibraryCodec {
     fun decodePost(body:String):Post=try {
         val o=JsonParser.parseString(body).asJsonObject
         val id=o.long("id",true)!!;if(id<=0)throw LibraryFailure("invalid_backup")
+        if(o.text("pageUrl")?.let{it!="https://www.sakugabooru.com/post/show/$id"}==true)throw LibraryFailure("invalid_backup")
         val raw=o.getAsJsonArray("tags") ?: throw LibraryFailure("invalid_backup")
         if(raw.size()>500)throw LibraryFailure("invalid_backup")
         val tags=raw.map{val t=it.asJsonObject;val name=t.text("name",200) ?: throw LibraryFailure("invalid_backup");if(!tagName(name))throw LibraryFailure("invalid_backup");Tag(name,TagCategory.entries.firstOrNull{c->c.name==t.text("category",30)} ?: TagCategory.UNKNOWN)}.distinctBy{it.name}

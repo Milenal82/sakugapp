@@ -68,16 +68,23 @@ class PublicPaginationTest {
                 val divider=ui.onNodeWithTag("search-divider").fetchSemanticsNode().boundsInRoot.bottom
                 val bottom=ui.onNodeWithTag("post-grid").fetchSemanticsNode().boundsInRoot.bottom
                 return ui.onAllNodesWithContentDescription("Post ",substring=true).fetchSemanticsNodes()
-                    .filter{it.boundsInRoot.top>divider && it.boundsInRoot.bottom<bottom}
+                    .filter{node->node.boundsInRoot.top>divider && node.boundsInRoot.bottom<bottom && node.config[SemanticsProperties.ContentDescription].firstOrNull{it.startsWith("Post ")}?.substringAfter(' ')?.toLongOrNull()?.let{id->feed.state.value.posts.firstOrNull{it.id==id}?.isVideo}==true}
             }
             ui.waitUntil(30000){visibleThumbnails().isNotEmpty()}
             val description=visibleThumbnails().first().config[SemanticsProperties.ContentDescription].first{it.startsWith("Post ")}
             val anchor=feed.state.value.posts.first{it.id==description.substringAfter(' ').toLong()}
             ui.onNodeWithContentDescription(description).performClick()
             ui.onNodeWithText("#${anchor.id}").performScrollTo().assertIsDisplayed()
+            val next=feed.adjacent(1)
+            assertNotNull("Five batches provide a real adjacent result",next)
+            ui.onNodeWithTag("video-gestures").performScrollTo().performTouchInput{swipeLeft(durationMillis=400)}
+            ui.onNodeWithText("#${next!!.id}").performScrollTo().assertIsDisplayed()
+            assertEquals(next.id,feed.selected.value!!.id)
             device.pressBack()
             ui.onNodeWithContentDescription("Post ${anchor.id}").assertExists()
             assertTrue(feed.state.value.nextPage>=6);assertEquals(ids,feed.state.value.posts.take(ids.size).map{it.id})
+            val phoneCapture=java.io.File(InstrumentationRegistry.getInstrumentation().targetContext.getExternalFilesDir(null),"ui-evidence").apply{mkdirs()}
+            assertTrue(device.takeScreenshot(java.io.File(phoneCapture,"phone-post-grid.png")))
             device.executeShellCommand("wm size 1920x1200");device.executeShellCommand("wm density 160")
             ui.waitUntil(20000){ui.activity.resources.configuration.smallestScreenWidthDp>=600}
             ui.onNodeWithTag("post-grid").performScrollToIndex(0)
@@ -90,7 +97,7 @@ class PublicPaginationTest {
                 assertTrue(bounds.width<=full.width/columns+2f)
                 ui.onNodeWithTag("post-score-${ids.first()}",useUnmergedTree=true).assertIsDisplayed()
             }
-            val capture=java.io.File(InstrumentationRegistry.getInstrumentation().context.getExternalFilesDir(null),"ui-evidence").apply{mkdirs()}
+            val capture=java.io.File(InstrumentationRegistry.getInstrumentation().targetContext.getExternalFilesDir(null),"ui-evidence").apply{mkdirs()}
             assertTrue(device.takeScreenshot(java.io.File(capture,"tablet-12-columns.png")))
 
         }finally{

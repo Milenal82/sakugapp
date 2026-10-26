@@ -18,7 +18,7 @@ data class AppSettings(
     val mirror: Boolean = false, val saturation: Float = 1f, val brightness: Float = 1f,
     val contrast: Float = 1f, val screenshot: Boolean = true, val lightTheme:Boolean = false,
     val columns: Int = 2, val themeMode:String = "system", val cardSpacing:Float = 8f,
-    val gestures:Boolean = true, val tagTranslations:Boolean = false, val showOtherTags:Boolean = true,
+    val librarySort:Int = 0,val gestures:Boolean = true, val tagTranslations:Boolean = false, val showOtherTags:Boolean = true,
 )
 
 object PreferenceRules {
@@ -64,7 +64,7 @@ class PreferencesStore(context: Context,private val store:DataStore<Preferences>
             columns=(p[intPreferencesKey("columns")] ?: 2).takeIf{it in PreferenceRules.columnOptions} ?: 2,
             themeMode=PreferenceRules.legacyTheme(p[stringPreferencesKey("themeMode")],p[booleanPreferencesKey("lightTheme")],p.asMap().keys.any{it.name!="locale_last_applied"}),
             cardSpacing=(p[floatPreferencesKey("cardSpacing")] ?: 8f).coerceIn(0f,10f),gestures=p.flag("gestures",true),
-            tagTranslations=p.flag("tagTranslations",false),showOtherTags=p.flag("otherTags",true))
+            librarySort=(p[intPreferencesKey("librarySort")] ?: 0).coerceIn(0,3),tagTranslations=p.flag("tagTranslations",false),showOtherTags=p.flag("otherTags",true))
     }
     val history: Flow<List<String>> = data.map { PreferenceRules.history(it[stringPreferencesKey("history")]?.split('\n').orEmpty(), "") }
     val localeState:Flow<Pair<String,String?>> = data.map { p ->
@@ -80,6 +80,7 @@ class PreferencesStore(context: Context,private val store:DataStore<Preferences>
     suspend fun deleteHistory(query:String) { store.edit { p ->
         p[stringPreferencesKey("history")] = p[stringPreferencesKey("history")]?.split('\n').orEmpty().filterNot { it==query }.joinToString("\n")
     } }
+    suspend fun librarySort(value:Int){require(value in 0..3);store.edit{it[intPreferencesKey("librarySort")]=value}}
     suspend fun columns(value:Int) { require(value in PreferenceRules.columnOptions);store.edit{it[intPreferencesKey("columns")]=value} }
     suspend fun flag(name: String,value: Boolean) { require(name in setOf("copyright","artist","score","wrap","crop","auto","mobile","wifiImages","muted","loop","mirror","screenshot","lightTheme","gestures","tagTranslations","otherTags")); store.edit { it[booleanPreferencesKey(name)]=value;if(name=="lightTheme")it[stringPreferencesKey("themeMode")]=if(value)"light"else"dark" } }
     suspend fun theme(value:String){require(value in PreferenceRules.themeModes);store.edit{it[stringPreferencesKey("themeMode")]=value;if(value!="system")it[booleanPreferencesKey("lightTheme")]=value=="light"}}

@@ -4,6 +4,8 @@ package com.sakugapp
 import com.sakugapp.data.*
 import com.sakugapp.ui.*
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.Color
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -27,6 +29,9 @@ class PersonalizationTest {
     @Test fun allTextTokensRetainAAContrastAgainstTheirSurfaces(){
         for(light in listOf(false,true)){
             val scheme=appColors(light)
+            val badge=scheme.surface.copy(alpha=0.96f).compositeOver(if(light)Color.Black else Color.White)
+            val red=scoreColor(light).luminance();val ground=badge.luminance()
+            assertTrue((maxOf(red,ground)+0.05f)/(minOf(red,ground)+0.05f)>=4.5f)
             for(color in listOf(scoreColor(light),artistColor(light),copyrightColor(light),scheme.onSurface,scheme.onSurfaceVariant)){
                 val a=color.luminance();val b=scheme.surface.luminance()
                 assertTrue("Token contrast in light=$light",(maxOf(a,b)+0.05f)/(minOf(a,b)+0.05f)>=4.5f)

@@ -23,10 +23,11 @@ internal fun folderName(folder:FavoriteFolder,context:android.content.Context)=i
     fun operation(action:suspend()->Unit){scope.launch{try{action();error=null}catch(e:CancellationException){throw e}catch(e:Exception){error=libraryError(context,e)}}}
     Column{
         Row{
-            FilledTonalButton(onClick={operation{app.localLibrary.membership(post,1,!state.contains(post.id,1))}},modifier=Modifier.testTag("quick-favorite")){Text(text(if(state.contains(post.id,1))R.string.ui_in_default_folder else R.string.ui_quick_favorite))}
+            FilledTonalButton(onClick={if(state.contains(post.id))manage=true else operation{app.localLibrary.membership(post,1,true)}},modifier=Modifier.testTag("quick-favorite")){Text(text(if(state.contains(post.id))R.string.ui_saved_local else R.string.ui_quick_favorite))}
             TextButton(onClick={manage=true},modifier=Modifier.testTag("favorite-folders")){Text(text(R.string.ui_manage_folders))}
         }
         if(state.contains(post.id))Text(text(R.string.ui_saved_local),style=MaterialTheme.typography.labelSmall)
+        if(state.error)Text(text(R.string.ui_library_failed),color=MaterialTheme.colorScheme.error)
         error?.let{Text(it,color=MaterialTheme.colorScheme.error)}
     }
     if(manage)AlertDialog(onDismissRequest={manage=false},title={Text(text(R.string.ui_manage_folders))},text={Column(Modifier.heightIn(max=400.dp).verticalScroll(rememberScrollState())){

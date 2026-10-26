@@ -17,6 +17,26 @@ class FeedViewModelTest {
     @Before fun setup() { Dispatchers.setMain(dispatcher) }
     @After fun cleanup() { Dispatchers.resetMain() }
     private fun page(id: Long) = PostPage(PostParser.posts("""[{"id":$id}]"""), SakugaRepository.PAGE_SIZE)
+    @Test fun detailSwipesFollowResultOrderAndLocalFolderOrderWithoutRewritingTheFeed()=runTest(dispatcher){
+        val posts=PostParser.posts(javaClass.getResource("/live/posts.json")!!.readText())
+        val repo=object:PostRepository{override suspend fun page(query:String,page:Int)=PostPage(posts,posts.size)}
+        val model=FeedViewModel(SavedStateHandle(),repo);advanceUntilIdle()
+        model.open(posts[0]);assertEquals(posts[1],model.adjacent(1));assertNull(model.adjacent(-1))
+        model.selectAdjacent(posts[1]);assertEquals(posts[0],model.adjacent(-1));assertNull(model.adjacent(1))
+        model.openLocal(posts[1],posts.reversed());assertEquals(posts[0],model.adjacent(1));assertNull(model.adjacent(-1))
+        assertEquals(posts,model.state.value.posts)
+        model.open(posts[0]);assertEquals(posts[1],model.adjacent(1))
+    }
+    @Test fun durationFromAPreviousUrlCannotCorruptTheCurrentPost()=runTest(dispatcher){
+        val posts=PostParser.posts(javaClass.getResource("/live/posts.json")!!.readText())
+        val repo=object:PostRepository{override suspend fun page(query:String,page:Int)=PostPage(posts,posts.size)}
+        val model=FeedViewModel(SavedStateHandle(),repo);advanceUntilIdle();model.open(posts[0])
+        model.updateDuration(posts[0].id,"https://www.sakugabooru.com/other.mp4",1234)
+        assertNull(model.selected.value!!.durationMs)
+        model.updateDuration(posts[0].id,posts[0].fileUrl!!,1234)
+        assertEquals(1234L,model.selected.value!!.durationMs)
+        assertEquals(1234L,model.state.value.posts[0].durationMs)
+    }
     @Test fun failedAppendKeepsPostsAndRetriesTheSamePage() = runTest(dispatcher) {
         var failSecond = true
         val requests = mutableListOf<Int>()

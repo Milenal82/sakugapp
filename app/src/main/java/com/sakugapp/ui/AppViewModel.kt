@@ -40,6 +40,7 @@ class AppViewModel(application:Application):AndroidViewModel(application) {
     fun clearHistory() { viewModelScope.launch { preferences.clearHistory() } }
     fun deleteHistory(query:String) { viewModelScope.launch { preferences.deleteHistory(query) } }
     fun theme(value:String){viewModelScope.launch{preferences.theme(value)}}
+    fun librarySort(value:Int){viewModelScope.launch{preferences.librarySort(value)}}
     fun columns(value:Int) { viewModelScope.launch { preferences.columns(value) } }
     fun login(name:String,password:String) {
         if(_authBusy.value)return

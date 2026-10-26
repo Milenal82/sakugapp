@@ -41,12 +41,16 @@ class PublicBrowseTest {
         val play=device.wait(Until.findObject(By.desc("Play")),10000)
         assertNotNull("Native player Play control",play);play.click()
         ui.waitUntil(15000){ui.onAllNodes(SemanticsMatcher.expectValue(androidx.compose.ui.semantics.SemanticsProperties.StateDescription,"Playing")).fetchSemanticsNodes().isNotEmpty()}
+        ui.onNodeWithTag("more-controls").performClick()
         ui.onNodeWithText("1.5×").performScrollTo().performClick();ui.onNodeWithText("[1.5×]").assertExists()
         ui.onNodeWithText("Full screen").performScrollTo().performClick();ui.onNodeWithText("Exit full screen").assertExists()
         ui.onNodeWithText("Exit full screen").performClick()
         ui.onNodeWithTag("open-frame-controls").performScrollTo().performClick()
         ui.onNodeWithText("Download and decode").performClick()
         ui.waitUntil(120000){ui.onAllNodesWithContentDescription("Decoded frame").fetchSemanticsNodes().isNotEmpty()}
+        ui.onNodeWithTag("frame-number").performScrollTo().performTextReplacement("1")
+        ui.onNodeWithTag("go-to-frame").performScrollTo().performClick()
+        ui.waitUntil(15000){ui.onAllNodes(frameCounter(1)).fetchSemanticsNodes().isNotEmpty()}
         ui.onNodeWithText("Next frame").performScrollTo().performClick()
         ui.waitUntil(15000){ui.onAllNodes(frameCounter(2)).fetchSemanticsNodes().isNotEmpty()}
         ui.onNodeWithText("Previous frame").performScrollTo().performClick()
