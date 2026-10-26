@@ -22,7 +22,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: android-${{ github.ref }}
+  group: android-${{ github.ref }}-${{ github.event.inputs.build_signed_candidate == 'true' && 'signed-candidate' || 'checks' }}
   cancel-in-progress: true
 jobs:
   build:
