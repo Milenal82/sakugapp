@@ -2,6 +2,7 @@
 package com.sakugapp
 
 import android.content.res.Configuration
+import android.content.pm.ActivityInfo
 import androidx.activity.compose.setContent
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -30,17 +31,21 @@ class PlayerRotationDeviceTest {
             var result=false;ui.runOnUiThread{result=predicate(player)};return result
         }
         val activity=ui.activity
+        val initialOrientation=activity.requestedOrientation
         fun awaitStage(name:String,timeout:Long,condition:()->Boolean){
             println("Rotation stage: $name")
             try{ui.waitUntil(timeout){condition()}}
             catch(failure:Throwable){
                 var diagnostic=""
-                ui.runOnUiThread{diagnostic="stage=$name state=${player?.playbackState} error=${player?.playerError?.errorCodeName} orientation=${ui.activity.resources.configuration.orientation} requested=${ui.activity.requestedOrientation} instances=${instances.get()}"}
+                ui.runOnUiThread{diagnostic="stage=$name state=${player?.playbackState} error=${player?.playerError?.errorCodeName} orientation=${ui.activity.resources.configuration.orientation} requested=${ui.activity.requestedOrientation} initial=$initialOrientation sameActivity=${activity===ui.activity} instances=${instances.get()}"}
                 throw AssertionError("Rotation stage failed: $diagnostic",failure)
             }
         }
         try {
             device.executeShellCommand("settings put system accelerometer_rotation 0")
+            // Establish the ordinary browsing policy before mounting this isolated player scene.
+            ui.runOnUiThread{activity.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_PORTRAIT}
+            awaitStage("initial portrait",15000){ui.activity.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT}
             ui.runOnUiThread{activity.setContent{SakugappTheme(false){VideoPanel(file.toURI().toString(),AppSettings(),onPlayerReady={player=it;instances.incrementAndGet()})}}}
             awaitStage("video ready",15000){playerMatches{it?.playbackState==Player.STATE_READY}}
             ui.onNodeWithText("1.5×",substring=false).performClick()
@@ -55,7 +60,9 @@ class PlayerRotationDeviceTest {
                 assertEquals(1.5f,player!!.playbackParameters.speed,0.001f);assertEquals(Player.REPEAT_MODE_ONE,player!!.repeatMode);assertEquals(0f,player!!.volume,0.001f)
                 assertTrue(kotlin.math.abs(player!!.currentPosition-400)<=100)
             }
-            device.pressBack()
+            ui.waitForIdle()
+            ui.onNodeWithText("Exit full screen",substring=false).assertIsDisplayed()
+            androidx.test.espresso.Espresso.pressBack()
             awaitStage("restore portrait",15000){ui.activity.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT}
             ui.onNodeWithText("Full screen",substring=false).assertExists()
             assertSame(activity,ui.activity);assertEquals(1,instances.get())

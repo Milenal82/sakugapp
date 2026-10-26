@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.unit.dp
@@ -59,6 +60,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
     var playing by remember(url){mutableStateOf(false)}
     var speedMenu by remember{mutableStateOf(false)}
     val activity=LocalActivity.current
+    val focus=LocalFocusManager.current
     val orientation=LocalConfiguration.current.orientation
     var normalOrientation by rememberSaveable(url){mutableIntStateOf(activity?.requestedOrientation ?: ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)}
     fun exitFullscreen(){
@@ -66,6 +68,8 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
         fullscreen=false
     }
     fun enterFullscreen(){
+        focus.clearFocus(force=true)
+        activity?.window?.let{WindowCompat.getInsetsController(it,it.decorView).hide(WindowInsetsCompat.Type.ime())}
         normalOrientation=activity?.requestedOrientation ?: ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         fullscreen=true
     }
@@ -88,8 +92,10 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
     LaunchedEffect(seekRequest){seekRequest?.let{player.seekTo(it.first)}}
     BackHandler(fullscreen){exitFullscreen()}
     DisposableEffect(fullscreen,activity){
+        val restoreOnDispose=fullscreen
+        val restoreOrientation=normalOrientation
         if(fullscreen)activity?.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_FULL_USER
-        onDispose{if(fullscreen)activity?.requestedOrientation=normalOrientation}
+        onDispose{if(restoreOnDispose)activity?.requestedOrientation=restoreOrientation}
     }
     fun openFrames(){position=player.currentPosition;player.pause();player.stop();frames=true}
     val content: @Composable (Modifier) -> Unit = { modifier ->

@@ -25,6 +25,7 @@
 | Gson | 2.12.1 / Google | Apache-2.0 |
 | Gradle Wrapper | 8.13 / Gradle | Apache-2.0；生成脚本保留原声明 |
 | JUnit | 4.13.2，仅测试 | EPL-1.0 |
+| AndroidX Espresso | 3.6.1，仅设备测试 / Android Open Source Project | Apache-2.0 |
 | MockWebServer / okhttp-tls | 4.12.0，仅测试 / Square contributors | Apache-2.0 |
 
 Apache-2.0 全文随 APK 放在 `assets/licenses/APACHE-2.0.txt`。OkHttp 的 Public Suffix List 数据另按 MPL-2.0 授权，原始 NOTICE 与 MPL 全文随 APK 保留；来源为 https://publicsuffix.org/list/public_suffix_list.dat ，本项目未修改该数据。构建依赖自身的版权与 NOTICE 保持不变；不将第三方库改为本项目许可证。组件的依赖图可通过 `./gradlew :app:dependencies` 检查。

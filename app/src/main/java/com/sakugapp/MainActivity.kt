@@ -251,6 +251,16 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
 @Composable private fun PostCaption(post:Post,settings:AppSettings,search:(String)->Unit){
     val size=when(settings.columns){1->14.sp;2->12.sp;else->11.sp}
     val tags=captionTags(post,settings)
+    if(!settings.wrapTags){
+        Column(Modifier.fillMaxWidth().padding(top=5.dp).testTag("post-caption-${post.id}").semantics(mergeDescendants=true){}){
+            Row(horizontalArrangement=Arrangement.spacedBy(4.dp)){
+                tags.forEach{tag->Text(tag.name,modifier=Modifier.weight(1f).clickable{search(tag.name)},
+                    color=if(tag.category==TagCategory.COPYRIGHT)copyrightColor(settings.lightTheme)else artistColor(settings.lightTheme),fontSize=size,maxLines=1,overflow=TextOverflow.Ellipsis)}
+            }
+            if(settings.showScore)Text(text(R.string.ui_score_value,post.score?.toString() ?: "?"),modifier=Modifier.testTag("post-score-${post.id}"),fontSize=size,color=scoreColor(settings.lightTheme),fontWeight=FontWeight.Medium)
+        }
+        return
+    }
     FlowRow(Modifier.fillMaxWidth().padding(top=5.dp).testTag("post-caption-${post.id}").semantics(mergeDescendants=true){},horizontalArrangement=Arrangement.spacedBy(4.dp)){
         for(tag in tags)Text(tag.name,modifier=Modifier.clickable{search(tag.name)},color=if(tag.category==TagCategory.COPYRIGHT)copyrightColor(settings.lightTheme)else artistColor(settings.lightTheme),fontSize=size,
             maxLines=if(settings.wrapTags && settings.columns<=2)Int.MAX_VALUE else 2,overflow=TextOverflow.Ellipsis)
