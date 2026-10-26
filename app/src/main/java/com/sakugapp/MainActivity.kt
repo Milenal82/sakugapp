@@ -127,7 +127,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                         val requests=if(settings.wifiImages && metered)emptyList()else neighboringUrls.map{url->coil.Coil.imageLoader(context).enqueue(coil.request.ImageRequest.Builder(context.applicationContext).data(url).size(320).build())}
                         onDispose{requests.forEach{it.dispose()}}
                     }
-                    PostDetail(post,settings,metered,app,model.usesLocalSnapshot(),::search,openSite,{nav.navigate("account")},{score->model.updateScore(post.id,score)},{duration->model.updateDuration(post.id,post.fileUrl.orEmpty(),duration);app.duration(post.fileUrl.orEmpty(),duration)},{delta->
+                    PostDetail(post,settings,metered,app,model.usesLocalSnapshot(),::search,openSite,{nav.navigate("account")},{score->model.updateScore(post.id,score)},{duration->model.updateDuration(post.id,post.fileUrl.orEmpty(),duration);app.duration(post.fileUrl.orEmpty(),duration)},model.adjacent(-1)!=null,model.adjacent(1)!=null,{delta->
                         val next=model.adjacent(delta)
                         if(next==null){model.prefetchNeighbors();false}else{
                             model.selectAdjacent(next)
@@ -322,22 +322,21 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
     else SubcomposeAsyncImage(model=url,contentDescription=text(R.string.ui_post_description,post.id),modifier=modifier,contentScale=if(!detail && settings.cropThumbnails)ContentScale.Crop else ContentScale.Fit,loading={Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surfaceVariant))},error={Text(text(R.string.ui_image_failed_to_load),Modifier.padding(8.dp))})
 }
 
-@Composable private fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,localSnapshot:Boolean,search:(String)->Unit,wiki:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit,onDuration:(Long)->Unit,onNavigate:(Int)->Boolean){
+@Composable internal fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,localSnapshot:Boolean,search:(String)->Unit,wiki:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit,onDuration:(Long)->Unit,hasPrevious:Boolean,hasNext:Boolean,onNavigate:(Int)->Boolean){
     val uri=LocalUriHandler.current;var linkError by remember{mutableStateOf(false)}
     var seek by remember{mutableStateOf<Pair<Long,Int>?>(null)}
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(12.dp),verticalArrangement=Arrangement.spacedBy(12.dp)){
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(12.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
         if(localSnapshot)Text(text(R.string.ui_library_snapshot_hint),style=MaterialTheme.typography.bodySmall)
         if(post.isVideo)VideoPanel(app.offlineMedia.existing(post)?.toURI()?.toString() ?: post.fileUrl!!,settings,seekRequest=seek,onDurationChanged=onDuration,onNavigate=onNavigate)
         else PostImage(post,Modifier.fillMaxWidth().height(320.dp),settings,metered,true)
-        Row{
-            TextButton(onClick={onNavigate(-1)}){Text(text(R.string.ui_previous_post))}
-            TextButton(onClick={onNavigate(1)}){Text(text(R.string.ui_next_post))}
+        Row(Modifier.fillMaxWidth().testTag("detail-actions"),horizontalArrangement=Arrangement.SpaceEvenly,verticalAlignment=Alignment.CenterVertically){
+            ActionIcon(R.drawable.ic_previous,text(R.string.ui_previous_post),{onNavigate(-1)},Modifier.testTag("previous-post"),enabled=hasPrevious)
+            ActionIcon(R.drawable.ic_next,text(R.string.ui_next_post),{onNavigate(1)},Modifier.testTag("next-post"),enabled=hasNext)
+            if(post.isVideo)VideoDownloadButton(post)else ActionIcon(R.drawable.ic_download,text(R.string.ui_download_video),{},enabled=false)
+            ActionIcon(R.drawable.ic_open,text(R.string.ui_open_original_post),{linkError=runCatching{uri.openUri(post.pageUrl)}.isFailure},Modifier.testTag("original-post"))
+            FavoriteControl(post,app)
         }
-        FavoriteControl(post,app)
-        if(post.isVideo)VideoDownloadButton(post)
-        Text(text(R.string.ui_score_detail,post.score?.toString() ?: "?"))
-        PostMetadata(post){url->linkError=runCatching{uri.openUri(url)}.isFailure}
-        OutlinedButton(onClick={linkError=runCatching{uri.openUri(post.pageUrl)}.isFailure}){Text(text(R.string.ui_open_original_post))}
+        PostMetadata(post,settings.lightTheme){url->linkError=runCatching{uri.openUri(url)}.isFailure}
         if(linkError)Text(text(R.string.ui_no_browser_available))
         DetailTags(post.tags,settings.lightTheme,search,wiki)
         CommunityPanel(post,app,onScore,login){time->seek=time to ((seek?.second ?: 0)+1)}
@@ -345,10 +344,9 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
 }
 
 @OptIn(ExperimentalLayoutApi::class)
-@Composable private fun PostMetadata(post:Post,open:(String)->Unit){
+@Composable private fun PostMetadata(post:Post,light:Boolean,open:(String)->Unit){
     val context=LocalContext.current
     val fields=buildList{
-        add(text(R.string.ui_post_id) to "#${post.id}")
         post.uploader?.let{add(text(R.string.ui_uploader) to it)}
         post.createdAt?.let{time->runCatching{DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(Instant.ofEpochSecond(time).atZone(ZoneId.systemDefault()))}.getOrNull()?.let{add(text(R.string.ui_uploaded) to it)}}
         if(post.width!=null && post.height!=null)add(text(R.string.ui_resolution) to "${post.width} × ${post.height}")
@@ -357,15 +355,16 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
         post.rating?.let{add(text(R.string.ui_rating) to it)}
         post.status?.let{add(text(R.string.ui_status) to it)}
     }
-    FlowRow(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.spacedBy(16.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
-        fields.forEach{(label,value)->Column(Modifier.widthIn(max=280.dp)){
-            Text(label,style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.onSurfaceVariant)
-            SelectionContainer{Text(value,style=MaterialTheme.typography.bodyMedium)}
-        }}
+    FlowRow(Modifier.fillMaxWidth().testTag("post-metadata"),horizontalArrangement=Arrangement.spacedBy(12.dp),verticalArrangement=Arrangement.spacedBy(6.dp)){
+        Text("${text(R.string.ui_post_id)} #${post.id}",style=MaterialTheme.typography.bodySmall)
+        post.source?.takeIf{it.isNotBlank()}?.let{source->
+            val url=PostParser.safeUrl(source)
+            Text("${text(R.string.ui_source)}: $source",style=MaterialTheme.typography.bodySmall,
+                color=if(url==null)MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.primary,
+                maxLines=2,overflow=TextOverflow.Ellipsis,
+                modifier=Modifier.widthIn(max=280.dp).testTag("post-source").then(if(url==null)Modifier else Modifier.clickable{open(url)}))
+        }
+        Text(text(R.string.ui_score_value,post.score?.toString() ?: "?"),color=scoreColor(light),style=MaterialTheme.typography.bodySmall,modifier=Modifier.testTag("detail-score"))
+        fields.forEach{(label,value)->SelectionContainer{Text("$label: $value",style=MaterialTheme.typography.bodySmall,modifier=Modifier.widthIn(max=280.dp))}}
     }
-    post.source?.let{source->Column{
-        Text(text(R.string.ui_source),style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.onSurfaceVariant)
-        SelectionContainer{Text(source,style=MaterialTheme.typography.bodyMedium)}
-        PostParser.safeUrl(source)?.let{url->TextButton(onClick={open(url)}){Text(text(R.string.ui_open_source))}}
-    }}
 }

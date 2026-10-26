@@ -26,9 +26,10 @@ import kotlinx.coroutines.*
     var error by remember{mutableStateOf<String?>(null)}
     var bytes by remember{mutableLongStateOf(0L)}
     var total by remember{mutableLongStateOf(-1L)}
+    var status by remember{mutableStateOf(false)}
     val picker=rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument(plan.mime)){uri->
         if(uri!=null) {
-            busy=true;done=false;cancelled=false;error=null;bytes=0;total=-1
+            busy=true;done=false;cancelled=false;error=null;bytes=0;total=-1;status=true
             job=scope.launch {
                 var updated=0L
                 try {
@@ -46,8 +47,8 @@ import kotlinx.coroutines.*
             }
         }
     }
-    Column {
-        OutlinedButton(enabled=!busy,onClick={picker.launch(plan.filename)},modifier=Modifier.testTag("download-video")){Text(text(R.string.ui_download_video))}
+    ActionIcon(R.drawable.ic_download,text(R.string.ui_download_video),{if(busy)status=true else picker.launch(plan.filename)},Modifier.testTag("download-video"))
+    if(status)AlertDialog(onDismissRequest={status=false},title={Text(text(R.string.ui_download_video))},text={Column {
         if(busy) {
             if(total>0)LinearProgressIndicator(progress={(bytes.toDouble()/total).toFloat().coerceIn(0f,1f)},modifier=Modifier.fillMaxWidth())else LinearProgressIndicator(Modifier.fillMaxWidth())
             Text(if(total>0)text(R.string.ui_download_total,bytes/1024,total/1024)else text(R.string.ui_download_bytes,bytes/1024))
@@ -57,5 +58,5 @@ import kotlinx.coroutines.*
         if(done)Text(text(R.string.ui_video_saved),modifier=Modifier.testTag("download-complete"))
         if(cancelled)Text(text(R.string.ui_download_cancelled))
         error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error)}
-    }
+    }},confirmButton={TextButton(onClick={status=false}){Text(text(R.string.ui_close))}})
 }

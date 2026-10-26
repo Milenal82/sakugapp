@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.*
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sakugapp.R
@@ -21,22 +22,20 @@ internal fun folderName(folder:FavoriteFolder,context:android.content.Context)=i
     var manage by remember(post.id){mutableStateOf(false)};var error by remember(post.id){mutableStateOf<String?>(null)}
     var name by remember(post.id){mutableStateOf("")}
     fun operation(action:suspend()->Unit){scope.launch{try{action();error=null}catch(e:CancellationException){throw e}catch(e:Exception){error=libraryError(context,e)}}}
-    Column{
-        Row{
-            FilledTonalButton(onClick={if(state.contains(post.id))manage=true else operation{app.localLibrary.membership(post,1,true)}},modifier=Modifier.testTag("quick-favorite")){Text(text(if(state.contains(post.id))R.string.ui_saved_local else R.string.ui_quick_favorite))}
-            TextButton(onClick={manage=true},modifier=Modifier.testTag("favorite-folders")){Text(text(R.string.ui_manage_folders))}
-        }
-        if(state.contains(post.id))Text(text(R.string.ui_saved_local),style=MaterialTheme.typography.labelSmall)
-        if(state.error)Text(text(R.string.ui_library_failed),color=MaterialTheme.colorScheme.error)
-        error?.let{Text(it,color=MaterialTheme.colorScheme.error)}
-    }
+    val saved=state.contains(post.id)
+    ActionIcon(if(saved)R.drawable.ic_favorite_filled else R.drawable.ic_favorite,
+        text(if(saved)R.string.ui_saved_local else R.string.ui_quick_favorite),{manage=true},
+        Modifier.testTag("favorite-action").semantics{selected=saved},selected=saved)
     PacedAlertDialog(visible=manage,onDismissRequest={manage=false},title={Text(text(R.string.ui_manage_folders))},text={Column(Modifier.heightIn(max=400.dp).verticalScroll(rememberScrollState())){
+        TextButton(onClick={operation{app.localLibrary.membership(post,1,true)}},modifier=Modifier.testTag("save-default")){Text(text(R.string.ui_quick_favorite))}
         state.folders.forEach{folder->Row{
-            Checkbox(checked=state.contains(post.id,folder.id),onCheckedChange={checked->operation{app.localLibrary.membership(post,folder.id,checked)}})
+            Checkbox(checked=state.contains(post.id,folder.id),onCheckedChange={checked->operation{app.localLibrary.membership(post,folder.id,checked)}},modifier=Modifier.testTag("favorite-folder-${folder.id}").semantics{contentDescription=folderName(folder,context)})
             TextButton(onClick={operation{app.localLibrary.membership(post,folder.id,!state.contains(post.id,folder.id))}}){Text(folderName(folder,context))}
         }}
         OutlinedTextField(name,{name=it.take(80)},label={Text(text(R.string.ui_folder_name))})
         TextButton(enabled=name.isNotBlank(),onClick={operation{val id=app.localLibrary.createFolder(name);app.localLibrary.membership(post,id,true);name=""}}){Text(text(R.string.ui_new_folder))}
+        if(saved)TextButton(onClick={operation{app.localLibrary.batch(setOf(post.id),null,null)}},modifier=Modifier.testTag("remove-favorite")){Text(text(R.string.ui_remove_selected))}
+        if(state.error)Text(text(R.string.ui_library_failed),color=MaterialTheme.colorScheme.error)
         error?.let{Text(it,color=MaterialTheme.colorScheme.error)}
     }},confirmButton={TextButton(onClick={manage=false}){Text(text(R.string.ui_close))}})
 }
