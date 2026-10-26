@@ -47,7 +47,9 @@ def settings_switch(label,checked=None):
     raise AssertionError('Native setting switch not found: '+label)
 def tap(node):
     x1,y1,x2,y2=map(int,re.fullmatch(r'\[(\d+),(\d+)\]\[(\d+),(\d+)\]',node.get('bounds')).groups())
-    run('adb','shell','input','tap',str((x1+x2)//2),str((y1+y2)//2))
+    # Match UiAutomator's standard 100 ms press, rather than a zero-duration tap.
+    x,y=str((x1+x2)//2),str((y1+y2)//2)
+    run('adb','shell','input','swipe',x,y,x,y,'100')
 def tap_text(value):tap(wait_node(lambda n:n.get('text')==value))
 def screenshot(name):
     with (out/name).open('wb') as output:subprocess.run(['adb','exec-out','screencap','-p'],stdout=output,check=True)

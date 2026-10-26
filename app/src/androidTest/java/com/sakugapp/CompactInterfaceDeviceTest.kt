@@ -33,7 +33,12 @@ class CompactInterfaceDeviceTest {
         ui.waitUntil(60000){feed.state.value.posts.isNotEmpty() || feed.state.value.error!=null}
         val anchor=feed.state.value.posts.firstOrNull()?.id
         val before=anchor?.let{ui.onNodeWithTag("post-media-$it").fetchSemanticsNode().boundsInRoot}
-        ui.onNodeWithTag("search-entry").performClick()
+        val nativeDevice=UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        val nativeEntry=nativeDevice.wait(androidx.test.uiautomator.Until.findObject(androidx.test.uiautomator.By.desc("Search")),10000)
+        assertNotNull("Native search entry",nativeEntry)
+        println("Native search bounds=${nativeEntry.visibleBounds}, Compose bounds=${ui.onNodeWithTag("search-entry").fetchSemanticsNode().boundsInRoot}")
+        nativeEntry.click()
+        ui.waitUntil(15000){ui.onAllNodesWithTag("search-input").fetchSemanticsNodes().isNotEmpty()}
         ui.onNodeWithTag("search-input").assertIsFocused()
         ui.onNodeWithTag("search-history").assertDoesNotExist()
         assertEquals(gridBounds.top,ui.onNodeWithTag("post-grid").fetchSemanticsNode().boundsInRoot.top)
