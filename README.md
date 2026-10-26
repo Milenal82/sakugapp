@@ -10,7 +10,7 @@
 
 新增每批 60 条和预加载、搜索区滚动收放、红色 Score、紧凑详情、简体中文、全屏旋转、1–4 列、统一的 50 条历史和带真实分类的标签联想。系统简体中文默认显示简体中文，其他系统语言默认英文；原有手动语言选择保留。所有界面文案使用 Android 资源，不自动翻译网站标签、作品、姓名或评论。
 
-在 [GitHub Actions](https://github.com/Milenal82/sakugapp/actions/workflows/android.yml) 选择本开发分支的已完成运行，下载 `sakugapp-debug` 或通过既有正式签名构建的 `sakugapp-signed-candidate`；同时提供源码 ZIP 和测试报告。只有后者经过证书核对后可覆盖正式版；**不要为测试 Debug APK 卸载含有重要数据的正式版**。Debug 版可在独立设备/模拟器安装。安装升级结论以实际 CI 报告为准。
+在 [GitHub Actions](https://github.com/Milenal82/sakugapp/actions/workflows/android.yml) 选择本开发分支的已完成运行，下载 `sakugapp-debug` 或通过既有正式签名构建的 `sakugapp-signed-candidate`；同时提供源码 ZIP 和测试报告。只有后者经过证书核对后可覆盖正式版；**不要为测试 Debug APK 卸载含有重要数据的正式版**。Debug 版可在独立设备/模拟器安装。API 28 KVM 的 15 项设备测试已全部通过；同证书从 1.0.0 覆盖升级实测保留浅色设置、关闭标签换行及搜索历史，见[验收结果](docs/release-1.1.0.md#实际验收结果2026-10-26)。
 
 ```sh
 python3 scripts/check-localization.py

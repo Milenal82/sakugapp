@@ -61,6 +61,7 @@
 - A [docs/evidence/upgrade-first-device-run.txt](../docs/evidence/upgrade-first-device-run.txt)
 - M [docs/feature-matrix.md](../docs/feature-matrix.md)
 - A [docs/release-1.1.0.md](../docs/release-1.1.0.md)
+- M [docs/test-report.md](../docs/test-report.md)
 - M [docs/third-party-notices.md](../docs/third-party-notices.md)
 - A [release-notes/v1.1.0.md](../release-notes/v1.1.0.md)
 - A [scripts/check-localization.py](../scripts/check-localization.py)
