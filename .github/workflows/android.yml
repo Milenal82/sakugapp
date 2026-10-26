@@ -22,7 +22,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: android-${{ github.ref }}-${{ github.event.inputs.build_signed_candidate == 'true' && 'signed-candidate' || 'checks' }}
+  group: android-${{ github.event.pull_request.head.repo.full_name == github.repository && github.head_ref || github.ref_name }}-${{ github.event.inputs.build_signed_candidate == 'true' && 'signed-candidate' || 'checks' }}
   cancel-in-progress: true
 jobs:
   build:
@@ -94,6 +94,19 @@ jobs:
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
           script: ./gradlew connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.sakugapp.DeviceTests,com.sakugapp.UiSmokeTest,com.sakugapp.PublicBrowseTest,com.sakugapp.BrowsingUpgradeDeviceTest,com.sakugapp.SuggestionInputDeviceTest,com.sakugapp.PlayerRotationDeviceTest,com.sakugapp.PublicPaginationTest
+      - name: Explain failed device assertions
+        if: failure()
+        run: |
+          python3 - <<'PY'
+          import pathlib,xml.etree.ElementTree as ET
+          for path in pathlib.Path('app/build/outputs/androidTest-results').rglob('TEST-*.xml'):
+              suite=ET.parse(path).getroot()
+              for case in suite.findall('testcase'):
+                  failure=case.find('failure')
+                  if failure is not None:
+                      print(case.get('classname'),case.get('name'))
+                      print((failure.text or failure.get('message',''))[:12000])
+          PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:

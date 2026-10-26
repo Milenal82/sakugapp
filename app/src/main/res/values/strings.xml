@@ -296,4 +296,6 @@
     <string name="ui_wildcard_combinations_may_be_limited">Wildcard combinations may be limited</string>
     <string name="ui_wildcard_combinations_may_be_limited_by_the_website">Wildcard combinations may be limited by the website.</string>
     <string name="ui_wrap_tags">Wrap tags</string>
+    <string name="ui_play_preview">Play preview</string>
+    <string name="ui_stop_preview">Stop preview</string>
 </resources>

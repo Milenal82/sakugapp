@@ -3,12 +3,10 @@ package com.sakugapp
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.*
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.*
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
@@ -36,12 +34,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.LocaleListCompat
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.*
 import coil.compose.SubcomposeAsyncImage
 import com.sakugapp.data.*
@@ -53,13 +50,18 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 class MainActivity:AppCompatActivity(){
-    override fun onCreate(savedInstanceState:Bundle?){super.onCreate(savedInstanceState);enableEdgeToEdge();setContent{Sakugapp()}}
+    override fun onCreate(savedInstanceState:Bundle?){
+        super.onCreate(savedInstanceState);enableEdgeToEdge();setContent{Sakugapp()}
+    }
+    override fun onResume(){
+        super.onResume()
+        lifecycleScope.launch{LocaleCoordinator.reconcile(this@MainActivity)}
+    }
 }
 
 @Composable
 private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel()) {
     val settings by app.settings.collectAsStateWithLifecycle()
-    val settingsReady by app.settingsReady.collectAsStateWithLifecycle()
     val context=LocalContext.current
     val metered by remember(context){meteredNetwork(context.applicationContext)}.collectAsStateWithLifecycle(initialValue=true)
     val nav=rememberNavController();val entry by nav.currentBackStackEntryAsState()
@@ -68,11 +70,6 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
     val grid=rememberLazyGridState()
     val systemTag=android.content.res.Resources.getSystem().configuration.locales[0].toLanguageTag()
     val language=PreferenceRules.resolveLanguage(settings.language,systemTag)
-    LaunchedEffect(language,settingsReady){
-        if(!settingsReady)return@LaunchedEffect
-        if(AppCompatDelegate.getApplicationLocales().toLanguageTags()!=language)
-            AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(language))
-    }
     var menu by remember{mutableStateOf(false)};var about by remember{mutableStateOf(false)}
     var scrollQuery by rememberSaveable{mutableStateOf(feed.query)}
     LaunchedEffect(feed.query){if(scrollQuery!=feed.query){grid.scrollToItem(0);scrollQuery=feed.query}}
@@ -234,11 +231,14 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
 }
 
 @Composable private fun PostCard(post:Post,settings:AppSettings,metered:Boolean,preview:Boolean,open:()->Unit,search:(String)->Unit,toggle:()->Unit){
-    Column(Modifier.clickable(onClick=open)){
-        Box(Modifier.fillMaxWidth().heightIn(min=48.dp).aspectRatio(16f/9f).background(Color.Black)){
+    val previewDescription=text(if(preview)R.string.ui_stop_preview else R.string.ui_play_preview)
+    Column{
+        Box(Modifier.fillMaxWidth().heightIn(min=48.dp).aspectRatio(16f/9f).background(Color.Black).clickable(onClick=open)){
             if(preview && post.fileUrl!=null)VideoPanel(post.fileUrl,settings,preview=true)
             else PostImage(post,Modifier.fillMaxSize(),settings,metered)
-            if(post.isVideo)TextButton(onClick=toggle,modifier=Modifier.align(Alignment.BottomEnd).background(Color.Black.copy(alpha=0.65f))){Text(if(preview)"■"else"▶",color=Color.White)}
+            if(post.isVideo)Box(Modifier.size(if(settings.columns>=3)28.dp else 48.dp).align(Alignment.BottomEnd)
+                .background(Color.Black.copy(alpha=0.65f)).clickable(role=Role.Button,onClick=toggle)
+                .semantics{contentDescription=previewDescription},contentAlignment=Alignment.Center){Text(if(preview)"■"else"▶",color=Color.White)}
         }
         PostCaption(post,settings,search)
     }

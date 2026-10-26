@@ -40,6 +40,8 @@ class BrowsingUpgradeTest {
         assertEquals("ja",PreferenceRules.resolveLanguage("ja","zh-CN"))
         assertEquals("zh-TW",PreferenceRules.resolveLanguage("zh-TW","en-US"))
         assertEquals("en",PreferenceRules.siteLanguage("zh-CN"))
+        assertEquals("zh-TW",PreferenceRules.platformLanguage("zh-Hant-TW"))
+        assertEquals("system",PreferenceRules.platformLanguage(""))
     }
     @Test fun oldHistoryIsPreservedDeduplicatedAndExtendedToFiftyWithoutSavingBlankSearches(){
         val legacy=(1..30).map{"tag$it"}

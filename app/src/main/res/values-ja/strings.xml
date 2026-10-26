@@ -291,4 +291,6 @@
     <string name="ui_wildcard_combinations_may_be_limited">ワイルドカードの組み合わせには制限あり</string>
     <string name="ui_wildcard_combinations_may_be_limited_by_the_website">Wildcard combinations may be limited by the website.</string>
     <string name="ui_wrap_tags">タグを折り返す</string>
+    <string name="ui_play_preview">プレビュー</string>
+    <string name="ui_stop_preview">プレビュー停止</string>
 </resources>

@@ -291,4 +291,6 @@
     <string name="ui_wildcard_combinations_may_be_limited">模糊搜尋無法與其他標籤良好搭配</string>
     <string name="ui_wildcard_combinations_may_be_limited_by_the_website">模糊搜尋無法與其他標籤良好搭配，結果以網站支援為準。</string>
     <string name="ui_wrap_tags">標籤自動換行</string>
+    <string name="ui_play_preview">預覽影片</string>
+    <string name="ui_stop_preview">停止預覽</string>
 </resources>

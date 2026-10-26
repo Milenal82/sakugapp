@@ -7,6 +7,9 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.sakugapp.data.*
+import com.sakugapp.ui.LocaleCoordinator
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
 import org.junit.Assert.*
@@ -17,6 +20,27 @@ import java.util.Locale
 
 @RunWith(AndroidJUnit4::class)
 class BrowsingUpgradeDeviceTest {
+    @Test fun platformLanguagePickerAndInAppChoicesUseOneReconciledState()=runBlocking {
+        val context=InstrumentationRegistry.getInstrumentation().targetContext
+        val file=File(context.cacheDir,"locale-${System.nanoTime()}.preferences_pb")
+        val job=SupervisorJob();val data=PreferenceDataStoreFactory.create(scope=CoroutineScope(job+Dispatchers.IO),produceFile={file})
+        val store=PreferencesStore(context,data)
+        val previous=withContext(Dispatchers.Main){AppCompatDelegate.getApplicationLocales()}
+        try {
+            store.language("en");LocaleCoordinator.reconcile(context,store)
+            withContext(Dispatchers.Main){AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("ja"))}
+            LocaleCoordinator.reconcile(context,store)
+            assertEquals("ja",store.settings.first().language)
+            LocaleCoordinator.choose(context,"zh-CN",store)
+            assertEquals("zh-CN",withContext(Dispatchers.Main){AppCompatDelegate.getApplicationLocales().toLanguageTags()})
+            withContext(Dispatchers.Main){AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())}
+            LocaleCoordinator.reconcile(context,store)
+            assertEquals("system",store.settings.first().language)
+        }finally{
+            withContext(Dispatchers.Main){AppCompatDelegate.setApplicationLocales(previous)}
+            job.cancelAndJoin();file.delete()
+        }
+    }
     @Test fun legacyPreferenceKeysAndThirtySearchesSurviveWithNewDefaultsAndSingleDeletion()=runBlocking {
         val context=InstrumentationRegistry.getInstrumentation().targetContext
         val file=File(context.cacheDir,"legacy-${System.nanoTime()}.preferences_pb")

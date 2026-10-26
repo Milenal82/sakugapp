@@ -62,7 +62,8 @@ class PublicPaginationTest {
             ui.onNodeWithText("History",substring=false).performClick()
             ui.onNodeWithTag("search-history").assertDoesNotExist()
             ui.onNodeWithTag("post-grid").performScrollToIndex(32)
-            val anchor=feed.state.value.posts[32]
+            // Choose a fully visible row beneath the expanded chrome, not the covered top row.
+            val anchor=feed.state.value.posts[44]
             ui.onNodeWithContentDescription("Post ${anchor.id}").performClick()
             ui.onNodeWithText("#${anchor.id}").performScrollTo().assertIsDisplayed()
             device.pressBack()

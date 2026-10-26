@@ -28,6 +28,11 @@ object PreferenceRules {
         val locale=java.util.Locale.forLanguageTag(systemTag)
         return if(locale.language=="zh" && locale.script!="Hant" && locale.country !in setOf("TW","HK","MO")) "zh-CN" else "en"
     }
+    fun platformLanguage(tag:String):String {
+        if(tag.isBlank())return "system"
+        val locale=java.util.Locale.forLanguageTag(tag.substringBefore(','))
+        return when(locale.language){"ja"->"ja";"zh"->if(locale.script=="Hant" || locale.country in setOf("TW","HK","MO"))"zh-TW"else"zh-CN";else->"en"}
+    }
     // Traditional Chinese translates the native app; the official site only offers en/ja.
     fun siteLanguage(language: String): String { require(language in languages); return if(language == "ja") "ja" else "en" }
     fun acceptLanguage(language: String): String { require(language in languages); return when(language){"zh-TW"->"zh-TW,zh;q=0.9,en;q=0.7";"zh-CN"->"zh-CN,zh;q=0.9,en;q=0.7";"system"->"en";else->language} }
@@ -55,6 +60,10 @@ class PreferencesStore(context: Context,private val store:DataStore<Preferences>
             columns=(p[intPreferencesKey("columns")] ?: 2).coerceIn(1,4))
     }
     val history: Flow<List<String>> = data.map { PreferenceRules.history(it[stringPreferencesKey("history")]?.split('\n').orEmpty(), "") }
+    val localeState:Flow<Pair<String,String?>> = data.map { p ->
+        (p[stringPreferencesKey("language")]?.takeIf{it in PreferenceRules.languages} ?: "system") to p[stringPreferencesKey("locale_last_applied")]
+    }
+    suspend fun recordAppliedLocale(value:String){store.edit{it[stringPreferencesKey("locale_last_applied")]=value}}
     suspend fun remember(query: String) { store.edit { p ->
         val previous=p[stringPreferencesKey("history")]?.split('\n').orEmpty()
         p[stringPreferencesKey("history")] = PreferenceRules.history(previous,query.replace('\n',' ')).joinToString("\n")
