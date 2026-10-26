@@ -100,6 +100,7 @@ try:
     print('Public upgrade verification:',json.dumps(result,sort_keys=True))
     print('Published APK -> signed candidate upgrade succeeded; settings and search history retained.')
 except Exception:
+    print('Focused windows:',[line.strip() for line in run('adb','shell','dumpsys','window','windows').splitlines() if 'mCurrentFocus' in line or 'mFocusedApp' in line])
     print('Search nodes:',[n.attrib for n in hierarchy().iter('node') if any(label in (n.get('text','')+' '+n.get('content-desc','')) for label in ['Search','History'])])
     print('Theme options:',[n.attrib for n in hierarchy().iter('node') if n.get('content-desc') in ['Light','Dark','Follow system theme']])
     screenshot('failure.png')

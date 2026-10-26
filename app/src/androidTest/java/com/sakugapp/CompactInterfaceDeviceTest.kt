@@ -33,11 +33,16 @@ class CompactInterfaceDeviceTest {
         ui.waitUntil(60000){feed.state.value.posts.isNotEmpty() || feed.state.value.error!=null}
         val anchor=feed.state.value.posts.firstOrNull()?.id
         val before=anchor?.let{ui.onNodeWithTag("post-media-$it").fetchSemanticsNode().boundsInRoot}
+        runBlocking{app.preferences.theme("light");app.preferences.flag("wrap",false)}
+        ui.waitUntil(10000){app.settings.value.themeMode=="light" && !app.settings.value.wrapTags}
+        ui.onNodeWithText("Menu",substring=false).performClick();ui.onNodeWithText("Settings",substring=false).performClick()
+        ui.onNodeWithText("Menu",substring=false).performClick();ui.onNodeWithText("Posts",substring=false).performClick()
         val nativeDevice=UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         val nativeEntry=nativeDevice.wait(androidx.test.uiautomator.Until.findObject(androidx.test.uiautomator.By.desc("Search")),10000)
         assertNotNull("Native search entry",nativeEntry)
         println("Native search bounds=${nativeEntry.visibleBounds}, Compose bounds=${ui.onNodeWithTag("search-entry").fetchSemanticsNode().boundsInRoot}")
-        nativeEntry.click()
+        assertTrue("Native search button is clickable",nativeEntry.isClickable)
+        nativeEntry.click(100L)
         ui.waitUntil(15000){ui.onAllNodesWithTag("search-input").fetchSemanticsNodes().isNotEmpty()}
         ui.onNodeWithTag("search-input").assertIsFocused()
         ui.onNodeWithTag("search-history").assertDoesNotExist()

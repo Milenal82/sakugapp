@@ -20,6 +20,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -229,10 +230,13 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
                         ActionIcon(R.drawable.ic_search,text(R.string.ui_search),{if(query.composition==null)submit(query.text)},Modifier.testTag("submit-search"))
                         ActionIcon(R.drawable.ic_close,text(R.string.ui_close),::collapseSearch,Modifier.testTag("collapse-search"))
                     }else{
-                        TextButton(onClick={chromeVisible=true;historyOpen=false;searchExpanded=true},modifier=Modifier.weight(1f).testTag("search-entry").semantics{contentDescription=context.getString(R.string.ui_search)}){
-                            Icon(androidx.compose.ui.res.painterResource(R.drawable.ic_search),contentDescription=null,modifier=Modifier.size(20.dp))
+                        Row(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(8.dp))
+                            .clickable(role=Role.Button){chromeVisible=true;historyOpen=false;searchExpanded=true}
+                            .testTag("search-entry").semantics(mergeDescendants=true){contentDescription=context.getString(R.string.ui_search)}
+                            .padding(horizontal=12.dp),verticalAlignment=Alignment.CenterVertically){
+                            Icon(androidx.compose.ui.res.painterResource(R.drawable.ic_search),contentDescription=null,modifier=Modifier.size(20.dp),tint=MaterialTheme.colorScheme.onSurfaceVariant)
                             Spacer(Modifier.width(8.dp))
-                            Text(state.query.ifBlank{text(R.string.ui_search)},maxLines=1,overflow=TextOverflow.Ellipsis,modifier=Modifier.weight(1f))
+                            Text(state.query.ifBlank{text(R.string.ui_search)},maxLines=1,overflow=TextOverflow.Ellipsis,modifier=Modifier.weight(1f),color=MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                         Box{
                             TextButton(onClick={gridMenu=true},modifier=Modifier.testTag("grid-columns").semantics{contentDescription=context.getString(R.string.ui_grid_selection,settings.columns)}){Text("▦ ${settings.columns}")}
