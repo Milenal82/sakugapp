@@ -26,14 +26,17 @@ class PlayerRotationDeviceTest {
         val file=File(ui.activity.cacheDir,"rotation-fixture.mp4")
         instrumentation.context.assets.open("frame-index-vfr.mp4").use{input->file.outputStream().use{input.copyTo(it)}}
         val instances=AtomicInteger();var player:Player?=null
+        fun playerMatches(predicate:(Player?)->Boolean):Boolean {
+            var result=false;ui.runOnUiThread{result=predicate(player)};return result
+        }
         val activity=ui.activity
         try {
             device.executeShellCommand("settings put system accelerometer_rotation 0")
             ui.runOnUiThread{activity.setContent{SakugappTheme(false){VideoPanel(file.toURI().toString(),AppSettings(),onPlayerReady={player=it;instances.incrementAndGet()})}}}
-            ui.waitUntil(15000){player?.playbackState==Player.STATE_READY}
+            ui.waitUntil(15000){playerMatches{it?.playbackState==Player.STATE_READY}}
             ui.onNodeWithText("1.5×",substring=false).performClick()
             ui.runOnUiThread{player!!.pause();player!!.seekTo(400)}
-            ui.waitUntil(5000){player!!.currentPosition>=350}
+            ui.waitUntil(5000){playerMatches{it!=null && it.currentPosition>=350}}
             val retained=player
             ui.onNodeWithText("Full screen",substring=false).performClick()
             ui.onNodeWithTag("rotate-video").performClick()

@@ -22,6 +22,7 @@ lint=ET.parse(ROOT/'app/build/reports/lint-results-release.xml').getroot().finda
 if any(i.get('severity') in ['Error','Fatal'] for i in lint):raise SystemExit('Release Lint contains errors.')
 report.update(source_commit=sha,unit_tests=sum(int(s.get('tests','0')) for s in suites),lint_errors=0,lint_warnings=len(lint),distribution='signed development candidate; no Release published')
 (out/'release-verification.json').write_text(json.dumps(report,indent=2)+'\n')
+print('Public candidate verification:',json.dumps({key:report[key] for key in ['applicationId','versionName','versionCode','debuggable','certificate_sha256','abis','source_commit','unit_tests','lint_errors','lint_warnings']},sort_keys=True))
 subprocess.run([str(ROOT/'scripts/package-source.sh'),str(out/f"Sakugapp-{info['versionName']}-source.zip")],check=True)
 shutil.copyfile(ROOT/'release-notes'/f"v{info['versionName']}.md",out/'release-notes.md')
 files=sorted(out.iterdir())

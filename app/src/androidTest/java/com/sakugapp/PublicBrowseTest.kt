@@ -22,11 +22,12 @@ class PublicBrowseTest {
         ui.onNode(hasSetTextAction()).performTextReplacement("id:319947")
         ui.onNodeWithText("Search",useUnmergedTree=true).performClick()
         ui.waitUntil(90000){ui.onAllNodesWithContentDescription("Post 319947").fetchSemanticsNodes().isNotEmpty()}
-        val caption=ui.onNodeWithTag("post-caption-319947").fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].joinToString(" "){it.text}
-        assertTrue("Verified animator tag below thumbnail",caption.contains("mokmok"))
-        assertTrue("Verified copyright tag below thumbnail",caption.contains("jujutsu_kaisen"))
+        val inCaption=hasAnyAncestor(hasTestTag("post-caption-319947"))
+        ui.onNode(hasText("mokmok") and inCaption,useUnmergedTree=true).assertIsDisplayed()
+        ui.onNode(hasText("jujutsu_kaisen_season_3") and inCaption,useUnmergedTree=true).assertIsDisplayed()
         ui.onNodeWithTag("post-score-319947",useUnmergedTree=true).assertIsDisplayed()
-        assertTrue("Real score remains visible",Regex("Score -?[0-9]+").containsMatchIn(caption))
+        val score=ui.onNodeWithTag("post-score-319947",useUnmergedTree=true).fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].single().text
+        assertTrue("Real score remains visible",Regex("Score -?[0-9]+").matches(score))
         ui.onNodeWithContentDescription("Post 319947").performClick()
         ui.onNodeWithText("#319947").performScrollTo().assertIsDisplayed()
         ui.waitUntil(90000){ui.onAllNodesWithContentDescription("Video frame rendered").fetchSemanticsNodes().isNotEmpty()}

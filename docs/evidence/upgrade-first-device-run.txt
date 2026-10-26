@@ -1,0 +1,20 @@
+Initial CI: https://github.com/Milenal82/sakugapp/actions/runs/40261372845
+Source: 1a7ca39fbac473d25f487d39d30741b3a7643d28
+14 device tests; 4 initial failures. Preserve failures; final result is recorded separately.
+
+2026-10-26T02:58:21.7391426Z com.sakugapp.PublicBrowseTest > actualPostSearchDetailsPlaybackAndFrameAnalysis[emulator-5554 - 9] FAILED 
+2026-10-26T02:58:21.7395243Z 	java.lang.AssertionError: Verified animator tag below thumbnail
+2026-10-26T02:58:21.7396426Z 	at org.junit.Assert.fail(Assert.java:89)
+2026-10-26T02:58:21.8255367Z 
+2026-10-26T02:58:21.8299066Z com.sakugapp.BrowsingUpgradeDeviceTest > androidResourcesProvideSimplifiedChineseAndPreserveExistingLocales[emulator-5554 - 9] FAILED 
+2026-10-26T02:58:21.8323668Z 	org.junit.ComparisonFailure: expected:<[菜]单> but was:<[选]单>
+2026-10-26T02:58:21.8340484Z 	at org.junit.Assert.assertEquals(Assert.java:117)
+2026-10-26T02:58:25.3256780Z 
+2026-10-26T02:58:27.2254194Z com.sakugapp.PlayerRotationDeviceTest > manualRotationWithSystemLockPreservesThePlayerPositionAndControls[emulator-5554 - 9] FAILED 
+2026-10-26T02:58:27.2255700Z 	java.lang.IllegalStateException: Player is accessed on the wrong thread.
+2026-10-26T02:58:27.2257107Z 	Current thread: 'Instr: androidx.test.runner.AndroidJUnitRunner'
+2026-10-26T02:58:35.3252727Z 
+2026-10-26T02:58:38.4274016Z com.sakugapp.PublicPaginationTest > fiveBatchesDensityAndDetailReturnKeepRealPostsAndScrollState[emulator-5554 - 9] FAILED 
+2026-10-26T02:58:38.4275832Z 	java.lang.AssertionError: Failed to assert the following: (Text + InputText + EditableText contains '4' (ignoreCase: false))
+2026-10-26T02:58:38.4323750Z 	Semantics of the node:
+2026-10-26T02:58:39.1301892Z Tests on emulator-5554 - 9 failed: There was 4 failure(s).

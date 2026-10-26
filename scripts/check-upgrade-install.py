@@ -60,6 +60,7 @@ try:
     screenshot('after-upgrade-history.png')
     result={'previous':previous,'candidate':current,'retained_light_theme':True,'retained_search_history':True,'uninstall_or_clear_data':False,'result':'passed'}
     (out/'upgrade-install.json').write_text(json.dumps(result,indent=2)+'\n')
+    print('Public upgrade verification:',json.dumps(result,sort_keys=True))
     print('Published APK -> signed candidate upgrade succeeded; settings and search history retained.')
 except Exception:
     screenshot('failure.png')

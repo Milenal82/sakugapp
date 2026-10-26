@@ -31,3 +31,9 @@ DataStore 文件仍是 `settings_v1`，既有语言、设置和 history 键不�
 Debug APK 与正式版证书不同，不能直接覆盖安装；卸载会丢失本地数据。若提供的同证书签名候选通过验证，可按覆盖安装升级，不需要卸载。真实设备和更多 Android/编解码器组合仍需后续验证，账号写入本轮不做实账号操作。
 
 已知静态提示：API 33 localeConfig 在旧系统由 AppCompat 兼容；普通页面按需求限制竖屏，Lint 提示大屏形态可能受限；官网窗口保留必要 JavaScript；搜索备忘录 ISO 日期中的连字符保留原始查询语法。未通过全局关闭 Lint 隐藏问题。
+
+## 首轮 CI 与待复验项
+
+开发分支 `1a7ca39` 的 [Debug 构建](https://github.com/Milenal82/sakugapp/actions/runs/40261372845) 成功；首轮 14 项设备测试有 4 项失败，记录保留在 [初始失败证据](evidence/upgrade-first-device-run.txt)。已修正一处简中用语（菜单），并改正测试在带独立点击动作的标签树上读取父节点、Grid 按钮整串匹配，以及在非主线程读取 Media3 状态的问题。保留原有真实标签、播放器状态及持久化断言，不将“用例已编译”当作通过；修复后重新验证。
+
+[首个签名候选及真实覆盖升级](https://github.com/Milenal82/sakugapp/actions/runs/40261375158) 已成功：正式 Release 单测/Lint/构建、固定证书校验通过；独立模拟器安装已发布 v1.0.0，保存浅色设置及真实 ID 搜索记录，随后仅使用 install -r 覆盖候选，检查主题和历史保留，没有卸载或清数据。该运行早于上述用语修正，最终交付 APK 以修复后运行和提交为准。

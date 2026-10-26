@@ -48,7 +48,9 @@ class PublicPaginationTest {
             assertEquals(scoreColor(false),layout.single().layoutInput.style.color)
             assertTrue(layout.single().layoutInput.style.fontSize.value>=11f)
             ui.activityRule.scenario.recreate()
-            ui.onNodeWithTag("grid-columns").assertTextContains("4")
+            val persistedLabel=ui.activity.getString(R.string.ui_grid_selection,4)
+            ui.waitUntil(10000){ui.onAllNodesWithContentDescription(persistedLabel).fetchSemanticsNodes().isNotEmpty()}
+            ui.onNodeWithTag("grid-columns").assertContentDescriptionEquals(persistedLabel)
             ui.onNodeWithTag("post-grid").performScrollToIndex(32)
             ui.onNodeWithTag("post-grid").performTouchInput{swipeUp(durationMillis=400)}
             ui.waitForIdle();ui.onNodeWithTag("search-input").assertIsNotDisplayed()

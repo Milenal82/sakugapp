@@ -137,7 +137,7 @@
     <string name="ui_loop_off">循环播放：关</string>
     <string name="ui_loop_on">循环播放：开</string>
     <string name="ui_media_rejected">媒体下载被拒绝（HTTP %1$s）。</string>
-    <string name="ui_menu">选单</string>
+    <string name="ui_menu">菜单</string>
     <string name="ui_mirror_video">水平翻转视频</string>
     <string name="ui_missing_account_name">账户名称缺失。</string>
     <string name="ui_missing_comment_body">评论内容缺失。</string>
