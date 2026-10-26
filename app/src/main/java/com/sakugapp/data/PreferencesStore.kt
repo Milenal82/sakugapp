@@ -62,7 +62,7 @@ class PreferencesStore(context: Context,private val store:DataStore<Preferences>
             brightness=(p[floatPreferencesKey("brightness")] ?: 1f).coerceIn(0.5f,1.5f),contrast=(p[floatPreferencesKey("contrast")] ?: 1f).coerceIn(0.5f,1.5f),
             screenshot=p.flag("screenshot",true),lightTheme=p.flag("lightTheme",false),
             columns=(p[intPreferencesKey("columns")] ?: 2).takeIf{it in PreferenceRules.columnOptions} ?: 2,
-            themeMode=PreferenceRules.legacyTheme(p[stringPreferencesKey("themeMode")],p[booleanPreferencesKey("lightTheme")],p.asMap().isNotEmpty()),
+            themeMode=PreferenceRules.legacyTheme(p[stringPreferencesKey("themeMode")],p[booleanPreferencesKey("lightTheme")],p.asMap().keys.any{it.name!="locale_last_applied"}),
             cardSpacing=(p[floatPreferencesKey("cardSpacing")] ?: 8f).coerceIn(0f,10f),gestures=p.flag("gestures",true),
             tagTranslations=p.flag("tagTranslations",false),showOtherTags=p.flag("otherTags",true))
     }
@@ -70,6 +70,7 @@ class PreferencesStore(context: Context,private val store:DataStore<Preferences>
     val localeState:Flow<Pair<String,String?>> = data.map { p ->
         (p[stringPreferencesKey("language")]?.takeIf{it in PreferenceRules.languages} ?: "system") to p[stringPreferencesKey("locale_last_applied")]
     }
+    suspend fun initializeTheme(){store.edit{p->if(p[stringPreferencesKey("themeMode")]==null)p[stringPreferencesKey("themeMode")]=PreferenceRules.legacyTheme(null,p[booleanPreferencesKey("lightTheme")],p.asMap().keys.any{it.name!="locale_last_applied"})}}
     suspend fun recordAppliedLocale(value:String){store.edit{it[stringPreferencesKey("locale_last_applied")]=value}}
     suspend fun remember(query: String) { store.edit { p ->
         val previous=p[stringPreferencesKey("history")]?.split('\n').orEmpty()

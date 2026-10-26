@@ -73,7 +73,10 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
     val metered by remember(context){meteredNetwork(context.applicationContext)}.collectAsStateWithLifecycle(initialValue=true)
     val nav=rememberNavController();val entry by nav.currentBackStackEntryAsState()
     val selected by model.selected.collectAsStateWithLifecycle();val detailError by model.detailError.collectAsStateWithLifecycle()
-    val feed by model.state.collectAsStateWithLifecycle();val history by app.history.collectAsStateWithLifecycle()
+    val rawFeed by model.state.collectAsStateWithLifecycle()
+    val library by app.library.collectAsStateWithLifecycle();val dictionaries by app.dictionaries.collectAsStateWithLifecycle()
+    val feed=remember(rawFeed,library.durations){rawFeed.copy(posts=rawFeed.posts.map{p->library.durations[p.fileUrl]?.let{p.copy(durationMs=it)} ?: p})}
+    val history by app.history.collectAsStateWithLifecycle()
     val grid=rememberLazyGridState()
     val systemTag=android.content.res.Resources.getSystem().configuration.locales[0].toLanguageTag()
     val language=PreferenceRules.resolveLanguage(settings.language,systemTag)
@@ -88,7 +91,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
         else data?.getStringExtra("query")?.let{search(it)}
     }
     val openSite:(String)->Unit={url->browser.launch(Intent(context,BrowserActivity::class.java).putExtra("url",url))}
-    SakugappTheme(settings.lightTheme){CompositionLocalProvider(LocalLanguage provides language){
+    SakugappTheme(settings.lightTheme){CompositionLocalProvider(LocalLanguage provides language,LocalTagPresentation provides TagPresentation(settings.tagTranslations,dictionaries[if(language=="zh-TW")"zh-TW"else"zh-CN"].orEmpty(),library.translations,app.localLibrary)){
         if(about)AboutDialog{about=false}
         Scaffold(topBar={Column(Modifier.statusBarsPadding()){
             Row(Modifier.fillMaxWidth().padding(horizontal=8.dp),verticalAlignment=Alignment.CenterVertically){
@@ -96,6 +99,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                 Text(text(R.string.app_name),style=MaterialTheme.typography.titleLarge,modifier=Modifier.weight(1f))
                 Box{TextButton(onClick={menu=true}){Text(text(R.string.ui_menu))};DropdownMenu(expanded=menu,onDismissRequest={menu=false}){
                     DropdownMenuItem(text={Text(text(R.string.ui_posts))},onClick={menu=false;nav.popBackStack("posts",false)})
+                    DropdownMenuItem(text={Text(text(R.string.ui_local_library))},onClick={menu=false;nav.navigate("library")})
                     DropdownMenuItem(text={Text(text(R.string.ui_my_account))},onClick={menu=false;nav.navigate("account")})
                     DropdownMenuItem(text={Text(text(R.string.ui_blog))},onClick={menu=false;openSite("https://blog.sakugabooru.com/")})
                     DropdownMenuItem(text={Text(text(R.string.ui_forum))},onClick={menu=false;openSite("https://www.sakugabooru.com/forum")})
@@ -106,6 +110,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
             }
         }}){insets->NavHost(navController=nav,startDestination="posts",modifier=Modifier.padding(insets)){
             composable("posts"){PostsScreen(feed,grid,settings,history,metered,app,::search,{post->model.open(post);nav.navigate("post/${post.id}")},model::loadMore)}
+            composable("library"){LibraryScreen(app){post->model.open(post);nav.navigate("post/${post.id}")}}
             composable("account"){AccountScreen(app,openSite)}
             composable("language"){LanguageScreen(settings.language,app::language)}
             composable("settings"){SettingsScreen(settings,app)}
@@ -113,7 +118,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                 val id=backStack.arguments?.getString("id")?.toLongOrNull()
                 LaunchedEffect(id){if(id!=null && selected?.id!=id)model.openId(id)}
                 val post=selected?.takeIf{it.id==id}
-                if(post!=null)PostDetail(post,settings,metered,app,::search,openSite,{nav.navigate("account")},{score->model.updateScore(post.id,score)},{duration->model.updateDuration(post.id,post.fileUrl.orEmpty(),duration)})
+                if(post!=null)PostDetail(post,settings,metered,app,::search,openSite,{nav.navigate("account")},{score->model.updateScore(post.id,score)},{duration->model.updateDuration(post.id,post.fileUrl.orEmpty(),duration);app.duration(post.fileUrl.orEmpty(),duration)})
                 else Column(Modifier.padding(16.dp)){if(detailError==null)CircularProgressIndicator()else{Text(translateMessage(detailError.orEmpty()),color=MaterialTheme.colorScheme.error);TextButton(onClick={id?.let(model::openId)}){Text(text(R.string.ui_retry))}}}
             }
         }}
@@ -278,15 +283,15 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
     if(!settings.wrapTags){
         Column(Modifier.fillMaxWidth().padding(top=5.dp).testTag("post-caption-${post.id}").semantics(mergeDescendants=true){}){
             Row(horizontalArrangement=Arrangement.spacedBy(4.dp)){
-                tags.forEach{tag->Text(tag.name,modifier=Modifier.weight(1f).clickable{search(tag.name)},
-                    color=when(tag.category){TagCategory.COPYRIGHT->copyrightColor(settings.lightTheme);TagCategory.ARTIST->artistColor(settings.lightTheme);else->MaterialTheme.colorScheme.onSurfaceVariant},fontSize=size,maxLines=1,overflow=TextOverflow.Ellipsis)}
+                tags.forEach{tag->TranslatedTag(tag,search=search,modifier=Modifier.weight(1f),dense=settings.columns>=8,
+                    color=when(tag.category){TagCategory.COPYRIGHT->copyrightColor(settings.lightTheme);TagCategory.ARTIST->artistColor(settings.lightTheme);else->MaterialTheme.colorScheme.onSurfaceVariant},fontSize=size,maxLines=1)}
             }
         }
         return
     }
     FlowRow(Modifier.fillMaxWidth().padding(top=5.dp).testTag("post-caption-${post.id}").semantics(mergeDescendants=true){},horizontalArrangement=Arrangement.spacedBy(4.dp)){
-        for(tag in tags)Text(tag.name,modifier=Modifier.clickable{search(tag.name)},color=when(tag.category){TagCategory.COPYRIGHT->copyrightColor(settings.lightTheme);TagCategory.ARTIST->artistColor(settings.lightTheme);else->MaterialTheme.colorScheme.onSurfaceVariant},fontSize=size,
-            maxLines=if(settings.wrapTags && settings.columns<=2)Int.MAX_VALUE else 2,overflow=TextOverflow.Ellipsis)
+        for(tag in tags)TranslatedTag(tag,search=search,dense=settings.columns>=8,color=when(tag.category){TagCategory.COPYRIGHT->copyrightColor(settings.lightTheme);TagCategory.ARTIST->artistColor(settings.lightTheme);else->MaterialTheme.colorScheme.onSurfaceVariant},fontSize=size,
+            maxLines=if(settings.wrapTags && settings.columns<=2)Int.MAX_VALUE else 2)
     }
 }
 
@@ -301,8 +306,9 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
     val uri=LocalUriHandler.current;var linkError by remember{mutableStateOf(false)}
     var seek by remember{mutableStateOf<Pair<Long,Int>?>(null)}
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(12.dp),verticalArrangement=Arrangement.spacedBy(12.dp)){
-        if(post.isVideo)VideoPanel(post.fileUrl!!,settings,seekRequest=seek,onDurationChanged=onDuration)
+        if(post.isVideo)VideoPanel(app.offlineMedia.existing(post)?.toURI()?.toString() ?: post.fileUrl!!,settings,seekRequest=seek,onDurationChanged=onDuration)
         else PostImage(post,Modifier.fillMaxWidth().height(320.dp),settings,metered,true)
+        FavoriteControl(post,app)
         if(post.isVideo)VideoDownloadButton(post)
         Text(text(R.string.ui_score_detail,post.score?.toString() ?: "?"))
         PostMetadata(post){url->linkError=runCatching{uri.openUri(url)}.isFailure}

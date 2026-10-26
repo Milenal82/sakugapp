@@ -66,6 +66,9 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel) {
         SettingSwitch(text(R.string.ui_copyright_tags),settings.showCopyright){model.flag("copyright",it)}
         SettingSwitch(text(R.string.ui_animator_tags),settings.showArtist){model.flag("artist",it)}
         SettingSwitch(text(R.string.ui_score),settings.showScore){model.flag("score",it)}
+        HorizontalDivider();Text(text(R.string.ui_tag_translations),style=MaterialTheme.typography.titleLarge)
+        SettingSwitch(text(R.string.ui_tag_translations),settings.tagTranslations){model.flag("tagTranslations",it)}
+        Text(text(R.string.ui_tag_dictionary_hint),style=MaterialTheme.typography.bodySmall)
         HorizontalDivider();Text(text(R.string.ui_video),style=MaterialTheme.typography.titleLarge)
         SettingSwitch(text(R.string.ui_auto_preview_visible_posts),settings.autoPreview){model.flag("auto",it)}
         SettingSwitch(text(R.string.ui_allow_previews_on_metered_networks),settings.mobilePreview){model.flag("mobile",it)}

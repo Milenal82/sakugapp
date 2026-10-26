@@ -19,3 +19,5 @@ OkHttp includes Public Suffix List data under MPL-2.0. Original notice: OKHTTP-P
 
 JUnit (EPL-1.0), MockWebServer / okhttp-tls (Apache-2.0) and AndroidX testing tools (Apache-2.0) are test-only dependencies, not bundled application features.
 Sakugabooru content remains the property of its respective rights holders. This APK does not bundle website media. The synthetic video in androidTest is only a decoder test pattern and is never displayed as a website post.
+
+Room 2.7.1 / AndroidX SQLite（runtime 与编译器）：Apache-2.0，https://developer.android.com/jetpack/androidx/releases/room ，源码 https://android.googlesource.com/platform/frameworks/support/ 。Kotlin KAPT 2.1.20 为构建工具，不包含任何私有凭据。
