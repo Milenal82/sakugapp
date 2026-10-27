@@ -5,6 +5,10 @@ on:
   pull_request:
   workflow_dispatch:
     inputs:
+      update_screenshots:
+        description: Copy verified original UI captures into this development branch
+        type: boolean
+        default: false
       release_tag:
         description: 'Optional: unsigned Release checks and draft source attachment relay for an existing version tag'
         required: false
@@ -25,8 +29,16 @@ concurrency:
   group: android-${{ github.event.pull_request.head.repo.full_name == github.repository && github.head_ref || github.ref_name }}-${{ github.event.inputs.build_signed_candidate == 'true' && 'signed-candidate' || 'checks' }}
   cancel-in-progress: true
 jobs:
+  documentation-screenshots:
+    if: github.event_name == 'workflow_dispatch' && inputs.update_screenshots
+    permissions:
+      actions: read
+      contents: write
+    uses: ./.github/workflows/screenshots.yml
+    with:
+      run_id: '40392216263'
   build:
-    if: ${{ !github.event.inputs.release_tag && github.event.inputs.build_signed_candidate != 'true' }}
+    if: ${{ !github.event.inputs.release_tag && github.event.inputs.build_signed_candidate != 'true' && github.event.inputs.update_screenshots != 'true' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
@@ -70,7 +82,7 @@ jobs:
             app/build/test-results/testDebugUnitTest/
           if-no-files-found: warn
   device-tests:
-    if: ${{ !github.event.inputs.release_tag && github.event.inputs.build_signed_candidate != 'true' }}
+    if: ${{ !github.event.inputs.release_tag && github.event.inputs.build_signed_candidate != 'true' && github.event.inputs.update_screenshots != 'true' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
