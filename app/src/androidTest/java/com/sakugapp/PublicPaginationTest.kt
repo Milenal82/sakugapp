@@ -52,7 +52,15 @@ class PublicPaginationTest {
             val layout=mutableListOf<TextLayoutResult>()
             ui.onNodeWithTag("post-score-${ids.first()}",useUnmergedTree=true).performSemanticsAction(SemanticsActions.GetTextLayoutResult){it(layout)}
             assertEquals("Dense grid Score stays on one line",1,layout.single().lineCount)
-            assertFalse("Dense grid Score is fully visible: text=${layout.single().layoutInput.text}, size=${layout.single().size}, constraints=${layout.single().layoutInput.constraints}, widthOverflow=${layout.single().didOverflowWidth}, heightOverflow=${layout.single().didOverflowHeight}",layout.single().hasVisualOverflow)
+            val measured=layout.single()
+            // Verify the actual visible glyphs, including the last digit, rather than paragraph-wide metrics.
+            assertFalse("Dense grid Score must not be ellipsized",measured.isLineEllipsized(0))
+            assertEquals(compactScore.length,measured.getLineEnd(0,visibleEnd=true))
+            for(index in compactScore.indices){
+                val glyph=measured.getBoundingBox(index)
+                assertTrue("Score glyph $index is inside ${measured.size}: $glyph",glyph.left>=-1f && glyph.right<=measured.size.width+1f)
+            }
+            println("Dense score text=$compactScore, size=${measured.size}, lastGlyph=${measured.getBoundingBox(compactScore.lastIndex)}, ellipsized=${measured.isLineEllipsized(0)}")
             assertEquals(scoreColor(false),layout.single().layoutInput.style.color)
             assertTrue(layout.single().layoutInput.style.fontSize.value>=11f)
             ui.activityRule.scenario.recreate()
