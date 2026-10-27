@@ -32,9 +32,9 @@ if view.returncode == 0:
     release = json.loads(view.stdout)
     if not release["isDraft"] or release["targetCommitish"] != sha:
         raise SystemExit("Existing release is public or targets a different source; no changes made.")
-    subprocess.run(["gh", "release", "edit", args.tag, "--repo", repo, "--title", f"Sakugapp {metadata()['versionName']}", "--notes-file", str(folder / "release-notes.md")], check=True)
+    subprocess.run(["gh", "release", "edit", args.tag, "--repo", repo, "--title", f"Sakuga Mobile v{metadata()['versionName']}", "--notes-file", str(folder / "release-notes.md")], check=True)
 elif "release not found" in view.stderr.lower() or "HTTP 404" in view.stderr:
-    subprocess.run(["gh", "release", "create", args.tag, "--repo", repo, "--draft", "--verify-tag", "--target", sha, "--title", f"Sakugapp {metadata()['versionName']}", "--notes-file", str(folder / "release-notes.md")], check=True)
+    subprocess.run(["gh", "release", "create", args.tag, "--repo", repo, "--draft", "--verify-tag", "--target", sha, "--title", f"Sakuga Mobile v{metadata()['versionName']}", "--notes-file", str(folder / "release-notes.md")], check=True)
 else:
     raise SystemExit("Unable to inspect existing release; refusing to overwrite it.")
 subprocess.run(["gh", "release", "upload", args.tag, "--repo", repo, "--clobber"] + [str(folder / n) for n in sorted(expected)], check=True)
