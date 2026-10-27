@@ -2,9 +2,9 @@
 
 ## 已确定的身份
 
-首版名称 Sakugapp，applicationId `com.sakugapp`，版本 `1.0.0` / versionCode `6`，标签 `v1.0.0`。不要为了绕过签名不匹配而更换现有包名。后续沿用同一正式证书并递增 versionCode。
+当前版本 Sakugapp 1.1.0 / versionCode 10，applicationId `com.sakugapp`，标签 `v1.1.0`。v1.0.0 的 versionCode 为 6。不要为了绕过签名不匹配而更换现有包名。后续沿用同一正式证书并递增 versionCode。
 
-本次工作区只发现 Debug keystore，没有正式密钥或签名环境变量。当前 GitHub integration 读取 Secrets 名称列表、创建受保护环境均返回 HTTP 403（Resource not accessible by integration），不能由此断言所有远端 Secrets 均不存在。环境和 Secrets 需要所有者配置。已有正式密钥时**直接复用**并配置到下面名称，跳过生成步骤；不要重建或替换密钥。
+正式签名已通过受保护的 `release-signing` 环境配置并成功使用。现有证书 SHA-256 为 `9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff`。本地工作区不持有正式私钥，不需要重新生成或提交密钥。下面的生成步骤只供全新项目配置参考，现有发布必须复用原密钥。
 
 ## 所有者安全生成与备份（仅在确实没有正式密钥时）
 
@@ -42,31 +42,31 @@ gh auth login --hostname github.com
 
 ## 完成已经准备的草稿
 
-配置完成后，优先使用已注册的 Actions → Android checks and artifacts，选择 main，`release_tag` 填 v1.0.0，勾选 `sign_release`：
+配置完成后，优先使用已注册的 Actions → Android checks and artifacts，选择 main，`release_tag` 填 v1.1.0，勾选 `sign_release`：
 
 ```sh
-gh workflow run android.yml --repo Milenal82/sakugapp --ref main -f release_tag=v1.0.0 -f sign_release=true
+gh workflow run android.yml --repo Milenal82/sakugapp --ref main -f release_tag=v1.1.0 -f sign_release=true
 ```
 
-这个入口调用同一份 `release.yml`；main 只提供发布编排，APK 与源码 ZIP 始终来自经校验的 `v1.0.0` 提交。新工作流已被 GitHub 索引后，也可直接在 Actions → Signed Release draft 从对应标签运行：
+这个入口调用同一份 `release.yml`；main 只提供发布编排，APK 与源码 ZIP 始终来自经校验的 `v1.1.0` 提交。新工作流已被 GitHub 索引后，也可直接在 Actions → Signed Release draft 从对应标签运行：
 
 ```sh
-gh workflow run release.yml --repo Milenal82/sakugapp --ref v1.0.0 -f tag=v1.0.0
+gh workflow run release.yml --repo Milenal82/sakugapp --ref v1.1.0 -f tag=v1.1.0
 ```
 
 若新发布工作流尚未被 GitHub 索引、触发返回 404，可以先使用已有入口完成不依赖 Secrets 的 Release 检查与草稿附件上传：
 
 ```sh
-gh workflow run android.yml --repo Milenal82/sakugapp --ref main -f release_tag=v1.0.0
+gh workflow run android.yml --repo Milenal82/sakugapp --ref main -f release_tag=v1.1.0
 ```
 
-未勾选 `sign_release` 时，该备用 job 只检出 `v1.0.0` 的精确提交，验证其属于 main，运行 Release 单测/Lint/未签名预检，并将源码、SHA-256、说明及 unsigned 报告上传到同一提交的**既有草稿**。它不读取签名 Secrets、不上传未签名 APK；发现已有 APK 时拒绝覆盖。勾选时使用上面的受保护签名流程，避开新工作流尚未索引的问题。只有签名校验成功后，才会有正式 APK。
+未勾选 `sign_release` 时，该备用 job 只检出 `v1.1.0` 的精确提交，验证其属于 main，运行 Release 单测/Lint/未签名预检，并将源码、SHA-256、说明及 unsigned 报告上传到同一提交的**既有草稿**。它不读取签名 Secrets、不上传未签名 APK；发现已有 APK 时拒绝覆盖。勾选时使用上面的受保护签名流程，避开新工作流尚未索引的问题。只有签名校验成功后，才会有正式 APK。
 
 预检会检查标签与版本一致、标签提交属于 main、Release 单测/Lint、未签名构建的清单和 ELF。签名 job 仅从该提交检出，在环境授权后读取既有 Secrets；缺一项就明确失败，不回退 Debug、不生成新密钥。关闭签名 job 的 Gradle 构建/配置缓存；keystore 仅在 runner 临时目录以 600 权限存在，结束时清理。
 
 成功后会验证包名/版本、不可调试、APK 签名、证书指纹固定、非 Debug 证书及实际 ABI，再上传：正式 APK、同一提交完整源码 ZIP、SHA256SUMS.txt、发布说明和验证 JSON。工作流只创建/更新 **Draft**，拒绝覆盖公开 Release，不执行公开发布。
 
-下载正式 APK 后验证校验文件与公开证书指纹，并用真实设备测试首次安装、Debug 切换正式版及正式版覆盖升级。最后由所有者审阅 Draft 并决定是否点击 Publish。本轮请求是“暂不公开”，无需为了完成准备而公开发布。
+下载正式 APK 后验证校验文件与公开证书指纹，并用真实设备测试首次安装、Debug 切换正式版及正式版覆盖升级。完成校验和升级检查后，才可按所有者的发布授权将草稿公开。v1.1.0 已获本次任务的公开发布授权；工作流本身仍保留草稿阶段，防止失败构建被自动公开。
 
 ## 本地/其他云端构建
 
