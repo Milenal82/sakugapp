@@ -29,9 +29,22 @@
 
 ## 构建与运行记录
 
-本轮基线 `./gradlew testDebugUnitTest lintDebug assembleDebug` 已通过。最终发布提交、Debug / Release 构建、模拟器与升级结果在完成后更新于此，不以旧运行冒充最终版本结果。
+本轮完整检查已通过：
 
-本轮之前的同应用源码验收：[24 项设备测试](https://github.com/Milenal82/sakugapp/actions/runs/40392216263) 与 [正式证书覆盖安装](https://github.com/Milenal82/sakugapp/actions/runs/40392204087)均通过。截图原件取自前者，详情见 `screenshots/README.md`。
+| 检查 | 实际结果 |
+| --- | --- |
+| 本地 Debug / Release | 各 96 项 JVM 测试通过，0 失败/错误/跳过；Lint 各 0 错误 / 7 警告；Debug APK 与未签名 Release 预检成功 |
+| [GitHub 完整检查](https://github.com/Milenal82/sakugapp/actions/runs/40445851626) | 提交 e72bf47；Debug、96 项 JVM 测试、Lint 及 API 28 x86_64 KVM 24/24 设备测试全部通过 |
+| [正式证书候选与覆盖升级](https://github.com/Milenal82/sakugapp/actions/runs/40444402161) | 1.1.0 / code 10，96 项 Release 测试、Lint 0 错误 / 24 警告；v1.0.0 → 候选覆盖安装成功，主题/换行/历史保留，原生签名 UI 检查 1/1 |
+| 资源与发布工具 | 378 条四语资源和格式参数、16 项 Python 测试、actionlint、源码 ZIP 完整性/敏感文件检查通过 |
+
+候选检查早于最后的缩略图文字行高修正；完整检查已包含最终应用代码。最终标签的 APK 会由 Signed Release draft 工作流重新构建、核对源码提交并执行同证书覆盖安装，只有该工作流和 main 检查成功后才公开。精确产物结果见 Release 的 `release-verification.json` 及 [发布构建记录](https://github.com/Milenal82/sakugapp/actions/workflows/release.yml)。
+
+修复记录：首轮新增加的完整显示断言失败。实际日志显示紧凑数值为 `3`、测量尺寸 15×26 px、可用宽度 107 px，但段落宽度估计标为溢出。最终直接断言每个字形边界、末尾字符、无省略号和单行显示，并保留最小字体与真实 Score 颜色断言；完整 24 项设备测试通过。未以删去显示检查来掩盖问题。高密度标签使用紧凑数值与明确行高，避免原先 Score 文案换行。
+
+未关闭 Lint 检查或添加 baseline。警告包括现有 API/方向建议、复数资源、受限官网浏览 JavaScript、KAPT、日期排版及 CI 依赖更新建议；不是构建失败。
+
+README 的两张截图已人工检查，来自 [此前同详情/设置实现的运行](https://github.com/Milenal82/sakugapp/actions/runs/40392216263)，详见 `screenshots/README.md`。隔离测试中残留旧画面的图片未作为产品截图保留。
 
 ## 限制
 

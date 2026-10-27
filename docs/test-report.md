@@ -1,3 +1,7 @@
+# 正式 v1.1.0 验证（2026-10-27）
+
+[完整检查](https://github.com/Milenal82/sakugapp/actions/runs/40445851626)通过：96 项 JVM 单测、Debug 构建、Lint 无错误及 API 28 KVM 24/24 项设备测试；包括实际字形显示、分页/搜索、严格帧、旋转、收藏迁移和系统 JSON 导入导出。[正式证书候选和覆盖升级](https://github.com/Milenal82/sakugapp/actions/runs/40444402161)通过。最终标签 APK 会独立执行正式签名构建与覆盖安装验证，公开发布以该结果为准，详见 [发布检查](release-1.1.0.md)。以下为历史候选版本记录。
+
 # 1.2.1 验证入口
 
 [验收检查](https://github.com/Milenal82/sakugapp/actions/runs/40369422178)通过：96 项 JVM 单测、Debug 构建、Lint 0 错误、24/24 项 API 28 KVM 设备测试及 13 张截图。迁移、系统 JSON 文件选择器和界面覆盖范围见 [1.2.1 记录](release-1.2.1.md#实际验收结果2026-10-27utc8)。以下保留旧版结果，不能代替本轮测试。
@@ -6,9 +10,9 @@
 
 本轮逐阶段检查、20 项设备用例范围、截图和未验证事项见 [1.2.0 升级记录](release-1.2.0.md#运行证据与明确限制)。[验收提交 df836f4 的检查](https://github.com/Milenal82/sakugapp/actions/runs/40303737605)成功：96 项 JVM 单测、Lint 0 错误、20/20 项 API 28 KVM 测试、5 张 PNG 实际导出。[正式签名与覆盖升级](https://github.com/Milenal82/sakugapp/actions/runs/40303730796)同样成功。最终封装提交见构件元数据；下方为旧版历史。
 
-# 1.1.0 验证（2026-10-26）
+# 浏览与搜索开发候选验证（2026-10-26）
 
-完整范围、成功运行、修复证据及未验证事项见 [1.1.0 验收记录](release-1.1.0.md#实际验收结果2026-10-26)。开发分支验收提交 03612b8 的 [CI](https://github.com/Milenal82/sakugapp/actions/runs/40270216665) 全部成功：82 项 JVM 单测、Debug 构建/Lint、15 项 API 28 KVM 设备测试。正式证书 Release 构建及从已发布 1.0.0 实际覆盖升级成功，保留主题、换行和历史；最后封装提交以候选构件报告为准。本地 Lint 0 errors / 6 warnings，CI Release 0 errors / 20 warnings；14 项发布脚本安全测试、资源覆盖与 actionlint 均通过。
+完整范围、成功运行、修复证据及未验证事项见 [1.1.0 验收记录](development-browsing-search.md#实际验收结果2026-10-26)。开发分支验收提交 03612b8 的 [CI](https://github.com/Milenal82/sakugapp/actions/runs/40270216665) 全部成功：82 项 JVM 单测、Debug 构建/Lint、15 项 API 28 KVM 设备测试。正式证书 Release 构建及从已发布 1.0.0 实际覆盖升级成功，保留主题、换行和历史；最后封装提交以候选构件报告为准。本地 Lint 0 errors / 6 warnings，CI Release 0 errors / 20 warnings；14 项发布脚本安全测试、资源覆盖与 actionlint 均通过。
 
 以下为历史版本记录，与本轮结果分开保存。
 
