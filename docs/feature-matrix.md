@@ -1,4 +1,4 @@
-# Sakuga Extended → Android 功能对照（0.5.0）
+# Sakuga Extended → Android 功能对照（v1.1.0）
 
 0.5.0：原生“作”字图标、可保存的浅色背景、详情下载/带边框标签/动画师 Wiki 问号入口、Score 两个快捷项。细节与测试范围见 `release-0.5.0.md`。
 
@@ -14,7 +14,7 @@
 | 视频/GIF 预览：`js/preview.js` | 触屏播放按钮、单个活动视频、移出可视范围释放；自动预览/计费网络开关；默认静音 | 已实现；不通过鼠标悬停，不猜失败格式地址；设备交互结果单列 |
 | 骨架屏 | 六张无数据身份的脉动占位布局 | 已实现；网络失败不填假帖子 |
 | 高级搜索：`js/search.js` | 原语法输入、AND / ~OR / 排除组合、完整排序/rating 筛选、指令备忘录、450ms 防抖建议 | 已实现；保留现有筛选、OR 前缀及 URL 编码；通配符/混合 OR/重复字段只提示网站限制；现场 AND/OR/不同字段组合读取成功 |
-| 近期标签推荐：`js/index.js` | DataStore 最近 30 条搜索，去重、点击重搜、完整列表及清空 | 已实现；设备持久化与边界测试通过 |
+| 近期标签推荐：`js/index.js` | DataStore 最近 50 条搜索，去重、点击重搜、完整列表及清空 | 已实现；设备持久化与边界测试通过 |
 | Score/标签开关、主题：`popup.html`、`js/popup.js`、`js/redesign.js` | 原生深色设置，显示版权/动画师/Score、换行/折叠、缩略图裁切 | 已实现；不照搬八套 CSS 外观 |
 | 视频速度与滤镜：`js/settings.js` | 0.1×–3× 的 9 档速度、音量/静音/循环、镜像、亮度/对比度/饱和度（0 为灰度），重置 | 已实现；不把 CSS 模糊/色相等全部等同于视频滤镜支持 |
 | 原扩展 24/30 FPS 估计步进：`js/frames.js` | 独立严格帧分析：下载原始视频到私有缓存，MediaMetadataRetriever.getFrameAtIndex，按真实索引前后切换，显示实际帧数 | 已实现并通过 Android 9 真正解码测试（非关键帧 + 非均匀帧间隔 + 往返索引）；从第 1 帧开始，不伪装成当前播放时间的严格帧定位 |
@@ -29,7 +29,7 @@
 | 评论时间码：`js/frames.js` | 安全解析真实正文时间码，点选执行普通时间定位 | 已实现；明确与严格索引模式区分；不执行 DText 中的 HTML/JS |
 | 来源作者/AD 自动推断：`js/frames.js` | 原始 Source、作者字段和评论保留；不从模糊姓名推断贡献、类别或确认度 | 未移植自动归因；避免误标真实作者；未提供假开关 |
 | Blog / Forum | 独立受限浏览 Activity，导航返回应用；Posts / 原帖链接拦截回原生页面；会话和 locale 衔接 | 已实现；官网 HTML 读取 200；HTTPS / 域名 / 外跳规则有单测；无 WebView 首页/帖子列表 |
-| Language | English / 日本語 / 繁體中文；官网仅发实际支持的 `locale=en/ja`，中文界面使用英文官网；Accept-Language 保留中文偏好 | 已实现；本轮新增中文持久化与切换测试；站点原文、标签、语法与许可证不机器翻译 |
+| Language | English / 简体中文 / 日本語 / 繁體中文；官网仅发实际支持的 `locale=en/ja`，中文界面使用英文官网；Accept-Language 保留中文偏好 | 已实现；本轮新增中文持久化与切换测试；站点原文、标签、语法与许可证不机器翻译 |
 | 关于/许可 | GPL、Apache、MPL、jsoup MIT 全文、原扩展来源和依赖声明 | 已实现；依赖未改为项目许可 |
 | 缓存/网络设置 | 图片仅非计费网络、预览计费策略、图片与帧缓存清理、默认播放选项 | 已实现；普通设置用 DataStore；凭据不进入 DataStore/备份 |
 | Chrome scripting、私有 pool DOM 修改、猜 deleted 媒体地址 | 原生状态/认证替代；不移植 DOM 注入、eval 或访问限制绕过 | 不适用 / 有意不照搬 |
@@ -37,14 +37,20 @@
 
 技术栈新增 Navigation Compose、DataStore 和 jsoup；数据网络仍采用已测的可取消 OkHttp 与独立解析器。源接口和设备测试证据见 `data-source.md`、`test-report.md`。所有需要账号的服务端结果均以真实响应为准，未模拟登录成功、投票成功或评论发布。
 
-## 1.1.0 浏览与搜索升级
+## v1.1.0 三轮整合
 
-九项增量功能的实现位置、验证状态与兼容性详见 [1.1.0 升级记录](release-1.1.0.md)。保留本表此前尚未移植的扩展功能，不将本轮 UI 升级当作整个扩展已复现。
+正式版本使用 versionCode 10；此前 1.2.0 / 1.2.1 仅为开发候选编号。本版保留原扩展尚未移植项，不宣称完整复现扩展。
 
-## 1.2.0 原生增量
+| 模块 | 实现位置 | 验证范围 |
+| --- | --- | --- |
+| 连续加载、滚动搜索栏、位置恢复 | `ui/FeedViewModel.kt`、`MainActivity.kt` | PublicPaginationTest、BrowsingUpgradeDeviceTest |
+| 组合搜索、历史、光标处联想 | `data/SearchSyntax.kt`、`data/SearchEditing.kt`、`ui/TagSuggestionsMenu.kt` | 真实接口与 JVM 搜索测试、SuggestionInputDeviceTest |
+| 可见缩略图均色 | `ui/AverageColor.kt` | 读取真实缩略图；不是服务端颜色相似检索 |
+| 手机 1/2/3/4，平板另有 8/12 列 | `MainActivity.kt`、`data/PreferencesStore.kt` | 手机布局、12 列平板截图、保存列数回退测试 |
+| 全屏旋转与播放手势 | `ui/VideoPanel.kt`、`ui/VideoGestureHost.kt` | PlayerRotationDeviceTest、ProfessionalPlayerDeviceTest |
+| A–B 时间戳循环、真实索引帧号与步进 | `ui/StrictFrames.kt`、`data/FrameIndex.kt`、`data/PlayerTools.kt` | 公开视频及带 B/P 帧、非等间隔测试视频；不保证 A–B 帧级精度 |
+| 本地多收藏夹、JSON、独立内页 | `data/LibraryDatabase.kt`、`data/LibraryCodec.kt`、`ui/LibraryScreen.kt` | Room 原始 v1 schema 迁移、系统文档导入导出、收藏 UI 测试 |
+| 详情五按钮、统一收藏、元数据 | `MainActivity.kt`、`ui/FavoriteControl.kt`、`ui/ActionIcon.kt` | 同排、禁用、点击、长按、多夹关系和 Score 断言 |
+| 按需搜索、精简外观 | `MainActivity.kt`、`ui/LibraryScreen.kt` | 输入焦点、历史、位置、中英 UI、窄屏和平板布局 |
 
-本地收藏与 JSON、多对多 Room、可选译名、A–B 时间戳循环/严格帧分析、缩放/手势切帖、系统主题和 8/12 列，见 [本轮逐项对照](release-1.2.0.md#附件功能对照)。预览入口调整为长按缩略图菜单，静态缩略图只叠加时长/Score；保持单个活动预览和原有网络策略。旧的扩展未移植项继续保留，不因本轮工具升级而宣称已全部移植。
-
-## 1.2.1 精简调整
-
-本轮主动删除 Tags 翻译（包含词典、设置、编辑和缓存表），保留原始标签、分类色和 Post 搜索。收藏首页改为收藏夹，去掉收藏页搜索；五个详情操作、元数据与按需搜索调整详见 [前后对照](release-1.2.1.md)。上表及 1.2.0 章节为历史功能记录，以本章节和当前版本为准。
+本版实际运行与构建链接见 [发布检查](release-1.1.0.md)。账号操作、其他解码器和真机未因模拟器测试通过而标为已验证。

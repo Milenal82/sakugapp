@@ -1,0 +1,60 @@
+name: Update verified UI screenshots
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: 'Successful Android checks run on the same production source'
+        required: true
+        default: '40392216263'
+permissions:
+  actions: read
+  contents: write
+jobs:
+  screenshots:
+    if: startsWith(github.ref, 'refs/heads/feature/')
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Require successful device tests
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ inputs.run_id }}
+        run: |
+          python3 - <<'PY'
+          import json,os,subprocess
+          run=json.loads(subprocess.check_output(['gh','api',f"repos/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['RUN_ID']}"]))
+          if run['conclusion']!='success': raise SystemExit('Successful source run required')
+          subprocess.run(['git','fetch','origin',run['head_sha']],check=True)
+          # Documentation/version changes may follow, but application implementation must match.
+          subprocess.run(['git','diff','--exit-code',run['head_sha'],'HEAD','--','app/src'],check=True)
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ inputs.run_id }}
+          name: device-test-reports
+          path: ${{ runner.temp }}/evidence
+      - name: Save original emulator captures
+        env:
+          RUN_ID: ${{ inputs.run_id }}
+        run: |
+          python3 - <<'PY'
+          import os,pathlib,shutil
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'evidence'
+          dest=pathlib.Path('docs/screenshots'); dest.mkdir(parents=True,exist_ok=True)
+          names=['phone-post-grid.png','phone-post-detail.png','tablet-12-columns.png','compact-favorites-home.png','compact-favorites-folder.png','professional-controls.png','compact-settings-zh-cn.png']
+          for name in names:
+              paths=list(root.rglob(name))
+              if len(paths)!=1: raise SystemExit('Missing/ambiguous capture: '+name)
+              shutil.copyfile(paths[0],dest/name)
+          (dest/'README.md').write_text('原始 Android API 28 x86_64 模拟器截图，未经绘制或合成。\n\n来源：https://github.com/'+os.environ['GITHUB_REPOSITORY']+'/actions/runs/'+os.environ['RUN_ID']+'\n\nphone-post-grid / phone-post-detail / tablet-12-columns 使用网站公开读取；收藏夹及播放器工具测试使用合法保存的公开响应/测试视频隔离验证，非线上账户数据。\n')
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/screenshots
+          if ! git diff --cached --quiet; then
+            git commit -m 'Document verified native UI with original emulator screenshots'
+            git push origin HEAD:"$GITHUB_REF_NAME"
+          fi
