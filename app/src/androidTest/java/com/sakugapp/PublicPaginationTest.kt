@@ -46,10 +46,13 @@ class PublicPaginationTest {
                 ui.waitUntil(10000){app.settings.value.columns==columns}
                 ui.onNodeWithTag("post-score-${ids.first()}",useUnmergedTree=true).assertIsDisplayed()
             }
+            // Persistence emits before the collected Compose tree is redrawn.
+            val compactScore=feed.state.value.posts.first().score?.toString() ?: "?"
+            ui.waitUntil(10000){ui.onAllNodes(hasTestTag("post-score-${ids.first()}") and hasText(compactScore,substring=false),useUnmergedTree=true).fetchSemanticsNodes().isNotEmpty()}
             val layout=mutableListOf<TextLayoutResult>()
             ui.onNodeWithTag("post-score-${ids.first()}",useUnmergedTree=true).performSemanticsAction(SemanticsActions.GetTextLayoutResult){it(layout)}
             assertEquals("Dense grid Score stays on one line",1,layout.single().lineCount)
-            assertFalse("Dense grid Score is fully visible",layout.single().hasVisualOverflow)
+            assertFalse("Dense grid Score is fully visible: text=${layout.single().layoutInput.text}, size=${layout.single().size}, constraints=${layout.single().layoutInput.constraints}, widthOverflow=${layout.single().didOverflowWidth}, heightOverflow=${layout.single().didOverflowHeight}",layout.single().hasVisualOverflow)
             assertEquals(scoreColor(false),layout.single().layoutInput.style.color)
             assertTrue(layout.single().layoutInput.style.fontSize.value>=11f)
             ui.activityRule.scenario.recreate()

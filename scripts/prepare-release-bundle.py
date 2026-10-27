@@ -7,6 +7,7 @@ import pathlib
 import shutil
 import subprocess
 import sys
+import zipfile
 from release_common import ROOT, command, exact_tag, metadata
 
 parser = argparse.ArgumentParser()
@@ -31,6 +32,10 @@ if args.unsigned_preflight:
     verify.append("--unsigned-preflight")
 subprocess.run(verify, check=True)
 report = json.loads(report_path.read_text())
+with zipfile.ZipFile(args.apk) as archive:
+    provenance = archive.read('META-INF/version-control-info.textproto').decode()
+    if f'revision: "{sha}"' not in provenance:
+        raise SystemExit('APK was not built from the exact release tag commit.')
 report.update(source_commit=sha, source_tag=args.tag)
 suite_dir = ROOT / "app/build/test-results/testReleaseUnitTest"
 import xml.etree.ElementTree as ET
@@ -44,6 +49,7 @@ if any(i.attrib.get("severity") in {"Error", "Fatal"} for i in lint.findall("iss
 report["lint_errors"] = 0
 report["lint_warnings"] = len(lint.findall("issue"))
 report_path.write_text(json.dumps(report, indent=2) + "\n")
+print("Public release verification:", json.dumps({key: report[key] for key in ["applicationId", "versionName", "versionCode", "debuggable", "signed", "certificate_sha256", "abis", "source_commit", "unit_tests", "lint_errors", "lint_warnings", "apk_sha256"]}, sort_keys=True))
 source_name = f"Sakugapp-{args.tag}-source.zip"
 subprocess.run([str(ROOT / "scripts/package-source.sh"), str(out / source_name)], check=True)
 if not args.unsigned_preflight:
