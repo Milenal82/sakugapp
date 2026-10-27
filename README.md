@@ -19,12 +19,9 @@ Sakuga Mobile（安装名称 Sakugapp）是用于浏览 [Sakugabooru](https://ww
 以下为实际 Android 模拟器截图；来源及隔离测试说明见 [截图记录](docs/screenshots/README.md)。
 
 <p>
-  <img src="docs/screenshots/phone-post-grid.png" width="230" alt="Post 列表">
-  <img src="docs/screenshots/phone-post-detail.png" width="230" alt="帖子详情">
-  <img src="docs/screenshots/compact-favorites-home.png" width="230" alt="本地收藏夹">
+  <img src="docs/screenshots/phone-post-detail.png" width="260" alt="帖子详情">
+  <img src="docs/screenshots/compact-settings-zh-cn.png" width="260" alt="简体中文设置">
 </p>
-
-[平板 12 列](docs/screenshots/tablet-12-columns.png) · [收藏夹内页](docs/screenshots/compact-favorites-folder.png) · [播放器控制](docs/screenshots/professional-controls.png) · [简体中文设置](docs/screenshots/compact-settings-zh-cn.png)
 
 ## 下载与安装
 
