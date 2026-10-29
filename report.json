@@ -1,0 +1,164 @@
+{
+  "source_commit": "d4d83293fe783bfe9ddf035aafaa3fad2d75978a",
+  "run_id": "40836220823",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40836220823",
+  "captured_utc": "2026-10-29T07:40:35.037791+00:00",
+  "jobs": {
+    "build": {
+      "status": "completed",
+      "conclusion": "success"
+    },
+    "signed-candidate": {
+      "status": "completed",
+      "conclusion": "success"
+    },
+    "device-tests": {
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    "candidate-upgrade-install": {
+      "status": "in_progress",
+      "conclusion": null
+    }
+  },
+  "artifacts": [
+    {
+      "name": "sakugapp-signed-candidate",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40836220823/artifacts/12881546198",
+      "bytes": 12881176
+    },
+    {
+      "name": "check-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40836220823/artifacts/12881465334",
+      "bytes": 129926
+    },
+    {
+      "name": "device-test-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40836220823/artifacts/12881126683",
+      "bytes": 5692425
+    },
+    {
+      "name": "sakugapp-debug",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40836220823/artifacts/12880289248",
+      "bytes": 16675233
+    },
+    {
+      "name": "sakugapp-source",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40836220823/artifacts/12880054929",
+      "bytes": 1093426
+    }
+  ],
+  "tests": {
+    "Debug": {
+      "tests": 107,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Release": {
+      "tests": 107,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "device": {
+      "tests": 31,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "failures": [
+    {
+      "test": "com.sakugapp.RefreshGridDeviceTest.pullAtTopRefreshesWhileMidListScrollDoesNotAndFailureKeepsTheRealSnapshot",
+      "message": "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 10000 ms\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:504)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:339)\nat com.sakugapp.RefreshGridDeviceTest.pullAtTopRefreshesWhileMidListScrollDoesNotAndFailureKeepsTheRealSnapshot(RefreshGridDeviceTest.kt:57)\n"
+    }
+  ],
+  "lint": {
+    "debug": {
+      "errors": 0,
+      "warnings": 27
+    },
+    "release": {
+      "errors": 0,
+      "warnings": 27
+    }
+  },
+  "candidate": {
+    "applicationId": "com.sakugapp",
+    "versionName": "1.2.0",
+    "versionCode": 11,
+    "minSdk": 26,
+    "targetSdk": 35,
+    "tag": "v1.2.0",
+    "name": "Sakugapp",
+    "debuggable": false,
+    "signed": true,
+    "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff",
+    "certificate_subject": "CN=Sakugapp Release",
+    "validation_scope": "signed release verified",
+    "apk_sha256": "7899738dac18e2194910b1ac97d94cdd25a97aab4d2133d5fdb72f4e31dcf123",
+    "apk_bytes": 12959111,
+    "abis": [
+      "arm64-v8a",
+      "armeabi-v7a",
+      "x86",
+      "x86_64"
+    ],
+    "native_libraries": [
+      {
+        "path": "lib/arm64-v8a/libandroidx.graphics.path.so",
+        "abi": "arm64-v8a",
+        "bits": 64,
+        "machine": 183
+      },
+      {
+        "path": "lib/arm64-v8a/libdatastore_shared_counter.so",
+        "abi": "arm64-v8a",
+        "bits": 64,
+        "machine": 183
+      },
+      {
+        "path": "lib/armeabi-v7a/libandroidx.graphics.path.so",
+        "abi": "armeabi-v7a",
+        "bits": 32,
+        "machine": 40
+      },
+      {
+        "path": "lib/armeabi-v7a/libdatastore_shared_counter.so",
+        "abi": "armeabi-v7a",
+        "bits": 32,
+        "machine": 40
+      },
+      {
+        "path": "lib/x86/libandroidx.graphics.path.so",
+        "abi": "x86",
+        "bits": 32,
+        "machine": 3
+      },
+      {
+        "path": "lib/x86/libdatastore_shared_counter.so",
+        "abi": "x86",
+        "bits": 32,
+        "machine": 3
+      },
+      {
+        "path": "lib/x86_64/libandroidx.graphics.path.so",
+        "abi": "x86_64",
+        "bits": 64,
+        "machine": 62
+      },
+      {
+        "path": "lib/x86_64/libdatastore_shared_counter.so",
+        "abi": "x86_64",
+        "bits": 64,
+        "machine": 62
+      }
+    ],
+    "source_commit": "d4d83293fe783bfe9ddf035aafaa3fad2d75978a",
+    "unit_tests": 107,
+    "lint_errors": 0,
+    "lint_warnings": 27,
+    "distribution": "signed development candidate; no Release published"
+  }
+}
