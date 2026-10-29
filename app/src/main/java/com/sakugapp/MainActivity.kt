@@ -254,9 +254,10 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
                     if(searchExpanded){
                         OutlinedTextField(query,{query=it},modifier=Modifier.weight(1f).focusRequester(searchFocus).onFocusChanged{searchFocused=it.isFocused}.testTag("search-input"),singleLine=true,
                             label={Text(text(R.string.ui_search))},keyboardOptions=KeyboardOptions(imeAction=ImeAction.Search),
-                            keyboardActions=KeyboardActions(onSearch={if(query.composition==null)submit(query.text)}),
+                            keyboardActions=KeyboardActions(onSearch={submit(query.text)}),
                             trailingIcon={ActionIcon(R.drawable.ic_close,text(R.string.ui_clear_search),{query=TextFieldValue("")},Modifier.testTag("clear-search"))})
-                        ActionIcon(R.drawable.ic_search,text(R.string.ui_search),{if(query.composition==null)submit(query.text)},Modifier.testTag("submit-search"))
+                        // Explicit search accepts the visible draft; only suggestions defer IME composition.
+                        ActionIcon(R.drawable.ic_search,text(R.string.ui_search),{submit(query.text)},Modifier.testTag("submit-search"))
                         ActionIcon(R.drawable.ic_close,text(R.string.ui_close),::collapseSearch,Modifier.testTag("collapse-search"))
                     }else{
                         Row(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(8.dp))

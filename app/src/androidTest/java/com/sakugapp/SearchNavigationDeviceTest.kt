@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.By
+import androidx.test.uiautomator.Until
 import com.sakugapp.ui.*
 import kotlinx.coroutines.runBlocking
 import org.junit.*
@@ -89,7 +91,9 @@ class SearchNavigationDeviceTest {
         for(context in listOf("root","results")){
             if(context=="results"){
                 ui.onNodeWithTag("search-entry").performClick();ui.onNodeWithTag("search-input").performTextReplacement("animated")
-                ui.onNodeWithTag("submit-search").performClick();ui.onNodeWithTag("search-input").assertDoesNotExist()
+                val submit=device.wait(Until.findObject(By.res("submit-search")),10000);assertNotNull(submit);submit.click(100L)
+                ui.waitUntil(10000){feed.state.value.query=="animated"}
+                ui.onNodeWithTag("search-input").assertDoesNotExist()
                 assertEquals("animated",feed.state.value.query)
             }
             val original=feed.state.value.query
