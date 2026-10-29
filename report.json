@@ -1,14 +1,10 @@
 {
-  "source_commit": "14619ae097d7708ae80de4d263435b275c86b1a9",
-  "run_id": "40876305761",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40876305761",
-  "captured_utc": "2026-10-29T12:57:14.190994+00:00",
+  "source_commit": "c655766aeb0a693c35301ddbf02cac731e917c66",
+  "run_id": "40878965968",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968",
+  "captured_utc": "2026-10-29T13:15:22.670734+00:00",
   "jobs": {
     "build": {
-      "status": "completed",
-      "conclusion": "success"
-    },
-    "six-column-display (landscape, pixel_c)": {
       "status": "completed",
       "conclusion": "success"
     },
@@ -16,15 +12,19 @@
       "status": "completed",
       "conclusion": "success"
     },
+    "six-column-display (landscape, pixel_c)": {
+      "status": "completed",
+      "conclusion": "success"
+    },
     "device-tests": {
+      "status": "in_progress",
+      "conclusion": null
+    },
+    "signed-candidate": {
       "status": "completed",
       "conclusion": "success"
     },
     "search-back-gestures": {
-      "status": "completed",
-      "conclusion": "failure"
-    },
-    "signed-candidate": {
       "status": "completed",
       "conclusion": "success"
     },
@@ -36,48 +36,43 @@
   "artifacts": [
     {
       "name": "signed-upgrade-install-report",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40876305761/artifacts/12899420436",
-      "bytes": 1301896
-    },
-    {
-      "name": "six-column-phone-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40876305761/artifacts/12899195117",
-      "bytes": 199172
-    },
-    {
-      "name": "device-test-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40876305761/artifacts/12898971260",
-      "bytes": 7604860
-    },
-    {
-      "name": "search-back-gesture-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40876305761/artifacts/12898770980",
-      "bytes": 1456218
-    },
-    {
-      "name": "sakugapp-signed-candidate",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40876305761/artifacts/12898756056",
-      "bytes": 12911148
-    },
-    {
-      "name": "six-column-landscape-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40876305761/artifacts/12898706084",
-      "bytes": 2558613
-    },
-    {
-      "name": "sakugapp-source",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40876305761/artifacts/12898103803",
-      "bytes": 1110351
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968/artifacts/12900376301",
+      "bytes": 1295441
     },
     {
       "name": "sakugapp-debug",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40876305761/artifacts/12897869625",
-      "bytes": 16696147
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968/artifacts/12900071002",
+      "bytes": 16696148
+    },
+    {
+      "name": "six-column-phone-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968/artifacts/12899801700",
+      "bytes": 196599
+    },
+    {
+      "name": "search-back-gesture-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968/artifacts/12899537645",
+      "bytes": 1710995
+    },
+    {
+      "name": "sakugapp-source",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968/artifacts/12899383831",
+      "bytes": 1112201
     },
     {
       "name": "check-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40876305761/artifacts/12897794973",
-      "bytes": 124196
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968/artifacts/12899254006",
+      "bytes": 124247
+    },
+    {
+      "name": "sakugapp-signed-candidate",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968/artifacts/12899178736",
+      "bytes": 12912988
+    },
+    {
+      "name": "six-column-landscape-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968/artifacts/12898649079",
+      "bytes": 2463448
     }
   ],
   "tests": {
@@ -94,19 +89,13 @@
       "skipped": 0
     },
     "device": {
-      "tests": 40,
-      "failures": 1,
+      "tests": 6,
+      "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "failures": [
-    {
-      "test": "com.sakugapp.SearchNavigationDeviceTest.systemBackClosesTheImeThenTheEditorWithoutFinishingTheActivity",
-      "report": "search-back-gesture-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 15-_app-.xml",
-      "message": "java.lang.RuntimeException: java.util.concurrent.ExecutionException: java.lang.IllegalArgumentException: Detected multithreaded access to SnapshotStateObserver: previousThreadId=80), currentThread={id=2, name=main}. Note that observation on multiple threads in layout/draw is not supported. Make sure your measure/layout/draw for each Owner (AndroidComposeView) is executed on the same thread.\nat androidx.test.espresso.Espresso.onIdle(Espresso.java:357)\nat androidx.test.espresso.Espresso.onIdle(Espresso.java:378)\nat androidx.compose.ui.test.EspressoLink_androidKt.runEspressoOnIdle(EspressoLink.android.kt:88)\nat androidx.compose.ui.test.EspressoLink.runUntilIdle(EspressoLink.android.kt:82)\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.waitForNextChoreographerFrame(ComposeUiTest.android.kt:402)\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.waitForIdle(ComposeUiTest.android.kt:385)\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.access$waitForIdle(ComposeUiTest.android.kt:235)\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidTestOwner.getRoots(ComposeUiTest.android.kt:603)\nat androidx.compose.ui.test.TestOwnerKt.getAllSemanticsNodes(TestOwner.kt:81)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNodes$ui_test_release(SemanticsNodeInteraction.kt:64)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:157)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.AssertionsKt.assert(Assertions.kt:258)\nat androidx.compose.ui.test.AssertionsKt.assert$default(Assertions.kt:250)\nat androidx.compose.ui.test.AssertionsKt.assertIsFocused(Assertions.kt:113)\nat com.sakugapp.SearchNavigationDeviceTest.systemBackClosesTheImeThenTheEditorWithoutFinishingTheActivity(SearchNavigationDeviceTest.kt:97)\n... 53 trimmed\nCaused by: java.util.concurrent.ExecutionException: java.lang.IllegalArgumentException: Detected multithreaded access to SnapshotStateObserver: previousThreadId=80), currentThread={id=2, name=main}. Note that observation on multiple threads in layout/draw is not supported. Make sure your measure/layout/draw for each Owner (AndroidComposeView) is executed on the same thread.\nat java.util.concurrent.FutureTask.report(FutureTask.java:122)\nat java.util.concurrent.FutureTask.get(FutureTask.java:191)\nat androidx.test.espresso.Espresso.onIdle(Espresso.java:349)\n... 70 more\nCaused by: java.lang.IllegalArgumentException: Detected multithreaded access to SnapshotStateObserver: previousThreadId=80), currentThread={id=2, name=main}. Note that observation on multiple threads in layout/draw is not supported. Make sure your measure/layout/draw for each Owner (AndroidComposeView) is executed on the same thread.\nat androidx.compose.runtime.PreconditionsKt.throwIllegalArgumentException(Preconditions.kt:26)\nat androidx.compose.runtime.snapshots.SnapshotStateObserver.observeReads(SnapshotStateObserver.kt:649)\nat androidx.compose.ui.node.OwnerSnapshotObserver.observeReads$ui_release(OwnerSnapshotObserver.kt:124)\nat androidx.compose.ui.node.NodeCoordinator$drawBlock$1.invoke(NodeCoordinator.kt:480)\nat androidx.compose.ui.node.NodeCoordinator$drawBlock$1.invoke(NodeCoordinator.kt:476)\nat androidx.compose.ui.platform.GraphicsLayerOwnerLayer$recordLambda$1.invoke(GraphicsLayerOwnerLayer.android.kt:261)\nat androidx.compose.ui.platform.GraphicsLayerOwnerLayer$recordLambda$1.invoke(GraphicsLayerOwnerLayer.android.kt:259)\nat androidx.compose.ui.graphics.layer.GraphicsLayer.drawWithChildTracking(AndroidGraphicsLayer.android.kt:443)\nat androidx.compose.ui.graphics.layer.GraphicsLayer.access$drawWithChildTracking(AndroidGraphicsLayer.android.kt:56)\nat androidx.compose.ui.graphics.layer.GraphicsLayer$clipDrawBlock$1.invoke(AndroidGraphicsLayer.android.kt:73)\nat androidx.compose.ui.graphics.layer.GraphicsLayer$clipDrawBlock$1.invoke(AndroidGraphicsLayer.android.kt:68)\nat androidx.compose.ui.graphics.layer.GraphicsLayerV29.record(GraphicsLayerV29.android.kt:251)\nat androidx.compose.ui.graphics.layer.GraphicsLayer.recordInternal(AndroidGraphicsLayer.android.kt:436)\nat androidx.compose.ui.graphics.layer.GraphicsLayer.record-mL-hObY(AndroidGraphicsLayer.android.kt:432)\nat androidx.compose.ui.platform.GraphicsLayerOwnerLayer.updateDisplayList(GraphicsLayerOwnerLayer.android.kt:254)\nat androidx.compose.ui.platform.AndroidComposeView.dispatchDraw(AndroidComposeView.android.kt:1897)\nat android.view.View.draw(View.java:24845)\nat android.view.View.updateDisplayListIfDirty(View.java:23692)\nat android.view.ViewGroup.recreateChildDisplayList(ViewGroup.java:4521)\nat android.view.ViewGroup.dispatchGetDisplayList(ViewGroup.java:4494)\nat android.view.View.updateDisplayListIfDirty(View.java:23646)\nat android.view.ViewGroup.recreateChildDisplayList(ViewGroup.java:4521)"
-    }
-  ],
+  "failures": [],
   "lint": {
     "debug": {
       "errors": 0,
@@ -130,7 +119,7 @@
     "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff",
     "certificate_subject": "CN=Sakugapp Release",
     "validation_scope": "signed release verified",
-    "apk_sha256": "7873ed7001fa689694cd8082b7d43e26753f13e21058f0f0862cb879ae867039",
+    "apk_sha256": "f0dfd99775e4e290aaca77d4e9b24132340b60b5a91b33be35f4d165265e0699",
     "apk_bytes": 12976763,
     "abis": [
       "arm64-v8a",
@@ -188,7 +177,7 @@
         "machine": 62
       }
     ],
-    "source_commit": "14619ae097d7708ae80de4d263435b275c86b1a9",
+    "source_commit": "c655766aeb0a693c35301ddbf02cac731e917c66",
     "unit_tests": 112,
     "lint_errors": 0,
     "lint_warnings": 23,
