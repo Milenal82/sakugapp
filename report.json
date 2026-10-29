@@ -1,22 +1,22 @@
 {
-  "source_commit": "b5947f9cb346419ca8617aa1301558fec0d04c91",
-  "run_id": "40844472001",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40844472001",
-  "captured_utc": "2026-10-29T08:54:10.918624+00:00",
+  "source_commit": "c61d36f8059593d895e45c345c44d874af17c3a7",
+  "run_id": "40873887531",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40873887531",
+  "captured_utc": "2026-10-29T12:37:54.766513+00:00",
   "jobs": {
-    "signed-candidate": {
+    "device-tests": {
       "status": "completed",
-      "conclusion": "success"
+      "conclusion": "failure"
+    },
+    "search-back-gestures": {
+      "status": "completed",
+      "conclusion": "failure"
     },
     "six-column-display (phone, Nexus S)": {
       "status": "completed",
       "conclusion": "success"
     },
-    "device-tests": {
-      "status": "completed",
-      "conclusion": "success"
-    },
-    "build": {
+    "signed-candidate": {
       "status": "completed",
       "conclusion": "success"
     },
@@ -24,82 +24,99 @@
       "status": "completed",
       "conclusion": "success"
     },
-    "candidate-upgrade-install": {
+    "build": {
       "status": "completed",
       "conclusion": "success"
+    },
+    "candidate-upgrade-install": {
+      "status": "in_progress",
+      "conclusion": null
     }
   },
   "artifacts": [
     {
-      "name": "signed-upgrade-install-report",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40844472001/artifacts/12885235368",
-      "bytes": 1257140
+      "name": "device-test-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40873887531/artifacts/12897672419",
+      "bytes": 7300174
     },
     {
       "name": "sakugapp-source",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40844472001/artifacts/12885080321",
-      "bytes": 1098789
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40873887531/artifacts/12897647333",
+      "bytes": 1109684
     },
     {
       "name": "sakugapp-debug",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40844472001/artifacts/12885035356",
-      "bytes": 16678544
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40873887531/artifacts/12897457170",
+      "bytes": 16696426
     },
     {
-      "name": "six-column-landscape-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40844472001/artifacts/12884895215",
-      "bytes": 2587793
+      "name": "search-back-gesture-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40873887531/artifacts/12897037990",
+      "bytes": 759651
     },
     {
       "name": "check-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40844472001/artifacts/12884830985",
-      "bytes": 123224
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40873887531/artifacts/12896993685",
+      "bytes": 126450
     },
     {
-      "name": "device-test-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40844472001/artifacts/12884242852",
-      "bytes": 5740150
-    },
-    {
-      "name": "six-column-phone-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40844472001/artifacts/12884222348",
-      "bytes": 139578
+      "name": "six-column-landscape-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40873887531/artifacts/12896863042",
+      "bytes": 2592097
     },
     {
       "name": "sakugapp-signed-candidate",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40844472001/artifacts/12883409946",
-      "bytes": 12887659
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40873887531/artifacts/12896659815",
+      "bytes": 12911373
+    },
+    {
+      "name": "six-column-phone-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40873887531/artifacts/12896289897",
+      "bytes": 203244
     }
   ],
   "tests": {
     "Debug": {
-      "tests": 107,
+      "tests": 112,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "Release": {
-      "tests": 107,
+      "tests": 112,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "device": {
-      "tests": 33,
-      "failures": 0,
+      "tests": 40,
+      "failures": 3,
       "errors": 0,
       "skipped": 0
     }
   },
-  "failures": [],
+  "failures": [
+    {
+      "test": "com.sakugapp.SearchNavigationDeviceTest.systemBackClosesTheImeThenTheEditorWithoutFinishingTheActivity",
+      "message": "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 10000 ms\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:504)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:339)\nat com.sakugapp.SearchNavigationDeviceTest.systemBackClosesTheImeThenTheEditorWithoutFinishingTheActivity(SearchNavigationDeviceTest.kt:90)\n"
+    },
+    {
+      "test": "com.sakugapp.UiSmokeTest.searchDialogKeepsCombinedQueryAndDisplaysTheReference",
+      "message": "java.lang.AssertionError: Failed to assert the following: (Text + InputText + EditableText contains '~mokmok ~artist_unknown -genga -rating:questionable id:>=100 order:mpixels' (ignoreCase: false))\nReason: Expected exactly '1' node but could not find any node that satisfies: (SetText is defined)\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.AssertionsKt.assert(Assertions.kt:258)\nat androidx.compose.ui.test.AssertionsKt.assert$default(Assertions.kt:250)\nat androidx.compose.ui.test.AssertionsKt.assertTextContains(Assertions.kt:204)\nat androidx.compose.ui.test.AssertionsKt.assertTextContains$default(Assertions.kt:200)\nat com.sakugapp.UiSmokeTest.searchDialogKeepsCombinedQueryAndDisplaysTheReference(UiSmokeTest.kt:85)\n"
+    },
+    {
+      "test": "com.sakugapp.PublicBrowseTest.actualPostSearchDetailsPlaybackAndFrameAnalysis",
+      "message": "java.lang.AssertionError: Failed: assertExists.\nReason: Expected exactly '1' node but could not find any node that satisfies: (Text + InputText + EditableText contains '[1.5×]' (ignoreCase: false))\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.assertExists(SemanticsNodeInteraction.kt:125)\nat androidx.compose.ui.test.SemanticsNodeInteraction.assertExists$default(SemanticsNodeInteraction.kt:124)\nat com.sakugapp.PublicBrowseTest.actualPostSearchDetailsPlaybackAndFrameAnalysis(PublicBrowseTest.kt:47)\n"
+    }
+  ],
   "lint": {
     "debug": {
       "errors": 0,
-      "warnings": 23
+      "warnings": 24
     },
     "release": {
       "errors": 0,
-      "warnings": 23
+      "warnings": 24
     }
   },
   "candidate": {
@@ -115,8 +132,8 @@
     "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff",
     "certificate_subject": "CN=Sakugapp Release",
     "validation_scope": "signed release verified",
-    "apk_sha256": "f0c5fc0a8f7d7afff3531094674152880efff8b22a1d55cacc0c40db2d66f2ec",
-    "apk_bytes": 12959591,
+    "apk_sha256": "a2b7deaa455a29e1f7f8de17a9306a94c3716f03e7dd58c239321453ccba404d",
+    "apk_bytes": 12977339,
     "abis": [
       "arm64-v8a",
       "armeabi-v7a",
@@ -173,31 +190,10 @@
         "machine": 62
       }
     ],
-    "source_commit": "b5947f9cb346419ca8617aa1301558fec0d04c91",
-    "unit_tests": 107,
+    "source_commit": "c61d36f8059593d895e45c345c44d874af17c3a7",
+    "unit_tests": 112,
     "lint_errors": 0,
-    "lint_warnings": 23,
+    "lint_warnings": 24,
     "distribution": "signed development candidate; no Release published"
-  },
-  "upgrade": {
-    "previous": {
-      "package": "com.sakugapp",
-      "versionCode": 6,
-      "versionName": "1.0.0",
-      "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff"
-    },
-    "candidate": {
-      "package": "com.sakugapp",
-      "versionCode": 11,
-      "versionName": "1.2.0",
-      "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff"
-    },
-    "retained_light_theme": true,
-    "system_night_mode": "yes",
-    "theme_verification": "actual rendered background pixels",
-    "retained_wrap_tags": true,
-    "retained_search_history": true,
-    "uninstall_or_clear_data": false,
-    "result": "passed"
   }
 }
