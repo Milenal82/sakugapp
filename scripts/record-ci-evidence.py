@@ -22,6 +22,7 @@ for path in root.rglob('TEST-*.xml'):
     for case in ET.parse(path).getroot().iter('testcase'):
         failure=case.find('failure')
         if failure is not None:report['failures'].append({'test':case.get('classname','')+'.'+case.get('name',''),'report':str(path.relative_to(root)),'message':(failure.text or failure.get('message',''))[:5000]})
+report['device_diagnostics']=[{'report':str(path.relative_to(root)),'tail':path.read_text(errors='replace')[-16000:]} for path in root.rglob('device-diagnostics/runner.log')]
 report['lint']={}
 for variant in ['debug','release']:
     paths=list(root.rglob(f'lint-results-{variant}.xml'))
@@ -34,12 +35,14 @@ upgrades=list(root.rglob('upgrade-install.json'))
 if upgrades:report['upgrade']=json.loads(upgrades[0].read_text())
 # Extract compiler/failed step diagnostics if no JUnit report could be produced.
 for job in jobs:
-    if job.get('conclusion')=='failure' and job['name'] in report['jobs']:
+    if job.get('conclusion') in ['failure','timed_out','cancelled'] and job['name'] in report['jobs']:
+        diagnostic={'job':job['name'],'conclusion':job['conclusion'],'message':'See the job and device diagnostics for this unsuccessful run.'}
         log=subprocess.run(['gh','api',f'repos/{repo}/actions/jobs/{job["id"]}/logs'],capture_output=True)
         if log.returncode==0:
             lines=log.stdout.decode(errors='replace').splitlines()
             selected=[line for line in lines if any(x in line for x in ['e: file:', 'FAILED','AssertionError','What went wrong','Caused by:','FAILURES!!!','##[error]'])]
-            report['failures'].append({'job':job['name'],'message':'\n'.join(selected)[-12000:]})
+            diagnostic['message']='\n'.join(selected)[-12000:] or diagnostic['message']
+        report['failures'].append(diagnostic)
 images=out/'screenshots';images.mkdir(exist_ok=True)
 captures=['history-page.png','tag-favorites-page.png','tag-note-editor.png','language-fr.png','language-es.png','language-ru.png','language-ko.png','posts-refreshing.png','posts-refresh-failed.png','six-columns-large-font.png','six-columns-landscape.png']
 captures += [f'combined-search-draft-{api}.png' for api in ['api28','api35']]+[f'search-return-{api}.png' for api in ['api28','api35']]

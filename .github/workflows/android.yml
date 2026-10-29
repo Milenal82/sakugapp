@@ -129,6 +129,7 @@ jobs:
             app/build/reports/androidTests/
             app/build/outputs/androidTest-results/
             app/build/reports/ui-evidence/
+            app/build/reports/device-diagnostics/
           if-no-files-found: warn
   search-back-gestures:
     if: ${{ !github.event.inputs.release_tag && github.event.inputs.build_signed_candidate != 'true' && github.event.inputs.update_screenshots != 'true' }}

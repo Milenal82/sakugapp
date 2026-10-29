@@ -20,6 +20,16 @@ class SearchAndCaptionTest {
             val unknown=SearchSyntax.draft(raw);assertEquals("keep",unknown.order);assertEquals("keep",unknown.rating)
             assertEquals(raw,SearchSyntax.filters(unknown.expression,unknown.order,unknown.rating))
         }
+        val quoted="source:\"clip score:10 order:id rating:safe\" kiki's_delivery_service custom:unknown"
+        assertEquals("$quoted order:portrait",SearchSyntax.filters(quoted,"portrait"))
+        assertEquals("$quoted rating:explicit",SearchSyntax.filters(quoted,rating="explicit"))
+        assertEquals("$quoted score:>=3",SearchSyntax.score(quoted,"score:>=3"))
+        assertEquals("score",SearchSyntax.draft("$quoted order:score").order)
+        assertEquals("$quoted order:score",SearchSyntax.draft("$quoted order:score").expression)
+        assertEquals(listOf("kiki's_delivery_service","order:score"),SearchSyntax.tokens("kiki's_delivery_service order:score"))
+        assertEquals("source:clip\\ order:id score:>=3",SearchSyntax.score("source:clip\\ order:id","score:>=3"))
+        val unfinished="source:\"clip order:score"
+        assertEquals("$unfinished order:portrait",SearchSyntax.filters(unfinished,"portrait"))
     }
     @Test fun publicSummaryWithUnicodeSeparatorKeepsOtherRecordsAndDoesNotInventSplitNames() {
         val body=javaClass.getResource("/live/tag-summary-malformed-record.json")!!.readText()

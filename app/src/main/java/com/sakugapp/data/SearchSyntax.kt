@@ -6,7 +6,6 @@ object SearchSyntax {
     data class Draft(val expression:String,val order:String="keep",val rating:String="keep")
     /** Select only unique, understood fields; retain every original token in the editable expression. */
     fun draft(query:String):Draft {
-        if(query.any{it=='\'' || it=='"'})return Draft(query)
         fun value(fieldName:String,allowed:List<String>):String {
             val fields=tokens(query).filter{field(it)==fieldName}
             val token=fields.singleOrNull() ?: return "keep"
@@ -20,8 +19,23 @@ object SearchSyntax {
         require(preset in scorePresets)
         return (tokens(query).filterNot{field(it)=="score"}+preset).joinToString(" ")
     }
-    fun tokens(query: String) = query.trim().split(Regex("\\s+")).filter(String::isNotBlank)
-    fun field(token: String): String? = token.removePrefix("-").substringBefore(':', "").takeIf(String::isNotBlank)
+    /** Keep quoted/escaped raw values together, including unfinished input; never rewrite their contents. */
+    fun tokens(query:String):List<String> {
+        val terms=mutableListOf<String>();var start=-1;var quote:Char?=null;var escaped=false
+        for(index in query.indices){
+            val char=query[index]
+            if(start<0){if(char.isWhitespace())continue;start=index}
+            if(escaped){escaped=false;continue}
+            if(char=='\\'){escaped=true;continue}
+            if(quote!=null){if(char==quote)quote=null}
+            else if(char=='"' || (char=='\'' && (index==start || query[index-1]==':')))quote=char
+            else if(char.isWhitespace()){terms+=query.substring(start,index);start=-1}
+        }
+        if(start>=0)terms+=query.substring(start)
+        return terms
+    }
+    fun field(token:String):String? = token.takeUnless{it.any{char->char=='"' || char=='\''}}
+        ?.removePrefix("-")?.substringBefore(':',"")?.takeIf(String::isNotBlank)
     fun filters(query: String, order: String = "keep", rating: String = "keep"): String {
         require(order in orders || order in setOf("keep", "date"))
         require(rating in setOf("keep", "all", "safe", "questionable", "explicit"))
