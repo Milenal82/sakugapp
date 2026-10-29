@@ -15,6 +15,10 @@
 
 Debug APK：`app/build/outputs/apk/debug/app-debug.apk`；CI 构件 `maintenance-debug-apk`。数据格式见[备份说明](backup-format.md)。未覆盖所有实体设备、OEM 文件提供程序、横屏和每种语言的人工视觉审查；旧测试结果不能代替本轮结果。
 
+首次 CI [40966510830](https://github.com/Milenal82/sakugapp/actions/runs/40966510830) 在源码 `de2d113` 上完成 4/4 项数据库设备测试：空库恢复/重开核对、同名夹独立恢复、旧格式与冲突、失败原子性全部通过。页面用例暴露了放大字体下浮块文本测量边界，后续调整浮块本征宽度，并检查实际字形边界和省略状态。现有回归测试中的旧按钮文案定位改为组件标识；字体放大时先滚动到收藏夹再点击，不删除原断言。
+
+该提交的原有主 CI 构建、Debug/Release 各 120 项单测和 Lint 已通过（CI Lint 0 错误 / 32 警告）。API 35 任务在安装 Google 系统镜像时失败：`Error on ZipFile unknown archive`，未启动模拟器、未产生 JUnit 结果；这是该次下载失败的实际证据，不视为设备用例通过。后续同提交验证仍以本轮证据中的 SHA/结论为准。
+
 以下保留历史开发记录。
 
 # 下载、组合搜索、返回导航与播放器面板增量

@@ -27,7 +27,7 @@ class CompactInterfaceDeviceTest {
         runBlocking{app.preferences.remember("id:319947")}
         ui.waitUntil(10000){"id:319947" in app.history.value}
         ui.onNodeWithTag("search-input").assertDoesNotExist()
-        ui.onNodeWithText("Filters",substring=false).assertDoesNotExist()
+        ui.onNodeWithTag("open-combined-search").assertDoesNotExist()
         ui.onNodeWithTag("search-history").assertDoesNotExist()
         val gridBounds=ui.onNodeWithTag("post-grid").fetchSemanticsNode().boundsInRoot
         ui.waitUntil(60000){feed.state.value.posts.isNotEmpty() || feed.state.value.error!=null}
@@ -50,13 +50,13 @@ class CompactInterfaceDeviceTest {
         assertEquals(gridBounds.top,ui.onNodeWithTag("post-grid").fetchSemanticsNode().boundsInRoot.top)
         if(before!=null)assertEquals(before.top,ui.onNodeWithTag("post-media-$anchor").fetchSemanticsNode().boundsInRoot.top)
         UiEvidence.capture("compact-search-expanded.png")
-        ui.onNodeWithText("History",substring=false).performClick()
+        ui.onNodeWithTag("search-history-toggle").performScrollTo().performClick()
         ui.onNodeWithTag("search-history").assertIsDisplayed()
         ui.onNode(hasText("id:319947") and hasAnyAncestor(hasTestTag("search-history"))).performClick()
         ui.waitUntil(10000){feed.state.value.query=="id:319947"}
         ui.onNodeWithTag("search-input").assertDoesNotExist()
         ui.onNodeWithTag("search-entry").performClick()
-        ui.onNodeWithText("Filters",substring=false).performClick()
+        ui.onNodeWithTag("open-combined-search").performScrollTo().performClick()
         ui.onNodeWithText("score:>=3",substring=false).performScrollTo().performClick()
         ui.onNodeWithText("Apply",substring=false).performClick()
         ui.waitUntil(10000){feed.state.value.query=="id:319947 score:>=3"}

@@ -57,7 +57,18 @@ class MaintenanceUiDeviceTest {
         ui.onNode(hasText(ui.activity.getString(label), substring = false) and hasAnyAncestor(hasTestTag(tag)), useUnmergedTree = true)
             .performSemanticsAction(SemanticsActions.GetTextLayoutResult) { it(layouts) }
         assertTrue("$tag has a real text layout", layouts.isNotEmpty())
-        assertTrue("$tag wraps rather than clipping text", layouts.none { it.hasVisualOverflow })
+        for (layout in layouts) {
+            println("$tag text=${layout.layoutInput.text} size=${layout.size} lines=${layout.lineCount} overflow=${layout.hasVisualOverflow}")
+            assertFalse("$tag has enough height", layout.didOverflowHeight)
+            assertTrue("$tag does not ellipsize its label", (0 until layout.lineCount).none { layout.isLineEllipsized(it) })
+            layout.layoutInput.text.forEachIndexed { index, char ->
+                if (!char.isWhitespace()) {
+                    val glyph = layout.getBoundingBox(index)
+                    assertTrue("$tag visible glyph $index stays inside its text bounds: $glyph / ${layout.size}",
+                        glyph.left >= -1f && glyph.right <= layout.size.width + 1f)
+                }
+            }
+        }
     }
 
     @Test fun searchHistoryAndSettingsKeepNativeStateInBothThemes() {
@@ -93,6 +104,7 @@ class MaintenanceUiDeviceTest {
                 menu(R.string.ui_posts)
                 ui.onNodeWithTag("search-entry").performClick()
                 hideIme()
+                UiEvidence.capture("maintenance-search-$theme.png")
                 readableTool("open-combined-search", R.string.ui_search_tools)
                 ui.onNodeWithTag("search-history-toggle").performScrollTo().performClick().assertIsSelected()
                 readableTool("search-history-toggle", R.string.ui_search_history)

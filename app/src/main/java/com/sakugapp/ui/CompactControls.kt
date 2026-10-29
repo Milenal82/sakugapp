@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
     Surface(
         onClick = onClick,
         enabled = enabled,
-        modifier = modifier.widthIn(max = 360.dp).heightIn(min = 48.dp).semantics {
+        modifier = modifier.widthIn(max = 360.dp).width(IntrinsicSize.Max).heightIn(min = 48.dp).semantics {
             role = Role.Button
             selected?.let { this.selected = it }
         },
@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.dp
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Icon(painterResource(icon), null, Modifier.size(20.dp))
-            Text(label, Modifier.weight(1f, fill = false), style = MaterialTheme.typography.labelLarge)
+            Text(label, Modifier.weight(1f), style = MaterialTheme.typography.labelLarge)
             if (active) Text("✓", style = MaterialTheme.typography.labelLarge)
         }
     }

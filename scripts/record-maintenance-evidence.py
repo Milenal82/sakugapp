@@ -8,6 +8,7 @@ import datetime
 import json
 import os
 import pathlib
+import re
 import shutil
 import subprocess
 import tempfile
@@ -88,10 +89,11 @@ def failed_job_diagnostics(jobs):
         if job['conclusion'] not in ['failure', 'timed_out', 'cancelled']:
             continue
         message = 'See the Actions job for this unsuccessful check.'
-        result = subprocess.run(['gh', 'api', f'repos/{REPO}/actions/jobs/{job["id"]}/logs'],
+        result = subprocess.run(['gh', 'api', '--allow-escape-sequences', f'repos/{REPO}/actions/jobs/{job["id"]}/logs'],
                                 capture_output=True)
         if result.returncode == 0:
-            selected = [line for line in result.stdout.decode(errors='replace').splitlines()
+            log = re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]', '', result.stdout.decode(errors='replace'))
+            selected = [line for line in log.splitlines()
                         if any(marker in line for marker in ['e: file:', 'FAILED', 'AssertionError',
                                'What went wrong', 'Caused by:', 'FAILURES!!!', '##[error]'])]
             message = '\n'.join(selected)[-12000:] or message

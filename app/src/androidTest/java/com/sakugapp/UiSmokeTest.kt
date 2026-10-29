@@ -64,7 +64,7 @@ class UiSmokeTest {
     @Test fun scoreShortcutsReplaceOnlyTheScoreCondition(){
         ui.onNodeWithTag("search-entry").performClick()
         ui.onNode(hasSetTextAction()).performTextReplacement("~mokmok ~artist_unknown score:>1 -rating:questionable order:score")
-        ui.onNodeWithText("Filters").performClick()
+        ui.onNodeWithTag("open-combined-search").performScrollTo().performClick()
         ui.onNodeWithText("score:>=3",substring=false).performScrollTo().performClick()
         ui.onNodeWithTag("query-expression").assertTextContains("~mokmok ~artist_unknown -rating:questionable order:score score:>=3")
         ui.onNodeWithText("score:>=100",substring=false).performScrollTo().performClick()
@@ -75,9 +75,9 @@ class UiSmokeTest {
         val query="~mokmok ~artist_unknown -genga -rating:questionable id:>=100 order:mpixels"
         ui.onNodeWithTag("search-entry").performClick()
         ui.onNode(hasSetTextAction()).performTextReplacement(query)
-        ui.onNodeWithText("Filters").performClick()
+        ui.onNodeWithTag("open-combined-search").performScrollTo().performClick()
         ui.onNodeWithTag("query-expression").assertTextContains(query)
-        ui.onNodeWithText("Search reference").performClick()
+        ui.onNodeWithTag("search-reference-tool").performScrollTo().performClick()
         ui.onNodeWithText("Both tags (AND)").performScrollTo().assertIsDisplayed()
         ui.onNodeWithText("~tag1 ~tag2").performScrollTo().performClick()
         ui.onNodeWithTag("query-expression").assertTextContains("~tag1 ~tag2")
