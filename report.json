@@ -1,14 +1,10 @@
 {
-  "source_commit": "c655766aeb0a693c35301ddbf02cac731e917c66",
-  "run_id": "40878965968",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968",
-  "captured_utc": "2026-10-29T13:32:02.217950+00:00",
+  "source_commit": "9f5f6c316980a4829f1c98e56b3c0469c5350b39",
+  "run_id": "40884609313",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40884609313",
+  "captured_utc": "2026-10-29T13:52:04.399776+00:00",
   "jobs": {
-    "build": {
-      "status": "completed",
-      "conclusion": "success"
-    },
-    "six-column-display (phone, Nexus S)": {
+    "signed-candidate": {
       "status": "completed",
       "conclusion": "success"
     },
@@ -16,11 +12,7 @@
       "status": "completed",
       "conclusion": "success"
     },
-    "device-tests": {
-      "status": "completed",
-      "conclusion": "cancelled"
-    },
-    "signed-candidate": {
+    "build": {
       "status": "completed",
       "conclusion": "success"
     },
@@ -28,56 +20,54 @@
       "status": "completed",
       "conclusion": "success"
     },
-    "candidate-upgrade-install": {
+    "device-tests": {
       "status": "completed",
       "conclusion": "success"
+    },
+    "six-column-display (phone, Nexus S)": {
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    "candidate-upgrade-install": {
+      "status": "in_progress",
+      "conclusion": null
     }
   },
   "artifacts": [
     {
-      "name": "device-test-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968/artifacts/12901606035",
-      "bytes": 34655
-    },
-    {
-      "name": "signed-upgrade-install-report",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968/artifacts/12900376301",
-      "bytes": 1295441
-    },
-    {
-      "name": "sakugapp-debug",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968/artifacts/12900071002",
-      "bytes": 16696148
-    },
-    {
-      "name": "six-column-phone-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968/artifacts/12899801700",
-      "bytes": 196599
-    },
-    {
-      "name": "search-back-gesture-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968/artifacts/12899537645",
-      "bytes": 1710995
-    },
-    {
-      "name": "sakugapp-source",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968/artifacts/12899383831",
-      "bytes": 1112201
-    },
-    {
       "name": "check-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968/artifacts/12899254006",
-      "bytes": 124247
-    },
-    {
-      "name": "sakugapp-signed-candidate",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968/artifacts/12899178736",
-      "bytes": 12912988
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40884609313/artifacts/12902945168",
+      "bytes": 124268
     },
     {
       "name": "six-column-landscape-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968/artifacts/12898649079",
-      "bytes": 2463448
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40884609313/artifacts/12902601150",
+      "bytes": 2369985
+    },
+    {
+      "name": "sakugapp-signed-candidate",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40884609313/artifacts/12902591236",
+      "bytes": 12914936
+    },
+    {
+      "name": "search-back-gesture-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40884609313/artifacts/12902407090",
+      "bytes": 1860504
+    },
+    {
+      "name": "sakugapp-debug",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40884609313/artifacts/12901103847",
+      "bytes": 16696217
+    },
+    {
+      "name": "sakugapp-source",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40884609313/artifacts/12901028967",
+      "bytes": 1113471
+    },
+    {
+      "name": "device-test-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40884609313/artifacts/12900964279",
+      "bytes": 7394459
     }
   ],
   "tests": {
@@ -94,13 +84,20 @@
       "skipped": 0
     },
     "device": {
-      "tests": 6,
+      "tests": 38,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "failures": [],
+  "failures": [
+    {
+      "job": "six-column-display (phone, Nexus S)",
+      "conclusion": "failure",
+      "message": "See the job and device diagnostics for this unsuccessful run."
+    }
+  ],
+  "device_diagnostics": [],
   "lint": {
     "debug": {
       "errors": 0,
@@ -124,7 +121,7 @@
     "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff",
     "certificate_subject": "CN=Sakugapp Release",
     "validation_scope": "signed release verified",
-    "apk_sha256": "f0dfd99775e4e290aaca77d4e9b24132340b60b5a91b33be35f4d165265e0699",
+    "apk_sha256": "2bc841f9043121c3db6811b07a6d4b340bed00ca965f36800fc2e893893a84e3",
     "apk_bytes": 12976763,
     "abis": [
       "arm64-v8a",
@@ -182,31 +179,10 @@
         "machine": 62
       }
     ],
-    "source_commit": "c655766aeb0a693c35301ddbf02cac731e917c66",
+    "source_commit": "9f5f6c316980a4829f1c98e56b3c0469c5350b39",
     "unit_tests": 112,
     "lint_errors": 0,
     "lint_warnings": 23,
     "distribution": "signed development candidate; no Release published"
-  },
-  "upgrade": {
-    "previous": {
-      "package": "com.sakugapp",
-      "versionCode": 6,
-      "versionName": "1.0.0",
-      "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff"
-    },
-    "candidate": {
-      "package": "com.sakugapp",
-      "versionCode": 11,
-      "versionName": "1.2.0",
-      "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff"
-    },
-    "retained_light_theme": true,
-    "system_night_mode": "yes",
-    "theme_verification": "actual rendered background pixels",
-    "retained_wrap_tags": true,
-    "retained_search_history": true,
-    "uninstall_or_clear_data": false,
-    "result": "passed"
   }
 }
