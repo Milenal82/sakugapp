@@ -2,6 +2,8 @@
 package com.sakugapp
 
 import androidx.compose.ui.test.*
+import androidx.compose.ui.semantics.*
+import com.google.gson.JsonParser
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.lifecycle.ViewModelProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -53,7 +55,8 @@ class PersonalFeatureUiDeviceTest {
             menu("Favorites");ui.onNodeWithTag("tag-favorites-entry").performClick()
             ui.onNodeWithTag("saved-tags-search").performTextInput("local note")
             ui.onNodeWithTag("saved-tag-mokmok").assertIsDisplayed()
-            UiEvidence.capture("tag-favorites-page.png")
+            ui.runOnUiThread{(ui.activity.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager).hideSoftInputFromWindow(ui.activity.window.decorView.windowToken,0)}
+            ui.waitForIdle();UiEvidence.capture("tag-favorites-page.png")
             ui.onNodeWithTag("saved-tag-options-mokmok").performClick()
             ui.onNodeWithTag("edit-tag-note").performClick()
             UiEvidence.capture("tag-note-editor.png")
@@ -68,6 +71,25 @@ class PersonalFeatureUiDeviceTest {
             assertEquals("Local revised note",app.tagNotes.value.single{it.name=="mokmok"}.note)
             assertTrue(app.viewedPosts.value.isEmpty())
         }finally{runBlocking{app.personal.recording(true);app.personal.clearHistory();app.personal.removeTag("mokmok");app.personal.note("mokmok","");app.localLibrary.membership(post,1,false)}}
+    }
+    @Test fun historyReturnRestoresScrolledPositionAfterRecencyReorderingAndSingleDelete(){
+        val app=app();val instrumentation=InstrumentationRegistry.getInstrumentation();val device=UiDevice.getInstance(instrumentation)
+        val posts=instrumentation.context.assets.open("posts-five-pages.json").bufferedReader().use{PostParser.posts(JsonParser.parseString(it.readText()).asJsonArray[0].toString())}.take(24)
+        runBlocking{app.personal.clearHistory();app.personal.recording(true);posts.forEach{app.personal.record(it)}}
+        try{
+            menu("Browsing history");ui.waitUntil(10000){app.viewedPosts.value.size==24}
+            ui.onNodeWithTag("browsing-history-list").performScrollToIndex(8)
+            val bounds=ui.onNodeWithTag("browsing-history-list").fetchSemanticsNode().boundsInRoot
+            val row=ui.onAllNodes(hasClickAction()).fetchSemanticsNodes().last{node->node.config.getOrNull(SemanticsProperties.TestTag)?.startsWith("viewed-post-")==true && node.boundsInRoot.top>=bounds.top && node.boundsInRoot.bottom<=bounds.bottom}
+            val tag=row.config[SemanticsProperties.TestTag]
+            val before=ui.onNodeWithTag("browsing-history-list").fetchSemanticsNode().config[SemanticsProperties.VerticalScrollAxisRange].value()
+            ui.onNodeWithTag(tag).performClick();ui.onNodeWithTag("detail-post-id").performScrollTo().assertIsDisplayed();device.pressBack()
+            ui.waitForIdle()
+            val after=ui.onNodeWithTag("browsing-history-list").fetchSemanticsNode().config[SemanticsProperties.VerticalScrollAxisRange].value()
+            assertEquals("History scroll position survives detail recency update",before.toDouble(),after.toDouble(),2.0)
+            val visible=ui.onAllNodes(hasClickAction()).fetchSemanticsNodes().first{node->node.config.getOrNull(SemanticsProperties.TestTag)?.startsWith("remove-viewed-")==true && node.boundsInRoot.top>=bounds.top && node.boundsInRoot.bottom<=bounds.bottom}
+            ui.onNodeWithTag(visible.config[SemanticsProperties.TestTag]).performClick();ui.waitUntil(10000){app.viewedPosts.value.size==23}
+        }finally{runBlocking{app.personal.clearHistory();app.personal.recording(true)}}
     }
     @Test fun newLanguagePickerPersistsAcrossRecreationAndKeepsWebsiteLocaleSeparate(){
         val app=app()

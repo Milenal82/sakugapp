@@ -316,7 +316,6 @@
     <string name="ui_rename">Rename</string>
     <string name="ui_delete_folder">Delete folder</string>
     <string name="ui_relationship_delete_warning">Only local favorite relationships are removed. Downloaded videos are kept.</string>
-    <string name="ui_posts_count">%1$d posts</string>
     <string name="ui_quick_favorite">Favorite</string>
     <string name="ui_manage_folders">Favorite folders</string>
     <string name="ui_saved_local">Favorited</string>
@@ -384,7 +383,6 @@
     <string name="ui_refresh_failed">Refresh failed. Existing posts were kept.</string>
     <string name="ui_browsing_history">Browsing history</string>
     <string name="ui_record_browsing_history">Record browsing history</string>
-    <string name="ui_history_retention">Local only. Keep up to %1$d posts or 8 MiB; oldest entries are removed first.</string>
     <string name="ui_browsing_history_empty">No browsing history</string>
     <string name="ui_remove_history_entry">Remove history entry</string>
     <string name="ui_clear_browsing_history">Clear browsing history</string>
@@ -397,7 +395,6 @@
     <string name="ui_add_tag_note">Add tag note</string>
     <string name="ui_edit_tag_note">Edit tag note</string>
     <string name="ui_clear_tag_note">Clear tag note</string>
-    <string name="ui_note_limit">Up to %1$d characters and 8 lines. Stored only on this device.</string>
     <string name="ui_note_length_error">Use at most 500 characters and 8 lines.</string>
     <string name="ui_literal_tags_only">Choose an ordinary tag. Field conditions and wildcards cannot be saved as tags.</string>
     <string name="ui_sort_tags">Sort tags</string>
@@ -413,5 +410,13 @@
     <plurals name="ui_post_quantity">
         <item quantity="one">%1$d post</item>
         <item quantity="other">%1$d posts</item>
+    </plurals>
+    <plurals name="ui_history_retention">
+        <item quantity="one">Local only. Keep up to %1$d post or 8 MiB; oldest entries are removed first.</item>
+        <item quantity="other">Local only. Keep up to %1$d posts or 8 MiB; oldest entries are removed first.</item>
+    </plurals>
+    <plurals name="ui_note_limit">
+        <item quantity="one">Up to %1$d character and 8 lines. Stored only on this device.</item>
+        <item quantity="other">Up to %1$d characters and 8 lines. Stored only on this device.</item>
     </plurals>
 </resources>

@@ -7,7 +7,7 @@ import java.io.File
 
 /** Exports only the public/fixture screens explicitly captured by these tests. */
 internal object UiEvidence {
-    fun capture(name:String){
+    fun capture(name:String):File{
         require(name.matches(Regex("[a-z0-9-]+\\.png")))
         val instrumentation=InstrumentationRegistry.getInstrumentation();val device=UiDevice.getInstance(instrumentation)
         instrumentation.waitForIdleSync();device.waitForIdle();Thread.sleep(500)
@@ -19,5 +19,6 @@ internal object UiEvidence {
         device.executeShellCommand("cp ${file.absolutePath} /sdcard/Download/sakugapp-ui-evidence/$name")
         val bytes=device.executeShellCommand("stat -c %s /sdcard/Download/sakugapp-ui-evidence/$name").trim().toLongOrNull()
         check(bytes!=null && bytes>0){"Screenshot export failed: $name"}
+        return file
     }
 }

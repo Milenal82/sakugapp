@@ -311,7 +311,6 @@
     <string name="ui_rename">名前を変更</string>
     <string name="ui_delete_folder">フォルダーを削除</string>
     <string name="ui_relationship_delete_warning">ローカルの登録だけを削除します。ダウンロード済みの動画は残ります。</string>
-    <string name="ui_posts_count">%1$d 件の投稿</string>
     <string name="ui_quick_favorite">お気に入り</string>
     <string name="ui_manage_folders">保存先</string>
     <string name="ui_saved_local">保存済み</string>
@@ -379,7 +378,6 @@
     <string name="ui_refresh_failed">更新できませんでした。表示中の投稿は保持されています。</string>
     <string name="ui_browsing_history">閲覧履歴</string>
     <string name="ui_record_browsing_history">閲覧履歴を記録</string>
-    <string name="ui_history_retention">端末内のみ。最大 %1$d 件または 8 MiB。古い履歴から削除します。</string>
     <string name="ui_browsing_history_empty">閲覧履歴なし</string>
     <string name="ui_remove_history_entry">この履歴を削除</string>
     <string name="ui_clear_browsing_history">閲覧履歴を消去</string>
@@ -392,7 +390,6 @@
     <string name="ui_add_tag_note">タグメモを追加</string>
     <string name="ui_edit_tag_note">タグメモを編集</string>
     <string name="ui_clear_tag_note">タグメモを消去</string>
-    <string name="ui_note_limit">最大 %1$d 文字、8 行。端末内のみに保存。</string>
     <string name="ui_note_length_error">500 文字、8 行以内で入力してください。</string>
     <string name="ui_literal_tags_only">通常のタグを選んでください。検索条件やワイルドカードは保存できません。</string>
     <string name="ui_sort_tags">タグの並び順</string>
@@ -403,5 +400,11 @@
     <string name="ui_tag_favorites_empty">お気に入りタグはありません。投稿のタグを長押しするか、検索結果の保存アイコンから追加できます。</string>
     <plurals name="ui_post_quantity">
         <item quantity="other">%1$d 件</item>
+    </plurals>
+    <plurals name="ui_history_retention">
+        <item quantity="other">端末内のみ。最大 %1$d 件または 8 MiB。古い履歴から削除します。</item>
+    </plurals>
+    <plurals name="ui_note_limit">
+        <item quantity="other">最大 %1$d 文字、8 行。端末内のみに保存。</item>
     </plurals>
 </resources>

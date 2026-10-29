@@ -307,7 +307,6 @@
     <string name="ui_rename">Renombrar</string>
     <string name="ui_delete_folder">Eliminar carpeta</string>
     <string name="ui_relationship_delete_warning">Solo se eliminan las relaciones de favoritos locales. Se conservan los vídeos descargados.</string>
-    <string name="ui_posts_count">%1$d publicaciones</string>
     <string name="ui_quick_favorite">Añadir a favoritos</string>
     <string name="ui_manage_folders">Carpetas de favoritos</string>
     <string name="ui_saved_local">En favoritos</string>
@@ -373,7 +372,6 @@
     <string name="ui_refresh_failed">Error al actualizar. Se conservan las publicaciones actuales.</string>
     <string name="ui_browsing_history">Historial de navegación</string>
     <string name="ui_record_browsing_history">Registrar historial de navegación</string>
-    <string name="ui_history_retention">Solo local. Hasta %1$d publicaciones u 8 MiB; se eliminan primero las más antiguas.</string>
     <string name="ui_browsing_history_empty">Sin historial de navegación</string>
     <string name="ui_remove_history_entry">Eliminar entrada del historial</string>
     <string name="ui_clear_browsing_history">Borrar historial de navegación</string>
@@ -386,7 +384,6 @@
     <string name="ui_add_tag_note">Añadir nota a la etiqueta</string>
     <string name="ui_edit_tag_note">Editar nota de etiqueta</string>
     <string name="ui_clear_tag_note">Borrar nota de etiqueta</string>
-    <string name="ui_note_limit">Hasta %1$d caracteres y 8 líneas. Solo en este dispositivo.</string>
     <string name="ui_note_length_error">Máximo 500 caracteres y 8 líneas.</string>
     <string name="ui_literal_tags_only">Elige una etiqueta normal. No se pueden guardar condiciones de campo ni comodines.</string>
     <string name="ui_sort_tags">Ordenar etiquetas</string>
@@ -405,5 +402,15 @@
         <item quantity="one">%1$d publicación</item>
         <item quantity="many">%1$d publicaciones</item>
         <item quantity="other">%1$d publicaciones</item>
+    </plurals>
+    <plurals name="ui_history_retention">
+        <item quantity="one">Solo local. Hasta %1$d publicación u 8 MiB; se eliminan primero las más antiguas.</item>
+        <item quantity="many">Solo local. Hasta %1$d publicaciones u 8 MiB; se eliminan primero las más antiguas.</item>
+        <item quantity="other">Solo local. Hasta %1$d publicaciones u 8 MiB; se eliminan primero las más antiguas.</item>
+    </plurals>
+    <plurals name="ui_note_limit">
+        <item quantity="one">Hasta %1$d carácter y 8 líneas. Solo en este dispositivo.</item>
+        <item quantity="many">Hasta %1$d caracteres y 8 líneas. Solo en este dispositivo.</item>
+        <item quantity="other">Hasta %1$d caracteres y 8 líneas. Solo en este dispositivo.</item>
     </plurals>
 </resources>

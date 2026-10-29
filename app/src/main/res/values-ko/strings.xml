@@ -307,7 +307,6 @@
     <string name="ui_rename">이름 변경</string>
     <string name="ui_delete_folder">폴더 삭제</string>
     <string name="ui_relationship_delete_warning">로컬 즐겨찾기 연결만 삭제됩니다. 다운로드한 동영상은 유지됩니다.</string>
-    <string name="ui_posts_count">게시물 %1$d개</string>
     <string name="ui_quick_favorite">즐겨찾기</string>
     <string name="ui_manage_folders">즐겨찾기 폴더</string>
     <string name="ui_saved_local">즐겨찾기에 저장됨</string>
@@ -373,7 +372,6 @@
     <string name="ui_refresh_failed">새로고침하지 못했습니다. 기존 게시물은 유지됩니다.</string>
     <string name="ui_browsing_history">열람 기록</string>
     <string name="ui_record_browsing_history">열람 기록 저장</string>
-    <string name="ui_history_retention">이 기기에만 저장합니다. 최대 %1$d개 또는 8 MiB이며 오래된 기록부터 삭제합니다.</string>
     <string name="ui_browsing_history_empty">열람 기록이 없습니다</string>
     <string name="ui_remove_history_entry">열람 기록 항목 삭제</string>
     <string name="ui_clear_browsing_history">열람 기록 지우기</string>
@@ -386,7 +384,6 @@
     <string name="ui_add_tag_note">태그 메모 추가</string>
     <string name="ui_edit_tag_note">태그 메모 편집</string>
     <string name="ui_clear_tag_note">태그 메모 지우기</string>
-    <string name="ui_note_limit">최대 %1$d자, 8줄. 이 기기에만 저장됩니다.</string>
     <string name="ui_note_length_error">500자, 8줄 이내로 입력하세요.</string>
     <string name="ui_literal_tags_only">일반 태그를 선택하세요. 필드 조건과 와일드카드는 태그로 저장할 수 없습니다.</string>
     <string name="ui_sort_tags">태그 정렬</string>
@@ -403,5 +400,11 @@
     <string name="ui_playback_time_value">%1$s / %2$s</string>
     <plurals name="ui_post_quantity">
         <item quantity="other">게시물 %1$d개</item>
+    </plurals>
+    <plurals name="ui_history_retention">
+        <item quantity="other">이 기기에만 저장합니다. 최대 %1$d개 또는 8 MiB이며 오래된 기록부터 삭제합니다.</item>
+    </plurals>
+    <plurals name="ui_note_limit">
+        <item quantity="other">최대 %1$d자, 8줄. 이 기기에만 저장됩니다.</item>
     </plurals>
 </resources>

@@ -54,7 +54,7 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel) {
         SettingSwitch(text(R.string.ui_record_browsing_history),recording){value->scope.launch{try{model.personal.recording(value)}catch(e:CancellationException){throw e}catch(e:Exception){message=libraryError(context,e)}}}
         Text(text(R.string.ui_appearance),style=MaterialTheme.typography.titleLarge)
         Text(text(R.string.ui_grid_columns))
-        FlowRow{for(columns in GridPolicy.options(LocalConfiguration.current.smallestScreenWidthDp))FilterChip(selected=settings.columns==columns,onClick={model.columns(columns)},label={Text(columns.toString())})}
+        FlowRow{for(columns in GridPolicy.options(LocalConfiguration.current.smallestScreenWidthDp))FilterChip(selected=settings.columns==columns,onClick={model.columns(columns)},modifier=Modifier.testTag("setting-columns-$columns"),label={Text(columns.toString())})}
         Text(text(R.string.ui_theme_mode))
         FlowRow{for((mode,label)in listOf("system" to R.string.ui_theme_system,"dark" to R.string.ui_theme_dark,"light" to R.string.ui_theme_light))FilterChip(selected=settings.themeMode==mode,onClick={model.theme(mode)},modifier=Modifier.semantics{contentDescription=context.getString(label)},label={Text(text(label))})}
         Text(text(R.string.ui_card_spacing,settings.cardSpacing.toInt().toString()))

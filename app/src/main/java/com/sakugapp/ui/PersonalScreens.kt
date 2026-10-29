@@ -84,7 +84,7 @@ import java.time.format.*
         Row(Modifier.fillMaxWidth().padding(horizontal=12.dp),verticalAlignment=Alignment.CenterVertically){
             Text(text(R.string.ui_record_browsing_history),Modifier.weight(1f));Switch(recording,{operation{app.personal.recording(it)}},modifier=Modifier.testTag("record-browsing-history").semantics{contentDescription=context.getString(R.string.ui_record_browsing_history)})
         }
-        Text(text(R.string.ui_history_retention,PersonalRules.HISTORY_CAPACITY),style=MaterialTheme.typography.bodySmall,modifier=Modifier.padding(horizontal=12.dp))
+        Text(androidx.compose.ui.res.pluralStringResource(R.plurals.ui_history_retention,PersonalRules.HISTORY_CAPACITY,PersonalRules.HISTORY_CAPACITY),style=MaterialTheme.typography.bodySmall,modifier=Modifier.padding(horizontal=12.dp))
         failure?.let{Text(libraryError(context,it),color=MaterialTheme.colorScheme.error)}
         error?.let{Text(it,color=MaterialTheme.colorScheme.error)}
         if(rows.isEmpty())Text(text(R.string.ui_browsing_history_empty),Modifier.padding(16.dp))

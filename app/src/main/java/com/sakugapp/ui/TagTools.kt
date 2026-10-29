@@ -42,7 +42,7 @@ internal fun tagColor(tag:Tag,light:Boolean)=when(tag.category){TagCategory.ARTI
         Text(name,style=MaterialTheme.typography.labelLarge)
         OutlinedTextField(draft,{draft=it},label={Text(text(R.string.ui_tag_note))},minLines=2,maxLines=6,
             modifier=Modifier.fillMaxWidth().testTag("tag-note-input"),isError=!valid,
-            supportingText={Text(text(R.string.ui_note_limit,PersonalRules.NOTE_LENGTH))})
+            supportingText={Text(androidx.compose.ui.res.pluralStringResource(R.plurals.ui_note_limit,PersonalRules.NOTE_LENGTH,PersonalRules.NOTE_LENGTH))})
         if(!valid)Text(text(R.string.ui_note_length_error),color=MaterialTheme.colorScheme.error)
         error?.let{Text(it,color=MaterialTheme.colorScheme.error)}
     }},confirmButton={TextButton(enabled=valid,onClick={scope.launch{try{app.personal.note(name,draft);dismiss()}catch(e:CancellationException){throw e}catch(e:Exception){error=libraryError(context,e)}}},modifier=Modifier.testTag("save-tag-note")){Text(text(R.string.ui_save))}},dismissButton={TextButton(onClick=dismiss){Text(text(R.string.ui_cancel))}})

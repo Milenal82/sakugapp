@@ -307,7 +307,6 @@
     <string name="ui_rename">Переименовать</string>
     <string name="ui_delete_folder">Удалить папку</string>
     <string name="ui_relationship_delete_warning">Удаляются только связи локального избранного. Загруженные видео сохраняются.</string>
-    <string name="ui_posts_count">Постов: %1$d</string>
     <string name="ui_quick_favorite">В избранное</string>
     <string name="ui_manage_folders">Папки избранного</string>
     <string name="ui_saved_local">В избранном</string>
@@ -373,7 +372,6 @@
     <string name="ui_refresh_failed">Не удалось обновить. Текущие посты сохранены.</string>
     <string name="ui_browsing_history">История просмотра</string>
     <string name="ui_record_browsing_history">Записывать историю просмотра</string>
-    <string name="ui_history_retention">Только на устройстве. До %1$d постов или 8 MiB. Сначала удаляются старые записи.</string>
     <string name="ui_browsing_history_empty">История просмотра пуста</string>
     <string name="ui_remove_history_entry">Удалить запись истории</string>
     <string name="ui_clear_browsing_history">Очистить историю просмотра</string>
@@ -386,7 +384,6 @@
     <string name="ui_add_tag_note">Добавить заметку к тегу</string>
     <string name="ui_edit_tag_note">Изменить заметку тега</string>
     <string name="ui_clear_tag_note">Удалить заметку тега</string>
-    <string name="ui_note_limit">До %1$d символов и 8 строк. Только на устройстве.</string>
     <string name="ui_note_length_error">Не более 500 символов и 8 строк.</string>
     <string name="ui_literal_tags_only">Выберите обычный тег. Условия полей и маски сохранить нельзя.</string>
     <string name="ui_sort_tags">Сортировка тегов</string>
@@ -406,5 +403,17 @@
         <item quantity="few">%1$d поста</item>
         <item quantity="many">%1$d постов</item>
         <item quantity="other">%1$d поста</item>
+    </plurals>
+    <plurals name="ui_history_retention">
+        <item quantity="one">Только на устройстве. До %1$d поста или 8 MiB. Сначала удаляются старые записи.</item>
+        <item quantity="few">Только на устройстве. До %1$d постов или 8 MiB. Сначала удаляются старые записи.</item>
+        <item quantity="many">Только на устройстве. До %1$d постов или 8 MiB. Сначала удаляются старые записи.</item>
+        <item quantity="other">Только на устройстве. До %1$d постов или 8 MiB. Сначала удаляются старые записи.</item>
+    </plurals>
+    <plurals name="ui_note_limit">
+        <item quantity="one">До %1$d символа и 8 строк. Только на устройстве.</item>
+        <item quantity="few">До %1$d символов и 8 строк. Только на устройстве.</item>
+        <item quantity="many">До %1$d символов и 8 строк. Только на устройстве.</item>
+        <item quantity="other">До %1$d символов и 8 строк. Только на устройстве.</item>
     </plurals>
 </resources>

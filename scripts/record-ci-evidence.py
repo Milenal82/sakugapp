@@ -41,7 +41,7 @@ for job in jobs:
             selected=[line for line in lines if any(x in line for x in ['e: file:', 'FAILED','AssertionError','What went wrong','Caused by:','FAILURES!!!','##[error]'])]
             report['failures'].append({'job':job['name'],'message':'\n'.join(selected)[-12000:]})
 images=out/'screenshots';images.mkdir(exist_ok=True)
-for name in ['history-page.png','tag-favorites-page.png','tag-note-editor.png','language-fr.png','language-es.png','language-ru.png','language-ko.png','posts-refreshing.png','six-columns-large-font.png','six-columns-landscape.png']:
+for name in ['history-page.png','tag-favorites-page.png','tag-note-editor.png','language-fr.png','language-es.png','language-ru.png','language-ko.png','posts-refreshing.png','posts-refresh-failed.png','six-columns-large-font.png','six-columns-landscape.png']:
     found=list(root.rglob(name))
     if len(found)==1:shutil.copyfile(found[0],images/name)
 (out/'report.json').write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')

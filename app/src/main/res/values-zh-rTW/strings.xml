@@ -311,7 +311,6 @@
     <string name="ui_rename">重新命名</string>
     <string name="ui_delete_folder">刪除收藏夾</string>
     <string name="ui_relationship_delete_warning">僅刪除本機收藏關係，保留已下載影片。</string>
-    <string name="ui_posts_count">%1$d 個貼文</string>
     <string name="ui_quick_favorite">收藏</string>
     <string name="ui_manage_folders">收藏至</string>
     <string name="ui_saved_local">已收藏</string>
@@ -379,7 +378,6 @@
     <string name="ui_refresh_failed">重新整理失敗，已保留原有貼文。</string>
     <string name="ui_browsing_history">瀏覽記錄</string>
     <string name="ui_record_browsing_history">記錄瀏覽歷史</string>
-    <string name="ui_history_retention">僅儲存在本機，最多 %1$d 篇或 8 MiB，先移除最舊記錄。</string>
     <string name="ui_browsing_history_empty">尚無瀏覽記錄</string>
     <string name="ui_remove_history_entry">刪除此筆記錄</string>
     <string name="ui_clear_browsing_history">清除瀏覽記錄</string>
@@ -392,7 +390,6 @@
     <string name="ui_add_tag_note">新增標籤備註</string>
     <string name="ui_edit_tag_note">編輯標籤備註</string>
     <string name="ui_clear_tag_note">清除標籤備註</string>
-    <string name="ui_note_limit">最多 %1$d 字、8 行，僅儲存在本機。</string>
     <string name="ui_note_length_error">備註最多 500 字、8 行。</string>
     <string name="ui_literal_tags_only">請選擇一般標籤。欄位條件和萬用字元不能作為標籤收藏。</string>
     <string name="ui_sort_tags">標籤排序</string>
@@ -403,5 +400,11 @@
     <string name="ui_tag_favorites_empty">尚無標籤收藏。長按貼文標籤，或使用搜尋結果頂部的收藏圖示。</string>
     <plurals name="ui_post_quantity">
         <item quantity="other">%1$d 篇</item>
+    </plurals>
+    <plurals name="ui_history_retention">
+        <item quantity="other">僅儲存在本機，最多 %1$d 篇或 8 MiB，先移除最舊記錄。</item>
+    </plurals>
+    <plurals name="ui_note_limit">
+        <item quantity="other">最多 %1$d 字、8 行，僅儲存在本機。</item>
     </plurals>
 </resources>

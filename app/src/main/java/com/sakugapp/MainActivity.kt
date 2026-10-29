@@ -104,7 +104,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
         Scaffold(topBar={Column(Modifier.statusBarsPadding()){
             Row(Modifier.fillMaxWidth().padding(horizontal=8.dp),verticalAlignment=Alignment.CenterVertically){
                 if(entry?.destination?.route !in setOf("posts","library"))TextButton(onClick={nav.popBackStack()},modifier=Modifier.semantics{contentDescription=context.getString(R.string.ui_back_to_app)}){Text("‹")}
-                Text(text(R.string.app_name),style=MaterialTheme.typography.titleLarge,modifier=Modifier.weight(1f))
+                Text(text(R.string.app_name),style=MaterialTheme.typography.titleLarge,maxLines=1,overflow=TextOverflow.Ellipsis,modifier=Modifier.weight(1f))
                 Box{TextButton(onClick={menu=true}){Text(text(R.string.ui_menu))};DropdownMenu(expanded=menu,onDismissRequest={menu=false}){
                     DropdownMenuItem(text={Text(text(R.string.ui_posts))},onClick={menu=false;nav.popBackStack("posts",false)})
                     DropdownMenuItem(text={Text(text(R.string.ui_local_library))},onClick={menu=false;nav.navigate("library")})
@@ -215,13 +215,8 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
             modifier=Modifier.align(Alignment.TopCenter).padding(top=64.dp).testTag("refresh-indicator").semantics{contentDescription=context.getString(R.string.ui_refresh_posts)})}){
         LazyVerticalGrid(columns=GridCells.Fixed(settings.columns),state=grid,
             modifier=Modifier.fillMaxSize().nestedScroll(connection).testTag("post-grid"),
-            contentPadding=PaddingValues(start=if(settings.columns>=6)2.dp else 10.dp,end=if(settings.columns>=6)2.dp else 10.dp,top=with(density){baseHeight.toDp()},bottom=16.dp),
+            contentPadding=PaddingValues(start=if(settings.columns>=6)2.dp else 10.dp,end=if(settings.columns>=6)2.dp else 10.dp,top=with(density){baseHeight.toDp()},bottom=if(state.refreshError!=null)120.dp else 16.dp),
             horizontalArrangement=Arrangement.spacedBy(if(settings.columns>=6)settings.cardSpacing.coerceAtMost(1f).dp else settings.cardSpacing.dp),verticalArrangement=Arrangement.spacedBy(if(settings.columns>=6)1.dp else (settings.cardSpacing+2f).dp)){
-            state.refreshError?.let{item(span={GridItemSpan(maxLineSpan)},key="refresh-error"){Column{
-                Text(text(R.string.ui_refresh_failed),color=MaterialTheme.colorScheme.error)
-                Text(translateMessage(it),style=MaterialTheme.typography.bodySmall)
-                TextButton(onClick=refresh,modifier=Modifier.testTag("retry-refresh")){Text(text(R.string.ui_retry))}
-            }}}
             state.categoryWarning?.let{item(span={GridItemSpan(maxLineSpan)}){Column{
                 Text(text(R.string.ui_tag_categories_unavailable_unknown_categories_are_not_guessed),style=MaterialTheme.typography.bodySmall)
                 Text(translateMessage(it),style=MaterialTheme.typography.labelSmall)
@@ -231,11 +226,14 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
             if(state.loading && state.posts.isEmpty())items(settings.columns.coerceAtLeast(6),key={"skeleton-$it"}){SkeletonCard()}
             item(span={GridItemSpan(maxLineSpan)}){Column(Modifier.fillMaxWidth().padding(vertical=8.dp)){
                 if(state.loading){LinearProgressIndicator(Modifier.fillMaxWidth());Text(text(R.string.ui_loading_more_posts),style=MaterialTheme.typography.bodySmall)}
-                state.error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error);Button(onClick=loadMore){Text(text(R.string.ui_retry_this_page))}}
-                if(!state.loading && state.error==null){if(state.posts.isEmpty())Text(text(R.string.ui_no_posts_found))else if(state.endReached)Text(text(R.string.ui_end_of_results))else Button(onClick=loadMore,modifier=Modifier.fillMaxWidth()){Text(text(R.string.ui_load_more))}}
+                state.error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error);Button(enabled=!state.refreshing,onClick=loadMore){Text(text(R.string.ui_retry_this_page))}}
+                if(!state.loading && state.error==null){if(state.posts.isEmpty())Text(text(R.string.ui_no_posts_found))else if(state.endReached)Text(text(R.string.ui_end_of_results))else Button(enabled=!state.refreshing,onClick=loadMore,modifier=Modifier.fillMaxWidth()){Text(text(R.string.ui_load_more))}}
                 if(grid.canScrollBackward)TextButton(onClick={scope.launch{grid.animateScrollToItem(0)}}){Text(text(R.string.ui_back_to_top))}
             }}
         }
+        state.refreshError?.let{failure->Snackbar(modifier=Modifier.align(Alignment.BottomCenter).padding(12.dp).zIndex(2f),action={
+            TextButton(onClick=refresh,modifier=Modifier.testTag("retry-refresh")){Text(text(R.string.ui_retry))}
+        }){Column{Text(text(R.string.ui_refresh_failed));Text(translateMessage(failure),style=MaterialTheme.typography.bodySmall)}}}
         Surface(Modifier.fillMaxWidth().offset{IntOffset(0,offset.toInt())}.zIndex(1f).onSizeChanged{fullHeight=it.height},tonalElevation=0.dp){
             Column(Modifier.padding(horizontal=10.dp).heightIn(max=with(LocalConfiguration.current){screenHeightDp.dp*0.7f})){
                 Row(Modifier.fillMaxWidth().height(64.dp).onSizeChanged{baseHeight=it.height},verticalAlignment=Alignment.CenterVertically){
@@ -361,10 +359,15 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
 }
 
 @Composable private fun PostImage(post:Post,modifier:Modifier,settings:AppSettings,metered:Boolean,detail:Boolean=false){
-    if(settings.wifiImages && metered){Box(modifier,contentAlignment=Alignment.Center){Text(text(R.string.ui_images_wi_fi_only),Modifier.padding(8.dp))};return}
+    val compact=!detail && settings.columns>=6
+    @Composable fun state(id:Int){Box(Modifier.fillMaxSize(),contentAlignment=Alignment.Center){
+        if(compact)Icon(androidx.compose.ui.res.painterResource(R.drawable.ic_close),contentDescription=text(id),modifier=Modifier.size(16.dp),tint=MaterialTheme.colorScheme.onSurfaceVariant)
+        else Text(text(id),Modifier.padding(8.dp))
+    }}
+    if(settings.wifiImages && metered){Box(modifier){state(R.string.ui_images_wi_fi_only)};return}
     val url=if(detail)post.fileUrl ?: post.previewUrl else post.previewUrl
-    if(url==null)Box(modifier,contentAlignment=Alignment.Center){Text(text(R.string.ui_image_unavailable))}
-    else SubcomposeAsyncImage(model=url,contentDescription=text(R.string.ui_post_description,post.id),modifier=modifier,contentScale=if(!detail && settings.cropThumbnails)ContentScale.Crop else ContentScale.Fit,loading={Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surfaceVariant))},error={Text(text(R.string.ui_image_failed_to_load),Modifier.padding(8.dp))})
+    if(url==null)Box(modifier){state(R.string.ui_image_unavailable)}
+    else SubcomposeAsyncImage(model=url,contentDescription=text(R.string.ui_post_description,post.id),modifier=modifier,contentScale=if(!detail && settings.cropThumbnails)ContentScale.Crop else ContentScale.Fit,loading={Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surfaceVariant))},error={state(R.string.ui_image_failed_to_load)})
 }
 
 @Composable internal fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,localSnapshot:Boolean,search:(String)->Unit,wiki:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit,onDuration:(Long)->Unit,hasPrevious:Boolean,hasNext:Boolean,onNavigate:(Int)->Boolean){
