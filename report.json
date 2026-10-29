@@ -2,7 +2,7 @@
   "source_commit": "11d1d70c39cf3f3c306b1d4e99ed76556bd8e16b",
   "run_id": "40838898356",
   "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40838898356",
-  "captured_utc": "2026-10-29T08:01:38.791033+00:00",
+  "captured_utc": "2026-10-29T08:01:51.406433+00:00",
   "jobs": {
     "signed-candidate": {
       "status": "completed",
