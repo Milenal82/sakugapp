@@ -2,7 +2,7 @@
   "source_commit": "c655766aeb0a693c35301ddbf02cac731e917c66",
   "run_id": "40878965968",
   "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968",
-  "captured_utc": "2026-10-29T13:15:22.670734+00:00",
+  "captured_utc": "2026-10-29T13:32:02.217950+00:00",
   "jobs": {
     "build": {
       "status": "completed",
@@ -17,8 +17,8 @@
       "conclusion": "success"
     },
     "device-tests": {
-      "status": "in_progress",
-      "conclusion": null
+      "status": "completed",
+      "conclusion": "cancelled"
     },
     "signed-candidate": {
       "status": "completed",
@@ -34,6 +34,11 @@
     }
   },
   "artifacts": [
+    {
+      "name": "device-test-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968/artifacts/12901606035",
+      "bytes": 34655
+    },
     {
       "name": "signed-upgrade-install-report",
       "url": "https://github.com/Milenal82/sakugapp/actions/runs/40878965968/artifacts/12900376301",
