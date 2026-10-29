@@ -1,10 +1,10 @@
 {
-  "source_commit": "14f15a27791e868845046f0b4c0ec3764311dd7e",
-  "run_id": "40842523449",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40842523449",
-  "captured_utc": "2026-10-29T08:37:27.610141+00:00",
+  "source_commit": "b5947f9cb346419ca8617aa1301558fec0d04c91",
+  "run_id": "40844472001",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40844472001",
+  "captured_utc": "2026-10-29T08:53:05.900159+00:00",
   "jobs": {
-    "device-tests": {
+    "signed-candidate": {
       "status": "completed",
       "conclusion": "success"
     },
@@ -12,11 +12,11 @@
       "status": "completed",
       "conclusion": "success"
     },
-    "build": {
+    "device-tests": {
       "status": "completed",
       "conclusion": "success"
     },
-    "signed-candidate": {
+    "build": {
       "status": "completed",
       "conclusion": "success"
     },
@@ -25,50 +25,45 @@
       "conclusion": "success"
     },
     "candidate-upgrade-install": {
-      "status": "completed",
-      "conclusion": "success"
+      "status": "in_progress",
+      "conclusion": null
     }
   },
   "artifacts": [
     {
-      "name": "six-column-landscape-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40842523449/artifacts/12884385350",
-      "bytes": 2656067
+      "name": "sakugapp-source",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40844472001/artifacts/12885080321",
+      "bytes": 1098789
     },
     {
       "name": "sakugapp-debug",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40842523449/artifacts/12884250107",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40844472001/artifacts/12885035356",
       "bytes": 16678544
     },
     {
-      "name": "device-test-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40842523449/artifacts/12883996421",
-      "bytes": 5715656
-    },
-    {
-      "name": "signed-upgrade-install-report",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40842523449/artifacts/12883931657",
-      "bytes": 1412803
-    },
-    {
-      "name": "sakugapp-signed-candidate",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40842523449/artifacts/12883616818",
-      "bytes": 12886540
-    },
-    {
-      "name": "six-column-phone-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40842523449/artifacts/12883512062",
-      "bytes": 85133
+      "name": "six-column-landscape-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40844472001/artifacts/12884895215",
+      "bytes": 2587793
     },
     {
       "name": "check-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40842523449/artifacts/12883472790",
-      "bytes": 123233
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40844472001/artifacts/12884830985",
+      "bytes": 123224
     },
     {
-      "name": "sakugapp-source",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40842523449/artifacts/12883149005",
-      "bytes": 1097649
+      "name": "device-test-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40844472001/artifacts/12884242852",
+      "bytes": 5740150
+    },
+    {
+      "name": "six-column-phone-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40844472001/artifacts/12884222348",
+      "bytes": 139578
+    },
+    {
+      "name": "sakugapp-signed-candidate",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40844472001/artifacts/12883409946",
+      "bytes": 12887659
     }
   ],
   "tests": {
@@ -115,7 +110,7 @@
     "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff",
     "certificate_subject": "CN=Sakugapp Release",
     "validation_scope": "signed release verified",
-    "apk_sha256": "6bb2a595d0fd977f78b784a79df721272682d3ebc5e866d6f1a2392d5442d3e3",
+    "apk_sha256": "f0c5fc0a8f7d7afff3531094674152880efff8b22a1d55cacc0c40db2d66f2ec",
     "apk_bytes": 12959591,
     "abis": [
       "arm64-v8a",
@@ -173,31 +168,10 @@
         "machine": 62
       }
     ],
-    "source_commit": "14f15a27791e868845046f0b4c0ec3764311dd7e",
+    "source_commit": "b5947f9cb346419ca8617aa1301558fec0d04c91",
     "unit_tests": 107,
     "lint_errors": 0,
     "lint_warnings": 23,
     "distribution": "signed development candidate; no Release published"
-  },
-  "upgrade": {
-    "previous": {
-      "package": "com.sakugapp",
-      "versionCode": 6,
-      "versionName": "1.0.0",
-      "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff"
-    },
-    "candidate": {
-      "package": "com.sakugapp",
-      "versionCode": 11,
-      "versionName": "1.2.0",
-      "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff"
-    },
-    "retained_light_theme": true,
-    "system_night_mode": "yes",
-    "theme_verification": "actual rendered background pixels",
-    "retained_wrap_tags": true,
-    "retained_search_history": true,
-    "uninstall_or_clear_data": false,
-    "result": "passed"
   }
 }
