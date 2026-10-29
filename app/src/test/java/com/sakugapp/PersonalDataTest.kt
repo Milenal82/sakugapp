@@ -66,19 +66,22 @@ class PersonalDataTest {
         assertFalse(kept.any{it.id==2L})
         assertTrue(PersonalRules.historyKeep(listOf(ViewedPost(1,"x".repeat(PersonalRules.HISTORY_BYTES+1),1))).isEmpty())
     }
-    @Test fun versionTwoBackupsRoundTripUnfavoritedNotesAndNeverExportHistory(){
+    @Test fun portableBackupsRoundTripUnfavoritedNotesAndNeverExportHistory(){
         val backup=LibraryBackup(emptyList(),emptyList(),emptyList(),listOf(SavedTag("original_tag","ARTIST",1)),listOf(TagNote("not_saved","中文\n😀",2)))
         val json=LibraryCodec.encode(backup);val parsed=JsonParser.parseString(json).asJsonObject
-        assertEquals(2,parsed["version"].asInt);assertFalse(parsed.has("history"));assertFalse(parsed.has("credentials"))
+        assertEquals(3,parsed["schemaVersion"].asInt);assertFalse(parsed.has("history"));assertFalse(parsed.has("credentials"))
         assertEquals(backup,LibraryCodec.decode(json))
-        val future=parsed.deepCopy().apply{addProperty("version",3)}
+        val future=parsed.deepCopy().apply{addProperty("schemaVersion",4)}
         assertThrows(LibraryFailure::class.java){LibraryCodec.decode(future.toString())}
         val invalid=parsed.deepCopy().apply{getAsJsonArray("tagNotes")[0].asJsonObject.addProperty("name","bad tag")}
         assertThrows(LibraryFailure::class.java){LibraryCodec.decode(invalid.toString())}
     }
     @Test fun actualVersionOneShapeRemainsImportableWithoutNewFields(){
         val post=post();val value=LibraryBackup(listOf(FavoriteFolder(1,"",0)),listOf(FavoritePost(post.id,LibraryCodec.encodePost(post),1)),listOf(FavoriteLink(post.id,1,1)))
-        val old=JsonParser.parseString(LibraryCodec.encode(value)).asJsonObject.apply{addProperty("version",1);remove("tagFavorites");remove("tagNotes")}
+        val old=JsonParser.parseString(LibraryCodec.encode(value)).asJsonObject.apply{
+            remove("schemaVersion");addProperty("version",1);remove("tagFavorites");remove("tagNotes")
+            val gson=com.google.gson.Gson();add("folders",gson.toJsonTree(value.folders));add("links",gson.toJsonTree(value.links))
+        }
         assertEquals(value,LibraryCodec.decode(old.toString()))
     }
     @Test fun allNewLanguagesAreNativeOnlyAndSixColumnsRemainAPhoneOption(){

@@ -133,7 +133,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
             composable("history"){BrowsingHistoryScreen(app,{nav.popBackStack()}){post,order->model.openLocal(post,order);nav.navigate("post/${post.id}")}}
             composable("account"){AccountScreen(app,openSite)}
             composable("language"){LanguageScreen(settings.language,app::language)}
-            composable("settings"){SettingsScreen(settings,app)}
+            composable("settings"){SettingsScreen(settings,app,{nav.navigate("language")},{about=true})}
             composable("post/{id}"){backStack->
                 val id=backStack.arguments?.getString("id")?.toLongOrNull()
                 LaunchedEffect(id){if(id!=null && selected?.id!=id)model.openId(id)}
@@ -280,14 +280,14 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
                 AnimatedVisibility(searchExpanded,enter=expandVertically(tween(Motion.search))+fadeIn(tween(Motion.search)),exit=shrinkVertically(tween(Motion.search))+fadeOut(tween(Motion.search))){
                     Column(Modifier.verticalScroll(rememberScrollState()).testTag("search-expanded")){
                         SearchSyntax.warnings(query.text).forEach{Text(translateMessage(it),style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.tertiary)}
-                        FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
-                            TextButton(onClick={collapseSearch();advanced=true},modifier=Modifier.testTag("open-combined-search")){Text(text(R.string.ui_filters))}
-                            TextButton(onClick={historyOpen=!historyOpen;focus.clearFocus()}){Text(text(R.string.ui_history))}
-                            TextButton(enabled=!averaging && state.posts.isNotEmpty() && !(settings.wifiImages && metered),onClick={scope.launch{
+                        FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp),verticalArrangement=Arrangement.spacedBy(8.dp),modifier=Modifier.padding(vertical=8.dp)){
+                            SearchToolTile(R.drawable.ic_tune,text(R.string.ui_search_tools),onClick={collapseSearch();advanced=true},modifier=Modifier.testTag("open-combined-search"))
+                            SearchToolTile(R.drawable.ic_history,text(R.string.ui_search_history),onClick={historyOpen=!historyOpen;focus.clearFocus()},selected=historyOpen,modifier=Modifier.testTag("search-history-toggle"))
+                            SearchToolTile(R.drawable.ic_palette,text(R.string.ui_average_color),enabled=!averaging && state.posts.isNotEmpty() && !(settings.wifiImages && metered),onClick={scope.launch{
                                 averaging=true
                                 try{val urls=state.posts.filter{it.id in visible}.mapNotNull{it.previewUrl};val result=averagePreviewColor(context,urls);average="${result.first} (${result.second}/${urls.size})"}
                                 catch(e:CancellationException){throw e}catch(e:Exception){average=localizedMessage(context,e.message.orEmpty())}finally{averaging=false}
-                            }}){Text(text(R.string.ui_average_color))}
+                            }},modifier=Modifier.testTag("average-color-tool"))
                         }
                         average?.let{Text(it,style=MaterialTheme.typography.labelSmall)}
                         AnimatedVisibility(historyOpen,enter=expandVertically(tween(Motion.history)),exit=shrinkVertically(tween(Motion.history))){Column(Modifier.testTag("search-history")){

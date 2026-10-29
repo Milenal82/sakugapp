@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 package com.sakugapp.ui
 
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
 import androidx.activity.compose.BackHandler
@@ -34,7 +32,6 @@ import kotlinx.coroutines.*
     var selected by remember{mutableStateOf(setOf<Long>())}
     var folderDialog by remember{mutableStateOf(false)};var rename by remember{mutableStateOf(false)};var name by remember{mutableStateOf("")}
     var deleting by remember{mutableStateOf(false)};var removing by remember{mutableStateOf(false)};var moving by remember{mutableStateOf(false)}
-    var importBody by remember{mutableStateOf<String?>(null)}
     var message by remember{mutableStateOf<String?>(null)}
     var busy by remember{mutableStateOf(false)};var downloadConfirm by remember{mutableStateOf(false)}
     var job by remember{mutableStateOf<Job?>(null)};var done by remember{mutableIntStateOf(0)};var total by remember{mutableIntStateOf(0)};var currentBytes by remember{mutableLongStateOf(0)};var currentSize by remember{mutableLongStateOf(-1L)}
@@ -54,19 +51,6 @@ import kotlinx.coroutines.*
     LaunchedEffect(folderId,state.folders){if(folderId!=null && folderId!=0L && state.folders.isNotEmpty() && folder==null)folderId=null}
 
     fun operation(action:suspend()->Unit){scope.launch{try{action()}catch(e:CancellationException){throw e}catch(e:Exception){message=libraryError(context,e)}}}
-    val exporter=rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/json")){uri->if(uri!=null)operation{
-        val body=app.localLibrary.export()
-        withContext(Dispatchers.IO){checkNotNull(context.contentResolver.openOutputStream(uri,"w")).bufferedWriter().use{it.write(body)}}
-        message=context.getString(R.string.ui_exported)
-    }}
-    val importer=rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()){uri->if(uri!=null)operation{
-        val body=withContext(Dispatchers.IO){checkNotNull(context.contentResolver.openInputStream(uri)).use{input->
-            val output=java.io.ByteArrayOutputStream();val buffer=ByteArray(8192);var bytes=0
-            while(true){val n=input.read(buffer);if(n<0)break;bytes+=n;if(bytes>LibraryCodec.MAX_BYTES)throw LibraryFailure("library_limit");output.write(buffer,0,n)}
-            output.toString("UTF-8")
-        }}
-        withContext(Dispatchers.Default){LibraryCodec.decode(body)};importBody=body
-    }}
     val candidates=remember(state,folderId,sort){
         val time=state.links.filter{actualId==null || it.folderId==actualId}.groupBy{it.postId}.mapValues{e->e.value.minOf{it.addedAt}}
         val filtered=state.inFolder(actualId)
@@ -129,9 +113,8 @@ import kotlinx.coroutines.*
                     }
                     FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp),verticalArrangement=Arrangement.spacedBy(4.dp)){
                         LibraryButton(R.drawable.ic_add,text(R.string.ui_new_folder)){name="";rename=false;folderDialog=true}
-                        LibraryButton(R.drawable.ic_download,text(R.string.ui_import_library)){importer.launch(arrayOf("application/json","text/plain"))}
-                        LibraryButton(R.drawable.ic_upload,text(R.string.ui_export_library)){exporter.launch("sakugapp-favorites.json")}
                     }
+                    BackupActions(app)
                 }
                 if(state.error)Text(text(R.string.ui_library_failed),color=MaterialTheme.colorScheme.error)
                 message?.let{Text(it,style=MaterialTheme.typography.bodySmall)}
@@ -177,7 +160,6 @@ import kotlinx.coroutines.*
         Text(text(R.string.ui_move_explanation))
         state.folders.forEach{target->TextButton(onClick={operation{app.localLibrary.batch(selected,actualId,target.id);selected=emptySet();moving=false}}){Text(folderName(target,context))}}
     }},confirmButton={TextButton(onClick={moving=false}){Text(text(R.string.ui_cancel))}})
-    importBody?.let{body->AlertDialog(onDismissRequest={importBody=null},title={Text(text(R.string.ui_import_library))},text={Text(text(R.string.ui_import_warning))},confirmButton={TextButton(onClick={operation{app.localLibrary.import(body);importBody=null;message=context.getString(R.string.ui_imported)}}){Text(text(R.string.ui_merge))}},dismissButton={TextButton(onClick={importBody=null}){Text(text(R.string.ui_cancel))}})}
     if(clearMedia)AlertDialog(onDismissRequest={clearMedia=false},title={Text(text(R.string.ui_clear_offline_media))},text={Text(text(R.string.ui_clear_offline_warning))},confirmButton={TextButton(onClick={operation{app.offlineMedia.clear();usage=0;clearMedia=false}}){Text(text(R.string.ui_delete))}},dismissButton={TextButton(onClick={clearMedia=false}){Text(text(R.string.ui_cancel))}})
     if(downloadConfirm)AlertDialog(onDismissRequest={downloadConfirm=false},title={Text(text(R.string.ui_batch_download))},text={Text(text(R.string.ui_batch_download_hint))},confirmButton={TextButton(onClick={
         downloadConfirm=false;val pending=state.inFolder(actualId).mapNotNull{state.decoded[it.id]}.filter{it.isVideo && app.offlineMedia.existing(it)==null}.take(OfflineLibraryMedia.BATCH_SIZE)

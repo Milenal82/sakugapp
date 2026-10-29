@@ -5,6 +5,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -16,6 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -79,20 +81,37 @@ import java.time.format.*
         Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically){
             ActionIcon(R.drawable.ic_back,text(R.string.ui_back_to_app),back)
             Text(text(R.string.ui_browsing_history),style=MaterialTheme.typography.titleLarge,modifier=Modifier.weight(1f))
-            TextButton(enabled=rows.isNotEmpty(),onClick={clear=true},modifier=Modifier.testTag("clear-browsing-history")){Text(text(R.string.ui_clear))}
+            TextButton(enabled=rows.isNotEmpty(),onClick={clear=true},modifier=Modifier.testTag("clear-browsing-history")){
+                Icon(painterResource(R.drawable.ic_close),null,Modifier.size(20.dp));Spacer(Modifier.width(4.dp));Text(text(R.string.ui_clear))
+            }
         }
-        Row(Modifier.fillMaxWidth().padding(horizontal=12.dp),verticalAlignment=Alignment.CenterVertically){
-            Text(text(R.string.ui_record_browsing_history),Modifier.weight(1f));Switch(recording,{operation{app.personal.recording(it)}},modifier=Modifier.testTag("record-browsing-history").semantics{contentDescription=context.getString(R.string.ui_record_browsing_history)})
+        Surface(Modifier.fillMaxWidth().padding(horizontal=12.dp,vertical=4.dp),shape=RoundedCornerShape(16.dp),color=MaterialTheme.colorScheme.surfaceContainerHigh){
+            Column(Modifier.padding(12.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
+                Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically){
+                    Column(Modifier.weight(1f)){
+                        Text(androidx.compose.ui.res.pluralStringResource(R.plurals.ui_post_quantity,rows.size,rows.size),style=MaterialTheme.typography.titleMedium)
+                        Text(text(R.string.ui_record_browsing_history),style=MaterialTheme.typography.bodyMedium)
+                    }
+                    Switch(recording,{operation{app.personal.recording(it)}},modifier=Modifier.testTag("record-browsing-history").semantics{contentDescription=context.getString(R.string.ui_record_browsing_history)})
+                }
+                HorizontalDivider(color=MaterialTheme.colorScheme.outlineVariant)
+                Text(androidx.compose.ui.res.pluralStringResource(R.plurals.ui_history_retention,PersonalRules.HISTORY_CAPACITY,PersonalRules.HISTORY_CAPACITY),style=MaterialTheme.typography.bodySmall,color=MaterialTheme.colorScheme.onSurfaceVariant)
+            }
         }
-        Text(androidx.compose.ui.res.pluralStringResource(R.plurals.ui_history_retention,PersonalRules.HISTORY_CAPACITY,PersonalRules.HISTORY_CAPACITY),style=MaterialTheme.typography.bodySmall,modifier=Modifier.padding(horizontal=12.dp))
         failure?.let{Text(libraryError(context,it),color=MaterialTheme.colorScheme.error)}
         error?.let{Text(it,color=MaterialTheme.colorScheme.error)}
         if(rows.isEmpty())Text(text(R.string.ui_browsing_history_empty),Modifier.padding(16.dp))
         LazyColumn(state=list,contentPadding=PaddingValues(12.dp),modifier=Modifier.weight(1f).testTag("browsing-history-list")){
             groups.forEach{(date,entries)->
-                item(key="day-$date"){Text(date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale)),style=MaterialTheme.typography.titleSmall,modifier=Modifier.padding(vertical=8.dp))}
-                items(entries,key={it.first.id}){(row,post)->
-                    Row(Modifier.fillMaxWidth().padding(vertical=6.dp),verticalAlignment=Alignment.CenterVertically){
+                item(key="day-$date"){
+                    val today=LocalDate.now()
+                    val label=when(date){today->text(R.string.ui_today);today.minusDays(1)->text(R.string.ui_yesterday);else->date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale))}
+                    Text(label,style=MaterialTheme.typography.titleSmall,color=MaterialTheme.colorScheme.onSurfaceVariant,modifier=Modifier.padding(top=16.dp,bottom=8.dp,start=4.dp))
+                }
+                itemsIndexed(entries,key={_,entry->entry.first.id}){index,(row,post)->
+                    val shape=RoundedCornerShape(topStart=if(index==0)12.dp else 0.dp,topEnd=if(index==0)12.dp else 0.dp,bottomStart=if(index==entries.lastIndex)12.dp else 0.dp,bottomEnd=if(index==entries.lastIndex)12.dp else 0.dp)
+                    Surface(shape=shape,color=MaterialTheme.colorScheme.surface){Column{
+                    Row(Modifier.fillMaxWidth().padding(horizontal=8.dp,vertical=6.dp),verticalAlignment=Alignment.CenterVertically){
                         Row(Modifier.weight(1f).clickable{restoreIndex=list.firstVisibleItemIndex;restoreOffset=list.firstVisibleItemScrollOffset;open(post,decoded.map{it.second})}.testTag("viewed-post-${post.id}"),verticalAlignment=Alignment.CenterVertically){
                             if(!settings.wifiImages || !metered)AsyncImage(post.previewUrl,null,Modifier.size(88.dp,52.dp),contentScale=ContentScale.Fit)
                             Column(Modifier.weight(1f).padding(horizontal=8.dp)){
@@ -102,7 +121,9 @@ import java.time.format.*
                             }
                         }
                         ActionIcon(R.drawable.ic_close,text(R.string.ui_remove_history_entry),{operation{app.personal.removeHistory(post.id)}},Modifier.testTag("remove-viewed-${post.id}"))
-                    };HorizontalDivider()
+                    }
+                    if(index<entries.lastIndex)HorizontalDivider(Modifier.padding(horizontal=12.dp),color=MaterialTheme.colorScheme.outlineVariant)
+                    }}
                 }
             }
         }

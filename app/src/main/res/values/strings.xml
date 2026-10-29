@@ -321,14 +321,14 @@
     <string name="ui_saved_local">Favorited</string>
     <string name="ui_library_empty">No favorites</string>
     <string name="ui_library_snapshot_hint">Saved metadata</string>
-    <string name="ui_export_library">Export JSON</string>
-    <string name="ui_import_library">Import JSON</string>
-    <string name="ui_import_warning">Merge this backup? Matching folders and posts are combined; existing metadata is kept.</string>
+    <string name="ui_export_library">Export favorites</string>
+    <string name="ui_import_library">Import favorites</string>
+    <string name="ui_import_warning">Includes folders, posts, tag favorites and notes. Excludes media, login credentials and browsing history.</string>
     <string name="ui_merge">Merge</string>
     <string name="ui_exported">Exported</string>
     <string name="ui_imported">Imported</string>
     <string name="ui_library_failed">Local operation failed. Existing data was kept.</string>
-    <string name="ui_invalid_backup">Invalid or unsupported backup. Nothing was imported.</string>
+    <string name="ui_invalid_backup">Damaged or invalid backup. Nothing was imported.</string>
     <string name="ui_library_limit">Storage or record limit reached. Export and manage existing content first.</string>
     <string name="ui_folder_name_error">Use a unique name (1–80 characters).</string>
     <string name="ui_sort_saved_desc">Recently saved</string>
@@ -420,4 +420,18 @@
     </plurals>
     <string name="ui_playback_speed">Playback speed</string>
     <string name="ui_ab_loop">A–B loop</string>
+    <string name="ui_today">Today</string>
+    <string name="ui_yesterday">Yesterday</string>
+    <string name="ui_browsing_search">Browsing and search</string>
+    <string name="ui_favorites_backup">Favorites and backup</string>
+    <string name="ui_privacy_history">Privacy and history</string>
+    <string name="ui_backup_preview_counts">Folders: %1$d · Posts: %2$d · Memberships: %3$d · Tags: %4$d · Notes: %5$d</string>
+    <string name="ui_backup_folder_conflicts">Same-name folders: %1$d</string>
+    <string name="ui_backup_merge_folders">Merge by name (keep local order and cover)</string>
+    <string name="ui_backup_keep_folders">Keep both (rename incoming folder)</string>
+    <string name="ui_backup_note_conflicts">Conflicting notes: %1$d</string>
+    <string name="ui_backup_keep_notes">Keep existing notes</string>
+    <string name="ui_backup_replace_notes">Replace conflicting notes</string>
+    <string name="ui_backup_result">Imported: %1$d · Skipped: %2$d · Failed: %3$d</string>
+    <string name="ui_backup_unsupported">This backup version is not supported. Nothing was imported.</string>
 </resources>

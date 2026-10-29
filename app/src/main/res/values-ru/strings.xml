@@ -312,14 +312,14 @@
     <string name="ui_saved_local">В избранном</string>
     <string name="ui_library_empty">Избранное пусто</string>
     <string name="ui_library_snapshot_hint">Сохранённые метаданные</string>
-    <string name="ui_export_library">Экспорт JSON</string>
-    <string name="ui_import_library">Импорт JSON</string>
-    <string name="ui_import_warning">Объединить резервную копию? Совпадающие папки и посты объединяются, существующие метаданные сохраняются.</string>
+    <string name="ui_export_library">Экспортировать избранное</string>
+    <string name="ui_import_library">Импортировать избранное</string>
+    <string name="ui_import_warning">Включает папки, посты, избранные теги и заметки. Не включает медиафайлы, учётные данные и историю просмотра.</string>
     <string name="ui_merge">Объединить</string>
     <string name="ui_exported">Экспортировано</string>
     <string name="ui_imported">Импортировано</string>
     <string name="ui_library_failed">Ошибка локальной операции. Существующие данные сохранены.</string>
-    <string name="ui_invalid_backup">Резервная копия некорректна или не поддерживается. Ничего не импортировано.</string>
+    <string name="ui_invalid_backup">Резервная копия повреждена или имеет неверный формат. Данные не импортированы.</string>
     <string name="ui_library_limit">Достигнут лимит хранилища или записей. Сначала экспортируйте и упорядочьте данные.</string>
     <string name="ui_folder_name_error">Введите уникальное имя от 1 до 80 символов.</string>
     <string name="ui_sort_saved_desc">Сначала новые</string>
@@ -417,4 +417,18 @@
     </plurals>
     <string name="ui_playback_speed">Скорость воспроизведения</string>
     <string name="ui_ab_loop">Повтор A–B</string>
+    <string name="ui_today">Сегодня</string>
+    <string name="ui_yesterday">Вчера</string>
+    <string name="ui_browsing_search">Просмотр и поиск</string>
+    <string name="ui_favorites_backup">Избранное и резервные копии</string>
+    <string name="ui_privacy_history">Конфиденциальность и история</string>
+    <string name="ui_backup_preview_counts">Папки: %1$d · Посты: %2$d · Связи: %3$d · Теги: %4$d · Заметки: %5$d</string>
+    <string name="ui_backup_folder_conflicts">Папки с одинаковым именем: %1$d</string>
+    <string name="ui_backup_merge_folders">Объединить по имени (сохранить местный порядок и обложку)</string>
+    <string name="ui_backup_keep_folders">Сохранить обе (переименовать импортируемую папку)</string>
+    <string name="ui_backup_note_conflicts">Конфликтующие заметки: %1$d</string>
+    <string name="ui_backup_keep_notes">Сохранить существующие заметки</string>
+    <string name="ui_backup_replace_notes">Заменить конфликтующие заметки</string>
+    <string name="ui_backup_result">Импортировано: %1$d · Пропущено: %2$d · Ошибок: %3$d</string>
+    <string name="ui_backup_unsupported">Эта версия резервной копии не поддерживается. Данные не импортированы.</string>
 </resources>

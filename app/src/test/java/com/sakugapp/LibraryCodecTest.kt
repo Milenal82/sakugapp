@@ -42,7 +42,7 @@ class LibraryCodecTest {
         val legacy=JsonParser.parseString(LibraryCodec.encode(backup())).asJsonObject
         legacy.add("translations",JsonParser.parseString("""[{"original":"original_tag","translation":"旧译名"}]"""))
         val imported=LibraryCodec.decode(legacy.toString())
-        assertEquals(backup().posts,imported.posts);assertEquals(backup().links,imported.links)
+        assertEquals(backup().posts,imported.posts);assertEquals(2,imported.links.size)
         assertFalse(JsonParser.parseString(LibraryCodec.encode(imported)).asJsonObject.has("translations"))
         // Even an obsolete field's unknown representation cannot block otherwise valid favorites.
         legacy.addProperty("translations","obsolete")

@@ -1,3 +1,22 @@
+# 1.2.1 / code 12 收藏备份与界面整理（2026-10-30）
+
+本轮只做收藏备份、搜索工具、浏览历史、设置分组、三语 README 和提供的图标调整。包名、数据库版本、设置键、下载记录与正式签名配置保持不变，不创建公开 Release。
+
+本地已执行并通过：
+
+- `python3 scripts/check-localization.py`：425 项资源、全部 8 种界面语言；含参数与复数检查，未作母语审校。
+- `./gradlew --no-daemon testDebugUnitTest --tests '*BackupImportTest' --tests '*LibraryCodecTest' --tests '*PersonalDataTest' assembleDebugAndroidTest`：22 项单元测试通过，测试 APK 编译成功。
+- `./gradlew --no-daemon lintDebug assembleDebug`：通过。本地 Lint 0 错误 / 15 警告；不使用 baseline 或关闭检查。
+- 新维护工作流的 actionlint、Shell 语法与证据脚本编译检查通过。
+
+数据用例覆盖可移植收藏夹键、旧 v1/v2 格式、名称/备注冲突、顺序/封面、多对多关系、独立备注、重复合并、版本/大小/关系校验。新的 `BackupRestoreDeviceTest` 在独立 Room 数据库中执行源库导出、关闭源库、空库导入、逐项核对、关闭并重新打开；另测同名收藏夹、旧格式、备注选择、损坏及超限时原数据不变。`MaintenanceUiDeviceTest` 只检查本轮三个页面及原有设置持久化，使用 API 28 Nexus S 实际窄屏、1.3 倍字体、深浅主题，保存原始截图。
+
+本地没有 KVM，不把测试 APK 编译当作设备测试通过。设备用例由 [Focused maintenance validation](https://github.com/Milenal82/sakugapp/actions/workflows/maintenance.yml) 执行；**实际提交、运行状态、5 项设备结果、原始截图及 APK 构件链接，以[本轮证据](https://github.com/Milenal82/sakugapp/blob/evidence/maintenance/report.json)的 `source_commit` 核对**。这些用例尚未在本地运行。现有主 CI 没有删除或关闭；main 推送后原有自动检查的同提交结果也在该报告中记录，不额外手动重复播放器全套测试。
+
+Debug APK：`app/build/outputs/apk/debug/app-debug.apk`；CI 构件 `maintenance-debug-apk`。数据格式见[备份说明](backup-format.md)。未覆盖所有实体设备、OEM 文件提供程序、横屏和每种语言的人工视觉审查；旧测试结果不能代替本轮结果。
+
+以下保留历史开发记录。
+
 # 下载、组合搜索、返回导航与播放器面板增量
 
 版本保持 1.2.0 / code 11。[变更、检查命令与文件清单](incremental-search-download-controls.md)。本地 Debug / Release 各 112 项单测、Lint 0 错误、Debug 和未签名 Release 预检通过；411 项八语资源检查、16 项脚本测试和工作流校验通过。签名候选及 API 28 / API 35 设备结果按[证据报告](https://github.com/Milenal82/sakugapp/blob/evidence/history-tags-refresh/report.json)中的 source_commit 核对，不以旧提交结果代替本轮结果。以下为之前开发轮次记录。

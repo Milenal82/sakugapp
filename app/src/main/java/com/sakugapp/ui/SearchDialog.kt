@@ -48,7 +48,11 @@ import com.sakugapp.data.*
     val finalQuery=SearchSyntax.filters(expression.text,order,rating)
     AlertDialog(onDismissRequest=close,title={Text(text(R.string.ui_search_tools))},text={
         Column(Modifier.heightIn(max=500.dp).verticalScroll(rememberScrollState()),verticalArrangement=Arrangement.spacedBy(8.dp)) {
-            Row { TextButton(onClick={guide=false}) { Text(text(R.string.ui_compose_query)) };TextButton(onClick={guide=true}){Text(text(R.string.ui_search_reference_language))} }
+            FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp),verticalArrangement=Arrangement.spacedBy(8.dp)) {
+                SearchToolTile(R.drawable.ic_edit,text(R.string.ui_compose_query),onClick={guide=false},selected=!guide,modifier=Modifier.testTag("edit-query-tool"))
+                SearchToolTile(R.drawable.ic_book,text(R.string.ui_search_reference_language),onClick={guide=true},selected=guide,modifier=Modifier.testTag("search-reference-tool"))
+                SearchToolTile(R.drawable.ic_history,text(R.string.ui_search_history),onClick={val shown=historyOpen && !guide;guide=false;historyOpen=!shown},selected=historyOpen && !guide,modifier=Modifier.testTag("combined-history-toggle"))
+            }
             if(guide) {
                 Text(text(R.string.ui_examples_replace_the_draft_apply_runs_the_search_fields_and_opera))
                 for(example in SearchGuide.examples) {
@@ -57,7 +61,6 @@ import com.sakugapp.data.*
                 }
                 Text(text(R.string.ui_wildcard_and_mixed_or_combinations_have_website_limitations_repea))
             } else {
-                TextButton(onClick={historyOpen=!historyOpen},modifier=Modifier.testTag("combined-history-toggle")){Text(text(R.string.ui_history))}
                 AnimatedVisibility(historyOpen,enter=expandVertically(tween(Motion.history)),exit=shrinkVertically(tween(Motion.history))){Column(Modifier.testTag("combined-history")){
                     if(history.isEmpty())Text(text(R.string.ui_no_saved_searches),style=MaterialTheme.typography.bodySmall)
                     history.forEachIndexed{index,item->TextButton(onClick={

@@ -316,14 +316,14 @@
     <string name="ui_saved_local">已收藏</string>
     <string name="ui_library_empty">暂无收藏</string>
     <string name="ui_library_snapshot_hint">本地保存的信息</string>
-    <string name="ui_export_library">导出 JSON</string>
-    <string name="ui_import_library">导入 JSON</string>
-    <string name="ui_import_warning">合并此备份？相同收藏夹和帖子将合并，保留现有信息。</string>
+    <string name="ui_export_library">导出收藏记录</string>
+    <string name="ui_import_library">导入收藏记录</string>
+    <string name="ui_import_warning">包含收藏夹、帖子、标签收藏和备注。不包含媒体文件、登录凭据和浏览历史。</string>
     <string name="ui_merge">合并</string>
     <string name="ui_exported">已导出</string>
     <string name="ui_imported">已导入</string>
     <string name="ui_library_failed">操作失败，现有数据已保留。</string>
-    <string name="ui_invalid_backup">备份无效或版本不支持，未导入任何内容。</string>
+    <string name="ui_invalid_backup">备份已损坏或格式无效，未导入任何数据。</string>
     <string name="ui_library_limit">达到存储或记录上限，请先导出并整理现有内容。</string>
     <string name="ui_folder_name_error">名称须唯一，长度为 1–80 个字符。</string>
     <string name="ui_sort_saved_desc">最近收藏</string>
@@ -408,4 +408,18 @@
     </plurals>
     <string name="ui_playback_speed">播放速度</string>
     <string name="ui_ab_loop">A–B 区间循环</string>
+    <string name="ui_today">今天</string>
+    <string name="ui_yesterday">昨天</string>
+    <string name="ui_browsing_search">浏览与搜索</string>
+    <string name="ui_favorites_backup">收藏与备份</string>
+    <string name="ui_privacy_history">隐私与历史</string>
+    <string name="ui_backup_preview_counts">收藏夹：%1$d · 帖子：%2$d · 收藏关系：%3$d · 标签：%4$d · 备注：%5$d</string>
+    <string name="ui_backup_folder_conflicts">同名收藏夹：%1$d</string>
+    <string name="ui_backup_merge_folders">按名称合并（保留本地顺序和封面）</string>
+    <string name="ui_backup_keep_folders">保留两者（重命名导入的收藏夹）</string>
+    <string name="ui_backup_note_conflicts">冲突备注：%1$d</string>
+    <string name="ui_backup_keep_notes">保留已有备注</string>
+    <string name="ui_backup_replace_notes">替换冲突备注</string>
+    <string name="ui_backup_result">成功：%1$d · 跳过：%2$d · 失败：%3$d</string>
+    <string name="ui_backup_unsupported">不支持此备份版本，未导入任何数据。</string>
 </resources>

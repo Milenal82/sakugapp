@@ -312,14 +312,14 @@
     <string name="ui_saved_local">Dans les favoris</string>
     <string name="ui_library_empty">Aucun favori</string>
     <string name="ui_library_snapshot_hint">Métadonnées enregistrées</string>
-    <string name="ui_export_library">Exporter JSON</string>
-    <string name="ui_import_library">Importer JSON</string>
-    <string name="ui_import_warning">Fusionner cette sauvegarde ? Les dossiers et publications identiques sont regroupés ; les métadonnées existantes sont conservées.</string>
+    <string name="ui_export_library">Exporter les favoris</string>
+    <string name="ui_import_library">Importer les favoris</string>
+    <string name="ui_import_warning">Inclut les dossiers, publications, tags favoris et notes. Exclut les médias, identifiants et historique de navigation.</string>
     <string name="ui_merge">Fusionner</string>
     <string name="ui_exported">Exporté</string>
     <string name="ui_imported">Importé</string>
     <string name="ui_library_failed">Échec de l’opération locale. Les données existantes sont conservées.</string>
-    <string name="ui_invalid_backup">Sauvegarde invalide ou non prise en charge. Aucune donnée importée.</string>
+    <string name="ui_invalid_backup">Sauvegarde endommagée ou non valide. Aucune donnée importée.</string>
     <string name="ui_library_limit">Limite de stockage ou d’éléments atteinte. Exportez et gérez le contenu existant.</string>
     <string name="ui_folder_name_error">Utilisez un nom unique de 1 à 80 caractères.</string>
     <string name="ui_sort_saved_desc">Ajouts récents</string>
@@ -414,4 +414,18 @@
     </plurals>
     <string name="ui_playback_speed">Vitesse de lecture</string>
     <string name="ui_ab_loop">Boucle A–B</string>
+    <string name="ui_today">Aujourd’hui</string>
+    <string name="ui_yesterday">Hier</string>
+    <string name="ui_browsing_search">Navigation et recherche</string>
+    <string name="ui_favorites_backup">Favoris et sauvegarde</string>
+    <string name="ui_privacy_history">Confidentialité et historique</string>
+    <string name="ui_backup_preview_counts">Dossiers : %1$d · Publications : %2$d · Associations : %3$d · Tags : %4$d · Notes : %5$d</string>
+    <string name="ui_backup_folder_conflicts">Dossiers de même nom : %1$d</string>
+    <string name="ui_backup_merge_folders">Fusionner par nom (garder l’ordre et la couverture locaux)</string>
+    <string name="ui_backup_keep_folders">Garder les deux (renommer le dossier importé)</string>
+    <string name="ui_backup_note_conflicts">Notes en conflit : %1$d</string>
+    <string name="ui_backup_keep_notes">Garder les notes existantes</string>
+    <string name="ui_backup_replace_notes">Remplacer les notes en conflit</string>
+    <string name="ui_backup_result">Importés : %1$d · Ignorés : %2$d · Échecs : %3$d</string>
+    <string name="ui_backup_unsupported">Cette version de sauvegarde n’est pas prise en charge. Aucune donnée importée.</string>
 </resources>

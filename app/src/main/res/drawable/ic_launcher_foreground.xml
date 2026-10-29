@@ -1,6 +1,4 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
-    <path android:fillColor="@android:color/transparent" android:strokeColor="#B9C3FF"
-        android:strokeWidth="5.5" android:strokeLineCap="round" android:strokeLineJoin="round"
-        android:pathData="M40,28L26,50 M33,42L33,80 M59,28L46,48 M53,39L81,39 M60,40L60,80 M60,53L78,53 M60,67L78,67" />
-</vector>
+<!-- Keep the supplied square artwork inside the adaptive launcher safe area. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:width="72dp" android:height="72dp" android:gravity="center" android:drawable="@drawable/ic_launcher_artwork" />
+</layer-list>

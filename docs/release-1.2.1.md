@@ -1,5 +1,7 @@
 # 1.2.1 — 界面精简与布局调整
 
+本文件保留较早的 **1.2.1 / code 9** 开发候选记录，以下提交、测试和构件均属于该历史版本，不是当前 **1.2.1 / code 12** 的验证结果。当前改动见 [CHANGELOG](../CHANGELOG.md)、[开发版本说明](../release-notes/v1.2.1.md)及[测试记录](test-report.md)。此处历史版本未作为正式 Release 发布。
+
 开发基线：`07ca42cab25d256208928b5ca3cb389b1ba66cac`（1.2.0 开发候选）。开发分支 `feature/compact-interface`，包名仍为 `com.sakugapp`；版本 1.2.1 / code 9。正式 v1.0.0 和 main 均不修改。
 
 ## 主要界面前后对照

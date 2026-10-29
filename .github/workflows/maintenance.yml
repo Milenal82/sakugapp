@@ -1,0 +1,112 @@
+name: Focused maintenance validation
+on:
+  push:
+    branches: [main, ci/maintenance-validation]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: maintenance-${{ github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  validation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: ./scripts/ci-android-sdk.sh
+      - uses: gradle/actions/setup-gradle@v5
+      - name: Check all supported native UI languages
+        run: python3 scripts/check-localization.py
+      - name: Verify backup data, lint and compile installable Debug APKs
+        run: >-
+          ./gradlew --no-daemon testDebugUnitTest
+          --tests com.sakugapp.BackupImportTest
+          --tests com.sakugapp.LibraryCodecTest
+          --tests com.sakugapp.PersonalDataTest
+          lintDebug assembleDebug assembleDebugAndroidTest
+      - name: Enable runner KVM
+        run: sudo chmod a+rw /dev/kvm
+      - name: Verify fresh-install restore and the changed native screens
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 28
+          arch: x86_64
+          target: default
+          profile: Nexus S
+          ram-size: 2048M
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
+          script: ./scripts/run-maintenance-checks.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: maintenance-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: maintenance-test-reports
+          path: |
+            app/build/reports/tests/testDebugUnitTest/
+            app/build/test-results/testDebugUnitTest/
+            app/build/reports/lint-results-debug.*
+            app/build/reports/androidTests/
+            app/build/outputs/androidTest-results/
+            app/build/reports/maintenance-ui-evidence/
+            app/build/reports/maintenance-diagnostics/
+          if-no-files-found: warn
+  evidence:
+    if: always()
+    needs: validation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    permissions:
+      actions: read
+      contents: write
+    concurrency:
+      group: maintenance-evidence
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: maintenance-test-reports
+          path: ${{ runner.temp }}/maintenance-input
+      - name: Record focused checks and existing same-commit automatic CI
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVIDENCE_DOWNLOADS: ${{ runner.temp }}/maintenance-input
+          EVIDENCE_OUTPUT: ${{ runner.temp }}/maintenance-evidence
+          MAINTENANCE_VALIDATION_RESULT: ${{ needs.validation.result }}
+        run: python3 scripts/record-maintenance-evidence.py
+      - name: Save reports and original captures on the separate evidence branch
+        env:
+          EVIDENCE_OUTPUT: ${{ runner.temp }}/maintenance-evidence
+        run: |
+          set -euo pipefail
+          branch=evidence/maintenance
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null; then
+            git fetch origin "refs/heads/$branch:refs/remotes/origin/$branch"
+            git switch --create maintenance-evidence-output "origin/$branch"
+          else
+            git switch --orphan maintenance-evidence-output
+          fi
+          mkdir -p screenshots
+          rm -f screenshots/maintenance-*.png
+          cp "$EVIDENCE_OUTPUT/report.json" report.json
+          cp "$EVIDENCE_OUTPUT/README.md" README.md
+          cp "$EVIDENCE_OUTPUT"/screenshots/maintenance-*.png screenshots/ 2>/dev/null || true
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add report.json README.md screenshots
+          if ! git diff --cached --quiet; then
+            git commit -m "Record maintenance checks for $GITHUB_SHA (run $GITHUB_RUN_ID)"
+            git push origin "HEAD:refs/heads/$branch"
+          fi

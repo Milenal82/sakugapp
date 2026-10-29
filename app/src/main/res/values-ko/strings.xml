@@ -312,14 +312,14 @@
     <string name="ui_saved_local">즐겨찾기에 저장됨</string>
     <string name="ui_library_empty">즐겨찾기가 없습니다</string>
     <string name="ui_library_snapshot_hint">저장된 메타데이터</string>
-    <string name="ui_export_library">JSON 내보내기</string>
-    <string name="ui_import_library">JSON 가져오기</string>
-    <string name="ui_import_warning">이 백업을 병합할까요? 같은 폴더와 게시물은 합치고 기존 메타데이터는 유지합니다.</string>
+    <string name="ui_export_library">즐겨찾기 내보내기</string>
+    <string name="ui_import_library">즐겨찾기 가져오기</string>
+    <string name="ui_import_warning">폴더, 게시물, 즐겨찾는 태그와 메모를 포함합니다. 미디어 파일, 로그인 정보와 열람 기록은 포함하지 않습니다.</string>
     <string name="ui_merge">병합</string>
     <string name="ui_exported">내보냄</string>
     <string name="ui_imported">가져옴</string>
     <string name="ui_library_failed">로컬 작업에 실패했습니다. 기존 데이터는 유지됩니다.</string>
-    <string name="ui_invalid_backup">유효하지 않거나 지원하지 않는 백업입니다. 아무것도 가져오지 않았습니다.</string>
+    <string name="ui_invalid_backup">백업이 손상되었거나 형식이 잘못되었습니다. 가져온 데이터가 없습니다.</string>
     <string name="ui_library_limit">저장공간 또는 항목 한도에 도달했습니다. 기존 내용을 내보내고 정리하세요.</string>
     <string name="ui_folder_name_error">중복되지 않는 이름을 1~80자로 입력하세요.</string>
     <string name="ui_sort_saved_desc">최근 저장순</string>
@@ -408,4 +408,18 @@
     </plurals>
     <string name="ui_playback_speed">재생 속도</string>
     <string name="ui_ab_loop">A–B 구간 반복</string>
+    <string name="ui_today">오늘</string>
+    <string name="ui_yesterday">어제</string>
+    <string name="ui_browsing_search">탐색 및 검색</string>
+    <string name="ui_favorites_backup">즐겨찾기 및 백업</string>
+    <string name="ui_privacy_history">개인정보 및 기록</string>
+    <string name="ui_backup_preview_counts">폴더: %1$d · 게시물: %2$d · 연결: %3$d · 태그: %4$d · 메모: %5$d</string>
+    <string name="ui_backup_folder_conflicts">이름이 같은 폴더: %1$d</string>
+    <string name="ui_backup_merge_folders">이름으로 병합 (기존 순서와 표지 유지)</string>
+    <string name="ui_backup_keep_folders">둘 다 유지 (가져오는 폴더 이름 변경)</string>
+    <string name="ui_backup_note_conflicts">충돌하는 메모: %1$d</string>
+    <string name="ui_backup_keep_notes">기존 메모 유지</string>
+    <string name="ui_backup_replace_notes">충돌하는 메모 교체</string>
+    <string name="ui_backup_result">가져옴: %1$d · 건너뜀: %2$d · 실패: %3$d</string>
+    <string name="ui_backup_unsupported">지원하지 않는 백업 버전입니다. 가져온 데이터가 없습니다.</string>
 </resources>

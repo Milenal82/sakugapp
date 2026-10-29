@@ -39,7 +39,7 @@ class PersonalStoreDeviceTest {
             assertEquals(1,LocalLibraryStore(db).state.first().posts.size);assertEquals(1,store.tags.first().size)
         }finally{db.close();context.deleteDatabase(name)}
     }
-    @Test fun capacityEvictsOldestAndVersionTwoBackupsMergeNotesIndependentlyWithoutHistory()=runBlocking{
+    @Test fun capacityEvictsOldestAndPortableBackupsMergeNotesIndependentlyWithoutHistory()=runBlocking{
         val db=Room.inMemoryDatabaseBuilder(context,LibraryDatabase::class.java).build()
         val targetDb=Room.inMemoryDatabaseBuilder(context,LibraryDatabase::class.java).build()
         try{
@@ -50,14 +50,17 @@ class PersonalStoreDeviceTest {
             store.saveTag(Tag("mokmok",TagCategory.ARTIST));store.note("unfavorited_note","Personal note")
             library.ready();library.membership(p,1,true)
             val backup=library.export();val json=JsonParser.parseString(backup).asJsonObject
-            assertEquals(2,json["version"].asInt);assertFalse(json.has("history"))
+            assertEquals(3,json["schemaVersion"].asInt);assertFalse(json.has("history"))
             val target=LocalLibraryStore(targetDb);val personal=PersonalStore(targetDb)
             personal.note("unfavorited_note","Keep existing note");personal.record(p)
             target.import(backup);target.import(backup)
             assertEquals(1,personal.tags.first().size);assertEquals("Keep existing note",personal.notes.first().single().note)
             assertEquals(1,personal.history.first().size)
             assertEquals(1,target.state.first().posts.size)
-            val legacy=json.deepCopy().apply{addProperty("version",1);remove("tagFavorites");remove("tagNotes")}
+            val legacy=json.deepCopy().apply{
+                remove("schemaVersion");addProperty("version",1);remove("tagFavorites");remove("tagNotes")
+                val gson=com.google.gson.Gson();add("folders",gson.toJsonTree(db.library().foldersOnce()));add("links",gson.toJsonTree(db.library().linksOnce()))
+            }
             target.import(legacy.toString());assertEquals(1,personal.tags.first().size)
             val invalid=json.deepCopy().apply{getAsJsonArray("tagNotes")[0].asJsonObject.addProperty("note","x".repeat(501))}
             try{target.import(invalid.toString());fail("Invalid note import must fail atomically")}catch(_:LibraryFailure){}

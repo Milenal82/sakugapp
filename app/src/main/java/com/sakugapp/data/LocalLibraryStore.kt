@@ -63,27 +63,24 @@ class LocalLibraryStore(private val db:LibraryDatabase){
     }
     suspend fun duration(url:String,milliseconds:Long){if(milliseconds !in 1..86400000)return;LibraryCodec.trustedMedia(url);db.withTransaction{dao.fact(MediaFact(url,milliseconds,System.currentTimeMillis()));dao.trimFacts()}}
     suspend fun export():String=db.withTransaction{ready();LibraryCodec.encode(LibraryBackup(dao.foldersOnce(),dao.postsOnce(),dao.linksOnce(),db.personal().tagsOnce(),db.personal().notesOnce()))}
-    suspend fun import(body:String)=withContext(Dispatchers.Default){
+    private suspend fun backupOnce()=LibraryBackup(dao.foldersOnce(),dao.postsOnce(),dao.linksOnce(),db.personal().tagsOnce(),db.personal().notesOnce())
+    suspend fun preview(body:String):BackupPreview=withContext(Dispatchers.Default){
         val incoming=LibraryCodec.decode(body)
+        db.withTransaction{LibraryMerge.preview(incoming,backupOnce())}
+    }
+    suspend fun import(body:String):BackupImportResult=import(preview(body))
+    suspend fun import(preview:BackupPreview,folderPolicy:FolderConflictPolicy=FolderConflictPolicy.MERGE_BY_NAME,notePolicy:NoteConflictPolicy=NoteConflictPolicy.KEEP_EXISTING):BackupImportResult=withContext(Dispatchers.Default){
         db.withTransaction{
-            ready();val oldFolders=dao.foldersOnce();val oldPosts=dao.postsOnce()
-            if((oldPosts.map{it.id}+incoming.posts.map{it.id}).distinct().size>10000)throw LibraryFailure("library_limit")
-            val map=mutableMapOf<Long,Long>();var position=(oldFolders.maxOfOrNull{it.position} ?: 0)+1
-            for(folder in incoming.folders){
-                val existing=if(folder.id==1L)oldFolders.first{it.id==1L}else dao.foldersOnce().firstOrNull{it.id!=1L && it.name.equals(folder.name,true)}
-                val id=existing?.id ?: run{if(dao.foldersOnce().size>=100)throw LibraryFailure("library_limit");dao.folder(FavoriteFolder(name=folder.name,position=position++))}
-                map[folder.id]=id
-            }
-            if((oldPosts+incoming.posts).distinctBy{it.id}.sumOf{it.snapshot.toByteArray().size.toLong()}>8*1024*1024)throw LibraryFailure("library_limit")
-            if((dao.linksOnce()+incoming.links.map{it.copy(folderId=map[it.folderId]!!)}).distinctBy{it.postId to it.folderId}.size>50000)throw LibraryFailure("library_limit")
-            incoming.posts.forEach{dao.post(it)}
-            incoming.links.forEach{dao.link(it.copy(folderId=checkNotNull(map[it.folderId])))}
-            incoming.folders.forEach{folder->val target=map[folder.id]!!;val cover=folder.coverPostId;if(cover!=null && dao.foldersOnce().first{it.id==target}.coverPostId==null && dao.linksOnce().any{it.folderId==target && it.postId==cover})dao.cover(target,cover)}
-            val personal=db.personal();val oldTags=personal.tagsOnce();val oldNotes=personal.notesOnce()
-            if((oldTags+incoming.tags).distinctBy{it.name}.size>PersonalRules.MAX_TAGS || (oldNotes+incoming.notes).distinctBy{it.name}.size>PersonalRules.MAX_NOTES)throw LibraryFailure("library_limit")
-            incoming.tags.forEach{personal.tag(it)}
-            incoming.notes.filter{n->oldNotes.none{it.name==n.name}}.forEach{personal.note(it)}
-            dao.pruneOrphans()
+            // Replan against current data: changes made while a preview dialog is open are never overwritten implicitly.
+            val plan=LibraryMerge.plan(preview.backup,backupOnce(),folderPolicy,notePolicy)
+            plan.folders.forEach{dao.folder(it)}
+            plan.posts.forEach{dao.post(it)}
+            plan.links.forEach{dao.link(it)}
+            plan.folders.forEach{dao.position(it.id,it.position);dao.cover(it.id,it.coverPostId)}
+            val personal=db.personal()
+            plan.tags.forEach{personal.tag(it);personal.category(it.name,it.category)}
+            plan.notes.forEach{personal.note(it)}
+            plan.result
         }
     }
 }

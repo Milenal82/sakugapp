@@ -28,7 +28,7 @@ class LibraryDocumentsDeviceTest {
         try{
             runBlocking{val id=app.localLibrary.createFolder(folderName);app.localLibrary.membership(post,id,true)}
             ui.runOnUiThread{ui.activity.setContent{SakugappTheme(false){LibraryScreen(app){_,_->}}}}
-            ui.onNodeWithText("Export JSON",substring=false).performClick()
+            ui.onNodeWithTag("export-favorites").performClick()
             val name=device.wait(Until.findObject(By.clazz("android.widget.EditText")),15000)
             assertNotNull("System filename field",name);name.text=filename
             val save=device.wait(Until.findObject(By.text(java.util.regex.Pattern.compile("(?i)save"))),15000)
@@ -42,7 +42,7 @@ class LibraryDocumentsDeviceTest {
             assertFalse(com.google.gson.JsonParser.parseString(body).asJsonObject.has("translations"))
             runBlocking{app.localLibrary.deleteFolder(app.library.value.folders.single{it.name==folderName}.id)}
             ui.waitUntil(10000){app.library.value.folders.none{it.name==folderName}}
-            ui.onNodeWithText("Import JSON",substring=false).performClick()
+            ui.onNodeWithTag("import-favorites").performClick()
             var document=device.wait(Until.findObject(By.text(filename)),10000)
             if(document==null){
                 device.findObject(By.desc("Show roots"))?.click()

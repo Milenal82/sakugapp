@@ -316,14 +316,14 @@
     <string name="ui_saved_local">保存済み</string>
     <string name="ui_library_empty">お気に入りはありません</string>
     <string name="ui_library_snapshot_hint">保存済みの情報</string>
-    <string name="ui_export_library">JSON を書き出す</string>
-    <string name="ui_import_library">JSON を読み込む</string>
-    <string name="ui_import_warning">バックアップを統合しますか？同じフォルダと投稿をまとめ、既存の情報を保持します。</string>
+    <string name="ui_export_library">お気に入りをエクスポート</string>
+    <string name="ui_import_library">お気に入りをインポート</string>
+    <string name="ui_import_warning">フォルダ、投稿、お気に入りタグ、メモを含みます。メディア、ログイン情報、閲覧履歴は含みません。</string>
     <string name="ui_merge">統合</string>
     <string name="ui_exported">エクスポートしました</string>
     <string name="ui_imported">インポートしました</string>
     <string name="ui_library_failed">操作に失敗しました。既存のデータは保持されています。</string>
-    <string name="ui_invalid_backup">バックアップが無効、または未対応の形式です。何も読み込んでいません。</string>
+    <string name="ui_invalid_backup">バックアップが破損しているか、形式が無効です。データは取り込まれていません。</string>
     <string name="ui_library_limit">保存容量または件数の上限に達しました。既存の内容を書き出して整理してください。</string>
     <string name="ui_folder_name_error">1～80文字の重複しない名前を入力してください。</string>
     <string name="ui_sort_saved_desc">保存が新しい順</string>
@@ -408,4 +408,18 @@
     </plurals>
     <string name="ui_playback_speed">再生速度</string>
     <string name="ui_ab_loop">A–B リピート</string>
+    <string name="ui_today">今日</string>
+    <string name="ui_yesterday">昨日</string>
+    <string name="ui_browsing_search">閲覧と検索</string>
+    <string name="ui_favorites_backup">お気に入りとバックアップ</string>
+    <string name="ui_privacy_history">プライバシーと履歴</string>
+    <string name="ui_backup_preview_counts">フォルダ：%1$d · 投稿：%2$d · 所属関係：%3$d · タグ：%4$d · メモ：%5$d</string>
+    <string name="ui_backup_folder_conflicts">同名フォルダ：%1$d</string>
+    <string name="ui_backup_merge_folders">名前で統合（端末の順序とカバーを保持）</string>
+    <string name="ui_backup_keep_folders">両方保持（取り込むフォルダ名を変更）</string>
+    <string name="ui_backup_note_conflicts">競合するメモ：%1$d</string>
+    <string name="ui_backup_keep_notes">既存のメモを保持</string>
+    <string name="ui_backup_replace_notes">競合するメモを置き換え</string>
+    <string name="ui_backup_result">取込：%1$d · スキップ：%2$d · 失敗：%3$d</string>
+    <string name="ui_backup_unsupported">このバックアップのバージョンには対応していません。データは取り込まれていません。</string>
 </resources>

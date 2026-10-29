@@ -312,14 +312,14 @@
     <string name="ui_saved_local">En favoritos</string>
     <string name="ui_library_empty">Sin favoritos</string>
     <string name="ui_library_snapshot_hint">Metadatos guardados</string>
-    <string name="ui_export_library">Exportar JSON</string>
-    <string name="ui_import_library">Importar JSON</string>
-    <string name="ui_import_warning">¿Combinar esta copia? Se unen las carpetas y publicaciones coincidentes; se conservan los metadatos existentes.</string>
+    <string name="ui_export_library">Exportar favoritos</string>
+    <string name="ui_import_library">Importar favoritos</string>
+    <string name="ui_import_warning">Incluye carpetas, publicaciones, etiquetas favoritas y notas. Excluye archivos multimedia, credenciales e historial de navegación.</string>
     <string name="ui_merge">Combinar</string>
     <string name="ui_exported">Exportado</string>
     <string name="ui_imported">Importado</string>
     <string name="ui_library_failed">Error en la operación local. Se conservan los datos existentes.</string>
-    <string name="ui_invalid_backup">Copia no válida o no compatible. No se ha importado nada.</string>
+    <string name="ui_invalid_backup">Copia de seguridad dañada o no válida. No se importó ningún dato.</string>
     <string name="ui_library_limit">Límite de espacio o registros alcanzado. Exporta y gestiona el contenido existente.</string>
     <string name="ui_folder_name_error">Usa un nombre único de 1 a 80 caracteres.</string>
     <string name="ui_sort_saved_desc">Guardados recientes</string>
@@ -414,4 +414,18 @@
     </plurals>
     <string name="ui_playback_speed">Velocidad de reproducción</string>
     <string name="ui_ab_loop">Bucle A–B</string>
+    <string name="ui_today">Hoy</string>
+    <string name="ui_yesterday">Ayer</string>
+    <string name="ui_browsing_search">Navegación y búsqueda</string>
+    <string name="ui_favorites_backup">Favoritos y copia de seguridad</string>
+    <string name="ui_privacy_history">Privacidad e historial</string>
+    <string name="ui_backup_preview_counts">Carpetas: %1$d · Publicaciones: %2$d · Relaciones: %3$d · Etiquetas: %4$d · Notas: %5$d</string>
+    <string name="ui_backup_folder_conflicts">Carpetas con el mismo nombre: %1$d</string>
+    <string name="ui_backup_merge_folders">Combinar por nombre (conservar el orden y la portada locales)</string>
+    <string name="ui_backup_keep_folders">Conservar ambas (renombrar la carpeta importada)</string>
+    <string name="ui_backup_note_conflicts">Notas en conflicto: %1$d</string>
+    <string name="ui_backup_keep_notes">Conservar las notas existentes</string>
+    <string name="ui_backup_replace_notes">Reemplazar las notas en conflicto</string>
+    <string name="ui_backup_result">Importados: %1$d · Omitidos: %2$d · Fallidos: %3$d</string>
+    <string name="ui_backup_unsupported">Esta versión de copia de seguridad no es compatible. No se importó ningún dato.</string>
 </resources>
