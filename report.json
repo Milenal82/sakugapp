@@ -1,12 +1,20 @@
 {
-  "source_commit": "9f5f6c316980a4829f1c98e56b3c0469c5350b39",
-  "run_id": "40884609313",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40884609313",
-  "captured_utc": "2026-10-29T14:12:56.253031+00:00",
+  "source_commit": "a0aee0ae5aa84a647f675bc80330fabf048cf062",
+  "run_id": "40890967443",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40890967443",
+  "captured_utc": "2026-10-29T14:30:09.528295+00:00",
   "jobs": {
-    "six-column-display (phone, Nexus S)": {
+    "device-tests": {
       "status": "completed",
-      "conclusion": "failure"
+      "conclusion": "success"
+    },
+    "signed-candidate": {
+      "status": "completed",
+      "conclusion": "success"
+    },
+    "six-column-display (landscape, pixel_c)": {
+      "status": "completed",
+      "conclusion": "success"
     },
     "search-back-gestures": {
       "status": "completed",
@@ -16,63 +24,55 @@
       "status": "completed",
       "conclusion": "success"
     },
+    "six-column-display (phone, Nexus S)": {
+      "status": "completed",
+      "conclusion": "success"
+    },
     "candidate-upgrade-install": {
-      "status": "completed",
-      "conclusion": "success"
-    },
-    "six-column-display (landscape, pixel_c)": {
-      "status": "completed",
-      "conclusion": "success"
-    },
-    "device-tests": {
-      "status": "completed",
-      "conclusion": "success"
-    },
-    "signed-candidate": {
-      "status": "completed",
-      "conclusion": "success"
+      "status": "in_progress",
+      "conclusion": null
     }
   },
   "artifacts": [
     {
-      "name": "signed-upgrade-install-report",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40884609313/artifacts/12903185037",
-      "bytes": 1241087
-    },
-    {
-      "name": "check-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40884609313/artifacts/12902945168",
-      "bytes": 124268
-    },
-    {
       "name": "six-column-landscape-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40884609313/artifacts/12902601150",
-      "bytes": 2369985
-    },
-    {
-      "name": "sakugapp-signed-candidate",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40884609313/artifacts/12902591236",
-      "bytes": 12914936
-    },
-    {
-      "name": "search-back-gesture-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40884609313/artifacts/12902407090",
-      "bytes": 1860504
-    },
-    {
-      "name": "sakugapp-debug",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40884609313/artifacts/12901103847",
-      "bytes": 16696217
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40890967443/artifacts/12905841132",
+      "bytes": 2369298
     },
     {
       "name": "sakugapp-source",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40884609313/artifacts/12901028967",
-      "bytes": 1113471
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40890967443/artifacts/12905815167",
+      "bytes": 1113765
     },
     {
       "name": "device-test-reports",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40884609313/artifacts/12900964279",
-      "bytes": 7394459
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40890967443/artifacts/12905750305",
+      "bytes": 7442627
+    },
+    {
+      "name": "sakugapp-signed-candidate",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40890967443/artifacts/12905596150",
+      "bytes": 12915387
+    },
+    {
+      "name": "search-back-gesture-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40890967443/artifacts/12904922679",
+      "bytes": 1866820
+    },
+    {
+      "name": "sakugapp-debug",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40890967443/artifacts/12903948699",
+      "bytes": 16696215
+    },
+    {
+      "name": "six-column-phone-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40890967443/artifacts/12903849451",
+      "bytes": 180431
+    },
+    {
+      "name": "check-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40890967443/artifacts/12903799012",
+      "bytes": 124253
     }
   ],
   "tests": {
@@ -89,19 +89,13 @@
       "skipped": 0
     },
     "device": {
-      "tests": 38,
+      "tests": 40,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "failures": [
-    {
-      "job": "six-column-display (phone, Nexus S)",
-      "conclusion": "failure",
-      "message": "See the job and device diagnostics for this unsuccessful run."
-    }
-  ],
+  "failures": [],
   "device_diagnostics": [],
   "lint": {
     "debug": {
@@ -126,7 +120,7 @@
     "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff",
     "certificate_subject": "CN=Sakugapp Release",
     "validation_scope": "signed release verified",
-    "apk_sha256": "2bc841f9043121c3db6811b07a6d4b340bed00ca965f36800fc2e893893a84e3",
+    "apk_sha256": "de78c5062f736765d3365d820ed044f5bffd0d3b4336aab1d7e799c99a85c5be",
     "apk_bytes": 12976763,
     "abis": [
       "arm64-v8a",
@@ -184,31 +178,10 @@
         "machine": 62
       }
     ],
-    "source_commit": "9f5f6c316980a4829f1c98e56b3c0469c5350b39",
+    "source_commit": "a0aee0ae5aa84a647f675bc80330fabf048cf062",
     "unit_tests": 112,
     "lint_errors": 0,
     "lint_warnings": 23,
     "distribution": "signed development candidate; no Release published"
-  },
-  "upgrade": {
-    "previous": {
-      "package": "com.sakugapp",
-      "versionCode": 6,
-      "versionName": "1.0.0",
-      "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff"
-    },
-    "candidate": {
-      "package": "com.sakugapp",
-      "versionCode": 11,
-      "versionName": "1.2.0",
-      "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff"
-    },
-    "retained_light_theme": true,
-    "system_night_mode": "yes",
-    "theme_verification": "actual rendered background pixels",
-    "retained_wrap_tags": true,
-    "retained_search_history": true,
-    "uninstall_or_clear_data": false,
-    "result": "passed"
   }
 }
