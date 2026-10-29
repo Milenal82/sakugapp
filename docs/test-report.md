@@ -1,6 +1,6 @@
 # 1.2.0 / code 11 开发验证
 
-本地基线与完整 JVM / Lint / Debug / Release 预检及新设备用例说明见 [开发记录](development-1.2.0.md)。[本轮证据分支](https://github.com/Milenal82/sakugapp/blob/evidence/history-tags-refresh/report.json)记录实际提交、Actions 状态、单测/设备计数、Lint 和原始截图；结果未回传前不视为设备验证通过。以下保留历史版本记录。
+本地基线与完整 JVM / Lint / Debug / Release 预检及新设备用例说明见 [开发记录](development-1.2.0.md)。[本轮证据分支](https://github.com/Milenal82/sakugapp/blob/evidence/history-tags-refresh/report.json)记录实际提交、Actions 状态、单测/设备计数、Lint 和原始截图；应用代码 14f15a2 的完整检查已通过：Debug/Release 各 107 项单测、33/33 项设备测试、正式签名及覆盖升级检查；CI Lint 0 错误 / 23 警告。本地 Lint 0 错误 / 6 警告。最终文档与截图同步构件以证据报告中的提交为准。以下保留历史版本记录。
 
 # 正式 v1.1.0 验证（2026-10-27）
 

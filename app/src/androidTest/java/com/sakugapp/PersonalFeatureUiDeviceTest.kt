@@ -59,6 +59,7 @@ class PersonalFeatureUiDeviceTest {
             ui.waitForIdle();UiEvidence.capture("tag-favorites-page.png")
             ui.onNodeWithTag("saved-tag-options-mokmok").performClick()
             ui.onNodeWithTag("edit-tag-note").performClick()
+            ui.onNodeWithTag("tag-note-input").assertIsDisplayed()
             UiEvidence.capture("tag-note-editor.png")
             ui.onNodeWithTag("tag-note-input").performTextReplacement("Local revised note")
             ui.onNodeWithTag("save-tag-note").performClick();ui.onNodeWithText("Close",substring=false).performClick()
