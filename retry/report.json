@@ -1,0 +1,121 @@
+{
+  "source_commit": "9f5f6c316980a4829f1c98e56b3c0469c5350b39",
+  "run_id": "40887009567",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40887009567",
+  "captured_utc": "2026-10-29T14:11:25.144958+00:00",
+  "jobs": {
+    "device-tests": {
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    "search-back-gestures": {
+      "status": "completed",
+      "conclusion": "success"
+    },
+    "build": {
+      "status": "completed",
+      "conclusion": "success"
+    },
+    "six-column-display (landscape, pixel_c)": {
+      "status": "completed",
+      "conclusion": "success"
+    },
+    "six-column-display (phone, Nexus S)": {
+      "status": "completed",
+      "conclusion": "success"
+    },
+    "signed-candidate": {
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    "candidate-upgrade-install": {
+      "status": "completed",
+      "conclusion": "skipped"
+    }
+  },
+  "artifacts": [
+    {
+      "name": "six-column-phone-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40887009567/artifacts/12904170017",
+      "bytes": 197361
+    },
+    {
+      "name": "six-column-landscape-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40887009567/artifacts/12903920069",
+      "bytes": 2369264
+    },
+    {
+      "name": "search-back-gesture-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40887009567/artifacts/12903631544",
+      "bytes": 1870113
+    },
+    {
+      "name": "device-test-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40887009567/artifacts/12903441249",
+      "bytes": 7486388
+    },
+    {
+      "name": "check-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40887009567/artifacts/12902883555",
+      "bytes": 124237
+    },
+    {
+      "name": "sakugapp-source",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40887009567/artifacts/12902448249",
+      "bytes": 1113471
+    },
+    {
+      "name": "sakugapp-debug",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40887009567/artifacts/12902183591",
+      "bytes": 16696219
+    }
+  ],
+  "tests": {
+    "Debug": {
+      "tests": 112,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "Release": {
+      "tests": 112,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "device": {
+      "tests": 40,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "failures": [
+    {
+      "test": "com.sakugapp.SearchNavigationDeviceTest.systemBackClosesTheImeThenTheEditorWithoutFinishingTheActivity",
+      "report": "device-test-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "message": "java.lang.AssertionError: Failed: assertDoesNotExist.\nReason: Did not expect any node but found '1' node that satisfies: (TestTag = 'search-input')\nNode found:\nNode #18966 at (l=35.0, t=252.0, r=1069.0, b=476.0)px, Tag: 'search-input'\nContentDataType = 'AndroidContentDataType(androidAutofillType=1)'\nEditableText = 'animated'\nFocused = 'true'\nImeAction = 'Search'\nInputText = 'animated'\nIsEditable = 'true'\nText = '[Search]'\nTextSelectionRange = 'TextRange(8, 8)'\nActions = [ClearTextSubstitution, GetTextLayoutResult, InsertTextAtCursor, MagnifierPositionInRoot, OnAutofillText, OnClick, OnLongClick, PasteText, PerformImeAction, RequestFocus, SetSelection, SetText, SetTextSubstitution, ShowTextSubstitution]\nMergeDescendants = 'true'\nHas 1 child, 4 siblings\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.assertDoesNotExist(SemanticsNodeInteraction.kt:101)\nat com.sakugapp.SearchNavigationDeviceTest.systemBackClosesTheImeThenTheEditorWithoutFinishingTheActivity(SearchNavigationDeviceTest.kt:92)\n"
+    },
+    {
+      "job": "device-tests",
+      "conclusion": "failure",
+      "message": "See the job and device diagnostics for this unsuccessful run."
+    }
+  ],
+  "device_diagnostics": [
+    {
+      "report": "device-test-reports/reports/device-diagnostics/runner.log",
+      "tail": "--------- beginning of main\n--------- beginning of system\n10-29 14:05:55.304  3120  3136 I TestRunner: finished: groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape(com.sakugapp.AdvancedControlsLayoutDeviceTest)\n10-29 14:05:55.310  3120  3136 I TestRunner: run finished: 34 tests, 1 failed, 0 ignored\n"
+    }
+  ],
+  "lint": {
+    "debug": {
+      "errors": 0,
+      "warnings": 23
+    },
+    "release": {
+      "errors": 0,
+      "warnings": 23
+    }
+  }
+}
