@@ -13,6 +13,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.semantics.*
@@ -32,10 +33,10 @@ fun meteredNetwork(context:Context)=callbackFlow {
 
 @Composable
 fun LanguageScreen(current:String,choose:(String)->Unit) {
-    Column(Modifier.padding(16.dp)){
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp)){
         Text(text(R.string.ui_app_language),style=MaterialTheme.typography.titleLarge)
         Text(text(R.string.ui_language_explanation),style=MaterialTheme.typography.bodySmall)
-        for((code,label)in listOf("system" to text(R.string.ui_follow_system),"en" to text(R.string.language_english),"zh-CN" to text(R.string.language_simplified),"ja" to text(R.string.language_japanese),"zh-TW" to text(R.string.language_traditional)))Row{
+        for((code,label)in listOf("system" to text(R.string.ui_follow_system),"en" to text(R.string.language_english),"zh-CN" to text(R.string.language_simplified),"ja" to text(R.string.language_japanese),"zh-TW" to text(R.string.language_traditional),"fr" to text(R.string.language_french),"es" to text(R.string.language_spanish),"ru" to text(R.string.language_russian),"ko" to text(R.string.language_korean)))Row{
             RadioButton(selected=current==code,onClick={choose(code)})
             TextButton(onClick={choose(code)}){Text(label)}
         }
@@ -49,6 +50,8 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel) {
     var message by remember{mutableStateOf<String?>(null)}
     var clearing by remember{mutableStateOf(false)}
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
+        val recording by model.recordHistory.collectAsState()
+        SettingSwitch(text(R.string.ui_record_browsing_history),recording){value->scope.launch{try{model.personal.recording(value)}catch(e:CancellationException){throw e}catch(e:Exception){message=libraryError(context,e)}}}
         Text(text(R.string.ui_appearance),style=MaterialTheme.typography.titleLarge)
         Text(text(R.string.ui_grid_columns))
         FlowRow{for(columns in GridPolicy.options(LocalConfiguration.current.smallestScreenWidthDp))FilterChip(selected=settings.columns==columns,onClick={model.columns(columns)},label={Text(columns.toString())})}

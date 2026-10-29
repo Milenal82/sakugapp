@@ -27,7 +27,7 @@ import com.sakugapp.data.*
 import kotlinx.coroutines.*
 
 @OptIn(ExperimentalLayoutApi::class)
-@Composable fun LibraryScreen(app:AppViewModel,search:(String)->Unit={},open:(Post,List<Post>)->Unit){
+@Composable fun LibraryScreen(app:AppViewModel,search:(String)->Unit={},tags:()->Unit={},open:(Post,List<Post>)->Unit){
     val state by app.library.collectAsStateWithLifecycle();val context=LocalContext.current;val scope=rememberCoroutineScope()
     var folderId by rememberSaveable{mutableStateOf<Long?>(null)}
     val preferences by app.settings.collectAsStateWithLifecycle();val sort=preferences.librarySort
@@ -78,8 +78,8 @@ import kotlinx.coroutines.*
 
     LazyVerticalGrid(columns=GridCells.Fixed(if(inside)settings.columns else 1),state=grid,
         modifier=Modifier.fillMaxSize().testTag("local-library"),contentPadding=PaddingValues(12.dp),
-        horizontalArrangement=Arrangement.spacedBy(if(settings.columns>=8)1.dp else settings.cardSpacing.dp),
-        verticalArrangement=Arrangement.spacedBy(if(inside && settings.columns>=8)1.dp else 8.dp)){
+        horizontalArrangement=Arrangement.spacedBy(if(settings.columns>=6)1.dp else settings.cardSpacing.dp),
+        verticalArrangement=Arrangement.spacedBy(if(inside && settings.columns>=6)1.dp else 8.dp)){
         item(span={GridItemSpan(maxLineSpan)}){
             Column(verticalArrangement=Arrangement.spacedBy(8.dp)){
                 if(inside){
@@ -88,7 +88,7 @@ import kotlinx.coroutines.*
                             ActionIcon(R.drawable.ic_back,text(R.string.ui_back_to_app),{folderId=null},Modifier.testTag("folder-back"))
                             Column(Modifier.weight(1f)){
                                 Text(title,style=MaterialTheme.typography.titleMedium,maxLines=2)
-                                Text(text(R.string.ui_posts_count,candidates.size),style=MaterialTheme.typography.labelMedium,color=MaterialTheme.colorScheme.onSurfaceVariant)
+                                Text(androidx.compose.ui.res.pluralStringResource(R.plurals.ui_post_quantity,candidates.size,candidates.size),style=MaterialTheme.typography.labelMedium,color=MaterialTheme.colorScheme.onSurfaceVariant)
                             }
                             Box{
                                 ActionIcon(R.drawable.ic_more,text(R.string.ui_menu),{more=true},Modifier.testTag("folder-more"))
@@ -143,6 +143,9 @@ import kotlinx.coroutines.*
             }
         }
         if(!inside){
+            item{OutlinedCard(onClick=tags,modifier=Modifier.fillMaxWidth().testTag("tag-favorites-entry")){
+                Row(Modifier.padding(14.dp),verticalAlignment=Alignment.CenterVertically){Text(text(R.string.ui_tag_favorites),Modifier.weight(1f));val tags by app.savedTags.collectAsStateWithLifecycle();Text(tags.size.toString())}
+            }}
             item{FolderCard(text(R.string.ui_all_favorites),state.inFolder(null).size,state.inFolder(null).firstOrNull()?.let{state.decoded[it.id]},settings.wifiImages && metered,Modifier.testTag("folder-entry-0")){folderId=0L}}
             items(state.folders,key={"folder-${it.id}"}){f->
                 val entries=state.inFolder(f.id);val ids=entries.map{it.id}.toSet()
@@ -199,7 +202,7 @@ import kotlinx.coroutines.*
             }
             Column(Modifier.weight(1f)){
                 Text(name,style=MaterialTheme.typography.titleSmall,maxLines=2)
-                Text(text(R.string.ui_posts_count,count),style=MaterialTheme.typography.bodySmall,color=MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(androidx.compose.ui.res.pluralStringResource(R.plurals.ui_post_quantity,count,count),style=MaterialTheme.typography.bodySmall,color=MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
     }

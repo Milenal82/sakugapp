@@ -373,4 +373,35 @@
     <string name="ui_batch_manage">批量管理</string>
     <string name="ui_remove_favorite">取消收藏</string>
     <string name="ui_quick_default">收藏到默认收藏夹</string>
+    <string name="ui_save">保存</string>
+    <string name="ui_no_results">无结果</string>
+    <string name="ui_refresh_posts">刷新帖子</string>
+    <string name="ui_refresh_failed">刷新失败，已保留原有帖子。</string>
+    <string name="ui_browsing_history">浏览历史</string>
+    <string name="ui_record_browsing_history">记录浏览历史</string>
+    <string name="ui_history_retention">仅保存在本机，最多 %1$d 帖或 8 MiB，优先淘汰最早记录。</string>
+    <string name="ui_browsing_history_empty">暂无浏览历史</string>
+    <string name="ui_remove_history_entry">删除此条历史</string>
+    <string name="ui_clear_browsing_history">清空浏览历史</string>
+    <string name="ui_clear_browsing_history_confirm">清空本地浏览历史？收藏、下载和标签备注会保留。</string>
+    <string name="ui_tag_favorites">标签收藏</string>
+    <string name="ui_favorite_tag">收藏标签</string>
+    <string name="ui_unfavorite_tag">取消收藏标签</string>
+    <string name="ui_tag_options">标签操作</string>
+    <string name="ui_tag_note">本地备注</string>
+    <string name="ui_add_tag_note">添加标签备注</string>
+    <string name="ui_edit_tag_note">编辑标签备注</string>
+    <string name="ui_clear_tag_note">清除标签备注</string>
+    <string name="ui_note_limit">最多 %1$d 字、8 行，仅保存在本机。</string>
+    <string name="ui_note_length_error">备注最多 500 字、8 行。</string>
+    <string name="ui_literal_tags_only">请选择普通标签。字段条件和通配符不能作为标签收藏。</string>
+    <string name="ui_sort_tags">标签排序</string>
+    <string name="ui_tags_recent">最近收藏</string>
+    <string name="ui_tags_name">标签名称</string>
+    <string name="ui_tags_oldest">最早收藏</string>
+    <string name="ui_find_tags_notes">搜索标签和备注</string>
+    <string name="ui_tag_favorites_empty">暂无标签收藏。长按帖子标签，或在搜索结果顶部点击收藏图标。</string>
+    <plurals name="ui_post_quantity">
+        <item quantity="other">%1$d 帖</item>
+    </plurals>
 </resources>

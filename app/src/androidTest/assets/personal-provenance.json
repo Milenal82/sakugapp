@@ -1,0 +1,22 @@
+{
+  "purpose": "Read-only reuse of previously captured public responses and the published v1.1.0 Room schema. No new live-site acquisition is claimed. No account credentials or fabricated post IDs.",
+  "sources": {
+    "personal-tag-summary.json": {
+      "source": "app/src/test/resources/live/tags.json",
+      "sha256": "cfeb2573ee534d188f5ff84f197aeef2c42b1735044e2c306acbce7dbf5602e3"
+    },
+    "posts-five-pages.json": {
+      "source": "app/src/test/resources/live/posts-five-pages.json",
+      "sha256": "538686f63221f5f9fdb521fafa09c4ae40de73427f5c8d72fbe0a72b8cdd965a"
+    },
+    "library-schema-v2.json": {
+      "source": "app/schemas/com.sakugapp.data.LibraryDatabase/2.json",
+      "sha256": "fa6ca503872eaec7623f771e6bba2c44cbf0cf311f7947575b57d0beced69d2c"
+    }
+  },
+  "public_response_provenance": [
+    "app/src/test/resources/live/provenance.json",
+    "docs/evidence/browse-upgrade-2026-10-26.json"
+  ],
+  "existing_post_fixture": "library-real-posts.json (unchanged existing public sample)"
+}

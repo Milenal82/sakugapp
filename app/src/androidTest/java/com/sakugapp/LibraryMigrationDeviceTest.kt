@@ -34,7 +34,7 @@ class LibraryMigrationDeviceTest {
             old.execSQL("INSERT INTO tag_translations VALUES('character_animation','旧翻译')")
             old.version=1
         }
-        val upgraded=Room.databaseBuilder(context,LibraryDatabase::class.java,name).addMigrations(LibraryDatabase.MIGRATION_1_2).build()
+        val upgraded=Room.databaseBuilder(context,LibraryDatabase::class.java,name).addMigrations(LibraryDatabase.MIGRATION_1_2,LibraryDatabase.MIGRATION_2_3).build()
         try{
             val store=LocalLibraryStore(upgraded);val data=store.state.first()
             assertEquals(1,data.posts.size);assertEquals(post,data.decoded[post.id]);assertEquals(123L,data.posts.single().savedAt);assertEquals(2,data.links.size)

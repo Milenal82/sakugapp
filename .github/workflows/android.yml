@@ -55,7 +55,7 @@ jobs:
       - name: Verify native localization resources
         run: python3 scripts/check-localization.py
       - name: Unit tests, Android Lint and Debug APK
-        run: ./gradlew --no-daemon testDebugUnitTest lintDebug assembleDebug assembleDebugAndroidTest
+        run: ./gradlew --no-daemon testDebugUnitTest lintDebug assembleDebug assembleDebugAndroidTest testReleaseUnitTest lintRelease assembleRelease -PreleaseUnsignedCheck=true
       - name: Verify APK signature and list packaged ABIs
         run: |
           "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify app/build/outputs/apk/debug/app-debug.apk
@@ -80,6 +80,8 @@ jobs:
             app/build/reports/tests/testDebugUnitTest/
             app/build/reports/lint-results-debug.*
             app/build/test-results/testDebugUnitTest/
+            app/build/test-results/testReleaseUnitTest/
+            app/build/reports/lint-results-release.*
           if-no-files-found: warn
   device-tests:
     if: ${{ !github.event.inputs.release_tag && github.event.inputs.build_signed_candidate != 'true' && github.event.inputs.update_screenshots != 'true' }}
@@ -217,7 +219,7 @@ jobs:
     with:
       tag: ${{ github.event.inputs.release_tag }}
   signed-candidate:
-    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.build_signed_candidate == 'true' && !github.event.inputs.release_tag && startsWith(github.ref, 'refs/heads/feature/') }}
+    if: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.build_signed_candidate == 'true' && !github.event.inputs.release_tag && startsWith(github.ref, 'refs/heads/feature/')) || (github.event_name == 'push' && github.ref == 'refs/heads/feature/history-tags-refresh') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     environment: release-signing
@@ -305,3 +307,17 @@ jobs:
         with:
           name: signed-upgrade-install-report
           path: ${{ runner.temp }}/upgrade-install-report/
+  checks-evidence:
+    needs: [build, device-tests]
+    if: ${{ always() && github.event_name == 'push' && github.ref == 'refs/heads/feature/history-tags-refresh' }}
+    permissions:
+      contents: write
+      actions: read
+    uses: ./.github/workflows/evidence.yml
+  candidate-evidence:
+    needs: [signed-candidate, candidate-upgrade-install]
+    if: ${{ always() && github.event_name == 'push' && github.ref == 'refs/heads/feature/history-tags-refresh' }}
+    permissions:
+      contents: write
+      actions: read
+    uses: ./.github/workflows/evidence.yml

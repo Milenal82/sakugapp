@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.foundation.text.*
 import androidx.compose.material3.*
+import androidx.compose.material3.pulltorefresh.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -98,7 +99,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
         else data?.getStringExtra("query")?.let{search(it)}
     }
     val openSite:(String)->Unit={url->browser.launch(Intent(context,BrowserActivity::class.java).putExtra("url",url))}
-    SakugappTheme(settings.lightTheme){CompositionLocalProvider(LocalLanguage provides language){
+    SakugappTheme(settings.lightTheme){CompositionLocalProvider(LocalLanguage provides language,LocalTagActions provides app){
         if(about)AboutDialog{about=false}
         Scaffold(topBar={Column(Modifier.statusBarsPadding()){
             Row(Modifier.fillMaxWidth().padding(horizontal=8.dp),verticalAlignment=Alignment.CenterVertically){
@@ -107,6 +108,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                 Box{TextButton(onClick={menu=true}){Text(text(R.string.ui_menu))};DropdownMenu(expanded=menu,onDismissRequest={menu=false}){
                     DropdownMenuItem(text={Text(text(R.string.ui_posts))},onClick={menu=false;nav.popBackStack("posts",false)})
                     DropdownMenuItem(text={Text(text(R.string.ui_local_library))},onClick={menu=false;nav.navigate("library")})
+                    DropdownMenuItem(text={Text(text(R.string.ui_browsing_history))},onClick={menu=false;nav.navigate("history")})
                     DropdownMenuItem(text={Text(text(R.string.ui_my_account))},onClick={menu=false;nav.navigate("account")})
                     DropdownMenuItem(text={Text(text(R.string.ui_blog))},onClick={menu=false;openSite("https://blog.sakugabooru.com/")})
                     DropdownMenuItem(text={Text(text(R.string.ui_forum))},onClick={menu=false;openSite("https://www.sakugabooru.com/forum")})
@@ -116,8 +118,10 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                 }}
             }
         }}){insets->NavHost(navController=nav,startDestination="posts",modifier=Modifier.padding(insets).semantics{testTagsAsResourceId=true}){
-            composable("posts"){PostsScreen(feed,grid,settings,history,metered,app,::search,{post->model.open(post);nav.navigate("post/${post.id}")},model::loadMore)}
-            composable("library"){LibraryScreen(app,::search){post,order->model.openLocal(post,order);nav.navigate("post/${post.id}")}}
+            composable("posts"){PostsScreen(feed,grid,settings,history,metered,app,::search,{post->model.open(post);nav.navigate("post/${post.id}")},model::loadMore,model::refresh)}
+            composable("library"){LibraryScreen(app,::search,{nav.navigate("tags")}){post,order->model.openLocal(post,order);nav.navigate("post/${post.id}")}}
+            composable("tags"){TagFavoritesScreen(app,{nav.popBackStack()}){value->nav.popBackStack("posts",false);search(value)}}
+            composable("history"){BrowsingHistoryScreen(app,{nav.popBackStack()}){post,order->model.openLocal(post,order);nav.navigate("post/${post.id}")}}
             composable("account"){AccountScreen(app,openSite)}
             composable("language"){LanguageScreen(settings.language,app::language)}
             composable("settings"){SettingsScreen(settings,app)}
@@ -126,7 +130,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                 LaunchedEffect(id){if(id!=null && selected?.id!=id)model.openId(id)}
                 val post=selected?.takeIf{it.id==id}
                 if(post!=null)key(post.id){
-                    LaunchedEffect(post.id){model.prefetchNeighbors()}
+                    LaunchedEffect(post.id){app.visited(post);model.prefetchNeighbors()}
                     val neighboringUrls=listOfNotNull(model.adjacent(-1)?.previewUrl,model.adjacent(1)?.previewUrl).distinct()
                     DisposableEffect(post.id,neighboringUrls,settings.wifiImages,metered){
                         val requests=if(settings.wifiImages && metered)emptyList()else neighboringUrls.map{url->coil.Coil.imageLoader(context).enqueue(coil.request.ImageRequest.Builder(context.applicationContext).data(url).size(320).build())}
@@ -147,9 +151,9 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
     }}
 }
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class,ExperimentalMaterial3Api::class)
 @Composable
-private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,history:List<String>,metered:Boolean,app:AppViewModel,search:(String)->Unit,open:(Post)->Unit,loadMore:()->Unit) {
+internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,history:List<String>,metered:Boolean,app:AppViewModel,search:(String)->Unit,open:(Post)->Unit,loadMore:()->Unit,refresh:()->Unit) {
     var query by rememberSaveable(state.query,stateSaver=TextFieldValue.Saver){mutableStateOf(TextFieldValue(state.query,TextRange(state.query.length)))}
     var active by rememberSaveable{mutableStateOf<Long?>(null)}
     var advanced by remember{mutableStateOf(false)}
@@ -185,7 +189,7 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
         snapshotFlow {
             val current=latestState
             val last=grid.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: -1
-            current.posts.isNotEmpty() && last>=current.posts.size-12 && !current.loading && current.error==null && !current.endReached && !current.autoLoadPaused
+            current.posts.isNotEmpty() && last>=current.posts.size-12 && !current.loading && !current.refreshing && current.refreshError==null && current.error==null && !current.endReached && !current.autoLoadPaused
         }.distinctUntilChanged().filter{it}.collect{loadMore()}
     }
     val visible by remember(grid){derivedStateOf{grid.layoutInfo.visibleItemsInfo.mapNotNull{it.key as? Long}}}
@@ -202,11 +206,22 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
         if(!query.selection.collapsed || query.composition!=null)return
         val edit=SearchEditing.complete(query.text,query.selection.start,name);query=TextFieldValue(edit.text,TextRange(edit.cursor))
     }
-    Box(Modifier.fillMaxSize().clipToBounds()){
+    val refreshState=rememberPullToRefreshState()
+    var shownRefresh by rememberSaveable(state.query){mutableIntStateOf(state.refreshRevision)}
+    LaunchedEffect(state.refreshRevision){if(shownRefresh!=state.refreshRevision){shownRefresh=state.refreshRevision;grid.requestScrollToItem(0)}}
+    PullToRefreshBox(isRefreshing=state.refreshing,onRefresh={if(!grid.canScrollBackward && !searchExpanded)refresh()},state=refreshState,
+        modifier=Modifier.fillMaxSize().clipToBounds().testTag("posts-refresh"),
+        indicator={PullToRefreshDefaults.Indicator(state=refreshState,isRefreshing=state.refreshing,
+            modifier=Modifier.align(Alignment.TopCenter).padding(top=64.dp).testTag("refresh-indicator").semantics{contentDescription=context.getString(R.string.ui_refresh_posts)})}){
         LazyVerticalGrid(columns=GridCells.Fixed(settings.columns),state=grid,
             modifier=Modifier.fillMaxSize().nestedScroll(connection).testTag("post-grid"),
-            contentPadding=PaddingValues(start=if(settings.columns>=8)2.dp else 10.dp,end=if(settings.columns>=8)2.dp else 10.dp,top=with(density){baseHeight.toDp()},bottom=16.dp),
-            horizontalArrangement=Arrangement.spacedBy(if(settings.columns>=8)settings.cardSpacing.coerceAtMost(1f).dp else settings.cardSpacing.dp),verticalArrangement=Arrangement.spacedBy(if(settings.columns>=8)1.dp else (settings.cardSpacing+2f).dp)){
+            contentPadding=PaddingValues(start=if(settings.columns>=6)2.dp else 10.dp,end=if(settings.columns>=6)2.dp else 10.dp,top=with(density){baseHeight.toDp()},bottom=16.dp),
+            horizontalArrangement=Arrangement.spacedBy(if(settings.columns>=6)settings.cardSpacing.coerceAtMost(1f).dp else settings.cardSpacing.dp),verticalArrangement=Arrangement.spacedBy(if(settings.columns>=6)1.dp else (settings.cardSpacing+2f).dp)){
+            state.refreshError?.let{item(span={GridItemSpan(maxLineSpan)},key="refresh-error"){Column{
+                Text(text(R.string.ui_refresh_failed),color=MaterialTheme.colorScheme.error)
+                Text(translateMessage(it),style=MaterialTheme.typography.bodySmall)
+                TextButton(onClick=refresh,modifier=Modifier.testTag("retry-refresh")){Text(text(R.string.ui_retry))}
+            }}}
             state.categoryWarning?.let{item(span={GridItemSpan(maxLineSpan)}){Column{
                 Text(text(R.string.ui_tag_categories_unavailable_unknown_categories_are_not_guessed),style=MaterialTheme.typography.bodySmall)
                 Text(translateMessage(it),style=MaterialTheme.typography.labelSmall)
@@ -240,7 +255,7 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
                             Spacer(Modifier.width(8.dp))
                             Text(state.query.ifBlank{text(R.string.ui_search)},maxLines=1,overflow=TextOverflow.Ellipsis,modifier=Modifier.weight(1f),color=MaterialTheme.colorScheme.onSurfaceVariant)
                         }
-                        Box{
+                        if(state.query.isNotBlank())SearchTagFavorite(state.query,state.posts,app)else Box{
                             TextButton(onClick={gridMenu=true},modifier=Modifier.testTag("grid-columns").semantics{contentDescription=context.getString(R.string.ui_grid_selection,settings.columns)}){Text("▦ ${settings.columns}")}
                             DropdownMenu(expanded=gridMenu,onDismissRequest={gridMenu=false}){for(columns in GridPolicy.options(LocalConfiguration.current.smallestScreenWidthDp))DropdownMenuItem(text={Text(text(R.string.ui_columns_count,columns))},onClick={
                                 val index=grid.firstVisibleItemIndex;val scroll=grid.firstVisibleItemScrollOffset
@@ -297,23 +312,23 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
     var options by remember(post.id){mutableStateOf(false)}
     val interaction=remember(post.id){MutableInteractionSource()};val pressed by interaction.collectIsPressedAsState()
     val pressScale by animateFloatAsState(if(pressed && settings.columns<=4)0.985f else 1f,tween(Motion.press,easing=FastOutSlowInEasing),label="card-press")
-    Surface(modifier=if(settings.columns<=4)Modifier.graphicsLayer{scaleX=pressScale;scaleY=pressScale}else Modifier,shape=RoundedCornerShape(if(settings.columns>=8)6.dp else 12.dp),color=MaterialTheme.colorScheme.surface,
-        shadowElevation=if(settings.columns>=8)0.dp else 1.dp,tonalElevation=1.dp){Column{
-        Box(Modifier.fillMaxWidth().heightIn(min=48.dp).aspectRatio(16f/9f).background(MaterialTheme.colorScheme.surfaceVariant)
+    Surface(modifier=if(settings.columns<=4)Modifier.graphicsLayer{scaleX=pressScale;scaleY=pressScale}else Modifier,shape=RoundedCornerShape(if(settings.columns>=6)6.dp else 12.dp),color=MaterialTheme.colorScheme.surface,
+        shadowElevation=if(settings.columns>=6)0.dp else 1.dp,tonalElevation=1.dp){Column{
+        Box(Modifier.fillMaxWidth().heightIn(min=if(settings.columns>=6)24.dp else 48.dp).aspectRatio(16f/9f).background(MaterialTheme.colorScheme.surfaceVariant)
             .testTag("post-media-${post.id}").combinedClickable(interactionSource=interaction,indication=LocalIndication.current,onClick=open,onLongClick={options=true},onLongClickLabel=text(R.string.ui_preview_options))){
             if(preview && post.fileUrl!=null)VideoPanel(post.fileUrl,settings,preview=true,onDurationChanged=onDuration)
             else PostImage(post,Modifier.fillMaxSize(),settings,metered)
             Row(Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(2.dp),horizontalArrangement=Arrangement.SpaceBetween,verticalAlignment=Alignment.Bottom){
-                if(post.isVideo)Surface(color=MaterialTheme.colorScheme.surface.copy(alpha=0.96f),shape=RoundedCornerShape(3.dp)){
-                    Text(post.durationMs?.let(::mediaTime) ?: "—",maxLines=1,overflow=TextOverflow.Ellipsis,fontSize=if(settings.columns>=8)9.sp else 11.sp,
-                        lineHeight=if(settings.columns>=8)11.sp else 13.sp,
+                if(post.isVideo && settings.columns<6)Surface(color=MaterialTheme.colorScheme.surface.copy(alpha=0.96f),shape=RoundedCornerShape(3.dp)){
+                    Text(post.durationMs?.let(::mediaTime) ?: "—",maxLines=1,overflow=TextOverflow.Ellipsis,fontSize=if(settings.columns>=6)9.sp else 11.sp,
+                        lineHeight=if(settings.columns>=6)11.sp else 13.sp,
                         modifier=Modifier.padding(horizontal=3.dp,vertical=1.dp).semantics{if(post.durationMs==null)contentDescription=contextDescriptionDurationUnknown})
                 }
                 Spacer(Modifier.weight(1f))
                 if(settings.showScore)Surface(color=MaterialTheme.colorScheme.surface.copy(alpha=0.96f),shape=RoundedCornerShape(3.dp)){
                     Text(if(settings.columns>=4)post.score?.toString() ?: "?" else text(R.string.ui_score_value,post.score?.toString() ?: "?"),
                         maxLines=1,overflow=TextOverflow.Ellipsis,
-                        color=scoreColor(settings.lightTheme),fontSize=if(settings.columns>=8)9.sp else 11.sp,lineHeight=if(settings.columns>=8)11.sp else 13.sp,fontWeight=FontWeight.Medium,
+                        color=scoreColor(settings.lightTheme),fontSize=if(settings.columns>=6)9.sp else 11.sp,lineHeight=if(settings.columns>=6)11.sp else 13.sp,fontWeight=FontWeight.Medium,
                         modifier=Modifier.padding(horizontal=3.dp,vertical=1.dp).testTag("post-score-${post.id}"))
                 }
             }
@@ -322,15 +337,15 @@ private fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,
                 if(post.isVideo)DropdownMenuItem(text={Text(text(if(preview)R.string.ui_stop_preview else R.string.ui_play_preview))},onClick={options=false;toggle()})
             }
         }
-        Box(Modifier.padding(horizontal=if(settings.columns>=8)2.dp else 6.dp,vertical=3.dp)){PostCaption(post,settings,search)}
+        Box(Modifier.padding(horizontal=if(settings.columns>=6)2.dp else 6.dp,vertical=3.dp)){PostCaption(post,settings,search)}
     }}
 }
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable private fun PostCaption(post:Post,settings:AppSettings,search:(String)->Unit){
     val size=when(settings.columns){1->14.sp;2->12.sp;else->11.sp}
-    val tags=captionTags(post,settings)
-    if(!settings.wrapTags){
+    val tags=captionTags(post,settings).let{if(settings.columns>=6)it.take(2)else it}
+    if(!settings.wrapTags || settings.columns>=6){
         Column(Modifier.fillMaxWidth().padding(top=5.dp).testTag("post-caption-${post.id}").semantics(mergeDescendants=true){}){
             Row(horizontalArrangement=Arrangement.spacedBy(4.dp)){
                 tags.forEach{tag->OriginalTag(tag,search=search,modifier=Modifier.weight(1f),

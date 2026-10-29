@@ -47,6 +47,9 @@ data class FeedState(
     val error: String? = null,
     val categoryWarning: String? = null,
     val autoLoadPaused: Boolean = false,
+    val refreshing:Boolean=false,
+    val refreshError:String?=null,
+    val refreshRevision:Int=0,
 ) {
     fun append(page: PostPage, pageSize: Int): FeedState = copy(
         // Also repair earlier cards when a classification request succeeds on a later page.

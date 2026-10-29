@@ -91,4 +91,46 @@ class FeedViewModelTest {
         assertEquals(before, model.state.value); assertEquals(1, calls)
         assertNull(model.selected.value)
     }
+    @Test fun refreshKeepsTheQueryReplacesFirstPageDeduplicatesAndResetsPagination()=runTest(dispatcher){
+        var refreshed=false
+        val repo=object:PostRepository{override val pageSize=2;override suspend fun page(query:String,page:Int):PostPage{
+            assertEquals("tag_a -tag_b order:score",query)
+            return if(refreshed)PostPage(listOf(page(9).posts.single(),page(9).posts.single()),2)else PostPage(listOf(page(page.toLong()).posts.single()),2)
+        }}
+        val model=FeedViewModel(SavedStateHandle(mapOf("query" to "tag_a -tag_b order:score")),repo)
+        advanceUntilIdle();model.loadMore();advanceUntilIdle();assertEquals(3,model.state.value.nextPage)
+        refreshed=true;model.refresh();assertTrue(model.state.value.refreshing);advanceUntilIdle()
+        assertEquals(listOf(9L),model.state.value.posts.map{it.id});assertEquals(2,model.state.value.nextPage)
+        assertFalse(model.state.value.refreshing);assertFalse(model.state.value.endReached)
+    }
+    @Test fun refreshFailureKeepsOldRowsAndPageAndRetryFetchesFirstPage()=runTest(dispatcher){
+        var fail=false;val pages=mutableListOf<Int>()
+        val repo=object:PostRepository{override suspend fun page(query:String,page:Int):PostPage{pages+=page;if(fail)throw DataFailure("HTTP 503");return page(1)}}
+        val model=FeedViewModel(SavedStateHandle(),repo);advanceUntilIdle();val original=model.state.value
+        fail=true;model.refresh();advanceUntilIdle()
+        assertEquals(original.posts,model.state.value.posts);assertEquals(original.nextPage,model.state.value.nextPage)
+        assertNotNull(model.state.value.refreshError);assertFalse(model.state.value.refreshing)
+        fail=false;model.refresh();advanceUntilIdle();assertNull(model.state.value.refreshError);assertEquals(listOf(1,1,1),pages)
+    }
+    @Test fun lateUncooperativeAppendCannotOverwriteRefreshAndLoadMoreIsBlockedDuringRefresh()=runTest(dispatcher){
+        val stale=CompletableDeferred<Unit>();val fresh=CompletableDeferred<Unit>();var firstCalls=0;var calls=0
+        val repo=object:PostRepository{override val pageSize=1;override suspend fun page(query:String,page:Int):PostPage{
+            calls++
+            return when{page==2->{withContext(NonCancellable){stale.await()};page(99)};firstCalls++>0->{fresh.await();page(7)};else->page(1)}
+        }}
+        val model=FeedViewModel(SavedStateHandle(),repo);runCurrent();model.loadMore();runCurrent()
+        model.refresh();runCurrent();val before=calls;model.loadMore();model.refresh();runCurrent();assertEquals(before,calls)
+        fresh.complete(Unit);runCurrent();stale.complete(Unit);advanceUntilIdle()
+        assertEquals(listOf(7L),model.state.value.posts.map{it.id});assertEquals(2,model.state.value.nextPage)
+    }
+    @Test fun aSearchDuringUncooperativeRefreshOwnsAllSubsequentResults()=runTest(dispatcher){
+        val gate=CompletableDeferred<Unit>();var calls=0
+        val repo=object:PostRepository{override suspend fun page(query:String,page:Int):PostPage{
+            if(query.isEmpty() && calls++>0){withContext(NonCancellable){gate.await()};return page(8)}
+            return page(if(query.isEmpty())1 else 2)
+        }}
+        val model=FeedViewModel(SavedStateHandle(),repo);runCurrent();model.refresh();runCurrent();model.search("new");runCurrent();gate.complete(Unit);advanceUntilIdle()
+        assertEquals("new",model.state.value.query);assertEquals(listOf(2L),model.state.value.posts.map{it.id});assertFalse(model.state.value.refreshing)
+    }
+
 }

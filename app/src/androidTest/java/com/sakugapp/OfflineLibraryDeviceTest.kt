@@ -36,7 +36,15 @@ class OfflineLibraryDeviceTest {
             try{
                 val good=post("/complete.mp4")
                 server.enqueue(MockResponse().setHeader("Content-Type","video/mp4").setBody(Buffer().write(data)))
-                val file=store.download(good);assertArrayEquals(data,file.readBytes());assertEquals(file,store.existing(good));assertEquals(1,server.requestCount)
+                val file=store.download(good);assertArrayEquals(data,file.readBytes())
+                assertEquals(VideoDownloadPlan.from(good).filename,file.name)
+                assertEquals(file,store.existing(good.copy(source="different source",tags=emptyList())))
+                val legacyRoot=File(root,"legacy").apply{mkdirs()}
+                val hash=java.security.MessageDigest.getInstance("SHA-256").digest(good.fileUrl!!.toByteArray()).take(12).joinToString(""){"%02x".format(it)}
+                val legacy=File(legacyRoot,"${good.id}-$hash.mp4").apply{writeBytes(data)}
+                assertEquals(legacy,OfflineLibraryMedia(context,VideoDownloader(client),legacyRoot).existing(good))
+                legacyRoot.deleteRecursively()
+;assertEquals(file,store.existing(good));assertEquals(1,server.requestCount)
                 store.download(good);assertEquals("Completed files must be reused",1,server.requestCount)
                 val broken=post("/broken.mp4")
                 server.enqueue(MockResponse().setHeader("Content-Type","video/mp4").setBody(Buffer().write(data)).setSocketPolicy(SocketPolicy.DISCONNECT_DURING_RESPONSE_BODY))

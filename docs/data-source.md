@@ -103,3 +103,9 @@ API 请求每个 ViewModel 最多一个列表任务；搜索取消旧任务，�
 原生输入 300ms debounce，IME composition 完成前不请求；候选至多 8 个，同一前缀 120 秒缓存、至多 32 个缓存查询；与帖子/分类读取共用 650ms 请求起始间隔，支持取消且 403/429 不自动重试、不找替代绕过地址。候选只替换光标所在词，保留 -/~ 与后面的其他条件；失败时仍可提交原始查询。
 
 URL、日期、响应摘要和 5 页 ID 见 [验证证据](evidence/browse-upgrade-2026-10-26.json)。新增真实样本 `posts-five-pages.json` 只留 id/tags/score/file_ext/file_size；`tag-suggestions.json` 保留公开标签元数据。移除上传者、创建者、来源等字段；不提交原始 HTML、Cookie、CSRF 或脚本。SHA-256 与来源均记录在同一证据文件。
+
+## 2026-10-29 下载命名字段复核
+
+当前 Kotlin `Post.source` 仍直接来自帖子 JSON 的 `source` 字段；artist 来自已核实的标签分类映射，两者独立，不把名称为 source 的标签当来源。命名 URL Source 只取规范化主机名，完全排除用户信息、路径、查询与 fragment，以免泄漏签名参数/令牌。文本 Source 清理非法字符和凭据赋值，新命名不修改真实媒体请求 URL。
+
+当前本机 GitHub API 请求返回环境代理 403，Sakugabooru 的实时连接也未成功，未声称本轮重新取得官网数据。解析与原生测试使用仓库既有、合法捕获并注明来源的公开样本；新增边界测试中的合成 URL 只用于验证隐私和文件系统安全，不作为真实帖子数据展示。

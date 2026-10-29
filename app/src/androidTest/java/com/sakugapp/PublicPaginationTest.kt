@@ -38,7 +38,7 @@ class PublicPaginationTest {
             val ids=feed.state.value.posts.map{it.id}
             assertTrue(ids.size>=300);assertEquals(ids.size,ids.distinct().size)
             println("Public pagination: ${ids.size} unique posts, next page ${feed.state.value.nextPage}")
-            for(columns in 1..4){
+            for(columns in listOf(1,2,3,4,6)){
                 ui.onNodeWithTag("post-grid").performScrollToIndex(0)
                 ui.waitUntil(10000){ui.onAllNodesWithTag("grid-columns").fetchSemanticsNodes().isNotEmpty()}
                 ui.onNodeWithTag("grid-columns").performClick()
@@ -47,6 +47,9 @@ class PublicPaginationTest {
                 ui.onNodeWithTag("post-score-${ids.first()}",useUnmergedTree=true).assertIsDisplayed()
             }
             // Persistence emits before the collected Compose tree is redrawn.
+            ui.onNodeWithTag("grid-columns").performClick()
+            ui.onNodeWithText(ui.activity.getString(R.string.ui_columns_count,4),substring=false).performClick()
+            ui.waitUntil(10000){app.settings.value.columns==4}
             val compactScore=feed.state.value.posts.first().score?.toString() ?: "?"
             ui.waitUntil(10000){ui.onAllNodes(hasTestTag("post-score-${ids.first()}") and hasText(compactScore,substring=false),useUnmergedTree=true).fetchSemanticsNodes().isNotEmpty()}
             val layout=mutableListOf<TextLayoutResult>()

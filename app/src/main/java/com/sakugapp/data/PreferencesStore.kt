@@ -22,20 +22,24 @@ data class AppSettings(
 )
 
 object PreferenceRules {
-    val columnOptions = listOf(1,2,3,4,8,12)
+    val columnOptions = listOf(1,2,3,4,6,8,12)
     val themeModes = setOf("system","dark","light")
     fun legacyTheme(mode:String?,light:Boolean?,hasLegacyData:Boolean):String = mode?.takeIf{it in themeModes} ?: when(light){true->"light";false->"dark";null->if(hasLegacyData)"dark" else "system"}
-    val languages = setOf("system", "en", "ja", "zh-TW", "zh-CN")
+    val languages = setOf("system", "en", "ja", "zh-TW", "zh-CN", "fr", "es", "ru", "ko")
     fun resolveLanguage(language: String, systemTag: String): String {
         require(language in languages)
         if (language != "system") return language
         val locale=java.util.Locale.forLanguageTag(systemTag)
-        return if(locale.language=="zh" && locale.script!="Hant" && locale.country !in setOf("TW","HK","MO")) "zh-CN" else "en"
+        return when(locale.language){
+            "zh"->if(locale.script=="Hant" || locale.country in setOf("TW","HK","MO"))"zh-TW" else "zh-CN"
+            "ja","fr","es","ru","ko"->locale.language
+            else->"en"
+        }
     }
     fun platformLanguage(tag:String):String {
         if(tag.isBlank())return "system"
         val locale=java.util.Locale.forLanguageTag(tag.substringBefore(','))
-        return when(locale.language){"ja"->"ja";"zh"->if(locale.script=="Hant" || locale.country in setOf("TW","HK","MO"))"zh-TW"else"zh-CN";else->"en"}
+        return when(locale.language){"ja","fr","es","ru","ko"->locale.language;"zh"->if(locale.script=="Hant" || locale.country in setOf("TW","HK","MO"))"zh-TW"else"zh-CN";else->"en"}
     }
     // Traditional Chinese translates the native app; the official site only offers en/ja.
     fun siteLanguage(language: String): String { require(language in languages); return if(language == "ja") "ja" else "en" }

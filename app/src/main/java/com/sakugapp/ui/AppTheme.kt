@@ -23,7 +23,7 @@ internal fun scoreColor(light:Boolean)=if(light)Color(0xFFC62828)else Color(0xFF
 internal fun themeIsLight(mode:String,systemDark:Boolean)=mode=="light" || (mode=="system" && !systemDark)
 internal object Motion { const val search=340;const val controls=320;const val history=300;const val folder=280;const val press=150 }
 internal object GridPolicy {
-    fun options(smallestWidthDp:Int)=if(smallestWidthDp>=600)com.sakugapp.data.PreferenceRules.columnOptions else listOf(1,2,3,4)
+    fun options(smallestWidthDp:Int)=if(smallestWidthDp>=600)com.sakugapp.data.PreferenceRules.columnOptions else listOf(1,2,3,4,6)
     fun effective(requested:Int,smallestWidthDp:Int)=if(requested in options(smallestWidthDp))requested else if(requested in listOf(8,12))4 else 2
 }
 internal fun mediaTime(milliseconds:Long):String { val seconds=milliseconds.coerceAtLeast(0)/1000;return if(seconds>=3600)"%d:%02d:%02d".format(seconds/3600,seconds/60%60,seconds%60)else"%d:%02d".format(seconds/60,seconds%60) }

@@ -38,7 +38,7 @@ class BrowsingUpgradeTest {
     }
     @Test fun defaultSystemLanguageIsSimplifiedChineseOrEnglishWhileManualLocalesRemain(){
         for(tag in listOf("zh-CN","zh-SG","zh-Hans-CN"))assertEquals("zh-CN",PreferenceRules.resolveLanguage("system",tag))
-        for(tag in listOf("ja-JP","en-US","fr-FR","zh-TW","zh-Hant-HK"))assertEquals("en",PreferenceRules.resolveLanguage("system",tag))
+        for((tag,expected)in mapOf("ja-JP" to "ja","en-US" to "en","fr-FR" to "fr","es-ES" to "es","ru-RU" to "ru","ko-KR" to "ko","zh-TW" to "zh-TW","zh-Hant-HK" to "zh-TW","de-DE" to "en"))assertEquals(expected,PreferenceRules.resolveLanguage("system",tag))
         assertEquals("ja",PreferenceRules.resolveLanguage("ja","zh-CN"))
         assertEquals("zh-TW",PreferenceRules.resolveLanguage("zh-TW","en-US"))
         assertEquals("en",PreferenceRules.siteLanguage("zh-CN"))

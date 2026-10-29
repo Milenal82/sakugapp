@@ -31,9 +31,7 @@ internal object LocaleCoordinator {
     private suspend fun apply(language:String,store:PreferencesStore){
         val system=Resources.getSystem().configuration.locales[0]
         val resolved=PreferenceRules.resolveLanguage(language,system.toLanguageTag())
-        // A true platform default is possible for en / Simplified Chinese. Other system
-        // languages use the requested English fallback while retaining the user's system mode.
-        val target=if(language=="system" && (system.language=="en" || (system.language=="zh" && resolved=="zh-CN")))""else resolved
+        val target=if(language=="system" && PreferenceRules.platformLanguage(system.toLanguageTag())==resolved)""else resolved
         store.recordAppliedLocale(target)
         withContext(Dispatchers.Main.immediate){
             if(AppCompatDelegate.getApplicationLocales().toLanguageTags()!=target)

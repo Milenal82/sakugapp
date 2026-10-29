@@ -10,6 +10,7 @@ internal object UiEvidence {
     fun capture(name:String){
         require(name.matches(Regex("[a-z0-9-]+\\.png")))
         val instrumentation=InstrumentationRegistry.getInstrumentation();val device=UiDevice.getInstance(instrumentation)
+        instrumentation.waitForIdleSync();device.waitForIdle();Thread.sleep(500)
         val directory=File(instrumentation.targetContext.getExternalFilesDir(null),"ui-evidence").apply{mkdirs()}
         val file=File(directory,name)
         check(device.takeScreenshot(file)){"Screenshot failed: writable=${directory.canWrite()}, package=${device.currentPackageName}"}

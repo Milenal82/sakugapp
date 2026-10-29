@@ -1,3 +1,7 @@
+# 1.2.0 / code 11 开发验证
+
+本地基线与完整 JVM / Lint / Debug / Release 预检及新设备用例说明见 [开发记录](development-1.2.0.md)。[本轮证据分支](https://github.com/Milenal82/sakugapp/blob/evidence/history-tags-refresh/report.json)记录实际提交、Actions 状态、单测/设备计数、Lint 和原始截图；结果未回传前不视为设备验证通过。以下保留历史版本记录。
+
 # 正式 v1.1.0 验证（2026-10-27）
 
 [完整检查](https://github.com/Milenal82/sakugapp/actions/runs/40445851626)通过：96 项 JVM 单测、Debug 构建、Lint 无错误及 API 28 KVM 24/24 项设备测试；包括实际字形显示、分页/搜索、严格帧、旋转、收藏迁移和系统 JSON 导入导出。[正式证书候选和覆盖升级](https://github.com/Milenal82/sakugapp/actions/runs/40444402161)通过。最终标签 APK 会独立执行正式签名构建与覆盖安装验证，公开发布以该结果为准，详见 [发布检查](release-1.1.0.md)。以下为历史候选版本记录。

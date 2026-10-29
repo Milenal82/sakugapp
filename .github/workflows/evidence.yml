@@ -1,0 +1,49 @@
+name: Save development test evidence
+on:
+  workflow_call:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: history-tags-refresh-evidence
+  cancel-in-progress: false
+jobs:
+  record:
+    if: github.ref == 'refs/heads/feature/history-tags-refresh' && github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          path: ${{ runner.temp }}/evidence-input
+      - name: Record counts, diagnostics and unedited captures
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVIDENCE_DOWNLOADS: ${{ runner.temp }}/evidence-input
+          EVIDENCE_OUTPUT: ${{ runner.temp }}/public-evidence
+        run: python3 scripts/record-ci-evidence.py
+      - name: Update evidence branch without modifying development source
+        env:
+          EVIDENCE_OUTPUT: ${{ runner.temp }}/public-evidence
+        run: |
+          set -e
+          branch=evidence/history-tags-refresh
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null; then
+            git fetch origin "refs/heads/$branch:refs/remotes/origin/$branch"
+            git switch --create evidence-output "origin/$branch"
+          else
+            git switch --orphan evidence-output
+          fi
+          mkdir -p screenshots
+          rm -f screenshots/*.png
+          cp "$EVIDENCE_OUTPUT/report.json" report.json
+          cp "$EVIDENCE_OUTPUT/README.md" README.md
+          cp "$EVIDENCE_OUTPUT"/screenshots/*.png screenshots/ 2>/dev/null || true
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add report.json README.md screenshots
+          if ! git diff --cached --quiet; then
+            git commit -m "Record CI evidence for $GITHUB_SHA (run $GITHUB_RUN_ID)"
+            git push origin "HEAD:refs/heads/$branch"
+          fi

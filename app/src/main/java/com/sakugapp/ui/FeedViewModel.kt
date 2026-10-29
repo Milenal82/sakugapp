@@ -73,8 +73,21 @@ class FeedViewModel @JvmOverloads constructor(
         _selected.value=_selected.value?.let{if(it.id==id)it.copy(score=score)else it}
     }
     fun close() { localSequence=null; detailRequest?.cancel();_detailError.value=null;_selected.value = null }
+    fun refresh() {
+        if(_state.value.refreshing)return
+        request?.cancel();generation++
+        val current=_state.value;val version=generation
+        _state.value=current.copy(loading=false,refreshing=true,refreshError=null)
+        request=viewModelScope.launch{
+            try{
+                val first=repository.page(current.query,1)
+                if(version==generation)_state.value=FeedState(query=current.query,refreshRevision=current.refreshRevision+1).append(first,repository.pageSize)
+            }catch(e:CancellationException){throw e}
+            catch(e:Exception){if(version==generation)_state.value=_state.value.copy(refreshing=false,refreshError=e.message ?: "Loading failed. Please retry.")}
+        }
+    }
     fun loadMore() {
-        if (_state.value.loading || _state.value.endReached) return
+        if (_state.value.loading || _state.value.refreshing || _state.value.endReached) return
         val current = _state.value
         val version = generation
         _state.value = current.copy(loading = true, error = null)

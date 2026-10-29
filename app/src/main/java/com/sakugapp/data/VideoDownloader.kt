@@ -17,7 +17,7 @@ data class VideoDownloadPlan(val url:HttpUrl,val filename:String,val mime:String
             val url=checkNotNull(PostParser.safeUrl(post.fileUrl)).toHttpUrl()
             val ext=(post.fileExt ?: url.pathSegments.last().substringAfterLast('.')).lowercase()
             val mime=when(ext){"mp4"->"video/mp4";"webm"->"video/webm";"mkv"->"video/x-matroska";else->error("Unsupported video format.")}
-            return VideoDownloadPlan(url,"sakugapp-${post.id}.$ext",mime)
+            return VideoDownloadPlan(url,MediaFileNames.forPost(post,ext),mime)
         }
     }
 }

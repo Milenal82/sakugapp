@@ -16,6 +16,13 @@ class AppViewModel(application:Application):AndroidViewModel(application) {
     val history=preferences.history.stateIn(viewModelScope,SharingStarted.Eagerly,emptyList())
     val localLibrary=LocalLibraryStore(LibraryDatabase.get(application))
     val library=localLibrary.state.catch{emit(LibrarySnapshot(error=true))}.stateIn(viewModelScope,SharingStarted.Eagerly,LibrarySnapshot())
+    private val _personalError=MutableStateFlow<Exception?>(null);val personalError=_personalError.asStateFlow()
+    val personal=PersonalStore(LibraryDatabase.get(application))
+    val savedTags=personal.tags.catch{if(it is Exception)_personalError.value=it;emit(emptyList())}.stateIn(viewModelScope,SharingStarted.Eagerly,emptyList())
+    val tagNotes=personal.notes.catch{if(it is Exception)_personalError.value=it;emit(emptyList())}.stateIn(viewModelScope,SharingStarted.Eagerly,emptyList())
+    val viewedPosts=personal.history.catch{if(it is Exception)_personalError.value=it;emit(emptyList())}.stateIn(viewModelScope,SharingStarted.Eagerly,emptyList())
+    val recordHistory=personal.recording.catch{if(it is Exception)_personalError.value=it;emit(false)}.stateIn(viewModelScope,SharingStarted.Eagerly,true)
+    fun visited(post:Post){viewModelScope.launch{try{personal.learn(post.tags);personal.record(post);_personalError.value=null}catch(e:CancellationException){throw e}catch(e:Exception){_personalError.value=e}}}
     val offlineMedia=OfflineLibraryMedia(application)
     val session=SecureSession(application)
     val suggestions:SuggestionSource=TagSuggestionRepository()

@@ -62,7 +62,7 @@ class LocalLibraryStore(private val db:LibraryDatabase){
         };dao.pruneOrphans()
     }
     suspend fun duration(url:String,milliseconds:Long){if(milliseconds !in 1..86400000)return;LibraryCodec.trustedMedia(url);db.withTransaction{dao.fact(MediaFact(url,milliseconds,System.currentTimeMillis()));dao.trimFacts()}}
-    suspend fun export():String=db.withTransaction{ready();LibraryCodec.encode(LibraryBackup(dao.foldersOnce(),dao.postsOnce(),dao.linksOnce()))}
+    suspend fun export():String=db.withTransaction{ready();LibraryCodec.encode(LibraryBackup(dao.foldersOnce(),dao.postsOnce(),dao.linksOnce(),db.personal().tagsOnce(),db.personal().notesOnce()))}
     suspend fun import(body:String)=withContext(Dispatchers.Default){
         val incoming=LibraryCodec.decode(body)
         db.withTransaction{
@@ -79,6 +79,10 @@ class LocalLibraryStore(private val db:LibraryDatabase){
             incoming.posts.forEach{dao.post(it)}
             incoming.links.forEach{dao.link(it.copy(folderId=checkNotNull(map[it.folderId])))}
             incoming.folders.forEach{folder->val target=map[folder.id]!!;val cover=folder.coverPostId;if(cover!=null && dao.foldersOnce().first{it.id==target}.coverPostId==null && dao.linksOnce().any{it.folderId==target && it.postId==cover})dao.cover(target,cover)}
+            val personal=db.personal();val oldTags=personal.tagsOnce();val oldNotes=personal.notesOnce()
+            if((oldTags+incoming.tags).distinctBy{it.name}.size>PersonalRules.MAX_TAGS || (oldNotes+incoming.notes).distinctBy{it.name}.size>PersonalRules.MAX_NOTES)throw LibraryFailure("library_limit")
+            incoming.tags.forEach{personal.tag(it)}
+            incoming.notes.filter{n->oldNotes.none{it.name==n.name}}.forEach{personal.note(it)}
             dao.pruneOrphans()
         }
     }

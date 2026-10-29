@@ -11,7 +11,7 @@ class PreferencesAndFramesTest {
         assertEquals(50,PreferenceRules.history((1..50).map{"tag$it"},"new").size)
     }
     @Test fun traditionalChineseIsNativeWhileWebsiteLanguagesRemainOfficial(){
-        assertEquals(setOf("system","en","ja","zh-TW","zh-CN"),PreferenceRules.languages)
+        assertEquals(setOf("system","en","ja","zh-TW","zh-CN","fr","es","ru","ko"),PreferenceRules.languages)
         assertEquals("en",PreferenceRules.siteLanguage("zh-TW"));assertEquals("ja",PreferenceRules.siteLanguage("ja"))
         assertEquals("zh-TW,zh;q=0.9,en;q=0.7",PreferenceRules.acceptLanguage("zh-TW"))
     }
