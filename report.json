@@ -2,7 +2,7 @@
   "source_commit": "14619ae097d7708ae80de4d263435b275c86b1a9",
   "run_id": "40876305761",
   "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40876305761",
-  "captured_utc": "2026-10-29T12:56:48.074876+00:00",
+  "captured_utc": "2026-10-29T12:57:14.190994+00:00",
   "jobs": {
     "build": {
       "status": "completed",
@@ -29,11 +29,16 @@
       "conclusion": "success"
     },
     "candidate-upgrade-install": {
-      "status": "in_progress",
-      "conclusion": null
+      "status": "completed",
+      "conclusion": "success"
     }
   },
   "artifacts": [
+    {
+      "name": "signed-upgrade-install-report",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40876305761/artifacts/12899420436",
+      "bytes": 1301896
+    },
     {
       "name": "six-column-phone-reports",
       "url": "https://github.com/Milenal82/sakugapp/actions/runs/40876305761/artifacts/12899195117",
@@ -188,5 +193,26 @@
     "lint_errors": 0,
     "lint_warnings": 23,
     "distribution": "signed development candidate; no Release published"
+  },
+  "upgrade": {
+    "previous": {
+      "package": "com.sakugapp",
+      "versionCode": 6,
+      "versionName": "1.0.0",
+      "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff"
+    },
+    "candidate": {
+      "package": "com.sakugapp",
+      "versionCode": 11,
+      "versionName": "1.2.0",
+      "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff"
+    },
+    "retained_light_theme": true,
+    "system_night_mode": "yes",
+    "theme_verification": "actual rendered background pixels",
+    "retained_wrap_tags": true,
+    "retained_search_history": true,
+    "uninstall_or_clear_data": false,
+    "result": "passed"
   }
 }
