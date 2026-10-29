@@ -2,7 +2,7 @@
   "source_commit": "de2d1134f3d0276909af52cee222caeeda55abc4",
   "run_id": "40966510830",
   "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40966510830",
-  "captured_utc": "2026-10-29T22:39:59.221720+00:00",
+  "captured_utc": "2026-10-29T22:42:59.487127+00:00",
   "validation_result": "failure",
   "scope": "Backup import/restore, native search/history/settings screens; no player suite.",
   "jobs": [
@@ -15,8 +15,8 @@
     },
     {
       "name": "evidence",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966510830/job/123774187169",
       "id": 123774187169
     }
@@ -75,5 +75,10 @@
     "status": "not_requested",
     "reason": "This push is not main."
   },
-  "collector_error": "Traceback (most recent call last):\n  File \"<stdin>\", line 16, in <module>\n  File \"/usr/lib/python3.12/subprocess.py\", line 466, in check_output\n    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/subprocess.py\", line 571, in run\n    raise CalledProcessError(retcode, process.args,\nsubprocess.CalledProcessError: Command '['gh', 'api', 'repos/Milenal82/sakugapp/actions/jobs/123772269402/logs']' returned non-zero exit status 1.\n"
+  "job_log_error": "the response contains terminal escape sequences; pass --allow-escape-sequences to output it anyway\n",
+  "run_log_error": "",
+  "earlier_api35_failure": {
+    "job_url": "https://github.com/Milenal82/sakugapp/actions/runs/40966511096/job/123772269402",
+    "message": "2026-10-29T22:32:32.4711527Z [command]/usr/bin/sh -c \\sdkmanager --install 'system-images;android-35;google_apis;x86_64' --channel=0 > /dev/null\n2026-10-29T22:32:57.9466653Z Warning: An error occurred while preparing SDK package Google APIs Intel x86_64 Atom System Image: Error on ZipFile unknown archive.\n2026-10-29T22:32:58.0300299Z ##[endgroup]\n2026-10-29T22:32:58.0301131Z ##[group]Terminate Emulator\n2026-10-29T22:32:58.0317118Z [command]/home/runner/work/_temp/sakugapp-sdk/platform-tools/adb -s emulator-5554 emu kill\n2026-10-29T22:32:58.0371490Z error: could not connect to TCP port 5554: Connection refused\n2026-10-29T22:32:58.0374036Z The process '/home/runner/work/_temp/sakugapp-sdk/platform-tools/adb' failed with exit code 1\n2026-10-29T22:32:58.0375237Z ##[endgroup]\n2026-10-29T22:32:57.9466653Z Warning: An error occurred while preparing SDK package Google APIs Intel x86_64 Atom System Image: Error on ZipFile unknown archive.\n2026-10-29T22:32:58.0300299Z ##[endgroup]\n2026-10-29T22:32:58.0301131Z ##[group]Terminate Emulator\n2026-10-29T22:32:58.0317118Z [command]/home/runner/work/_temp/sakugapp-sdk/platform-tools/adb -s emulator-5554 emu kill\n2026-10-29T22:32:58.0371490Z error: could not connect to TCP port 5554: Connection refused\n2026-10-29T22:32:58.0374036Z The process '/home/runner/work/_temp/sakugapp-sdk/platform-tools/adb' failed with exit code 1\n2026-10-29T22:32:58.0375237Z ##[endgroup]\n2026-10-29T22:32:58.0400682Z ##[error]The process '/usr/bin/sh' failed with exit code 1\n2026-10-29T22:32:58.0301131Z ##[group]Terminate Emulator\n2026-10-29T22:32:58.0317118Z [command]/home/runner/work/_temp/sakugapp-sdk/platform-tools/adb -s emulator-5554 emu kill\n2026-10-29T22:32:58.0371490Z error: could not connect to TCP port 5554: Connection refused\n2026-10-29T22:32:58.0374036Z The process '/home/runner/work/_temp/sakugapp-sdk/platform-tools/adb' failed with exit code 1\n2026-10-29T22:32:58.0375237Z ##[endgroup]\n2026-10-29T22:32:58.0400682Z ##[error]The process '/usr/bin/sh' failed with exit code 1\n2026-10-29T22:32:58.0491036Z ##[group]Run actions/upload-artifact@v4\n2026-10-29T22:32:58.0491415Z with:\n2026-10-29T22:32:32.4711515Z [command]/usr/bin/sh -c \\sdkmanager --install 'system-images;android-35;google_apis;x86_64' --channel=0 > /dev/null\n2026-10-29T22:32:57.9466610Z Warning: An error occurred while preparing SDK package Google APIs Intel x86_64 Atom System Image: Error on ZipFile unknown archive.\n2026-10-29T22:32:58.0300262Z ##[endgroup]\n2026-10-29T22:32:58.0301127Z ##[group]Terminate Emulator\n2026-10-29T22:32:58.0317086Z [command]/home/runner/work/_temp/sakugapp-sdk/platform-tools/adb -s emulator-5554 emu kill\n2026-10-29T22:32:58.0371459Z error: could not connect to TCP port 5554: Connection refused\n2026-10-29T22:32:58.0374029Z The process '/home/runner/work/_temp/sakugapp-sdk/platform-tools/adb' failed with exit code 1\n2026-10-29T22:32:58.0375233Z ##[endgroup]\n2026-10-29T22:32:57.9466610Z Warning: An error occurred while preparing SDK package Google APIs Intel x86_64 Atom System Image: Error on ZipFile unknown archive.\n2026-10-29T22:32:58.0300262Z ##[endgroup]\n2026-10-29T22:32:58.0301127Z ##[group]Terminate Emulator\n2026-10-29T22:32:58.0317086Z [command]/home/runner/work/_temp/sakugapp-sdk/platform-tools/adb -s emulator-5554 emu kill\n2026-10-29T22:32:58.0371459Z error: could not connect to TCP port 5554: Connection refused\n2026-10-29T22:32:58.0374029Z The process '/home/runner/work/_temp/sakugapp-sdk/platform-tools/adb' failed with exit code 1\n2026-10-29T22:32:58.0375233Z ##[endgroup]\n2026-10-29T22:32:58.0400663Z ##[error]The process '/usr/bin/sh' failed with exit code 1\n2026-10-29T22:32:58.0301127Z ##[group]Terminate Emulator\n2026-10-29T22:32:58.0317086Z [command]/home/runner/work/_temp/sakugapp-sdk/platform-tools/adb -s emulator-5554 emu kill\n2026-10-29T22:32:58.0371459Z error: could not connect to TCP port 5554: Connection refused\n2026-10-29T22:32:58.0374029Z The process '/home/runner/work/_temp/sakugapp-sdk/platform-tools/adb' failed with exit code 1\n2026-10-29T22:32:58.0375233Z ##[endgroup]\n2026-10-29T22:32:58.0400663Z ##[error]The process '/usr/bin/sh' failed with exit code 1\n\n﻿2026-10-29T22:32:58.0491020Z ##[group]Run actions/upload-artifact@v4"
+  }
 }
