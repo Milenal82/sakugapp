@@ -21,7 +21,7 @@ if paths:
 for path in root.rglob('TEST-*.xml'):
     for case in ET.parse(path).getroot().iter('testcase'):
         failure=case.find('failure')
-        if failure is not None:report['failures'].append({'test':case.get('classname','')+'.'+case.get('name',''),'message':(failure.text or failure.get('message',''))[:5000]})
+        if failure is not None:report['failures'].append({'test':case.get('classname','')+'.'+case.get('name',''),'report':str(path.relative_to(root)),'message':(failure.text or failure.get('message',''))[:5000]})
 report['lint']={}
 for variant in ['debug','release']:
     paths=list(root.rglob(f'lint-results-{variant}.xml'))
@@ -43,6 +43,7 @@ for job in jobs:
 images=out/'screenshots';images.mkdir(exist_ok=True)
 captures=['history-page.png','tag-favorites-page.png','tag-note-editor.png','language-fr.png','language-es.png','language-ru.png','language-ko.png','posts-refreshing.png','posts-refresh-failed.png','six-columns-large-font.png','six-columns-landscape.png']
 captures += [f'combined-search-draft-{api}.png' for api in ['api28','api35']]+[f'search-return-{api}.png' for api in ['api28','api35']]
+captures += [f'search-ime-{context}-{phase}-api35.png' for context in ['root','results'] for phase in ['before','after']]
 captures += [f'controls-{geometry}-{theme}.png' for geometry in ['portrait','phone','landscape','phone-landscape'] for theme in ['dark','light']]+['controls-frame-group.png','controls-ab-group.png']
 for name in captures:
     found=list(root.rglob(name))

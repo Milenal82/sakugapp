@@ -28,6 +28,7 @@ class SearchNavigationDeviceTest {
             val w=device.displayWidth;val h=device.displayHeight
             assertTrue(device.swipe(if(rightEdge)w-1 else 1,h/2,if(rightEdge)w*2/3 else w/3,h/2,24))
         }else device.pressBack()
+        ui.waitForIdle()
     }
     private fun position()=ui.onNodeWithTag("post-grid").fetchSemanticsNode().config[SemanticsProperties.VerticalScrollAxisRange].value()
     private fun openCombined(){
@@ -84,13 +85,26 @@ class SearchNavigationDeviceTest {
     }
     @Test fun systemBackClosesTheImeThenTheEditorWithoutFinishingTheActivity(){
         fun ime():Boolean{var shown=false;ui.runOnUiThread{shown=ViewCompat.getRootWindowInsets(ui.activity.window.decorView)?.isVisible(WindowInsetsCompat.Type.ime())==true};return shown}
-        ui.onNodeWithTag("search-entry").performClick()
-        ui.onNodeWithTag("search-input").assertIsFocused().performTextInput("animated")
-        ui.waitUntil(15000){ime()}
-        back();ui.waitUntil(10000){!ime()}
-        assertFalse(ui.activity.isFinishing)
-        ui.onNodeWithTag("search-input").assertExists()
-        back();ui.onNodeWithTag("search-input").assertDoesNotExist()
-        ui.onNodeWithTag("search-entry").assertIsDisplayed();assertFalse(ui.activity.isFinishing)
+        lateinit var feed:FeedViewModel;ui.runOnUiThread{feed=ViewModelProvider(ui.activity)[FeedViewModel::class.java]}
+        for(context in listOf("root","results")){
+            if(context=="results"){
+                ui.onNodeWithTag("search-entry").performClick();ui.onNodeWithTag("search-input").performTextReplacement("animated")
+                ui.onNodeWithTag("submit-search").performClick();ui.onNodeWithTag("search-input").assertDoesNotExist()
+                assertEquals("animated",feed.state.value.query)
+            }
+            val original=feed.state.value.query
+            ui.onNodeWithTag("search-entry").performClick()
+            ui.onNodeWithTag("search-input").assertIsFocused().performTextInput(" effects")
+            ui.waitUntil(15000){ime()}
+            val gestural=InstrumentationRegistry.getArguments().getString("gestural")=="true"
+            if(gestural)UiEvidence.capture("search-ime-$context-before-api35.png")
+            back()
+            if(gestural)UiEvidence.capture("search-ime-$context-after-api35.png")
+            ui.waitUntil(10000){!ime()}
+            assertFalse(ui.activity.isFinishing);ui.onNodeWithTag("search-input").assertExists()
+            back();ui.onNodeWithTag("search-input").assertDoesNotExist()
+            ui.onNodeWithTag("search-entry").assertIsDisplayed();assertFalse(ui.activity.isFinishing)
+            assertEquals("Back must not submit the editor or pop its underlying result",original,feed.state.value.query)
+        }
     }
 }

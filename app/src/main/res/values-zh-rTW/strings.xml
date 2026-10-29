@@ -348,7 +348,6 @@
     <string name="ui_media_limit">影片超過私有下載大小限制或剩餘配額。</string>
     <string name="ui_more_controls">更多控制</string>
     <string name="ui_fewer_controls">收合控制</string>
-    <string name="ui_playback_controls">播放控制</string>
     <string name="ui_frame_analysis">影格分析</string>
     <string name="ui_audio_display">音訊與顯示</string>
     <string name="ui_set_a">設定 A 點</string>

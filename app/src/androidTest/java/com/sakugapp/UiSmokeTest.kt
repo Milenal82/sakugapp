@@ -82,6 +82,7 @@ class UiSmokeTest {
         ui.onNodeWithText("~tag1 ~tag2").performScrollTo().performClick()
         ui.onNodeWithTag("query-expression").assertTextContains("~tag1 ~tag2")
         ui.onNodeWithText("Cancel").performClick()
-        ui.onNode(hasSetTextAction()).assertTextContains(query)
+        ui.onNodeWithTag("search-entry").performClick()
+        ui.onNodeWithTag("search-input").assertTextContains(query)
     }
 }

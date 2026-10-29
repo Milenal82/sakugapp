@@ -44,7 +44,7 @@ class PublicBrowseTest {
         ui.waitUntil(15000){ui.onAllNodes(SemanticsMatcher.expectValue(androidx.compose.ui.semantics.SemanticsProperties.StateDescription,"Playing")).fetchSemanticsNodes().isNotEmpty()}
         UiEvidence.capture("phone-post-detail.png")
         ui.onNodeWithTag("more-controls").performClick()
-        ui.onNodeWithText("1.5×").performScrollTo().performClick();ui.onNodeWithText("[1.5×]").assertExists()
+        ui.onNodeWithTag("speed-1.5").performScrollTo().performClick().assertIsSelected()
         ui.onNodeWithText("Full screen").performScrollTo().performClick();ui.onNodeWithText("Exit full screen").assertExists()
         ui.onNodeWithText("Exit full screen").performClick()
         ui.onNodeWithTag("open-frame-controls").performScrollTo().performClick()

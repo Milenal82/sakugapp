@@ -1,6 +1,6 @@
 # 下载、组合搜索、返回导航与播放器面板增量
 
-版本保持 1.2.0 / code 11。[变更、检查命令与文件清单](incremental-search-download-controls.md)。本地 Debug / Release 各 112 项单测、Lint 0 错误、Debug 和未签名 Release 预检通过；412 项八语资源检查、16 项脚本测试和工作流校验通过。签名候选及 API 28 / API 35 设备结果按[证据报告](https://github.com/Milenal82/sakugapp/blob/evidence/history-tags-refresh/report.json)中的 source_commit 核对，不以旧提交结果代替本轮结果。以下为之前开发轮次记录。
+版本保持 1.2.0 / code 11。[变更、检查命令与文件清单](incremental-search-download-controls.md)。本地 Debug / Release 各 112 项单测、Lint 0 错误、Debug 和未签名 Release 预检通过；411 项八语资源检查、16 项脚本测试和工作流校验通过。签名候选及 API 28 / API 35 设备结果按[证据报告](https://github.com/Milenal82/sakugapp/blob/evidence/history-tags-refresh/report.json)中的 source_commit 核对，不以旧提交结果代替本轮结果。以下为之前开发轮次记录。
 
 # 1.2.0 / code 11 七项开发验证
 

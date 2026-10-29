@@ -344,7 +344,6 @@
     <string name="ui_media_limit">동영상이 앱 전용 다운로드 한도 또는 남은 용량을 초과합니다.</string>
     <string name="ui_more_controls">추가 제어</string>
     <string name="ui_fewer_controls">제어 숨기기</string>
-    <string name="ui_playback_controls">재생</string>
     <string name="ui_frame_analysis">프레임 분석</string>
     <string name="ui_audio_display">오디오 및 화면</string>
     <string name="ui_set_a">A 지정</string>

@@ -36,7 +36,10 @@ python3 -m unittest discover -s scripts/tests -v
 | 标题资源 | `res/values{,-zh-rCN,-zh-rTW,-ja,-fr,-es,-ru,-ko}/strings.xml` |
 | 单测 | `PersonalDataTest.kt`、`AppearanceAndDownloadTest.kt`、`SearchAndCaptionTest.kt`、`FeedViewModelTest.kt` |
 | 设备测试 | `SearchNavigationDeviceTest.kt`、`AdvancedControlsLayoutDeviceTest.kt`、`OfflineLibraryDeviceTest.kt`、`PlayerRotationDeviceTest.kt` |
+| 旧界面断言适配 | `UiSmokeTest.kt`、`PublicBrowseTest.kt` |
 | 验证流程 | `.github/workflows/android.yml`、`scripts/run-device-checks.sh`、`scripts/run-six-column-checks.sh`、`scripts/run-search-back-checks.sh`、`scripts/record-ci-evidence.py` |
 | 文档 | `README.md`、`docs/test-report.md`、本文件 |
 
 Kotlin 主代码路径前缀为 `app/src/main/java/com/sakugapp/`；测试分别位于 `app/src/test/java/com/sakugapp/` 与 `app/src/androidTest/java/com/sakugapp/`。
+
+首轮运行 [40873887531](https://github.com/Milenal82/sakugapp/actions/runs/40873887531) 的单测、两种构建和签名成功，设备 37/40 通过。两项旧用例仍期待取消后展开的搜索框及方括号倍率文案，现改为重新打开并验证原查询、验证倍率选中语义；不删除原查询保持与播放断言。API 35 的输入法返回未关闭问题改为在输入法可见时停用编辑态 BackHandler，交由原生输入法优先处理。补充首页和结果页两种键盘上下文、真实返回前后截图；此首轮失败不能算完整验收通过。

@@ -348,7 +348,6 @@
     <string name="ui_media_limit">動画のサイズまたは保存容量の上限を超えています。</string>
     <string name="ui_more_controls">詳細操作</string>
     <string name="ui_fewer_controls">詳細操作を閉じる</string>
-    <string name="ui_playback_controls">再生操作</string>
     <string name="ui_frame_analysis">フレーム解析</string>
     <string name="ui_audio_display">音声と表示</string>
     <string name="ui_set_a">A 点を設定</string>

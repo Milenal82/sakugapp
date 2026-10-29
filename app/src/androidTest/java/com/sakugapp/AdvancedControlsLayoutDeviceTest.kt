@@ -4,6 +4,7 @@ package com.sakugapp
 import android.content.res.Configuration
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.key
@@ -38,7 +39,7 @@ class AdvancedControlsLayoutDeviceTest {
         try{
             for(light in listOf(false,true)){
                 val theme=if(light)"light"else"dark"
-                ui.runOnUiThread{ui.activity.setContent{SakugappTheme(light){Surface(Modifier.fillMaxSize()){
+                ui.runOnUiThread{ui.activity.setContent{SakugappTheme(light){Surface(Modifier.fillMaxSize().systemBarsPadding()){
                     key(light){VideoPanel(file.toURI().toString(),AppSettings(lightTheme=light),onPlayerReady={player=it})}
                 }}}}
                 ui.waitUntil(20000){matches{it.playbackState==Player.STATE_READY}}

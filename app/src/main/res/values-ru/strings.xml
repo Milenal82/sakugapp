@@ -344,7 +344,6 @@
     <string name="ui_media_limit">Видео превышает лимит загрузки или доступную квоту.</string>
     <string name="ui_more_controls">Больше настроек</string>
     <string name="ui_fewer_controls">Скрыть настройки</string>
-    <string name="ui_playback_controls">Воспроизведение</string>
     <string name="ui_frame_analysis">Анализ кадров</string>
     <string name="ui_audio_display">Звук и изображение</string>
     <string name="ui_set_a">Задать A</string>

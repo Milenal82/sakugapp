@@ -344,7 +344,6 @@
     <string name="ui_media_limit">La vidéo dépasse la limite privée ou le quota disponible.</string>
     <string name="ui_more_controls">Plus de commandes</string>
     <string name="ui_fewer_controls">Masquer les commandes</string>
-    <string name="ui_playback_controls">Lecture</string>
     <string name="ui_frame_analysis">Analyse des images</string>
     <string name="ui_audio_display">Audio et image</string>
     <string name="ui_set_a">Définir A</string>

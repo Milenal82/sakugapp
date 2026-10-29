@@ -344,7 +344,6 @@
     <string name="ui_media_limit">El vídeo supera el límite privado o la cuota disponible.</string>
     <string name="ui_more_controls">Más controles</string>
     <string name="ui_fewer_controls">Ocultar controles</string>
-    <string name="ui_playback_controls">Reproducción</string>
     <string name="ui_frame_analysis">Análisis de fotogramas</string>
     <string name="ui_audio_display">Audio y pantalla</string>
     <string name="ui_set_a">Marcar A</string>
