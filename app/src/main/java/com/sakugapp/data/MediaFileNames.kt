@@ -25,7 +25,8 @@ object MediaFileNames {
             return limit(clean(host.lowercase().removePrefix("www.")),72)
         }
         // Text sources can also carry accidental URL credentials; discard assignments and query/fragment suffixes.
-        val text=raw.substringBefore('?').substringBefore('#').replace(Regex("(?i)(?:token|auth|session|password|secret|api[_-]?key|signature|credential)\\s*[:=]\\s*\\S+"),"")
+        val withoutUrls=Regex("(?i)(?:https?://|www\\.)\\S+").replace(raw){match->source(if(match.value.startsWith("www.",true))"https://"+match.value else match.value)}
+        val text=withoutUrls.substringBefore('?').substringBefore('#').replace(Regex("(?i)(?:token|auth|session|password|secret|api[_-]?key|signature|credential)\\s*[:=]\\s*\\S+"),"")
         return limit(clean(text),72)
     }
     fun forPost(post:Post,extension:String):String {

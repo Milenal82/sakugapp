@@ -24,6 +24,7 @@ class PersonalDataTest {
         assertEquals("xn--fsqu00a.xn--0zwm56d",MediaFileNames.source("https://user:SECRET@例子.测试/private?token=PRIVATE"))
         assertFalse(MediaFileNames.source("https://example.com/auth/SECRET/session/PRIVATE/clip/12").contains("SECRET"))
         assertFalse(MediaFileNames.source("https://example.com/a/Abcdefghijklmnop0123456789XYZ").contains("Abcdef"))
+        assertEquals("Reference example.com",MediaFileNames.source("Reference https://user:SECRET@example.com/private/TOKEN?auth=PRIVATE"))
         assertEquals(VideoDownloadPlan.from(p.copy(fileUrl="https://www.sakugabooru.com/a.mp4",fileExt="mp4")).filename,"post_7.mp4")
     }
     @Test fun notesPreserveOriginalSearchValuesAndRemainIndependentOfSavedTags(){

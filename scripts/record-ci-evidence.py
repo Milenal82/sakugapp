@@ -6,7 +6,7 @@ repo=os.environ['GITHUB_REPOSITORY'];run=os.environ['GITHUB_RUN_ID'];sha=os.envi
 def api(path):return json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/{path}']))
 jobs=api(f'actions/runs/{run}/jobs')['jobs'];artifacts=api(f'actions/runs/{run}/artifacts')['artifacts']
 report={'source_commit':sha,'run_id':run,'run_url':f'https://github.com/{repo}/actions/runs/{run}','captured_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),
-'jobs':{j['name']:{'status':j['status'],'conclusion':j['conclusion']} for j in jobs if j['name'] in ['build','device-tests','signed-candidate','candidate-upgrade-install']},
+'jobs':{j['name']:{'status':j['status'],'conclusion':j['conclusion']} for j in jobs if j['name'] in ['build','device-tests','signed-candidate','candidate-upgrade-install'] or j['name'].startswith('six-column-display')},
 'artifacts':[{'name':a['name'],'url':f'https://github.com/{repo}/actions/runs/{run}/artifacts/{a["id"]}','bytes':a['size_in_bytes']} for a in artifacts], 'tests':{},'failures':[]}
 # Full JUnit XML stays in Actions. Only aggregate counts and assertion summaries are committed.
 for variant in ['Debug','Release']:

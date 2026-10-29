@@ -232,7 +232,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
             }}
         }
         state.refreshError?.let{failure->Snackbar(modifier=Modifier.align(Alignment.BottomCenter).padding(12.dp).zIndex(2f),action={
-            TextButton(onClick=refresh,modifier=Modifier.testTag("retry-refresh")){Text(text(R.string.ui_retry))}
+            TextButton(onClick=refresh,colors=ButtonDefaults.textButtonColors(contentColor=MaterialTheme.colorScheme.inversePrimary),modifier=Modifier.testTag("retry-refresh")){Text(text(R.string.ui_retry))}
         }){Column{Text(text(R.string.ui_refresh_failed));Text(translateMessage(failure),style=MaterialTheme.typography.bodySmall)}}}
         Surface(Modifier.fillMaxWidth().offset{IntOffset(0,offset.toInt())}.zIndex(1f).onSizeChanged{fullHeight=it.height},tonalElevation=0.dp){
             Column(Modifier.padding(horizontal=10.dp).heightIn(max=with(LocalConfiguration.current){screenHeightDp.dp*0.7f})){

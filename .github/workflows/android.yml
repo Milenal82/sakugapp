@@ -130,6 +130,49 @@ jobs:
             app/build/outputs/androidTest-results/
             app/build/reports/ui-evidence/
           if-no-files-found: warn
+  six-column-display:
+    if: ${{ !github.event.inputs.release_tag && github.event.inputs.build_signed_candidate != 'true' && github.event.inputs.update_screenshots != 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - geometry: phone
+            profile: Nexus S
+          - geometry: landscape
+            profile: pixel_c
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v5
+      - run: sudo chmod a+rw /dev/kvm
+      - run: ./scripts/ci-android-sdk.sh
+      - name: Test a fresh physical display without wm overrides
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 28
+          arch: x86_64
+          target: default
+          profile: ${{ matrix.profile }}
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
+          script: ./scripts/run-six-column-checks.sh ${{ matrix.geometry }}
+      - name: Export captures even after an assertion failure
+        if: always()
+        run: |
+          mkdir -p app/build/reports/ui-evidence
+          adb pull /sdcard/Download/sakugapp-ui-evidence/. app/build/reports/ui-evidence/ || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: six-column-${{ matrix.geometry }}-reports
+          path: |
+            app/build/outputs/androidTest-results/
+            app/build/reports/ui-evidence/
   release-preflight:
     # Existing workflow entry point also works when a new workflow is not yet indexed.
     # No signing Secrets, no APK attachment, and no public publication.
@@ -308,7 +351,7 @@ jobs:
           name: signed-upgrade-install-report
           path: ${{ runner.temp }}/upgrade-install-report/
   checks-evidence:
-    needs: [build, device-tests]
+    needs: [build, device-tests, six-column-display]
     if: ${{ always() && github.event_name == 'push' && github.ref == 'refs/heads/feature/history-tags-refresh' }}
     permissions:
       contents: write
