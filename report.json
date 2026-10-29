@@ -1,0 +1,290 @@
+{
+  "source_commit": "de2d1134f3d0276909af52cee222caeeda55abc4",
+  "run_id": "40966510830",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40966510830",
+  "captured_utc": "2026-10-29T22:39:53.982148+00:00",
+  "validation_result": "failure",
+  "scope": "Backup import/restore, native search/history/settings screens; no player suite.",
+  "jobs": [
+    {
+      "name": "validation",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966510830/job/123772268851",
+      "id": 123772268851
+    },
+    {
+      "name": "evidence",
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966510830/job/123774187169",
+      "id": 123774187169
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "maintenance-test-reports",
+      "bytes": 81406,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966510830/artifacts/12938227617"
+    },
+    {
+      "name": "maintenance-debug-apk",
+      "bytes": 17911334,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966510830/artifacts/12937678551"
+    }
+  ],
+  "test_counts": {
+    "debug_unit": {
+      "tests": 22,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "device": {
+      "tests": 5,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "lint": {
+    "reports/lint-results-debug.xml": {
+      "errors": 0,
+      "warnings": 32
+    }
+  },
+  "failures": [
+    {
+      "job": "validation",
+      "conclusion": "failure",
+      "message": "See the Actions job for this unsuccessful check."
+    },
+    {
+      "test": "com.sakugapp.MaintenanceUiDeviceTest.searchHistoryAndSettingsKeepNativeStateInBothThemes",
+      "report": "outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "message": "java.lang.AssertionError: open-combined-search wraps rather than clipping text\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.assertTrue(Assert.java:42)\nat com.sakugapp.MaintenanceUiDeviceTest.readableTool(MaintenanceUiDeviceTest.kt:60)\nat com.sakugapp.MaintenanceUiDeviceTest.searchHistoryAndSettingsKeepNativeStateInBothThemes(MaintenanceUiDeviceTest.kt:96)\n"
+    }
+  ],
+  "device_diagnostics": [
+    {
+      "report": "reports/maintenance-diagnostics/runner.log",
+      "tail": "--------- beginning of main\n--------- beginning of system\n10-29 22:35:34.785  3142  3159 E TestRunner: failed: searchHistoryAndSettingsKeepNativeStateInBothThemes(com.sakugapp.MaintenanceUiDeviceTest)\n10-29 22:35:34.786  3142  3159 E TestRunner: ----- begin exception -----\n10-29 22:35:34.786  3142  3159 E TestRunner: java.lang.AssertionError: open-combined-search wraps rather than clipping text\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.Assert.fail(Assert.java:89)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.Assert.assertTrue(Assert.java:42)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat com.sakugapp.MaintenanceUiDeviceTest.readableTool(MaintenanceUiDeviceTest.kt:60)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat com.sakugapp.MaintenanceUiDeviceTest.searchHistoryAndSettingsKeepNativeStateInBothThemes(MaintenanceUiDeviceTest.kt:96)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat java.lang.reflect.Method.invoke(Native Method)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.rules.ExternalResource$1.evaluate(ExternalResource.java:54)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1$evaluate$1.invoke(AndroidComposeTestRule.android.kt:295)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1$evaluate$1.invoke(AndroidComposeTestRule.android.kt:295)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.withDisposableContent(ComposeUiTest.android.kt:565)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1$1.invoke(ComposeUiTest.android.kt:370)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.withComposeIdlingResource(ComposeUiTest.android.kt:439)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.access$withComposeIdlingResource(ComposeUiTest.android.kt:235)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1.invoke(ComposeUiTest.android.kt:369)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.withWindowRecomposer(ComposeUiTest.android.kt:413)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.access$withWindowRecomposer(ComposeUiTest.android.kt:235)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1.invoke(ComposeUiTest.android.kt:368)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.withTestCoroutines(ComposeUiTest.android.kt:426)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.access$withTestCoroutines(ComposeUiTest.android.kt:235)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1.invoke(ComposeUiTest.android.kt:367)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.compose.ui.test.EspressoLink.withStrategy(EspressoLink.android.kt:69)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1.invoke(ComposeUiTest.android.kt:366)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.compose.ui.test.IdlingResourceRegistry.withRegistry(IdlingResourceRegistry.jvm.kt:148)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1.invoke(ComposeUiTest.android.kt:365)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.compose.ui.test.ComposeRootRegistry.withRegistry(ComposeRootRegistry.android.kt:139)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.runTest(ComposeUiTest.android.kt:364)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1.evaluate(AndroidComposeTestRule.android.kt:295)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.ParentRunner.run(ParentRunner.java:413)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.test.ext.junit.runners.AndroidJUnit4.run(AndroidJUnit4.java:162)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.Suite.runChild(Suite.java:128)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.Suite.runChild(Suite.java:27)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runners.ParentRunner.run(ParentRunner.java:413)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runner.JUnitCore.run(JUnitCore.java:137)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat org.junit.runner.JUnitCore.run(JUnitCore.java:115)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:68)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:59)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:463)\n10-29 22:35:34.786  3142  3159 E TestRunner: \tat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2145)\n10-29 22:35:34.786  3142  3159 E TestRunner: ----- end exception -----\n10-29 22:35:34.790  3142  3159 I TestRunner: finished: searchHistoryAndSettingsKeepNativeStateInBothThemes(com.sakugapp.MaintenanceUiDeviceTest)\n10-29 22:35:34.809  3142  3159 I TestRunner: run finished: 5 tests, 1 failed, 0 ignored\n"
+    }
+  ],
+  "main_automatic_checks": {
+    "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40966511096",
+    "source_commit": "de2d1134f3d0276909af52cee222caeeda55abc4",
+    "status": "completed",
+    "conclusion": "failure",
+    "jobs": [
+      {
+        "name": "search-back-gestures",
+        "status": "completed",
+        "conclusion": "failure",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966511096/job/123772269402",
+        "id": 123772269402
+      },
+      {
+        "name": "device-tests",
+        "status": "completed",
+        "conclusion": "failure",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966511096/job/123772269677",
+        "id": 123772269677
+      },
+      {
+        "name": "build",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966511096/job/123772269766",
+        "id": 123772269766
+      },
+      {
+        "name": "six-column-display (landscape, pixel_c)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966511096/job/123772269799",
+        "id": 123772269799
+      },
+      {
+        "name": "six-column-display (phone, Nexus S)",
+        "status": "completed",
+        "conclusion": "failure",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966511096/job/123772269837",
+        "id": 123772269837
+      },
+      {
+        "name": "signed-candidate",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966511096/job/123772271405",
+        "id": 123772271405
+      },
+      {
+        "name": "documentation-screenshots",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966511096/job/123772271578",
+        "id": 123772271578
+      },
+      {
+        "name": "release-signing",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966511096/job/123772271600",
+        "id": 123772271600
+      },
+      {
+        "name": "release-preflight",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966511096/job/123772271676",
+        "id": 123772271676
+      },
+      {
+        "name": "candidate-evidence",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966511096/job/123772271943",
+        "id": 123772271943
+      },
+      {
+        "name": "candidate-upgrade-install",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966511096/job/123772272222",
+        "id": 123772272222
+      },
+      {
+        "name": "checks-evidence",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966511096/job/123775795453",
+        "id": 123775795453
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "check-reports",
+        "bytes": 136614,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966511096/artifacts/12938622184"
+      },
+      {
+        "name": "sakugapp-source",
+        "bytes": 2298367,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966511096/artifacts/12938577319"
+      },
+      {
+        "name": "six-column-landscape-reports",
+        "bytes": 3092660,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966511096/artifacts/12937822548"
+      },
+      {
+        "name": "six-column-phone-reports",
+        "bytes": 80476,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966511096/artifacts/12937458018"
+      },
+      {
+        "name": "device-test-reports",
+        "bytes": 7496380,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966511096/artifacts/12937354575"
+      },
+      {
+        "name": "sakugapp-debug",
+        "bytes": 17911333,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40966511096/artifacts/12937209675"
+      }
+    ],
+    "test_counts": {
+      "check-reports": {
+        "debug_unit": {
+          "tests": 120,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        "release_unit": {
+          "tests": 120,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      },
+      "six-column-landscape-reports": {
+        "device": {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      },
+      "six-column-phone-reports": {
+        "device": {
+          "tests": 2,
+          "failures": 1,
+          "errors": 0,
+          "skipped": 0
+        }
+      },
+      "device-test-reports": {
+        "device": {
+          "tests": 34,
+          "failures": 4,
+          "errors": 0,
+          "skipped": 0
+        }
+      }
+    },
+    "lint": {
+      "check-reports/reports/lint-results-debug.xml": {
+        "errors": 0,
+        "warnings": 32
+      },
+      "check-reports/reports/lint-results-release.xml": {
+        "errors": 0,
+        "warnings": 32
+      }
+    },
+    "failures": [
+      {
+        "job": "search-back-gestures",
+        "conclusion": "failure",
+        "message": "See the Actions job for this unsuccessful check."
+      },
+      {
+        "job": "device-tests",
+        "conclusion": "failure",
+        "message": "See the Actions job for this unsuccessful check."
+      },
+      {
+        "job": "six-column-display (phone, Nexus S)",
+        "conclusion": "failure",
+        "message": "See the Actions job for this unsuccessful check."
+      },
+      {
+        "test": "com.sakugapp.SixColumnDeviceTest.actualSixColumnHardwareKeepsScoreRatioAndAnchorAcrossColumnSwitchesAndRestart",
+        "report": "six-column-phone-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+        "message": "java.lang.AssertionError: Failed to inject touch input.\nReason: Expected exactly '1' node but could not find any node that satisfies: (TestTag = 'folder-entry-1')\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.ActionsKt.performTouchInput(Actions.kt:389)\nat androidx.compose.ui.test.AndroidActions.performClickImpl(Actions.android.kt:23)\nat androidx.compose.ui.test.ActionsKt.performClick(Actions.kt:60)\nat com.sakugapp.SixColumnDeviceTest.actualSixColumnHardwareKeepsScoreRatioAndAnchorAcrossColumnSwitchesAndRestart(SixColumnDeviceTest.kt:53)\n"
+      },
+      {
+        "test": "com.sakugapp.UiSmokeTest.scoreShortcutsReplaceOnlyTheScoreCondition",
+        "report": "device-test-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+        "message": "java.lang.AssertionError: Failed to inject touch input.\nReason: Expected exactly '1' node but could not find any node that satisfies: (Text + InputText + EditableText contains 'Filters' (ignoreCase: false))\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.ActionsKt.performTouchInput(Actions.kt:389)\nat androidx.compose.ui.test.AndroidActions.performClickImpl(Actions.android.kt:23)\nat androidx.compose.ui.test.ActionsKt.performClick(Actions.kt:60)\nat com.sakugapp.UiSmokeTest.scoreShortcutsReplaceOnlyTheScoreCondition(UiSmokeTest.kt:67)\n"
+      },
+      {
+        "test": "com.sakugapp.UiSmokeTest.searchDialogKeepsCombinedQueryAndDisplaysTheReference",
+        "report": "device-test-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+        "message": "java.lang.AssertionError: Failed to inject touch input.\nReason: Expected exactly '1' node but could not find any node that satisfies: (Text + InputText + EditableText contains 'Filters' (ignoreCase: false))\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.ActionsKt.performTouchInput(Actions.kt:389)\nat androidx.compose.ui.test.AndroidActions.performClickImpl(Actions.android.kt:23)\nat androidx.compose.ui.test.ActionsKt.performClick(Actions.kt:60)\nat com.sakugapp.UiSmokeTest.searchDialogKeepsCombinedQueryAndDisplaysTheReference(UiSmokeTest.kt:78)\n"
+      },
+      {
+        "test": "com.sakugapp.PublicPaginationTest.fiveBatchesDensityAndDetailReturnKeepRealPostsAndScrollState",
+        "report": "device-test-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+        "message": "java.lang.AssertionError: Failed to inject touch input.\nReason: Expected exactly '1' node but could not find any node that satisfies: (Text + InputText + EditableText contains 'History' (ignoreCase: false))\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.ActionsKt.performTouchInput(Actions.kt:389)\nat androidx.compose.ui.test.AndroidActions.performClickImpl(Actions.android.kt:23)\nat androidx.compose.ui.test.ActionsKt.performClick(Actions.kt:60)\nat com.sakugapp.PublicPaginationTest.fiveBatchesDensityAndDetailReturnKeepRealPostsAndScrollState(PublicPaginationTest.kt:80)\n"
+      },
+      {
+        "test": "com.sakugapp.CompactInterfaceDeviceTest.compactSearchRetainsHistoryFiltersFocusAndTheGridAnchor",
+        "report": "device-test-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+        "message": "java.lang.AssertionError: Failed to inject touch input.\nReason: Expected exactly '1' node but could not find any node that satisfies: (Text + InputText + EditableText contains 'History' (ignoreCase: false))\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.ActionsKt.performTouchInput(Actions.kt:389)\nat androidx.compose.ui.test.AndroidActions.performClickImpl(Actions.android.kt:23)\nat androidx.compose.ui.test.ActionsKt.performClick(Actions.kt:60)\nat com.sakugapp.CompactInterfaceDeviceTest.compactSearchRetainsHistoryFiltersFocusAndTheGridAnchor(CompactInterfaceDeviceTest.kt:53)\n"
+      }
+    ]
+  }
+}
