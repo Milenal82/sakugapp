@@ -2,7 +2,7 @@
   "source_commit": "d4d83293fe783bfe9ddf035aafaa3fad2d75978a",
   "run_id": "40836220823",
   "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40836220823",
-  "captured_utc": "2026-10-29T07:40:35.037791+00:00",
+  "captured_utc": "2026-10-29T07:42:02.822021+00:00",
   "jobs": {
     "build": {
       "status": "completed",
@@ -17,11 +17,16 @@
       "conclusion": "failure"
     },
     "candidate-upgrade-install": {
-      "status": "in_progress",
-      "conclusion": null
+      "status": "completed",
+      "conclusion": "success"
     }
   },
   "artifacts": [
+    {
+      "name": "signed-upgrade-install-report",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40836220823/artifacts/12881645225",
+      "bytes": 1328297
+    },
     {
       "name": "sakugapp-signed-candidate",
       "url": "https://github.com/Milenal82/sakugapp/actions/runs/40836220823/artifacts/12881546198",
@@ -160,5 +165,26 @@
     "lint_errors": 0,
     "lint_warnings": 27,
     "distribution": "signed development candidate; no Release published"
+  },
+  "upgrade": {
+    "previous": {
+      "package": "com.sakugapp",
+      "versionCode": 6,
+      "versionName": "1.0.0",
+      "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff"
+    },
+    "candidate": {
+      "package": "com.sakugapp",
+      "versionCode": 11,
+      "versionName": "1.2.0",
+      "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff"
+    },
+    "retained_light_theme": true,
+    "system_night_mode": "yes",
+    "theme_verification": "actual rendered background pixels",
+    "retained_wrap_tags": true,
+    "retained_search_history": true,
+    "uninstall_or_clear_data": false,
+    "result": "passed"
   }
 }
