@@ -2,13 +2,13 @@
   "source_commit": "9f5f6c316980a4829f1c98e56b3c0469c5350b39",
   "run_id": "40884609313",
   "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40884609313",
-  "captured_utc": "2026-10-29T13:52:55.863680+00:00",
+  "captured_utc": "2026-10-29T14:12:56.253031+00:00",
   "jobs": {
-    "signed-candidate": {
+    "six-column-display (phone, Nexus S)": {
       "status": "completed",
-      "conclusion": "success"
+      "conclusion": "failure"
     },
-    "six-column-display (landscape, pixel_c)": {
+    "search-back-gestures": {
       "status": "completed",
       "conclusion": "success"
     },
@@ -16,7 +16,11 @@
       "status": "completed",
       "conclusion": "success"
     },
-    "search-back-gestures": {
+    "candidate-upgrade-install": {
+      "status": "completed",
+      "conclusion": "success"
+    },
+    "six-column-display (landscape, pixel_c)": {
       "status": "completed",
       "conclusion": "success"
     },
@@ -24,11 +28,7 @@
       "status": "completed",
       "conclusion": "success"
     },
-    "six-column-display (phone, Nexus S)": {
-      "status": "completed",
-      "conclusion": "failure"
-    },
-    "candidate-upgrade-install": {
+    "signed-candidate": {
       "status": "completed",
       "conclusion": "success"
     }
