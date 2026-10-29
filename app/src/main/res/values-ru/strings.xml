@@ -416,4 +416,6 @@
         <item quantity="many">До %1$d символов и 8 строк. Только на устройстве.</item>
         <item quantity="other">До %1$d символов и 8 строк. Только на устройстве.</item>
     </plurals>
+    <string name="ui_playback_speed">Скорость воспроизведения</string>
+    <string name="ui_ab_loop">Повтор A–B</string>
 </resources>

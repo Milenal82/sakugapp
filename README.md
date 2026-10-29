@@ -2,6 +2,8 @@
 
 当前开发：1.2.0 / code 11，分支 `feature/history-tags-refresh`，不替换已公开 v1.1.0。
 
+本轮增量保持版本号不变：下载文件名识别明确集数，组合搜索可载入历史草稿，搜索结果返回保留原列表，高级播放控制按功能分组。[改动及验证范围](docs/incremental-search-download-controls.md)。
+
 本轮加入安全下载命名、Posts 下拉刷新、法/西/俄/韩界面、六列、本地浏览历史、独立标签收藏及标签备注。[功能、迁移与限制](docs/development-1.2.0.md) · [设备与构建证据](https://github.com/Milenal82/sakugapp/blob/evidence/history-tags-refresh/report.json) · [真实截图](https://github.com/Milenal82/sakugapp/tree/evidence/history-tags-refresh/screenshots)。新译文未经母语审校；候选测试 APK 见报告链接的 Actions 构件。
 
 应用代码已通过 Debug/Release 各 107 项单测与 33 项设备测试。新页面的原始模拟器截图（本地页面使用合法捕获的公开样本）：

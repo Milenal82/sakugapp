@@ -6,7 +6,7 @@ repo=os.environ['GITHUB_REPOSITORY'];run=os.environ['GITHUB_RUN_ID'];sha=os.envi
 def api(path):return json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/{path}']))
 jobs=api(f'actions/runs/{run}/jobs')['jobs'];artifacts=api(f'actions/runs/{run}/artifacts')['artifacts']
 report={'source_commit':sha,'run_id':run,'run_url':f'https://github.com/{repo}/actions/runs/{run}','captured_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),
-'jobs':{j['name']:{'status':j['status'],'conclusion':j['conclusion']} for j in jobs if j['name'] in ['build','device-tests','signed-candidate','candidate-upgrade-install'] or j['name'].startswith('six-column-display')},
+'jobs':{j['name']:{'status':j['status'],'conclusion':j['conclusion']} for j in jobs if j['name'] in ['build','device-tests','signed-candidate','candidate-upgrade-install','search-back-gestures'] or j['name'].startswith('six-column-display')},
 'artifacts':[{'name':a['name'],'url':f'https://github.com/{repo}/actions/runs/{run}/artifacts/{a["id"]}','bytes':a['size_in_bytes']} for a in artifacts], 'tests':{},'failures':[]}
 # Full JUnit XML stays in Actions. Only aggregate counts and assertion summaries are committed.
 for variant in ['Debug','Release']:
@@ -41,9 +41,12 @@ for job in jobs:
             selected=[line for line in lines if any(x in line for x in ['e: file:', 'FAILED','AssertionError','What went wrong','Caused by:','FAILURES!!!','##[error]'])]
             report['failures'].append({'job':job['name'],'message':'\n'.join(selected)[-12000:]})
 images=out/'screenshots';images.mkdir(exist_ok=True)
-for name in ['history-page.png','tag-favorites-page.png','tag-note-editor.png','language-fr.png','language-es.png','language-ru.png','language-ko.png','posts-refreshing.png','posts-refresh-failed.png','six-columns-large-font.png','six-columns-landscape.png']:
+captures=['history-page.png','tag-favorites-page.png','tag-note-editor.png','language-fr.png','language-es.png','language-ru.png','language-ko.png','posts-refreshing.png','posts-refresh-failed.png','six-columns-large-font.png','six-columns-landscape.png']
+captures += [f'combined-search-draft-{api}.png' for api in ['api28','api35']]+[f'search-return-{api}.png' for api in ['api28','api35']]
+captures += [f'controls-{geometry}-{theme}.png' for geometry in ['portrait','phone','landscape','phone-landscape'] for theme in ['dark','light']]+['controls-frame-group.png','controls-ab-group.png']
+for name in captures:
     found=list(root.rglob(name))
     if len(found)==1:shutil.copyfile(found[0],images/name)
 (out/'report.json').write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
-(out/'README.md').write_text(f'# Development verification\n\nSource: `{sha}`\n\nRun: {report["run_url"]}\n\nOriginal API 28 x86_64 emulator captures. Local collection/history screens use legally captured public-response fixtures; no fictional posts or account data. Refresh failure uses a controlled HTTP error. Language screens change only native UI. Full logs and reports remain in Actions artifacts. This branch contains no APK, credentials, signing files or media downloads.\n')
+(out/'README.md').write_text(f'# Development verification\n\nSource: `{sha}`\n\nRun: {report["run_url"]}\n\nOriginal API 28 / API 35 x86_64 emulator captures (API 35 navigation images have an api35 suffix). Local collection/history screens use legally captured public-response fixtures; search navigation uses real public results. Player layout screens use the existing controlled VFR media fixture. Refresh failure uses a controlled HTTP error. Language screens change only native UI. Full logs and reports remain in Actions artifacts. This branch contains no APK, credentials, signing files or media downloads.\n')
 print('Public verification summary recorded for',sha,report['tests'])

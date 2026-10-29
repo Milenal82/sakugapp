@@ -130,6 +130,36 @@ jobs:
             app/build/outputs/androidTest-results/
             app/build/reports/ui-evidence/
           if-no-files-found: warn
+  search-back-gestures:
+    if: ${{ !github.event.inputs.release_tag && github.event.inputs.build_signed_candidate != 'true' && github.event.inputs.update_screenshots != 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v5
+      - run: sudo chmod a+rw /dev/kvm
+      - run: ./scripts/ci-android-sdk.sh
+      - name: Verify real edge gestures, IME back and cancelled predictive back
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          arch: x86_64
+          target: google_apis
+          profile: pixel_2
+          disable-animations: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
+          script: bash ./scripts/run-search-back-checks.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: search-back-gesture-reports
+          path: |
+            app/build/outputs/androidTest-results/
+            app/build/reports/ui-evidence/
   six-column-display:
     if: ${{ !github.event.inputs.release_tag && github.event.inputs.build_signed_candidate != 'true' && github.event.inputs.update_screenshots != 'true' }}
     runs-on: ubuntu-24.04
@@ -351,7 +381,7 @@ jobs:
           name: signed-upgrade-install-report
           path: ${{ runner.temp }}/upgrade-install-report/
   checks-evidence:
-    needs: [build, device-tests, six-column-display]
+    needs: [build, device-tests, six-column-display, search-back-gestures]
     if: ${{ always() && github.event_name == 'push' && github.ref == 'refs/heads/feature/history-tags-refresh' }}
     permissions:
       contents: write

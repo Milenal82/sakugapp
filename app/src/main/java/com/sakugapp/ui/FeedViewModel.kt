@@ -28,8 +28,22 @@ class FeedViewModel @JvmOverloads constructor(
     private var detailRequest: Job? = null
     private var request: Job? = null
     private var generation = 0
+    private var browseSnapshot:FeedState?=null
+    val browsingState:FeedState get()=browseSnapshot ?: _state.value
     init { loadMore() }
 
+    fun beginSearch(query:String){
+        if(browseSnapshot==null)browseSnapshot=_state.value
+        search(query)
+    }
+    /** Called only after navigation commits back to Posts, not during a cancelled back gesture. */
+    fun restoreBrowse(){
+        val original=browseSnapshot ?: return
+        browseSnapshot=null;request?.cancel();generation++;close()
+        savedState["query"]=original.query
+        _state.value=original.copy(loading=false,refreshing=false)
+        if(original.refreshing)refresh()else if(original.loading)loadMore()
+    }
     fun search(query: String) {
         request?.cancel()
         localSequence=null
@@ -65,11 +79,13 @@ class FeedViewModel @JvmOverloads constructor(
         if(value<=0)return
         fun Post.update()=if(this.id==id && fileUrl==url)copy(durationMs=value)else this
         _state.value=_state.value.copy(posts=_state.value.posts.map{it.update()})
+        browseSnapshot=browseSnapshot?.let{it.copy(posts=it.posts.map{post->post.update()})}
         _selected.value=_selected.value?.update()
         localSequence=localSequence?.map{it.update()}
     }
     fun updateScore(id: Long, score: Int?) {
         _state.value=_state.value.copy(posts=_state.value.posts.map{if(it.id==id)it.copy(score=score)else it})
+        browseSnapshot=browseSnapshot?.let{it.copy(posts=it.posts.map{post->if(post.id==id)post.copy(score=score)else post})}
         _selected.value=_selected.value?.let{if(it.id==id)it.copy(score=score)else it}
     }
     fun close() { localSequence=null; detailRequest?.cancel();_detailError.value=null;_selected.value = null }

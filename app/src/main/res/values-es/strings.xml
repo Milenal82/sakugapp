@@ -413,4 +413,6 @@
         <item quantity="many">Hasta %1$d caracteres y 8 líneas. Solo en este dispositivo.</item>
         <item quantity="other">Hasta %1$d caracteres y 8 líneas. Solo en este dispositivo.</item>
     </plurals>
+    <string name="ui_playback_speed">Velocidad de reproducción</string>
+    <string name="ui_ab_loop">Bucle A–B</string>
 </resources>

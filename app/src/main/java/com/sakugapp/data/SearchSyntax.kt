@@ -3,6 +3,17 @@ package com.sakugapp.data
 
 /** The site's query language is sent intact. The builder adds tokens, never expands OR into AND. */
 object SearchSyntax {
+    data class Draft(val expression:String,val order:String="keep",val rating:String="keep")
+    /** Select only unique, understood fields; retain every original token in the editable expression. */
+    fun draft(query:String):Draft {
+        if(query.any{it=='\'' || it=='"'})return Draft(query)
+        fun value(fieldName:String,allowed:List<String>):String {
+            val fields=tokens(query).filter{field(it)==fieldName}
+            val token=fields.singleOrNull() ?: return "keep"
+            return token.removePrefix("$fieldName:").takeIf{token.startsWith("$fieldName:") && it in allowed} ?: "keep"
+        }
+        return Draft(query,value("order",orders),value("rating",listOf("safe","questionable","explicit")))
+    }
     val orders = listOf("id", "id_desc", "score", "score_asc", "mpixels", "mpixels_asc", "landscape", "portrait", "vote", "random")
     val scorePresets = listOf("score:>=3", "score:>=100")
     fun score(query:String,preset:String):String {

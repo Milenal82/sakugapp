@@ -407,4 +407,6 @@
     <plurals name="ui_note_limit">
         <item quantity="other">최대 %1$d자, 8줄. 이 기기에만 저장됩니다.</item>
     </plurals>
+    <string name="ui_playback_speed">재생 속도</string>
+    <string name="ui_ab_loop">A–B 구간 반복</string>
 </resources>

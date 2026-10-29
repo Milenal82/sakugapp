@@ -89,9 +89,13 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
     val systemTag=android.content.res.Resources.getSystem().configuration.locales[0].toLanguageTag()
     val language=PreferenceRules.resolveLanguage(settings.language,systemTag)
     var menu by remember{mutableStateOf(false)};var about by remember{mutableStateOf(false)}
-    var scrollQuery by rememberSaveable{mutableStateOf(feed.query)}
-    LaunchedEffect(feed.query){if(scrollQuery!=feed.query){grid.scrollToItem(0);scrollQuery=feed.query}}
-    fun search(value:String){app.search(value);model.search(value);nav.popBackStack("posts",false)}
+    LaunchedEffect(entry?.destination?.route){if(entry?.destination?.route=="posts")model.restoreBrowse()}
+    fun search(value:String){
+        app.search(value);model.beginSearch(value)
+        if(nav.currentDestination?.route!="search" && !nav.popBackStack("search",false)){
+            nav.popBackStack("posts",false);nav.navigate("search")
+        }
+    }
     val browser=rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()){result->
         if(result.resultCode==android.app.Activity.RESULT_OK)app.syncBrowserSession()
         val data=result.data
@@ -118,7 +122,12 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                 }}
             }
         }}){insets->NavHost(navController=nav,startDestination="posts",modifier=Modifier.padding(insets).semantics{testTagsAsResourceId=true}){
-            composable("posts"){PostsScreen(feed,grid,settings,history,metered,app,::search,{post->model.open(post);nav.navigate("post/${post.id}")},model::loadMore,model::refresh)}
+            composable("posts"){
+                val browse=model.browsingState
+                val home=browse.copy(posts=browse.posts.map{post->library.durations[post.fileUrl]?.let{post.copy(durationMs=it)} ?: post})
+                PostsScreen(home,grid,settings,history,metered,app,::search,{post->model.open(post);nav.navigate("post/${post.id}")},model::loadMore,model::refresh,isActive=entry?.destination?.route=="posts")
+            }
+            composable("search"){PostsScreen(feed,rememberLazyGridState(),settings,history,metered,app,::search,{post->model.open(post);nav.navigate("post/${post.id}")},model::loadMore,model::refresh,isActive=entry?.destination?.route=="search")}
             composable("library"){LibraryScreen(app,::search,{nav.navigate("tags")}){post,order->model.openLocal(post,order);nav.navigate("post/${post.id}")}}
             composable("tags"){TagFavoritesScreen(app,{nav.popBackStack()}){value->nav.popBackStack("posts",false);search(value)}}
             composable("history"){BrowsingHistoryScreen(app,{nav.popBackStack()}){post,order->model.openLocal(post,order);nav.navigate("post/${post.id}")}}
@@ -153,7 +162,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
 
 @OptIn(ExperimentalLayoutApi::class,ExperimentalMaterial3Api::class)
 @Composable
-internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,history:List<String>,metered:Boolean,app:AppViewModel,search:(String)->Unit,open:(Post)->Unit,loadMore:()->Unit,refresh:()->Unit) {
+internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,history:List<String>,metered:Boolean,app:AppViewModel,search:(String)->Unit,open:(Post)->Unit,loadMore:()->Unit,refresh:()->Unit,isActive:Boolean=true) {
     var query by rememberSaveable(state.query,stateSaver=TextFieldValue.Saver){mutableStateOf(TextFieldValue(state.query,TextRange(state.query.length)))}
     var active by rememberSaveable{mutableStateOf<Long?>(null)}
     var advanced by remember{mutableStateOf(false)}
@@ -170,6 +179,10 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
     var averaging by remember{mutableStateOf(false)}
     val context=LocalContext.current;val density=LocalDensity.current
     val scope=rememberCoroutineScope();val focus=LocalFocusManager.current
+    val keyboard=LocalSoftwareKeyboardController.current
+    val imeVisible=WindowInsets.isImeVisible
+    var scrollQuery by rememberSaveable{mutableStateOf(state.query)}
+    LaunchedEffect(state.query){if(scrollQuery!=state.query){grid.scrollToItem(0);scrollQuery=state.query}}
     val allowedPreview=!metered || settings.mobilePreview
     val suggestions=rememberSuggestions(query,searchFocused,app.suggestions)
     val pinned=searchExpanded || advanced
@@ -185,11 +198,11 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
     LaunchedEffect(pinned){if(pinned){chromeVisible=true;chrome.reset()}}
     LaunchedEffect(grid,state.query){snapshotFlow{!grid.canScrollBackward}.collect{if(it){chromeVisible=true;chrome.reset()}}}
     val latestState by rememberUpdatedState(state)
-    LaunchedEffect(grid,settings.columns){
+    LaunchedEffect(grid,settings.columns,isActive){
         snapshotFlow {
             val current=latestState
             val last=grid.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: -1
-            current.posts.isNotEmpty() && last>=current.posts.size-12 && !current.loading && !current.refreshing && current.refreshError==null && current.error==null && !current.endReached && !current.autoLoadPaused
+            isActive && current.posts.isNotEmpty() && last>=current.posts.size-12 && !current.loading && !current.refreshing && current.refreshError==null && current.error==null && !current.endReached && !current.autoLoadPaused
         }.distinctUntilChanged().filter{it}.collect{loadMore()}
     }
     val visible by remember(grid){derivedStateOf{grid.layoutInfo.visibleItemsInfo.mapNotNull{it.key as? Long}}}
@@ -197,9 +210,9 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
         if(!allowedPreview || active !in visible)active=null
         if(settings.autoPreview && allowedPreview && !grid.isScrollInProgress && active==null)active=state.posts.firstOrNull{it.id in visible && it.isVideo}?.id
     }
-    fun collapseSearch(){searchExpanded=false;historyOpen=false;focus.clearFocus()}
+    fun collapseSearch(){searchExpanded=false;historyOpen=false;keyboard?.hide();focus.clearFocus()}
     fun submit(value:String){collapseSearch();active=null;chromeVisible=true;search(value)}
-    BackHandler(enabled=searchExpanded && !advanced){collapseSearch()}
+    BackHandler(enabled=isActive && searchExpanded && !advanced){if(imeVisible){keyboard?.hide();focus.clearFocus()}else collapseSearch()}
     LaunchedEffect(searchExpanded){if(searchExpanded){searchFocus.requestFocus()}else focus.clearFocus()}
 
     fun complete(name:String){
@@ -266,7 +279,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
                     Column(Modifier.verticalScroll(rememberScrollState()).testTag("search-expanded")){
                         SearchSyntax.warnings(query.text).forEach{Text(translateMessage(it),style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.tertiary)}
                         FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
-                            TextButton(onClick={advanced=true}){Text(text(R.string.ui_filters))}
+                            TextButton(onClick={collapseSearch();advanced=true},modifier=Modifier.testTag("open-combined-search")){Text(text(R.string.ui_filters))}
                             TextButton(onClick={historyOpen=!historyOpen;focus.clearFocus()}){Text(text(R.string.ui_history))}
                             TextButton(enabled=!averaging && state.posts.isNotEmpty() && !(settings.wifiImages && metered),onClick={scope.launch{
                                 averaging=true
@@ -290,7 +303,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
             }
         }
     }
-    if(advanced)SearchDialog(query.text,app.suggestions,settings.lightTheme,{value->query=TextFieldValue(value,TextRange(value.length));submit(value);advanced=false},{advanced=false})
+    if(advanced)SearchDialog(query.text,app.suggestions,settings.lightTheme,{value->query=TextFieldValue(value,TextRange(value.length));submit(value);advanced=false},{advanced=false},history)
     if(policy)AlertDialog(onDismissRequest={policy=false},title={Text(text(R.string.ui_network_policy))},text={Text(text(R.string.ui_previews_on_metered_networks_are_disabled_in_settings))},confirmButton={TextButton(onClick={policy=false}){Text(text(R.string.ui_ok))}})
 }
 

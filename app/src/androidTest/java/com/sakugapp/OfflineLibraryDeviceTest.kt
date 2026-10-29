@@ -46,6 +46,23 @@ class OfflineLibraryDeviceTest {
                 legacyRoot.deleteRecursively()
 ;assertEquals(file,store.existing(good));assertEquals(1,server.requestCount)
                 store.download(good);assertEquals("Completed files must be reused",1,server.requestCount)
+                // Metadata variations affect new names only; original MP4 bytes and completed records survive.
+                val artist=Tag("mokmok",TagCategory.ARTIST)
+                val cases=listOf(good.copy(source="ep 12",tags=listOf(artist)),good.copy(source=null,tags=emptyList()),
+                    good.copy(source="Series / : episode 12",tags=listOf(artist,Tag("second/artist",TagCategory.ARTIST))))
+                for((index,value)in cases.withIndex()){
+                    val variant=value.copy(fileUrl=post("/named-$index.mp4").fileUrl)
+                    server.enqueue(MockResponse().setHeader("Content-Type","video/mp4").setBody(Buffer().write(data)))
+                    val planned=VideoDownloadPlan.from(variant).filename
+                    val expected=if(index==1)planned.removeSuffix(".mp4")+" (2).mp4"else planned
+                    val named=store.download(variant);assertEquals(expected,named.name)
+                    assertArrayEquals(data,named.readBytes());assertTrue(named.name.contains("_${variant.id}"));assertTrue(named.name.endsWith(".mp4"))
+                    assertEquals(file,store.existing(good))
+                }
+                val collision=good.copy(fileUrl=post("/same-name.mp4").fileUrl)
+                server.enqueue(MockResponse().setHeader("Content-Type","video/mp4").setBody(Buffer().write(data)))
+                val duplicate=store.download(collision);assertNotEquals(file,duplicate);assertTrue(duplicate.name.endsWith(" (3).mp4"))
+                assertArrayEquals(data,file.readBytes())
                 val broken=post("/broken.mp4")
                 server.enqueue(MockResponse().setHeader("Content-Type","video/mp4").setBody(Buffer().write(data)).setSocketPolicy(SocketPolicy.DISCONNECT_DURING_RESPONSE_BODY))
                 try{store.download(broken);fail("Incomplete transfer must fail")}catch(_:DataFailure){}

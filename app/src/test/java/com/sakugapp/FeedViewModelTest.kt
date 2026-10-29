@@ -91,6 +91,29 @@ class FeedViewModelTest {
         assertEquals(before, model.state.value); assertEquals(1, calls)
         assertNull(model.selected.value)
     }
+    @Test fun searchResultNavigationRestoresTheExactBrowsePageWithoutRefetching()=runTest(dispatcher){
+        val requests=mutableListOf<Pair<String,Int>>()
+        val repo=object:PostRepository{override val pageSize=1;override suspend fun page(query:String,page:Int):PostPage{
+            requests+=query to page;return page(if(query.isEmpty())page.toLong() else 100)
+        }}
+        val saved=SavedStateHandle();val model=FeedViewModel(saved,repo);advanceUntilIdle();model.loadMore();advanceUntilIdle()
+        val original=model.state.value
+        model.beginSearch("~a ~b order:score");advanceUntilIdle();model.beginSearch("id:100");advanceUntilIdle()
+        assertEquals(original,model.browsingState);val calls=requests.size
+        model.restoreBrowse();advanceUntilIdle()
+        assertEquals(original,model.state.value);assertEquals(calls,requests.size);assertEquals("",saved.get<String>("query"))
+        model.loadMore();advanceUntilIdle();assertEquals("" to 3,requests.last())
+    }
+    @Test fun lateSearchResponseCannotOverwriteTheRestoredBrowseSnapshot()=runTest(dispatcher){
+        val stale=CompletableDeferred<Unit>()
+        val repo=object:PostRepository{override suspend fun page(query:String,page:Int):PostPage{
+            if(query.isNotEmpty())withContext(NonCancellable){stale.await()}
+            return page(if(query.isEmpty())1 else 99)
+        }}
+        val model=FeedViewModel(SavedStateHandle(),repo);runCurrent();val original=model.state.value
+        model.beginSearch("animated");runCurrent();model.restoreBrowse();stale.complete(Unit);advanceUntilIdle()
+        assertEquals(original,model.state.value)
+    }
     @Test fun refreshKeepsTheQueryReplacesFirstPageDeduplicatesAndResetsPagination()=runTest(dispatcher){
         var refreshed=false
         val repo=object:PostRepository{override val pageSize=2;override suspend fun page(query:String,page:Int):PostPage{

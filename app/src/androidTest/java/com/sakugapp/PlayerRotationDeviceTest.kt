@@ -53,7 +53,7 @@ class PlayerRotationDeviceTest {
             ui.runOnUiThread{activity.setContent{SakugappTheme(false){VideoPanel(file.toURI().toString(),AppSettings(),onPlayerReady={player=it;instances.incrementAndGet()})}}}
             awaitStage("video ready",15000){playerMatches{it?.playbackState==Player.STATE_READY}}
             ui.onNodeWithTag("more-controls").performClick()
-            ui.onNodeWithText("1.5×",substring=false).performScrollTo().performClick()
+            ui.onNodeWithTag("speed-1.5").performScrollTo().performClick().assertIsSelected()
             ui.runOnUiThread{player!!.pause();player!!.seekTo(400)}
             awaitStage("seek paused video",5000){playerMatches{it!=null && it.currentPosition>=350}}
             val retained=player

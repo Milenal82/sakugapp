@@ -49,7 +49,7 @@ class AppearanceAndDownloadTest {
         }
     }
     @Test fun downloadUsesOnlyTheActualMediaUrlAndSafeFilename(){
-        val plan=VideoDownloadPlan.from(post());assertEquals(post().fileUrl,plan.url.toString());assertEquals("post_319947.mp4",plan.filename);assertEquals("video/mp4",plan.mime)
+        val plan=VideoDownloadPlan.from(post());assertEquals(post().fileUrl,plan.url.toString());assertEquals("unknown_artist_unknown_source_319947.mp4",plan.filename);assertEquals("video/mp4",plan.mime)
         assertThrows(IllegalArgumentException::class.java){VideoDownloadPlan.from(post().copy(fileUrl=null))}
         assertThrows(IllegalStateException::class.java){VideoDownloadPlan.from(post().copy(fileUrl="http://example.org/a.mp4"))}
     }

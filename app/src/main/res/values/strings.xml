@@ -419,4 +419,6 @@
         <item quantity="one">Up to %1$d character and 8 lines. Stored only on this device.</item>
         <item quantity="other">Up to %1$d characters and 8 lines. Stored only on this device.</item>
     </plurals>
+    <string name="ui_playback_speed">Playback speed</string>
+    <string name="ui_ab_loop">A–B loop</string>
 </resources>

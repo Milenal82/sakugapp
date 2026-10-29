@@ -1,4 +1,8 @@
-# 1.2.0 / code 11 开发验证
+# 下载、组合搜索、返回导航与播放器面板增量
+
+版本保持 1.2.0 / code 11。[变更、检查命令与文件清单](incremental-search-download-controls.md)。本地 Debug / Release 各 112 项单测、Lint 0 错误、Debug 和未签名 Release 预检通过；412 项八语资源检查、16 项脚本测试和工作流校验通过。签名候选及 API 28 / API 35 设备结果按[证据报告](https://github.com/Milenal82/sakugapp/blob/evidence/history-tags-refresh/report.json)中的 source_commit 核对，不以旧提交结果代替本轮结果。以下为之前开发轮次记录。
+
+# 1.2.0 / code 11 七项开发验证
 
 本地基线与完整 JVM / Lint / Debug / Release 预检及新设备用例说明见 [开发记录](development-1.2.0.md)。[本轮证据分支](https://github.com/Milenal82/sakugapp/blob/evidence/history-tags-refresh/report.json)记录实际提交、Actions 状态、单测/设备计数、Lint 和原始截图；应用代码 14f15a2 的完整检查已通过：Debug/Release 各 107 项单测、33/33 项设备测试、正式签名及覆盖升级检查；CI Lint 0 错误 / 23 警告。本地 Lint 0 错误 / 6 警告。最终文档与截图同步构件以证据报告中的提交为准。以下保留历史版本记录。
 

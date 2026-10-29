@@ -407,4 +407,6 @@
     <plurals name="ui_note_limit">
         <item quantity="other">最多 %1$d 字、8 行，僅儲存在本機。</item>
     </plurals>
+    <string name="ui_playback_speed">播放速度</string>
+    <string name="ui_ab_loop">A–B 區間循環</string>
 </resources>

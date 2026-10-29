@@ -11,6 +11,16 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class SearchAndCaptionTest {
+    @Test fun combinedSearchDraftSelectsOnlyUniqueUnderstoodFieldsAndKeepsRawConditions(){
+        val query="~tag1 ~tag2 -tag3 id:100..200 score:>=3 source:https://site.com/a order:score rating:safe"
+        val draft=SearchSyntax.draft(query)
+        assertEquals(query,draft.expression);assertEquals("score",draft.order);assertEquals("safe",draft.rating)
+        assertEquals(SearchSyntax.tokens(query).toSet(),SearchSyntax.tokens(SearchSyntax.filters(draft.expression,draft.order,draft.rating)).toSet())
+        for(raw in listOf("rating:safe rating:explicit order:unknown","-rating:questionable -order:id", "\"unknown syntax order:score rating:safe\"", "order:id order:score")){
+            val unknown=SearchSyntax.draft(raw);assertEquals("keep",unknown.order);assertEquals("keep",unknown.rating)
+            assertEquals(raw,SearchSyntax.filters(unknown.expression,unknown.order,unknown.rating))
+        }
+    }
     @Test fun publicSummaryWithUnicodeSeparatorKeepsOtherRecordsAndDoesNotInventSplitNames() {
         val body=javaClass.getResource("/live/tag-summary-malformed-record.json")!!.readText()
         val types=PostParser.tagSummary(body)

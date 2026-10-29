@@ -7,6 +7,7 @@ import java.util.Locale
 /** A display name, never a path or an authentication-bearing URL. */
 object MediaFileNames {
     const val MAX_BYTES=180
+    private val urls=Regex("(?i)(?:https?://|www\\.)\\S+")
     private fun clean(value:String)=value.replace(Regex("[\\p{Cc}\\p{Cf}<>:\"/\\\\|?*]")," ")
         .replace(Regex("\\s+")," ").trim(' ','.')
     private fun limit(value:String,bytes:Int):String {
@@ -25,15 +26,31 @@ object MediaFileNames {
             return limit(clean(host.lowercase().removePrefix("www.")),72)
         }
         // Text sources can also carry accidental URL credentials; discard assignments and query/fragment suffixes.
-        val withoutUrls=Regex("(?i)(?:https?://|www\\.)\\S+").replace(raw){match->source(if(match.value.startsWith("www.",true))"https://"+match.value else match.value)}
+        val withoutUrls=urls.replace(raw){match->source(if(match.value.startsWith("www.",true))"https://"+match.value else match.value)}
         val text=withoutUrls.substringBefore('?').substringBefore('#').replace(Regex("(?i)(?:token|auth|session|password|secret|api[_-]?key|signature|credential)\\s*[:=]\\s*\\S+"),"")
         return limit(clean(text),72)
     }
+    /** Only explicit episode markers count. URL IDs, query values and fragments are not episodes. */
+    fun episode(value:String?):String? {
+        val text=urls.replace(value.orEmpty()){match->
+            val uri=runCatching{URI(if(match.value.startsWith("www.",true))"https://"+match.value else match.value)}.getOrNull()
+            uri?.path.orEmpty().replace('#',' ')
+        }.replace(Regex("(?i)(?:token|auth|session|password|secret|api[_-]?key|signature|credential)\\s*[:=]\\s*\\S+"),"")
+        val suffix="(?![\\p{L}\\p{N}]|\\s*(?:[-–./,:_]+|&|(?i:and|to))\\s*[0-9])"
+        val markers=listOf(
+            Regex("(?i)(?<![\\p{L}\\p{N}_])(?:episode|ep)[\\s._-]*([0-9]{1,4})$suffix"),
+            Regex("(?<![#/0-9])#[ \\t]*([0-9]{1,4})$suffix")
+        )
+        val numbers=markers.flatMap{it.findAll(text).map{match->match.groupValues[1].toInt()}.toList()}.distinct()
+        return numbers.singleOrNull()?.let{"ep_$it"}
+    }
     fun forPost(post:Post,extension:String):String {
         require(post.id>0 && extension.lowercase(Locale.ROOT) in setOf("mp4","webm","mkv"))
-        val artists=post.tags.filter{it.category==TagCategory.ARTIST}.map{clean(it.name)}.filter{it.isNotBlank()}.distinct().joinToString(" + ")
-        val parts=listOf(limit(artists,64),source(post.source)).filter{it.isNotBlank()}+"post_${post.id}"
-        return parts.joinToString(" - ")+"."+extension.lowercase(Locale.ROOT)
+        fun part(value:String)=value.replace(Regex("\\s+"),"_")
+        val artists=post.tags.filter{it.category==TagCategory.ARTIST}.map{part(clean(it.name))}.filter{it.isNotBlank()}.distinct().joinToString("__")
+        val artist=limit(artists,64).ifBlank{"unknown_artist"}
+        val origin=episode(post.source) ?: part(source(post.source)).ifBlank{"unknown_source"}
+        return "${artist}_${origin}_${post.id}."+extension.lowercase(Locale.ROOT)
     }
     fun unique(name:String,exists:(String)->Boolean):String {
         require(name.toByteArray().size<=MAX_BYTES && !name.contains('/') && !name.contains('\\'))

@@ -12,12 +12,14 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.*
 import androidx.compose.ui.semantics.*
@@ -140,15 +142,18 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                     }
                 }
                 AnimatedVisibility(more,enter=expandVertically(tween(Motion.controls)),exit=shrinkVertically(tween(Motion.controls))){
-                Column(Modifier.fillMaxWidth().heightIn(max=controlsHeight).verticalScroll(rememberScrollState()).padding(horizontal=8.dp),verticalArrangement=Arrangement.spacedBy(6.dp)){
-                    Text(text(R.string.ui_playback_controls),style=MaterialTheme.typography.titleSmall)
-                    FlowRow{for(value in PreferenceRules.speeds)TextButton(onClick={speed=value}){Text(if(speed==value)"[$value×]"else"$value×")}}
-                    Text(text(R.string.ui_playback_time_value,mediaTime(position),if(duration>0)mediaTime(duration)else"—"))
+                Column(Modifier.fillMaxWidth().heightIn(max=controlsHeight).verticalScroll(rememberScrollState()).padding(horizontal=8.dp).testTag("advanced-controls"),verticalArrangement=Arrangement.spacedBy(8.dp)){
+                    ControlGroup(text(R.string.ui_playback_speed),"speed-controls","$speed×"){
+                        FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
+                            for(value in PreferenceRules.speeds)FilterChip(selected=speed==value,onClick={speed=value},label={Text("$value×")},modifier=Modifier.heightIn(min=40.dp).testTag("speed-$value"))
+                        }
+                    }
+                    ControlGroup(text(R.string.ui_ab_loop),"ab-controls"){
                     Text(text(R.string.ui_ab_interval,a?.let(::mediaTime) ?: "—",b?.let(::mediaTime) ?: "—"),Modifier.testTag("ab-interval"))
-                    FlowRow{
-                        TextButton(onClick={val updated=ab.withA(player.currentPosition.coerceAtLeast(0));a=updated.aMs;b=updated.bMs;abEnabled=false;invalidAB=false}){Text(text(R.string.ui_set_a))}
-                        TextButton(onClick={try{val updated=ab.withB(player.currentPosition.coerceAtLeast(0));b=updated.bMs;abEnabled=false;invalidAB=false}catch(_:IllegalArgumentException){invalidAB=true}}){Text(text(R.string.ui_set_b))}
-                        TextButton(enabled=ab.valid,onClick={abEnabled=!abEnabled},modifier=Modifier.testTag("ab-toggle")){Text(text(if(abEnabled)R.string.ui_disable_ab else R.string.ui_enable_ab))}
+                    FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
+                        TextButton(onClick={val updated=ab.withA(player.currentPosition.coerceAtLeast(0));a=updated.aMs;b=updated.bMs;abEnabled=false;invalidAB=false},modifier=Modifier.testTag("set-a")){Text(text(R.string.ui_set_a))}
+                        TextButton(onClick={try{val updated=ab.withB(player.currentPosition.coerceAtLeast(0));b=updated.bMs;abEnabled=false;invalidAB=false}catch(_:IllegalArgumentException){invalidAB=true}},modifier=Modifier.testTag("set-b")){Text(text(R.string.ui_set_b))}
+                        FilterChip(selected=abEnabled,enabled=ab.valid,onClick={abEnabled=!abEnabled},modifier=Modifier.heightIn(min=40.dp).testTag("ab-toggle"),label={Text(text(if(abEnabled)R.string.ui_disable_ab else R.string.ui_enable_ab))})
                         TextButton(onClick={a=null;b=null;abEnabled=false;invalidAB=false}){Text(text(R.string.ui_clear_ab))}
                     }
                     if(duration>0 && ab.valid){
@@ -156,15 +161,18 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                     }
                     if(invalidAB)Text(text(R.string.ui_ab_invalid),color=MaterialTheme.colorScheme.error)
                     Text(text(R.string.ui_ab_precision),style=MaterialTheme.typography.labelSmall)
-                    HorizontalDivider();Text(text(R.string.ui_frame_analysis),style=MaterialTheme.typography.titleSmall)
-                    FlowRow{
+                    }
+                    ControlGroup(text(R.string.ui_frame_analysis),"frame-controls"){
+                    Text(text(R.string.ui_playback_time_value,mediaTime(position),if(duration>0)mediaTime(duration)else"—"),style=MaterialTheme.typography.labelMedium,modifier=Modifier.testTag("analysis-time"))
+                    FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
                         OutlinedButton(onClick={openFrames()},modifier=Modifier.testTag("open-frame-controls")){Text(text(R.string.ui_frame_by_frame))}
                         TextButton(onClick={openFrames(-1)}){Text(text(R.string.ui_previous_frame))}
                         TextButton(onClick={openFrames(1)}){Text(text(R.string.ui_next_frame))}
                     }
                     nominalFps?.let{Text(text(R.string.ui_nominal_fps,String.format(Locale.ROOT,"%.3f",it)),style=MaterialTheme.typography.labelSmall)}
-                    HorizontalDivider();Text(text(R.string.ui_audio_display),style=MaterialTheme.typography.titleSmall)
-                    FlowRow{
+                    }
+                    ControlGroup(text(R.string.ui_audio_display),"audio-controls"){
+                    FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
                         TextButton(onClick={muted=!muted}){Text(text(if(muted)R.string.ui_unmute else R.string.ui_mute))}
                         TextButton(onClick={loop=!loop}){Text(text(if(loop)R.string.ui_loop_on else R.string.ui_loop_off))}
                         TextButton(onClick={zoom=1f;panX=0f;panY=0f},modifier=Modifier.testTag("reset-zoom")){Text(text(R.string.ui_reset_zoom))}
@@ -180,6 +188,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                         }){Text(text(R.string.ui_snapshot))}
                     }
                     Row{Text(text(R.string.ui_volume));Slider(value=volume,onValueChange={volume=it;muted=it==0f},modifier=Modifier.weight(1f))}
+                    }
                 }}
             }
             error?.let{message->Text(translateMessage(message),color=MaterialTheme.colorScheme.error,modifier=Modifier.padding(8.dp));TextButton(onClick={error=null;player.prepare();player.play()}){Text(text(R.string.ui_retry))}}
@@ -202,5 +211,18 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
         };Text(text(R.string.ui_video_is_in_full_screen))}
         else content(if(preview)Modifier.fillMaxWidth().aspectRatio(16f/9f)else Modifier.fillMaxWidth().animateContentSize(tween(Motion.controls)).height(if(more)480.dp else 300.dp))
         if(frames)StrictFrameDialog(url,startPositionMs=frameStart,initialDelta=frameStep,onFrameTime={position=it}){frames=false;player.seekTo(position);player.prepare()}
+    }
+}
+
+@Composable private fun ControlGroup(title:String,tag:String,value:String?=null,content:@Composable ColumnScope.()->Unit){
+    Surface(modifier=Modifier.fillMaxWidth().testTag(tag),shape=RoundedCornerShape(12.dp),color=MaterialTheme.colorScheme.surfaceContainerHigh){
+        Column(Modifier.padding(10.dp),verticalArrangement=Arrangement.spacedBy(4.dp)){
+            Row(verticalAlignment=Alignment.CenterVertically){
+                Text(title,style=MaterialTheme.typography.titleSmall,modifier=Modifier.weight(1f))
+                value?.let{Text(it,style=MaterialTheme.typography.labelLarge,color=MaterialTheme.colorScheme.primary)}
+            }
+            HorizontalDivider(color=MaterialTheme.colorScheme.outlineVariant)
+            content()
+        }
     }
 }

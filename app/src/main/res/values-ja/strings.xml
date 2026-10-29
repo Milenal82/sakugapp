@@ -407,4 +407,6 @@
     <plurals name="ui_note_limit">
         <item quantity="other">最大 %1$d 文字、8 行。端末内のみに保存。</item>
     </plurals>
+    <string name="ui_playback_speed">再生速度</string>
+    <string name="ui_ab_loop">A–B リピート</string>
 </resources>
