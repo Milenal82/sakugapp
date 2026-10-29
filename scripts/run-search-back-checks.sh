@@ -11,7 +11,7 @@ if [ "$mode" != 2 ]; then
     echo 'Gestural system navigation was not enabled; edge-back verification cannot proceed.' >&2
     exit 1
 fi
-./gradlew connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.sakugapp.SearchNavigationDeviceTest -Pandroid.testInstrumentationRunnerArguments.gestural=true
+./gradlew connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.sakugapp.SearchNavigationDeviceTest#combinedHistoryOnlyFillsDraftAndBackRestoresTheOriginalResultAndBrowseLists,com.sakugapp.SearchImeGestureDeviceTest -Pandroid.testInstrumentationRunnerArguments.gestural=true
 result=$?
 mkdir -p app/build/reports/ui-evidence
 adb pull /sdcard/Download/sakugapp-ui-evidence/. app/build/reports/ui-evidence/ || true

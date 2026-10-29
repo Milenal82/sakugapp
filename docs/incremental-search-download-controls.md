@@ -35,7 +35,7 @@ python3 -m unittest discover -s scripts/tests -v
 | 高级面板 | `ui/VideoPanel.kt` |
 | 标题资源 | `res/values{,-zh-rCN,-zh-rTW,-ja,-fr,-es,-ru,-ko}/strings.xml` |
 | 单测 | `PersonalDataTest.kt`、`AppearanceAndDownloadTest.kt`、`SearchAndCaptionTest.kt`、`FeedViewModelTest.kt` |
-| 设备测试 | `SearchNavigationDeviceTest.kt`、`AdvancedControlsLayoutDeviceTest.kt`、`OfflineLibraryDeviceTest.kt`、`PlayerRotationDeviceTest.kt` |
+| 设备测试 | `SearchNavigationDeviceTest.kt`、`SearchImeGestureDeviceTest.kt`、`AdvancedControlsLayoutDeviceTest.kt`、`OfflineLibraryDeviceTest.kt`、`PlayerRotationDeviceTest.kt` |
 | 旧界面断言适配 | `UiSmokeTest.kt`、`PublicBrowseTest.kt` |
 | 验证流程 | `.github/workflows/android.yml`、`scripts/run-device-checks.sh`、`scripts/run-six-column-checks.sh`、`scripts/run-search-back-checks.sh`、`scripts/record-ci-evidence.py` |
 | 文档 | `README.md`、`docs/test-report.md`、本文件 |
@@ -43,3 +43,5 @@ python3 -m unittest discover -s scripts/tests -v
 Kotlin 主代码路径前缀为 `app/src/main/java/com/sakugapp/`；测试分别位于 `app/src/test/java/com/sakugapp/` 与 `app/src/androidTest/java/com/sakugapp/`。
 
 首轮运行 [40873887531](https://github.com/Milenal82/sakugapp/actions/runs/40873887531) 的单测、两种构建和签名成功，设备 37/40 通过。两项旧用例仍期待取消后展开的搜索框及方括号倍率文案，现改为重新打开并验证原查询、验证倍率选中语义；不删除原查询保持与播放断言。API 35 的输入法返回未关闭问题改为在输入法可见时停用编辑态 BackHandler，交由原生输入法优先处理。补充首页和结果页两种键盘上下文、真实返回前后截图；此首轮失败不能算完整验收通过。
+
+第二轮 [40876305761](https://github.com/Milenal82/sakugapp/actions/runs/40876305761) 的设备为 39/40；唯一失败来自 API 35 的 Compose 测试绘制同步（SnapshotStateObserver 多线程访问异常），发生在键盘返回断言前。API 35 的键盘场景改用 ActivityScenario + UiAutomator，保留真实平台时钟和相同的两种页面、左右边缘、键盘消失、不退出及不提交检查；返回手势从键盘触摸区域上方触发。组合搜索、列表状态和预测性返回取消仍保留原 Compose/真实手势测试，未减少用例数量或跳过失败断言。API 28 的编辑态检查也继续执行。
