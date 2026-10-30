@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
@@ -49,7 +50,8 @@ class AppearanceDeviceTest {
                 ui.waitUntil(10000){app.settings.value.fontScale==value}
                 val layout=mutableListOf<TextLayoutResult>()
                 ui.onNodeWithText(ui.activity.getString(R.string.ui_font_size,(value*100).toInt())).performSemanticsAction(SemanticsActions.GetTextLayoutResult){it(layout)}
-                assertEquals(systemScale*value,layout.single().layoutInput.density.fontScale,0.001f)
+                assertEquals(Typography().bodyLarge.fontSize.value*value,layout.single().layoutInput.style.fontSize.value,0.001f)
+                assertEquals(systemScale,layout.single().layoutInput.density.fontScale,0.001f)
                 assertEquals(systemScale,ui.activity.resources.configuration.fontScale,0f)
             }
             ui.onNodeWithTag("setting-tag-spacing").performScrollTo().performSemanticsAction(SemanticsActions.SetProgress){it(12f)}
@@ -118,6 +120,10 @@ class AppearanceDeviceTest {
                 UiEvidence.capture("appearance-player-${(value*100).toInt()}.png")
                 ui.onNodeWithTag("more-controls").performScrollTo().performClick()
                 ui.runOnUiThread{search=true};ui.waitForIdle()
+                val title=mutableListOf<TextLayoutResult>()
+                ui.onNode(hasText(ui.activity.getString(R.string.ui_search_tools),substring=false) and hasAnyAncestor(isDialog()))
+                    .performSemanticsAction(SemanticsActions.GetTextLayoutResult){it(title)}
+                assertEquals("Dialogs inherit app text size",Typography().headlineSmall.fontSize.value*value,title.single().layoutInput.style.fontSize.value,0.001f)
                 ui.onNodeWithTag("query-expression").performScrollTo().assertTextContains("animated order:score")
                 ui.onNodeWithTag("edit-query-tool").performScrollTo().assertIsDisplayed()
                 UiEvidence.capture("appearance-search-${(value*100).toInt()}.png")

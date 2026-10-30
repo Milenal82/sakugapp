@@ -21,7 +21,7 @@ import com.sakugapp.data.Tag
     val note=notes.firstOrNull{it.name==tag.name}?.note
     val action=if(app==null)Modifier.clickable{search(tag.name)}else Modifier.combinedClickable(onClick={search(tag.name)},onLongClick={options=true},onLongClickLabel=text(R.string.ui_tag_options))
     Column(modifier.then(action).padding(vertical=3.dp)){
-        Text(tag.name,color=color,fontSize=fontSize,maxLines=maxLines,overflow=TextOverflow.Ellipsis,modifier=Modifier)
+        Text(tag.name,color=color,fontSize=appTextSize(fontSize),maxLines=maxLines,overflow=TextOverflow.Ellipsis,modifier=Modifier)
         if(!note.isNullOrBlank())Text(note,style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.onSurfaceVariant,maxLines=2,overflow=TextOverflow.Ellipsis)
     }
     if(options && app!=null)TagActionsDialog(tag,app){options=false}

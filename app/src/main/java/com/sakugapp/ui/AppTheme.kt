@@ -9,9 +9,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.*
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.ui.text.TextStyle
 
 internal fun appColors(light:Boolean):ColorScheme = if(light) lightColorScheme(
     primary=Color(0xFF315EA8),onPrimary=Color.White,background=Color(0xFFF5F6F8),surface=Color.White,
@@ -35,17 +35,28 @@ internal val LocalAppFontScale=staticCompositionLocalOf{1f}
 // Only text-container insets shrink; media, icons and touch targets keep their dp sizes.
 @Composable internal fun textInset(value:Dp)=value*LocalAppFontScale.current.coerceIn(0.75f,1f)
 @Composable internal fun textButtonPadding(horizontal:Dp=12.dp)=PaddingValues(horizontal=textInset(horizontal),vertical=textInset(8.dp))
+@Composable internal fun appTextSize(value:TextUnit)=value*LocalAppFontScale.current
+
+private fun appTypography(scale:Float):Typography {
+    fun TextStyle.resized()=copy(fontSize=fontSize*scale,lineHeight=lineHeight*scale)
+    val t=Typography()
+    return t.copy(displayLarge=t.displayLarge.resized(),displayMedium=t.displayMedium.resized(),displaySmall=t.displaySmall.resized(),
+        headlineLarge=t.headlineLarge.resized(),headlineMedium=t.headlineMedium.resized(),headlineSmall=t.headlineSmall.resized(),
+        titleLarge=t.titleLarge.resized(),titleMedium=t.titleMedium.resized(),titleSmall=t.titleSmall.resized(),
+        bodyLarge=t.bodyLarge.resized(),bodyMedium=t.bodyMedium.resized(),bodySmall=t.bodySmall.resized(),
+        labelLarge=t.labelLarge.resized(),labelMedium=t.labelMedium.resized(),labelSmall=t.labelSmall.resized())
+}
 
 @Composable fun SakugappTheme(light:Boolean,fontScale:Float=1f,content:@Composable ()->Unit) {
     val activity=LocalActivity.current as? ComponentActivity
-    val density=LocalDensity.current
     val scale=fontScale.takeIf{it.isFinite()}?.coerceIn(0.75f,1.25f) ?: 1f
-    val textDensity=remember(density,scale){Density(density.density,density.fontScale*scale)}
+    val typography=remember(scale){appTypography(scale)}
     DisposableEffect(activity,light) {
         val style=if(light)SystemBarStyle.light(AndroidColor.TRANSPARENT,AndroidColor.TRANSPARENT)else SystemBarStyle.dark(AndroidColor.TRANSPARENT)
         activity?.enableEdgeToEdge(statusBarStyle=style,navigationBarStyle=style)
         onDispose { }
     }
-    CompositionLocalProvider(LocalDensity provides textDensity,LocalAppFontScale provides scale,
-        LocalMinimumInteractiveComponentSize provides 48.dp){MaterialTheme(colorScheme=appColors(light),content=content)}
+    CompositionLocalProvider(LocalAppFontScale provides scale,LocalMinimumInteractiveComponentSize provides 48.dp){
+        MaterialTheme(colorScheme=appColors(light),typography=typography,content=content)
+    }
 }

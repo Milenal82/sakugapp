@@ -333,15 +333,15 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
             else PostImage(post,Modifier.fillMaxSize(),settings,metered)
             Row(Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(2.dp),horizontalArrangement=Arrangement.SpaceBetween,verticalAlignment=Alignment.Bottom){
                 if(post.isVideo && settings.columns<6)Surface(color=MaterialTheme.colorScheme.surface.copy(alpha=0.96f),shape=RoundedCornerShape(3.dp)){
-                    Text(post.durationMs?.let(::mediaTime) ?: "—",maxLines=1,overflow=TextOverflow.Ellipsis,fontSize=if(settings.columns>=6)9.sp else 11.sp,
-                        lineHeight=if(settings.columns>=6)11.sp else 13.sp,
+                    Text(post.durationMs?.let(::mediaTime) ?: "—",maxLines=1,overflow=TextOverflow.Ellipsis,fontSize=appTextSize(if(settings.columns>=6)9.sp else 11.sp),
+                        lineHeight=appTextSize(if(settings.columns>=6)11.sp else 13.sp),
                         modifier=Modifier.padding(horizontal=3.dp,vertical=1.dp).semantics{if(post.durationMs==null)contentDescription=contextDescriptionDurationUnknown})
                 }
                 Spacer(Modifier.weight(1f))
                 if(settings.showScore)Surface(color=MaterialTheme.colorScheme.surface.copy(alpha=0.96f),shape=RoundedCornerShape(3.dp)){
                     Text(if(settings.columns>=4)post.score?.toString() ?: "?" else text(R.string.ui_score_value,post.score?.toString() ?: "?"),
                         maxLines=1,overflow=TextOverflow.Ellipsis,
-                        color=scoreColor(settings.lightTheme),fontSize=if(settings.columns>=6)9.sp else 11.sp,lineHeight=if(settings.columns>=6)11.sp else 13.sp,fontWeight=FontWeight.Medium,
+                        color=scoreColor(settings.lightTheme),fontSize=appTextSize(if(settings.columns>=6)9.sp else 11.sp),lineHeight=appTextSize(if(settings.columns>=6)11.sp else 13.sp),fontWeight=FontWeight.Medium,
                         modifier=Modifier.padding(horizontal=3.dp,vertical=1.dp).testTag("post-score-${post.id}"))
                 }
             }
