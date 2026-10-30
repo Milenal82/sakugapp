@@ -289,6 +289,7 @@ jobs:
     if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.release_tag != '' && github.event.inputs.sign_release == 'true' && github.ref == 'refs/heads/main' }}
     permissions:
       contents: write
+      actions: read
     uses: ./.github/workflows/release.yml
     with:
       tag: ${{ github.event.inputs.release_tag }}

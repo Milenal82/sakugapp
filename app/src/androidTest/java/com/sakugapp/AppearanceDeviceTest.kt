@@ -85,12 +85,12 @@ class AppearanceDeviceTest {
         val file=File(context.cacheDir,"appearance-pattern.mp4")
         InstrumentationRegistry.getInstrumentation().context.assets.open("frame-index-vfr.mp4").use{input->file.outputStream().use{input.copyTo(it)}}
         ui.runOnUiThread{ui.activity.setContent{SakugappTheme(light=scale<1f,fontScale=scale){
-            val settings=AppSettings(fontScale=scale,tagVerticalSpacing=gap,autoPreview=false)
+            val settings=AppSettings(lightTheme=scale<1f,fontScale=scale,tagVerticalSpacing=gap,autoPreview=false)
             Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).testTag("appearance-content")){
                 Box(Modifier.width(156.dp)){PostCard(post,settings,false,false,{}, {}, {}, {})}
                 SearchToolTile(R.drawable.ic_tune,text(R.string.ui_search_tools),{},Modifier.testTag("appearance-tool"))
                 Text(LocalDensity.current.fontScale.toString(),Modifier.testTag("appearance-density"))
-                VideoPanel(file.toURI().toString(),settings)
+                Box(Modifier.fillMaxWidth().testTag("appearance-player")){VideoPanel(file.toURI().toString(),settings)}
             }
             if(search)SearchDialog("animated order:score",object:SuggestionSource{override suspend fun suggestions(prefix:String)=emptyList<TagSuggestion>()},scale<1f,{}, {search=false})
         }}}
@@ -112,6 +112,7 @@ class AppearanceDeviceTest {
                 val density=ui.activity.resources.displayMetrics.density
                 assertTrue("Tools retain a 48 dp touch target",bounds.height>=48*density-1)
                 ui.onNodeWithTag("more-controls").performScrollTo().performClick()
+                ui.onNodeWithTag("appearance-player").performScrollTo()
                 ui.onNodeWithTag("speed-controls").performScrollTo().assertIsDisplayed()
                 ui.onNodeWithTag("ab-controls").performScrollTo().assertIsDisplayed()
                 UiEvidence.capture("appearance-player-${(value*100).toInt()}.png")
