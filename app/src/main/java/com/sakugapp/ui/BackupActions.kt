@@ -55,10 +55,10 @@ import java.nio.charset.CodingErrorAction
     }}
     Column(verticalArrangement=Arrangement.spacedBy(6.dp)){
         FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp),verticalArrangement=Arrangement.spacedBy(4.dp)){
-            OutlinedButton(enabled=!busy,onClick={importer.launch(arrayOf("application/json","text/plain","application/octet-stream"))},modifier=Modifier.testTag("import-favorites")){
+            OutlinedButton(contentPadding=textButtonPadding(24.dp),enabled=!busy,onClick={importer.launch(arrayOf("application/json","text/plain","application/octet-stream"))},modifier=Modifier.testTag("import-favorites")){
                 Icon(painterResource(R.drawable.ic_download),null,Modifier.size(18.dp));Spacer(Modifier.width(6.dp));Text(text(R.string.ui_import_library))
             }
-            OutlinedButton(enabled=!busy,onClick={exporter.launch("sakugapp-favorites.json")},modifier=Modifier.testTag("export-favorites")){
+            OutlinedButton(contentPadding=textButtonPadding(24.dp),enabled=!busy,onClick={exporter.launch("sakugapp-favorites.json")},modifier=Modifier.testTag("export-favorites")){
                 Icon(painterResource(R.drawable.ic_upload),null,Modifier.size(18.dp));Spacer(Modifier.width(6.dp));Text(text(R.string.ui_export_library))
             }
         }
@@ -82,10 +82,10 @@ import java.nio.charset.CodingErrorAction
                 BackupChoice(text(R.string.ui_backup_replace_notes),notes==NoteConflictPolicy.REPLACE){notes=NoteConflictPolicy.REPLACE}
             }
         }
-    },confirmButton={TextButton(enabled=!busy,onClick={operation(importing=true){
+    },confirmButton={TextButton(contentPadding=textButtonPadding(),enabled=!busy,onClick={operation(importing=true){
         val result=app.localLibrary.import(value,folders,notes);preview=null
         message=context.getString(R.string.ui_backup_result,result.added,result.skipped,result.failed)
-    }},modifier=Modifier.testTag("confirm-import-favorites")){Text(text(R.string.ui_merge))}},dismissButton={TextButton(enabled=!busy,onClick={preview=null}){Text(text(R.string.ui_cancel))}})}
+    }},modifier=Modifier.testTag("confirm-import-favorites")){Text(text(R.string.ui_merge))}},dismissButton={TextButton(contentPadding=textButtonPadding(),enabled=!busy,onClick={preview=null}){Text(text(R.string.ui_cancel))}})}
 }
 
 @Composable private fun BackupChoice(label:String,selected:Boolean,choose:()->Unit){

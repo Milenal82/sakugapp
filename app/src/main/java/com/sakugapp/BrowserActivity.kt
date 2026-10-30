@@ -29,12 +29,14 @@ class BrowserActivity:androidx.appcompat.app.AppCompatActivity() {
         setContent {
             var language by remember{mutableStateOf("en")}
             var lightTheme by remember{mutableStateOf(false)}
+            var fontScale by remember{mutableFloatStateOf(1f)}
             var ready by remember{mutableStateOf(false)}
             var browser by remember{mutableStateOf<WebView?>(null)}
             var error by remember{mutableStateOf<String?>(null)}
             var loading by remember{mutableStateOf(true)}
             LaunchedEffect(Unit) {
                 val preferences=PreferencesStore(applicationContext).settings.first()
+                fontScale=preferences.fontScale
                 language=preferences.language;lightTheme=themeIsLight(preferences.themeMode,(resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK)==android.content.res.Configuration.UI_MODE_NIGHT_YES)
                 val cookies=withContext(Dispatchers.IO){SecureSession(applicationContext).apply{restore()}.browserCookies()}
                 val manager=CookieManager.getInstance();manager.setAcceptCookie(true)
@@ -42,7 +44,7 @@ class BrowserActivity:androidx.appcompat.app.AppCompatActivity() {
                 manager.flush();ready=true;setResult(Activity.RESULT_OK)
             }
             DisposableEffect(Unit){onDispose{browser?.stopLoading();browser?.destroy();browser=null}}
-            CompositionLocalProvider(LocalLanguage provides language){SakugappTheme(lightTheme){
+            CompositionLocalProvider(LocalLanguage provides language){SakugappTheme(lightTheme,fontScale){
                 BackHandler{if(browser?.canGoBack()==true)browser?.goBack()else finish()}
                 Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background).systemBarsPadding()){
                     Row{
@@ -53,6 +55,7 @@ class BrowserActivity:androidx.appcompat.app.AppCompatActivity() {
                     error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error)}
                     if(ready)AndroidView(factory={context->WebView(context).apply{
                         browser=this
+                        settings.textZoom=(fontScale*100).toInt()
                         settings.javaScriptEnabled=true;settings.domStorageEnabled=true
                         settings.allowFileAccess=false;settings.allowContentAccess=false
                         settings.mixedContentMode=WebSettings.MIXED_CONTENT_NEVER_ALLOW

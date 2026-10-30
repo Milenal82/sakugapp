@@ -428,4 +428,6 @@
     <string name="ui_backup_replace_notes">Remplacer les notes en conflit</string>
     <string name="ui_backup_result">Importés : %1$d · Ignorés : %2$d · Échecs : %3$d</string>
     <string name="ui_backup_unsupported">Cette version de sauvegarde n’est pas prise en charge. Aucune donnée importée.</string>
+    <string name="ui_font_size">Taille du texte : %1$d%%</string>
+    <string name="ui_tag_vertical_spacing">Espacement vertical des tags : %1$d dp</string>
 </resources>

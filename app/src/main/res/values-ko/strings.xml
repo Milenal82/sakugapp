@@ -422,4 +422,6 @@
     <string name="ui_backup_replace_notes">충돌하는 메모 교체</string>
     <string name="ui_backup_result">가져옴: %1$d · 건너뜀: %2$d · 실패: %3$d</string>
     <string name="ui_backup_unsupported">지원하지 않는 백업 버전입니다. 가져온 데이터가 없습니다.</string>
+    <string name="ui_font_size">글자 크기: %1$d%%</string>
+    <string name="ui_tag_vertical_spacing">태그 세로 간격: %1$d dp</string>
 </resources>

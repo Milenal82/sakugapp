@@ -134,11 +134,11 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
             })
             if(!preview){
                 FlowRow(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.spacedBy(4.dp)){
-                    TextButton(onClick={if(fullscreen)exitFullscreen()else enterFullscreen()}){Text(text(if(fullscreen)R.string.ui_exit_full_screen else R.string.ui_full_screen))}
-                    TextButton(onClick={more=!more},modifier=Modifier.testTag("more-controls")){Text(text(if(more)R.string.ui_fewer_controls else R.string.ui_more_controls))}
+                    TextButton(contentPadding=textButtonPadding(),onClick={if(fullscreen)exitFullscreen()else enterFullscreen()}){Text(text(if(fullscreen)R.string.ui_exit_full_screen else R.string.ui_full_screen))}
+                    TextButton(contentPadding=textButtonPadding(),onClick={more=!more},modifier=Modifier.testTag("more-controls")){Text(text(if(more)R.string.ui_fewer_controls else R.string.ui_more_controls))}
                     if(fullscreen){
-                        TextButton(onClick={activity?.requestedOrientation=if(orientation==Configuration.ORIENTATION_LANDSCAPE)ActivityInfo.SCREEN_ORIENTATION_PORTRAIT else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE},modifier=Modifier.testTag("rotate-video")){Text(text(R.string.ui_rotate_screen))}
-                        TextButton(onClick={activity?.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_FULL_USER}){Text(text(R.string.ui_follow_rotation_lock))}
+                        TextButton(contentPadding=textButtonPadding(),onClick={activity?.requestedOrientation=if(orientation==Configuration.ORIENTATION_LANDSCAPE)ActivityInfo.SCREEN_ORIENTATION_PORTRAIT else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE},modifier=Modifier.testTag("rotate-video")){Text(text(R.string.ui_rotate_screen))}
+                        TextButton(contentPadding=textButtonPadding(),onClick={activity?.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_FULL_USER}){Text(text(R.string.ui_follow_rotation_lock))}
                     }
                 }
                 AnimatedVisibility(more,enter=expandVertically(tween(Motion.controls)),exit=shrinkVertically(tween(Motion.controls))){
@@ -151,10 +151,10 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                     ControlGroup(text(R.string.ui_ab_loop),"ab-controls"){
                     Text(text(R.string.ui_ab_interval,a?.let(::mediaTime) ?: "—",b?.let(::mediaTime) ?: "—"),Modifier.testTag("ab-interval"))
                     FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
-                        TextButton(onClick={val updated=ab.withA(player.currentPosition.coerceAtLeast(0));a=updated.aMs;b=updated.bMs;abEnabled=false;invalidAB=false},modifier=Modifier.testTag("set-a")){Text(text(R.string.ui_set_a))}
-                        TextButton(onClick={try{val updated=ab.withB(player.currentPosition.coerceAtLeast(0));b=updated.bMs;abEnabled=false;invalidAB=false}catch(_:IllegalArgumentException){invalidAB=true}},modifier=Modifier.testTag("set-b")){Text(text(R.string.ui_set_b))}
+                        TextButton(contentPadding=textButtonPadding(),onClick={val updated=ab.withA(player.currentPosition.coerceAtLeast(0));a=updated.aMs;b=updated.bMs;abEnabled=false;invalidAB=false},modifier=Modifier.testTag("set-a")){Text(text(R.string.ui_set_a))}
+                        TextButton(contentPadding=textButtonPadding(),onClick={try{val updated=ab.withB(player.currentPosition.coerceAtLeast(0));b=updated.bMs;abEnabled=false;invalidAB=false}catch(_:IllegalArgumentException){invalidAB=true}},modifier=Modifier.testTag("set-b")){Text(text(R.string.ui_set_b))}
                         FilterChip(selected=abEnabled,enabled=ab.valid,onClick={abEnabled=!abEnabled},modifier=Modifier.heightIn(min=40.dp).testTag("ab-toggle"),label={Text(text(if(abEnabled)R.string.ui_disable_ab else R.string.ui_enable_ab))})
-                        TextButton(onClick={a=null;b=null;abEnabled=false;invalidAB=false}){Text(text(R.string.ui_clear_ab))}
+                        TextButton(contentPadding=textButtonPadding(),onClick={a=null;b=null;abEnabled=false;invalidAB=false}){Text(text(R.string.ui_clear_ab))}
                     }
                     if(duration>0 && ab.valid){
                         RangeSlider(value=a!!.toFloat()..b!!.toFloat(),onValueChange={range->a=range.start.toLong().coerceIn(0,duration-1);b=range.endInclusive.toLong().coerceIn(a!!+1,duration);abEnabled=false},valueRange=0f..duration.toFloat(),modifier=Modifier.testTag("ab-range"))
@@ -165,19 +165,19 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                     ControlGroup(text(R.string.ui_frame_analysis),"frame-controls"){
                     Text(text(R.string.ui_playback_time_value,mediaTime(position),if(duration>0)mediaTime(duration)else"—"),style=MaterialTheme.typography.labelMedium,modifier=Modifier.testTag("analysis-time"))
                     FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
-                        OutlinedButton(onClick={openFrames()},modifier=Modifier.testTag("open-frame-controls")){Text(text(R.string.ui_frame_by_frame))}
-                        TextButton(onClick={openFrames(-1)}){Text(text(R.string.ui_previous_frame))}
-                        TextButton(onClick={openFrames(1)}){Text(text(R.string.ui_next_frame))}
+                        OutlinedButton(contentPadding=textButtonPadding(),onClick={openFrames()},modifier=Modifier.testTag("open-frame-controls")){Text(text(R.string.ui_frame_by_frame))}
+                        TextButton(contentPadding=textButtonPadding(),onClick={openFrames(-1)}){Text(text(R.string.ui_previous_frame))}
+                        TextButton(contentPadding=textButtonPadding(),onClick={openFrames(1)}){Text(text(R.string.ui_next_frame))}
                     }
                     nominalFps?.let{Text(text(R.string.ui_nominal_fps,String.format(Locale.ROOT,"%.3f",it)),style=MaterialTheme.typography.labelSmall)}
                     }
                     ControlGroup(text(R.string.ui_audio_display),"audio-controls"){
                     FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
-                        TextButton(onClick={muted=!muted}){Text(text(if(muted)R.string.ui_unmute else R.string.ui_mute))}
-                        TextButton(onClick={loop=!loop}){Text(text(if(loop)R.string.ui_loop_on else R.string.ui_loop_off))}
-                        TextButton(onClick={zoom=1f;panX=0f;panY=0f},modifier=Modifier.testTag("reset-zoom")){Text(text(R.string.ui_reset_zoom))}
+                        TextButton(contentPadding=textButtonPadding(),onClick={muted=!muted}){Text(text(if(muted)R.string.ui_unmute else R.string.ui_mute))}
+                        TextButton(contentPadding=textButtonPadding(),onClick={loop=!loop}){Text(text(if(loop)R.string.ui_loop_on else R.string.ui_loop_off))}
+                        TextButton(contentPadding=textButtonPadding(),onClick={zoom=1f;panX=0f;panY=0f},modifier=Modifier.testTag("reset-zoom")){Text(text(R.string.ui_reset_zoom))}
                         Text(text(R.string.ui_zoom_value,String.format(Locale.ROOT,"%.2f",zoom)),Modifier.testTag("zoom-level"))
-                        if(settings.screenshot)TextButton(onClick={
+                        if(settings.screenshot)TextButton(contentPadding=textButtonPadding(),onClick={
                             val bitmap=(view?.videoSurfaceView as? TextureView)?.bitmap
                             if(bitmap==null)error=context.getString(R.string.ui_no_decoded_frame_is_available_to_capture)
                             else scope.launch{
@@ -191,7 +191,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                     }
                 }}
             }
-            error?.let{message->Text(translateMessage(message),color=MaterialTheme.colorScheme.error,modifier=Modifier.padding(8.dp));TextButton(onClick={error=null;player.prepare();player.play()}){Text(text(R.string.ui_retry))}}
+            error?.let{message->Text(translateMessage(message),color=MaterialTheme.colorScheme.error,modifier=Modifier.padding(8.dp));TextButton(contentPadding=textButtonPadding(),onClick={error=null;player.prepare();player.play()}){Text(text(R.string.ui_retry))}}
         }}
     }
     val panelColors=if(fullscreen || preview)appColors(false)else MaterialTheme.colorScheme
@@ -216,7 +216,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
 
 @Composable private fun ControlGroup(title:String,tag:String,value:String?=null,content:@Composable ColumnScope.()->Unit){
     Surface(modifier=Modifier.fillMaxWidth().testTag(tag),shape=RoundedCornerShape(12.dp),color=MaterialTheme.colorScheme.surfaceContainerHigh){
-        Column(Modifier.padding(10.dp),verticalArrangement=Arrangement.spacedBy(4.dp)){
+        Column(Modifier.padding(textInset(10.dp)),verticalArrangement=Arrangement.spacedBy(4.dp)){
             Row(verticalAlignment=Alignment.CenterVertically){
                 Text(title,style=MaterialTheme.typography.titleSmall,modifier=Modifier.weight(1f))
                 value?.let{Text(it,style=MaterialTheme.typography.labelLarge,color=MaterialTheme.colorScheme.primary)}

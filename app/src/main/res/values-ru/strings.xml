@@ -431,4 +431,6 @@
     <string name="ui_backup_replace_notes">Заменить конфликтующие заметки</string>
     <string name="ui_backup_result">Импортировано: %1$d · Пропущено: %2$d · Ошибок: %3$d</string>
     <string name="ui_backup_unsupported">Эта версия резервной копии не поддерживается. Данные не импортированы.</string>
+    <string name="ui_font_size">Размер текста: %1$d%%</string>
+    <string name="ui_tag_vertical_spacing">Интервал между строками тегов: %1$d dp</string>
 </resources>

@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.dp
             else MaterialTheme.colorScheme.onSurface.copy(alpha = .38f),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
     ) {
-        Row(Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
+        Row(Modifier.padding(horizontal = textInset(12.dp), vertical = textInset(10.dp)),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Icon(painterResource(icon), null, Modifier.size(20.dp))

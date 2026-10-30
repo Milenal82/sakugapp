@@ -19,6 +19,7 @@ data class AppSettings(
     val contrast: Float = 1f, val screenshot: Boolean = true, val lightTheme:Boolean = false,
     val columns: Int = 2, val themeMode:String = "system", val cardSpacing:Float = 8f,
     val librarySort:Int = 0,val gestures:Boolean = true, val showOtherTags:Boolean = true,
+    val fontScale:Float = 1f, val tagVerticalSpacing:Float = 0f,
 )
 
 object PreferenceRules {
@@ -68,7 +69,9 @@ class PreferencesStore(context: Context,private val store:DataStore<Preferences>
             columns=(p[intPreferencesKey("columns")] ?: 2).takeIf{it in PreferenceRules.columnOptions} ?: 2,
             themeMode=PreferenceRules.legacyTheme(p[stringPreferencesKey("themeMode")],p[booleanPreferencesKey("lightTheme")],p.asMap().keys.any{it.name!="locale_last_applied"}),
             cardSpacing=(p[floatPreferencesKey("cardSpacing")] ?: 8f).coerceIn(0f,10f),gestures=p.flag("gestures",true),
-            librarySort=(p[intPreferencesKey("librarySort")] ?: 0).coerceIn(0,3),showOtherTags=p.flag("otherTags",true))
+            librarySort=(p[intPreferencesKey("librarySort")] ?: 0).coerceIn(0,3),showOtherTags=p.flag("otherTags",true),
+            fontScale=p[floatPreferencesKey("fontScale")]?.takeIf{it.isFinite() && it in 0.75f..1.25f} ?: 1f,
+            tagVerticalSpacing=p[floatPreferencesKey("tagVerticalSpacing")]?.takeIf{it.isFinite() && it in 0f..12f} ?: 0f)
     }
     val history: Flow<List<String>> = data.map { PreferenceRules.history(it[stringPreferencesKey("history")]?.split('\n').orEmpty(), "") }
     val localeState:Flow<Pair<String,String?>> = data.map { p ->
@@ -89,5 +92,5 @@ class PreferencesStore(context: Context,private val store:DataStore<Preferences>
     suspend fun flag(name: String,value: Boolean) { require(name in setOf("copyright","artist","score","wrap","crop","auto","mobile","wifiImages","muted","loop","mirror","screenshot","lightTheme","gestures","otherTags")); store.edit { it[booleanPreferencesKey(name)]=value;if(name=="lightTheme")it[stringPreferencesKey("themeMode")]=if(value)"light"else"dark" } }
     suspend fun theme(value:String){require(value in PreferenceRules.themeModes);store.edit{it[stringPreferencesKey("themeMode")]=value;if(value!="system")it[booleanPreferencesKey("lightTheme")]=value=="light"}}
     suspend fun language(value: String) { require(value in PreferenceRules.languages);store.edit { it[stringPreferencesKey("language")]=value } }
-    suspend fun number(name: String,value: Float) { require(value.isFinite()); require(when(name) { "speed"->value in PreferenceRules.speeds; "brightness","contrast"->value in 0.5f..1.5f; "saturation"->value in 0f..2f; "cardSpacing"->value in 0f..10f; else->false });store.edit { it[floatPreferencesKey(name)]=value } }
+    suspend fun number(name: String,value: Float) { require(value.isFinite()); require(when(name) { "speed"->value in PreferenceRules.speeds; "brightness","contrast"->value in 0.5f..1.5f; "saturation"->value in 0f..2f; "cardSpacing"->value in 0f..10f; "fontScale"->value in 0.75f..1.25f; "tagVerticalSpacing"->value in 0f..12f; else->false });store.edit { it[floatPreferencesKey(name)]=value } }
 }

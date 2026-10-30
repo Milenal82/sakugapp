@@ -428,4 +428,6 @@
     <string name="ui_backup_replace_notes">Reemplazar las notas en conflicto</string>
     <string name="ui_backup_result">Importados: %1$d · Omitidos: %2$d · Fallidos: %3$d</string>
     <string name="ui_backup_unsupported">Esta versión de copia de seguridad no es compatible. No se importó ningún dato.</string>
+    <string name="ui_font_size">Tamaño del texto: %1$d%%</string>
+    <string name="ui_tag_vertical_spacing">Espacio vertical de etiquetas: %1$d dp</string>
 </resources>

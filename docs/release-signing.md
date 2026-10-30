@@ -2,7 +2,7 @@
 
 ## 已确定的身份
 
-当前版本 Sakugapp 1.1.0 / versionCode 10，applicationId `com.sakugapp`，标签 `v1.1.0`。v1.0.0 的 versionCode 为 6。不要为了绕过签名不匹配而更换现有包名。后续沿用同一正式证书并递增 versionCode。
+本次正式版本 Sakugapp 1.2.0 / versionCode 13，applicationId `com.sakugapp`，标签 `v1.2.0`。v1.1.0 的 versionCode 为 10，v1.0.0 为 6。不要为了绕过签名不匹配而更换现有包名。后续沿用同一正式证书并递增 versionCode。
 
 正式签名已通过受保护的 `release-signing` 环境配置并成功使用。现有证书 SHA-256 为 `9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff`。本地工作区不持有正式私钥，不需要重新生成或提交密钥。下面的生成步骤只供全新项目配置参考，现有发布必须复用原密钥。
 
@@ -80,3 +80,7 @@ python3 scripts/verify-apk.py app/build/outputs/apk/release/app-release-unsigned
 ```
 
 这是**不能安装、不能充当正式签名 APK 的预检**。它不会被上传为 Release APK；预检证书指纹是空值，不伪造证书验证结果。GPL 源码接收者可用自己的密钥运行同一构建流程，无需获得官方私钥。
+
+## v1.2.0 的明确公开发布授权
+
+本次所有者明确要求直接发布 v1.2.0。工作流保留草稿签名阶段；仅 v1.2.0 在正式构建、签名/元数据验证、旧版实际覆盖安装和同一提交的字号/标签间距设备检查通过后，执行公开发布。其他版本仍保持原有草稿流程。公开前另与 v1.1.0 APK 核对证书和递增 versionCode；不会覆盖旧 Release。

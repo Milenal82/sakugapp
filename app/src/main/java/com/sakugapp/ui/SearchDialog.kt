@@ -56,14 +56,14 @@ import com.sakugapp.data.*
             if(guide) {
                 Text(text(R.string.ui_examples_replace_the_draft_apply_runs_the_search_fields_and_opera))
                 for(example in SearchGuide.examples) {
-                    TextButton(onClick={load(example.query);guide=false}) { Text(example.query) }
+                    TextButton(contentPadding=textButtonPadding(),onClick={load(example.query);guide=false}) { Text(example.query) }
                     Text(text(example.description),style=MaterialTheme.typography.bodySmall)
                 }
                 Text(text(R.string.ui_wildcard_and_mixed_or_combinations_have_website_limitations_repea))
             } else {
                 AnimatedVisibility(historyOpen,enter=expandVertically(tween(Motion.history)),exit=shrinkVertically(tween(Motion.history))){Column(Modifier.testTag("combined-history")){
                     if(history.isEmpty())Text(text(R.string.ui_no_saved_searches),style=MaterialTheme.typography.bodySmall)
-                    history.forEachIndexed{index,item->TextButton(onClick={
+                    history.forEachIndexed{index,item->TextButton(contentPadding=textButtonPadding(),onClick={
                         load(item);historyOpen=false
                     },modifier=Modifier.fillMaxWidth().testTag("combined-history-$index")){Text(item,maxLines=2,overflow=TextOverflow.Ellipsis)}}
                 }}
@@ -76,7 +76,7 @@ import com.sakugapp.data.*
                 OutlinedTextField(name,{name=it},label={Text(text(R.string.ui_tag_or_field_condition))},modifier=Modifier.fillMaxWidth().onFocusChanged{nameFocused=it.isFocused},singleLine=true)
                 TagSuggestionsMenu(nameSuggestions,light){name=complete(name,it)}
                 FlowRow { for((value,label) in listOf("and" to text(R.string.ui_and_all_tags),"or" to text(R.string.ui_or_tag),"exclude" to text(R.string.ui_exclude_tag))) FilterChip(selected=mode==value,onClick={mode=value},label={Text(label)}) }
-                TextButton(enabled=name.text.isNotBlank() && name.text.trim().none(Char::isWhitespace) && !name.text.trim().startsWith('-') && !name.text.trim().startsWith('~') && (mode!="or" || ':' !in name.text),onClick={edit(SearchSyntax.add(expression.text,name.text.trim(),mode).let{TextFieldValue(it,TextRange(it.length))});name=TextFieldValue("")}){Text(text(R.string.ui_add_condition))}
+                TextButton(contentPadding=textButtonPadding(),enabled=name.text.isNotBlank() && name.text.trim().none(Char::isWhitespace) && !name.text.trim().startsWith('-') && !name.text.trim().startsWith('~') && (mode!="or" || ':' !in name.text),onClick={edit(SearchSyntax.add(expression.text,name.text.trim(),mode).let{TextFieldValue(it,TextRange(it.length))});name=TextFieldValue("")}){Text(text(R.string.ui_add_condition))}
                 Text(text(R.string.ui_or_applies_to_ordinary_tags_enter_field_conditions_such_as_rating),style=MaterialTheme.typography.bodySmall)
                 Text(text(R.string.ui_order));FlowRow { for(value in listOf("keep","date")+SearchSyntax.orders) FilterChip(selected=order==value,onClick={
                     val result=SearchSyntax.filters(expression.text,value,"keep");expression=TextFieldValue(result,TextRange(result.length));order=value
@@ -88,5 +88,5 @@ import com.sakugapp.data.*
                 SearchSyntax.warnings(finalQuery).forEach { Text(translateMessage(it),color=MaterialTheme.colorScheme.tertiary,style=MaterialTheme.typography.bodySmall) }
             }
         }
-    },confirmButton={TextButton(onClick={apply(finalQuery)},modifier=Modifier.testTag("apply-combined-search")){Text(text(R.string.ui_apply))}},dismissButton={TextButton(onClick=close){Text(text(R.string.ui_cancel))}})
+    },confirmButton={TextButton(contentPadding=textButtonPadding(),onClick={apply(finalQuery)},modifier=Modifier.testTag("apply-combined-search")){Text(text(R.string.ui_apply))}},dismissButton={TextButton(contentPadding=textButtonPadding(),onClick=close){Text(text(R.string.ui_cancel))}})
 }

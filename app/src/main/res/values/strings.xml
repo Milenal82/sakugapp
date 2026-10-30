@@ -434,4 +434,6 @@
     <string name="ui_backup_replace_notes">Replace conflicting notes</string>
     <string name="ui_backup_result">Imported: %1$d · Skipped: %2$d · Failed: %3$d</string>
     <string name="ui_backup_unsupported">This backup version is not supported. Nothing was imported.</string>
+    <string name="ui_font_size">Font size: %1$d%%</string>
+    <string name="ui_tag_vertical_spacing">Tag vertical spacing: %1$d dp</string>
 </resources>

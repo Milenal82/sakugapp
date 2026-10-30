@@ -185,3 +185,30 @@ jobs:
         with:
           name: release-upgrade-install-report
           path: ${{ runner.temp }}/upgrade-install-report/
+  publish-v1-2-0:
+    if: (inputs.tag || github.ref_name) == 'v1.2.0'
+    needs: [preflight, signed-release, upgrade-install]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.preflight.outputs.commit }}
+          fetch-depth: 0
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: ./scripts/ci-android-sdk.sh
+      - uses: actions/download-artifact@v4
+        with:
+          name: signed-release-v1.2.0
+          path: ${{ runner.temp }}/release-dist/
+      - name: Publish the explicitly requested version after all gates pass
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_DIST: ${{ runner.temp }}/release-dist
+          PREVIOUS_RELEASE: ${{ runner.temp }}/previous-official
+        run: python3 scripts/publish-v1.2.0.py

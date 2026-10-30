@@ -24,7 +24,7 @@ RUN = os.environ['GITHUB_RUN_ID']
 SHA = os.environ['GITHUB_SHA']
 CAPTURES = [f'maintenance-{screen}-{theme}.png'
             for screen in ['search', 'history', 'settings', 'settings-backup']
-            for theme in ['dark', 'light']]
+            for theme in ['dark', 'light']] + ['appearance-settings.png', 'appearance-player-75.png', 'appearance-player-125.png', 'appearance-search-75.png', 'appearance-search-125.png']
 COUNT_KEYS = ['tests', 'failures', 'errors', 'skipped']
 MAIN_ARTIFACTS = {'check-reports', 'device-test-reports', 'search-back-gesture-reports',
                   'six-column-phone-reports', 'six-column-landscape-reports'}
@@ -166,7 +166,7 @@ def main():
               'run_url': f'https://github.com/{REPO}/actions/runs/{RUN}',
               'captured_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
               'validation_result': os.environ.get('MAINTENANCE_VALIDATION_RESULT', 'unknown'),
-              'scope': 'Backup import/restore, native search/history/settings screens; no player suite.',
+              'scope': 'Backup restore, native screens, app font size and tag spacing; no full player suite.',
               'jobs': [], 'artifacts': [], 'test_counts': {}, 'lint': {}, 'failures': []}
     try:
         report['jobs'] = job_status(RUN)

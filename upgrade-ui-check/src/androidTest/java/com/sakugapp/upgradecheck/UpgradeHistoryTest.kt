@@ -22,7 +22,7 @@ class UpgradeHistoryTest {
         entry.click(100L)
         val field=device.wait(Until.findObject(By.res("search-input").focused(true)),15000)
         assertNotNull("Signed app search field automatically focused",field)
-        val history=device.wait(Until.findObject(By.text("History")),15000)
+        val history=device.wait(Until.findObject(By.res("search-history-toggle")),15000)
         assertNotNull("History action",history);history.click(100L)
         val old=device.wait(Until.findObject(By.text("id:319947").hasAncestor(By.res("search-history"))),15000)
         assertNotNull("History from the published APK survived upgrade",old)

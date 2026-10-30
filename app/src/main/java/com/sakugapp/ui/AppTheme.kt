@@ -9,6 +9,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.*
+import androidx.compose.foundation.layout.PaddingValues
 
 internal fun appColors(light:Boolean):ColorScheme = if(light) lightColorScheme(
     primary=Color(0xFF315EA8),onPrimary=Color.White,background=Color(0xFFF5F6F8),surface=Color.White,
@@ -28,12 +31,21 @@ internal object GridPolicy {
 }
 internal fun mediaTime(milliseconds:Long):String { val seconds=milliseconds.coerceAtLeast(0)/1000;return if(seconds>=3600)"%d:%02d:%02d".format(seconds/3600,seconds/60%60,seconds%60)else"%d:%02d".format(seconds/60,seconds%60) }
 
-@Composable fun SakugappTheme(light:Boolean,content:@Composable ()->Unit) {
+internal val LocalAppFontScale=staticCompositionLocalOf{1f}
+// Only text-container insets shrink; media, icons and touch targets keep their dp sizes.
+@Composable internal fun textInset(value:Dp)=value*LocalAppFontScale.current.coerceIn(0.75f,1f)
+@Composable internal fun textButtonPadding(horizontal:Dp=12.dp)=PaddingValues(horizontal=textInset(horizontal),vertical=textInset(8.dp))
+
+@Composable fun SakugappTheme(light:Boolean,fontScale:Float=1f,content:@Composable ()->Unit) {
     val activity=LocalActivity.current as? ComponentActivity
+    val density=LocalDensity.current
+    val scale=fontScale.takeIf{it.isFinite()}?.coerceIn(0.75f,1.25f) ?: 1f
+    val textDensity=remember(density,scale){Density(density.density,density.fontScale*scale)}
     DisposableEffect(activity,light) {
         val style=if(light)SystemBarStyle.light(AndroidColor.TRANSPARENT,AndroidColor.TRANSPARENT)else SystemBarStyle.dark(AndroidColor.TRANSPARENT)
         activity?.enableEdgeToEdge(statusBarStyle=style,navigationBarStyle=style)
         onDispose { }
     }
-    MaterialTheme(colorScheme=appColors(light),content=content)
+    CompositionLocalProvider(LocalDensity provides textDensity,LocalAppFontScale provides scale,
+        LocalMinimumInteractiveComponentSize provides 48.dp){MaterialTheme(colorScheme=appColors(light),content=content)}
 }

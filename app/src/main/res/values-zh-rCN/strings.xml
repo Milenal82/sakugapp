@@ -422,4 +422,6 @@
     <string name="ui_backup_replace_notes">替换冲突备注</string>
     <string name="ui_backup_result">成功：%1$d · 跳过：%2$d · 失败：%3$d</string>
     <string name="ui_backup_unsupported">不支持此备份版本，未导入任何数据。</string>
+    <string name="ui_font_size">字体大小：%1$d%%</string>
+    <string name="ui_tag_vertical_spacing">标签垂直间距：%1$d dp</string>
 </resources>

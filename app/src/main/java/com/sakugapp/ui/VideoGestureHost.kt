@@ -23,6 +23,7 @@ class VideoGestureHost(context:Context):FrameLayout(context){
     var onTransform:(VideoTransform)->Unit={}
     var transform=VideoTransform();private set
     private var settings:AppSettings?=null
+    private val baseTextSizes=java.util.WeakHashMap<android.widget.TextView,Float>()
     private val density=resources.displayMetrics.density
     private var downX=0f;private var downY=0f;private var lastX=0f;private var lastY=0f
     private var excluded=false;private var intercepting=false;private var multitouch=false;private var doubled=false
@@ -43,6 +44,14 @@ class VideoGestureHost(context:Context):FrameLayout(context){
     })
     init{scales.isQuickScaleEnabled=false;scales.isStylusScaleEnabled=false;addView(playerView,LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));clipChildren=true}
     fun configure(value:AppSettings,requested:VideoTransform){
+        fun resizeText(view:View){
+            if(view is android.widget.TextView){
+                val base=baseTextSizes.getOrPut(view){view.textSize}
+                view.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX,base*value.fontScale)
+            }
+            if(view is android.view.ViewGroup)for(index in 0 until view.childCount)resizeText(view.getChildAt(index))
+        }
+        if(settings?.fontScale!=value.fontScale)resizeText(playerView)
         gesturesEnabled=value.gestures
         val changed=settings?.let{listOf(it.mirror,it.saturation,it.contrast,it.brightness)!=listOf(value.mirror,value.saturation,value.contrast,value.brightness)} ?: true
         settings=value;transform=requested.bounded();applySurface(changed)

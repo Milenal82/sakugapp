@@ -13,11 +13,11 @@ Sakuga Mobile（安装名称 Sakugapp）是 Sakugabooru 的非官方 Android 客
 - 原生详情、分类标签、Score、来源和评论；上一帖、下一帖、下载、原帖、收藏集中在同一操作栏。
 - 全屏旋转、倍速、音量、A–B 循环、双指缩放、双击暂停、左右切帖。高级控制可折叠；支持实际解码索引的逐帧分析及帧号。
 - 本地多收藏夹、封面与排序、JSON 备份；独立的标签收藏和本地备注。浏览历史可关闭、删除或清空。
-- 深浅色主题，八种界面语言；账户、Vote、评论和 Blog / Forum 入口。网站内容与原始标签保持原文，官网语言仅使用英语或日语。
+- 深浅色主题、75%–125% 应用字号、0–12 dp 预览标签额外行距，八种界面语言；账户、Vote、评论和 Blog / Forum 入口。网站内容与原始标签保持原文，官网语言仅使用英语或日语。
 
 ### 下载与备份
 
-正式 APK 在 [GitHub Releases](https://github.com/Milenal82/sakugapp/releases)，开发测试包在 [Actions](https://github.com/Milenal82/sakugapp/actions)。当前开发版为 **1.2.1 / code 12**，不代表新的正式发布。
+正式 APK 在 [GitHub Releases](https://github.com/Milenal82/sakugapp/releases)，开发测试包在 [Actions](https://github.com/Milenal82/sakugapp/actions)。本次正式版本为 **1.2.0 / code 13**。
 
 同包名 `com.sakugapp`、同正式证书签名的版本可覆盖安装。升级前建议导出收藏。Debug 与正式签名不同：切换前先备份，再卸载旧包、安装并导入；卸载会删除其他本地数据。
 
@@ -47,11 +47,11 @@ Sakuga Mobile (installed as Sakugapp) is an unofficial Android client for Sakuga
 - Native details with classified tags, Score, source, and comments. Previous, next, download, original post, and favorites share one toolbar.
 - Fullscreen rotation, speed and volume controls, A–B loops, pinch zoom, double-tap pause, and swiping between posts. Collapsible advanced controls include decoded-index frame stepping and frame numbers.
 - Local folders with covers, ordering, and JSON backup; separate tag favorites and local notes. Browsing history can be disabled, deleted individually, or cleared.
-- Light and dark themes, eight UI languages, account / Vote / comment features, and Blog / Forum links. Website content and tags stay in their original language; website locale uses English or Japanese only.
+- Light and dark themes, 75%–125% app text size, 0–12 dp extra preview tag-row spacing, eight UI languages, account / Vote / comment features, and Blog / Forum links. Website content and tags stay in their original language; website locale uses English or Japanese only.
 
 ### Download and backup
 
-Find signed releases in [GitHub Releases](https://github.com/Milenal82/sakugapp/releases) and development artifacts in [Actions](https://github.com/Milenal82/sakugapp/actions). The current development version is **1.2.1 / code 12**; this does not announce a new public release.
+Find signed releases in [GitHub Releases](https://github.com/Milenal82/sakugapp/releases) and development artifacts in [Actions](https://github.com/Milenal82/sakugapp/actions). The release version is **1.2.0 / code 13**.
 
 Updates using the same package (`com.sakugapp`) and official certificate can be installed over the existing app. Export favorites first. Debug and official signatures differ: back up, uninstall, install the other build, and import. Uninstalling removes other local data.
 
@@ -81,11 +81,11 @@ Sakuga Mobile（インストール名 Sakugapp）は Sakugabooru の非公式 An
 - 分類別タグ、Score、出典、コメントを表示するネイティブ詳細画面。前後の投稿、ダウンロード、元投稿、お気に入りを同じ操作バーに配置。
 - 全画面回転、速度と音量、A–B リピート、ピンチズーム、ダブルタップで一時停止、左右の投稿切り替え。詳細操作は折りたたみ可能で、実際のデコードインデックスによるコマ送りとフレーム番号に対応。
 - カバーと並び順を設定できるローカルフォルダ、JSON バックアップ、独立したタグのお気に入りとメモ。閲覧履歴の記録停止、個別削除、全消去。
-- ライト / ダークテーマ、8 言語の UI、アカウント / Vote / コメント機能、Blog / Forum へのリンク。サイト本文とタグは原文のまま、サイトの言語指定は英語または日本語のみ。
+- ライト / ダークテーマ、75%–125% の文字サイズ、プレビュータグの追加行間 0–12 dp、8 言語の UI、アカウント / Vote / コメント機能、Blog / Forum へのリンク。サイト本文とタグは原文のまま、サイトの言語指定は英語または日本語のみ。
 
 ### ダウンロードとバックアップ
 
-正式署名 APK は [GitHub Releases](https://github.com/Milenal82/sakugapp/releases)、開発用 APK は [Actions](https://github.com/Milenal82/sakugapp/actions) から取得できます。現在の開発版は **1.2.1 / code 12** で、新しい正式リリースの告知ではありません。
+正式署名 APK は [GitHub Releases](https://github.com/Milenal82/sakugapp/releases)、開発用 APK は [Actions](https://github.com/Milenal82/sakugapp/actions) から取得できます。今回の正式版は **1.2.0 / code 13** です。
 
 パッケージ名 `com.sakugapp` と正式署名が同じ場合は上書きインストールできます。先にお気に入りをエクスポートしてください。Debug 版と正式版の署名は異なるため、切り替え時はバックアップ後にアンインストールし、別の版をインストールして取り込みます。アンインストールで他のローカルデータは消去されます。
 

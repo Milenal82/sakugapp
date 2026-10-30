@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0 / code 13 — release
+
+- Add immediate, persistent 75%–125% app text size and 0–12 dp extra spacing between preview tag rows. Keep media dimensions, icon sizes and touch targets unchanged.
+- Retain the preceding development updates and the existing official signing identity. The earlier 1.2.1 / code 12 was an unpublished development build.
+- Release signing, APK verification, same-certificate upgrade and the exact source commit’s scoped appearance checks must pass before v1.2.0 is published.
+
 ## 1.2.1 / code 12 — development
 
 This is a development update, not a new public release. The package name and existing signing certificate are unchanged.

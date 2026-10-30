@@ -1,3 +1,11 @@
+# v1.2.0 / code 13：字号与预览标签行距
+
+本轮只增加两项外观设置，沿用现有包名和签名。`AppearanceDeviceTest` 定向检查 75%/125% 即时生效、系统字号不变、独立 DataStore 读取磁盘设置、Activity 重建、Media3 原生时间文字不累积缩放，以及预览行距、视频尺寸、48 dp 触控区、搜索与播放面板布局。新增资源补齐全部八种 UI 语言。
+
+设备结果以[当前提交证据](https://github.com/Milenal82/sakugapp/blob/evidence/maintenance/report.json)的 source_commit 与 AppearanceDeviceTest 用例结果为准，不以较早版本的通过结果替代。正式构建和签名报告由 [Release 工作流](https://github.com/Milenal82/sakugapp/actions/workflows/release.yml)及对应 Release 附件提供；公开发布还要求旧版实际覆盖安装和 v1.1.0 证书比较通过。未逐一验证实体设备与所有系统字号组合。
+
+以下保留历史记录。
+
 # 1.2.1 / code 12 收藏备份与界面整理（2026-10-30）
 
 本轮只做收藏备份、搜索工具、浏览历史、设置分组、三语 README 和提供的图标调整。包名、数据库版本、设置键、下载记录与正式签名配置保持不变，不创建公开 Release。

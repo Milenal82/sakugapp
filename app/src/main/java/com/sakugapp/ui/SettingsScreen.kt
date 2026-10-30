@@ -65,6 +65,16 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel,language:()->Unit,abo
             val languageLabel=when(settings.language){"en"->R.string.language_english;"zh-CN"->R.string.language_simplified;"zh-TW"->R.string.language_traditional;"ja"->R.string.language_japanese;"fr"->R.string.language_french;"es"->R.string.language_spanish;"ru"->R.string.language_russian;"ko"->R.string.language_korean;else->R.string.ui_follow_system}
             SettingAction(text(R.string.ui_app_language),text(languageLabel),language)
             SettingControl{
+                Text(text(R.string.ui_font_size,kotlin.math.round(settings.fontScale*100).toInt()),style=MaterialTheme.typography.bodyLarge)
+                Slider(value=settings.fontScale,onValueChange={model.number("fontScale",kotlin.math.round(it*100)/100)},
+                    valueRange=0.75f..1.25f,steps=9,modifier=Modifier.testTag("setting-font-scale").semantics{contentDescription=context.getString(R.string.ui_font_size,kotlin.math.round(settings.fontScale*100).toInt())})
+            }
+            SettingControl{
+                Text(text(R.string.ui_tag_vertical_spacing,settings.tagVerticalSpacing.toInt()),style=MaterialTheme.typography.bodyLarge)
+                Slider(value=settings.tagVerticalSpacing,onValueChange={model.number("tagVerticalSpacing",kotlin.math.round(it))},
+                    valueRange=0f..12f,steps=11,modifier=Modifier.testTag("setting-tag-spacing").semantics{contentDescription=context.getString(R.string.ui_tag_vertical_spacing,settings.tagVerticalSpacing.toInt())})
+            }
+            SettingControl{
                 Text(text(R.string.ui_card_spacing,settings.cardSpacing.toInt().toString()),style=MaterialTheme.typography.bodyLarge)
                 var spacing by remember(settings.cardSpacing){mutableFloatStateOf(settings.cardSpacing)}
                 Slider(value=spacing,onValueChange={spacing=it},onValueChangeFinished={model.number("cardSpacing",spacing)},valueRange=0f..10f,steps=9)
@@ -126,7 +136,7 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel,language:()->Unit,abo
 @Composable private fun SettingsGroup(@DrawableRes icon:Int,title:String,content:@Composable ColumnScope.()->Unit){
     Surface(shape=RoundedCornerShape(16.dp),color=MaterialTheme.colorScheme.surface,modifier=Modifier.fillMaxWidth()){
         Column(Modifier.padding(horizontal=12.dp)){
-            Row(Modifier.padding(vertical=14.dp),verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(10.dp)){
+            Row(Modifier.padding(vertical=textInset(14.dp)),verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(10.dp)){
                 Surface(shape=RoundedCornerShape(8.dp),color=MaterialTheme.colorScheme.surfaceContainerHigh){Icon(painterResource(icon),null,Modifier.padding(6.dp).size(20.dp),tint=MaterialTheme.colorScheme.onSurfaceVariant)}
                 Text(title,style=MaterialTheme.typography.titleMedium)
             }
@@ -137,12 +147,12 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel,language:()->Unit,abo
 }
 
 @Composable private fun SettingControl(content:@Composable ColumnScope.()->Unit){
-    Column(Modifier.fillMaxWidth().padding(vertical=12.dp),verticalArrangement=Arrangement.spacedBy(4.dp),content=content)
+    Column(Modifier.fillMaxWidth().padding(vertical=textInset(12.dp)),verticalArrangement=Arrangement.spacedBy(4.dp),content=content)
     HorizontalDivider(color=MaterialTheme.colorScheme.outlineVariant.copy(alpha=.55f))
 }
 
 @Composable private fun SettingAction(label:String,value:String?=null,onClick:()->Unit,enabled:Boolean=true){
-    Row(Modifier.fillMaxWidth().clickable(enabled=enabled,role=Role.Button,onClick=onClick).padding(vertical=14.dp),verticalAlignment=Alignment.CenterVertically){
+    Row(Modifier.fillMaxWidth().heightIn(min=48.dp).clickable(enabled=enabled,role=Role.Button,onClick=onClick).padding(vertical=textInset(14.dp)),verticalAlignment=Alignment.CenterVertically){
         Column(Modifier.weight(1f)){
             Text(label,style=MaterialTheme.typography.bodyLarge,color=if(enabled)MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(alpha=.38f))
             value?.let{Text(it,style=MaterialTheme.typography.bodySmall,color=MaterialTheme.colorScheme.onSurfaceVariant)}
@@ -152,7 +162,7 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel,language:()->Unit,abo
 }
 
 @Composable private fun SettingSwitch(label:String,value:Boolean,change:(Boolean)->Unit){
-    Row(Modifier.fillMaxWidth().toggleable(value=value,role=Role.Switch,onValueChange=change).padding(vertical=6.dp),verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(12.dp)){
+    Row(Modifier.fillMaxWidth().toggleable(value=value,role=Role.Switch,onValueChange=change).semantics{contentDescription=label}.padding(vertical=6.dp),verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(12.dp)){
         Text(label,Modifier.weight(1f),style=MaterialTheme.typography.bodyLarge)
         Switch(checked=value,onCheckedChange=null)
     }

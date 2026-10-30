@@ -422,4 +422,6 @@
     <string name="ui_backup_replace_notes">競合するメモを置き換え</string>
     <string name="ui_backup_result">取込：%1$d · スキップ：%2$d · 失敗：%3$d</string>
     <string name="ui_backup_unsupported">このバックアップのバージョンには対応していません。データは取り込まれていません。</string>
+    <string name="ui_font_size">文字サイズ：%1$d%%</string>
+    <string name="ui_tag_vertical_spacing">タグの行間：%1$d dp</string>
 </resources>
