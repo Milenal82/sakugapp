@@ -1,8 +1,8 @@
 {
-  "source_commit": "5cfb1068ef4d43db5df70b53f44b82155c7b5e6e",
-  "run_id": "40992907739",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907739",
-  "captured_utc": "2026-10-30T02:47:31.186487+00:00",
+  "source_commit": "26c53ab2235a877f46f25ece61f022384523f6a8",
+  "run_id": "40994409798",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409798",
+  "captured_utc": "2026-10-30T03:03:25.099663+00:00",
   "validation_result": "success",
   "scope": "Backup restore, native screens, app font size and tag spacing; no full player suite.",
   "jobs": [
@@ -10,27 +10,27 @@
       "name": "validation",
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907739/job/123859278954",
-      "id": 123859278954
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409798/job/123864071343",
+      "id": 123864071343
     },
     {
       "name": "evidence",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907739/job/123861087827",
-      "id": 123861087827
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409798/job/123865964304",
+      "id": 123865964304
     }
   ],
   "artifacts": [
     {
-      "name": "maintenance-test-reports",
-      "bytes": 768033,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907739/artifacts/12950720390"
+      "name": "maintenance-debug-apk",
+      "bytes": 17920967,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409798/artifacts/12950816866"
     },
     {
-      "name": "maintenance-debug-apk",
-      "bytes": 17919174,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907739/artifacts/12950321726"
+      "name": "maintenance-test-reports",
+      "bytes": 764790,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409798/artifacts/12950143763"
     }
   ],
   "test_counts": {
@@ -56,135 +56,143 @@
   "failures": [],
   "device_diagnostics": [],
   "main_automatic_checks": {
-    "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907750",
-    "source_commit": "5cfb1068ef4d43db5df70b53f44b82155c7b5e6e",
+    "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409778",
+    "source_commit": "26c53ab2235a877f46f25ece61f022384523f6a8",
     "status": "completed",
     "conclusion": "success",
     "jobs": [
       {
+        "name": "six-column-display (phone, Nexus S)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409778/job/123864071406",
+        "id": 123864071406
+      },
+      {
         "name": "build",
         "status": "completed",
         "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907750/job/123859279389",
-        "id": 123859279389
-      },
-      {
-        "name": "device-tests",
-        "status": "completed",
-        "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907750/job/123859279506",
-        "id": 123859279506
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409778/job/123864071657",
+        "id": 123864071657
       },
       {
         "name": "six-column-display (landscape, pixel_c)",
         "status": "completed",
         "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907750/job/123859279513",
-        "id": 123859279513
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409778/job/123864071672",
+        "id": 123864071672
+      },
+      {
+        "name": "device-tests",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409778/job/123864071698",
+        "id": 123864071698
       },
       {
         "name": "search-back-gestures",
         "status": "completed",
         "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907750/job/123859279531",
-        "id": 123859279531
-      },
-      {
-        "name": "six-column-display (phone, Nexus S)",
-        "status": "completed",
-        "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907750/job/123859279593",
-        "id": 123859279593
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409778/job/123864071746",
+        "id": 123864071746
       },
       {
         "name": "documentation-screenshots",
         "status": "completed",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907750/job/123859280740",
-        "id": 123859280740
-      },
-      {
-        "name": "candidate-upgrade-install",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907750/job/123859280774",
-        "id": 123859280774
-      },
-      {
-        "name": "release-preflight",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907750/job/123859280803",
-        "id": 123859280803
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409778/job/123864072424",
+        "id": 123864072424
       },
       {
         "name": "release-signing",
         "status": "completed",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907750/job/123859280823",
-        "id": 123859280823
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409778/job/123864072522",
+        "id": 123864072522
       },
       {
-        "name": "signed-candidate",
+        "name": "release-preflight",
         "status": "completed",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907750/job/123859281094",
-        "id": 123859281094
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409778/job/123864072758",
+        "id": 123864072758
       },
       {
         "name": "candidate-evidence",
         "status": "completed",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907750/job/123859281937",
-        "id": 123859281937
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409778/job/123864072813",
+        "id": 123864072813
+      },
+      {
+        "name": "signed-candidate",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409778/job/123864072826",
+        "id": 123864072826
+      },
+      {
+        "name": "candidate-upgrade-install",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409778/job/123864073432",
+        "id": 123864073432
       },
       {
         "name": "checks-evidence",
         "status": "completed",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907750/job/123861850773",
-        "id": 123861850773
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409778/job/123866474625",
+        "id": 123866474625
       }
     ],
     "artifacts": [
       {
-        "name": "six-column-phone-reports",
-        "bytes": 219599,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907750/artifacts/12950625170"
-      },
-      {
-        "name": "device-test-reports",
-        "bytes": 8393449,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907750/artifacts/12950197714"
-      },
-      {
-        "name": "sakugapp-debug",
-        "bytes": 17919170,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907750/artifacts/12950051867"
+        "name": "search-back-gesture-reports",
+        "bytes": 1940887,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409778/artifacts/12951300000"
       },
       {
         "name": "six-column-landscape-reports",
-        "bytes": 3091585,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907750/artifacts/12949996961"
+        "bytes": 3093700,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409778/artifacts/12951026451"
+      },
+      {
+        "name": "device-test-reports",
+        "bytes": 8485247,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409778/artifacts/12950867799"
       },
       {
         "name": "check-reports",
-        "bytes": 136465,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907750/artifacts/12949957177"
+        "bytes": 136589,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409778/artifacts/12950747919"
       },
       {
-        "name": "search-back-gesture-reports",
-        "bytes": 1934421,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907750/artifacts/12949907419"
+        "name": "six-column-phone-reports",
+        "bytes": 222382,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409778/artifacts/12950363072"
       },
       {
         "name": "sakugapp-source",
-        "bytes": 2305303,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40992907750/artifacts/12949757788"
+        "bytes": 2305581,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409778/artifacts/12950324262"
+      },
+      {
+        "name": "sakugapp-debug",
+        "bytes": 17920965,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40994409778/artifacts/12950264737"
       }
     ],
     "test_counts": {
-      "six-column-phone-reports": {
+      "search-back-gesture-reports": {
+        "device": {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      },
+      "six-column-landscape-reports": {
         "device": {
           "tests": 2,
           "failures": 0,
@@ -195,14 +203,6 @@
       "device-test-reports": {
         "device": {
           "tests": 34,
-          "failures": 0,
-          "errors": 0,
-          "skipped": 0
-        }
-      },
-      "six-column-landscape-reports": {
-        "device": {
-          "tests": 2,
           "failures": 0,
           "errors": 0,
           "skipped": 0
@@ -222,7 +222,7 @@
           "skipped": 0
         }
       },
-      "search-back-gesture-reports": {
+      "six-column-phone-reports": {
         "device": {
           "tests": 2,
           "failures": 0,
