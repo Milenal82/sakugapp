@@ -1,36 +1,36 @@
 {
-  "source_commit": "d58c8076a1939eec77be47ce974e78a53c3a84c8",
-  "run_id": "40968205485",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205485",
-  "captured_utc": "2026-10-29T22:53:55.459997+00:00",
-  "validation_result": "success",
-  "scope": "Backup import/restore, native search/history/settings screens; no player suite.",
+  "source_commit": "403efe534c0183ccd2f52147034b3726f6b518bc",
+  "run_id": "40991913810",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40991913810",
+  "captured_utc": "2026-10-30T02:34:31.522599+00:00",
+  "validation_result": "failure",
+  "scope": "Backup restore, native screens, app font size and tag spacing; no full player suite.",
   "jobs": [
     {
       "name": "validation",
       "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205485/job/123777997126",
-      "id": 123777997126
+      "conclusion": "failure",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40991913810/job/123856091161",
+      "id": 123856091161
     },
     {
       "name": "evidence",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205485/job/123780882335",
-      "id": 123780882335
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40991913810/job/123857864608",
+      "id": 123857864608
     }
   ],
   "artifacts": [
     {
       "name": "maintenance-debug-apk",
-      "bytes": 17911374,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205485/artifacts/12940105332"
+      "bytes": 17919174,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40991913810/artifacts/12949244675"
     },
     {
       "name": "maintenance-test-reports",
-      "bytes": 569131,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205485/artifacts/12940050415"
+      "bytes": 617016,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/40991913810/artifacts/12949199971"
     }
   ],
   "test_counts": {
@@ -41,8 +41,8 @@
       "skipped": 0
     },
     "device": {
-      "tests": 5,
-      "failures": 0,
+      "tests": 7,
+      "failures": 1,
       "errors": 0,
       "skipped": 0
     }
@@ -53,194 +53,33 @@
       "warnings": 32
     }
   },
-  "failures": [],
-  "device_diagnostics": [],
+  "failures": [
+    {
+      "job": "validation",
+      "conclusion": "failure",
+      "message": "2026-10-30T02:33:56.9382484Z com.sakugapp.AppearanceDeviceTest > spacingChangesOnlyCaptionAndFontExtremesKeepTextToolsAndPlayerControlsReadable[emulator-5554 - 9] FAILED \n2026-10-30T02:33:56.9383781Z \tjava.lang.AssertionError: Assert failed: The component is not displayed!\n2026-10-30T02:34:00.7402213Z > Task :app:connectedDebugAndroidTest FAILED\n2026-10-30T02:34:00.8536164Z * What went wrong:\n2026-10-30T02:34:00.8542137Z BUILD FAILED in 49s\n2026-10-30T02:34:01.2850690Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
+    },
+    {
+      "test": "com.sakugapp.AppearanceDeviceTest.spacingChangesOnlyCaptionAndFontExtremesKeepTextToolsAndPlayerControlsReadable",
+      "report": "outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "message": "java.lang.AssertionError: Assert failed: The component is not displayed!\nat androidx.compose.ui.test.AssertionsKt.assertIsDisplayed(Assertions.kt:34)\nat com.sakugapp.AppearanceDeviceTest.spacingChangesOnlyCaptionAndFontExtremesKeepTextToolsAndPlayerControlsReadable(AppearanceDeviceTest.kt:116)\n"
+    }
+  ],
+  "device_diagnostics": [
+    {
+      "report": "reports/maintenance-diagnostics/runner.log",
+      "tail": "--------- beginning of main\n--------- beginning of system\n10-30 02:33:56.763  3181  3198 E TestRunner: failed: spacingChangesOnlyCaptionAndFontExtremesKeepTextToolsAndPlayerControlsReadable(com.sakugapp.AppearanceDeviceTest)\n10-30 02:33:56.763  3181  3198 E TestRunner: ----- begin exception -----\n10-30 02:33:56.763  3181  3198 E TestRunner: java.lang.AssertionError: Assert failed: The component is not displayed!\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.compose.ui.test.AssertionsKt.assertIsDisplayed(Assertions.kt:34)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat com.sakugapp.AppearanceDeviceTest.spacingChangesOnlyCaptionAndFontExtremesKeepTextToolsAndPlayerControlsReadable(AppearanceDeviceTest.kt:116)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat java.lang.reflect.Method.invoke(Native Method)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.rules.ExternalResource$1.evaluate(ExternalResource.java:54)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1$evaluate$1.invoke(AndroidComposeTestRule.android.kt:295)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1$evaluate$1.invoke(AndroidComposeTestRule.android.kt:295)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.withDisposableContent(ComposeUiTest.android.kt:565)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1$1.invoke(ComposeUiTest.android.kt:370)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.withComposeIdlingResource(ComposeUiTest.android.kt:439)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.access$withComposeIdlingResource(ComposeUiTest.android.kt:235)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1.invoke(ComposeUiTest.android.kt:369)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.withWindowRecomposer(ComposeUiTest.android.kt:413)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.access$withWindowRecomposer(ComposeUiTest.android.kt:235)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1.invoke(ComposeUiTest.android.kt:368)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.withTestCoroutines(ComposeUiTest.android.kt:426)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.access$withTestCoroutines(ComposeUiTest.android.kt:235)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1.invoke(ComposeUiTest.android.kt:367)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.compose.ui.test.EspressoLink.withStrategy(EspressoLink.android.kt:69)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1.invoke(ComposeUiTest.android.kt:366)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.compose.ui.test.IdlingResourceRegistry.withRegistry(IdlingResourceRegistry.jvm.kt:148)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1.invoke(ComposeUiTest.android.kt:365)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.compose.ui.test.ComposeRootRegistry.withRegistry(ComposeRootRegistry.android.kt:139)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.runTest(ComposeUiTest.android.kt:364)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1.evaluate(AndroidComposeTestRule.android.kt:295)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.ParentRunner.run(ParentRunner.java:413)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.test.ext.junit.runners.AndroidJUnit4.run(AndroidJUnit4.java:162)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.Suite.runChild(Suite.java:128)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.Suite.runChild(Suite.java:27)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runners.ParentRunner.run(ParentRunner.java:413)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runner.JUnitCore.run(JUnitCore.java:137)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat org.junit.runner.JUnitCore.run(JUnitCore.java:115)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:68)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:59)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:463)\n10-30 02:33:56.763  3181  3198 E TestRunner: \tat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2145)\n10-30 02:33:56.763  3181  3198 E TestRunner: ----- end exception -----\n10-30 02:33:56.765  3181  3198 I TestRunner: finished: spacingChangesOnlyCaptionAndFontExtremesKeepTextToolsAndPlayerControlsReadable(com.sakugapp.AppearanceDeviceTest)\n10-30 02:33:56.766  3181  3198 I TestRunner: started: liveSettingsPersistWithoutChangingSystemFontsOrCompoundingNativePlayerText(com.sakugapp.AppearanceDeviceTest)\n10-30 02:33:59.152  3181  3198 I TestRunner: finished: liveSettingsPersistWithoutChangingSystemFontsOrCompoundingNativePlayerText(com.sakugapp.AppearanceDeviceTest)\n10-30 02:33:59.154  3181  3198 I TestRunner: run finished: 7 tests, 1 failed, 0 ignored\n"
+    }
+  ],
   "main_automatic_checks": {
-    "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205721",
-    "source_commit": "d58c8076a1939eec77be47ce974e78a53c3a84c8",
+    "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/40991913902",
+    "source_commit": "403efe534c0183ccd2f52147034b3726f6b518bc",
     "status": "completed",
-    "conclusion": "success",
-    "jobs": [
-      {
-        "name": "build",
-        "status": "completed",
-        "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205721/job/123777997466",
-        "id": 123777997466
-      },
-      {
-        "name": "six-column-display (landscape, pixel_c)",
-        "status": "completed",
-        "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205721/job/123777997801",
-        "id": 123777997801
-      },
-      {
-        "name": "search-back-gestures",
-        "status": "completed",
-        "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205721/job/123777997879",
-        "id": 123777997879
-      },
-      {
-        "name": "six-column-display (phone, Nexus S)",
-        "status": "completed",
-        "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205721/job/123777997925",
-        "id": 123777997925
-      },
-      {
-        "name": "device-tests",
-        "status": "completed",
-        "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205721/job/123777997940",
-        "id": 123777997940
-      },
-      {
-        "name": "release-signing",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205721/job/123777999227",
-        "id": 123777999227
-      },
-      {
-        "name": "signed-candidate",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205721/job/123777999325",
-        "id": 123777999325
-      },
-      {
-        "name": "release-preflight",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205721/job/123777999783",
-        "id": 123777999783
-      },
-      {
-        "name": "documentation-screenshots",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205721/job/123777999804",
-        "id": 123777999804
-      },
-      {
-        "name": "candidate-evidence",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205721/job/123778000555",
-        "id": 123778000555
-      },
-      {
-        "name": "candidate-upgrade-install",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205721/job/123778000761",
-        "id": 123778000761
-      },
-      {
-        "name": "checks-evidence",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205721/job/123781545148",
-        "id": 123781545148
-      }
-    ],
-    "artifacts": [
-      {
-        "name": "sakugapp-debug",
-        "bytes": 17911367,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205721/artifacts/12940225029"
-      },
-      {
-        "name": "device-test-reports",
-        "bytes": 8436901,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205721/artifacts/12940010565"
-      },
-      {
-        "name": "check-reports",
-        "bytes": 136685,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205721/artifacts/12939960507"
-      },
-      {
-        "name": "six-column-landscape-reports",
-        "bytes": 3092942,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205721/artifacts/12939381168"
-      },
-      {
-        "name": "search-back-gesture-reports",
-        "bytes": 1954123,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205721/artifacts/12939142963"
-      },
-      {
-        "name": "sakugapp-source",
-        "bytes": 2299126,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205721/artifacts/12939052746"
-      },
-      {
-        "name": "six-column-phone-reports",
-        "bytes": 220012,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/40968205721/artifacts/12939016951"
-      }
-    ],
-    "test_counts": {
-      "device-test-reports": {
-        "device": {
-          "tests": 34,
-          "failures": 0,
-          "errors": 0,
-          "skipped": 0
-        }
-      },
-      "check-reports": {
-        "debug_unit": {
-          "tests": 120,
-          "failures": 0,
-          "errors": 0,
-          "skipped": 0
-        },
-        "release_unit": {
-          "tests": 120,
-          "failures": 0,
-          "errors": 0,
-          "skipped": 0
-        }
-      },
-      "six-column-landscape-reports": {
-        "device": {
-          "tests": 2,
-          "failures": 0,
-          "errors": 0,
-          "skipped": 0
-        }
-      },
-      "search-back-gesture-reports": {
-        "device": {
-          "tests": 2,
-          "failures": 0,
-          "errors": 0,
-          "skipped": 0
-        }
-      },
-      "six-column-phone-reports": {
-        "device": {
-          "tests": 2,
-          "failures": 0,
-          "errors": 0,
-          "skipped": 0
-        }
-      }
-    },
-    "lint": {
-      "check-reports/reports/lint-results-debug.xml": {
-        "errors": 0,
-        "warnings": 32
-      },
-      "check-reports/reports/lint-results-release.xml": {
-        "errors": 0,
-        "warnings": 32
-      }
-    },
+    "conclusion": "startup_failure",
+    "jobs": [],
+    "artifacts": [],
+    "test_counts": {},
+    "lint": {},
     "failures": []
   }
 }
