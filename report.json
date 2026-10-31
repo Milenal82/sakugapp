@@ -1,41 +1,47 @@
 {
-  "source_commit": "39eace0823e741214ba6a65d2e99efbc57a4e425",
-  "run_id": "41228706732",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/41228706732",
-  "captured_utc": "2026-10-31T18:21:54.999499+00:00",
-  "validation_result": "cancelled",
+  "source_commit": "7304de48c06c72cedf2583b4252a0c0dfcd17349",
+  "run_id": "41228933633",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/41228933633",
+  "captured_utc": "2026-10-31T18:27:24.113897+00:00",
+  "validation_result": "success",
   "scope": "Short playback resource/fullscreen, compact tags and folder selection checks.",
   "jobs": [
     {
       "name": "validation",
       "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41228706732/job/124618177212",
-      "id": 124618177212
+      "conclusion": "success",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41228933633/job/124619201118",
+      "id": 124619201118
     },
     {
       "name": "evidence",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41228706732/job/124619156261",
-      "id": 124619156261
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41228933633/job/124620502922",
+      "id": 124620502922
     }
   ],
   "artifacts": [
     {
-      "name": "maintenance-debug-apk",
-      "bytes": 17944058,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41228706732/artifacts/13053350166"
+      "name": "maintenance-test-reports",
+      "bytes": 259496,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41228933633/artifacts/13053221852"
     },
     {
-      "name": "maintenance-test-reports",
-      "bytes": 58031,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41228706732/artifacts/13053046570"
+      "name": "maintenance-debug-apk",
+      "bytes": 17944393,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41228933633/artifacts/13053161980"
     }
   ],
   "test_counts": {
     "debug_unit": {
       "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "device": {
+      "tests": 2,
       "failures": 0,
       "errors": 0,
       "skipped": 0
@@ -47,13 +53,7 @@
       "warnings": 33
     }
   },
-  "failures": [
-    {
-      "job": "validation",
-      "conclusion": "cancelled",
-      "message": "2026-10-31T18:21:41.5061564Z ##[error]The operation was canceled."
-    }
-  ],
+  "failures": [],
   "device_diagnostics": [],
   "main_automatic_checks": {
     "status": "not_requested",
