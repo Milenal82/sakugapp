@@ -1,48 +1,42 @@
 {
-  "source_commit": "5ac61b3c55c4bdea90a51156b4b517e7be8137bb",
-  "run_id": "41228097312",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/41228097312",
-  "captured_utc": "2026-10-31T18:16:16.962222+00:00",
-  "validation_result": "failure",
+  "source_commit": "39eace0823e741214ba6a65d2e99efbc57a4e425",
+  "run_id": "41228706732",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/41228706732",
+  "captured_utc": "2026-10-31T18:21:54.999499+00:00",
+  "validation_result": "cancelled",
   "scope": "Short playback resource/fullscreen, compact tags and folder selection checks.",
   "jobs": [
     {
       "name": "validation",
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41228097312/job/124616385157",
-      "id": 124616385157
+      "conclusion": "cancelled",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41228706732/job/124618177212",
+      "id": 124618177212
     },
     {
       "name": "evidence",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41228097312/job/124617760875",
-      "id": 124617760875
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41228706732/job/124619156261",
+      "id": 124619156261
     }
   ],
   "artifacts": [
     {
-      "name": "maintenance-test-reports",
-      "bytes": 259016,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41228097312/artifacts/13052607804"
+      "name": "maintenance-debug-apk",
+      "bytes": 17944058,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41228706732/artifacts/13053350166"
     },
     {
-      "name": "maintenance-debug-apk",
-      "bytes": 17944054,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41228097312/artifacts/13052193851"
+      "name": "maintenance-test-reports",
+      "bytes": 58031,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41228706732/artifacts/13053046570"
     }
   ],
   "test_counts": {
     "debug_unit": {
       "tests": 1,
       "failures": 0,
-      "errors": 0,
-      "skipped": 0
-    },
-    "device": {
-      "tests": 2,
-      "failures": 1,
       "errors": 0,
       "skipped": 0
     }
@@ -56,21 +50,11 @@
   "failures": [
     {
       "job": "validation",
-      "conclusion": "failure",
-      "message": "2026-10-31T18:15:48.0688465Z com.sakugapp.PlayerStabilityDeviceTest > fullscreenReusesPlayerPreservesPositionAndGesturesAcrossLifecycleAndVideoSwitches[emulator-5554 - 9] FAILED \n2026-10-31T18:15:48.0689586Z \tjava.lang.AssertionError: Action performScrollTo() failed.\n2026-10-31T18:15:57.1717986Z > Task :app:connectedDebugAndroidTest FAILED\n2026-10-31T18:15:57.1800943Z * What went wrong:\n2026-10-31T18:15:57.1808708Z BUILD FAILED in 49s\n2026-10-31T18:15:57.7683392Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
-    },
-    {
-      "test": "com.sakugapp.PlayerStabilityDeviceTest.fullscreenReusesPlayerPreservesPositionAndGesturesAcrossLifecycleAndVideoSwitches",
-      "report": "outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-      "message": "java.lang.AssertionError: Action performScrollTo() failed.\nReason: Expected exactly '1' node but could not find any node that satisfies: (TestTag = 'speed-1.5')\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:82)\nat com.sakugapp.PlayerStabilityDeviceTest.fullscreenReusesPlayerPreservesPositionAndGesturesAcrossLifecycleAndVideoSwitches(PlayerStabilityDeviceTest.kt:76)\n"
+      "conclusion": "cancelled",
+      "message": "2026-10-31T18:21:41.5061564Z ##[error]The operation was canceled."
     }
   ],
-  "device_diagnostics": [
-    {
-      "report": "reports/maintenance-diagnostics/runner.log",
-      "tail": "--------- beginning of main\n--------- beginning of system\n10-31 18:15:47.442  3102  3119 E TestRunner: failed: fullscreenReusesPlayerPreservesPositionAndGesturesAcrossLifecycleAndVideoSwitches(com.sakugapp.PlayerStabilityDeviceTest)\n10-31 18:15:47.443  3102  3119 E TestRunner: ----- begin exception -----\n10-31 18:15:47.443  3102  3119 E TestRunner: java.lang.AssertionError: Action performScrollTo() failed.\n10-31 18:15:47.443  3102  3119 E TestRunner: Reason: Expected exactly '1' node but could not find any node that satisfies: (TestTag = 'speed-1.5')\n10-31 18:15:47.443  3102  3119 E TestRunner: \n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:82)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat com.sakugapp.PlayerStabilityDeviceTest.fullscreenReusesPlayerPreservesPositionAndGesturesAcrossLifecycleAndVideoSwitches(PlayerStabilityDeviceTest.kt:76)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat java.lang.reflect.Method.invoke(Native Method)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat org.junit.rules.ExternalResource$1.evaluate(ExternalResource.java:54)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1$evaluate$1.invoke(AndroidComposeTestRule.android.kt:295)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1$evaluate$1.invoke(AndroidComposeTestRule.android.kt:295)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.withDisposableContent(ComposeUiTest.android.kt:565)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1$1.invoke(ComposeUiTest.android.kt:370)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.withComposeIdlingResource(ComposeUiTest.android.kt:439)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.access$withComposeIdlingResource(ComposeUiTest.android.kt:235)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1.invoke(ComposeUiTest.android.kt:369)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.withWindowRecomposer(ComposeUiTest.android.kt:413)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.access$withWindowRecomposer(ComposeUiTest.android.kt:235)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1.invoke(ComposeUiTest.android.kt:368)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.withTestCoroutines(ComposeUiTest.android.kt:426)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.access$withTestCoroutines(ComposeUiTest.android.kt:235)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1.invoke(ComposeUiTest.android.kt:367)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.EspressoLink.withStrategy(EspressoLink.android.kt:69)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1.invoke(ComposeUiTest.android.kt:366)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.IdlingResourceRegistry.withRegistry(IdlingResourceRegistry.jvm.kt:148)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1.invoke(ComposeUiTest.android.kt:365)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.ComposeRootRegistry.withRegistry(ComposeRootRegistry.android.kt:139)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.runTest(ComposeUiTest.android.kt:364)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1.evaluate(AndroidComposeTestRule.android.kt:295)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)\n10-31 18:15:47.443  3102  3119 E TestRunner: \tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)\n10-31 18:15:47.444  3102  3119 E TestRunner: \tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)\n10-31 18:15:47.444  3102  3119 E TestRunner: \tat org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)\n10-31 18:15:47.444  3102  3119 E TestRunner: \tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)\n10-31 18:15:47.444  3102  3119 E TestRunner: \tat org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)\n10-31 18:15:47.444  3102  3119 E TestRunner: \tat org.junit.runners.ParentRunner.run(ParentRunner.java:413)\n10-31 18:15:47.444  3102  3119 E TestRunner: \tat androidx.test.ext.junit.runners.AndroidJUnit4.run(AndroidJUnit4.java:162)\n10-31 18:15:47.444  3102  3119 E TestRunner: \tat org.junit.runners.Suite.runChild(Suite.java:128)\n10-31 18:15:47.444  3102  3119 E TestRunner: \tat org.junit.runners.Suite.runChild(Suite.java:27)\n10-31 18:15:47.444  3102  3119 E TestRunner: \tat org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)\n10-31 18:15:47.444  3102  3119 E TestRunner: \tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)\n10-31 18:15:47.444  3102  3119 E TestRunner: \tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)\n10-31 18:15:47.444  3102  3119 E TestRunner: \tat org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)\n10-31 18:15:47.444  3102  3119 E TestRunner: \tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)\n10-31 18:15:47.444  3102  3119 E TestRunner: \tat org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)\n10-31 18:15:47.444  3102  3119 E TestRunner: \tat org.junit.runners.ParentRunner.run(ParentRunner.java:413)\n10-31 18:15:47.444  3102  3119 E TestRunner: \tat org.junit.runner.JUnitCore.run(JUnitCore.java:137)\n10-31 18:15:47.444  3102  3119 E TestRunner: \tat org.junit.runner.JUnitCore.run(JUnitCore.java:115)\n10-31 18:15:47.444  3102  3119 E TestRunner: \tat androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:68)\n10-31 18:15:47.444  3102  3119 E TestRunner: \tat androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:59)\n10-31 18:15:47.444  3102  3119 E TestRunner: \tat androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:463)\n10-31 18:15:47.444  3102  3119 E TestRunner: \tat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2145)\n10-31 18:15:47.444  3102  3119 E TestRunner: ----- end exception -----\n10-31 18:15:47.446  3102  3119 I TestRunner: finished: fullscreenReusesPlayerPreservesPositionAndGesturesAcrossLifecycleAndVideoSwitches(com.sakugapp.PlayerStabilityDeviceTest)\n10-31 18:15:47.449  3102  3119 I TestRunner: started: zeroSpacingIsTightAndFolderTilesToggleIndependentMembershipsInBothThemes(com.sakugapp.PlayerStabilityDeviceTest)\n10-31 18:15:55.099  3102  3119 I TestRunner: finished: zeroSpacingIsTightAndFolderTilesToggleIndependentMembershipsInBothThemes(com.sakugapp.PlayerStabilityDeviceTest)\n10-31 18:15:55.103  3102  3119 I TestRunner: run finished: 2 tests, 1 failed, 0 ignored\n"
-    }
-  ],
+  "device_diagnostics": [],
   "main_automatic_checks": {
     "status": "not_requested",
     "reason": "This push is not main."
