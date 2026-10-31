@@ -433,4 +433,5 @@
     <string name="ui_backup_unsupported">Эта версия резервной копии не поддерживается. Данные не импортированы.</string>
     <string name="ui_font_size">Размер текста: %1$d%%</string>
     <string name="ui_tag_vertical_spacing">Интервал между строками тегов: %1$d dp</string>
+    <string name="ui_feed_window_hint">В памяти остаются последние %1$d загруженных публикаций.</string>
 </resources>

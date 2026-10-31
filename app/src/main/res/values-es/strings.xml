@@ -430,4 +430,5 @@
     <string name="ui_backup_unsupported">Esta versión de copia de seguridad no es compatible. No se importó ningún dato.</string>
     <string name="ui_font_size">Tamaño del texto: %1$d%%</string>
     <string name="ui_tag_vertical_spacing">Espacio vertical de etiquetas: %1$d dp</string>
+    <string name="ui_feed_window_hint">Conserva en memoria las últimas %1$d publicaciones cargadas.</string>
 </resources>

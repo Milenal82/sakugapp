@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 set -uo pipefail
 # This maintenance run deliberately excludes the unrelated player and full device suites.
+classes=com.sakugapp.BackupRestoreDeviceTest,com.sakugapp.MaintenanceUiDeviceTest,com.sakugapp.AppearanceDeviceTest
+if [ "${GITHUB_REF_NAME:-}" = dev/player-stability-controls ]; then classes=com.sakugapp.PlayerStabilityDeviceTest; fi
 timeout --kill-after=20s 12m ./gradlew --no-daemon connectedDebugAndroidTest \
-    -Pandroid.testInstrumentationRunnerArguments.class=com.sakugapp.BackupRestoreDeviceTest,com.sakugapp.MaintenanceUiDeviceTest,com.sakugapp.AppearanceDeviceTest
+    -Pandroid.testInstrumentationRunnerArguments.class="$classes"
 result=$?
 mkdir -p app/build/reports/maintenance-diagnostics app/build/reports/maintenance-ui-evidence
 if [ "$result" -ne 0 ]; then

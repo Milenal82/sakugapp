@@ -19,6 +19,7 @@ import androidx.compose.material3.*
 import androidx.compose.material3.pulltorefresh.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.saveable.LocalSaveableStateRegistry
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.draw.clipToBounds
@@ -60,6 +61,8 @@ import java.time.format.DateTimeFormatter
 
 class MainActivity:AppCompatActivity(),VideoOrientationHost{
     override var hasFullscreenPlayer=false
+    override var fullscreenOwner:Any?=null
+    override var fullscreenHandoff:FullscreenHandoff?=null
     private fun browseOrientation(){requestedOrientation=if(resources.configuration.smallestScreenWidthDp>=600)android.content.pm.ActivityInfo.SCREEN_ORIENTATION_USER else android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT}
     override fun onConfigurationChanged(newConfig:android.content.res.Configuration){super.onConfigurationChanged(newConfig);if(!hasFullscreenPlayer)browseOrientation()}
 
@@ -78,6 +81,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
     val savedSettings by app.settings.collectAsStateWithLifecycle()
     val settings=savedSettings.copy(lightTheme=themeIsLight(savedSettings.themeMode,isSystemInDarkTheme()),columns=GridPolicy.effective(savedSettings.columns,LocalConfiguration.current.smallestScreenWidthDp))
     val context=LocalContext.current
+    val orientationHost=LocalActivity.current as? VideoOrientationHost
     val metered by remember(context){meteredNetwork(context.applicationContext)}.collectAsStateWithLifecycle(initialValue=true)
     val nav=rememberNavController();val entry by nav.currentBackStackEntryAsState()
     val selected by model.selected.collectAsStateWithLifecycle();val detailError by model.detailError.collectAsStateWithLifecycle()
@@ -89,7 +93,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
     val systemTag=android.content.res.Resources.getSystem().configuration.locales[0].toLanguageTag()
     val language=PreferenceRules.resolveLanguage(settings.language,systemTag)
     var menu by remember{mutableStateOf(false)};var about by remember{mutableStateOf(false)}
-    LaunchedEffect(entry?.destination?.route){if(entry?.destination?.route=="posts")model.restoreBrowse()}
+    LaunchedEffect(entry?.destination?.route){if(entry?.destination?.route=="posts")model.restoreBrowse();if(entry?.destination?.route!="post/{id}")model.close()}
     fun search(value:String){
         app.search(value);model.beginSearch(value)
         if(nav.currentDestination?.route!="search" && !nav.popBackStack("search",false)){
@@ -149,6 +153,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                         val next=model.adjacent(delta)
                         if(next==null){model.prefetchNeighbors();false}else{
                             model.selectAdjacent(next)
+                            if(!next.isVideo)orientationHost?.fullscreenHandoff=null
                             nav.navigate("post/${next.id}"){popUpTo(entry!!.destination.id){inclusive=true};launchSingleTop=true}
                             true
                         }
@@ -206,9 +211,9 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
         }.distinctUntilChanged().filter{it}.collect{loadMore()}
     }
     val visible by remember(grid){derivedStateOf{grid.layoutInfo.visibleItemsInfo.mapNotNull{it.key as? Long}}}
-    LaunchedEffect(visible,settings.autoPreview,allowedPreview,grid.isScrollInProgress){
-        if(!allowedPreview || active !in visible)active=null
-        if(settings.autoPreview && allowedPreview && !grid.isScrollInProgress && active==null)active=state.posts.firstOrNull{it.id in visible && it.isVideo}?.id
+    LaunchedEffect(visible,settings.autoPreview,allowedPreview,grid.isScrollInProgress,isActive){
+        if(!isActive || !allowedPreview || active !in visible)active=null
+        if(isActive && settings.autoPreview && allowedPreview && !grid.isScrollInProgress && active==null)active=state.posts.firstOrNull{it.id in visible && it.isVideo}?.id
     }
     fun collapseSearch(){searchExpanded=false;historyOpen=false;keyboard?.hide();focus.clearFocus()}
     fun submit(value:String){collapseSearch();active=null;chromeVisible=true;search(value)}
@@ -236,9 +241,10 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
                 Text(translateMessage(it),style=MaterialTheme.typography.labelSmall)
                 TextButton(enabled=!state.loading,onClick={submit(state.query)}){Text(text(R.string.ui_reload_posts_and_tags))}
             }}}
-            items(state.posts,key={it.id}){post->PostCard(post,settings,metered,active==post.id,{collapseSearch();open(post)},::submit,{if(!allowedPreview)policy=true else active=if(active==post.id)null else post.id},{actual->app.duration(post.fileUrl.orEmpty(),actual)})}
+            items(state.posts,key={it.id}){post->PostCard(post,settings,metered,isActive && active==post.id,{active=null;collapseSearch();open(post)},::submit,{if(!allowedPreview)policy=true else active=if(active==post.id)null else post.id},{actual->app.duration(post.fileUrl.orEmpty(),actual)})}
             if(state.loading && state.posts.isEmpty())items(settings.columns.coerceAtLeast(6),key={"skeleton-$it"}){SkeletonCard()}
             item(span={GridItemSpan(maxLineSpan)}){Column(Modifier.fillMaxWidth().padding(vertical=8.dp)){
+                if(state.discardedPosts>0)Text(text(R.string.ui_feed_window_hint,FeedState.MAX_RETAINED_POSTS),style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.onSurfaceVariant)
                 if(state.loading){LinearProgressIndicator(Modifier.fillMaxWidth());Text(text(R.string.ui_loading_more_posts),style=MaterialTheme.typography.bodySmall)}
                 state.error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error);Button(enabled=!state.refreshing,onClick=loadMore){Text(text(R.string.ui_retry_this_page))}}
                 if(!state.loading && state.error==null){if(state.posts.isEmpty())Text(text(R.string.ui_no_posts_found))else if(state.endReached)Text(text(R.string.ui_end_of_results))else Button(enabled=!state.refreshing,onClick=loadMore,modifier=Modifier.fillMaxWidth()){Text(text(R.string.ui_load_more))}}
@@ -329,7 +335,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
         shadowElevation=if(settings.columns>=6)0.dp else 1.dp,tonalElevation=1.dp){Column{
         Box(Modifier.fillMaxWidth().heightIn(min=if(settings.columns>=6)24.dp else 48.dp).aspectRatio(16f/9f).background(MaterialTheme.colorScheme.surfaceVariant)
             .testTag("post-media-${post.id}").combinedClickable(interactionSource=interaction,indication=LocalIndication.current,onClick=open,onLongClick={options=true},onLongClickLabel=text(R.string.ui_preview_options))){
-            if(preview && post.fileUrl!=null)VideoPanel(post.fileUrl,settings,preview=true,onDurationChanged=onDuration)
+            if(preview && post.fileUrl!=null)CompositionLocalProvider(LocalSaveableStateRegistry provides null){VideoPanel(post.fileUrl,settings,preview=true,onDurationChanged=onDuration)}
             else PostImage(post,Modifier.fillMaxSize(),settings,metered)
             Row(Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(2.dp),horizontalArrangement=Arrangement.SpaceBetween,verticalAlignment=Alignment.Bottom){
                 if(post.isVideo && settings.columns<6)Surface(color=MaterialTheme.colorScheme.surface.copy(alpha=0.96f),shape=RoundedCornerShape(3.dp)){
@@ -362,14 +368,14 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
         Column(Modifier.fillMaxWidth().padding(top=5.dp).testTag("post-caption-${post.id}").semantics(mergeDescendants=true){}){
             Row(horizontalArrangement=Arrangement.spacedBy(4.dp)){
                 tags.forEach{tag->OriginalTag(tag,search=search,modifier=Modifier.weight(1f),
-                    color=when(tag.category){TagCategory.COPYRIGHT->copyrightColor(settings.lightTheme);TagCategory.ARTIST->artistColor(settings.lightTheme);else->MaterialTheme.colorScheme.onSurfaceVariant},fontSize=size,maxLines=1)}
+                    color=when(tag.category){TagCategory.COPYRIGHT->copyrightColor(settings.lightTheme);TagCategory.ARTIST->artistColor(settings.lightTheme);else->MaterialTheme.colorScheme.onSurfaceVariant},fontSize=size,maxLines=1,previewSpacing=0f)}
             }
         }
         return
     }
     FlowRow(Modifier.fillMaxWidth().padding(top=5.dp).testTag("post-caption-${post.id}").semantics(mergeDescendants=true){},horizontalArrangement=Arrangement.spacedBy(4.dp),verticalArrangement=Arrangement.spacedBy(settings.tagVerticalSpacing.dp)){
         for(tag in tags)OriginalTag(tag,search=search,color=when(tag.category){TagCategory.COPYRIGHT->copyrightColor(settings.lightTheme);TagCategory.ARTIST->artistColor(settings.lightTheme);else->MaterialTheme.colorScheme.onSurfaceVariant},fontSize=size,
-            maxLines=if(settings.wrapTags && settings.columns<=2)Int.MAX_VALUE else 2)
+            maxLines=if(settings.wrapTags && settings.columns<=2)Int.MAX_VALUE else 2,previewSpacing=settings.tagVerticalSpacing)
     }
 }
 
@@ -387,10 +393,11 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
 
 @Composable internal fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,localSnapshot:Boolean,search:(String)->Unit,wiki:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit,onDuration:(Long)->Unit,hasPrevious:Boolean,hasNext:Boolean,onNavigate:(Int)->Boolean){
     val uri=LocalUriHandler.current;var linkError by remember{mutableStateOf(false)}
+    val playbackUrl=remember(post.id){app.offlineMedia.existing(post)?.toURI()?.toString() ?: post.fileUrl}
     var seek by remember{mutableStateOf<Pair<Long,Int>?>(null)}
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(12.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
         if(localSnapshot)Text(text(R.string.ui_library_snapshot_hint),style=MaterialTheme.typography.bodySmall)
-        if(post.isVideo)VideoPanel(app.offlineMedia.existing(post)?.toURI()?.toString() ?: post.fileUrl!!,settings,seekRequest=seek,onDurationChanged=onDuration,onNavigate=onNavigate)
+        if(post.isVideo)VideoPanel(playbackUrl!!,settings,seekRequest=seek,onDurationChanged=onDuration,onNavigate=onNavigate,videoDimensions=if(post.width!=null && post.height!=null)post.width to post.height else null)
         else PostImage(post,Modifier.fillMaxWidth().height(320.dp),settings,metered,true)
         Row(Modifier.widthIn(max=360.dp).fillMaxWidth().testTag("detail-actions"),horizontalArrangement=Arrangement.SpaceEvenly,verticalAlignment=Alignment.CenterVertically){
             ActionIcon(R.drawable.ic_previous,text(R.string.ui_previous_post),{onNavigate(-1)},Modifier.testTag("previous-post"),enabled=hasPrevious)

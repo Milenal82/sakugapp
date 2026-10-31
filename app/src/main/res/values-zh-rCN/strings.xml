@@ -424,4 +424,5 @@
     <string name="ui_backup_unsupported">不支持此备份版本，未导入任何数据。</string>
     <string name="ui_font_size">字体大小：%1$d%%</string>
     <string name="ui_tag_vertical_spacing">标签垂直间距：%1$d dp</string>
+    <string name="ui_feed_window_hint">仅在内存中保留最近加载的 %1$d 条帖子。</string>
 </resources>

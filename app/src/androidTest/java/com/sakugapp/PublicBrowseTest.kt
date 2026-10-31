@@ -45,8 +45,8 @@ class PublicBrowseTest {
         UiEvidence.capture("phone-post-detail.png")
         ui.onNodeWithTag("more-controls").performClick()
         ui.onNodeWithTag("speed-1.5").performScrollTo().performClick().assertIsSelected()
-        ui.onNodeWithText("Full screen").performScrollTo().performClick();ui.onNodeWithText("Exit full screen").assertExists()
-        ui.onNodeWithText("Exit full screen").performClick()
+        ui.onNodeWithTag("toggle-fullscreen").performScrollTo().performClick();ui.waitForIdle();ui.onNodeWithTag("video-gestures").performTouchInput{click(androidx.compose.ui.geometry.Offset(width*.25f,height*.3f))};Thread.sleep(400);ui.waitForIdle();ui.onNodeWithTag("toggle-fullscreen").assertExists()
+        ui.onNodeWithTag("toggle-fullscreen").performClick()
         ui.onNodeWithTag("open-frame-controls").performScrollTo().performClick()
         ui.onNodeWithText("Download and decode").performClick()
         ui.waitUntil(120000){ui.onAllNodesWithContentDescription("Decoded frame").fetchSemanticsNodes().isNotEmpty()}

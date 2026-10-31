@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — player stability and compact tags
+
+- Bound image memory/disk caches, stream buffers and the retained post window (600 posts per query). Stop background/transition playback and detach/release player resources separately from the page lifecycle owner.
+- Make preview tag spacing 0–20 dp with compact line metrics and no fixed tag padding at zero. Existing saved values remain valid; the fallback 16 dp approximates the former row height.
+- Use selectable folder tiles and immersive fullscreen playback with aspect-based orientation, confirmed single-tap controls and compact primary icons.
+- Keep version 1.2.0 / code 13 and the published releases unchanged.
+
 ## 1.2.0 / code 13 — release
 
 - Add immediate, persistent 75%–125% app text size and 0–12 dp extra spacing between preview tag rows. Keep media dimensions, icon sizes and touch targets unchanged.

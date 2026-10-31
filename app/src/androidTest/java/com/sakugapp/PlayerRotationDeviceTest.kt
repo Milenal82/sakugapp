@@ -57,7 +57,7 @@ class PlayerRotationDeviceTest {
             ui.runOnUiThread{player!!.pause();player!!.seekTo(400)}
             awaitStage("seek paused video",5000){playerMatches{it!=null && it.currentPosition>=350}}
             val retained=player
-            ui.onNodeWithText("Full screen",substring=false).performClick()
+            ui.onNodeWithTag("toggle-fullscreen").performClick();ui.waitForIdle();ui.onNodeWithTag("video-gestures").performTouchInput{click(androidx.compose.ui.geometry.Offset(width*.25f,height*.3f))};Thread.sleep(400);ui.waitForIdle()
             ui.onNodeWithTag("rotate-video").performClick()
             awaitStage("manual landscape",15000){ui.activity.resources.configuration.orientation==Configuration.ORIENTATION_LANDSCAPE}
             ui.runOnUiThread{
@@ -66,7 +66,7 @@ class PlayerRotationDeviceTest {
                 assertTrue(kotlin.math.abs(player!!.currentPosition-400)<=100)
             }
             ui.waitForIdle()
-            ui.onNodeWithText("Exit full screen",substring=false).assertIsDisplayed()
+            ui.onNodeWithTag("toggle-fullscreen").assertIsDisplayed()
             println("Rotation active package before Back: ${device.currentPackageName}")
             if(device.currentPackageName!=activity.packageName){
                 val hierarchy=java.io.ByteArrayOutputStream()
@@ -75,7 +75,7 @@ class PlayerRotationDeviceTest {
             }
             androidx.test.espresso.Espresso.pressBack()
             awaitStage("restore portrait",15000){ui.activity.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT}
-            ui.onNodeWithText("Full screen",substring=false).assertExists()
+            ui.onNodeWithTag("toggle-fullscreen").assertExists()
             assertSame(activity,ui.activity);assertEquals(1,instances.get())
             ui.runOnUiThread{
                 assertFalse(player!!.playWhenReady)

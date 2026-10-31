@@ -54,11 +54,11 @@ class ProfessionalPlayerDeviceTest {
             ui.waitUntil(15000){seeks.get()>beforeLoop+1 && matches{it.currentPosition in 500..700}}
             ui.onNodeWithText("Disable A–B loop",substring=false).assertExists()
             ui.runOnUiThread{player!!.pause()}
-            ui.onNodeWithText("Full screen",substring=false).performClick()
+            ui.onNodeWithTag("toggle-fullscreen").performClick();ui.waitForIdle();ui.onNodeWithTag("video-gestures").performTouchInput{click(androidx.compose.ui.geometry.Offset(width*.25f,height*.3f))};Thread.sleep(400);ui.waitForIdle()
             ui.onNodeWithTag("rotate-video").performClick()
             ui.waitUntil(15000){ui.activity.resources.configuration.orientation==android.content.res.Configuration.ORIENTATION_LANDSCAPE}
             ui.onNodeWithText("Disable A–B loop",substring=false).assertExists()
-            ui.onNodeWithText("Exit full screen",substring=false).performClick()
+            ui.onNodeWithTag("toggle-fullscreen").performClick()
             ui.waitUntil(15000){ui.activity.resources.configuration.orientation==android.content.res.Configuration.ORIENTATION_PORTRAIT}
             ui.onNodeWithTag("ab-toggle").performScrollTo().performClick()
             ui.runOnUiThread{player!!.pause();player!!.seekTo(500)}

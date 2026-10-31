@@ -2,6 +2,10 @@
 package com.sakugapp.ui
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.Alignment
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
@@ -28,10 +32,17 @@ internal fun folderName(folder:FavoriteFolder,context:android.content.Context)=i
         Modifier.testTag("favorite-action").semantics{selected=saved},selected=saved)
     PacedAlertDialog(visible=manage,onDismissRequest={manage=false},title={Text(text(R.string.ui_manage_folders))},text={Column(Modifier.heightIn(max=400.dp).verticalScroll(rememberScrollState())){
         TextButton(onClick={operation{app.localLibrary.membership(post,1,true)}},modifier=Modifier.testTag("save-default")){Text(text(R.string.ui_quick_default))}
-        state.folders.forEach{folder->Row{
-            Checkbox(checked=state.contains(post.id,folder.id),onCheckedChange={checked->operation{app.localLibrary.membership(post,folder.id,checked)}},modifier=Modifier.testTag("favorite-folder-${folder.id}").semantics{contentDescription=folderName(folder,context)})
-            TextButton(onClick={operation{app.localLibrary.membership(post,folder.id,!state.contains(post.id,folder.id))}}){Text(folderName(folder,context))}
-        }}
+        state.folders.forEach{folder->
+            val checked=state.contains(post.id,folder.id)
+            Surface(shape=RoundedCornerShape(12.dp),color=if(checked)MaterialTheme.colorScheme.primary.copy(alpha=.10f)else MaterialTheme.colorScheme.surfaceContainerHigh,
+                border=BorderStroke(1.dp,MaterialTheme.colorScheme.outlineVariant),modifier=Modifier.fillMaxWidth().padding(vertical=3.dp)){
+                Row(Modifier.fillMaxWidth().heightIn(min=48.dp).toggleable(value=checked,role=Role.Checkbox,onValueChange={value->operation{app.localLibrary.membership(post,folder.id,value)}})
+                    .testTag("favorite-folder-${folder.id}").semantics{contentDescription=folderName(folder,context)}.padding(horizontal=8.dp,vertical=4.dp),verticalAlignment=Alignment.CenterVertically){
+                    Checkbox(checked=checked,onCheckedChange=null)
+                    Text(folderName(folder,context),Modifier.weight(1f).padding(start=8.dp),style=MaterialTheme.typography.bodyLarge)
+                }
+            }
+        }
         OutlinedTextField(name,{name=it.take(80)},label={Text(text(R.string.ui_folder_name))})
         TextButton(enabled=name.isNotBlank(),onClick={operation{val id=app.localLibrary.createFolder(name);app.localLibrary.membership(post,id,true);name=""}}){Text(text(R.string.ui_new_folder))}
         if(saved)TextButton(onClick={operation{app.localLibrary.batch(setOf(post.id),null,null)}},modifier=Modifier.testTag("remove-favorite")){Text(text(R.string.ui_remove_favorite))}

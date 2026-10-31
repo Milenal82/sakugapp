@@ -72,7 +72,7 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel,language:()->Unit,abo
             SettingControl{
                 Text(text(R.string.ui_tag_vertical_spacing,settings.tagVerticalSpacing.toInt()),style=MaterialTheme.typography.bodyLarge)
                 Slider(value=settings.tagVerticalSpacing,onValueChange={model.number("tagVerticalSpacing",kotlin.math.round(it))},
-                    valueRange=0f..12f,steps=11,modifier=Modifier.testTag("setting-tag-spacing").semantics{contentDescription=context.getString(R.string.ui_tag_vertical_spacing,settings.tagVerticalSpacing.toInt())})
+                    valueRange=0f..20f,steps=19,modifier=Modifier.testTag("setting-tag-spacing").semantics{contentDescription=context.getString(R.string.ui_tag_vertical_spacing,settings.tagVerticalSpacing.toInt())})
             }
             SettingControl{
                 Text(text(R.string.ui_card_spacing,settings.cardSpacing.toInt().toString()),style=MaterialTheme.typography.bodyLarge)

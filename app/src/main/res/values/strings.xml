@@ -436,4 +436,5 @@
     <string name="ui_backup_unsupported">This backup version is not supported. Nothing was imported.</string>
     <string name="ui_font_size">Font size: %1$d%%</string>
     <string name="ui_tag_vertical_spacing">Tag vertical spacing: %1$d dp</string>
+    <string name="ui_feed_window_hint">Keeps the most recently loaded %1$d posts in memory.</string>
 </resources>

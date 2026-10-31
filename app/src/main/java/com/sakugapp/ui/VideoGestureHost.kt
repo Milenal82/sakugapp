@@ -21,6 +21,8 @@ class VideoGestureHost(context:Context):FrameLayout(context){
     var onPlaybackRequest:(Boolean)->Unit={}
     var playbackRequested:()->Boolean={false}
     var onTransform:(VideoTransform)->Unit={}
+    var immersiveTapControl=false
+    var onConfirmedTap:()->Unit={}
     var transform=VideoTransform();private set
     private var settings:AppSettings?=null
     private val baseTextSizes=java.util.WeakHashMap<android.widget.TextView,Float>()
@@ -28,12 +30,17 @@ class VideoGestureHost(context:Context):FrameLayout(context){
     private var downX=0f;private var downY=0f;private var lastX=0f;private var lastY=0f
     private var excluded=false;private var intercepting=false;private var multitouch=false;private var doubled=false
     private var baselinePlaying=false
+    private var suppressSingleTap=false
     private val touchSlop=ViewConfiguration.get(context).scaledTouchSlop
     private val taps=GestureDetector(context,object:GestureDetector.SimpleOnGestureListener(){
         override fun onDown(event:MotionEvent)=true
         override fun onDoubleTap(event:MotionEvent):Boolean{
             if(!gesturesEnabled || excluded)return false
             doubled=true;return true
+        }
+        override fun onSingleTapConfirmed(event:MotionEvent):Boolean{
+            if(immersiveTapControl && !suppressSingleTap){onConfirmedTap();return true}
+            return false
         }
     })
     private val scales=ScaleGestureDetector(context,object:ScaleGestureDetector.SimpleOnScaleGestureListener(){
@@ -78,19 +85,21 @@ class VideoGestureHost(context:Context):FrameLayout(context){
         return rect.contains(event.rawX.toInt(),event.rawY.toInt())
     }
     override fun dispatchTouchEvent(event:MotionEvent):Boolean{
-        if(!gesturesEnabled)return super.dispatchTouchEvent(event)
+        if(!gesturesEnabled && !immersiveTapControl)return super.dispatchTouchEvent(event)
         if(event.actionMasked==MotionEvent.ACTION_DOWN){
             downX=event.x;downY=event.y;lastX=event.x;lastY=event.y
             intercepting=false;multitouch=false;doubled=false
-            excluded=event.x<24*density || event.x>width-24*density || touchesProgress(event)
+            excluded=event.x<24*density || event.x>width-24*density || touchesProgress(event) || (immersiveTapControl && touchesButton(playerView,event))
+            suppressSingleTap=excluded
         }
         if(!excluded){
             taps.onTouchEvent(event)
             if(event.actionMasked==MotionEvent.ACTION_DOWN && !doubled)baselinePlaying=playbackRequested()
-            scales.onTouchEvent(event)
-            if(event.pointerCount>1){multitouch=true;intercepting=true}
-            if(event.actionMasked==MotionEvent.ACTION_MOVE && event.pointerCount==1){
+            if(gesturesEnabled)scales.onTouchEvent(event)
+            if(event.pointerCount>1){multitouch=true;intercepting=true;suppressSingleTap=true}
+            if(gesturesEnabled && event.actionMasked==MotionEvent.ACTION_MOVE && event.pointerCount==1){
                 val dx=event.x-lastX;val dy=event.y-lastY
+                if(kotlin.math.abs(event.x-downX)+kotlin.math.abs(event.y-downY)>touchSlop)suppressSingleTap=true
                 if(transform.scale>1.01f){
                     if(abs(event.x-downX)+abs(event.y-downY)>touchSlop){intercepting=true
                         val surface=playerView.videoSurfaceView
@@ -99,7 +108,7 @@ class VideoGestureHost(context:Context):FrameLayout(context){
                 }else if(!multitouch && abs(event.x-downX)>64*density && abs(event.x-downX)>abs(event.y-downY)*1.5f)intercepting=true
             }
             if(event.actionMasked==MotionEvent.ACTION_UP && doubled && !multitouch && abs(event.x-downX)+abs(event.y-downY)<=touchSlop)onPlaybackRequest(!baselinePlaying)
-            if(event.actionMasked==MotionEvent.ACTION_UP && intercepting && !multitouch && !doubled && transform.scale<=1.01f && abs(event.x-downX)>64*density && abs(event.x-downX)>abs(event.y-downY)*1.5f){
+            if(gesturesEnabled && event.actionMasked==MotionEvent.ACTION_UP && intercepting && !multitouch && !doubled && transform.scale<=1.01f && abs(event.x-downX)>64*density && abs(event.x-downX)>abs(event.y-downY)*1.5f){
                 val direction=if(event.x<downX)1 else -1;post{onPostSwipe(direction)}
             }
         }
@@ -109,7 +118,14 @@ class VideoGestureHost(context:Context):FrameLayout(context){
         if(event.actionMasked==MotionEvent.ACTION_UP || event.actionMasked==MotionEvent.ACTION_CANCEL){intercepting=false;multitouch=false;doubled=false}
         return result
     }
-    override fun onInterceptTouchEvent(event:MotionEvent)=gesturesEnabled && !excluded && (intercepting || doubled)
-    override fun onTouchEvent(event:MotionEvent):Boolean{if(event.actionMasked==MotionEvent.ACTION_UP)performClick();return gesturesEnabled}
+    private fun touchesButton(view:View,event:MotionEvent):Boolean{
+        if(!view.isShown)return false
+        if(view!==playerView && view.isClickable && view !is android.view.ViewGroup){
+            val rect=Rect();if(view.getGlobalVisibleRect(rect) && rect.contains(event.rawX.toInt(),event.rawY.toInt()))return true
+        }
+        return view is android.view.ViewGroup && (0 until view.childCount).any{touchesButton(view.getChildAt(it),event)}
+    }
+    override fun onInterceptTouchEvent(event:MotionEvent)=!excluded && (immersiveTapControl || (gesturesEnabled && (intercepting || doubled)))
+    override fun onTouchEvent(event:MotionEvent):Boolean{if(event.actionMasked==MotionEvent.ACTION_UP)performClick();return gesturesEnabled || immersiveTapControl}
     override fun performClick():Boolean=super.performClick()
 }

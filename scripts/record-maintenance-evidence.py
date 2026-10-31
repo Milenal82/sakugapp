@@ -24,7 +24,7 @@ RUN = os.environ['GITHUB_RUN_ID']
 SHA = os.environ['GITHUB_SHA']
 CAPTURES = [f'maintenance-{screen}-{theme}.png'
             for screen in ['search', 'history', 'settings', 'settings-backup']
-            for theme in ['dark', 'light']] + ['appearance-settings.png', 'appearance-player-75.png', 'appearance-player-125.png', 'appearance-search-75.png', 'appearance-search-125.png']
+            for theme in ['dark', 'light']] + ['appearance-settings.png', 'appearance-player-75.png', 'appearance-player-125.png', 'appearance-search-75.png', 'appearance-search-125.png', 'stability-full-hidden.png', 'stability-full-controls.png', 'stability-tags-zero.png', 'stability-tags-twenty.png', 'stability-favorite-dark.png', 'stability-favorite-light.png']
 COUNT_KEYS = ['tests', 'failures', 'errors', 'skipped']
 MAIN_ARTIFACTS = {'check-reports', 'device-test-reports', 'search-back-gesture-reports',
                   'six-column-phone-reports', 'six-column-landscape-reports'}
@@ -166,7 +166,7 @@ def main():
               'run_url': f'https://github.com/{REPO}/actions/runs/{RUN}',
               'captured_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
               'validation_result': os.environ.get('MAINTENANCE_VALIDATION_RESULT', 'unknown'),
-              'scope': 'Backup restore, native screens, app font size and tag spacing; no full player suite.',
+              'scope': 'Short playback resource/fullscreen, compact tags and folder selection checks.' if os.environ.get('GITHUB_REF_NAME')=='dev/player-stability-controls' else 'Backup restore, native screens, app font size and tag spacing; no full player suite.',
               'jobs': [], 'artifacts': [], 'test_counts': {}, 'lint': {}, 'failures': []}
     try:
         report['jobs'] = job_status(RUN)
@@ -200,6 +200,14 @@ def main():
         'The existing main workflow is unchanged; its same-commit automatic checks are read '
         'in report.json when available. Full reports and the installable Debug APK remain '
         'Actions artifacts. This branch contains no APK, signing material, credentials or media.\n')
+    if os.environ.get('GITHUB_REF_NAME') == 'dev/player-stability-controls':
+        (OUTPUT / 'README.md').write_text(
+            f'# Playback stability verification\n\nSource: `{SHA}`\n\nRun: {report["run_url"]}\n\n'
+            'Only the bounded feed regression, Debug Lint/build and two short API 28 device checks run on this branch. '
+            'The checks cover compact captions, folder selection, landscape/portrait immersive playback, '
+            'confirmed taps, player identity/position/speed/A-B, lifecycle-owner changes, media switches and disposal. '
+            'This is not an hours-long soak or a claim that every device crash is fixed. '
+            'Captures are original test-app renders; the video pattern is an isolated codec fixture, not website content.\n')
     print('Maintenance evidence recorded for', SHA, report['test_counts'])
 
 

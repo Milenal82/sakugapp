@@ -13,7 +13,9 @@ Sakuga Mobile（安装名称 Sakugapp）是 Sakugabooru 的非官方 Android 客
 - 原生详情、分类标签、Score、来源和评论；上一帖、下一帖、下载、原帖、收藏集中在同一操作栏。
 - 全屏旋转、倍速、音量、A–B 循环、双指缩放、双击暂停、左右切帖。高级控制可折叠；支持实际解码索引的逐帧分析及帧号。
 - 本地多收藏夹、封面与排序、JSON 备份；独立的标签收藏和本地备注。浏览历史可关闭、删除或清空。
-- 深浅色主题、75%–125% 应用字号、0–12 dp 预览标签额外行距，八种界面语言；账户、Vote、评论和 Blog / Forum 入口。网站内容与原始标签保持原文，官网语言仅使用英语或日语。
+- 深浅色主题、75%–125% 应用字号、0–20 dp 预览标签额外行距，八种界面语言；账户、Vote、评论和 Blog / Forum 入口。网站内容与原始标签保持原文，官网语言仅使用英语或日语。
+
+开发分支的播放器稳定性、紧凑标签与全屏调整见[简要记录](docs/player-stability.md)，尚未发布为正式版。
 
 ### 下载与备份
 
@@ -47,7 +49,9 @@ Sakuga Mobile (installed as Sakugapp) is an unofficial Android client for Sakuga
 - Native details with classified tags, Score, source, and comments. Previous, next, download, original post, and favorites share one toolbar.
 - Fullscreen rotation, speed and volume controls, A–B loops, pinch zoom, double-tap pause, and swiping between posts. Collapsible advanced controls include decoded-index frame stepping and frame numbers.
 - Local folders with covers, ordering, and JSON backup; separate tag favorites and local notes. Browsing history can be disabled, deleted individually, or cleared.
-- Light and dark themes, 75%–125% app text size, 0–12 dp extra preview tag-row spacing, eight UI languages, account / Vote / comment features, and Blog / Forum links. Website content and tags stay in their original language; website locale uses English or Japanese only.
+- Light and dark themes, 75%–125% app text size, 0–20 dp extra preview tag-row spacing, eight UI languages, account / Vote / comment features, and Blog / Forum links. Website content and tags stay in their original language; website locale uses English or Japanese only.
+
+Development-only player, compact-tag and fullscreen changes are described in [the short notes](docs/player-stability.md); they are not part of the existing public APK.
 
 ### Download and backup
 
@@ -81,7 +85,9 @@ Sakuga Mobile（インストール名 Sakugapp）は Sakugabooru の非公式 An
 - 分類別タグ、Score、出典、コメントを表示するネイティブ詳細画面。前後の投稿、ダウンロード、元投稿、お気に入りを同じ操作バーに配置。
 - 全画面回転、速度と音量、A–B リピート、ピンチズーム、ダブルタップで一時停止、左右の投稿切り替え。詳細操作は折りたたみ可能で、実際のデコードインデックスによるコマ送りとフレーム番号に対応。
 - カバーと並び順を設定できるローカルフォルダ、JSON バックアップ、独立したタグのお気に入りとメモ。閲覧履歴の記録停止、個別削除、全消去。
-- ライト / ダークテーマ、75%–125% の文字サイズ、プレビュータグの追加行間 0–12 dp、8 言語の UI、アカウント / Vote / コメント機能、Blog / Forum へのリンク。サイト本文とタグは原文のまま、サイトの言語指定は英語または日本語のみ。
+- ライト / ダークテーマ、75%–125% の文字サイズ、プレビュータグの追加行間 0–20 dp、8 言語の UI、アカウント / Vote / コメント機能、Blog / Forum へのリンク。サイト本文とタグは原文のまま、サイトの言語指定は英語または日本語のみ。
+
+開発ブランチの安定性・タグ行間・全画面操作の変更は[開発メモ](docs/player-stability.md)を参照してください。既存の公開 APK には含まれません。
 
 ### ダウンロードとバックアップ
 

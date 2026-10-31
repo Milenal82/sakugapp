@@ -50,13 +50,18 @@ data class FeedState(
     val refreshing:Boolean=false,
     val refreshError:String?=null,
     val refreshRevision:Int=0,
+    val discardedPosts:Int=0,
 ) {
-    fun append(page: PostPage, pageSize: Int): FeedState = copy(
+    companion object { const val MAX_RETAINED_POSTS=600 }
+    fun append(page: PostPage, pageSize: Int): FeedState {
+        val merged=(posts+page.posts).distinctBy{it.id}
+        return copy(
         // Also repair earlier cards when a classification request succeeds on a later page.
-        posts = (posts + page.posts).distinctBy { it.id }.map { post ->
+        posts = merged.takeLast(MAX_RETAINED_POSTS).map { post ->
             post.copy(tags = post.tags.map { tag -> page.classifications[tag.name]?.let { tag.copy(category=it) } ?: tag })
         },
         nextPage = nextPage + 1,
+        discardedPosts=discardedPosts+(merged.size-MAX_RETAINED_POSTS).coerceAtLeast(0),
         loading = false,
         endReached = page.rawCount < pageSize,
         error = null,
@@ -65,6 +70,7 @@ data class FeedState(
         // The explicit Load more action can still advance to the following page.
         autoLoadPaused = posts.isNotEmpty() && page.rawCount>0 && posts.mapTo(HashSet()){it.id}.let{ids->page.posts.all{it.id in ids}},
     )
+    }
 }
 
 class DataFailure(message: String, cause: Throwable? = null) : Exception(message, cause)

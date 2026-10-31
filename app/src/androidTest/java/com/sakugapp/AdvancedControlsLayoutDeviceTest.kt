@@ -58,13 +58,13 @@ class AdvancedControlsLayoutDeviceTest {
                 ui.onNodeWithTag("ab-toggle").performScrollTo().assertIsEnabled().performClick().assertIsSelected()
                 if(geometry=="portrait" && !light)UiEvidence.capture("controls-ab-group.png")
                 if(ui.activity.resources.configuration.smallestScreenWidthDp<600){
-                    ui.onNodeWithText("Full screen",substring=false).performClick()
+                    ui.onNodeWithTag("toggle-fullscreen").performClick();ui.waitForIdle();ui.onNodeWithTag("video-gestures").performTouchInput{click(androidx.compose.ui.geometry.Offset(width*.25f,height*.3f))};Thread.sleep(400);ui.waitForIdle()
                     ui.onNodeWithTag("rotate-video").performClick()
                     ui.waitUntil(15000){ui.activity.resources.configuration.orientation==Configuration.ORIENTATION_LANDSCAPE}
                     bounded("speed-1.5");ui.onNodeWithTag("speed-1.5").assertIsSelected()
                     if(geometry=="portrait")UiEvidence.capture("controls-phone-landscape-$theme.png")
                     for(tag in listOf("set-a","set-b","ab-toggle","open-frame-controls"))bounded(tag)
-                    ui.onNodeWithText("Exit full screen",substring=false).performClick()
+                    ui.onNodeWithTag("toggle-fullscreen").performClick()
                     ui.waitUntil(15000){ui.activity.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT}
                 }
                 ui.onNodeWithTag("more-controls").performClick()
