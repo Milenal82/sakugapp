@@ -52,7 +52,10 @@ class PlayerStabilityDeviceTest {
                 CompositionLocalProvider(LocalLifecycleOwner provides owner!!){if(shown)VideoPanel(url,onPlayerReady={current=it;creations++})}
             }}}
         }
-        fun ready(){ui.waitUntil(20000){var value=false;ui.runOnUiThread{value=current?.playbackState==Player.STATE_READY};value}}
+        fun ready(){
+            ui.waitUntil(20000){var value=false;ui.runOnUiThread{value=current?.playbackState==Player.STATE_READY};value}
+            ui.waitUntil(20000){ui.onAllNodesWithContentDescription(context.getString(R.string.ui_video_frame_rendered)).fetchSemanticsNodes().isNotEmpty()}
+        }
         try {
             ready();val first=current
             ui.runOnUiThread{current!!.seekTo(400);current!!.setPlaybackSpeed(1.5f)};ready()

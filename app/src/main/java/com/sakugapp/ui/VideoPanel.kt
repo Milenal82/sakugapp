@@ -240,6 +240,7 @@ AndroidView(factory={VideoGestureHost(it)},modifier=videoModifier.testTag("video
             },onRelease={host->if(view===host.playerView)view=null;host.playerView.player=null;host.onPostSwipe={};host.onPlaybackRequest={};host.playbackRequested={false};host.onTransform={};host.onConfirmedTap={}},update={host->
                 val v=host.playerView
                 if(view!==v){PlayerView.switchTargetView(player,view,v);view=v}
+                else if(v.player!==player)v.player=player
                 v.useController=!preview
                 v.setControllerAutoShow(!fullscreen);v.setControllerHideOnTouch(!fullscreen)
                 v.controllerShowTimeoutMs=if(fullscreen)0 else 5000
