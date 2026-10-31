@@ -1,7 +1,7 @@
-# Maintenance verification
+# Playback stability verification
 
-Source: `26c53ab2235a877f46f25ece61f022384523f6a8`
+Source: `5ac61b3c55c4bdea90a51156b4b517e7be8137bb`
 
-Run: https://github.com/Milenal82/sakugapp/actions/runs/40994409798
+Run: https://github.com/Milenal82/sakugapp/actions/runs/41228097312
 
-Focused JVM backup tests, Android Lint, Debug compilation, fresh-install Room restore and API 28 Nexus S native search/history/settings checks. Original screenshots use a physical narrow emulator profile and 1.3 font scale, in dark and light themes. Collection/history tests use legal public-response fixtures, not account data. The existing main workflow is unchanged; its same-commit automatic checks are read in report.json when available. Full reports and the installable Debug APK remain Actions artifacts. This branch contains no APK, signing material, credentials or media.
+Only the bounded feed regression, Debug Lint/build and two short API 28 device checks run on this branch. The checks cover compact captions, folder selection, landscape/portrait immersive playback, confirmed taps, player identity/position/speed/A-B, lifecycle-owner changes, media switches and disposal. This is not an hours-long soak or a claim that every device crash is fixed. Captures are original test-app renders; the video pattern is an isolated codec fixture, not website content.
