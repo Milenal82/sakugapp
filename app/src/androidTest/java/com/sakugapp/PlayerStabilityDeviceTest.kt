@@ -72,7 +72,10 @@ class PlayerStabilityDeviceTest {
                 ui.onNodeWithTag("video-gestures").performTouchInput{doubleClick(Offset(width*.25f,height*.3f))}
                 Thread.sleep(400);ui.waitForIdle();ui.onNodeWithTag("more-controls").assertDoesNotExist()
                 ui.runOnUiThread{current!!.pause();current!!.seekTo(400)};ready()
-                tapVideo();ui.onNodeWithTag("more-controls").performClick()
+                tapVideo()
+                // The expanded panel is deliberately retained across fullscreen round trips.
+                if(ui.onAllNodesWithTag("advanced-controls").fetchSemanticsNodes().isEmpty())
+                    ui.onNodeWithTag("more-controls").performClick()
                 ui.onNodeWithTag("speed-1.5").performScrollTo().performClick().assertIsSelected()
                 ui.onNodeWithTag("set-a").performScrollTo().performClick()
                 ui.runOnUiThread{current!!.seekTo(1200)};ready()
