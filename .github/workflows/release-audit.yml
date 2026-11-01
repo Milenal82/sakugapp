@@ -27,7 +27,7 @@ jobs:
           try:
               jobs=json.loads(api(f'actions/runs/{run}/jobs?per_page=100'))['jobs']
               report['jobs']=[{k:j.get(k) for k in ['name','conclusion','html_url']} for j in jobs]
-              job=next(j for j in jobs if j['name'].endswith('upgrade-install'))
+              job={'id':124803089592};report['upgrade_job_id']=job['id']
               log=api(f'actions/jobs/{job["id"]}/logs').decode(errors='replace')
               report['upgrade_log_tail']=re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]','',log)[-22000:]
               artifacts=json.loads(api(f'actions/runs/{run}/artifacts?per_page=100'))['artifacts']
@@ -58,5 +58,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add report.json release-screens
-          git commit -m 'Read isolated v1.2.1 upgrade failure evidence'
+          if ! git diff --cached --quiet; then git commit -m 'Read isolated v1.2.1 upgrade failure evidence'; fi
           git push origin HEAD:refs/heads/evidence/release-1.2.1
