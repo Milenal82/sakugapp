@@ -1,0 +1,16 @@
+name: Retry requested v1.2.1 publication with repaired validation tools
+on:
+  push:
+    branches: [ci/release-1.2.1-retry]
+permissions:
+  contents: read
+  actions: write
+jobs:
+  dispatch:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Invoke the existing protected release workflow on main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run release.yml --repo "$GITHUB_REPOSITORY" --ref main -f tag=v1.2.1
