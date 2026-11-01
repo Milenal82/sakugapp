@@ -1,48 +1,48 @@
 {
-  "source_commit": "c25fd3a4818d567052230157b6cf5f0dd05a0b59",
-  "run_id": "41288910245",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/41288910245",
-  "captured_utc": "2026-11-01T08:34:23.957022+00:00",
-  "validation_result": "failure",
+  "source_commit": "27306bbfbb81545db43a04f10b083d2bd8d50929",
+  "run_id": "41290120611",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/41290120611",
+  "captured_utc": "2026-11-01T08:51:56.234579+00:00",
+  "validation_result": "success",
   "scope": "Backup, Room 3-to-4 migration, hierarchy/order/selection, accents, playback sanity and short layout-scroll comparison.",
   "jobs": [
-    {
-      "name": "validation",
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41288910245/job/124795857642",
-      "id": 124795857642
-    },
     {
       "name": "scroll-profile",
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41288910245/job/124795857853",
-      "id": 124795857853
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290120611/job/124799443928",
+      "id": 124799443928
+    },
+    {
+      "name": "validation",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290120611/job/124799444126",
+      "id": 124799444126
     },
     {
       "name": "evidence",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41288910245/job/124797338829",
-      "id": 124797338829
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290120611/job/124800909368",
+      "id": 124800909368
     }
   ],
   "artifacts": [
     {
-      "name": "maintenance-test-reports",
-      "bytes": 387890,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41288910245/artifacts/13076766336"
+      "name": "post-scroll-profile",
+      "bytes": 1246,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290120611/artifacts/13077181842"
     },
     {
       "name": "maintenance-debug-apk",
-      "bytes": 18024359,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41288910245/artifacts/13076681560"
+      "bytes": 18024357,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290120611/artifacts/13077041750"
     },
     {
-      "name": "post-scroll-profile",
-      "bytes": 784,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41288910245/artifacts/13075684936"
+      "name": "maintenance-test-reports",
+      "bytes": 559410,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290120611/artifacts/13076577818"
     }
   ],
   "test_counts": {
@@ -54,7 +54,7 @@
     },
     "device": {
       "tests": 8,
-      "failures": 1,
+      "failures": 0,
       "errors": 0,
       "skipped": 0
     }
@@ -65,46 +65,98 @@
       "warnings": 33
     }
   },
-  "failures": [
-    {
-      "job": "validation",
-      "conclusion": "failure",
-      "message": "2026-11-01T08:31:36.6511603Z com.sakugapp.HierarchyDeviceTest > dragOrderingNestedManagementPrimaryOnlySelectorAndAccentPersistence[emulator-5554 - 9] FAILED \n2026-11-01T08:31:36.6512923Z \tjava.lang.AssertionError: Action performScrollTo() failed.\n2026-11-01T08:32:01.9524768Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-01T08:32:02.0715192Z * What went wrong:\n2026-11-01T08:32:02.0721732Z BUILD FAILED in 52s\n2026-11-01T08:32:02.5286209Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
-    },
-    {
-      "test": "com.sakugapp.HierarchyDeviceTest.dragOrderingNestedManagementPrimaryOnlySelectorAndAccentPersistence",
-      "report": "outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-      "message": "java.lang.AssertionError: Action performScrollTo() failed.\nReason: Expected exactly '1' node but could not find any node that satisfies: (TestTag = 'folder-entry-2')\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:82)\nat com.sakugapp.HierarchyDeviceTest.dragOrderingNestedManagementPrimaryOnlySelectorAndAccentPersistence(HierarchyDeviceTest.kt:95)\n"
-    }
-  ],
-  "device_diagnostics": [
-    {
-      "report": "reports/maintenance-diagnostics/runner.log",
-      "tail": "--------- beginning of main\n--------- beginning of system\n11-01 08:31:53.204  3079  3095 I TestRunner: finished: fullscreenReusesPlayerPreservesPositionAndGesturesAcrossLifecycleAndVideoSwitches(com.sakugapp.PlayerStabilityDeviceTest)\n11-01 08:31:53.205  3079  3095 I TestRunner: started: zeroSpacingIsTightAndFolderTilesToggleIndependentMembershipsInBothThemes(com.sakugapp.PlayerStabilityDeviceTest)\n11-01 08:32:00.056  3079  3095 I TestRunner: finished: zeroSpacingIsTightAndFolderTilesToggleIndependentMembershipsInBothThemes(com.sakugapp.PlayerStabilityDeviceTest)\n11-01 08:32:00.064  3079  3095 I TestRunner: run finished: 8 tests, 1 failed, 0 ignored\n"
-    }
-  ],
+  "failures": [],
+  "device_diagnostics": [],
   "scroll_profile": {
     "scroll-current.json": {
       "label": "current",
-      "scope": "API 28 Debug; 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; not a real-device/network benchmark",
-      "frames": 387,
-      "mean_ms": 210.8223289457363,
-      "p50_ms": 216.44896,
-      "p95_ms": 236.797941,
-      "max_ms": 259.626569,
-      "over_34ms": 387,
-      "over_700ms": 0
+      "scope": "API 28 Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; not a real-device/network benchmark",
+      "frames": 381,
+      "mean_ms": 189.5581185275591,
+      "p50_ms": 192.956912,
+      "p95_ms": 213.447082,
+      "max_ms": 245.813891,
+      "over_34ms": 381,
+      "over_700ms": 0,
+      "components": {
+        "total": {
+          "mean_ms": 189.5581185275591,
+          "p95_ms": 213.447082
+        },
+        "layout": {
+          "mean_ms": 0.3738783989501312,
+          "p95_ms": 0.93477
+        },
+        "draw": {
+          "mean_ms": 2.496197375328084,
+          "p95_ms": 9.54541
+        },
+        "animation": {
+          "mean_ms": 7.3734638845144325,
+          "p95_ms": 34.82692
+        },
+        "input": {
+          "mean_ms": 1.8120379790026244,
+          "p95_ms": 5.78169
+        },
+        "sync": {
+          "mean_ms": 0.3941995538057743,
+          "p95_ms": 2.86715
+        },
+        "commands": {
+          "mean_ms": 1.632727637795275,
+          "p95_ms": 4.07892
+        },
+        "swap": {
+          "mean_ms": 67.87322013123361,
+          "p95_ms": 78.82367
+        }
+      }
     },
     "scroll-baseline.json": {
       "label": "baseline",
-      "scope": "API 28 Debug; 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; not a real-device/network benchmark",
-      "frames": 386,
-      "mean_ms": 210.87829658808292,
-      "p50_ms": 216.652262,
-      "p95_ms": 236.882556,
-      "max_ms": 258.652774,
-      "over_34ms": 386,
-      "over_700ms": 0
+      "scope": "API 28 Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; not a real-device/network benchmark",
+      "frames": 383,
+      "mean_ms": 192.46741611488258,
+      "p50_ms": 194.682468,
+      "p95_ms": 218.385557,
+      "max_ms": 249.419734,
+      "over_34ms": 383,
+      "over_700ms": 0,
+      "components": {
+        "total": {
+          "mean_ms": 192.46741611488258,
+          "p95_ms": 218.385557
+        },
+        "layout": {
+          "mean_ms": 0.3393081462140991,
+          "p95_ms": 0.89746
+        },
+        "draw": {
+          "mean_ms": 2.510885979112272,
+          "p95_ms": 9.14328
+        },
+        "animation": {
+          "mean_ms": 8.592496814621406,
+          "p95_ms": 40.74888
+        },
+        "input": {
+          "mean_ms": 1.9979174151436037,
+          "p95_ms": 7.37054
+        },
+        "sync": {
+          "mean_ms": 0.23708430809399478,
+          "p95_ms": 0.39012
+        },
+        "commands": {
+          "mean_ms": 1.69677545691906,
+          "p95_ms": 4.73752
+        },
+        "swap": {
+          "mean_ms": 68.64215088772845,
+          "p95_ms": 79.8999
+        }
+      }
     }
   },
   "main_automatic_checks": {
