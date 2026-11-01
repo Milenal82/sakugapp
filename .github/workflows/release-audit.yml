@@ -25,12 +25,12 @@ jobs:
               if result.returncode:raise RuntimeError(path+': '+result.stderr.decode(errors='replace')[-2000:])
               return result.stdout
           try:
-              jobs=json.loads(api(f'actions/runs/{run}/jobs'))['jobs']
+              jobs=json.loads(api(f'actions/runs/{run}/jobs?per_page=100'))['jobs']
               report['jobs']=[{k:j.get(k) for k in ['name','conclusion','html_url']} for j in jobs]
               job=next(j for j in jobs if j['name'].endswith('upgrade-install'))
               log=api(f'actions/jobs/{job["id"]}/logs').decode(errors='replace')
               report['upgrade_log_tail']=re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]','',log)[-22000:]
-              artifacts=json.loads(api(f'actions/runs/{run}/artifacts'))['artifacts']
+              artifacts=json.loads(api(f'actions/runs/{run}/artifacts?per_page=100'))['artifacts']
               for a in artifacts:
                   if a['name']!='release-upgrade-install-report' or a['size_in_bytes']>16*1024*1024:continue
                   with zipfile.ZipFile(io.BytesIO(api(f'actions/artifacts/{a["id"]}/zip'))) as z:
