@@ -1,7 +1,7 @@
-# Playback stability verification
+# v1.2.1 focused verification
 
-Source: `7304de48c06c72cedf2583b4252a0c0dfcd17349`
+Source: `c25fd3a4818d567052230157b6cf5f0dd05a0b59`
 
-Run: https://github.com/Milenal82/sakugapp/actions/runs/41228933633
+Run: https://github.com/Milenal82/sakugapp/actions/runs/41288910245
 
-Only the bounded feed regression, Debug Lint/build and two short API 28 device checks run on this branch. The checks cover compact captions, folder selection, landscape/portrait immersive playback, confirmed taps, player identity/position/speed/A-B, lifecycle-owner changes, media switches and disposal. This is not an hours-long soak or a claim that every device crash is fixed. Captures are original test-app renders; the video pattern is an isolated codec fixture, not website content.
+Focused backup/hierarchy/resource JVM checks, Lint/build, native migration/order/subfolder/theme and short playback tests. Original screenshots use public-response fixtures and an isolated codec pattern. scroll_profile contains actual FrameMetrics from the same API 28 emulator before/after the update, using 300 captured posts without thumbnails to isolate layout, with 24 equal swipes. It is not a real-device or network/image-decoding benchmark. Full unrelated CI remains enabled and is reported at its current status. Official certificate and v1.2.0 upgrade checks run separately before publication.
