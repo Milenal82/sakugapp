@@ -18,23 +18,28 @@ jobs:
           python3 - <<'PY'
           import subprocess,json,os,pathlib,re,io,zipfile
           repo='Milenal82/sakugapp';run='41290760901'
-          def api(path):return subprocess.check_output(['gh','api',f'repos/{repo}/'+path])
-          jobs=json.loads(api(f'actions/runs/{run}/jobs'))['jobs']
-          report={'run':run,'jobs':[{k:j[k] for k in ['name','conclusion','html_url']} for j in jobs]}
-          job=next(j for j in jobs if j['name']=='upgrade-install')
-          log=api(f'actions/jobs/{job["id"]}/logs').decode(errors='replace')
-          report['upgrade_log_tail']=re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]','',log)[-22000:]
-          report['reports']={}
+          report={'run':run,'errors':[],'reports':{}}
           output=pathlib.Path(os.environ['RUNNER_TEMP'])/'release-audit';output.mkdir()
-          artifacts=json.loads(api(f'actions/runs/{run}/artifacts'))['artifacts']
-          for a in artifacts:
-              if a['name']!='release-upgrade-install-report' or a['size_in_bytes']>16*1024*1024:continue
-              with zipfile.ZipFile(io.BytesIO(api(f'actions/artifacts/{a["id"]}/zip'))) as z:
-                  for f in z.infolist():
-                      if f.file_size>1024*1024:continue
-                      name=pathlib.PurePosixPath(f.filename).name
-                      if name.endswith(('.json','.txt','.xml')):report['reports'][name]=z.read(f).decode(errors='replace')[-24000:]
-                      if name in ['failure.png','v120-seeded.png','v121-upgraded.png']:(output/name).write_bytes(z.read(f))
+          def api(path):
+              result=subprocess.run(['gh','api','--allow-escape-sequences',f'repos/{repo}/'+path],capture_output=True)
+              if result.returncode:raise RuntimeError(path+': '+result.stderr.decode(errors='replace')[-2000:])
+              return result.stdout
+          try:
+              jobs=json.loads(api(f'actions/runs/{run}/jobs'))['jobs']
+              report['jobs']=[{k:j.get(k) for k in ['name','conclusion','html_url']} for j in jobs]
+              job=next(j for j in jobs if j['name'].endswith('upgrade-install'))
+              log=api(f'actions/jobs/{job["id"]}/logs').decode(errors='replace')
+              report['upgrade_log_tail']=re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]','',log)[-22000:]
+              artifacts=json.loads(api(f'actions/runs/{run}/artifacts'))['artifacts']
+              for a in artifacts:
+                  if a['name']!='release-upgrade-install-report' or a['size_in_bytes']>16*1024*1024:continue
+                  with zipfile.ZipFile(io.BytesIO(api(f'actions/artifacts/{a["id"]}/zip'))) as z:
+                      for f in z.infolist():
+                          if f.file_size>1024*1024:continue
+                          name=pathlib.PurePosixPath(f.filename).name
+                          if name.endswith(('.json','.txt','.xml')):report['reports'][name]=z.read(f).decode(errors='replace')[-24000:]
+                          if name in ['failure.png','v120-seeded.png','v121-upgraded.png']:(output/name).write_bytes(z.read(f))
+          except Exception as error:report['errors'].append(type(error).__name__+': '+str(error))
           (output/'report.json').write_text(json.dumps(report,indent=2)+'\n')
           PY
       - name: Save bounded evidence on its own branch
