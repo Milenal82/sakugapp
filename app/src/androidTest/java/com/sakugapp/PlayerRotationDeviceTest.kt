@@ -58,6 +58,10 @@ class PlayerRotationDeviceTest {
             awaitStage("seek paused video",5000){playerMatches{it!=null && it.currentPosition>=350}}
             val retained=player
             ui.onNodeWithTag("toggle-fullscreen").performClick();ui.waitForIdle();ui.onNodeWithTag("video-gestures").performTouchInput{click(androidx.compose.ui.geometry.Offset(width*.25f,height*.3f))};Thread.sleep(400);ui.waitForIdle()
+            // Wide videos now enter landscape automatically; verify both manual directions.
+            ui.waitUntil(15000){ui.activity.resources.configuration.orientation==android.content.res.Configuration.ORIENTATION_LANDSCAPE}
+            ui.onNodeWithTag("rotate-video").performClick()
+            ui.waitUntil(15000){ui.activity.resources.configuration.orientation==android.content.res.Configuration.ORIENTATION_PORTRAIT}
             ui.onNodeWithTag("rotate-video").performClick()
             awaitStage("manual landscape",15000){ui.activity.resources.configuration.orientation==Configuration.ORIENTATION_LANDSCAPE}
             ui.runOnUiThread{

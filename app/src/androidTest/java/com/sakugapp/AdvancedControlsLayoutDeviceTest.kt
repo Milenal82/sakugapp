@@ -59,6 +59,10 @@ class AdvancedControlsLayoutDeviceTest {
                 if(geometry=="portrait" && !light)UiEvidence.capture("controls-ab-group.png")
                 if(ui.activity.resources.configuration.smallestScreenWidthDp<600){
                     ui.onNodeWithTag("toggle-fullscreen").performClick();ui.waitForIdle();ui.onNodeWithTag("video-gestures").performTouchInput{click(androidx.compose.ui.geometry.Offset(width*.25f,height*.3f))};Thread.sleep(400);ui.waitForIdle()
+                    // Wide videos now enter landscape automatically; verify both manual directions.
+                    ui.waitUntil(15000){ui.activity.resources.configuration.orientation==android.content.res.Configuration.ORIENTATION_LANDSCAPE}
+                    ui.onNodeWithTag("rotate-video").performClick()
+                    ui.waitUntil(15000){ui.activity.resources.configuration.orientation==android.content.res.Configuration.ORIENTATION_PORTRAIT}
                     ui.onNodeWithTag("rotate-video").performClick()
                     ui.waitUntil(15000){ui.activity.resources.configuration.orientation==Configuration.ORIENTATION_LANDSCAPE}
                     bounded("speed-1.5");ui.onNodeWithTag("speed-1.5").assertIsSelected()

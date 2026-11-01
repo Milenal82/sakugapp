@@ -152,7 +152,9 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
-          ref: ${{ needs.preflight.outputs.commit }}
+          # Validation tools can be repaired on main without moving the immutable APK/source tag.
+          # The downloaded APK, signature and source_commit are still checked against that tag.
+          ref: ${{ github.sha }}
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
@@ -171,7 +173,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v5
       - name: Build isolated native UI checker
         run: ./gradlew --no-daemon -PupgradeUiCheck=true :upgrade-ui-check:assembleDebug :upgrade-ui-check:assembleDebugAndroidTest
-      - name: Install the exact signed release APK over v1.0.0 and verify retained data
+      - name: Verify official upgrade without uninstalling or clearing user data
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 28

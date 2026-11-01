@@ -15,6 +15,11 @@ class UpgradeFoldersTest {
     private val device=UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
     private fun find(selector:BySelector):UiObject2=checkNotNull(device.wait(Until.findObject(selector),20000)){"Native UI missing: $selector"}
     private fun click(selector:BySelector){find(selector).click(100)}
+    private fun checkable(node:UiObject2):UiObject2{
+        var current:UiObject2?=node
+        repeat(4){val value=checkNotNull(current){"Checkable control missing"};if(value.isCheckable)return value;current=value.parent}
+        error("Expected a checkable control, not its text label")
+    }
     private fun menu(name:String){click(By.text("Menu"));click(By.text(name))}
     private fun export(name:String){
         click(By.res("export-favorites"));find(By.clazz("android.widget.EditText")).text=name
@@ -23,7 +28,11 @@ class UpgradeFoldersTest {
     private fun wrapOff(change:Boolean=true){
         repeat(12){
             val row=device.findObject(By.desc("Wrap tags"))
-            if(row!=null){if(change && row.isChecked)row.click(100);assertFalse(find(By.desc("Wrap tags")).isChecked);return}
+            if(row!=null){
+                val toggle=checkable(row);if(change && toggle.isChecked)toggle.click(100)
+                repeat(50){if(!checkable(find(By.desc("Wrap tags"))).isChecked)return;Thread.sleep(100)}
+                fail("Wrap tags was not retained as off")
+            }
             device.swipe(device.displayWidth/2,(device.displayHeight*.8).toInt(),device.displayWidth/2,(device.displayHeight*.3).toInt(),24)
         }
         error("Wrap setting not found")
@@ -41,7 +50,11 @@ class UpgradeFoldersTest {
         }else{
             assertEquals("verify",stage)
             export("after-upgrade.json")
-            menu("Settings");assertTrue(find(By.desc("Light")).isSelected);wrapOff(false)
+            menu("Settings")
+            // Compose exposes the label as a child; FilterChip selection is checked on its parent.
+            val light=checkable(find(By.desc("Light")))
+            assertTrue("Light theme remains checked after upgrade",light.isChecked)
+            wrapOff(false)
         }
     }
 }
