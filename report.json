@@ -1,8 +1,8 @@
 {
   "source_commit": "27306bbfbb81545db43a04f10b083d2bd8d50929",
-  "run_id": "41290120611",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/41290120611",
-  "captured_utc": "2026-11-01T08:51:56.234579+00:00",
+  "run_id": "41290755545",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755545",
+  "captured_utc": "2026-11-01T09:01:23.886180+00:00",
   "validation_result": "success",
   "scope": "Backup, Room 3-to-4 migration, hierarchy/order/selection, accents, playback sanity and short layout-scroll comparison.",
   "jobs": [
@@ -10,39 +10,32 @@
       "name": "scroll-profile",
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290120611/job/124799443928",
-      "id": 124799443928
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755545/job/124801326140",
+      "id": 124801326140
     },
     {
       "name": "validation",
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290120611/job/124799444126",
-      "id": 124799444126
-    },
-    {
-      "name": "evidence",
-      "status": "in_progress",
-      "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290120611/job/124800909368",
-      "id": 124800909368
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755545/job/124801326359",
+      "id": 124801326359
     }
   ],
   "artifacts": [
     {
       "name": "post-scroll-profile",
-      "bytes": 1246,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290120611/artifacts/13077181842"
-    },
-    {
-      "name": "maintenance-debug-apk",
-      "bytes": 18024357,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290120611/artifacts/13077041750"
+      "bytes": 1232,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755545/artifacts/13077716013"
     },
     {
       "name": "maintenance-test-reports",
-      "bytes": 559410,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290120611/artifacts/13076577818"
+      "bytes": 564880,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755545/artifacts/13076718306"
+    },
+    {
+      "name": "maintenance-debug-apk",
+      "bytes": 18024359,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755545/artifacts/13076668548"
     }
   ],
   "test_counts": {
@@ -72,95 +65,303 @@
       "label": "current",
       "scope": "API 28 Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; not a real-device/network benchmark",
       "frames": 381,
-      "mean_ms": 189.5581185275591,
-      "p50_ms": 192.956912,
-      "p95_ms": 213.447082,
-      "max_ms": 245.813891,
+      "mean_ms": 182.8268551653544,
+      "p50_ms": 187.422728,
+      "p95_ms": 205.868108,
+      "max_ms": 221.465563,
       "over_34ms": 381,
       "over_700ms": 0,
       "components": {
         "total": {
-          "mean_ms": 189.5581185275591,
-          "p95_ms": 213.447082
+          "mean_ms": 182.8268551653544,
+          "p95_ms": 205.868108
         },
         "layout": {
-          "mean_ms": 0.3738783989501312,
-          "p95_ms": 0.93477
+          "mean_ms": 0.282638897637795,
+          "p95_ms": 0.38958
         },
         "draw": {
-          "mean_ms": 2.496197375328084,
-          "p95_ms": 9.54541
+          "mean_ms": 2.421904435695538,
+          "p95_ms": 10.92702
         },
         "animation": {
-          "mean_ms": 7.3734638845144325,
-          "p95_ms": 34.82692
+          "mean_ms": 6.910582965879264,
+          "p95_ms": 35.30097
         },
         "input": {
-          "mean_ms": 1.8120379790026244,
-          "p95_ms": 5.78169
+          "mean_ms": 1.7067194750656174,
+          "p95_ms": 6.58138
         },
         "sync": {
-          "mean_ms": 0.3941995538057743,
-          "p95_ms": 2.86715
+          "mean_ms": 0.2254793175853019,
+          "p95_ms": 0.43579
         },
         "commands": {
-          "mean_ms": 1.632727637795275,
-          "p95_ms": 4.07892
+          "mean_ms": 1.3960524146981637,
+          "p95_ms": 4.44837
         },
         "swap": {
-          "mean_ms": 67.87322013123361,
-          "p95_ms": 78.82367
+          "mean_ms": 66.8179832020997,
+          "p95_ms": 77.84452
         }
       }
     },
     "scroll-baseline.json": {
       "label": "baseline",
       "scope": "API 28 Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; not a real-device/network benchmark",
-      "frames": 383,
-      "mean_ms": 192.46741611488258,
-      "p50_ms": 194.682468,
-      "p95_ms": 218.385557,
-      "max_ms": 249.419734,
-      "over_34ms": 383,
+      "frames": 380,
+      "mean_ms": 187.5271078052631,
+      "p50_ms": 192.594246,
+      "p95_ms": 209.625991,
+      "max_ms": 233.813389,
+      "over_34ms": 380,
       "over_700ms": 0,
       "components": {
         "total": {
-          "mean_ms": 192.46741611488258,
-          "p95_ms": 218.385557
+          "mean_ms": 187.5271078052631,
+          "p95_ms": 209.625991
         },
         "layout": {
-          "mean_ms": 0.3393081462140991,
-          "p95_ms": 0.89746
+          "mean_ms": 0.2835127368421053,
+          "p95_ms": 0.49478
         },
         "draw": {
-          "mean_ms": 2.510885979112272,
-          "p95_ms": 9.14328
+          "mean_ms": 2.3432476842105276,
+          "p95_ms": 11.84991
         },
         "animation": {
-          "mean_ms": 8.592496814621406,
-          "p95_ms": 40.74888
+          "mean_ms": 7.819462368421054,
+          "p95_ms": 40.28764
         },
         "input": {
-          "mean_ms": 1.9979174151436037,
-          "p95_ms": 7.37054
+          "mean_ms": 1.6325227105263154,
+          "p95_ms": 5.88803
         },
         "sync": {
-          "mean_ms": 0.23708430809399478,
-          "p95_ms": 0.39012
+          "mean_ms": 0.5282115,
+          "p95_ms": 4.20483
         },
         "commands": {
-          "mean_ms": 1.69677545691906,
-          "p95_ms": 4.73752
+          "mean_ms": 1.5518594473684217,
+          "p95_ms": 4.63246
         },
         "swap": {
-          "mean_ms": 68.64215088772845,
-          "p95_ms": 79.8999
+          "mean_ms": 67.17554618421053,
+          "p95_ms": 78.20687
         }
       }
     }
   },
   "main_automatic_checks": {
-    "status": "not_requested",
-    "reason": "This push is not main."
+    "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755435",
+    "source_commit": "27306bbfbb81545db43a04f10b083d2bd8d50929",
+    "status": "completed",
+    "conclusion": "failure",
+    "jobs": [
+      {
+        "name": "device-tests",
+        "status": "completed",
+        "conclusion": "failure",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755435/job/124801325969",
+        "id": 124801325969
+      },
+      {
+        "name": "build",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755435/job/124801326062",
+        "id": 124801326062
+      },
+      {
+        "name": "six-column-display (landscape, pixel_c)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755435/job/124801326094",
+        "id": 124801326094
+      },
+      {
+        "name": "six-column-display (phone, Nexus S)",
+        "status": "completed",
+        "conclusion": "failure",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755435/job/124801326116",
+        "id": 124801326116
+      },
+      {
+        "name": "search-back-gestures",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755435/job/124801326231",
+        "id": 124801326231
+      },
+      {
+        "name": "signed-candidate",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755435/job/124801326782",
+        "id": 124801326782
+      },
+      {
+        "name": "documentation-screenshots",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755435/job/124801326818",
+        "id": 124801326818
+      },
+      {
+        "name": "release-signing",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755435/job/124801326849",
+        "id": 124801326849
+      },
+      {
+        "name": "candidate-evidence",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755435/job/124801326930",
+        "id": 124801326930
+      },
+      {
+        "name": "candidate-upgrade-install",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755435/job/124801327520",
+        "id": 124801327520
+      },
+      {
+        "name": "release-preflight",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755435/job/124801349543",
+        "id": 124801349543
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "device-test-reports",
+        "bytes": 7451760,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755435/artifacts/13077686163"
+      },
+      {
+        "name": "sakugapp-source",
+        "bytes": 2339737,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755435/artifacts/13077072539"
+      },
+      {
+        "name": "check-reports",
+        "bytes": 145594,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755435/artifacts/13077032538"
+      },
+      {
+        "name": "six-column-landscape-reports",
+        "bytes": 3245753,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755435/artifacts/13076942778"
+      },
+      {
+        "name": "search-back-gesture-reports",
+        "bytes": 2014138,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755435/artifacts/13076927831"
+      },
+      {
+        "name": "six-column-phone-reports",
+        "bytes": 233624,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755435/artifacts/13076847931"
+      },
+      {
+        "name": "sakugapp-debug",
+        "bytes": 18024356,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41290755435/artifacts/13076813086"
+      }
+    ],
+    "test_counts": {
+      "device-test-reports": {
+        "device": {
+          "tests": 34,
+          "failures": 3,
+          "errors": 0,
+          "skipped": 0
+        }
+      },
+      "check-reports": {
+        "debug_unit": {
+          "tests": 126,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        "release_unit": {
+          "tests": 126,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      },
+      "six-column-landscape-reports": {
+        "device": {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      },
+      "search-back-gesture-reports": {
+        "device": {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      },
+      "six-column-phone-reports": {
+        "device": {
+          "tests": 2,
+          "failures": 1,
+          "errors": 0,
+          "skipped": 0
+        }
+      }
+    },
+    "lint": {
+      "check-reports/reports/lint-results-debug.xml": {
+        "errors": 0,
+        "warnings": 33
+      },
+      "check-reports/reports/lint-results-release.xml": {
+        "errors": 0,
+        "warnings": 33
+      }
+    },
+    "failures": [
+      {
+        "job": "device-tests",
+        "conclusion": "failure",
+        "message": "2026-11-01T08:58:13.0969170Z com.sakugapp.PlayerRotationDeviceTest > manualRotationWithSystemLockPreservesThePlayerPositionAndControls[emulator-5554 - 9] FAILED \n2026-11-01T08:58:13.0970331Z \tjava.lang.AssertionError: Rotation stage failed: stage=manual landscape state=3 error=null orientation=1 requested=1 initial=1 sameActivity=true instances=1\n2026-11-01T08:59:02.5939739Z com.sakugapp.ProfessionalPlayerDeviceTest > actualLoopPinchPanDoubleTapAndSwipeRespectTransportControls[emulator-5554 - 9] FAILED \n2026-11-01T09:00:48.2935842Z com.sakugapp.AdvancedControlsLayoutDeviceTest > groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape[emulator-5554 - 9] FAILED \n2026-11-01T09:00:49.5949144Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-01T09:00:49.5971267Z * What went wrong:\n2026-11-01T09:00:49.5976212Z BUILD FAILED in 5m 18s\n2026-11-01T09:00:50.0872596Z ##[error]The process '/usr/bin/sh' failed with exit code 1\n2026-11-01T09:00:52.6221447Z java.lang.AssertionError: Rotation stage failed: stage=manual landscape state=3 error=null orientation=1 requested=1 initial=1 sameActivity=true instances=1\n2026-11-01T09:00:52.6224838Z Caused by: androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms"
+      },
+      {
+        "job": "six-column-display (phone, Nexus S)",
+        "conclusion": "failure",
+        "message": "2026-11-01T08:57:27.5778838Z com.sakugapp.AdvancedControlsLayoutDeviceTest > groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape[emulator-5554 - 9] FAILED \n2026-11-01T08:57:28.8778700Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-01T08:57:28.9789742Z * What went wrong:\n2026-11-01T08:57:28.9799867Z BUILD FAILED in 2m 5s\n2026-11-01T08:57:29.4551190Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
+      },
+      {
+        "test": "com.sakugapp.PlayerRotationDeviceTest.manualRotationWithSystemLockPreservesThePlayerPositionAndControls",
+        "report": "device-test-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+        "message": "java.lang.AssertionError: Rotation stage failed: stage=manual landscape state=3 error=null orientation=1 requested=1 initial=1 sameActivity=true instances=1\nat com.sakugapp.PlayerRotationDeviceTest.manualRotationWithSystemLockPreservesThePlayerPositionAndControls$awaitStage(PlayerRotationDeviceTest.kt:42)\nat com.sakugapp.PlayerRotationDeviceTest.manualRotationWithSystemLockPreservesThePlayerPositionAndControls(PlayerRotationDeviceTest.kt:62)\n... 53 trimmed\nCaused by: androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:504)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:339)\nat com.sakugapp.PlayerRotationDeviceTest.manualRotationWithSystemLockPreservesThePlayerPositionAndControls$awaitStage(PlayerRotationDeviceTest.kt:38)\n... 55 more\n"
+      },
+      {
+        "test": "com.sakugapp.ProfessionalPlayerDeviceTest.actualLoopPinchPanDoubleTapAndSwipeRespectTransportControls",
+        "report": "device-test-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+        "message": "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:504)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:339)\nat com.sakugapp.ProfessionalPlayerDeviceTest.actualLoopPinchPanDoubleTapAndSwipeRespectTransportControls(ProfessionalPlayerDeviceTest.kt:59)\n"
+      },
+      {
+        "test": "com.sakugapp.AdvancedControlsLayoutDeviceTest.groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape",
+        "report": "device-test-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+        "message": "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:504)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:339)\nat com.sakugapp.AdvancedControlsLayoutDeviceTest.groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape(AdvancedControlsLayoutDeviceTest.kt:63)\n"
+      },
+      {
+        "test": "com.sakugapp.AdvancedControlsLayoutDeviceTest.groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape",
+        "report": "six-column-phone-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+        "message": "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:504)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:339)\nat com.sakugapp.AdvancedControlsLayoutDeviceTest.groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape(AdvancedControlsLayoutDeviceTest.kt:63)\n"
+      }
+    ]
   }
 }
