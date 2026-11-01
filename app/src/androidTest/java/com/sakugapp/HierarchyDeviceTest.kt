@@ -92,7 +92,8 @@ class HierarchyDeviceTest {
             ui.waitUntil(10000){app.library.value.folders.indexOfFirst{it.id==roots[1]}<app.library.value.folders.indexOfFirst{it.id==roots[0]}}
             UiEvidence.capture("v121-folder-order.png")
             ui.onNodeWithText(ui.activity.getString(R.string.ui_close)).performClick()
-            ui.onNodeWithTag("folder-entry-${roots[0]}").performScrollTo().performClick()
+            ui.onNodeWithTag("local-library").performScrollToNode(hasTestTag("folder-entry-${roots[0]}"))
+            ui.onNodeWithTag("folder-entry-${roots[0]}").performClick()
             ui.onNodeWithTag("new-subfolder").performClick();ui.onNodeWithTag("subfolder-name").performTextInput("Action")
             ui.onNodeWithTag("confirm-subfolder").performClick();ui.waitUntil(10000){app.library.value.subfolders.any{it.name=="Action"}}
             val a=app.library.value.subfolders.single{it.name=="Action"}.id
@@ -100,15 +101,17 @@ class HierarchyDeviceTest {
             ui.waitUntil(10000){app.library.value.subfolders.any{it.id==b}}
             ui.onNodeWithTag("subfolder-menu-$a").performScrollTo().performClick();ui.onNodeWithText(ui.activity.getString(R.string.ui_rename)).performClick()
             ui.onNodeWithTag("subfolder-name").performTextReplacement("Effects");ui.onNodeWithTag("confirm-subfolder").performClick()
-            ui.onNodeWithTag("post-media-${p.id}").performScrollTo().performTouchInput{longClick()}
+            ui.onNodeWithTag("local-library").performScrollToNode(hasTestTag("post-media-${p.id}"))
+            ui.onNodeWithTag("post-media-${p.id}").performTouchInput{longClick()}
             ui.onNodeWithText(ui.activity.getString(R.string.ui_add_to_subfolder)).performClick()
             ui.onNodeWithTag("classify-$a").performClick();ui.onNodeWithTag("classify-$b").performClick()
             ui.waitUntil(10000){app.library.value.classified(p.id,a) && app.library.value.classified(p.id,b)}
             ui.onNodeWithText(ui.activity.getString(R.string.ui_close)).performClick()
-            ui.onNodeWithTag("subfolder-entry-$a").performScrollTo().performClick()
+            ui.onNodeWithTag("local-library").performScrollToNode(hasTestTag("subfolder-entry-$a"))
+            ui.onNodeWithTag("subfolder-entry-$a").performClick()
             ui.onNodeWithTag("new-subfolder").assertDoesNotExist();ui.onNodeWithTag("post-media-${p.id}").assertExists()
             ui.onNodeWithTag("folder-back").performClick()
-            ui.onNodeWithTag("subfolder-entry-$a").performScrollTo();UiEvidence.capture("v121-subfolders.png")
+            ui.onNodeWithTag("local-library").performScrollToNode(hasTestTag("subfolder-entry-$a"));UiEvidence.capture("v121-subfolders.png")
             ui.onNodeWithTag("subfolder-menu-$a").performScrollTo().performClick();ui.onNodeWithText(ui.activity.getString(R.string.ui_delete_subfolder)).performClick()
             ui.onNodeWithText(ui.activity.getString(R.string.ui_delete)).performClick()
             ui.waitUntil(10000){app.library.value.subfolders.none{it.id==a}}
