@@ -58,7 +58,9 @@ data class FeedState(
         return copy(
         // Also repair earlier cards when a classification request succeeds on a later page.
         posts = merged.takeLast(MAX_RETAINED_POSTS).map { post ->
-            post.copy(tags = post.tags.map { tag -> page.classifications[tag.name]?.let { tag.copy(category=it) } ?: tag })
+            if(post.tags.any{tag->page.classifications[tag.name]?.let{it!=tag.category}==true})
+                post.copy(tags=post.tags.map{tag->page.classifications[tag.name]?.takeIf{it!=tag.category}?.let{tag.copy(category=it)} ?: tag})
+            else post
         },
         nextPage = nextPage + 1,
         discardedPosts=discardedPosts+(merged.size-MAX_RETAINED_POSTS).coerceAtLeast(0),

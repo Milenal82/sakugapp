@@ -50,7 +50,7 @@ class PersonalStoreDeviceTest {
             store.saveTag(Tag("mokmok",TagCategory.ARTIST));store.note("unfavorited_note","Personal note")
             library.ready();library.membership(p,1,true)
             val backup=library.export();val json=JsonParser.parseString(backup).asJsonObject
-            assertEquals(3,json["schemaVersion"].asInt);assertFalse(json.has("history"))
+            assertEquals(LibraryCodec.SCHEMA_VERSION,json["schemaVersion"].asInt);assertFalse(json.has("history"))
             val target=LocalLibraryStore(targetDb);val personal=PersonalStore(targetDb)
             personal.note("unfavorited_note","Keep existing note");personal.record(p)
             target.import(backup);target.import(backup)
@@ -79,7 +79,7 @@ class PersonalStoreDeviceTest {
             old.execSQL("INSERT INTO favorite_links VALUES(?,1,123)",arrayOf(p.id));old.execSQL("INSERT INTO favorite_links VALUES(?,4,124)",arrayOf(p.id))
             old.execSQL("INSERT INTO media_facts VALUES(?,5432,125)",arrayOf(p.fileUrl));old.version=2
         }
-        val db=Room.databaseBuilder(context,LibraryDatabase::class.java,name).addMigrations(LibraryDatabase.MIGRATION_2_3).build()
+        val db=Room.databaseBuilder(context,LibraryDatabase::class.java,name).addMigrations(LibraryDatabase.MIGRATION_2_3,LibraryDatabase.MIGRATION_3_4).build()
         try{
             val state=LocalLibraryStore(db).state.first();assertEquals(p,state.decoded[p.id]);assertEquals(2,state.links.size)
             assertEquals(p.id,state.folders.single{it.id==4L}.coverPostId);assertEquals(5432L,state.durations[p.fileUrl]);assertEquals(123L,state.posts.single().savedAt)

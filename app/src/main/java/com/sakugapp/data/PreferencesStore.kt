@@ -10,6 +10,7 @@ import java.io.IOException
 
 private val Context.preferences by preferencesDataStore("settings_v1")
 
+@androidx.compose.runtime.Immutable
 data class AppSettings(
     val language: String = "system", val showCopyright: Boolean = true, val showArtist: Boolean = true,
     val showScore: Boolean = true, val wrapTags: Boolean = true, val cropThumbnails: Boolean = false,
@@ -20,11 +21,13 @@ data class AppSettings(
     val columns: Int = 2, val themeMode:String = "system", val cardSpacing:Float = 8f,
     val librarySort:Int = 0,val gestures:Boolean = true, val showOtherTags:Boolean = true,
     val fontScale:Float = 1f, val tagVerticalSpacing:Float = 16f,
+    val accent:String = "default",
 )
 
 object PreferenceRules {
     val columnOptions = listOf(1,2,3,4,6,8,12)
     val themeModes = setOf("system","dark","light")
+    val accents = setOf("default","blue","pink")
     fun legacyTheme(mode:String?,light:Boolean?,hasLegacyData:Boolean):String = mode?.takeIf{it in themeModes} ?: when(light){true->"light";false->"dark";null->if(hasLegacyData)"dark" else "system"}
     val languages = setOf("system", "en", "ja", "zh-TW", "zh-CN", "fr", "es", "ru", "ko")
     fun resolveLanguage(language: String, systemTag: String): String {
@@ -71,7 +74,8 @@ class PreferencesStore(context: Context,private val store:DataStore<Preferences>
             cardSpacing=(p[floatPreferencesKey("cardSpacing")] ?: 8f).coerceIn(0f,10f),gestures=p.flag("gestures",true),
             librarySort=(p[intPreferencesKey("librarySort")] ?: 0).coerceIn(0,3),showOtherTags=p.flag("otherTags",true),
             fontScale=p[floatPreferencesKey("fontScale")]?.takeIf{it.isFinite() && it in 0.75f..1.25f} ?: 1f,
-            tagVerticalSpacing=p[floatPreferencesKey("tagVerticalSpacing")]?.takeIf{it.isFinite() && it in 0f..20f} ?: 16f)
+            tagVerticalSpacing=p[floatPreferencesKey("tagVerticalSpacing")]?.takeIf{it.isFinite() && it in 0f..20f} ?: 16f,
+            accent=p[stringPreferencesKey("accent")]?.takeIf{it in PreferenceRules.accents} ?: "default")
     }
     val history: Flow<List<String>> = data.map { PreferenceRules.history(it[stringPreferencesKey("history")]?.split('\n').orEmpty(), "") }
     val localeState:Flow<Pair<String,String?>> = data.map { p ->
@@ -91,6 +95,7 @@ class PreferencesStore(context: Context,private val store:DataStore<Preferences>
     suspend fun columns(value:Int) { require(value in PreferenceRules.columnOptions);store.edit{it[intPreferencesKey("columns")]=value} }
     suspend fun flag(name: String,value: Boolean) { require(name in setOf("copyright","artist","score","wrap","crop","auto","mobile","wifiImages","muted","loop","mirror","screenshot","lightTheme","gestures","otherTags")); store.edit { it[booleanPreferencesKey(name)]=value;if(name=="lightTheme")it[stringPreferencesKey("themeMode")]=if(value)"light"else"dark" } }
     suspend fun theme(value:String){require(value in PreferenceRules.themeModes);store.edit{it[stringPreferencesKey("themeMode")]=value;if(value!="system")it[booleanPreferencesKey("lightTheme")]=value=="light"}}
+    suspend fun accent(value:String){require(value in PreferenceRules.accents);store.edit{it[stringPreferencesKey("accent")]=value}}
     suspend fun language(value: String) { require(value in PreferenceRules.languages);store.edit { it[stringPreferencesKey("language")]=value } }
     suspend fun number(name: String,value: Float) { require(value.isFinite()); require(when(name) { "speed"->value in PreferenceRules.speeds; "brightness","contrast"->value in 0.5f..1.5f; "saturation"->value in 0f..2f; "cardSpacing"->value in 0f..10f; "fontScale"->value in 0.75f..1.25f; "tagVerticalSpacing"->value in 0f..20f; else->false });store.edit { it[floatPreferencesKey(name)]=value } }
 }

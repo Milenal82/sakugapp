@@ -5,21 +5,24 @@ import androidx.room.withTransaction
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
-data class LibrarySnapshot(val posts:List<FavoritePost> = emptyList(),val folders:List<FavoriteFolder> = emptyList(),val links:List<FavoriteLink> = emptyList(),val durations:Map<String,Long> = emptyMap(),val error:Boolean=false,val decoded:Map<Long,Post> = posts.associate{it.id to LibraryCodec.decodePost(it.snapshot)}){
+data class LibrarySnapshot(val posts:List<FavoritePost> = emptyList(),val folders:List<FavoriteFolder> = emptyList(),val links:List<FavoriteLink> = emptyList(),val durations:Map<String,Long> = emptyMap(),val error:Boolean=false,val decoded:Map<Long,Post> = posts.associate{it.id to LibraryCodec.decodePost(it.snapshot)},val subfolders:List<FavoriteSubfolder> = emptyList(),val subfolderLinks:List<FavoriteSubfolderLink> = emptyList()){
     private val byFolder=links.groupBy{it.folderId}.mapValues{it.value.map{l->l.postId}.toSet()}
     private val byPost=links.groupBy{it.postId}.mapValues{it.value.map{l->l.folderId}.toSet()}
     fun inFolder(id:Long?)=posts.filter{p->if(id==null)p.id in byPost else p.id in byFolder[id].orEmpty()}
     fun contains(postId:Long,folderId:Long?=null)=if(folderId==null)postId in byPost else folderId in byPost[postId].orEmpty()
+    private val bySubfolder=subfolderLinks.groupBy{it.subfolderId}.mapValues{it.value.map{l->l.postId}.toSet()}
+    fun inSubfolder(id:Long)=posts.filter{it.id in bySubfolder[id].orEmpty()}
+    fun classified(postId:Long,id:Long)=postId in bySubfolder[id].orEmpty()
 }
 class LocalLibraryStore(private val db:LibraryDatabase){
     private val dao=db.library()
     // One transaction observes a coherent library. Duration-only changes do not reread or decode all posts.
     private val libraryData=flow{
         var cache=emptyMap<Long,Pair<String,Post>>()
-        db.invalidationTracker.createFlow("favorite_posts","favorite_folders","favorite_links").collect{
-            val raw=db.withTransaction{LibraryBackup(dao.foldersOnce(),dao.postsOnce(),dao.linksOnce())}
+        db.invalidationTracker.createFlow("favorite_posts","favorite_folders","favorite_links","favorite_subfolders","favorite_subfolder_links").collect{
+            val raw=db.withTransaction{LibraryBackup(dao.foldersOnce(),dao.postsOnce(),dao.linksOnce(),subfolders=dao.subfoldersOnce(),subfolderLinks=dao.subfolderLinksOnce())}
             cache=raw.posts.associate{p->p.id to (cache[p.id]?.takeIf{it.first==p.snapshot} ?: (p.snapshot to LibraryCodec.decodePost(p.snapshot)))}
-            emit(LibrarySnapshot(raw.posts,raw.folders,raw.links,decoded=cache.mapValues{it.value.second}))
+            emit(LibrarySnapshot(raw.posts,raw.folders,raw.links,decoded=cache.mapValues{it.value.second},subfolders=raw.subfolders,subfolderLinks=raw.subfolderLinks))
         }
     }
     val state=combine(libraryData,dao.facts()){data,facts->data.copy(durations=facts.associate{it.url to it.durationMs})}.flowOn(Dispatchers.Default)
@@ -40,6 +43,39 @@ class LocalLibraryStore(private val db:LibraryDatabase){
     suspend fun reorder(id:Long,delta:Int)=db.withTransaction{
         val all=dao.foldersOnce().toMutableList();val from=all.indexOfFirst{it.id==id};val to=from+delta
         if(from>=0 && to in all.indices){val value=all.removeAt(from);all.add(to,value);all.forEachIndexed{i,f->dao.position(f.id,i)}}
+    }
+    suspend fun orderFolders(ids:List<Long>)=db.withTransaction{
+        val current=dao.foldersOnce().map{it.id}
+        if(ids.size!=current.size || ids.toSet()!=current.toSet())throw LibraryFailure("invalid_backup")
+        ids.forEachIndexed{index,id->dao.position(id,index)}
+    }
+    suspend fun createSubfolder(folderId:Long,name:String):Long=db.withTransaction{
+        val clean=validateName(name)
+        if(dao.foldersOnce().none{it.id==folderId})throw LibraryFailure("invalid_backup")
+        val all=dao.subfoldersOnce();val siblings=all.filter{it.folderId==folderId}
+        if(all.size>=500 || siblings.size>=100)throw LibraryFailure("library_limit")
+        if(siblings.any{it.name.equals(clean,true)})throw LibraryFailure("folder_name")
+        dao.subfolder(FavoriteSubfolder(folderId=folderId,name=clean,position=(siblings.maxOfOrNull{it.position} ?: -1)+1))
+    }
+    suspend fun renameSubfolder(id:Long,name:String)=db.withTransaction{
+        val all=dao.subfoldersOnce();val folder=all.firstOrNull{it.id==id} ?: throw LibraryFailure("invalid_backup")
+        val clean=validateName(name)
+        if(all.any{it.id!=id && it.folderId==folder.folderId && it.name.equals(clean,true)})throw LibraryFailure("folder_name")
+        dao.renameSubfolder(id,clean)
+    }
+    suspend fun deleteSubfolder(id:Long)=db.withTransaction{dao.deleteSubfolder(id)}
+    suspend fun orderSubfolders(folderId:Long,ids:List<Long>)=db.withTransaction{
+        val current=dao.subfoldersOnce().filter{it.folderId==folderId}.map{it.id}
+        if(ids.size!=current.size || ids.toSet()!=current.toSet())throw LibraryFailure("invalid_backup")
+        ids.forEachIndexed{index,id->dao.subfolderPosition(id,index)}
+    }
+    suspend fun classify(postId:Long,folderId:Long,subfolderId:Long,present:Boolean)=db.withTransaction{
+        if(dao.linksOnce().none{it.postId==postId && it.folderId==folderId} || dao.subfoldersOnce().none{it.id==subfolderId && it.folderId==folderId})throw LibraryFailure("invalid_backup")
+        if(present){
+            val all=dao.subfolderLinksOnce()
+            if(all.size>=50000 && all.none{it.postId==postId && it.subfolderId==subfolderId})throw LibraryFailure("library_limit")
+            dao.subfolderLink(FavoriteSubfolderLink(postId,subfolderId,folderId))
+        }else dao.unclassify(postId,subfolderId)
     }
     suspend fun cover(folderId:Long,postId:Long)=db.withTransaction{if(dao.linksOnce().none{it.folderId==folderId && it.postId==postId})throw LibraryFailure("invalid_backup");dao.cover(folderId,postId)}
     suspend fun membership(post:Post,folderId:Long,present:Boolean)=db.withTransaction{
@@ -62,8 +98,8 @@ class LocalLibraryStore(private val db:LibraryDatabase){
         };dao.pruneOrphans()
     }
     suspend fun duration(url:String,milliseconds:Long){if(milliseconds !in 1..86400000)return;LibraryCodec.trustedMedia(url);db.withTransaction{dao.fact(MediaFact(url,milliseconds,System.currentTimeMillis()));dao.trimFacts()}}
-    suspend fun export():String=db.withTransaction{ready();LibraryCodec.encode(LibraryBackup(dao.foldersOnce(),dao.postsOnce(),dao.linksOnce(),db.personal().tagsOnce(),db.personal().notesOnce()))}
-    private suspend fun backupOnce()=LibraryBackup(dao.foldersOnce(),dao.postsOnce(),dao.linksOnce(),db.personal().tagsOnce(),db.personal().notesOnce())
+    suspend fun export():String=db.withTransaction{ready();LibraryCodec.encode(backupOnce())}
+    private suspend fun backupOnce()=LibraryBackup(dao.foldersOnce(),dao.postsOnce(),dao.linksOnce(),db.personal().tagsOnce(),db.personal().notesOnce(),dao.subfoldersOnce(),dao.subfolderLinksOnce())
     suspend fun preview(body:String):BackupPreview=withContext(Dispatchers.Default){
         val incoming=LibraryCodec.decode(body)
         db.withTransaction{LibraryMerge.preview(incoming,backupOnce())}
@@ -76,6 +112,8 @@ class LocalLibraryStore(private val db:LibraryDatabase){
             plan.folders.forEach{dao.folder(it)}
             plan.posts.forEach{dao.post(it)}
             plan.links.forEach{dao.link(it)}
+            plan.subfolders.forEach{dao.subfolder(it)}
+            plan.subfolderLinks.forEach{dao.subfolderLink(it)}
             plan.folders.forEach{dao.position(it.id,it.position);dao.cover(it.id,it.coverPostId)}
             val personal=db.personal()
             plan.tags.forEach{personal.tag(it);personal.category(it.name,it.category)}

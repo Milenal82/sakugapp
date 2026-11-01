@@ -2,6 +2,7 @@
 package com.sakugapp.ui
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.lazy.grid.*
 import androidx.activity.compose.BackHandler
 import androidx.compose.ui.Alignment
@@ -28,6 +29,11 @@ import kotlinx.coroutines.*
 @Composable fun LibraryScreen(app:AppViewModel,search:(String)->Unit={},tags:()->Unit={},open:(Post,List<Post>)->Unit){
     val state by app.library.collectAsStateWithLifecycle();val context=LocalContext.current;val scope=rememberCoroutineScope()
     var folderId by rememberSaveable{mutableStateOf<Long?>(null)}
+    var subfolderId by rememberSaveable{mutableStateOf<Long?>(null)}
+    var rootOrder by remember{mutableStateOf(false)};var childOrder by remember{mutableStateOf(false)}
+    var childDialog by remember{mutableStateOf(false)};var childEditing by remember{mutableStateOf<FavoriteSubfolder?>(null)}
+    var childName by remember{mutableStateOf("")};var childDeleting by remember{mutableStateOf<FavoriteSubfolder?>(null)}
+    var classifying by remember{mutableStateOf<Post?>(null)}
     val preferences by app.settings.collectAsStateWithLifecycle();val sort=preferences.librarySort
     var selected by remember{mutableStateOf(setOf<Long>())}
     var folderDialog by remember{mutableStateOf(false)};var rename by remember{mutableStateOf(false)};var name by remember{mutableStateOf("")}
@@ -39,24 +45,29 @@ import kotlinx.coroutines.*
     val folder=state.folders.firstOrNull{it.id==folderId}
     val inside=folderId!=null
     val actualId=folderId?.takeIf{it>0}
-    val title=if(folder==null)text(R.string.ui_all_favorites)else folderName(folder,context)
+    val child=state.subfolders.firstOrNull{it.id==subfolderId && it.folderId==actualId}
+    val children=remember(state.subfolders,actualId){state.subfolders.filter{it.folderId==actualId}}
+    val parentTitle=if(folder==null)text(R.string.ui_all_favorites)else folderName(folder,context)
+    val title=child?.name ?: parentTitle
     val settings=preferences.copy(lightTheme=themeIsLight(preferences.themeMode,isSystemInDarkTheme()),columns=GridPolicy.effective(preferences.columns,LocalConfiguration.current.smallestScreenWidthDp))
     val metered by remember(context){meteredNetwork(context.applicationContext)}.collectAsStateWithLifecycle(initialValue=true)
     var more by remember{mutableStateOf(false)}
     var manage by remember{mutableStateOf(false)}
     var preview by remember{mutableStateOf<Long?>(null)}
     val grid=rememberLazyGridState()
-    var gridFolder by rememberSaveable{mutableStateOf<Long?>(null)}
-    BackHandler(enabled=inside){folderId=null}
+    var gridFolder by rememberSaveable{mutableStateOf<String?>(null)}
+    fun back(){if(subfolderId!=null)subfolderId=null else folderId=null}
+    BackHandler(enabled=inside){back()}
     LaunchedEffect(folderId,state.folders){if(folderId!=null && folderId!=0L && state.folders.isNotEmpty() && folder==null)folderId=null}
+    LaunchedEffect(subfolderId,state.subfolders){if(subfolderId!=null && child==null)subfolderId=null}
 
     fun operation(action:suspend()->Unit){scope.launch{try{action()}catch(e:CancellationException){throw e}catch(e:Exception){message=libraryError(context,e)}}}
-    val candidates=remember(state,folderId,sort){
+    val candidates=remember(state,folderId,subfolderId,sort){
         val time=state.links.filter{actualId==null || it.folderId==actualId}.groupBy{it.postId}.mapValues{e->e.value.minOf{it.addedAt}}
-        val filtered=state.inFolder(actualId)
+        val filtered=if(child==null)state.inFolder(actualId)else state.inSubfolder(child.id)
         when(sort){1->filtered.sortedBy{time[it.id] ?: it.savedAt};2->filtered.sortedByDescending{it.id};3->filtered.sortedBy{it.id};else->filtered.sortedByDescending{time[it.id] ?: it.savedAt}}
     }
-    LaunchedEffect(folderId){selected=emptySet();manage=false;more=false;preview=null;if(gridFolder!=folderId){grid.scrollToItem(0);gridFolder=folderId}}
+    LaunchedEffect(folderId,subfolderId){selected=emptySet();manage=false;more=false;preview=null;val key="$folderId/$subfolderId";if(gridFolder!=key){grid.scrollToItem(0);gridFolder=key}}
     val visible by remember(grid){derivedStateOf{grid.layoutInfo.visibleItemsInfo.mapNotNull{it.key as? Long}}}
     LaunchedEffect(visible){if(preview !in visible)preview=null}
 
@@ -69,9 +80,10 @@ import kotlinx.coroutines.*
                 if(inside){
                     Surface(shape=MaterialTheme.shapes.medium,color=MaterialTheme.colorScheme.surface,modifier=Modifier.fillMaxWidth().testTag("folder-header")){
                         Row(Modifier.padding(horizontal=4.dp,vertical=2.dp),verticalAlignment=Alignment.CenterVertically){
-                            ActionIcon(R.drawable.ic_back,text(R.string.ui_back_to_app),{folderId=null},Modifier.testTag("folder-back"))
+                            ActionIcon(R.drawable.ic_back,text(R.string.ui_back_to_app),::back,Modifier.testTag("folder-back"))
                             Column(Modifier.weight(1f)){
                                 Text(title,style=MaterialTheme.typography.titleMedium,maxLines=2)
+                                if(child!=null)Text(parentTitle,style=MaterialTheme.typography.labelMedium,color=MaterialTheme.colorScheme.onSurfaceVariant)
                                 Text(androidx.compose.ui.res.pluralStringResource(R.plurals.ui_post_quantity,candidates.size,candidates.size),style=MaterialTheme.typography.labelMedium,color=MaterialTheme.colorScheme.onSurfaceVariant)
                             }
                             Box{
@@ -80,7 +92,10 @@ import kotlinx.coroutines.*
                                     DropdownMenuItem(text={Text(text(R.string.ui_batch_manage))},onClick={more=false;manage=!manage;selected=emptySet()})
                                     for((index,label)in listOf(R.string.ui_sort_saved_desc,R.string.ui_sort_saved_asc,R.string.ui_sort_id_desc,R.string.ui_sort_id_asc).withIndex())
                                         DropdownMenuItem(text={Text(text(label))},onClick={more=false;app.librarySort(index)})
-                                    if(folder!=null){
+                                    if(child!=null){
+                                        DropdownMenuItem(text={Text(text(R.string.ui_rename))},onClick={more=false;childEditing=child;childName=child.name;childDialog=true})
+                                        DropdownMenuItem(text={Text(text(R.string.ui_delete_subfolder))},onClick={more=false;childDeleting=child})
+                                    }else if(folder!=null){
                                         if(folder.id!=1L){
                                             DropdownMenuItem(text={Text(text(R.string.ui_rename))},onClick={more=false;name=folder.name;rename=true;folderDialog=true})
                                             DropdownMenuItem(text={Text(text(R.string.ui_delete_folder))},onClick={more=false;deleting=true})
@@ -94,10 +109,14 @@ import kotlinx.coroutines.*
                             }
                         }
                     }
+                    if(actualId!=null && child==null)FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp),verticalArrangement=Arrangement.spacedBy(4.dp)){
+                        LibraryButton(R.drawable.ic_add,text(R.string.ui_new_subfolder),Modifier.testTag("new-subfolder")){childEditing=null;childName="";childDialog=true}
+                        if(children.size>1)LibraryButton(R.drawable.ic_drag,text(R.string.ui_order_subfolders)){childOrder=true}
+                    }
                     if(manage)FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp),verticalArrangement=Arrangement.spacedBy(4.dp)){
                         Text(text(R.string.ui_selected_count,selected.size),style=MaterialTheme.typography.labelMedium)
-                        OutlinedButton(enabled=selected.isNotEmpty(),onClick={moving=true}){Text(text(R.string.ui_move_selected))}
-                        OutlinedButton(enabled=selected.isNotEmpty(),onClick={removing=true}){Text(text(R.string.ui_remove_selected))}
+                        if(child==null)OutlinedButton(enabled=selected.isNotEmpty(),onClick={moving=true}){Text(text(R.string.ui_move_selected))}
+                        OutlinedButton(enabled=selected.isNotEmpty(),onClick={removing=true}){Text(text(if(child==null)R.string.ui_remove_selected else R.string.ui_remove_classification))}
                         TextButton(onClick={manage=false;selected=emptySet()}){Text(text(R.string.ui_close))}
                     }
                 }else{
@@ -113,6 +132,7 @@ import kotlinx.coroutines.*
                     }
                     FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp),verticalArrangement=Arrangement.spacedBy(4.dp)){
                         LibraryButton(R.drawable.ic_add,text(R.string.ui_new_folder)){name="";rename=false;folderDialog=true}
+                        LibraryButton(R.drawable.ic_drag,text(R.string.ui_order_folders),Modifier.testTag("order-folders")){rootOrder=true}
                     }
                     BackupActions(app)
                 }
@@ -136,6 +156,10 @@ import kotlinx.coroutines.*
                 FolderCard(folderName(f,context),entries.size,cover,settings.wifiImages && metered,Modifier.testTag("folder-entry-${f.id}")){folderId=f.id}
             }
         }else{
+            if(child==null)items(children,key={"subfolder-${it.id}"},span={GridItemSpan(maxLineSpan)}){sub->
+                SubfolderCard(sub,state.inSubfolder(sub.id).size,{subfolderId=sub.id},
+                    {childEditing=sub;childName=sub.name;childDialog=true},{childDeleting=sub})
+            }
             if(candidates.isEmpty())item(span={GridItemSpan(maxLineSpan)}){Text(text(R.string.ui_library_empty),Modifier.padding(8.dp))}
             items(candidates,key={it.id}){entry->state.decoded[entry.id]?.let{raw->
                 val post=state.durations[raw.fileUrl]?.let{raw.copy(durationMs=it)} ?: raw
@@ -147,15 +171,29 @@ import kotlinx.coroutines.*
                     PostCard(post,settings,metered,preview==post.id,{if(manage){selected=if(post.id in selected)selected-post.id else selected+post.id}else open(post,candidates.mapNotNull{state.decoded[it.id]})},
                         search,
                         {if(!metered || settings.mobilePreview)preview=if(preview==post.id)null else post.id else message=context.getString(R.string.ui_previews_on_metered_networks_are_disabled_in_settings)},
-                        {duration->app.duration(post.fileUrl.orEmpty(),duration)})
+                        {duration->app.duration(post.fileUrl.orEmpty(),duration)},onClassify=if(actualId!=null)({classifying=post})else null)
                     if(app.offlineMedia.existing(post)!=null)Text(text(R.string.ui_offline_ready),style=MaterialTheme.typography.labelSmall)
                 }
             }}
         }
     }
+    if(rootOrder)FolderOrdering(state.folders.map{it.id to folderName(it,context)},{ids->operation{app.localLibrary.orderFolders(ids)}},{rootOrder=false})
+    if(childOrder && actualId!=null)FolderOrdering(children.map{it.id to it.name},{ids->operation{app.localLibrary.orderSubfolders(actualId,ids)}},{childOrder=false})
+    if(childDialog && actualId!=null)AlertDialog(onDismissRequest={childDialog=false},title={Text(text(if(childEditing==null)R.string.ui_new_subfolder else R.string.ui_rename))},text={
+        OutlinedTextField(childName,{childName=it.take(80)},label={Text(text(R.string.ui_folder_name))},modifier=Modifier.testTag("subfolder-name"))
+    },confirmButton={TextButton(enabled=childName.isNotBlank(),onClick={operation{
+        val editing=childEditing;if(editing==null)app.localLibrary.createSubfolder(actualId,childName)else app.localLibrary.renameSubfolder(editing.id,childName);childDialog=false
+    }},modifier=Modifier.testTag("confirm-subfolder")){Text(text(if(childEditing==null)R.string.ui_create else R.string.ui_rename))}},dismissButton={TextButton(onClick={childDialog=false}){Text(text(R.string.ui_cancel))}})
+    childDeleting?.let{value->AlertDialog(onDismissRequest={childDeleting=null},title={Text(text(R.string.ui_delete_subfolder))},text={Text(text(R.string.ui_delete_subfolder_warning))},confirmButton={TextButton(onClick={operation{app.localLibrary.deleteSubfolder(value.id);if(subfolderId==value.id)subfolderId=null;childDeleting=null}}){Text(text(R.string.ui_delete))}},dismissButton={TextButton(onClick={childDeleting=null}){Text(text(R.string.ui_cancel))}})}
+    classifying?.let{post->if(actualId!=null)AlertDialog(onDismissRequest={classifying=null},title={Text(text(R.string.ui_add_to_subfolder))},text={
+        Column(Modifier.heightIn(max=380.dp).verticalScroll(androidx.compose.foundation.rememberScrollState())){
+            if(children.isEmpty())Text(text(R.string.ui_no_subfolders))
+            children.forEach{sub->FolderSelectionTile(sub.name,state.classified(post.id,sub.id),Modifier.testTag("classify-${sub.id}")){present->operation{app.localLibrary.classify(post.id,actualId,sub.id,present)}}}
+        }
+    },confirmButton={TextButton(onClick={classifying=null}){Text(text(R.string.ui_close))}})}
     PacedAlertDialog(visible=folderDialog,onDismissRequest={folderDialog=false},title={Text(text(if(rename)R.string.ui_rename else R.string.ui_new_folder))},text={OutlinedTextField(name,{name=it.take(80)},label={Text(text(R.string.ui_folder_name))})},confirmButton={TextButton(enabled=name.isNotBlank(),onClick={operation{if(rename && folder!=null)app.localLibrary.rename(folder.id,name)else app.localLibrary.createFolder(name);folderDialog=false}}){Text(text(if(rename)R.string.ui_rename else R.string.ui_create))}},dismissButton={TextButton(onClick={folderDialog=false}){Text(text(R.string.ui_cancel))}})
     if(deleting && folder!=null)AlertDialog(onDismissRequest={deleting=false},title={Text(text(R.string.ui_delete_folder))},text={Text(text(R.string.ui_relationship_delete_warning))},confirmButton={TextButton(onClick={operation{app.localLibrary.deleteFolder(folder.id);folderId=null;deleting=false}}){Text(text(R.string.ui_delete))}},dismissButton={TextButton(onClick={deleting=false}){Text(text(R.string.ui_cancel))}})
-    if(removing)AlertDialog(onDismissRequest={removing=false},title={Text(text(R.string.ui_remove_selected))},text={Text(text(R.string.ui_relationship_delete_warning))},confirmButton={TextButton(onClick={operation{app.localLibrary.batch(selected,actualId,null);selected=emptySet();removing=false}}){Text(text(R.string.ui_delete))}},dismissButton={TextButton(onClick={removing=false}){Text(text(R.string.ui_cancel))}})
+    if(removing)AlertDialog(onDismissRequest={removing=false},title={Text(text(if(child==null)R.string.ui_remove_selected else R.string.ui_remove_classification))},text={Text(text(if(child==null)R.string.ui_relationship_delete_warning else R.string.ui_delete_subfolder_warning))},confirmButton={TextButton(onClick={operation{if(child==null)app.localLibrary.batch(selected,actualId,null)else selected.forEach{app.localLibrary.classify(it,child.folderId,child.id,false)};selected=emptySet();removing=false}}){Text(text(R.string.ui_delete))}},dismissButton={TextButton(onClick={removing=false}){Text(text(R.string.ui_cancel))}})
     if(moving)AlertDialog(onDismissRequest={moving=false},title={Text(text(R.string.ui_move_selected))},text={Column{
         Text(text(R.string.ui_move_explanation))
         state.folders.forEach{target->TextButton(onClick={operation{app.localLibrary.batch(selected,actualId,target.id);selected=emptySet();moving=false}}){Text(folderName(target,context))}}
@@ -168,10 +206,31 @@ import kotlinx.coroutines.*
     }){Text(text(R.string.ui_download_video))}},dismissButton={TextButton(onClick={downloadConfirm=false}){Text(text(R.string.ui_cancel))}})
 }
 
-@Composable private fun LibraryButton(icon:Int,label:String,click:()->Unit){
-    OutlinedButton(onClick=click,shape=MaterialTheme.shapes.small,modifier=Modifier.heightIn(min=40.dp)){
+@Composable private fun LibraryButton(icon:Int,label:String,modifier:Modifier=Modifier,click:()->Unit){
+    OutlinedButton(onClick=click,shape=MaterialTheme.shapes.small,modifier=modifier.heightIn(min=40.dp)){
         Icon(painterResource(icon),contentDescription=null,modifier=Modifier.size(18.dp))
         Spacer(Modifier.width(6.dp));Text(label)
+    }
+}
+
+@Composable private fun SubfolderCard(folder:FavoriteSubfolder,count:Int,open:()->Unit,rename:()->Unit,delete:()->Unit){
+    var more by remember(folder.id){mutableStateOf(false)}
+    Card(onClick=open,modifier=Modifier.fillMaxWidth().testTag("subfolder-entry-${folder.id}"),shape=MaterialTheme.shapes.medium,
+        colors=CardDefaults.cardColors(containerColor=MaterialTheme.colorScheme.surfaceContainerHigh)){
+        Row(Modifier.fillMaxWidth().padding(start=12.dp,end=4.dp),verticalAlignment=Alignment.CenterVertically){
+            Icon(painterResource(R.drawable.ic_folder),null,Modifier.size(20.dp),tint=MaterialTheme.colorScheme.primary)
+            Column(Modifier.weight(1f).padding(10.dp)){
+                Text(folder.name,style=MaterialTheme.typography.titleSmall)
+                Text(androidx.compose.ui.res.pluralStringResource(R.plurals.ui_post_quantity,count,count),style=MaterialTheme.typography.bodySmall)
+            }
+            Box{
+                ActionIcon(R.drawable.ic_more,text(R.string.ui_menu),{more=true},Modifier.testTag("subfolder-menu-${folder.id}"))
+                DropdownMenu(more,{more=false}){
+                    DropdownMenuItem(text={Text(text(R.string.ui_rename))},onClick={more=false;rename()})
+                    DropdownMenuItem(text={Text(text(R.string.ui_delete_subfolder))},onClick={more=false;delete()})
+                }
+            }
+        }
     }
 }
 @Composable private fun FolderCard(name:String,count:Int,cover:Post?,blockImages:Boolean,modifier:Modifier=Modifier,click:()->Unit){

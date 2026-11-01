@@ -425,4 +425,18 @@
     <string name="ui_font_size">文字サイズ：%1$d%%</string>
     <string name="ui_tag_vertical_spacing">タグの行間：%1$d dp</string>
     <string name="ui_feed_window_hint">メモリには直近に読み込んだ %1$d 件を保持します。</string>
+    <string name="ui_accent_color">アクセントカラー</string>
+    <string name="ui_accent_default">標準</string>
+    <string name="ui_accent_blue">ブルー（シアン）</string>
+    <string name="ui_accent_pink">ピンク</string>
+    <string name="ui_order_folders">フォルダーの並べ替え</string>
+    <string name="ui_drag_to_sort">ドラッグして並べ替え</string>
+    <string name="ui_order_subfolders">サブフォルダーの並べ替え</string>
+    <string name="ui_new_subfolder">サブフォルダーを作成</string>
+    <string name="ui_delete_subfolder">サブフォルダーを削除</string>
+    <string name="ui_add_to_subfolder">サブフォルダーに追加</string>
+    <string name="ui_remove_classification">分類を解除</string>
+    <string name="ui_no_subfolders">このフォルダー内にサブフォルダーを作成してください。</string>
+    <string name="ui_delete_subfolder_warning">分類のみ解除します。投稿は親フォルダーに残ります。</string>
+    <string name="ui_backup_subfolder_counts">サブフォルダー：%1$d · 分類：%2$d</string>
 </resources>

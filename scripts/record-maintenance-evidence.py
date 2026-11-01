@@ -26,6 +26,7 @@ CAPTURES = [f'maintenance-{screen}-{theme}.png'
             for screen in ['search', 'history', 'settings', 'settings-backup']
             for theme in ['dark', 'light']] + ['appearance-settings.png', 'appearance-player-75.png', 'appearance-player-125.png', 'appearance-search-75.png', 'appearance-search-125.png', 'stability-full-hidden.png', 'stability-full-controls.png', 'stability-tags-zero.png', 'stability-tags-twenty.png', 'stability-favorite-dark.png', 'stability-favorite-light.png']
 COUNT_KEYS = ['tests', 'failures', 'errors', 'skipped']
+CAPTURES += ['v121-folder-order.png','v121-subfolders.png','v121-blue-dark.png','v121-pink-light.png','v121-favorites-primary.png']
 MAIN_ARTIFACTS = {'check-reports', 'device-test-reports', 'search-back-gesture-reports',
                   'six-column-phone-reports', 'six-column-landscape-reports'}
 
@@ -115,7 +116,7 @@ def same_commit_main_checks():
         matching = [run for run in runs if run['head_sha'] == SHA and run['head_branch'] == 'main']
         if matching:
             selected = max(matching, key=lambda run: run['id'])
-            if selected['status'] == 'completed':
+            if selected['status'] == 'completed' or os.environ.get('EVIDENCE_WAIT_FOR_MAIN')=='false':
                 break
         elif time.monotonic() >= discovery_deadline:
             break
@@ -181,6 +182,7 @@ def main():
     report['device_diagnostics'] = [
         {'report': str(path.relative_to(ROOT)), 'tail': path.read_text(errors='replace')[-16000:]}
         for path in ROOT.rglob('maintenance-diagnostics/runner.log')]
+    report['scroll_profile'] = {path.name: json.loads(path.read_text()) for path in ROOT.rglob('scroll-*.json')}
     for name in CAPTURES:
         found = list(ROOT.rglob(name))
         if len(found) == 1:
@@ -208,6 +210,17 @@ def main():
             'confirmed taps, player identity/position/speed/A-B, lifecycle-owner changes, media switches and disposal. '
             'This is not an hours-long soak or a claim that every device crash is fixed. '
             'Captures are original test-app renders; the video pattern is an isolated codec fixture, not website content.\n')
+    if os.environ.get('GITHUB_REF_NAME') in ['dev/release-1.2.1','main']:
+        report['scope']='Backup, Room 3-to-4 migration, hierarchy/order/selection, accents, playback sanity and short layout-scroll comparison.'
+        (OUTPUT / 'report.json').write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
+        (OUTPUT / 'README.md').write_text(
+            f'# v1.2.1 focused verification\n\nSource: `{SHA}`\n\nRun: {report["run_url"]}\n\n'
+            'Focused backup/hierarchy/resource JVM checks, Lint/build, native migration/order/subfolder/theme and short playback tests. '
+            'Original screenshots use public-response fixtures and an isolated codec pattern. '
+            'scroll_profile contains actual FrameMetrics from the same API 28 emulator before/after the update, '
+            'using 300 captured posts without thumbnails to isolate layout, with 24 equal swipes. '
+            'It is not a real-device or network/image-decoding benchmark. Full unrelated CI remains enabled and is reported at its current status. '
+            'Official certificate and v1.2.0 upgrade checks run separately before publication.\n')
     print('Maintenance evidence recorded for', SHA, report['test_counts'])
 
 

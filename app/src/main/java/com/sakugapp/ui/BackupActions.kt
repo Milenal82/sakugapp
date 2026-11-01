@@ -70,6 +70,7 @@ import java.nio.charset.CodingErrorAction
         Column(Modifier.heightIn(max=440.dp).verticalScroll(rememberScrollState()),verticalArrangement=Arrangement.spacedBy(8.dp)){
             val c=value.counts
             Text(text(R.string.ui_backup_preview_counts,c.folders,c.posts,c.relationships,c.tags,c.notes),Modifier.testTag("backup-preview-counts"))
+            if(c.subfolders>0)Text(text(R.string.ui_backup_subfolder_counts,c.subfolders,c.classifications))
             Text(text(R.string.ui_import_warning),style=MaterialTheme.typography.bodySmall)
             if(value.folderConflicts>0){
                 HorizontalDivider();Text(text(R.string.ui_backup_folder_conflicts,value.folderConflicts))

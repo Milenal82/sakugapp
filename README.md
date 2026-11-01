@@ -12,18 +12,18 @@ Sakuga Mobile（安装名称 Sakugapp）是 Sakugabooru 的非官方 Android 客
 - 原始标签搜索、组合条件、标签联想、搜索历史和查询备忘录。平均色工具分析已显示的缩略图，不是网站的颜色相似搜索。
 - 原生详情、分类标签、Score、来源和评论；上一帖、下一帖、下载、原帖、收藏集中在同一操作栏。
 - 全屏旋转、倍速、音量、A–B 循环、双指缩放、双击暂停、左右切帖。高级控制可折叠；支持实际解码索引的逐帧分析及帧号。
-- 本地多收藏夹、封面与排序、JSON 备份；独立的标签收藏和本地备注。浏览历史可关闭、删除或清空。
-- 深浅色主题、75%–125% 应用字号、0–20 dp 预览标签额外行距，八种界面语言；账户、Vote、评论和 Blog / Forum 入口。网站内容与原始标签保持原文，官网语言仅使用英语或日语。
+- 本地多收藏夹、拖拽排序与封面，夹内支持一层子收藏夹及多分类，JSON 备份；独立的标签收藏和本地备注。浏览历史可关闭、删除或清空。
+- 深浅色背景及默认 / 蓝色（青色）/ 粉色强调色、75%–125% 应用字号、0–20 dp 预览标签额外行距，八种界面语言；账户、Vote、评论和 Blog / Forum 入口。网站内容与原始标签保持原文，官网语言仅使用英语或日语。
 
-开发分支的播放器稳定性、紧凑标签与全屏调整见[简要记录](docs/player-stability.md)，尚未发布为正式版。
+全屏默认仅显示视频，单击切换控制栏。升级与数据迁移说明见 [v1.2.1](docs/release-1.2.1.md)。
 
 ### 下载与备份
 
-正式 APK 在 [GitHub Releases](https://github.com/Milenal82/sakugapp/releases)，开发测试包在 [Actions](https://github.com/Milenal82/sakugapp/actions)。本次正式版本为 **1.2.0 / code 13**。
+正式 APK 在 [GitHub Releases](https://github.com/Milenal82/sakugapp/releases)，开发测试包在 [Actions](https://github.com/Milenal82/sakugapp/actions)。本次正式版本为 **1.2.1 / code 14**。
 
 同包名 `com.sakugapp`、同正式证书签名的版本可覆盖安装。升级前建议导出收藏。Debug 与正式签名不同：切换前先备份，再卸载旧包、安装并导入；卸载会删除其他本地数据。
 
-在收藏页使用“导入收藏记录 / 导出收藏记录”。备份包含收藏夹、顺序、封面、多收藏关系、标签收藏及独立备注；不包含媒体、账户凭据、设置或任何浏览历史。新格式带 `format` 与 `schemaVersion`，兼容旧版 v1 / v2 JSON，导入前展示数量及冲突选项，默认合并并保留本地备注。参见[备份格式与限制](docs/backup-format.md)。
+在收藏页使用“导入收藏记录 / 导出收藏记录”。备份包含一级与二级收藏夹、顺序、封面、多收藏及分类关系、标签收藏及独立备注；不包含媒体、账户凭据、设置或任何浏览历史。新格式带 `format` 与 `schemaVersion`，兼容旧版 v1 / v2 JSON 和 schemaVersion 3，导入前展示数量及冲突选项，默认合并并保留本地备注。参见[备份格式与限制](docs/backup-format.md)。
 
 ### 构建与说明
 
@@ -48,18 +48,18 @@ Sakuga Mobile (installed as Sakugapp) is an unofficial Android client for Sakuga
 - Original tag queries, combined filters, tag suggestions, search history, and a query reference. The average-color tool analyzes displayed thumbnails; it does not perform server-side color similarity search.
 - Native details with classified tags, Score, source, and comments. Previous, next, download, original post, and favorites share one toolbar.
 - Fullscreen rotation, speed and volume controls, A–B loops, pinch zoom, double-tap pause, and swiping between posts. Collapsible advanced controls include decoded-index frame stepping and frame numbers.
-- Local folders with covers, ordering, and JSON backup; separate tag favorites and local notes. Browsing history can be disabled, deleted individually, or cleared.
-- Light and dark themes, 75%–125% app text size, 0–20 dp extra preview tag-row spacing, eight UI languages, account / Vote / comment features, and Blog / Forum links. Website content and tags stay in their original language; website locale uses English or Japanese only.
+- Local folders with drag ordering, covers, one level of subfolders and multiple classifications, and JSON backup; separate tag favorites and local notes. Browsing history can be disabled, deleted individually, or cleared.
+- Light and dark backgrounds with default / blue (cyan) / pink accents, 75%–125% app text size, 0–20 dp extra preview tag-row spacing, eight UI languages, account / Vote / comment features, and Blog / Forum links. Website content and tags stay in their original language; website locale uses English or Japanese only.
 
-Development-only player, compact-tag and fullscreen changes are described in [the short notes](docs/player-stability.md); they are not part of the existing public APK.
+Fullscreen starts with video only; a single tap toggles the controls. See [v1.2.1](docs/release-1.2.1.md) for upgrade and migration notes.
 
 ### Download and backup
 
-Find signed releases in [GitHub Releases](https://github.com/Milenal82/sakugapp/releases) and development artifacts in [Actions](https://github.com/Milenal82/sakugapp/actions). The release version is **1.2.0 / code 13**.
+Find signed releases in [GitHub Releases](https://github.com/Milenal82/sakugapp/releases) and development artifacts in [Actions](https://github.com/Milenal82/sakugapp/actions). The release version is **1.2.1 / code 14**.
 
 Updates using the same package (`com.sakugapp`) and official certificate can be installed over the existing app. Export favorites first. Debug and official signatures differ: back up, uninstall, install the other build, and import. Uninstalling removes other local data.
 
-Use the import / export entries on the favorites page. Backups include folders, ordering, covers, multiple folder memberships, tag favorites, and standalone notes. They exclude media, credentials, settings, and all browsing history. The format has explicit `format` and `schemaVersion` fields and accepts legacy v1 / v2 JSON. Imports preview counts and conflict options, merge by default, and retain existing notes by default. See the [backup format and limits](docs/backup-format.md).
+Use the import / export entries on the favorites page. Backups include folders and subfolders, ordering, covers, memberships and classifications, tag favorites, and standalone notes. They exclude media, credentials, settings, and all browsing history. The format has explicit `format` and `schemaVersion` fields and accepts legacy v1 / v2 JSON and schemaVersion 3. Imports preview counts and conflict options, merge by default, and retain existing notes by default. See the [backup format and limits](docs/backup-format.md).
 
 ### Build and limitations
 
@@ -84,18 +84,18 @@ Sakuga Mobile（インストール名 Sakugapp）は Sakugabooru の非公式 An
 - 元のタグ名による検索、複合条件、タグ候補、検索履歴、検索構文の早見表。平均色ツールは表示中のサムネイルを分析するもので、サイトの色類似検索ではありません。
 - 分類別タグ、Score、出典、コメントを表示するネイティブ詳細画面。前後の投稿、ダウンロード、元投稿、お気に入りを同じ操作バーに配置。
 - 全画面回転、速度と音量、A–B リピート、ピンチズーム、ダブルタップで一時停止、左右の投稿切り替え。詳細操作は折りたたみ可能で、実際のデコードインデックスによるコマ送りとフレーム番号に対応。
-- カバーと並び順を設定できるローカルフォルダ、JSON バックアップ、独立したタグのお気に入りとメモ。閲覧履歴の記録停止、個別削除、全消去。
-- ライト / ダークテーマ、75%–125% の文字サイズ、プレビュータグの追加行間 0–20 dp、8 言語の UI、アカウント / Vote / コメント機能、Blog / Forum へのリンク。サイト本文とタグは原文のまま、サイトの言語指定は英語または日本語のみ。
+- ドラッグで並べ替えできるローカルフォルダ、カバー、1 階層のサブフォルダと複数分類、JSON バックアップ、独立したタグのお気に入りとメモ。閲覧履歴の記録停止、個別削除、全消去。
+- ライト / ダーク背景と標準 / ブルー（シアン）/ ピンクのアクセント、75%–125% の文字サイズ、プレビュータグの追加行間 0–20 dp、8 言語の UI、アカウント / Vote / コメント機能、Blog / Forum へのリンク。サイト本文とタグは原文のまま、サイトの言語指定は英語または日本語のみ。
 
-開発ブランチの安定性・タグ行間・全画面操作の変更は[開発メモ](docs/player-stability.md)を参照してください。既存の公開 APK には含まれません。
+全画面では動画のみを表示し、シングルタップで操作を表示・非表示にします。更新とデータ移行は [v1.2.1](docs/release-1.2.1.md) を参照してください。
 
 ### ダウンロードとバックアップ
 
-正式署名 APK は [GitHub Releases](https://github.com/Milenal82/sakugapp/releases)、開発用 APK は [Actions](https://github.com/Milenal82/sakugapp/actions) から取得できます。今回の正式版は **1.2.0 / code 13** です。
+正式署名 APK は [GitHub Releases](https://github.com/Milenal82/sakugapp/releases)、開発用 APK は [Actions](https://github.com/Milenal82/sakugapp/actions) から取得できます。今回の正式版は **1.2.1 / code 14** です。
 
 パッケージ名 `com.sakugapp` と正式署名が同じ場合は上書きインストールできます。先にお気に入りをエクスポートしてください。Debug 版と正式版の署名は異なるため、切り替え時はバックアップ後にアンインストールし、別の版をインストールして取り込みます。アンインストールで他のローカルデータは消去されます。
 
-お気に入り画面のインポート / エクスポートを使用します。フォルダ、順序、カバー、複数フォルダへの所属、タグのお気に入り、単独のメモを保存します。メディア、認証情報、設定、閲覧履歴は含みません。`format` と `schemaVersion` を持つ形式で、旧 v1 / v2 JSON にも対応。取り込み前に件数と競合時の選択肢を表示し、既定では既存データに統合してローカルのメモを保持します。[形式と制限](docs/backup-format.md)を参照してください。
+お気に入り画面のインポート / エクスポートを使用します。フォルダとサブフォルダ、順序、カバー、所属と分類、タグのお気に入り、単独のメモを保存します。メディア、認証情報、設定、閲覧履歴は含みません。`format` と `schemaVersion` を持つ形式で、旧 v1 / v2 JSON と schemaVersion 3 にも対応。取り込み前に件数と競合時の選択肢を表示し、既定では既存データに統合してローカルのメモを保持します。[形式と制限](docs/backup-format.md)を参照してください。
 
 ### ビルドと制限
 

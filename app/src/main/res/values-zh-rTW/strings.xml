@@ -425,4 +425,18 @@
     <string name="ui_font_size">字體大小：%1$d%%</string>
     <string name="ui_tag_vertical_spacing">標籤垂直間距：%1$d dp</string>
     <string name="ui_feed_window_hint">僅在記憶體中保留最近載入的 %1$d 則貼文。</string>
+    <string name="ui_accent_color">主題強調色</string>
+    <string name="ui_accent_default">預設</string>
+    <string name="ui_accent_blue">藍色（青色）</string>
+    <string name="ui_accent_pink">粉色</string>
+    <string name="ui_order_folders">收藏夾排序</string>
+    <string name="ui_drag_to_sort">拖曳排序</string>
+    <string name="ui_order_subfolders">子收藏夾排序</string>
+    <string name="ui_new_subfolder">新增子收藏夾</string>
+    <string name="ui_delete_subfolder">刪除子收藏夾</string>
+    <string name="ui_add_to_subfolder">加入子收藏夾</string>
+    <string name="ui_remove_classification">移除分類</string>
+    <string name="ui_no_subfolders">請先在此收藏夾新增子收藏夾。</string>
+    <string name="ui_delete_subfolder_warning">僅移除分類，貼文仍保留在父收藏夾中。</string>
+    <string name="ui_backup_subfolder_counts">子收藏夾：%1$d · 分類關係：%2$d</string>
 </resources>

@@ -1,11 +1,12 @@
 # Changelog
 
-## Unreleased — player stability and compact tags
+## 1.2.1 — 2026-11-01
 
-- Bound image memory/disk caches, stream buffers and the retained post window (600 posts per query). Stop background/transition playback and detach/release player resources separately from the page lifecycle owner.
-- Make preview tag spacing 0–20 dp with compact line metrics and no fixed tag padding at zero. Existing saved values remain valid; the fallback 16 dp approximates the former row height.
-- Use selectable folder tiles and immersive fullscreen playback with aspect-based orientation, confirmed single-tap controls and compact primary icons.
-- Keep version 1.2.0 / code 13 and the published releases unchanged.
+- 一级收藏夹拖拽排序，夹内二级分类、多分类关系与非破坏性 Room 3→4 迁移。
+- 备份 schemaVersion 4，兼容旧格式；新增蓝色（青色）和粉色强调色。
+- 减少 Posts 重组、标签/文字布局分配与重复快照复制；保留资源上限及缓存。
+- 纳入上一轮全屏与播放器资源修复。
+
 
 ## 1.2.0 / code 13 — release
 

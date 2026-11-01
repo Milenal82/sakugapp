@@ -62,6 +62,13 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel,language:()->Unit,abo
                 Text(text(R.string.ui_theme_mode),style=MaterialTheme.typography.bodyLarge)
                 FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp)){for((mode,label)in listOf("system" to R.string.ui_theme_system,"dark" to R.string.ui_theme_dark,"light" to R.string.ui_theme_light))FilterChip(selected=settings.themeMode==mode,onClick={model.theme(mode)},modifier=Modifier.semantics{contentDescription=context.getString(label)},label={Text(text(label))})}
             }
+            SettingControl{
+                Text(text(R.string.ui_accent_color),style=MaterialTheme.typography.bodyLarge)
+                FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp),verticalArrangement=Arrangement.spacedBy(4.dp)){
+                    for((value,label)in listOf("default" to R.string.ui_accent_default,"blue" to R.string.ui_accent_blue,"pink" to R.string.ui_accent_pink))
+                        FilterChip(selected=settings.accent==value,onClick={model.accent(value)},modifier=Modifier.testTag("accent-$value"),label={Text(text(label))})
+                }
+            }
             val languageLabel=when(settings.language){"en"->R.string.language_english;"zh-CN"->R.string.language_simplified;"zh-TW"->R.string.language_traditional;"ja"->R.string.language_japanese;"fr"->R.string.language_french;"es"->R.string.language_spanish;"ru"->R.string.language_russian;"ko"->R.string.language_korean;else->R.string.ui_follow_system}
             SettingAction(text(R.string.ui_app_language),text(languageLabel),language)
             SettingControl{

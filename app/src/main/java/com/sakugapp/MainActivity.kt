@@ -87,7 +87,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
     val selected by model.selected.collectAsStateWithLifecycle();val detailError by model.detailError.collectAsStateWithLifecycle()
     val rawFeed by model.state.collectAsStateWithLifecycle()
     val library by app.library.collectAsStateWithLifecycle()
-    val feed=remember(rawFeed,library.durations){rawFeed.copy(posts=rawFeed.posts.map{p->library.durations[p.fileUrl]?.let{p.copy(durationMs=it)} ?: p})}
+    val feed=remember(rawFeed,library.durations){rawFeed.copy(posts=rawFeed.posts.map{p->library.durations[p.fileUrl]?.takeIf{it!=p.durationMs}?.let{p.copy(durationMs=it)} ?: p})}
     val history by app.history.collectAsStateWithLifecycle()
     val grid=rememberLazyGridState()
     val systemTag=android.content.res.Resources.getSystem().configuration.locales[0].toLanguageTag()
@@ -107,7 +107,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
         else data?.getStringExtra("query")?.let{search(it)}
     }
     val openSite:(String)->Unit={url->browser.launch(Intent(context,BrowserActivity::class.java).putExtra("url",url))}
-    SakugappTheme(settings.lightTheme,settings.fontScale){CompositionLocalProvider(LocalLanguage provides language,LocalTagActions provides app){
+    SakugappTheme(settings.lightTheme,settings.fontScale,settings.accent){CompositionLocalProvider(LocalLanguage provides language,LocalTagActions provides app){
         if(about)AboutDialog{about=false}
         Scaffold(topBar={Column(Modifier.statusBarsPadding()){
             Row(Modifier.fillMaxWidth().padding(horizontal=8.dp),verticalAlignment=Alignment.CenterVertically){
@@ -128,7 +128,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
         }}){insets->NavHost(navController=nav,startDestination="posts",modifier=Modifier.padding(insets).semantics{testTagsAsResourceId=true}){
             composable("posts"){
                 val browse=model.browsingState
-                val home=browse.copy(posts=browse.posts.map{post->library.durations[post.fileUrl]?.let{post.copy(durationMs=it)} ?: post})
+                val home=remember(browse,library.durations){browse.copy(posts=browse.posts.map{post->library.durations[post.fileUrl]?.takeIf{it!=post.durationMs}?.let{post.copy(durationMs=it)} ?: post})}
                 PostsScreen(home,grid,settings,history,metered,app,::search,{post->model.open(post);nav.navigate("post/${post.id}")},model::loadMore,model::refresh,isActive=entry?.destination?.route=="posts")
             }
             composable("search"){PostsScreen(feed,rememberLazyGridState(),settings,history,metered,app,::search,{post->model.open(post);nav.navigate("post/${post.id}")},model::loadMore,model::refresh,isActive=entry?.destination?.route=="search")}
@@ -210,10 +210,11 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
             isActive && current.posts.isNotEmpty() && last>=current.posts.size-12 && !current.loading && !current.refreshing && current.refreshError==null && current.error==null && !current.endReached && !current.autoLoadPaused
         }.distinctUntilChanged().filter{it}.collect{loadMore()}
     }
-    val visible by remember(grid){derivedStateOf{grid.layoutInfo.visibleItemsInfo.mapNotNull{it.key as? Long}}}
-    LaunchedEffect(visible,settings.autoPreview,allowedPreview,grid.isScrollInProgress,isActive){
-        if(!isActive || !allowedPreview || active !in visible)active=null
-        if(isActive && settings.autoPreview && allowedPreview && !grid.isScrollInProgress && active==null)active=state.posts.firstOrNull{it.id in visible && it.isVideo}?.id
+    LaunchedEffect(grid,settings.autoPreview,allowedPreview,isActive){
+        snapshotFlow{grid.layoutInfo.visibleItemsInfo.mapNotNull{it.key as? Long} to grid.isScrollInProgress}.distinctUntilChanged().collect{(visible,scrolling)->
+            if(!isActive || !allowedPreview || active !in visible)active=null
+            if(isActive && settings.autoPreview && allowedPreview && !scrolling && active==null)active=latestState.posts.firstOrNull{it.id in visible && it.isVideo}?.id
+        }
     }
     fun collapseSearch(){searchExpanded=false;historyOpen=false;keyboard?.hide();focus.clearFocus()}
     fun submit(value:String){collapseSearch();active=null;chromeVisible=true;search(value)}
@@ -291,7 +292,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
                             SearchToolTile(R.drawable.ic_history,text(R.string.ui_search_history),onClick={historyOpen=!historyOpen;focus.clearFocus()},selected=historyOpen,modifier=Modifier.testTag("search-history-toggle"))
                             SearchToolTile(R.drawable.ic_palette,text(R.string.ui_average_color),enabled=!averaging && state.posts.isNotEmpty() && !(settings.wifiImages && metered),onClick={scope.launch{
                                 averaging=true
-                                try{val urls=state.posts.filter{it.id in visible}.mapNotNull{it.previewUrl};val result=averagePreviewColor(context,urls);average="${result.first} (${result.second}/${urls.size})"}
+                                try{val visible=grid.layoutInfo.visibleItemsInfo.mapNotNull{it.key as? Long}.toHashSet();val urls=state.posts.filter{it.id in visible}.mapNotNull{it.previewUrl};val result=averagePreviewColor(context,urls);average="${result.first} (${result.second}/${urls.size})"}
                                 catch(e:CancellationException){throw e}catch(e:Exception){average=localizedMessage(context,e.message.orEmpty())}finally{averaging=false}
                             }},modifier=Modifier.testTag("average-color-tool"))
                         }
@@ -326,7 +327,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
 }
 
 @OptIn(ExperimentalFoundationApi::class)
-@Composable internal fun PostCard(post:Post,settings:AppSettings,metered:Boolean,preview:Boolean,open:()->Unit,search:(String)->Unit,toggle:()->Unit,onDuration:(Long)->Unit){
+@Composable internal fun PostCard(post:Post,settings:AppSettings,metered:Boolean,preview:Boolean,open:()->Unit,search:(String)->Unit,toggle:()->Unit,onDuration:(Long)->Unit,onClassify:(()->Unit)?=null){
     val contextDescriptionDurationUnknown=text(R.string.ui_duration_unknown)
     var options by remember(post.id){mutableStateOf(false)}
     val interaction=remember(post.id){MutableInteractionSource()};val pressed by interaction.collectIsPressedAsState()
@@ -353,6 +354,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
             }
             DropdownMenu(options,{options=false}){
                 DropdownMenuItem(text={Text(text(R.string.ui_open_original_post))},onClick={options=false;open()})
+                if(onClassify!=null)DropdownMenuItem(text={Text(text(R.string.ui_add_to_subfolder))},onClick={options=false;onClassify()})
                 if(post.isVideo)DropdownMenuItem(text={Text(text(if(preview)R.string.ui_stop_preview else R.string.ui_play_preview))},onClick={options=false;toggle()})
             }
         }
@@ -363,7 +365,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
 @OptIn(ExperimentalLayoutApi::class)
 @Composable private fun PostCaption(post:Post,settings:AppSettings,search:(String)->Unit){
     val size=when(settings.columns){1->14.sp;2->12.sp;else->11.sp}
-    val tags=captionTags(post,settings).let{if(settings.columns>=6)it.take(2)else it}
+    val tags=remember(post,settings){captionTags(post,settings).let{if(settings.columns>=6)it.take(2)else it}}
     if(!settings.wrapTags || settings.columns>=6){
         Column(Modifier.fillMaxWidth().padding(top=5.dp).testTag("post-caption-${post.id}").semantics(mergeDescendants=true){}){
             Row(horizontalArrangement=Arrangement.spacedBy(4.dp)){
@@ -388,7 +390,15 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
     if(settings.wifiImages && metered){Box(modifier){state(R.string.ui_images_wi_fi_only)};return}
     val url=if(detail)post.fileUrl ?: post.previewUrl else post.previewUrl
     if(url==null)Box(modifier){state(R.string.ui_image_unavailable)}
-    else SubcomposeAsyncImage(model=url,contentDescription=text(R.string.ui_post_description,post.id),modifier=modifier,contentScale=if(!detail && settings.cropThumbnails)ContentScale.Crop else ContentScale.Fit,loading={Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surfaceVariant))},error={state(R.string.ui_image_failed_to_load)})
+    else {
+        var failed by remember(url){mutableStateOf(false)}
+        Box(modifier.background(MaterialTheme.colorScheme.surfaceVariant)){
+            coil.compose.AsyncImage(model=url,contentDescription=text(R.string.ui_post_description,post.id),modifier=Modifier.fillMaxSize(),
+                contentScale=if(!detail && settings.cropThumbnails)ContentScale.Crop else ContentScale.Fit,
+                onLoading={failed=false},onSuccess={failed=false},onError={failed=true})
+            if(failed)state(R.string.ui_image_failed_to_load)
+        }
+    }
 }
 
 @Composable internal fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,localSnapshot:Boolean,search:(String)->Unit,wiki:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit,onDuration:(Long)->Unit,hasPrevious:Boolean,hasNext:Boolean,onNavigate:(Int)->Boolean){

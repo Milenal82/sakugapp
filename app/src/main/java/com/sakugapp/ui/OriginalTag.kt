@@ -23,11 +23,14 @@ import com.sakugapp.data.Tag
     val notes=if(app!=null && showNote)app.tagNotes.collectAsStateWithLifecycle().value else emptyList()
     val note=notes.firstOrNull{it.name==tag.name}?.note
     val action=if(app==null)Modifier.clickable{search(tag.name)}else Modifier.combinedClickable(onClick={search(tag.name)},onLongClick={options=true},onLongClickLabel=text(R.string.ui_tag_options))
-    val style=if(previewSpacing==null)LocalTextStyle.current else LocalTextStyle.current.copy(
-        lineHeight=(appTextSize(fontSize*1.2f).value+with(LocalDensity.current){previewSpacing.dp.toSp().value}).sp,
-        lineHeightStyle=LineHeightStyle(LineHeightStyle.Alignment.Center,LineHeightStyle.Trim.Both))
-    Column(modifier.then(action).padding(vertical=if(previewSpacing==null)3.dp else 0.dp)){
-        Text(tag.name,color=color,fontSize=appTextSize(fontSize),style=style,maxLines=maxLines,overflow=TextOverflow.Ellipsis,modifier=Modifier.testTag("tag-${tag.name}"))
+    val base=LocalTextStyle.current;val density=LocalDensity.current;val textSize=appTextSize(fontSize)
+    val style=remember(base,density,textSize,previewSpacing){if(previewSpacing==null)base else base.copy(
+        lineHeight=(textSize.value*1.2f+with(density){previewSpacing.dp.toSp().value}).sp,
+        lineHeightStyle=LineHeightStyle(LineHeightStyle.Alignment.Center,LineHeightStyle.Trim.Both))}
+    if(previewSpacing!=null && !showNote){
+        Text(tag.name,color=color,fontSize=textSize,style=style,maxLines=maxLines,overflow=TextOverflow.Ellipsis,modifier=modifier.then(action).testTag("tag-${tag.name}"))
+    }else Column(modifier.then(action).padding(vertical=if(previewSpacing==null)3.dp else 0.dp)){
+        Text(tag.name,color=color,fontSize=textSize,style=style,maxLines=maxLines,overflow=TextOverflow.Ellipsis,modifier=Modifier.testTag("tag-${tag.name}"))
         if(!note.isNullOrBlank())Text(note,style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.onSurfaceVariant,maxLines=2,overflow=TextOverflow.Ellipsis)
     }
     if(options && app!=null)TagActionsDialog(tag,app){options=false}

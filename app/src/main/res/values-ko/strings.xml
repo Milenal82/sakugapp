@@ -425,4 +425,18 @@
     <string name="ui_font_size">글자 크기: %1$d%%</string>
     <string name="ui_tag_vertical_spacing">태그 세로 간격: %1$d dp</string>
     <string name="ui_feed_window_hint">최근 불러온 게시물 %1$d개를 메모리에 유지합니다.</string>
+    <string name="ui_accent_color">강조 색상</string>
+    <string name="ui_accent_default">기본</string>
+    <string name="ui_accent_blue">파랑(청록)</string>
+    <string name="ui_accent_pink">분홍</string>
+    <string name="ui_order_folders">폴더 순서 변경</string>
+    <string name="ui_drag_to_sort">드래그하여 순서 변경</string>
+    <string name="ui_order_subfolders">하위 폴더 순서 변경</string>
+    <string name="ui_new_subfolder">새 하위 폴더</string>
+    <string name="ui_delete_subfolder">하위 폴더 삭제</string>
+    <string name="ui_add_to_subfolder">하위 폴더에 추가</string>
+    <string name="ui_remove_classification">분류 해제</string>
+    <string name="ui_no_subfolders">먼저 이 폴더 안에 하위 폴더를 만드세요.</string>
+    <string name="ui_delete_subfolder_warning">분류만 해제됩니다. 게시물은 상위 폴더에 유지됩니다.</string>
+    <string name="ui_backup_subfolder_counts">하위 폴더: %1$d · 분류: %2$d</string>
 </resources>

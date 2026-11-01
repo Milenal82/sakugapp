@@ -26,7 +26,7 @@ class BackupImportTest {
     }
     @Test fun portableKeysDoNotDependOnAnySourceOrDestinationDatabaseId(){
         val value=source();val json=JsonParser.parseString(LibraryCodec.encode(value)).asJsonObject
-        assertEquals("sakugapp.library",json["format"].asString);assertEquals(3,json["schemaVersion"].asInt)
+        assertEquals("sakugapp.library",json["format"].asString);assertEquals(LibraryCodec.SCHEMA_VERSION,json["schemaVersion"].asInt)
         assertFalse(json.has("version"));assertFalse(json.toString().contains("folderId"))
         val folders=json.getAsJsonArray("folders");assertFalse(folders[0].asJsonObject.has("id"))
         val key=folders[0].asJsonObject["key"].asString
@@ -110,12 +110,12 @@ class BackupImportTest {
     @Test fun malformedUnsupportedOversizedAndInvalidRelationsFailBeforeImport(){
         val raw=LibraryCodec.encode(source());val json=JsonParser.parseString(raw).asJsonObject
         val bad=listOf("{broken",raw+" trailing",raw.replace("\"format\"","format"),"[]", "null",
-            json.deepCopy().apply{addProperty("schemaVersion",4)}.toString(),
+            json.deepCopy().apply{addProperty("schemaVersion",LibraryCodec.SCHEMA_VERSION+1)}.toString(),
             json.deepCopy().apply{getAsJsonArray("folders")[0].asJsonObject.addProperty("coverPostId",Long.MAX_VALUE)}.toString(),
             json.deepCopy().apply{getAsJsonArray("links")[0].asJsonObject.addProperty("folderKey","missing")}.toString(),
             json.deepCopy().apply{getAsJsonArray("folders").add(getAsJsonArray("folders")[0].deepCopy())}.toString())
         bad.forEach{assertThrows(it.take(60),LibraryFailure::class.java){LibraryCodec.decode(it)}}
-        val future=assertThrows(LibraryFailure::class.java){LibraryCodec.decode(json.deepCopy().apply{addProperty("schemaVersion",4)}.toString())}
+        val future=assertThrows(LibraryFailure::class.java){LibraryCodec.decode(json.deepCopy().apply{addProperty("schemaVersion",LibraryCodec.SCHEMA_VERSION+1)}.toString())}
         assertEquals("unsupported_backup_version",future.code)
         assertEquals("library_limit",assertThrows(LibraryFailure::class.java){LibraryCodec.decode(" ".repeat(LibraryCodec.MAX_BYTES+1))}.code)
     }

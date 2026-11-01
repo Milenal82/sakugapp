@@ -30,6 +30,7 @@ class BrowserActivity:androidx.appcompat.app.AppCompatActivity() {
             var language by remember{mutableStateOf("en")}
             var lightTheme by remember{mutableStateOf(false)}
             var fontScale by remember{mutableFloatStateOf(1f)}
+            var accent by remember{mutableStateOf("default")}
             var ready by remember{mutableStateOf(false)}
             var browser by remember{mutableStateOf<WebView?>(null)}
             var error by remember{mutableStateOf<String?>(null)}
@@ -37,6 +38,7 @@ class BrowserActivity:androidx.appcompat.app.AppCompatActivity() {
             LaunchedEffect(Unit) {
                 val preferences=PreferencesStore(applicationContext).settings.first()
                 fontScale=preferences.fontScale
+                accent=preferences.accent
                 language=preferences.language;lightTheme=themeIsLight(preferences.themeMode,(resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK)==android.content.res.Configuration.UI_MODE_NIGHT_YES)
                 val cookies=withContext(Dispatchers.IO){SecureSession(applicationContext).apply{restore()}.browserCookies()}
                 val manager=CookieManager.getInstance();manager.setAcceptCookie(true)
@@ -44,7 +46,7 @@ class BrowserActivity:androidx.appcompat.app.AppCompatActivity() {
                 manager.flush();ready=true;setResult(Activity.RESULT_OK)
             }
             DisposableEffect(Unit){onDispose{browser?.stopLoading();browser?.destroy();browser=null}}
-            CompositionLocalProvider(LocalLanguage provides language){SakugappTheme(lightTheme,fontScale){
+            CompositionLocalProvider(LocalLanguage provides language){SakugappTheme(lightTheme,fontScale,accent){
                 BackHandler{if(browser?.canGoBack()==true)browser?.goBack()else finish()}
                 Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background).systemBarsPadding()){
                     Row{

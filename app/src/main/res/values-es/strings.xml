@@ -431,4 +431,18 @@
     <string name="ui_font_size">Tamaño del texto: %1$d%%</string>
     <string name="ui_tag_vertical_spacing">Espacio vertical de etiquetas: %1$d dp</string>
     <string name="ui_feed_window_hint">Conserva en memoria las últimas %1$d publicaciones cargadas.</string>
+    <string name="ui_accent_color">Color de acento</string>
+    <string name="ui_accent_default">Predeterminado</string>
+    <string name="ui_accent_blue">Azul (cian)</string>
+    <string name="ui_accent_pink">Rosa</string>
+    <string name="ui_order_folders">Ordenar carpetas</string>
+    <string name="ui_drag_to_sort">Arrastrar para ordenar</string>
+    <string name="ui_order_subfolders">Ordenar subcarpetas</string>
+    <string name="ui_new_subfolder">Nueva subcarpeta</string>
+    <string name="ui_delete_subfolder">Eliminar subcarpeta</string>
+    <string name="ui_add_to_subfolder">Añadir a subcarpeta</string>
+    <string name="ui_remove_classification">Quitar clasificación</string>
+    <string name="ui_no_subfolders">Crea primero una subcarpeta en esta carpeta.</string>
+    <string name="ui_delete_subfolder_warning">Solo se elimina la clasificación. Las publicaciones permanecen en la carpeta principal.</string>
+    <string name="ui_backup_subfolder_counts">Subcarpetas: %1$d · Clasificaciones: %2$d</string>
 </resources>

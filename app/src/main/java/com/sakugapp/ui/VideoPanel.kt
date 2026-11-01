@@ -271,7 +271,9 @@ AndroidView(factory={VideoGestureHost(it)},modifier=videoModifier.testTag("video
             }
         }
     }
-    val panelColors=if(fullscreen || preview)appColors(false)else MaterialTheme.colorScheme
+    val accent=LocalAccent.current
+    val darkPanelColors=remember(accent){appColors(false,accent)}
+    val panelColors=if(fullscreen || preview)darkPanelColors else MaterialTheme.colorScheme
     MaterialTheme(colorScheme=panelColors){
         if(fullscreen){
             Box(Modifier.fillMaxWidth().height(if(inlineExpanded)480.dp else 300.dp))

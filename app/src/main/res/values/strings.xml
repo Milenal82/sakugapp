@@ -437,4 +437,18 @@
     <string name="ui_font_size">Font size: %1$d%%</string>
     <string name="ui_tag_vertical_spacing">Tag vertical spacing: %1$d dp</string>
     <string name="ui_feed_window_hint">Keeps the most recently loaded %1$d posts in memory.</string>
+    <string name="ui_accent_color">Accent color</string>
+    <string name="ui_accent_default">Default</string>
+    <string name="ui_accent_blue">Blue (cyan)</string>
+    <string name="ui_accent_pink">Pink</string>
+    <string name="ui_order_folders">Reorder folders</string>
+    <string name="ui_drag_to_sort">Drag to reorder</string>
+    <string name="ui_order_subfolders">Reorder subfolders</string>
+    <string name="ui_new_subfolder">New subfolder</string>
+    <string name="ui_delete_subfolder">Delete subfolder</string>
+    <string name="ui_add_to_subfolder">Add to subfolder</string>
+    <string name="ui_remove_classification">Remove classification</string>
+    <string name="ui_no_subfolders">Create a subfolder in this folder first.</string>
+    <string name="ui_delete_subfolder_warning">Only the classification is removed. Posts remain in the parent folder.</string>
+    <string name="ui_backup_subfolder_counts">Subfolders: %1$d · Classifications: %2$d</string>
 </resources>

@@ -2,7 +2,7 @@
 package com.sakugapp.data
 
 /** Counts include the default folder and each distinct many-to-many membership. */
-data class BackupCounts(val folders:Int,val posts:Int,val relationships:Int,val tags:Int,val notes:Int)
+data class BackupCounts(val folders:Int,val posts:Int,val relationships:Int,val tags:Int,val notes:Int,val subfolders:Int=0,val classifications:Int=0)
 class BackupPreview internal constructor(internal val backup:LibraryBackup,val counts:BackupCounts,val folderConflicts:Int,val noteConflicts:Int)
 enum class FolderConflictPolicy { MERGE_BY_NAME, KEEP_BOTH }
 enum class NoteConflictPolicy { KEEP_EXISTING, REPLACE }
@@ -11,10 +11,11 @@ data class BackupImportResult(val added:Int,val skipped:Int,val failed:Int=0)
 /** A pure plan is fully checked before the transaction writes any rows. Database IDs never cross the file boundary. */
 internal data class BackupMergePlan(
     val folders:List<FavoriteFolder>,val posts:List<FavoritePost>,val links:List<FavoriteLink>,
-    val tags:List<SavedTag>,val notes:List<TagNote>,val result:BackupImportResult
+    val tags:List<SavedTag>,val notes:List<TagNote>,val result:BackupImportResult,
+    val subfolders:List<FavoriteSubfolder> = emptyList(),val subfolderLinks:List<FavoriteSubfolderLink> = emptyList()
 )
 internal object LibraryMerge {
-    fun counts(value:LibraryBackup)=BackupCounts(value.folders.size,value.posts.size,value.links.size,value.tags.size,value.notes.size)
+    fun counts(value:LibraryBackup)=BackupCounts(value.folders.size,value.posts.size,value.links.size,value.tags.size,value.notes.size,value.subfolders.size,value.subfolderLinks.size)
     fun preview(incoming:LibraryBackup,old:LibraryBackup):BackupPreview {
         val oldNotes=old.notes.associateBy{it.name}
         val available=old.folders.filter{it.id!=1L}.toMutableList()
@@ -24,7 +25,12 @@ internal object LibraryMerge {
                 if(index<0)false else {available.removeAt(index);true}
             }
         }
-        return BackupPreview(incoming,counts(incoming),conflicts,
+        val subConflicts=incoming.subfolders.count{sub->
+            val parent=incoming.folders.first{it.id==sub.folderId}
+            val local=old.folders.firstOrNull{if(parent.id==1L)it.id==1L else it.name.equals(parent.name,true)}
+            local!=null && old.subfolders.any{it.folderId==local.id && it.name.equals(sub.name,true)}
+        }
+        return BackupPreview(incoming,counts(incoming),conflicts+subConflicts,
             incoming.notes.count{n->oldNotes[n.name]?.let{it.note!=n.note}==true})
     }
 
@@ -85,6 +91,27 @@ internal object LibraryMerge {
             }else{skipped++;false}
         }
         if(tags.size>PersonalRules.MAX_TAGS || notes.size>PersonalRules.MAX_NOTES)throw LibraryFailure("library_limit")
-        return BackupMergePlan(folders,newPosts,newLinks,newTags,newNotes,BackupImportResult(added,skipped))
+        val subs=old.subfolders.toMutableList();val newSubs=mutableListOf<FavoriteSubfolder>()
+        val subMapped=mutableMapOf<Long,Long>();var nextSub=(subs.maxOfOrNull{it.id} ?: 0L)+1
+        incoming.subfolders.sortedBy{it.position}.forEach{sub->
+            val parent=mapped.getValue(sub.folderId)
+            val existing=subs.firstOrNull{it.folderId==parent && it.name.equals(sub.name,true)}
+            if(existing!=null && folderPolicy==FolderConflictPolicy.MERGE_BY_NAME){subMapped[sub.id]=existing.id;skipped++}
+            else{
+                if(subs.size>=500 || subs.count{it.folderId==parent}>=100 || nextSub<=0)throw LibraryFailure("library_limit")
+                var name=sub.name;var number=2
+                while(subs.any{it.folderId==parent && it.name.equals(name,true)}){val suffix=" (${number++})";name=sub.name.take(80-suffix.length)+suffix}
+                val value=FavoriteSubfolder(nextSub++,parent,name,(subs.filter{it.folderId==parent}.maxOfOrNull{it.position} ?: -1)+1)
+                subMapped[sub.id]=value.id;subs.add(value);newSubs.add(value);added++
+            }
+        }
+        val classes=old.subfolderLinks.associateBy{it.postId to it.subfolderId}.toMutableMap()
+        val newClasses=incoming.subfolderLinks.map{it.copy(folderId=mapped.getValue(it.folderId),subfolderId=subMapped.getValue(it.subfolderId))}.filter{
+            if((it.postId to it.folderId) !in links)throw LibraryFailure("invalid_backup")
+            val key=it.postId to it.subfolderId
+            if(key in classes){skipped++;false}else{classes[key]=it;added++;true}
+        }
+        if(classes.size>50000)throw LibraryFailure("library_limit")
+        return BackupMergePlan(folders,newPosts,newLinks,newTags,newNotes,BackupImportResult(added,skipped),newSubs,newClasses)
     }
 }

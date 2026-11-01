@@ -69,9 +69,9 @@ class PersonalDataTest {
     @Test fun portableBackupsRoundTripUnfavoritedNotesAndNeverExportHistory(){
         val backup=LibraryBackup(emptyList(),emptyList(),emptyList(),listOf(SavedTag("original_tag","ARTIST",1)),listOf(TagNote("not_saved","中文\n😀",2)))
         val json=LibraryCodec.encode(backup);val parsed=JsonParser.parseString(json).asJsonObject
-        assertEquals(3,parsed["schemaVersion"].asInt);assertFalse(parsed.has("history"));assertFalse(parsed.has("credentials"))
+        assertEquals(LibraryCodec.SCHEMA_VERSION,parsed["schemaVersion"].asInt);assertFalse(parsed.has("history"));assertFalse(parsed.has("credentials"))
         assertEquals(backup,LibraryCodec.decode(json))
-        val future=parsed.deepCopy().apply{addProperty("schemaVersion",4)}
+        val future=parsed.deepCopy().apply{addProperty("schemaVersion",LibraryCodec.SCHEMA_VERSION+1)}
         assertThrows(LibraryFailure::class.java){LibraryCodec.decode(future.toString())}
         val invalid=parsed.deepCopy().apply{getAsJsonArray("tagNotes")[0].asJsonObject.addProperty("name","bad tag")}
         assertThrows(LibraryFailure::class.java){LibraryCodec.decode(invalid.toString())}

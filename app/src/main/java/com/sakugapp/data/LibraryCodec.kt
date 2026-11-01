@@ -5,7 +5,7 @@ import com.google.gson.*
 import java.net.URI
 
 class LibraryFailure(val code:String):Exception(code)
-data class LibraryBackup(val folders:List<FavoriteFolder>,val posts:List<FavoritePost>,val links:List<FavoriteLink>,val tags:List<SavedTag> = emptyList(),val notes:List<TagNote> = emptyList())
+data class LibraryBackup(val folders:List<FavoriteFolder>,val posts:List<FavoritePost>,val links:List<FavoriteLink>,val tags:List<SavedTag> = emptyList(),val notes:List<TagNote> = emptyList(),val subfolders:List<FavoriteSubfolder> = emptyList(),val subfolderLinks:List<FavoriteSubfolderLink> = emptyList())
 object LibraryCodec {
     const val MAX_BYTES=20*1024*1024
     private val gson=Gson()
@@ -45,7 +45,7 @@ object LibraryCodec {
         Post(id,tags,int("score"),trustedMedia(o.text("previewUrl")),size("previewWidth"),size("previewHeight"),trustedMedia(o.text("fileUrl")),o.text("fileExt",16),size("width"),size("height"),o.text("source"),o.text("rating",30),o.long("createdAt"),o.text("status",100),o.text("uploader",300),bytes,duration)
     }catch(e:LibraryFailure){throw e}catch(e:Exception){throw LibraryFailure("invalid_backup")}
     const val FORMAT="sakugapp.library"
-    const val SCHEMA_VERSION=3
+    const val SCHEMA_VERSION=4
     fun encode(value:LibraryBackup):String {
         val keys=value.folders.mapIndexed{index,folder->folder.id to "folder_$index"}.toMap()
         val o=JsonObject();o.addProperty("format",FORMAT);o.addProperty("schemaVersion",SCHEMA_VERSION)
@@ -59,6 +59,13 @@ object LibraryCodec {
         })}})
         o.add("posts",JsonArray().apply{value.posts.forEach{p->add(JsonObject().apply{addProperty("savedAt",p.savedAt);add("post",JsonParser.parseString(p.snapshot))})}})
         o.add("tagFavorites",gson.toJsonTree(value.tags));o.add("tagNotes",gson.toJsonTree(value.notes))
+        val subkeys=value.subfolders.mapIndexed{index,f->f.id to "subfolder_$index"}.toMap()
+        o.add("subfolders",JsonArray().apply{value.subfolders.forEach{f->add(JsonObject().apply{
+            addProperty("key",subkeys.getValue(f.id));addProperty("folderKey",keys[f.folderId] ?: throw LibraryFailure("invalid_backup"));addProperty("name",f.name);addProperty("position",f.position)
+        })}})
+        o.add("subfolderLinks",JsonArray().apply{value.subfolderLinks.forEach{l->add(JsonObject().apply{
+            addProperty("postId",l.postId);addProperty("subfolderKey",subkeys[l.subfolderId] ?: throw LibraryFailure("invalid_backup"))
+        })}})
         return gson.toJson(o).also{if(it.toByteArray(Charsets.UTF_8).size>MAX_BYTES)throw LibraryFailure("library_limit")}
     }
     fun decode(body:String):LibraryBackup=try {
@@ -67,15 +74,15 @@ object LibraryCodec {
         if(o.text("format")!=FORMAT)throw LibraryFailure("invalid_backup")
         val schema=o.long("schemaVersion")
         val version=if(schema!=null){
-            if(schema!=SCHEMA_VERSION.toLong())throw LibraryFailure("unsupported_backup_version")
+            if(schema !in 3L..SCHEMA_VERSION.toLong())throw LibraryFailure("unsupported_backup_version")
             if(o.has("version"))throw LibraryFailure("invalid_backup")
-            SCHEMA_VERSION.toLong()
+            schema
         }else o.long("version",true)!!.also{if(it !in setOf(1L,2L))throw LibraryFailure("unsupported_backup_version")}
         fun array(key:String,limit:Int)=o.getAsJsonArray(key)?.also{if(it.size()>limit)throw LibraryFailure("library_limit")} ?: throw LibraryFailure("invalid_backup")
         val folderKeys=mutableMapOf<String,Long>();var nextFolder=2L
         val folders=array("folders",100).mapIndexed{index,v->
             val f=v.asJsonObject
-            val id=if(version==3L){
+            val id=if(version>=3L){
                 val key=f.text("key",120) ?: throw LibraryFailure("invalid_backup")
                 if(key.isBlank() || key.any{it.isISOControl()} || key in folderKeys)throw LibraryFailure("invalid_backup")
                 val kind=f.text("kind",16)
@@ -92,14 +99,14 @@ object LibraryCodec {
         val posts=array("posts",10000).map{v->val entry=v.asJsonObject;val post=decodePost(entry.get("post").toString());FavoritePost(post.id,encodePost(post),entry.long("savedAt",true)!!.also{if(it<0)throw LibraryFailure("invalid_backup")})}.distinctBy{it.id}
         val folderIds=folders.map{it.id}.toSet();val postIds=posts.map{it.id}.toSet()
         val links=array("links",50000).map{v->val l=v.asJsonObject
-            val folder=if(version==3L)folderKeys[l.text("folderKey",120)] ?: throw LibraryFailure("invalid_backup") else l.long("folderId",true)!!
+            val folder=if(version>=3L)folderKeys[l.text("folderKey",120)] ?: throw LibraryFailure("invalid_backup") else l.long("folderId",true)!!
             FavoriteLink(l.long("postId",true)!!,folder,l.long("addedAt",true)!!.also{if(it<0)throw LibraryFailure("invalid_backup")})
         }.distinctBy{it.postId to it.folderId}
         if(links.any{it.postId !in postIds || it.folderId !in folderIds})throw LibraryFailure("invalid_backup")
         val linkedPosts=links.map{it.postId}.toSet();val memberships=links.map{it.folderId to it.postId}.toSet()
         if(posts.any{it.id !in linkedPosts})throw LibraryFailure("invalid_backup")
         val checkedFolders=folders.map{f->if(f.coverPostId!=null && (f.id to f.coverPostId) !in memberships){
-            if(version==3L)throw LibraryFailure("invalid_backup")
+            if(version>=3L)throw LibraryFailure("invalid_backup")
             f.copy(coverPostId=null)
         }else f}
         // Obsolete legacy translation fields are ignored, never imported or exported.
@@ -111,6 +118,22 @@ object LibraryCodec {
             val note=PersonalRules.note(n.text("note",4000) ?: throw LibraryFailure("invalid_backup"))
             if(note.isBlank())throw LibraryFailure("invalid_backup")
             TagNote(name,note,n.long("updatedAt",true)!!.also{if(it<0)throw LibraryFailure("invalid_backup")})}.distinctBy{it.name}else emptyList()
-        LibraryBackup(checkedFolders,posts,links,tags,notes)
+        val subkeys=mutableMapOf<String,Long>()
+        val subfolders=if(version>=4L)array("subfolders",500).mapIndexed{index,v->
+            val f=v.asJsonObject;val key=f.text("key",120) ?: throw LibraryFailure("invalid_backup")
+            val parent=folderKeys[f.text("folderKey",120)] ?: throw LibraryFailure("invalid_backup")
+            val name=f.text("name",80)?.trim() ?: throw LibraryFailure("invalid_backup")
+            val position=f.long("position",true)!!
+            if(key.isBlank() || key.any{it.isISOControl()} || key in subkeys || name.isBlank() || name.any{it.isISOControl()} || position !in 0..100000)throw LibraryFailure("invalid_backup")
+            val id=index+1L;subkeys[key]=id;FavoriteSubfolder(id,parent,name,position.toInt())
+        }.also{all->if(all.groupBy{it.folderId}.any{(_,siblings)->siblings.size>100 || siblings.map{it.name.lowercase(java.util.Locale.ROOT)}.distinct().size!=siblings.size})throw LibraryFailure("invalid_backup")}else emptyList()
+        val subById=subfolders.associateBy{it.id};val parentLinks=links.mapTo(HashSet()){it.postId to it.folderId}
+        val sublinks=if(version>=4L)array("subfolderLinks",50000).map{v->
+            val l=v.asJsonObject;val sub=subById[subkeys[l.text("subfolderKey",120)]] ?: throw LibraryFailure("invalid_backup")
+            val postId=l.long("postId",true)!!
+            if((postId to sub.folderId) !in parentLinks)throw LibraryFailure("invalid_backup")
+            FavoriteSubfolderLink(postId,sub.id,sub.folderId)
+        }.distinctBy{it.postId to it.subfolderId}else emptyList()
+        LibraryBackup(checkedFolders,posts,links,tags,notes,subfolders,sublinks)
     }catch(e:LibraryFailure){throw e}catch(e:Exception){throw LibraryFailure("invalid_backup")}
 }
