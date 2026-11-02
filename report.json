@@ -1,49 +1,55 @@
 {
-  "source_commit": "e1df6284ca31619205fe220686d400ee6890eacc",
-  "run_id": "41371434908",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/41371434908",
-  "captured_utc": "2026-11-02T01:17:19.902179+00:00",
-  "validation_result": "cancelled",
+  "source_commit": "9ed13141724c4135e517e357be4ca716ecd24091",
+  "run_id": "41371635071",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/41371635071",
+  "captured_utc": "2026-11-02T01:23:56.225845+00:00",
+  "validation_result": "failure",
   "scope": "Fixed legacy preference policy, full light/dark pink/mint palettes, menus, short playback sanity and layout scrolling.",
   "jobs": [
     {
       "name": "validation",
       "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371434908/job/125042551720",
-      "id": 125042551720
+      "conclusion": "failure",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371635071/job/125043345915",
+      "id": 125043345915
     },
     {
       "name": "scroll-profile",
       "status": "completed",
       "conclusion": "skipped",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371434908/job/125042552911",
-      "id": 125042552911
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371635071/job/125043347459",
+      "id": 125043347459
     },
     {
       "name": "evidence",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371434908/job/125043297310",
-      "id": 125043297310
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371635071/job/125045058109",
+      "id": 125045058109
     }
   ],
   "artifacts": [
     {
-      "name": "maintenance-test-reports",
-      "bytes": 59671,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371434908/artifacts/13109396871"
+      "name": "maintenance-debug-apk",
+      "bytes": 18023953,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371635071/artifacts/13110245239"
     },
     {
-      "name": "maintenance-debug-apk",
-      "bytes": 18023951,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371434908/artifacts/13109327379"
+      "name": "maintenance-test-reports",
+      "bytes": 573730,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371635071/artifacts/13110050565"
     }
   ],
   "test_counts": {
     "debug_unit": {
       "tests": 30,
       "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "device": {
+      "tests": 6,
+      "failures": 1,
       "errors": 0,
       "skipped": 0
     }
@@ -57,12 +63,68 @@
   "failures": [
     {
       "job": "validation",
-      "conclusion": "cancelled",
-      "message": "2026-11-02T01:17:06.9865612Z ##[error]The operation was canceled."
+      "conclusion": "failure",
+      "message": "2026-11-02T01:22:55.6566986Z com.sakugapp.ThemeSettingsDeviceTest > defaultPlaybackIgnoresOldFlagsAndTemporaryControlsAndScreenshotStillWork[emulator-5554 - 9] FAILED \n2026-11-02T01:22:55.6569197Z \tjava.lang.AssertionError: expected:<0> but was:<1>\n2026-11-02T01:23:38.3565975Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-02T01:23:38.4603976Z * What went wrong:\n2026-11-02T01:23:38.4612611Z BUILD FAILED in 1m 25s\n2026-11-02T01:23:38.9634376Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
+    },
+    {
+      "test": "com.sakugapp.ThemeSettingsDeviceTest.defaultPlaybackIgnoresOldFlagsAndTemporaryControlsAndScreenshotStillWork",
+      "report": "outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "message": "java.lang.AssertionError: expected:<0> but was:<1>\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.failNotEquals(Assert.java:835)\nat org.junit.Assert.assertEquals(Assert.java:120)\nat org.junit.Assert.assertEquals(Assert.java:146)\nat com.sakugapp.ThemeSettingsDeviceTest.defaultPlaybackIgnoresOldFlagsAndTemporaryControlsAndScreenshotStillWork$lambda$11(ThemeSettingsDeviceTest.kt:106)\nat com.sakugapp.ThemeSettingsDeviceTest.$r8$lambda$8QzcgT9mA16DtWwZLUkhQkNKECo(Unknown Source:0)\nat com.sakugapp.ThemeSettingsDeviceTest$$ExternalSyntheticLambda3.invoke(D8$$SyntheticClass:0)\nat androidx.compose.ui.test.AndroidSynchronization_androidKt.runOnUiThread$lambda$0(AndroidSynchronization.android.kt:39)\nat androidx.compose.ui.test.AndroidSynchronization_androidKt.$r8$lambda$opyMdTZ52jorqLaIG4SKpPr_Zno(Unknown Source:0)\nat androidx.compose.ui.test.AndroidSynchronization_androidKt$$ExternalSyntheticLambda0.call(D8$$SyntheticClass:0)\nat java.util.concurrent.FutureTask.run(FutureTask.java:266)\nat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:458)\nat java.util.concurrent.FutureTask.run(FutureTask.java:266)\nat android.app.Instrumentation$SyncRunnable.run(Instrumentation.java:2163)\nat android.os.Handler.handleCallback(Handler.java:873)\nat android.os.Handler.dispatchMessage(Handler.java:99)\nat android.os.Looper.loop(Looper.java:193)\nat android.app.ActivityThread.main(ActivityThread.java:6669)\nat java.lang.reflect.Method.invoke(Native Method)\nat com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:493)\nat com.android.internal.os.ZygoteInit.main(ZygoteInit.java:858)\nSuppressed: java.util.concurrent.ExecutionException: An Exception occurred on the UI thread during runOnUiThread()\nat androidx.compose.ui.test.AndroidSynchronization_androidKt.runOnUiThread(AndroidSynchronization.android.kt:50)\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidTestOwner.runOnUiThread(ComposeUiTest.android.kt:599)\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.runOnUiThread(ComposeUiTest.android.kt:463)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.runOnUiThread(AndroidComposeTestRule.android.kt:330)\nat com.sakugapp.ThemeSettingsDeviceTest.defaultPlaybackIgnoresOldFlagsAndTemporaryControlsAndScreenshotStillWork(ThemeSettingsDeviceTest.kt:106)\nat java.lang.reflect.Method.invoke(Native Method)\nat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)\nat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\nat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)\nat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\nat org.junit.rules.ExternalResource$1.evaluate(ExternalResource.java:54)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1$evaluate$1.invoke(AndroidComposeTestRule.android.kt:295)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1$evaluate$1.invoke(AndroidComposeTestRule.android.kt:295)\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.withDisposableContent(ComposeUiTest.android.kt:565)\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1$1.invoke(ComposeUiTest.android.kt:370)\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.withComposeIdlingResource(ComposeUiTest.android.kt:439)\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.access$withComposeIdlingResource(ComposeUiTest.android.kt:235)\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1.invoke(ComposeUiTest.android.kt:369)\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.withWindowRecomposer(ComposeUiTest.android.kt:413)\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.access$withWindowRecomposer(ComposeUiTest.android.kt:235)\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1.invoke(ComposeUiTest.android.kt:368)\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.withTestCoroutines(ComposeUiTest.android.kt:426)\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.access$withTestCoroutines(ComposeUiTest.android.kt:235)\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1.invoke(ComposeUiTest.android.kt:367)\nat androidx.compose.ui.test.EspressoLink.withStrategy(EspressoLink.android.kt:69)\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1.invoke(ComposeUiTest.android.kt:366)\nat androidx.compose.ui.test.IdlingResourceRegistry.withRegistry(IdlingResourceRegistry.jvm.kt:148)\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1.invoke(ComposeUiTest.android.kt:365)\nat androidx.compose.ui.test.ComposeRootRegistry.withRegistry(ComposeRootRegistry.android.kt:139)\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.runTest(ComposeUiTest.android.kt:364)\nat androidx.compose.ui.test.junit4.AndroidComp"
     }
   ],
-  "device_diagnostics": [],
-  "scroll_profile": {},
+  "device_diagnostics": [
+    {
+      "report": "reports/maintenance-diagnostics/runner.log",
+      "tail": "--------- beginning of main\n--------- beginning of system\n11-02 01:23:31.484  3202  3218 I TestRunner: finished: rapidUpAndDownScrollCollectsActualFrameDurations(com.sakugapp.PostScrollDeviceTest)\n11-02 01:23:31.486  3202  3218 I TestRunner: run finished: 6 tests, 1 failed, 0 ignored\n"
+    }
+  ],
+  "scroll_profile": {
+    "scroll-current.json": {
+      "label": "current",
+      "scope": "API 28 Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; not a real-device/network benchmark",
+      "frames": 424,
+      "mean_ms": 15.669361216981137,
+      "p50_ms": 12.310258,
+      "p95_ms": 39.397594,
+      "max_ms": 92.929541,
+      "over_34ms": 39,
+      "over_700ms": 0,
+      "components": {
+        "total": {
+          "mean_ms": 15.669361216981137,
+          "p95_ms": 39.397594
+        },
+        "layout": {
+          "mean_ms": 0.11314926886792458,
+          "p95_ms": 0.21483
+        },
+        "draw": {
+          "mean_ms": 0.781082216981132,
+          "p95_ms": 2.15742
+        },
+        "animation": {
+          "mean_ms": 1.3627485141509434,
+          "p95_ms": 4.16302
+        },
+        "input": {
+          "mean_ms": 1.1457028773584905,
+          "p95_ms": 2.4485
+        },
+        "sync": {
+          "mean_ms": 0.1110431839622642,
+          "p95_ms": 0.24235
+        },
+        "commands": {
+          "mean_ms": 0.9614185377358485,
+          "p95_ms": 2.10903
+        },
+        "swap": {
+          "mean_ms": 8.221018301886792,
+          "p95_ms": 16.16022
+        }
+      }
+    }
+  },
   "main_automatic_checks": {
     "status": "not_requested",
     "reason": "This push is not main."
