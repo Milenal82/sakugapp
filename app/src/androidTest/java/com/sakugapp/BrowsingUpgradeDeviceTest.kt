@@ -64,7 +64,7 @@ class BrowsingUpgradeDeviceTest {
             val upgraded=PreferencesStore(context,store)
             upgraded.initializeTheme();assertNull(store.data.first()[booleanPreferencesKey("tagTranslations")])
             val settings=upgraded.settings.first()
-            assertEquals("zh-TW",settings.language);assertFalse(settings.muted);assertTrue(settings.lightTheme);assertEquals(2,settings.columns)
+            assertEquals("zh-TW",settings.language);assertTrue(settings.muted);assertTrue(settings.lightTheme);assertEquals(2,settings.columns)
             assertEquals(30,upgraded.history.first().size)
             upgraded.columns(4);upgraded.remember("new_tag");upgraded.deleteHistory("old_tag5")
             val restored=PreferencesStore(context,store)

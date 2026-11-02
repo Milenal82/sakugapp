@@ -88,23 +88,24 @@ import kotlinx.coroutines.*
                             }
                             Box{
                                 ActionIcon(R.drawable.ic_more,text(R.string.ui_menu),{more=true},Modifier.testTag("folder-more"))
-                                DropdownMenu(more,{more=false}){
-                                    DropdownMenuItem(text={Text(text(R.string.ui_batch_manage))},onClick={more=false;manage=!manage;selected=emptySet()})
+                                TileMenu(more,{more=false}){
+                                    AppMenuItem(icon=R.drawable.ic_tune,toned=true,selected=manage,text={Text(text(R.string.ui_batch_manage))},onClick={more=false;manage=!manage;selected=emptySet()})
                                     for((index,label)in listOf(R.string.ui_sort_saved_desc,R.string.ui_sort_saved_asc,R.string.ui_sort_id_desc,R.string.ui_sort_id_asc).withIndex())
-                                        DropdownMenuItem(text={Text(text(label))},onClick={more=false;app.librarySort(index)})
+                                        AppMenuItem(icon=R.drawable.ic_drag,selected=sort==index,text={Text(text(label))},onClick={more=false;app.librarySort(index)})
+                                    MenuDivider()
                                     if(child!=null){
-                                        DropdownMenuItem(text={Text(text(R.string.ui_rename))},onClick={more=false;childEditing=child;childName=child.name;childDialog=true})
-                                        DropdownMenuItem(text={Text(text(R.string.ui_delete_subfolder))},onClick={more=false;childDeleting=child})
+                                        AppMenuItem(icon=R.drawable.ic_edit,toned=true,text={Text(text(R.string.ui_rename))},onClick={more=false;childEditing=child;childName=child.name;childDialog=true})
+                                        AppMenuItem(icon=R.drawable.ic_close,toned=true,destructive=true,text={Text(text(R.string.ui_delete_subfolder))},onClick={more=false;childDeleting=child})
                                     }else if(folder!=null){
                                         if(folder.id!=1L){
-                                            DropdownMenuItem(text={Text(text(R.string.ui_rename))},onClick={more=false;name=folder.name;rename=true;folderDialog=true})
-                                            DropdownMenuItem(text={Text(text(R.string.ui_delete_folder))},onClick={more=false;deleting=true})
+                                            AppMenuItem(icon=R.drawable.ic_edit,toned=true,text={Text(text(R.string.ui_rename))},onClick={more=false;name=folder.name;rename=true;folderDialog=true})
+                                            AppMenuItem(icon=R.drawable.ic_close,toned=true,destructive=true,text={Text(text(R.string.ui_delete_folder))},onClick={more=false;deleting=true})
                                         }
-                                        DropdownMenuItem(text={Text(text(R.string.ui_set_cover))},enabled=selected.size==1,onClick={more=false;operation{app.localLibrary.cover(folder.id,selected.single())}})
-                                        DropdownMenuItem(text={Text(text(R.string.ui_move_up))},onClick={more=false;operation{app.localLibrary.reorder(folder.id,-1)}})
-                                        DropdownMenuItem(text={Text(text(R.string.ui_move_down))},onClick={more=false;operation{app.localLibrary.reorder(folder.id,1)}})
+                                        AppMenuItem(icon=R.drawable.ic_palette,toned=true,text={Text(text(R.string.ui_set_cover))},enabled=selected.size==1,onClick={more=false;operation{app.localLibrary.cover(folder.id,selected.single())}})
+                                        AppMenuItem(icon=R.drawable.ic_up,toned=true,text={Text(text(R.string.ui_move_up))},onClick={more=false;operation{app.localLibrary.reorder(folder.id,-1)}})
+                                        AppMenuItem(icon=R.drawable.ic_down,toned=true,text={Text(text(R.string.ui_move_down))},onClick={more=false;operation{app.localLibrary.reorder(folder.id,1)}})
                                     }
-                                    DropdownMenuItem(text={Text(text(R.string.ui_batch_download))},enabled=!busy && candidates.any{state.decoded[it.id]?.let{p->p.isVideo && app.offlineMedia.existing(p)==null}==true},onClick={more=false;downloadConfirm=true})
+                                    AppMenuItem(icon=R.drawable.ic_download,toned=true,text={Text(text(R.string.ui_batch_download))},enabled=!busy && candidates.any{state.decoded[it.id]?.let{p->p.isVideo && app.offlineMedia.existing(p)==null}==true},onClick={more=false;downloadConfirm=true})
                                 }
                             }
                         }
@@ -124,9 +125,9 @@ import kotlinx.coroutines.*
                         Text(text(R.string.ui_local_library),style=MaterialTheme.typography.titleLarge,modifier=Modifier.weight(1f))
                         Box{
                             ActionIcon(R.drawable.ic_more,text(R.string.ui_menu),{more=true},Modifier.testTag("library-more"))
-                            DropdownMenu(more,{more=false}){
-                                DropdownMenuItem(text={Text(text(R.string.ui_offline_usage,usage/(1024*1024)))},enabled=false,onClick={})
-                                DropdownMenuItem(text={Text(text(R.string.ui_clear_offline_media))},enabled=!busy,onClick={more=false;clearMedia=true})
+                            TileMenu(more,{more=false}){
+                                AppMenuItem(text={Text(text(R.string.ui_offline_usage,usage/(1024*1024)))},enabled=false,onClick={})
+                                AppMenuItem(icon=R.drawable.ic_close,toned=true,destructive=true,text={Text(text(R.string.ui_clear_offline_media))},enabled=!busy,onClick={more=false;clearMedia=true})
                             }
                         }
                     }
@@ -149,11 +150,11 @@ import kotlinx.coroutines.*
             item{OutlinedCard(onClick=tags,modifier=Modifier.fillMaxWidth().testTag("tag-favorites-entry")){
                 Row(Modifier.padding(14.dp),verticalAlignment=Alignment.CenterVertically){Text(text(R.string.ui_tag_favorites),Modifier.weight(1f));val tags by app.savedTags.collectAsStateWithLifecycle();Text(tags.size.toString())}
             }}
-            item{FolderCard(text(R.string.ui_all_favorites),state.inFolder(null).size,state.inFolder(null).firstOrNull()?.let{state.decoded[it.id]},settings.wifiImages && metered,Modifier.testTag("folder-entry-0")){folderId=0L}}
+            item{FolderCard(text(R.string.ui_all_favorites),state.inFolder(null).size,state.inFolder(null).firstOrNull()?.let{state.decoded[it.id]},false,Modifier.testTag("folder-entry-0")){folderId=0L}}
             items(state.folders,key={"folder-${it.id}"}){f->
                 val entries=state.inFolder(f.id);val ids=entries.map{it.id}.toSet()
                 val cover=state.decoded[f.coverPostId?.takeIf{it in ids} ?: entries.firstOrNull()?.id]
-                FolderCard(folderName(f,context),entries.size,cover,settings.wifiImages && metered,Modifier.testTag("folder-entry-${f.id}")){folderId=f.id}
+                FolderCard(folderName(f,context),entries.size,cover,false,Modifier.testTag("folder-entry-${f.id}")){folderId=f.id}
             }
         }else{
             if(child==null)items(children,key={"subfolder-${it.id}"},span={GridItemSpan(maxLineSpan)}){sub->
@@ -170,7 +171,7 @@ import kotlinx.coroutines.*
                     }
                     PostCard(post,settings,metered,preview==post.id,{if(manage){selected=if(post.id in selected)selected-post.id else selected+post.id}else open(post,candidates.mapNotNull{state.decoded[it.id]})},
                         search,
-                        {if(!metered || settings.mobilePreview)preview=if(preview==post.id)null else post.id else message=context.getString(R.string.ui_previews_on_metered_networks_are_disabled_in_settings)},
+                        {preview=if(preview==post.id)null else post.id},
                         {duration->app.duration(post.fileUrl.orEmpty(),duration)},onClassify=if(actualId!=null)({classifying=post})else null)
                     if(app.offlineMedia.existing(post)!=null)Text(text(R.string.ui_offline_ready),style=MaterialTheme.typography.labelSmall)
                 }
@@ -225,9 +226,9 @@ import kotlinx.coroutines.*
             }
             Box{
                 ActionIcon(R.drawable.ic_more,text(R.string.ui_menu),{more=true},Modifier.testTag("subfolder-menu-${folder.id}"))
-                DropdownMenu(more,{more=false}){
-                    DropdownMenuItem(text={Text(text(R.string.ui_rename))},onClick={more=false;rename()})
-                    DropdownMenuItem(text={Text(text(R.string.ui_delete_subfolder))},onClick={more=false;delete()})
+                TileMenu(more,{more=false}){
+                    AppMenuItem(icon=R.drawable.ic_edit,toned=true,text={Text(text(R.string.ui_rename))},onClick={more=false;rename()})
+                    AppMenuItem(icon=R.drawable.ic_close,toned=true,destructive=true,text={Text(text(R.string.ui_delete_subfolder))},onClick={more=false;delete()})
                 }
             }
         }

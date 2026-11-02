@@ -56,16 +56,15 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel,language:()->Unit,abo
     var message by remember{mutableStateOf<String?>(null)}
     var clearing by remember{mutableStateOf(false)}
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(12.dp),verticalArrangement=Arrangement.spacedBy(12.dp)){
-        val recording by model.recordHistory.collectAsState()
-        SettingsGroup(R.drawable.ic_palette,text(R.string.ui_appearance)){
+        SettingsGroup(R.drawable.ic_palette,text(R.string.ui_appearance_display)){
             SettingControl{
                 Text(text(R.string.ui_theme_mode),style=MaterialTheme.typography.bodyLarge)
                 FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp)){for((mode,label)in listOf("system" to R.string.ui_theme_system,"dark" to R.string.ui_theme_dark,"light" to R.string.ui_theme_light))FilterChip(selected=settings.themeMode==mode,onClick={model.theme(mode)},modifier=Modifier.semantics{contentDescription=context.getString(label)},label={Text(text(label))})}
             }
             SettingControl{
-                Text(text(R.string.ui_accent_color),style=MaterialTheme.typography.bodyLarge)
+                Text(text(R.string.ui_color_theme),style=MaterialTheme.typography.bodyLarge)
                 FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp),verticalArrangement=Arrangement.spacedBy(4.dp)){
-                    for((value,label)in listOf("default" to R.string.ui_accent_default,"blue" to R.string.ui_accent_blue,"pink" to R.string.ui_accent_pink))
+                    for((value,label)in listOf("default" to R.string.ui_accent_default,"mint" to R.string.ui_theme_mint,"pink" to R.string.ui_theme_sakura))
                         FilterChip(selected=settings.accent==value,onClick={model.accent(value)},modifier=Modifier.testTag("accent-$value"),label={Text(text(label))})
                 }
             }
@@ -98,15 +97,10 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel,language:()->Unit,abo
                 Text(text(R.string.ui_grid_columns),style=MaterialTheme.typography.bodyLarge)
                 FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp)){for(columns in GridPolicy.options(LocalConfiguration.current.smallestScreenWidthDp))FilterChip(selected=settings.columns==columns,onClick={model.columns(columns)},modifier=Modifier.testTag("setting-columns-$columns"),label={Text(columns.toString())})}
             }
-            SettingSwitch(text(R.string.ui_gestures_enabled),settings.gestures){model.flag("gestures",it)}
             SettingAction(text(R.string.ui_clear_search_history),onClick={model.clearHistory();message=context.getString(R.string.ui_search_history_cleared)})
         }
-        SettingsGroup(R.drawable.ic_next,text(R.string.ui_video)){
+        SettingsGroup(R.drawable.ic_next,text(R.string.ui_video_playback)){
             SettingSwitch(text(R.string.ui_auto_preview_visible_posts),settings.autoPreview){model.flag("auto",it)}
-            SettingSwitch(text(R.string.ui_allow_previews_on_metered_networks),settings.mobilePreview){model.flag("mobile",it)}
-            SettingSwitch(text(R.string.ui_default_mute),settings.muted){model.flag("muted",it)}
-            SettingSwitch(text(R.string.ui_default_loop),settings.loop){model.flag("loop",it)}
-            SettingSwitch(text(R.string.ui_enable_snapshot_sharing),settings.screenshot){model.flag("screenshot",it)}
             SettingSwitch(text(R.string.ui_mirror_video),settings.mirror){model.flag("mirror",it)}
             SettingControl{
                 Text(text(R.string.ui_default_playback_speed),style=MaterialTheme.typography.bodyLarge)
@@ -121,17 +115,13 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel,language:()->Unit,abo
             }
             SettingAction(text(R.string.ui_reset_video_effects),onClick={model.number("brightness",1f);model.number("contrast",1f);model.number("saturation",1f);model.flag("mirror",false)})
         }
-        SettingsGroup(R.drawable.ic_download,text(R.string.ui_network_and_storage)){
-            SettingSwitch(text(R.string.ui_load_images_only_on_unmetered_networks),settings.wifiImages){model.flag("wifiImages",it)}
+        SettingsGroup(R.drawable.ic_folder,text(R.string.ui_data_management)){
             SettingAction(text(R.string.ui_clear_media_cache),enabled=!clearing,onClick={scope.launch{
                 clearing=true
                 try{withContext(Dispatchers.IO){Coil.imageLoader(context).diskCache?.clear();java.io.File(context.cacheDir,"frames").deleteRecursively();java.io.File(context.cacheDir,"screenshots").deleteRecursively()};Coil.imageLoader(context).memoryCache?.clear();message=context.getString(R.string.ui_cache_cleared)}
                 catch(e:CancellationException){throw e}catch(e:Exception){message=context.getString(R.string.ui_unable_to_clear_all_cache_files)}finally{clearing=false}
             }})
-        }
-        SettingsGroup(R.drawable.ic_folder,text(R.string.ui_favorites_backup)){BackupActions(model)}
-        SettingsGroup(R.drawable.ic_history,text(R.string.ui_privacy_history)){
-            SettingSwitch(text(R.string.ui_record_browsing_history),recording){value->scope.launch{try{model.personal.recording(value)}catch(e:CancellationException){throw e}catch(e:Exception){message=libraryError(context,e)}}}
+            Column(Modifier.padding(vertical=8.dp)){BackupActions(model)}
         }
         SettingsGroup(R.drawable.ic_book,text(R.string.ui_about_and_licenses)){
             SettingAction(text(R.string.ui_about_and_licenses),com.sakugapp.BuildConfig.VERSION_NAME,about)

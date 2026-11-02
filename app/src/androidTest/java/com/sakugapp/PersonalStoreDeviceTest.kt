@@ -18,7 +18,7 @@ import org.junit.runner.RunWith
 class PersonalStoreDeviceTest {
     private val context get()=InstrumentationRegistry.getInstrumentation().targetContext
     private fun posts()=PostParser.posts(InstrumentationRegistry.getInstrumentation().context.assets.open("library-real-posts.json").bufferedReader().use{it.readText()})
-    @Test fun historyReopensDeduplicatesAndDisabledRecordingNeverErasesOtherLocalData()=runBlocking{
+    @Test fun historyReopensDeduplicatesAndLegacyDisabledRecordingIsOverriddenWithoutErasingOtherData()=runBlocking{
         val name="personal-${System.nanoTime()}.db"
         var db=Room.databaseBuilder(context,LibraryDatabase::class.java,name).build()
         try{
@@ -28,10 +28,10 @@ class PersonalStoreDeviceTest {
             store.record(p[0]);store.record(p[1]);store.record(p[0])
             assertEquals(listOf(p[0].id,p[1].id),store.history.first().map{it.id})
             store.removeHistory(p[1].id);assertEquals(listOf(p[0].id),store.history.first().map{it.id});store.record(p[1]);store.record(p[0])
-            store.recording(false);repeat(4){store.record(p[1])};assertEquals(p[0].id,store.history.first().first().id)
+            store.recording(false);repeat(4){store.record(p[1])};assertEquals(p[1].id,store.history.first().first().id)
             db.close();db=Room.databaseBuilder(context,LibraryDatabase::class.java,name).build();store=PersonalStore(db)
-            assertFalse(store.recording.first());assertEquals(2,store.history.first().size)
-            store.record(p[1]);assertEquals(p[0].id,store.history.first().first().id)
+            assertTrue(store.recording.first());assertEquals(2,store.history.first().size)
+            store.record(p[1]);assertEquals(p[1].id,store.history.first().first().id)
             store.removeTag("mokmok");assertEquals("Local understanding\n😀",store.notes.first().single().note)
             store.saveTag(Tag("independent_tag",TagCategory.UNKNOWN));store.note("independent_tag","")
             assertTrue(store.tags.first().any{it.name=="independent_tag"});assertTrue(store.notes.first().isEmpty())

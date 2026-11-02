@@ -125,14 +125,11 @@ class MaintenanceUiDeviceTest {
                 ui.onNodeWithText(ui.activity.getString(R.string.ui_yesterday), substring = false).performScrollTo().assertIsDisplayed()
                 ui.onNodeWithTag("browsing-history-list").performScrollToIndex(0)
                 UiEvidence.capture("maintenance-history-$theme.png")
-                ui.onNodeWithTag("record-browsing-history").performClick()
-                ui.waitUntil(10000) { !app.recordHistory.value }
-                assertEquals("Turning recording off keeps existing history", 2, app.viewedPosts.value.size)
-                ui.onNodeWithTag("record-browsing-history").performClick()
-                ui.waitUntil(10000) { app.recordHistory.value }
+                ui.onNodeWithTag("record-browsing-history").assertDoesNotExist()
+                assertTrue(app.recordHistory.value);assertEquals(2,app.viewedPosts.value.size)
 
                 menu(R.string.ui_settings)
-                ui.onNodeWithText(ui.activity.getString(R.string.ui_appearance), substring = false).assertIsDisplayed()
+                ui.onNodeWithText(ui.activity.getString(R.string.ui_appearance_display), substring = false).assertIsDisplayed()
                 UiEvidence.capture("maintenance-settings-$theme.png")
                 ui.onNodeWithTag("setting-columns-6").performScrollTo().assertIsSelected()
                 ui.onNodeWithTag("import-favorites").performScrollTo().assertIsDisplayed()

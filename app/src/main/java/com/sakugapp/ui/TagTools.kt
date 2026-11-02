@@ -28,9 +28,9 @@ internal fun tagColor(tag:Tag,light:Boolean)=when(tag.category){TagCategory.ARTI
     if(editing)TagNoteDialog(tag.name,current,app,{editing=false})else AlertDialog(onDismissRequest=dismiss,
         title={Text(tag.name)},text={Column(Modifier.verticalScroll(rememberScrollState())){
             if(current.isNotBlank())Text(current,style=MaterialTheme.typography.bodySmall,modifier=Modifier.testTag("tag-note-text"))
-            TextButton(onClick={operate{if(present)app.personal.removeTag(tag.name)else app.personal.saveTag(tag)}},modifier=Modifier.testTag("toggle-tag-favorite")){Text(text(if(present)R.string.ui_unfavorite_tag else R.string.ui_favorite_tag))}
-            TextButton(onClick={editing=true},modifier=Modifier.testTag("edit-tag-note")){Text(text(if(current.isBlank())R.string.ui_add_tag_note else R.string.ui_edit_tag_note))}
-            if(current.isNotBlank())TextButton(onClick={operate{app.personal.note(tag.name,"")}},modifier=Modifier.testTag("clear-tag-note")){Text(text(R.string.ui_clear_tag_note))}
+            AppMenuItem(icon=R.drawable.ic_favorite,selected=present,text={Text(text(if(present)R.string.ui_unfavorite_tag else R.string.ui_favorite_tag))},onClick={operate{if(present)app.personal.removeTag(tag.name)else app.personal.saveTag(tag)}},modifier=Modifier.testTag("toggle-tag-favorite"))
+            AppMenuItem(icon=R.drawable.ic_edit,text={Text(text(if(current.isBlank())R.string.ui_add_tag_note else R.string.ui_edit_tag_note))},onClick={editing=true},modifier=Modifier.testTag("edit-tag-note"))
+            if(current.isNotBlank())AppMenuItem(icon=R.drawable.ic_close,destructive=true,text={Text(text(R.string.ui_clear_tag_note))},onClick={operate{app.personal.note(tag.name,"")}},modifier=Modifier.testTag("clear-tag-note"))
             error?.let{Text(it,color=MaterialTheme.colorScheme.error)}
         }},confirmButton={TextButton(onClick=dismiss){Text(text(R.string.ui_close))}})
 }

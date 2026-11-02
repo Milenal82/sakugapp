@@ -27,6 +27,7 @@ CAPTURES = [f'maintenance-{screen}-{theme}.png'
             for theme in ['dark', 'light']] + ['appearance-settings.png', 'appearance-player-75.png', 'appearance-player-125.png', 'appearance-search-75.png', 'appearance-search-125.png', 'stability-full-hidden.png', 'stability-full-controls.png', 'stability-tags-zero.png', 'stability-tags-twenty.png', 'stability-favorite-dark.png', 'stability-favorite-light.png']
 COUNT_KEYS = ['tests', 'failures', 'errors', 'skipped']
 CAPTURES += ['v121-folder-order.png','v121-subfolders.png','v121-blue-dark.png','v121-pink-light.png','v121-favorites-primary.png']
+CAPTURES += [f'v122-settings-{palette}-{mode}.png' for palette in ['pink','mint'] for mode in ['light','dark']] + ['v122-main-menu.png','v122-folder-menu.png']
 MAIN_ARTIFACTS = {'check-reports', 'device-test-reports', 'search-back-gesture-reports',
                   'six-column-phone-reports', 'six-column-landscape-reports'}
 
@@ -210,7 +211,7 @@ def main():
             'confirmed taps, player identity/position/speed/A-B, lifecycle-owner changes, media switches and disposal. '
             'This is not an hours-long soak or a claim that every device crash is fixed. '
             'Captures are original test-app renders; the video pattern is an isolated codec fixture, not website content.\n')
-    if os.environ.get('GITHUB_REF_NAME') in ['dev/release-1.2.1','main']:
+    if os.environ.get('GITHUB_REF_NAME') == 'dev/release-1.2.1':
         report['scope']='Backup, Room 3-to-4 migration, hierarchy/order/selection, accents, playback sanity and short layout-scroll comparison.'
         (OUTPUT / 'report.json').write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
         (OUTPUT / 'README.md').write_text(
@@ -221,6 +222,16 @@ def main():
             'using 300 captured posts without thumbnails to isolate layout, with 24 equal swipes. '
             'It is not a real-device or network/image-decoding benchmark. Full unrelated CI remains enabled and is reported at its current status. '
             'Official certificate and v1.2.0 upgrade checks run separately before publication.\n')
+    if os.environ.get('GITHUB_REF_NAME') in ['dev/release-1.2.2','main']:
+        report['scope']='Fixed legacy preference policy, full light/dark pink/mint palettes, menus, short playback sanity and layout scrolling.'
+        (OUTPUT / 'report.json').write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
+        (OUTPUT / 'README.md').write_text(
+            f'# v1.2.2 focused verification\n\nSource: `{SHA}`\n\nRun: {report["run_url"]}\n\n'
+            'Focused JVM checks, Lint/build and six API 28 device cases cover legacy settings/history preservation, '
+            'complete pink/mint palettes and menus, temporary mute/loop controls, screenshot sharing, fullscreen and short scrolling. '
+            'Original captures use public-response fixtures and an isolated codec pattern. '
+            'scroll_profile is actual emulator FrameMetrics with thumbnails absent to isolate layout; it is not a real-device benchmark. '
+            'The existing main CI remains enabled. Official v1.2.1-to-v1.2.2 signed upgrade checks run separately before publication.\n')
     print('Maintenance evidence recorded for', SHA, report['test_counts'])
 
 

@@ -54,7 +54,7 @@ class HierarchyDeviceTest {
             assertEquals(listOf(71L,1L),original.folders.map{it.id});assertEquals(2,original.links.size)
             assertEquals(123L,original.posts.single().savedAt);assertEquals(p.id,original.folders.first().coverPostId)
             assertEquals(1234L,original.durations[p.fileUrl]);assertEquals("Local note",db.personal().notesOnce().single().note)
-            assertEquals(1,db.personal().historyOnce().size);assertFalse(PersonalStore(db).recording.first())
+            assertEquals(1,db.personal().historyOnce().size);assertTrue(PersonalStore(db).recording.first())
             val a=store.createSubfolder(71,"Action");val b=store.createSubfolder(71,"Effects")
             store.classify(p.id,71,a,true);store.classify(p.id,71,b,true)
             store.orderFolders(listOf(1,71));store.orderSubfolders(71,listOf(b,a));store.renameSubfolder(a,"Renamed")
@@ -117,7 +117,7 @@ class HierarchyDeviceTest {
             ui.waitUntil(10000){app.library.value.subfolders.none{it.id==a}}
             assertTrue(app.library.value.contains(p.id,roots[0]));assertTrue(app.library.value.classified(p.id,b))
             ui.runOnUiThread{page=1}
-            for((accent,mode)in listOf("blue" to "dark","pink" to "light")){
+            for((accent,mode)in listOf("mint" to "dark","pink" to "light")){
                 ui.runOnUiThread{app.theme(mode)}
                 ui.onNodeWithTag("accent-$accent").performScrollTo().performClick()
                 ui.waitUntil(10000){app.settings.value.accent==accent}

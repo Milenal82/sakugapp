@@ -445,4 +445,10 @@
     <string name="ui_no_subfolders">Créez un sous-dossier dans ce dossier.</string>
     <string name="ui_delete_subfolder_warning">Seul le classement est supprimé. Les publications restent dans le dossier parent.</string>
     <string name="ui_backup_subfolder_counts">Sous-dossiers : %1$d · Classements : %2$d</string>
+    <string name="ui_appearance_display">Apparence et affichage</string>
+    <string name="ui_color_theme">Thème de couleurs</string>
+    <string name="ui_theme_sakura">Rose sakura</string>
+    <string name="ui_theme_mint">Cyan menthe</string>
+    <string name="ui_video_playback">Vidéo et lecture</string>
+    <string name="ui_data_management">Gestion des données</string>
 </resources>

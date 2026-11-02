@@ -439,4 +439,10 @@
     <string name="ui_no_subfolders">请先在此收藏夹中新建子收藏夹。</string>
     <string name="ui_delete_subfolder_warning">只移除分类，帖子仍保留在父收藏夹中。</string>
     <string name="ui_backup_subfolder_counts">子收藏夹：%1$d · 分类关系：%2$d</string>
+    <string name="ui_appearance_display">外观与显示</string>
+    <string name="ui_color_theme">配色主题</string>
+    <string name="ui_theme_sakura">樱花粉</string>
+    <string name="ui_theme_mint">薄荷青</string>
+    <string name="ui_video_playback">视频与播放</string>
+    <string name="ui_data_management">数据与管理</string>
 </resources>

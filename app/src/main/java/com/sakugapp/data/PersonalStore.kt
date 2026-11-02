@@ -11,7 +11,7 @@ class PersonalStore(private val db:LibraryDatabase,private val clock:()->Long=Sy
     val tags=dao.tags()
     val notes=dao.notes()
     val history=dao.history()
-    val recording=dao.policy().map{it?.enabled ?: true}.distinctUntilChanged()
+    val recording=flowOf(true)
     private fun name(value:String){if(!LibraryCodec.tagName(value))throw LibraryFailure("invalid_backup")}
     suspend fun saveTag(tag:Tag)=db.withTransaction{
         name(tag.name)
@@ -27,9 +27,11 @@ class PersonalStore(private val db:LibraryDatabase,private val clock:()->Long=Sy
         }
     }
     suspend fun learn(tags:List<Tag>)=db.withTransaction{tags.filter{it.category!=TagCategory.UNKNOWN}.forEach{dao.category(it.name,it.category.name)}}
-    suspend fun recording(enabled:Boolean){dao.policy(HistoryPolicy(enabled=enabled))}
+    suspend fun ensureRecording(){if(dao.policyOnce()?.enabled!=true)dao.policy(HistoryPolicy(enabled=true))}
+    @Suppress("UNUSED_PARAMETER")
+    suspend fun recording(enabled:Boolean){ensureRecording()}
     suspend fun record(post:Post)=db.withTransaction{
-        if(dao.policyOnce()?.enabled==false)return@withTransaction
+        ensureRecording()
         val checked=LibraryCodec.decodePost(LibraryCodec.encodePost(post))
         val rows=dao.historyOnce();val time=maxOf(clock(),(rows.maxOfOrNull{it.viewedAt} ?: 0)+1)
         val value=ViewedPost(post.id,LibraryCodec.encodePost(checked),time)

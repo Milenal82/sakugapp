@@ -14,7 +14,7 @@ private val Context.preferences by preferencesDataStore("settings_v1")
 data class AppSettings(
     val language: String = "system", val showCopyright: Boolean = true, val showArtist: Boolean = true,
     val showScore: Boolean = true, val wrapTags: Boolean = true, val cropThumbnails: Boolean = false,
-    val autoPreview: Boolean = false, val mobilePreview: Boolean = false, val wifiImages: Boolean = false,
+    val autoPreview: Boolean = false, val mobilePreview: Boolean = true, val wifiImages: Boolean = false,
     val muted: Boolean = true, val loop: Boolean = true, val speed: Float = 1f,
     val mirror: Boolean = false, val saturation: Float = 1f, val brightness: Float = 1f,
     val contrast: Float = 1f, val screenshot: Boolean = true, val lightTheme:Boolean = false,
@@ -27,7 +27,9 @@ data class AppSettings(
 object PreferenceRules {
     val columnOptions = listOf(1,2,3,4,6,8,12)
     val themeModes = setOf("system","dark","light")
-    val accents = setOf("default","blue","pink")
+    val accents = setOf("default","mint","pink")
+    fun palette(value:String?)=when(value){"blue"->"mint";in accents->value!!;else->"default"}
+    val fixedFlags=mapOf("gestures" to true,"screenshot" to true,"loop" to true,"muted" to true,"mobile" to true,"wifiImages" to false)
     fun legacyTheme(mode:String?,light:Boolean?,hasLegacyData:Boolean):String = mode?.takeIf{it in themeModes} ?: when(light){true->"light";false->"dark";null->if(hasLegacyData)"dark" else "system"}
     val languages = setOf("system", "en", "ja", "zh-TW", "zh-CN", "fr", "es", "ru", "ko")
     fun resolveLanguage(language: String, systemTag: String): String {
@@ -64,24 +66,29 @@ class PreferencesStore(context: Context,private val store:DataStore<Preferences>
         AppSettings(language = p[stringPreferencesKey("language")]?.takeIf { it in PreferenceRules.languages } ?: "system",
             showCopyright=p.flag("copyright",true),showArtist=p.flag("artist",true),showScore=p.flag("score",true),
             wrapTags=p.flag("wrap",true),cropThumbnails=p.flag("crop",false),autoPreview=p.flag("auto",false),
-            mobilePreview=p.flag("mobile",false),wifiImages=p.flag("wifiImages",false),muted=p.flag("muted",true),
-            loop=p.flag("loop",true),speed=p[floatPreferencesKey("speed")]?.takeIf { it in PreferenceRules.speeds } ?: 1f,
+            mobilePreview=true,wifiImages=false,muted=true,
+            loop=true,speed=p[floatPreferencesKey("speed")]?.takeIf { it in PreferenceRules.speeds } ?: 1f,
             mirror=p.flag("mirror",false),saturation=(p[floatPreferencesKey("saturation")] ?: 1f).coerceIn(0f,2f),
             brightness=(p[floatPreferencesKey("brightness")] ?: 1f).coerceIn(0.5f,1.5f),contrast=(p[floatPreferencesKey("contrast")] ?: 1f).coerceIn(0.5f,1.5f),
-            screenshot=p.flag("screenshot",true),lightTheme=p.flag("lightTheme",false),
+            screenshot=true,lightTheme=p.flag("lightTheme",false),
             columns=(p[intPreferencesKey("columns")] ?: 2).takeIf{it in PreferenceRules.columnOptions} ?: 2,
             themeMode=PreferenceRules.legacyTheme(p[stringPreferencesKey("themeMode")],p[booleanPreferencesKey("lightTheme")],p.asMap().keys.any{it.name!="locale_last_applied"}),
-            cardSpacing=(p[floatPreferencesKey("cardSpacing")] ?: 8f).coerceIn(0f,10f),gestures=p.flag("gestures",true),
+            cardSpacing=(p[floatPreferencesKey("cardSpacing")] ?: 8f).coerceIn(0f,10f),gestures=true,
             librarySort=(p[intPreferencesKey("librarySort")] ?: 0).coerceIn(0,3),showOtherTags=p.flag("otherTags",true),
             fontScale=p[floatPreferencesKey("fontScale")]?.takeIf{it.isFinite() && it in 0.75f..1.25f} ?: 1f,
             tagVerticalSpacing=p[floatPreferencesKey("tagVerticalSpacing")]?.takeIf{it.isFinite() && it in 0f..20f} ?: 16f,
-            accent=p[stringPreferencesKey("accent")]?.takeIf{it in PreferenceRules.accents} ?: "default")
+            accent=PreferenceRules.palette(p[stringPreferencesKey("accent")]))
     }
     val history: Flow<List<String>> = data.map { PreferenceRules.history(it[stringPreferencesKey("history")]?.split('\n').orEmpty(), "") }
     val localeState:Flow<Pair<String,String?>> = data.map { p ->
         (p[stringPreferencesKey("language")]?.takeIf{it in PreferenceRules.languages} ?: "system") to p[stringPreferencesKey("locale_last_applied")]
     }
-    suspend fun initializeTheme(){store.edit{p->p.remove(booleanPreferencesKey("tagTranslations"));if(p[stringPreferencesKey("themeMode")]==null)p[stringPreferencesKey("themeMode")]=PreferenceRules.legacyTheme(null,p[booleanPreferencesKey("lightTheme")],p.asMap().keys.any{it.name!="locale_last_applied"})}}
+    suspend fun initializeTheme(){store.edit{p->
+        if(p[stringPreferencesKey("themeMode")]==null)p[stringPreferencesKey("themeMode")]=PreferenceRules.legacyTheme(null,p[booleanPreferencesKey("lightTheme")],p.asMap().keys.any{it.name!="locale_last_applied"})
+        p.remove(booleanPreferencesKey("tagTranslations"))
+        PreferenceRules.fixedFlags.keys.forEach{p.remove(booleanPreferencesKey(it))}
+        p[stringPreferencesKey("accent")]=PreferenceRules.palette(p[stringPreferencesKey("accent")])
+    }}
     suspend fun recordAppliedLocale(value:String){store.edit{it[stringPreferencesKey("locale_last_applied")]=value}}
     suspend fun remember(query: String) { store.edit { p ->
         val previous=p[stringPreferencesKey("history")]?.split('\n').orEmpty()
@@ -93,9 +100,9 @@ class PreferencesStore(context: Context,private val store:DataStore<Preferences>
     } }
     suspend fun librarySort(value:Int){require(value in 0..3);store.edit{it[intPreferencesKey("librarySort")]=value}}
     suspend fun columns(value:Int) { require(value in PreferenceRules.columnOptions);store.edit{it[intPreferencesKey("columns")]=value} }
-    suspend fun flag(name: String,value: Boolean) { require(name in setOf("copyright","artist","score","wrap","crop","auto","mobile","wifiImages","muted","loop","mirror","screenshot","lightTheme","gestures","otherTags")); store.edit { it[booleanPreferencesKey(name)]=value;if(name=="lightTheme")it[stringPreferencesKey("themeMode")]=if(value)"light"else"dark" } }
+    suspend fun flag(name: String,value: Boolean) { require(name in setOf("copyright","artist","score","wrap","crop","auto","mobile","wifiImages","muted","loop","mirror","screenshot","lightTheme","gestures","otherTags")); store.edit { if(name in PreferenceRules.fixedFlags)it.remove(booleanPreferencesKey(name))else it[booleanPreferencesKey(name)]=value;if(name=="lightTheme")it[stringPreferencesKey("themeMode")]=if(value)"light"else"dark" } }
     suspend fun theme(value:String){require(value in PreferenceRules.themeModes);store.edit{it[stringPreferencesKey("themeMode")]=value;if(value!="system")it[booleanPreferencesKey("lightTheme")]=value=="light"}}
-    suspend fun accent(value:String){require(value in PreferenceRules.accents);store.edit{it[stringPreferencesKey("accent")]=value}}
+    suspend fun accent(value:String){require(value in PreferenceRules.accents || value=="blue");store.edit{it[stringPreferencesKey("accent")]=PreferenceRules.palette(value)}}
     suspend fun language(value: String) { require(value in PreferenceRules.languages);store.edit { it[stringPreferencesKey("language")]=value } }
     suspend fun number(name: String,value: Float) { require(value.isFinite()); require(when(name) { "speed"->value in PreferenceRules.speeds; "brightness","contrast"->value in 0.5f..1.5f; "saturation"->value in 0f..2f; "cardSpacing"->value in 0f..10f; "fontScale"->value in 0.75f..1.25f; "tagVerticalSpacing"->value in 0f..20f; else->false });store.edit { it[floatPreferencesKey(name)]=value } }
 }

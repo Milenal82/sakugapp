@@ -34,6 +34,7 @@ class AppViewModel(application:Application):AndroidViewModel(application) {
     init {
         viewModelScope.launch{preferences.initializeTheme()}
         viewModelScope.launch{runCatching{localLibrary.ready()}}
+        viewModelScope.launch{try{personal.ensureRecording()}catch(e:CancellationException){throw e}catch(e:Exception){_personalError.value=e}}
         viewModelScope.launch { _account.value=withContext(Dispatchers.IO){session.restore()} }
         viewModelScope.launch { settings.collect { community.language=it.language } }
     }

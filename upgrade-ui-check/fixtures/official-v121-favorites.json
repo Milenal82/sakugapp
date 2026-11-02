@@ -1,0 +1,166 @@
+{
+  "format": "sakugapp.library",
+  "schemaVersion": 4,
+  "folders": [
+    {
+      "key": "a",
+      "kind": "custom",
+      "name": "Upgrade A",
+      "position": 0,
+      "coverPostId": 319946
+    },
+    {
+      "key": "d",
+      "kind": "default",
+      "name": "",
+      "position": 1,
+      "coverPostId": 319947
+    },
+    {
+      "key": "e",
+      "kind": "custom",
+      "name": "Upgrade Empty",
+      "position": 2
+    }
+  ],
+  "posts": [
+    {
+      "savedAt": 123,
+      "post": {
+        "id": 319947,
+        "score": 33,
+        "previewUrl": "https://www.sakugabooru.com/data/preview/0618e7f33173d8122094a1a23e33da49.jpg",
+        "previewWidth": 150,
+        "previewHeight": 84,
+        "fileUrl": "https://www.sakugabooru.com/data/0618e7f33173d8122094a1a23e33da49.mp4",
+        "fileExt": "mp4",
+        "width": 860,
+        "height": 480,
+        "rating": "s",
+        "createdAt": 1792647787,
+        "status": "active",
+        "pageUrl": "https://www.sakugabooru.com/post/show/319947",
+        "tags": [
+          {
+            "name": "animated",
+            "category": "OTHER"
+          },
+          {
+            "name": "genga",
+            "category": "OTHER"
+          },
+          {
+            "name": "jujutsu_kaisen_season_3",
+            "category": "COPYRIGHT"
+          },
+          {
+            "name": "jujutsu_kaisen_series",
+            "category": "COPYRIGHT"
+          },
+          {
+            "name": "mokmok",
+            "category": "ARTIST"
+          },
+          {
+            "name": "production_materials",
+            "category": "OTHER"
+          }
+        ]
+      }
+    },
+    {
+      "savedAt": 124,
+      "post": {
+        "id": 319946,
+        "score": 0,
+        "previewUrl": "https://www.sakugabooru.com/data/preview/81e3a257e847aabe82a41f6787859847.jpg",
+        "previewWidth": 150,
+        "previewHeight": 84,
+        "fileUrl": "https://www.sakugabooru.com/data/81e3a257e847aabe82a41f6787859847.mp4",
+        "fileExt": "mp4",
+        "width": 854,
+        "height": 480,
+        "rating": "s",
+        "createdAt": 1792613711,
+        "status": "active",
+        "pageUrl": "https://www.sakugabooru.com/post/show/319946",
+        "tags": [
+          {
+            "name": "animated",
+            "category": "OTHER"
+          },
+          {
+            "name": "artist_unknown",
+            "category": "ARTIST"
+          },
+          {
+            "name": "effects",
+            "category": "OTHER"
+          },
+          {
+            "name": "lightning",
+            "category": "OTHER"
+          },
+          {
+            "name": "macademi_wasshoi",
+            "category": "COPYRIGHT"
+          },
+          {
+            "name": "smoke",
+            "category": "OTHER"
+          }
+        ]
+      }
+    }
+  ],
+  "links": [
+    {
+      "postId": 319947,
+      "folderKey": "a",
+      "addedAt": 124
+    },
+    {
+      "postId": 319947,
+      "folderKey": "d",
+      "addedAt": 125
+    },
+    {
+      "postId": 319946,
+      "folderKey": "a",
+      "addedAt": 126
+    }
+  ],
+  "tagFavorites": [
+    {
+      "name": "mokmok",
+      "category": "ARTIST",
+      "savedAt": 127
+    }
+  ],
+  "tagNotes": [
+    {
+      "name": "mokmok",
+      "note": "Upgrade favorite note",
+      "updatedAt": 128
+    },
+    {
+      "name": "genga",
+      "note": "Standalone upgrade note",
+      "updatedAt": 129
+    }
+  ],
+  "subfolders": [
+    {
+      "key": "child",
+      "folderKey": "a",
+      "name": "Upgrade child",
+      "position": 0
+    }
+  ],
+  "subfolderLinks": [
+    {
+      "postId": 319947,
+      "subfolderKey": "child"
+    }
+  ]
+}

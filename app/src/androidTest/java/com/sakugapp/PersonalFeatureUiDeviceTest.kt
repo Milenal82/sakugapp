@@ -47,7 +47,7 @@ class PersonalFeatureUiDeviceTest {
             ui.onNodeWithTag("viewed-post-${post.id}").assertIsDisplayed().performClick()
             ui.onNodeWithTag("detail-post-id").performScrollTo().assertIsDisplayed();device.pressBack()
             ui.onNodeWithTag("viewed-post-${post.id}").assertIsDisplayed()
-            ui.onNodeWithTag("record-browsing-history").performClick();ui.waitUntil(10000){!app.recordHistory.value}
+            ui.onNodeWithTag("record-browsing-history").assertDoesNotExist();assertTrue(app.recordHistory.value)
             ui.onNodeWithTag("clear-browsing-history").performClick()
             assertTrue(app.viewedPosts.value.isNotEmpty())
             ui.onNodeWithTag("confirm-clear-browsing-history").performClick();ui.waitUntil(10000){app.viewedPosts.value.isEmpty()}

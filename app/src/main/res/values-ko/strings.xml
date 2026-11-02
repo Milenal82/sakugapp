@@ -439,4 +439,10 @@
     <string name="ui_no_subfolders">먼저 이 폴더 안에 하위 폴더를 만드세요.</string>
     <string name="ui_delete_subfolder_warning">분류만 해제됩니다. 게시물은 상위 폴더에 유지됩니다.</string>
     <string name="ui_backup_subfolder_counts">하위 폴더: %1$d · 분류: %2$d</string>
+    <string name="ui_appearance_display">모양 및 표시</string>
+    <string name="ui_color_theme">색상 테마</string>
+    <string name="ui_theme_sakura">사쿠라 핑크</string>
+    <string name="ui_theme_mint">민트 시안</string>
+    <string name="ui_video_playback">동영상 및 재생</string>
+    <string name="ui_data_management">데이터 관리</string>
 </resources>

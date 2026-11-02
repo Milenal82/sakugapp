@@ -41,7 +41,7 @@ import java.time.format.*
             ActionIcon(R.drawable.ic_back,text(R.string.ui_back_to_app),back)
             Text(text(R.string.ui_tag_favorites),style=MaterialTheme.typography.titleLarge,modifier=Modifier.weight(1f))
             Box{ActionIcon(R.drawable.ic_more,text(R.string.ui_sort_tags),{sorting=true},Modifier.testTag("sort-tags"))
-                DropdownMenu(sorting,{sorting=false}){listOf(R.string.ui_tags_recent,R.string.ui_tags_name,R.string.ui_tags_oldest).forEachIndexed{i,label->DropdownMenuItem(text={Text(text(label))},onClick={sort=i;sorting=false})}}
+                TileMenu(sorting,{sorting=false}){listOf(R.string.ui_tags_recent,R.string.ui_tags_name,R.string.ui_tags_oldest).forEachIndexed{i,label->AppMenuItem(icon=R.drawable.ic_drag,selected=sort==i,text={Text(text(label))},onClick={sort=i;sorting=false})}}
             }
         }
         OutlinedTextField(query,{query=it},label={Text(text(R.string.ui_find_tags_notes))},singleLine=true,modifier=Modifier.fillMaxWidth().padding(horizontal=12.dp).testTag("saved-tags-search"))
@@ -65,7 +65,7 @@ import java.time.format.*
 }
 
 @Composable fun BrowsingHistoryScreen(app:AppViewModel,back:()->Unit,open:(Post,List<Post>)->Unit){
-    val rows by app.viewedPosts.collectAsStateWithLifecycle();val recording by app.recordHistory.collectAsStateWithLifecycle()
+    val rows by app.viewedPosts.collectAsStateWithLifecycle()
     val scope=rememberCoroutineScope();val context=LocalContext.current;val list=rememberLazyListState()
     var restoreIndex by rememberSaveable{mutableIntStateOf(-1)};var restoreOffset by rememberSaveable{mutableIntStateOf(0)}
     val restoreOnEntry=remember{restoreIndex>=0}
@@ -90,9 +90,7 @@ import java.time.format.*
                 Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically){
                     Column(Modifier.weight(1f)){
                         Text(androidx.compose.ui.res.pluralStringResource(R.plurals.ui_post_quantity,rows.size,rows.size),style=MaterialTheme.typography.titleMedium)
-                        Text(text(R.string.ui_record_browsing_history),style=MaterialTheme.typography.bodyMedium)
                     }
-                    Switch(recording,{operation{app.personal.recording(it)}},modifier=Modifier.testTag("record-browsing-history").semantics{contentDescription=context.getString(R.string.ui_record_browsing_history)})
                 }
                 HorizontalDivider(color=MaterialTheme.colorScheme.outlineVariant)
                 Text(androidx.compose.ui.res.pluralStringResource(R.plurals.ui_history_retention,PersonalRules.HISTORY_CAPACITY,PersonalRules.HISTORY_CAPACITY),style=MaterialTheme.typography.bodySmall,color=MaterialTheme.colorScheme.onSurfaceVariant)
@@ -113,7 +111,7 @@ import java.time.format.*
                     Surface(shape=shape,color=MaterialTheme.colorScheme.surface){Column{
                     Row(Modifier.fillMaxWidth().padding(horizontal=8.dp,vertical=6.dp),verticalAlignment=Alignment.CenterVertically){
                         Row(Modifier.weight(1f).clickable{restoreIndex=list.firstVisibleItemIndex;restoreOffset=list.firstVisibleItemScrollOffset;open(post,decoded.map{it.second})}.testTag("viewed-post-${post.id}"),verticalAlignment=Alignment.CenterVertically){
-                            if(!settings.wifiImages || !metered)AsyncImage(post.previewUrl,null,Modifier.size(88.dp,52.dp),contentScale=ContentScale.Fit)
+                            AsyncImage(post.previewUrl,null,Modifier.size(88.dp,52.dp),contentScale=ContentScale.Fit)
                             Column(Modifier.weight(1f).padding(horizontal=8.dp)){
                                 Text("#${post.id}",style=MaterialTheme.typography.labelLarge)
                                 Text(post.tags.joinToString(" "){it.name},maxLines=2,overflow=TextOverflow.Ellipsis,style=MaterialTheme.typography.bodySmall)

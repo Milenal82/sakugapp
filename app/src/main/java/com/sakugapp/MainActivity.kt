@@ -113,16 +113,16 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
             Row(Modifier.fillMaxWidth().padding(horizontal=8.dp),verticalAlignment=Alignment.CenterVertically){
                 if(entry?.destination?.route !in setOf("posts","library"))TextButton(onClick={nav.popBackStack()},modifier=Modifier.semantics{contentDescription=context.getString(R.string.ui_back_to_app)}){Text("‹")}
                 Text(text(R.string.app_name),style=MaterialTheme.typography.titleLarge,maxLines=1,overflow=TextOverflow.Ellipsis,modifier=Modifier.weight(1f))
-                Box{TextButton(onClick={menu=true}){Text(text(R.string.ui_menu))};DropdownMenu(expanded=menu,onDismissRequest={menu=false}){
-                    DropdownMenuItem(text={Text(text(R.string.ui_posts))},onClick={menu=false;nav.popBackStack("posts",false)})
-                    DropdownMenuItem(text={Text(text(R.string.ui_local_library))},onClick={menu=false;nav.navigate("library")})
-                    DropdownMenuItem(text={Text(text(R.string.ui_browsing_history))},onClick={menu=false;nav.navigate("history")})
-                    DropdownMenuItem(text={Text(text(R.string.ui_my_account))},onClick={menu=false;nav.navigate("account")})
-                    DropdownMenuItem(text={Text(text(R.string.ui_blog))},onClick={menu=false;openSite("https://blog.sakugabooru.com/")})
-                    DropdownMenuItem(text={Text(text(R.string.ui_forum))},onClick={menu=false;openSite("https://www.sakugabooru.com/forum")})
-                    DropdownMenuItem(text={Text(text(R.string.ui_language))},onClick={menu=false;nav.navigate("language")})
-                    DropdownMenuItem(text={Text(text(R.string.ui_settings))},onClick={menu=false;nav.navigate("settings")})
-                    DropdownMenuItem(text={Text(text(R.string.ui_about_and_licenses))},onClick={menu=false;about=true})
+                Box{TextButton(onClick={menu=true},modifier=Modifier.clip(RoundedCornerShape(10.dp)).background(MaterialTheme.colorScheme.surfaceContainerHigh).testTag("main-menu")){Text(text(R.string.ui_menu))};TileMenu(expanded=menu,onDismissRequest={menu=false}){
+                    AppMenuItem(icon=R.drawable.ic_book,selected=entry?.destination?.route in setOf("posts","search","post/{id}"),text={Text(text(R.string.ui_posts))},onClick={menu=false;nav.popBackStack("posts",false)})
+                    AppMenuItem(icon=R.drawable.ic_folder,selected=entry?.destination?.route=="library",text={Text(text(R.string.ui_local_library))},onClick={menu=false;nav.navigate("library")})
+                    AppMenuItem(icon=R.drawable.ic_history,selected=entry?.destination?.route=="history",text={Text(text(R.string.ui_browsing_history))},onClick={menu=false;nav.navigate("history")})
+                    AppMenuItem(icon=R.drawable.ic_favorite,selected=entry?.destination?.route=="account",text={Text(text(R.string.ui_my_account))},onClick={menu=false;nav.navigate("account")})
+                    AppMenuItem(icon=R.drawable.ic_book,text={Text(text(R.string.ui_blog))},onClick={menu=false;openSite("https://blog.sakugabooru.com/")})
+                    AppMenuItem(icon=R.drawable.ic_book,text={Text(text(R.string.ui_forum))},onClick={menu=false;openSite("https://www.sakugabooru.com/forum")})
+                    AppMenuItem(icon=R.drawable.ic_book,selected=entry?.destination?.route=="language",text={Text(text(R.string.ui_language))},onClick={menu=false;nav.navigate("language")})
+                    AppMenuItem(icon=R.drawable.ic_tune,selected=entry?.destination?.route=="settings",text={Text(text(R.string.ui_settings))},onClick={menu=false;nav.navigate("settings")})
+                    AppMenuItem(icon=R.drawable.ic_book,text={Text(text(R.string.ui_about_and_licenses))},onClick={menu=false;about=true})
                 }}
             }
         }}){insets->NavHost(navController=nav,startDestination="posts",modifier=Modifier.padding(insets).semantics{testTagsAsResourceId=true}){
@@ -146,7 +146,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                     LaunchedEffect(post.id){app.visited(post);model.prefetchNeighbors()}
                     val neighboringUrls=listOfNotNull(model.adjacent(-1)?.previewUrl,model.adjacent(1)?.previewUrl).distinct()
                     DisposableEffect(post.id,neighboringUrls,settings.wifiImages,metered){
-                        val requests=if(settings.wifiImages && metered)emptyList()else neighboringUrls.map{url->coil.Coil.imageLoader(context).enqueue(coil.request.ImageRequest.Builder(context.applicationContext).data(url).size(320).build())}
+                        val requests=neighboringUrls.map{url->coil.Coil.imageLoader(context).enqueue(coil.request.ImageRequest.Builder(context.applicationContext).data(url).size(320).build())}
                         onDispose{requests.forEach{it.dispose()}}
                     }
                     PostDetail(post,settings,metered,app,model.usesLocalSnapshot(),::search,openSite,{nav.navigate("account")},{score->model.updateScore(post.id,score)},{duration->model.updateDuration(post.id,post.fileUrl.orEmpty(),duration);app.duration(post.fileUrl.orEmpty(),duration)},model.adjacent(-1)!=null,model.adjacent(1)!=null,{delta->
@@ -188,7 +188,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
     val imeVisible=WindowInsets.isImeVisible
     var scrollQuery by rememberSaveable{mutableStateOf(state.query)}
     LaunchedEffect(state.query){if(scrollQuery!=state.query){grid.scrollToItem(0);scrollQuery=state.query}}
-    val allowedPreview=!metered || settings.mobilePreview
+    val allowedPreview=true
     val suggestions=rememberSuggestions(query,searchFocused,app.suggestions)
     val pinned=searchExpanded || advanced
     val pinnedNow by rememberUpdatedState(pinned)
@@ -277,7 +277,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
                         }
                         if(state.query.isNotBlank())SearchTagFavorite(state.query,state.posts,app)else Box{
                             TextButton(onClick={gridMenu=true},modifier=Modifier.testTag("grid-columns").semantics{contentDescription=context.getString(R.string.ui_grid_selection,settings.columns)}){Text("▦ ${settings.columns}")}
-                            DropdownMenu(expanded=gridMenu,onDismissRequest={gridMenu=false}){for(columns in GridPolicy.options(LocalConfiguration.current.smallestScreenWidthDp))DropdownMenuItem(text={Text(text(R.string.ui_columns_count,columns))},onClick={
+                            TileMenu(expanded=gridMenu,onDismissRequest={gridMenu=false}){for(columns in GridPolicy.options(LocalConfiguration.current.smallestScreenWidthDp))AppMenuItem(icon=R.drawable.ic_tune,selected=settings.columns==columns,text={Text(text(R.string.ui_columns_count,columns))},onClick={
                                 val index=grid.firstVisibleItemIndex;val scroll=grid.firstVisibleItemScrollOffset
                                 app.columns(columns);grid.requestScrollToItem(index,scroll);gridMenu=false
                             })}
@@ -290,7 +290,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
                         FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp),verticalArrangement=Arrangement.spacedBy(8.dp),modifier=Modifier.padding(vertical=8.dp)){
                             SearchToolTile(R.drawable.ic_tune,text(R.string.ui_search_tools),onClick={collapseSearch();advanced=true},modifier=Modifier.testTag("open-combined-search"))
                             SearchToolTile(R.drawable.ic_history,text(R.string.ui_search_history),onClick={historyOpen=!historyOpen;focus.clearFocus()},selected=historyOpen,modifier=Modifier.testTag("search-history-toggle"))
-                            SearchToolTile(R.drawable.ic_palette,text(R.string.ui_average_color),enabled=!averaging && state.posts.isNotEmpty() && !(settings.wifiImages && metered),onClick={scope.launch{
+                            SearchToolTile(R.drawable.ic_palette,text(R.string.ui_average_color),enabled=!averaging && state.posts.isNotEmpty(),onClick={scope.launch{
                                 averaging=true
                                 try{val visible=grid.layoutInfo.visibleItemsInfo.mapNotNull{it.key as? Long}.toHashSet();val urls=state.posts.filter{it.id in visible}.mapNotNull{it.previewUrl};val result=averagePreviewColor(context,urls);average="${result.first} (${result.second}/${urls.size})"}
                                 catch(e:CancellationException){throw e}catch(e:Exception){average=localizedMessage(context,e.message.orEmpty())}finally{averaging=false}
@@ -352,10 +352,10 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
                         modifier=Modifier.padding(horizontal=3.dp,vertical=1.dp).testTag("post-score-${post.id}"))
                 }
             }
-            DropdownMenu(options,{options=false}){
-                DropdownMenuItem(text={Text(text(R.string.ui_open_original_post))},onClick={options=false;open()})
-                if(onClassify!=null)DropdownMenuItem(text={Text(text(R.string.ui_add_to_subfolder))},onClick={options=false;onClassify()})
-                if(post.isVideo)DropdownMenuItem(text={Text(text(if(preview)R.string.ui_stop_preview else R.string.ui_play_preview))},onClick={options=false;toggle()})
+            TileMenu(options,{options=false}){
+                AppMenuItem(icon=R.drawable.ic_open,text={Text(text(R.string.ui_open_original_post))},onClick={options=false;open()})
+                if(onClassify!=null)AppMenuItem(icon=R.drawable.ic_folder,text={Text(text(R.string.ui_add_to_subfolder))},onClick={options=false;onClassify()})
+                if(post.isVideo)AppMenuItem(icon=R.drawable.ic_next,text={Text(text(if(preview)R.string.ui_stop_preview else R.string.ui_play_preview))},onClick={options=false;toggle()})
             }
         }
         Box(Modifier.padding(horizontal=if(settings.columns>=6)2.dp else 6.dp,vertical=3.dp)){PostCaption(post,settings,search)}
@@ -387,7 +387,6 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
         if(compact)Icon(androidx.compose.ui.res.painterResource(R.drawable.ic_close),contentDescription=text(id),modifier=Modifier.size(16.dp),tint=MaterialTheme.colorScheme.onSurfaceVariant)
         else Text(text(id),Modifier.padding(8.dp))
     }}
-    if(settings.wifiImages && metered){Box(modifier){state(R.string.ui_images_wi_fi_only)};return}
     val url=if(detail)post.fileUrl ?: post.previewUrl else post.previewUrl
     if(url==null)Box(modifier){state(R.string.ui_image_unavailable)}
     else {

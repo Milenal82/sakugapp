@@ -451,4 +451,10 @@
     <string name="ui_no_subfolders">Create a subfolder in this folder first.</string>
     <string name="ui_delete_subfolder_warning">Only the classification is removed. Posts remain in the parent folder.</string>
     <string name="ui_backup_subfolder_counts">Subfolders: %1$d · Classifications: %2$d</string>
+    <string name="ui_appearance_display">Appearance &amp; display</string>
+    <string name="ui_color_theme">Color theme</string>
+    <string name="ui_theme_sakura">Sakura Pink</string>
+    <string name="ui_theme_mint">Mint Cyan</string>
+    <string name="ui_video_playback">Video &amp; playback</string>
+    <string name="ui_data_management">Data &amp; management</string>
 </resources>

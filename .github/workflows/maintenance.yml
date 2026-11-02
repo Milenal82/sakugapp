@@ -1,7 +1,7 @@
 name: Focused maintenance validation
 on:
   push:
-    branches: [main, ci/maintenance-validation, dev/player-stability-controls, dev/release-1.2.1]
+    branches: [main, ci/maintenance-validation, dev/player-stability-controls, dev/release-1.2.1, dev/release-1.2.2]
   workflow_dispatch:
 permissions:
   contents: read
@@ -31,6 +31,7 @@ jobs:
           --tests com.sakugapp.PersonalDataTest
           --tests com.sakugapp.HierarchyBackupTest
           --tests com.sakugapp.StabilityRegressionTest
+          --tests com.sakugapp.FullThemeTest
           lintDebug assembleDebug assembleDebugAndroidTest
       - name: Check only this stability update and compile the test APK
         if: github.ref_name == 'dev/player-stability-controls'
@@ -142,7 +143,7 @@ jobs:
             git switch --orphan maintenance-evidence-output
           fi
           mkdir -p screenshots
-          rm -f screenshots/maintenance-*.png screenshots/appearance-*.png screenshots/stability-*.png screenshots/v121-*.png
+          rm -f screenshots/maintenance-*.png screenshots/appearance-*.png screenshots/stability-*.png screenshots/v121-*.png screenshots/v122-*.png
           cp "$EVIDENCE_OUTPUT/report.json" report.json
           cp "$EVIDENCE_OUTPUT/README.md" README.md
           cp "$EVIDENCE_OUTPUT"/screenshots/*.png screenshots/ 2>/dev/null || true

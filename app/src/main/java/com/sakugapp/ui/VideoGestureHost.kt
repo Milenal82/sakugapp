@@ -59,7 +59,7 @@ class VideoGestureHost(context:Context):FrameLayout(context){
             if(view is android.view.ViewGroup)for(index in 0 until view.childCount)resizeText(view.getChildAt(index))
         }
         if(settings?.fontScale!=value.fontScale)resizeText(playerView)
-        gesturesEnabled=value.gestures
+        gesturesEnabled=true
         val changed=settings?.let{listOf(it.mirror,it.saturation,it.contrast,it.brightness)!=listOf(value.mirror,value.saturation,value.contrast,value.brightness)} ?: true
         settings=value;transform=requested.bounded();applySurface(changed)
     }

@@ -12,14 +12,14 @@ Sakuga Mobile（安装名称 Sakugapp）是 Sakugabooru 的非官方 Android 客
 - 原始标签搜索、组合条件、标签联想、搜索历史和查询备忘录。平均色工具分析已显示的缩略图，不是网站的颜色相似搜索。
 - 原生详情、分类标签、Score、来源和评论；上一帖、下一帖、下载、原帖、收藏集中在同一操作栏。
 - 全屏旋转、倍速、音量、A–B 循环、双指缩放、双击暂停、左右切帖。高级控制可折叠；支持实际解码索引的逐帧分析及帧号。
-- 本地多收藏夹、拖拽排序与封面，夹内支持一层子收藏夹及多分类，JSON 备份；独立的标签收藏和本地备注。浏览历史可关闭、删除或清空。
-- 深浅色背景及默认 / 蓝色（青色）/ 粉色强调色、75%–125% 应用字号、0–20 dp 预览标签额外行距，八种界面语言；账户、Vote、评论和 Blog / Forum 入口。网站内容与原始标签保持原文，官网语言仅使用英语或日语。
+- 本地多收藏夹、拖拽排序与封面，夹内支持一层子收藏夹及多分类，JSON 备份；独立的标签收藏和本地备注。浏览历史自动记录，可逐条删除或清空。
+- 深浅色外观及标准 / 樱花粉 / 薄荷青完整配色、75%–125% 应用字号、0–20 dp 预览标签额外行距，八种界面语言；账户、Vote、评论和 Blog / Forum 入口。网站内容与原始标签保持原文，官网语言仅使用英语或日语。
 
-全屏默认仅显示视频，单击切换控制栏。升级与数据迁移说明见 [v1.2.1](docs/release-1.2.1.md)。
+全屏默认仅显示视频，单击切换控制栏。视频默认静音、循环播放，可在播放器中临时调整；手势和截图分享始终可用，图片和预览不限制 Wi-Fi。设置按外观、浏览、播放、数据和关于分组。参见 [v1.2.2 更新说明](docs/release-1.2.2.md)。
 
 ### 下载与备份
 
-正式 APK 在 [GitHub Releases](https://github.com/Milenal82/sakugapp/releases)，开发测试包在 [Actions](https://github.com/Milenal82/sakugapp/actions)。本次正式版本为 **1.2.1 / code 14**。
+正式 APK 在 [GitHub Releases](https://github.com/Milenal82/sakugapp/releases)，开发测试包在 [Actions](https://github.com/Milenal82/sakugapp/actions)。本次正式版本为 **1.2.2 / code 15**。
 
 同包名 `com.sakugapp`、同正式证书签名的版本可覆盖安装。升级前建议导出收藏。Debug 与正式签名不同：切换前先备份，再卸载旧包、安装并导入；卸载会删除其他本地数据。
 
@@ -48,14 +48,14 @@ Sakuga Mobile (installed as Sakugapp) is an unofficial Android client for Sakuga
 - Original tag queries, combined filters, tag suggestions, search history, and a query reference. The average-color tool analyzes displayed thumbnails; it does not perform server-side color similarity search.
 - Native details with classified tags, Score, source, and comments. Previous, next, download, original post, and favorites share one toolbar.
 - Fullscreen rotation, speed and volume controls, A–B loops, pinch zoom, double-tap pause, and swiping between posts. Collapsible advanced controls include decoded-index frame stepping and frame numbers.
-- Local folders with drag ordering, covers, one level of subfolders and multiple classifications, and JSON backup; separate tag favorites and local notes. Browsing history can be disabled, deleted individually, or cleared.
-- Light and dark backgrounds with default / blue (cyan) / pink accents, 75%–125% app text size, 0–20 dp extra preview tag-row spacing, eight UI languages, account / Vote / comment features, and Blog / Forum links. Website content and tags stay in their original language; website locale uses English or Japanese only.
+- Local folders with drag ordering, covers, one level of subfolders and multiple classifications, and JSON backup; separate tag favorites and local notes. Browsing history is recorded automatically; entries can be deleted individually or cleared.
+- Light and dark appearances with complete Default / Sakura Pink / Mint Cyan palettes, 75%–125% app text size, 0–20 dp extra preview tag-row spacing, eight UI languages, account / Vote / comment features, and Blog / Forum links. Website content and tags stay in their original language; website locale uses English or Japanese only.
 
-Fullscreen starts with video only; a single tap toggles the controls. See [v1.2.1](docs/release-1.2.1.md) for upgrade and migration notes.
+Fullscreen starts with video only; a single tap toggles the controls. Videos start muted and looping, with temporary controls in the player. Gestures and snapshot sharing remain enabled; images and previews are allowed on mobile networks. Settings are grouped into appearance, browsing, playback, data, and about. See the [v1.2.2 notes](docs/release-1.2.2.md).
 
 ### Download and backup
 
-Find signed releases in [GitHub Releases](https://github.com/Milenal82/sakugapp/releases) and development artifacts in [Actions](https://github.com/Milenal82/sakugapp/actions). The release version is **1.2.1 / code 14**.
+Find signed releases in [GitHub Releases](https://github.com/Milenal82/sakugapp/releases) and development artifacts in [Actions](https://github.com/Milenal82/sakugapp/actions). The release version is **1.2.2 / code 15**.
 
 Updates using the same package (`com.sakugapp`) and official certificate can be installed over the existing app. Export favorites first. Debug and official signatures differ: back up, uninstall, install the other build, and import. Uninstalling removes other local data.
 
@@ -84,14 +84,14 @@ Sakuga Mobile（インストール名 Sakugapp）は Sakugabooru の非公式 An
 - 元のタグ名による検索、複合条件、タグ候補、検索履歴、検索構文の早見表。平均色ツールは表示中のサムネイルを分析するもので、サイトの色類似検索ではありません。
 - 分類別タグ、Score、出典、コメントを表示するネイティブ詳細画面。前後の投稿、ダウンロード、元投稿、お気に入りを同じ操作バーに配置。
 - 全画面回転、速度と音量、A–B リピート、ピンチズーム、ダブルタップで一時停止、左右の投稿切り替え。詳細操作は折りたたみ可能で、実際のデコードインデックスによるコマ送りとフレーム番号に対応。
-- ドラッグで並べ替えできるローカルフォルダ、カバー、1 階層のサブフォルダと複数分類、JSON バックアップ、独立したタグのお気に入りとメモ。閲覧履歴の記録停止、個別削除、全消去。
-- ライト / ダーク背景と標準 / ブルー（シアン）/ ピンクのアクセント、75%–125% の文字サイズ、プレビュータグの追加行間 0–20 dp、8 言語の UI、アカウント / Vote / コメント機能、Blog / Forum へのリンク。サイト本文とタグは原文のまま、サイトの言語指定は英語または日本語のみ。
+- ドラッグで並べ替えできるローカルフォルダ、カバー、1 階層のサブフォルダと複数分類、JSON バックアップ、独立したタグのお気に入りとメモ。閲覧履歴は自動で記録し、個別削除と全消去に対応。
+- ライト / ダーク表示と標準 / Sakura Pink（桜色）/ Mint Cyan（ミント色）の全体配色、75%–125% の文字サイズ、プレビュータグの追加行間 0–20 dp、8 言語の UI、アカウント / Vote / コメント機能、Blog / Forum へのリンク。サイト本文とタグは原文のまま、サイトの言語指定は英語または日本語のみ。
 
-全画面では動画のみを表示し、シングルタップで操作を表示・非表示にします。更新とデータ移行は [v1.2.1](docs/release-1.2.1.md) を参照してください。
+全画面では動画のみを表示し、シングルタップで操作を表示・非表示にします。動画はミュート・リピートで開始し、再生中は個別に変更できます。ジェスチャーと画面共有は常に有効で、画像とプレビューはモバイル回線でも読み込みます。設定を外観・閲覧・再生・データ・アプリ情報に整理しました。[v1.2.2 更新情報](docs/release-1.2.2.md)を参照してください。
 
 ### ダウンロードとバックアップ
 
-正式署名 APK は [GitHub Releases](https://github.com/Milenal82/sakugapp/releases)、開発用 APK は [Actions](https://github.com/Milenal82/sakugapp/actions) から取得できます。今回の正式版は **1.2.1 / code 14** です。
+正式署名 APK は [GitHub Releases](https://github.com/Milenal82/sakugapp/releases)、開発用 APK は [Actions](https://github.com/Milenal82/sakugapp/actions) から取得できます。今回の正式版は **1.2.2 / code 15** です。
 
 パッケージ名 `com.sakugapp` と正式署名が同じ場合は上書きインストールできます。先にお気に入りをエクスポートしてください。Debug 版と正式版の署名は異なるため、切り替え時はバックアップ後にアンインストールし、別の版をインストールして取り込みます。アンインストールで他のローカルデータは消去されます。
 

@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.*
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.ui.text.TextStyle
@@ -21,16 +22,29 @@ internal fun appColors(light:Boolean,accent:String="default"):ColorScheme {
 ) else darkColorScheme(primary=Color(0xFF91B7FF),onPrimary=Color(0xFF142B4D),background=Color(0xFF101114),surface=Color(0xFF1B1D22),
     surfaceContainer=Color(0xFF1B1D22),surfaceContainerHigh=Color(0xFF24262C),surfaceVariant=Color(0xFF24262C),outlineVariant=Color(0xFF303238),
     onBackground=Color(0xFFF2F3F5),onSurface=Color(0xFFF2F3F5),onSurfaceVariant=Color(0xFFA6A9B2))
-    return when(accent){
-        "blue"->base.copy(primary=Color(if(light)0xFF006879 else 0xFF79D4E8),onPrimary=Color(if(light)0xFFFFFFFF else 0xFF00363F),
-            primaryContainer=Color(if(light)0xFFB5ECF7 else 0xFF164D58),onPrimaryContainer=Color(if(light)0xFF00333D else 0xFFB5ECF7),
-            secondary=Color(if(light)0xFF42636B else 0xFFA6CBD4),secondaryContainer=Color(if(light)0xFFCCE7ED else 0xFF2A4850),onSecondaryContainer=Color(if(light)0xFF102F36 else 0xFFCCE7ED))
-        "pink"->base.copy(primary=Color(if(light)0xFF96456B else 0xFFF4B1CF),onPrimary=Color(if(light)0xFFFFFFFF else 0xFF5B1838),
-            primaryContainer=Color(if(light)0xFFFFD8E7 else 0xFF76304F),onPrimaryContainer=Color(if(light)0xFF3D0824 else 0xFFFFD8E7),
-            secondary=Color(if(light)0xFF745360 else 0xFFDEBAC8),secondaryContainer=Color(if(light)0xFFF7DBE7 else 0xFF523D46),onSecondaryContainer=Color(if(light)0xFF2B1520 else 0xFFF7DBE7))
-        else->base
+    return when(com.sakugapp.data.PreferenceRules.palette(accent)){
+        "pink"->if(light) tintedColors(true,0xFFFFF5F8,0xFFFFFFFF,0xFFFCE6EE,0xFFAE416D,0xFFF4B6CC,0xFF432D39,0xFF785F6C,0xFFEED7E1,0xFFFFFFFF,0xFF9A7B89)
+            else tintedColors(false,0xFF211820,0xFF332430,0xFF432D3C,0xFFE889B0,0xFF6C2C4B,0xFFFCEAF1,0xFFDAB9CA,0xFF674454,0xFF432D39,0xFFB78C9F)
+        "mint"->if(light) tintedColors(true,0xFFF0FAF9,0xFFFFFFFF,0xFFDEF3EF,0xFF087B71,0xFFA7E3DC,0xFF243E3E,0xFF50716F,0xFFCDE6E2,0xFFFFFFFF,0xFF71938D)
+            else tintedColors(false,0xFF142422,0xFF233633,0xFF2E4741,0xFF63C9BE,0xFF2E5F56,0xFFE3F6F2,0xFFB3D1CA,0xFF45655D,0xFF123C35,0xFF84AAA0)
+        else->base.copy(surfaceContainerLowest=base.background,surfaceContainerLow=base.surface,surfaceContainerHighest=base.surfaceContainerHigh,
+            surfaceBright=base.surfaceContainerHigh,surfaceDim=base.background,surfaceTint=base.primary)
     }
 }
+
+/** Complete Material tokens: primary is slightly darker in light palettes for readable text buttons. */
+private fun tintedColors(light:Boolean,background:Long,surface:Long,raised:Long,primary:Long,selected:Long,text:Long,secondaryText:Long,divider:Long,onPrimary:Long,outline:Long):ColorScheme {
+    val b=Color(background);val s=Color(surface);val r=Color(raised);val p=Color(primary);val t=Color(text);val muted=Color(secondaryText);val choice=Color(selected)
+    val base=if(light)lightColorScheme()else darkColorScheme()
+    return base.copy(primary=p,onPrimary=Color(onPrimary),primaryContainer=choice,onPrimaryContainer=t,
+        secondary=p,onSecondary=Color(onPrimary),secondaryContainer=choice,onSecondaryContainer=t,
+        tertiary=p,onTertiary=Color(onPrimary),tertiaryContainer=r,onTertiaryContainer=t,
+        background=b,onBackground=t,surface=s,onSurface=t,surfaceVariant=r,onSurfaceVariant=muted,
+        surfaceContainerLowest=b,surfaceContainerLow=s,surfaceContainer=s,surfaceContainerHigh=r,surfaceContainerHighest=r,
+        surfaceBright=s,surfaceDim=b,surfaceTint=p,outline=Color(outline),outlineVariant=Color(divider),
+        inverseSurface=t,inverseOnSurface=b,inversePrimary=if(light)choice else Color(onPrimary))
+}
+
 internal fun copyrightColor(light:Boolean)=if(light)Color(0xFF926000)else Color(0xFFFFD166)
 internal fun artistColor(light:Boolean)=if(light)Color(0xFF7542B8)else Color(0xFFC59BFF)
 internal fun scoreColor(light:Boolean)=if(light)Color(0xFFC62828)else Color(0xFFFF5252)
@@ -64,8 +78,8 @@ private fun appTypography(scale:Float):Typography {
     val scale=fontScale.takeIf{it.isFinite()}?.coerceIn(0.75f,1.25f) ?: 1f
     val typography=remember(scale){appTypography(scale)}
     val colors=remember(light,accent){appColors(light,accent)}
-    DisposableEffect(activity,light) {
-        val style=if(light)SystemBarStyle.light(AndroidColor.TRANSPARENT,AndroidColor.TRANSPARENT)else SystemBarStyle.dark(AndroidColor.TRANSPARENT)
+    DisposableEffect(activity,light,colors.background) {
+        val style=if(light)SystemBarStyle.light(colors.background.toArgb(),colors.background.toArgb())else SystemBarStyle.dark(colors.background.toArgb())
         activity?.enableEdgeToEdge(statusBarStyle=style,navigationBarStyle=style)
         onDispose { }
     }

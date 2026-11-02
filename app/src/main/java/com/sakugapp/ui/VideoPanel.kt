@@ -60,8 +60,8 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
     var more by rememberSaveable(url){mutableStateOf(false)}
     var inlineExpanded by rememberSaveable(url){mutableStateOf(false)}
     var frames by remember(url){mutableStateOf(false)};var frameStep by remember(url){mutableIntStateOf(0)};var frameStart by remember(url){mutableLongStateOf(0)}
-    var muted by rememberSaveable(url){mutableStateOf(if(preview)true else settings.muted)}
-    var loop by rememberSaveable(url){mutableStateOf(settings.loop)}
+    var muted by rememberSaveable(url){mutableStateOf(true)}
+    var loop by rememberSaveable(url){mutableStateOf(true)}
     var speed by rememberSaveable(url){mutableFloatStateOf(settings.speed)}
     var volume by rememberSaveable(url){mutableFloatStateOf(1f)}
     var position by rememberSaveable(url){mutableLongStateOf(0L)}
@@ -160,7 +160,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
         }
     }
     val primaryControls:@Composable ()->Unit={
-        Surface(shape=RoundedCornerShape(12.dp),color=if(fullscreen)Color.Black.copy(alpha=.58f)else MaterialTheme.colorScheme.surfaceContainerHigh){
+            Surface(shape=RoundedCornerShape(12.dp),color=MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha=if(fullscreen).94f else 1f)){
             Row(Modifier.padding(4.dp),horizontalArrangement=Arrangement.spacedBy(4.dp)){
                 ActionIcon(if(fullscreen)R.drawable.ic_fullscreen_exit else R.drawable.ic_fullscreen,
                     text(if(fullscreen)R.string.ui_exit_full_screen else R.string.ui_full_screen),
@@ -210,7 +210,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                         TextButton(contentPadding=textButtonPadding(),onClick={loop=!loop}){Text(text(if(loop)R.string.ui_loop_on else R.string.ui_loop_off))}
                         TextButton(contentPadding=textButtonPadding(),onClick={zoom=1f;panX=0f;panY=0f},modifier=Modifier.testTag("reset-zoom")){Text(text(R.string.ui_reset_zoom))}
                         Text(text(R.string.ui_zoom_value,String.format(Locale.ROOT,"%.2f",zoom)),Modifier.testTag("zoom-level"))
-                        if(settings.screenshot)TextButton(contentPadding=textButtonPadding(),enabled=!capturing,onClick={
+                        TextButton(contentPadding=textButtonPadding(),enabled=!capturing,onClick={
                             capturing=true
                             val bitmap=(view?.videoSurfaceView as? TextureView)?.bitmap
                             if(bitmap==null){error=context.getString(R.string.ui_no_decoded_frame_is_available_to_capture);capturing=false}
@@ -248,7 +248,7 @@ AndroidView(factory={VideoGestureHost(it)},modifier=videoModifier.testTag("video
                 v.resizeMode=androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT
                 host.immersiveTapControl=fullscreen;host.onConfirmedTap={controlsVisible=!controlsVisible}
                 v.setShowNextButton(false);v.setShowPreviousButton(false);v.setShowFastForwardButton(false);v.setShowRewindButton(false)
-                host.configure(settings,VideoTransform(zoom,panX,panY));host.gesturesEnabled=settings.gestures && !preview
+                host.configure(settings,VideoTransform(zoom,panX,panY));host.gesturesEnabled=!preview
                 host.playbackRequested={player.playWhenReady};host.onPlaybackRequest={if(it)player.play()else player.pause()}
                 host.onPostSwipe=::navigate;host.onTransform={zoom=it.scale;panX=it.panX;panY=it.panY}
             })
@@ -260,7 +260,7 @@ AndroidView(factory={VideoGestureHost(it)},modifier=videoModifier.testTag("video
                 videoSurface(Modifier.fillMaxSize())
                 if(controlsVisible){
                     Box(Modifier.align(Alignment.TopEnd).padding(8.dp)){primaryControls()}
-                    Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth().background(Color.Black.copy(alpha=.85f))){
+                    Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth().background(MaterialTheme.colorScheme.surface.copy(alpha=.96f))){
                         advancedControls(advancedHeight);feedback()
                     }
                 }
@@ -271,10 +271,7 @@ AndroidView(factory={VideoGestureHost(it)},modifier=videoModifier.testTag("video
             }
         }
     }
-    val accent=LocalAccent.current
-    val darkPanelColors=remember(accent){appColors(false,accent)}
-    val panelColors=if(fullscreen || preview)darkPanelColors else MaterialTheme.colorScheme
-    MaterialTheme(colorScheme=panelColors){
+    MaterialTheme{
         if(fullscreen){
             Box(Modifier.fillMaxWidth().height(if(inlineExpanded)480.dp else 300.dp))
             Dialog(onDismissRequest={exitFullscreen()},properties=DialogProperties(usePlatformDefaultWidth=false,decorFitsSystemWindows=false)){
