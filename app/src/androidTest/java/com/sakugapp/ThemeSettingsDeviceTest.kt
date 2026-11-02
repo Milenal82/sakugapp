@@ -71,6 +71,7 @@ class ThemeSettingsDeviceTest {
                 ui.onNodeWithTag("accent-$palette").performScrollTo().performClick()
                 ui.waitUntil(10000){app.settings.value.accent==palette && app.settings.value.themeMode==mode}
                 assertEquals(palette,runBlocking{PreferencesStore(ui.activity).settings.first().accent})
+                ui.waitForIdle()
                 UiEvidence.capture("v122-settings-$palette-$mode.png")
             }
             ui.onNodeWithText(ui.activity.getString(R.string.ui_menu)).performClick()
@@ -82,6 +83,7 @@ class ThemeSettingsDeviceTest {
                 ui.waitUntil(10000){app.library.value.folders.any{it.id==folder}}
                 ui.onNodeWithTag("local-library").performScrollToNode(hasTestTag("folder-entry-$folder"))
                 ui.onNodeWithTag("folder-entry-$folder").performClick();ui.onNodeWithTag("folder-more").performClick()
+                ui.onNodeWithText(ui.activity.getString(R.string.ui_rename)).assertIsDisplayed()
                 UiEvidence.capture("v122-folder-menu.png")
                 ui.onNodeWithText(ui.activity.getString(R.string.ui_rename)).performClick()
                 ui.onNode(hasText("Theme folder") and hasSetTextAction()).assertExists();ui.onNodeWithText(ui.activity.getString(R.string.ui_cancel)).performClick()
@@ -103,6 +105,7 @@ class ThemeSettingsDeviceTest {
             ui.onNodeWithTag("more-controls").performScrollTo().performClick()
             ui.onNodeWithText(ui.activity.getString(R.string.ui_unmute)).performScrollTo().performClick()
             ui.onNodeWithText(ui.activity.getString(R.string.ui_loop_on)).performScrollTo().performClick()
+            ui.waitUntil(5000){var applied=false;ui.runOnUiThread{applied=player!!.volume==1f && player!!.repeatMode==Player.REPEAT_MODE_OFF};applied}
             ui.runOnUiThread{assertEquals(1f,player!!.volume,0f);assertEquals(Player.REPEAT_MODE_OFF,player!!.repeatMode)}
             val device=UiDevice.getInstance(instrumentation)
             ui.waitUntil(15000){ui.onAllNodesWithContentDescription(ui.activity.getString(R.string.ui_video_frame_rendered)).fetchSemanticsNodes().isNotEmpty()}
