@@ -20,8 +20,9 @@ class UiSmokeTest {
     @Test fun launchSettingsLanguageAndAccountAreNativeAndUsable(){
         ui.onNodeWithText("Menu").assertIsDisplayed().performClick()
         ui.onNodeWithText("Settings").performClick()
-        ui.onNodeWithText("Appearance").assertIsDisplayed()
-        ui.onNodeWithText("Default mute").performScrollTo().assertIsDisplayed()
+        ui.onNodeWithText(ui.activity.getString(R.string.ui_appearance_display)).assertIsDisplayed()
+        ui.onNodeWithText(ui.activity.getString(R.string.ui_default_mute)).assertDoesNotExist()
+        ui.onNodeWithText(ui.activity.getString(R.string.ui_default_playback_speed)).performScrollTo().assertIsDisplayed()
         ui.onNodeWithText("Menu").performClick();ui.onNodeWithText("Language").performClick()
         ui.onNodeWithText("日本語").performClick()
         ui.waitUntil(10000){ui.onAllNodesWithText("メニュー").fetchSemanticsNodes().isNotEmpty()}
@@ -29,12 +30,12 @@ class UiSmokeTest {
         ui.onNodeWithText("繁體中文").performClick()
         ui.waitUntil(10000){ui.onAllNodesWithText("選單").fetchSemanticsNodes().isNotEmpty()}
         ui.onNodeWithText("選單").performClick();ui.onNodeWithText("設定").performClick()
-        ui.onNodeWithText("外觀").assertIsDisplayed()
+        ui.onNodeWithText(ui.activity.getString(R.string.ui_appearance_display)).assertIsDisplayed()
         ui.onNodeWithText("選單").performClick();ui.onNodeWithText("語言").performClick()
         ui.onNodeWithText("简体中文").performClick()
         ui.waitUntil(10000){ui.onAllNodesWithText("菜单").fetchSemanticsNodes().isNotEmpty()}
         ui.onNodeWithText("菜单").performClick();ui.onNodeWithText("设置").performClick()
-        ui.onNodeWithText("外观").assertIsDisplayed()
+        ui.onNodeWithText(ui.activity.getString(R.string.ui_appearance_display)).assertIsDisplayed()
         UiEvidence.capture("compact-settings-zh-cn.png")
         ui.onNodeWithText("菜单").performClick();ui.onNodeWithText("语言").performClick()
         ui.onNodeWithText("English").performClick()
