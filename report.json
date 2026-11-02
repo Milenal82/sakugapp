@@ -1,43 +1,48 @@
 {
   "source_commit": "9ed13141724c4135e517e357be4ca716ecd24091",
-  "run_id": "41371635071",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/41371635071",
-  "captured_utc": "2026-11-02T01:23:56.225845+00:00",
+  "run_id": "41371953376",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953376",
+  "captured_utc": "2026-11-02T01:26:51.123008+00:00",
   "validation_result": "failure",
   "scope": "Fixed legacy preference policy, full light/dark pink/mint palettes, menus, short playback sanity and layout scrolling.",
   "jobs": [
     {
+      "name": "scroll-profile",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953376/job/125044109683",
+      "id": 125044109683
+    },
+    {
       "name": "validation",
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371635071/job/125043345915",
-      "id": 125043345915
-    },
-    {
-      "name": "scroll-profile",
-      "status": "completed",
-      "conclusion": "skipped",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371635071/job/125043347459",
-      "id": 125043347459
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953376/job/125044109915",
+      "id": 125044109915
     },
     {
       "name": "evidence",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371635071/job/125045058109",
-      "id": 125045058109
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953376/job/125045768338",
+      "id": 125045768338
     }
   ],
   "artifacts": [
     {
       "name": "maintenance-debug-apk",
-      "bytes": 18023953,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371635071/artifacts/13110245239"
+      "bytes": 18023954,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953376/artifacts/13110171198"
+    },
+    {
+      "name": "post-scroll-profile",
+      "bytes": 628,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953376/artifacts/13109657554"
     },
     {
       "name": "maintenance-test-reports",
-      "bytes": 573730,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371635071/artifacts/13110050565"
+      "bytes": 572964,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953376/artifacts/13109418294"
     }
   ],
   "test_counts": {
@@ -62,9 +67,14 @@
   },
   "failures": [
     {
+      "job": "scroll-profile",
+      "conclusion": "cancelled",
+      "message": "2026-11-02T01:26:28.0870160Z ##[error]The operation was canceled."
+    },
+    {
       "job": "validation",
       "conclusion": "failure",
-      "message": "2026-11-02T01:22:55.6566986Z com.sakugapp.ThemeSettingsDeviceTest > defaultPlaybackIgnoresOldFlagsAndTemporaryControlsAndScreenshotStillWork[emulator-5554 - 9] FAILED \n2026-11-02T01:22:55.6569197Z \tjava.lang.AssertionError: expected:<0> but was:<1>\n2026-11-02T01:23:38.3565975Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-02T01:23:38.4603976Z * What went wrong:\n2026-11-02T01:23:38.4612611Z BUILD FAILED in 1m 25s\n2026-11-02T01:23:38.9634376Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
+      "message": "2026-11-02T01:24:43.3573954Z com.sakugapp.ThemeSettingsDeviceTest > defaultPlaybackIgnoresOldFlagsAndTemporaryControlsAndScreenshotStillWork[emulator-5554 - 9] FAILED \n2026-11-02T01:24:43.3574655Z \tjava.lang.AssertionError: expected:<0> but was:<1>\n2026-11-02T01:25:18.8600611Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-02T01:25:18.9674718Z * What went wrong:\n2026-11-02T01:25:18.9680443Z BUILD FAILED in 1m 9s\n2026-11-02T01:25:19.4402385Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
     },
     {
       "test": "com.sakugapp.ThemeSettingsDeviceTest.defaultPlaybackIgnoresOldFlagsAndTemporaryControlsAndScreenshotStillWork",
@@ -75,58 +85,296 @@
   "device_diagnostics": [
     {
       "report": "reports/maintenance-diagnostics/runner.log",
-      "tail": "--------- beginning of main\n--------- beginning of system\n11-02 01:23:31.484  3202  3218 I TestRunner: finished: rapidUpAndDownScrollCollectsActualFrameDurations(com.sakugapp.PostScrollDeviceTest)\n11-02 01:23:31.486  3202  3218 I TestRunner: run finished: 6 tests, 1 failed, 0 ignored\n"
+      "tail": "--------- beginning of main\n--------- beginning of system\n11-02 01:25:06.466  3192  3209 I TestRunner: finished: zeroSpacingIsTightAndFolderTilesToggleIndependentMembershipsInBothThemes(com.sakugapp.PlayerStabilityDeviceTest)\n11-02 01:25:06.467  3192  3209 I TestRunner: started: rapidUpAndDownScrollCollectsActualFrameDurations(com.sakugapp.PostScrollDeviceTest)\n11-02 01:25:16.145  3192  3209 I TestRunner: finished: rapidUpAndDownScrollCollectsActualFrameDurations(com.sakugapp.PostScrollDeviceTest)\n11-02 01:25:16.146  3192  3209 I TestRunner: run finished: 6 tests, 1 failed, 0 ignored\n"
     }
   ],
   "scroll_profile": {
-    "scroll-current.json": {
-      "label": "current",
+    "scroll-baseline.json": {
+      "label": "baseline",
       "scope": "API 28 Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; not a real-device/network benchmark",
-      "frames": 424,
-      "mean_ms": 15.669361216981137,
-      "p50_ms": 12.310258,
-      "p95_ms": 39.397594,
-      "max_ms": 92.929541,
-      "over_34ms": 39,
+      "frames": 380,
+      "mean_ms": 191.19030154210512,
+      "p50_ms": 195.182152,
+      "p95_ms": 214.49979,
+      "max_ms": 232.61555,
+      "over_34ms": 380,
       "over_700ms": 0,
       "components": {
         "total": {
-          "mean_ms": 15.669361216981137,
-          "p95_ms": 39.397594
+          "mean_ms": 191.19030154210512,
+          "p95_ms": 214.49979
         },
         "layout": {
-          "mean_ms": 0.11314926886792458,
-          "p95_ms": 0.21483
+          "mean_ms": 0.3852588684210528,
+          "p95_ms": 2.26617
         },
         "draw": {
-          "mean_ms": 0.781082216981132,
-          "p95_ms": 2.15742
+          "mean_ms": 2.349370815789474,
+          "p95_ms": 9.43018
         },
         "animation": {
-          "mean_ms": 1.3627485141509434,
-          "p95_ms": 4.16302
+          "mean_ms": 8.31140752631579,
+          "p95_ms": 36.18184
         },
         "input": {
-          "mean_ms": 1.1457028773584905,
-          "p95_ms": 2.4485
+          "mean_ms": 1.709937026315789,
+          "p95_ms": 5.52815
         },
         "sync": {
-          "mean_ms": 0.1110431839622642,
-          "p95_ms": 0.24235
+          "mean_ms": 0.35218457894736843,
+          "p95_ms": 1.88002
         },
         "commands": {
-          "mean_ms": 0.9614185377358485,
-          "p95_ms": 2.10903
+          "mean_ms": 1.457709447368421,
+          "p95_ms": 4.26071
         },
         "swap": {
-          "mean_ms": 8.221018301886792,
-          "p95_ms": 16.16022
+          "mean_ms": 68.28088813157895,
+          "p95_ms": 79.70306
+        }
+      }
+    },
+    "scroll-current.json": {
+      "label": "current",
+      "scope": "API 28 Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; not a real-device/network benchmark",
+      "frames": 422,
+      "mean_ms": 12.557596651658768,
+      "p50_ms": 9.721897,
+      "p95_ms": 37.798697,
+      "max_ms": 65.208029,
+      "over_34ms": 40,
+      "over_700ms": 0,
+      "components": {
+        "total": {
+          "mean_ms": 12.557596651658768,
+          "p95_ms": 37.798697
+        },
+        "layout": {
+          "mean_ms": 0.07578109004739336,
+          "p95_ms": 0.17274
+        },
+        "draw": {
+          "mean_ms": 0.5216188625592414,
+          "p95_ms": 1.64404
+        },
+        "animation": {
+          "mean_ms": 0.8664157819905213,
+          "p95_ms": 2.58814
+        },
+        "input": {
+          "mean_ms": 0.7194893127962086,
+          "p95_ms": 1.87008
+        },
+        "sync": {
+          "mean_ms": 0.07529703791469199,
+          "p95_ms": 0.17677
+        },
+        "commands": {
+          "mean_ms": 0.6262856161137444,
+          "p95_ms": 1.53672
+        },
+        "swap": {
+          "mean_ms": 7.097251682464451,
+          "p95_ms": 16.1391
         }
       }
     }
   },
   "main_automatic_checks": {
-    "status": "not_requested",
-    "reason": "This push is not main."
+    "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953332",
+    "source_commit": "9ed13141724c4135e517e357be4ca716ecd24091",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "jobs": [
+      {
+        "name": "six-column-display (landscape, pixel_c)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953332/job/125044109945",
+        "id": 125044109945
+      },
+      {
+        "name": "device-tests",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953332/job/125044110129",
+        "id": 125044110129
+      },
+      {
+        "name": "six-column-display (phone, Nexus S)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953332/job/125044110147",
+        "id": 125044110147
+      },
+      {
+        "name": "search-back-gestures",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953332/job/125044110192",
+        "id": 125044110192
+      },
+      {
+        "name": "build",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953332/job/125044110239",
+        "id": 125044110239
+      },
+      {
+        "name": "signed-candidate",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953332/job/125044111002",
+        "id": 125044111002
+      },
+      {
+        "name": "documentation-screenshots",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953332/job/125044111191",
+        "id": 125044111191
+      },
+      {
+        "name": "candidate-upgrade-install",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953332/job/125044111615",
+        "id": 125044111615
+      },
+      {
+        "name": "release-preflight",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953332/job/125044111640",
+        "id": 125044111640
+      },
+      {
+        "name": "release-signing",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953332/job/125044111763",
+        "id": 125044111763
+      },
+      {
+        "name": "candidate-evidence",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953332/job/125044111923",
+        "id": 125044111923
+      },
+      {
+        "name": "checks-evidence",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953332/job/125045774046",
+        "id": 125045774046
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "six-column-landscape-reports",
+        "bytes": 3006944,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953332/artifacts/13110270129"
+      },
+      {
+        "name": "sakugapp-source",
+        "bytes": 2357766,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953332/artifacts/13110180609"
+      },
+      {
+        "name": "device-test-reports",
+        "bytes": 106615,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953332/artifacts/13110050894"
+      },
+      {
+        "name": "search-back-gesture-reports",
+        "bytes": 2120365,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953332/artifacts/13109886997"
+      },
+      {
+        "name": "check-reports",
+        "bytes": 150494,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953332/artifacts/13109736357"
+      },
+      {
+        "name": "six-column-phone-reports",
+        "bytes": 269091,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953332/artifacts/13109328578"
+      },
+      {
+        "name": "sakugapp-debug",
+        "bytes": 18023953,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/41371953332/artifacts/13109109049"
+      }
+    ],
+    "test_counts": {
+      "six-column-landscape-reports": {
+        "device": {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      },
+      "device-test-reports": {},
+      "search-back-gesture-reports": {
+        "device": {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      },
+      "check-reports": {
+        "debug_unit": {
+          "tests": 128,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        "release_unit": {
+          "tests": 128,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      },
+      "six-column-phone-reports": {
+        "device": {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      }
+    },
+    "lint": {
+      "check-reports/reports/lint-results-debug.xml": {
+        "errors": 0,
+        "warnings": 38
+      },
+      "check-reports/reports/lint-results-release.xml": {
+        "errors": 0,
+        "warnings": 40
+      }
+    },
+    "failures": [
+      {
+        "job": "device-tests",
+        "conclusion": "cancelled",
+        "message": "2026-11-02T01:23:54.6033105Z com.sakugapp.UiSmokeTest > launchSettingsLanguageAndAccountAreNativeAndUsable[emulator-5554 - 9] FAILED \n2026-11-02T01:23:54.6063893Z \tjava.lang.AssertionError: Assert failed: The component is not displayed!\n2026-11-02T01:26:28.1229125Z ##[error]The operation was canceled."
+      },
+      {
+        "job": "search-back-gestures",
+        "conclusion": "cancelled",
+        "message": "See the Actions job for this unsuccessful check."
+      },
+      {
+        "job": "build",
+        "conclusion": "cancelled",
+        "message": "See the Actions job for this unsuccessful check."
+      }
+    ]
   }
 }
