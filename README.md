@@ -1,7 +1,7 @@
-# v1.2.1 focused verification
+# v1.2.2 focused verification
 
-Source: `2d6487759325a57e1fcea228100857b68a0ff25c`
+Source: `e1df6284ca31619205fe220686d400ee6890eacc`
 
-Run: https://github.com/Milenal82/sakugapp/actions/runs/41293226174
+Run: https://github.com/Milenal82/sakugapp/actions/runs/41371434908
 
-Focused backup/hierarchy/resource JVM checks, Lint/build, native migration/order/subfolder/theme and short playback tests. Original screenshots use public-response fixtures and an isolated codec pattern. scroll_profile contains actual FrameMetrics from the same API 28 emulator before/after the update, using 300 captured posts without thumbnails to isolate layout, with 24 equal swipes. It is not a real-device or network/image-decoding benchmark. Full unrelated CI remains enabled and is reported at its current status. Official certificate and v1.2.0 upgrade checks run separately before publication.
+Focused JVM checks, Lint/build and six API 28 device cases cover legacy settings/history preservation, complete pink/mint palettes and menus, temporary mute/loop controls, screenshot sharing, fullscreen and short scrolling. Original captures use public-response fixtures and an isolated codec pattern. scroll_profile is actual emulator FrameMetrics with thumbnails absent to isolate layout; it is not a real-device benchmark. The existing main CI remains enabled. Official v1.2.1-to-v1.2.2 signed upgrade checks run separately before publication.
