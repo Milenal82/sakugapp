@@ -49,7 +49,7 @@ class UpgradeV122Test {
             val recording=control(find(By.res("record-browsing-history")));if(recording.isChecked)recording.click(100)
             menu("Settings");click(By.desc("Light"));click(By.text("Blue (cyan)"))
             toggle("Wrap tags",false)
-            for((label,value)in listOf("Video gestures" to false,"Allow previews on metered networks" to false,"Default mute" to false,"Default loop" to false,"Enable snapshot sharing" to false,"Load images only on unmetered networks" to true))toggle(label,value)
+            for((label,value)in listOf("Video gestures" to false,"Mobile data previews" to false,"Default mute" to false,"Default loop" to false,"Enable snapshot sharing" to false,"Images on Wi-Fi only" to true))toggle(label,value)
         }else{
             assertEquals("verify",args.getString("stage"))
             menu("Favorites");export("after-upgrade.json")
