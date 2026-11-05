@@ -1,0 +1,44 @@
+name: Read bounded player test diagnostics
+on:
+  push:
+    branches: [ci/player-tools-audit]
+permissions:
+  contents: write
+  actions: read
+jobs:
+  read:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - name: Read existing report artifacts only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import subprocess,json,zipfile,io,xml.etree.ElementTree as ET,pathlib
+          repo='Milenal82/sakugapp';output=[]
+          def api(path):return subprocess.check_output(['gh','api',f'repos/{repo}/'+path])
+          for run in ['42103366153','42103366633']:
+              meta=json.loads(api('actions/runs/'+run));result={'run':run,'commit':meta['head_sha'],'status':meta['status'],'reports':[]}
+              for item in json.loads(api(f'actions/runs/{run}/artifacts?per_page=100'))['artifacts']:
+                  if 'reports' not in item['name'] or item['size_in_bytes']>64*1024*1024:continue
+                  z=zipfile.ZipFile(io.BytesIO(api(f'actions/artifacts/{item["id"]}/zip')))
+                  for p in z.infolist():
+                      if p.file_size>4*1024*1024 or not pathlib.PurePosixPath(p.filename).name.startswith('TEST-') or not p.filename.endswith('.xml'):continue
+                      root=ET.fromstring(z.read(p));f=[]
+                      for c in root.iter('testcase'):
+                          for e in list(c.findall('failure'))+list(c.findall('error')):f.append({'test':c.get('classname')+'.'+c.get('name'),'message':(e.text or '')[:10000]})
+                      result['reports'].append({'artifact':item['name'],'counts':root.attrib,'failures':f})
+              output.append(result)
+          pathlib.Path('/tmp/player-diagnostics.json').write_text(json.dumps(output,indent=2)+'\n')
+          PY
+      - name: Save diagnostics independently of product source
+        run: |
+          git fetch origin evidence/player-diagnostics:refs/remotes/origin/evidence/player-diagnostics || true
+          if git show-ref --verify --quiet refs/remotes/origin/evidence/player-diagnostics; then git switch -c diagnostics origin/evidence/player-diagnostics; else git switch --orphan diagnostics; fi
+          cp /tmp/player-diagnostics.json report.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add report.json
+          git commit -m 'Read existing player reports' || true
+          git push origin HEAD:refs/heads/evidence/player-diagnostics
