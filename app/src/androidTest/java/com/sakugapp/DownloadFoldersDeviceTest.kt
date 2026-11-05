@@ -49,6 +49,8 @@ class DownloadFoldersDeviceTest {
     }
     @Test fun safFoldersPersistTransfersCancelFailuresAndLegacyExportAreSafe()=runBlocking{
         lateinit var app:com.sakugapp.ui.AppViewModel;ui.runOnUiThread{app=ViewModelProvider(ui.activity)[com.sakugapp.ui.AppViewModel::class.java]}
+        val image=PostParser.posts(instrumentation.context.assets.open("library-real-posts.json").bufferedReader().use{it.readText()}).first().copy(fileExt="jpg")
+        assertFalse("Image favorites are not video downloads",app.hasOffline(image))
         val single="SakugappSingleTest";val batch="SakugappBatchTest"
         ui.onNodeWithText("Menu").performClick();ui.onNodeWithText("Settings").performClick()
         picker(DownloadStorage.Kind.SINGLE,single,app.downloadStorage);picker(DownloadStorage.Kind.BATCH,batch,app.downloadStorage)

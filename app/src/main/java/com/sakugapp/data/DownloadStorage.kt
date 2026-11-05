@@ -25,7 +25,7 @@ class DownloadStorage(private val context:Context,private val downloader:VideoDo
         resolver.takePersistableUriPermission(uri,flags)
         val doc=Docs.buildDocumentUriUsingTree(uri,Docs.getTreeDocumentId(uri))
         resolver.query(doc,arrayOf(Docs.Document.COLUMN_FLAGS),null,null,null)?.use{check(it.moveToFirst() && it.getLong(0) and Docs.Document.FLAG_DIR_SUPPORTS_CREATE.toLong()!=0L)} ?: throw IOException("directory_access")
-        prefs.edit().putString("tree_${kind.name}",uri.toString()).commit()
+        check(prefs.edit().putString("tree_${kind.name}",uri.toString()).commit())
     }
     fun reset(kind:Kind){prefs.edit().remove("tree_${kind.name}").commit()}
     fun needsLegacyPermission(kind:Kind)=Build.VERSION.SDK_INT<29 && directory(kind)==null
@@ -45,7 +45,7 @@ class DownloadStorage(private val context:Context,private val downloader:VideoDo
             resolver.query(Docs.buildChildDocumentsUriUsingTree(tree,Docs.getTreeDocumentId(tree)),arrayOf(Docs.Document.COLUMN_DISPLAY_NAME),null,null,null)?.use{while(it.moveToNext())names+=it.getString(0)} ?: throw IOException()
             val name=MediaFileNames.unique(filename){it in names}
             return Target(Docs.createDocument(resolver,parent,mime,name) ?: throw IOException(),false)
-        }catch(e:Exception){throw LibraryFailure("directory_access")}
+        }catch(e:Exception){val failure=storageFailure(e);throw if((failure as? LibraryFailure)?.code=="storage_full")failure else LibraryFailure("directory_access")}
         try{
             val values=ContentValues().apply{put(MediaStore.Video.Media.DISPLAY_NAME,filename);put(MediaStore.Video.Media.MIME_TYPE,mime)}
             if(Build.VERSION.SDK_INT>=29){values.put(MediaStore.Video.Media.RELATIVE_PATH,kind.path);values.put(MediaStore.Video.Media.IS_PENDING,1)}
@@ -55,7 +55,7 @@ class DownloadStorage(private val context:Context,private val downloader:VideoDo
                 val name=MediaFileNames.unique(filename){File(folder,it).exists()};values.put(MediaStore.Video.Media.DISPLAY_NAME,name);values.put(MediaStore.Video.Media.DATA,File(folder,name).path)
             }
             return Target(resolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,values) ?: throw IOException(),Build.VERSION.SDK_INT>=29)
-        }catch(e:Exception){throw LibraryFailure("directory_access")}
+        }catch(e:Exception){val failure=storageFailure(e);throw if((failure as? LibraryFailure)?.code=="storage_full")failure else LibraryFailure("directory_access")}
     }
     private fun delete(target:Target){runCatching{if(Docs.isDocumentUri(context,target.uri))Docs.deleteDocument(resolver,target.uri)else resolver.delete(target.uri,null,null)}}
     private fun commit(target:Target,post:Post,kind:Kind,bytes:Long){
@@ -103,7 +103,7 @@ class DownloadStorage(private val context:Context,private val downloader:VideoDo
         if(e is LibraryFailure)return e
         if(e is DataFailure && e.cause is LibraryFailure)return e.cause as LibraryFailure
         var cause:Throwable?=e
-        while(cause!=null){if(cause.message?.contains("ENOSPC")==true || cause.message?.contains("No space left")==true)return LibraryFailure("storage_full");if(cause is android.system.ErrnoException && cause.errno==android.system.OsConstants.ENOSPC)return LibraryFailure("storage_full");cause=cause.cause}
+        while(cause!=null){if(cause is android.database.sqlite.SQLiteFullException)return LibraryFailure("storage_full");if(cause.message?.contains("ENOSPC")==true || cause.message?.contains("No space left")==true)return LibraryFailure("storage_full");if(cause is android.system.ErrnoException && cause.errno==android.system.OsConstants.ENOSPC)return LibraryFailure("storage_full");cause=cause.cause}
         return LibraryFailure("download_storage")
     }
 }

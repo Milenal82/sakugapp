@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -26,7 +27,7 @@ import java.io.File
 
 @Composable internal fun DownloadDirectories(model:AppViewModel){
     val context=LocalContext.current;val scope=rememberCoroutineScope();val storage=model.downloadStorage
-    var revision by remember{mutableIntStateOf(0)};var selecting by remember{mutableStateOf(DownloadStorage.Kind.SINGLE)}
+    var revision by remember{mutableIntStateOf(0)};var selecting by rememberSaveable{mutableStateOf(DownloadStorage.Kind.SINGLE)}
     var message by remember{mutableStateOf<String?>(null)};var job by remember{mutableStateOf<Job?>(null)};var busy by remember{mutableStateOf(false)}
     val access=rememberDownloadAccess(storage){message=context.getString(R.string.ui_directory_error)}
     val picker=rememberLauncherForActivityResult(ActivityResultContracts.OpenDocumentTree()){uri->if(uri!=null)scope.launch{try{withContext(Dispatchers.IO){storage.choose(selecting,uri)};revision++}catch(e:Exception){message=context.getString(R.string.ui_directory_error)}}}
