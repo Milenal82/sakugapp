@@ -31,6 +31,7 @@ class PageCacheDeviceTest {
     private val instrumentation=InstrumentationRegistry.getInstrumentation()
     private val context get()=instrumentation.targetContext
     private val server=MockWebServer();private lateinit var client:OkHttpClient
+    private lateinit var videoUrl:String
     private lateinit var data:ByteArray
     private val bytes=AtomicLong()
     @Before fun setup(){
@@ -44,15 +45,15 @@ class PageCacheDeviceTest {
             if(start>data.lastIndex)return MockResponse().setResponseCode(416).setHeader("Content-Range","bytes */${data.size}")
             val result=data.copyOfRange(start,end+1);bytes.addAndGet(result.size.toLong())
             return MockResponse().setResponseCode(if(range!=null)206 else 200).setHeader("Content-Type","video/mp4").setHeader("Accept-Ranges","bytes").apply{if(range!=null)setHeader("Content-Range","bytes $start-$end/${data.size}")}.setBody(Buffer().write(result))
-        }};server.start()
+        }};server.start();videoUrl=server.url("/video.mp4").toString()
     }
     @After fun end(){server.shutdown();client.connectionPool.evictAll();client.dispatcher.executorService.shutdown()}
     private fun session(limit:Long=200L*1024*1024)=PageVideoCache(context,OkHttpDataSource.Factory(client),limit)
     private fun read(cache:PageVideoCache,start:Long=0,length:Long=C.LENGTH_UNSET.toLong()):ByteArray{
-        val source=cache.factory().createDataSource();try{source.open(DataSpec.Builder().setUri(server.url("/video.mp4").toString()).setPosition(start).setLength(length).build());val out=java.io.ByteArrayOutputStream();val b=ByteArray(1024);while(true){val n=source.read(b,0,b.size);if(n<0)break;out.write(b,0,n)};return out.toByteArray()}finally{source.close()}
+        val source=cache.factory().createDataSource();try{source.open(DataSpec.Builder().setUri(videoUrl).setPosition(start).setLength(length).build());val out=java.io.ByteArrayOutputStream();val b=ByteArray(1024);while(true){val n=source.read(b,0,b.size);if(n<0)break;out.write(b,0,n)};return out.toByteArray()}finally{source.close()}
     }
     @Test fun rangesRepeatsFrameIndexAndReentryReuseOnlyTheirPage()=runBlocking{
-        val cache=session();val url=server.url("/video.mp4").toString()
+        val cache=session();val url=videoUrl
         assertArrayEquals(data.copyOfRange(0,1024),withContext(Dispatchers.IO){read(cache,0,1024)})
         val partial=server.requestCount
         repeat(3){assertArrayEquals(data.copyOfRange(10,100),withContext(Dispatchers.IO){read(cache,10,90)})};assertEquals(partial,server.requestCount)
@@ -70,7 +71,7 @@ class PageCacheDeviceTest {
     }
     @Test fun actualExoPlayerLoopsThreeTimesWithoutAnotherTransfer()=runBlocking{
         val cache=session();lateinit var player:ExoPlayer;val repeats=AtomicLong()
-        instrumentation.runOnMainSync{player=ExoPlayer.Builder(context).setMediaSourceFactory(DefaultMediaSourceFactory(cache.factory())).build();player.addListener(object:Player.Listener{override fun onMediaItemTransition(item:MediaItem?,reason:Int){if(reason==Player.MEDIA_ITEM_TRANSITION_REASON_REPEAT)repeats.incrementAndGet()}});player.repeatMode=Player.REPEAT_MODE_ONE;player.setMediaItem(MediaItem.fromUri(server.url("/video.mp4").toString()));player.volume=0f;player.prepare();player.play()}
+        instrumentation.runOnMainSync{player=ExoPlayer.Builder(context).setMediaSourceFactory(DefaultMediaSourceFactory(cache.factory())).build();player.addListener(object:Player.Listener{override fun onMediaItemTransition(item:MediaItem?,reason:Int){if(reason==Player.MEDIA_ITEM_TRANSITION_REASON_REPEAT)repeats.incrementAndGet()}});player.repeatMode=Player.REPEAT_MODE_ONE;player.setMediaItem(MediaItem.fromUri(videoUrl));player.volume=0f;player.prepare();player.play()}
         try{withTimeout(30000){while(repeats.get()<1)delay(50)};val requests=server.requestCount
             withTimeout(40000){while(repeats.get()<3)delay(50)};assertEquals(requests,server.requestCount)
             instrumentation.runOnMainSync{repeat(3){player.seekTo(0)}};delay(500);assertEquals(requests,server.requestCount)
@@ -78,7 +79,7 @@ class PageCacheDeviceTest {
     }
     @Test fun fullscreenAndPlayerReplacementKeepTheSamePageBytes()=runBlocking{
         val cache=session();var player:Player?=null;var show by mutableStateOf(true)
-        ui.runOnUiThread{ui.activity.setContent{SakugappTheme(false){CompositionLocalProvider(LocalPageVideoCache provides cache){if(show)VideoPanel(server.url("/video.mp4").toString(),onPlayerReady={player=it},videoDimensions=320 to 180)}}}}
+        ui.runOnUiThread{ui.activity.setContent{SakugappTheme(false){CompositionLocalProvider(LocalPageVideoCache provides cache){if(show)VideoPanel(videoUrl,onPlayerReady={player=it},videoDimensions=320 to 180)}}}}
         try{
             ui.waitUntil(15000){var ready=false;ui.runOnUiThread{ready=player?.playbackState==Player.STATE_READY};ready}
             withContext(Dispatchers.IO){read(cache)};val requests=server.requestCount;val original=player
@@ -93,7 +94,7 @@ class PageCacheDeviceTest {
     }
     @Test fun boundedRepeatedPagesCleanUpWithoutLocksOrResidualMedia()=runBlocking{
         System.gc();val runtime=Runtime.getRuntime();val before=runtime.totalMemory()-runtime.freeMemory()
-        repeat(15){val cache=session(2048);withContext(Dispatchers.IO){read(cache,0,1024)};cache.close();withTimeout(10000){while(cache.directory.exists())delay(10)}}
+        repeat(15){val cache=session(2048);withContext(Dispatchers.IO){assertArrayEquals(data,read(cache))};val used=cache.directory.walkTopDown().filter{it.isFile && it.name.endsWith(".exo")}.sumOf{it.length()};assertTrue("LRU disk payload is bounded",used<=2048);cache.close();withTimeout(10000){while(cache.directory.exists())delay(10)}}
         System.gc();val growth=runtime.totalMemory()-runtime.freeMemory()-before;println("15 pages Java heap delta: $growth bytes");assertTrue("Bounded short-run heap growth",growth<32L*1024*1024)
     }
 }

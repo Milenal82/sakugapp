@@ -42,6 +42,9 @@ import kotlinx.coroutines.*
     var busy by remember{mutableStateOf(false)};var downloadConfirm by remember{mutableStateOf(false)}
     var job by remember{mutableStateOf<Job?>(null)};var done by remember{mutableIntStateOf(0)};var total by remember{mutableIntStateOf(0)};var currentBytes by remember{mutableLongStateOf(0)};var currentSize by remember{mutableLongStateOf(-1L)}
     val downloadAccess=rememberDownloadAccess(app.downloadStorage){message=context.getString(R.string.ui_directory_error)}
+    var mediaRevision by remember{mutableIntStateOf(0)}
+    androidx.lifecycle.compose.LifecycleEventEffect(androidx.lifecycle.Lifecycle.Event.ON_RESUME){mediaRevision++}
+    val offlineIds by produceState(emptySet<Long>(),state.decoded,mediaRevision){value=withContext(Dispatchers.IO){state.decoded.values.filter{it.isVideo && app.offlineUri(it)!=null}.map{it.id}.toSet()}}
     var usage by remember{mutableLongStateOf(app.offlineMedia.bytes())};var clearMedia by remember{mutableStateOf(false)}
     val folder=state.folders.firstOrNull{it.id==folderId}
     val inside=folderId!=null
@@ -106,7 +109,7 @@ import kotlinx.coroutines.*
                                         AppMenuItem(icon=R.drawable.ic_up,toned=true,text={Text(text(R.string.ui_move_up))},onClick={more=false;operation{app.localLibrary.reorder(folder.id,-1)}})
                                         AppMenuItem(icon=R.drawable.ic_down,toned=true,text={Text(text(R.string.ui_move_down))},onClick={more=false;operation{app.localLibrary.reorder(folder.id,1)}})
                                     }
-                                    AppMenuItem(icon=R.drawable.ic_download,toned=true,text={Text(text(R.string.ui_batch_download))},enabled=!busy && candidates.any{state.decoded[it.id]?.let{p->p.isVideo && !app.hasOffline(p)}==true},onClick={more=false;downloadConfirm=true})
+                                    AppMenuItem(icon=R.drawable.ic_download,toned=true,text={Text(text(R.string.ui_batch_download))},enabled=!busy && candidates.any{state.decoded[it.id]?.let{p->p.isVideo && p.id !in offlineIds}==true},onClick={more=false;downloadConfirm=true})
                                 }
                             }
                         }
@@ -174,7 +177,7 @@ import kotlinx.coroutines.*
                         search,
                         {preview=if(preview==post.id)null else post.id},
                         {duration->app.duration(post.fileUrl.orEmpty(),duration)},onClassify=if(actualId!=null)({classifying=post})else null)
-                    if(app.hasOffline(post))Text(text(R.string.ui_offline_ready),style=MaterialTheme.typography.labelSmall)
+                    if(post.id in offlineIds)Text(text(R.string.ui_offline_ready),style=MaterialTheme.typography.labelSmall)
                 }
             }}
         }
@@ -200,11 +203,11 @@ import kotlinx.coroutines.*
         Text(text(R.string.ui_move_explanation))
         state.folders.forEach{target->TextButton(onClick={operation{app.localLibrary.batch(selected,actualId,target.id);selected=emptySet();moving=false}}){Text(folderName(target,context))}}
     }},confirmButton={TextButton(onClick={moving=false}){Text(text(R.string.ui_cancel))}})
-    if(clearMedia)AlertDialog(onDismissRequest={clearMedia=false},title={Text(text(R.string.ui_clear_offline_media))},text={Text(text(R.string.ui_clear_offline_warning))},confirmButton={TextButton(onClick={operation{app.offlineMedia.clear();usage=0;clearMedia=false}}){Text(text(R.string.ui_delete))}},dismissButton={TextButton(onClick={clearMedia=false}){Text(text(R.string.ui_cancel))}})
+    if(clearMedia)AlertDialog(onDismissRequest={clearMedia=false},title={Text(text(R.string.ui_clear_offline_media))},text={Text(text(R.string.ui_clear_offline_warning))},confirmButton={TextButton(onClick={operation{app.offlineMedia.clear();usage=0;mediaRevision++;clearMedia=false}}){Text(text(R.string.ui_delete))}},dismissButton={TextButton(onClick={clearMedia=false}){Text(text(R.string.ui_cancel))}})
     if(downloadConfirm)AlertDialog(onDismissRequest={downloadConfirm=false},title={Text(text(R.string.ui_batch_download))},text={Text(text(R.string.ui_batch_download_hint))},confirmButton={TextButton(onClick={
-        downloadConfirm=false;downloadAccess(DownloadStorage.Kind.BATCH){val pending=candidates.mapNotNull{state.decoded[it.id]}.filter{it.isVideo && !app.hasOffline(it)}.take(OfflineLibraryMedia.BATCH_SIZE)
+        downloadConfirm=false;downloadAccess(DownloadStorage.Kind.BATCH){val pending=candidates.mapNotNull{state.decoded[it.id]}.filter{it.isVideo && it.id !in offlineIds}.take(OfflineLibraryMedia.BATCH_SIZE)
         busy=true;done=0;total=pending.size
-        job=scope.launch{var failures=0;var lastFailure:String?=null;try{for(post in pending){currentBytes=0;currentSize=-1;var updated=0L;try{app.downloadStorage.download(post,DownloadStorage.Kind.BATCH){received,length->val now=System.nanoTime();if(now-updated>100000000L || received==length){updated=now;scope.launch{currentBytes=received;currentSize=length}}};done++}catch(e:CancellationException){throw e}catch(e:Exception){failures++;lastFailure=libraryError(context,e);message=lastFailure}};message=context.getString(R.string.ui_batch_result,done,failures)+(lastFailure?.let{"\n$it"} ?: "")}catch(e:CancellationException){message=context.getString(R.string.ui_download_cancelled);throw e}catch(e:Exception){message=libraryError(context,e)}finally{busy=false;usage=app.offlineMedia.bytes()}}}
+        job=scope.launch{var failures=0;var lastFailure:String?=null;try{for(post in pending){currentBytes=0;currentSize=-1;var updated=0L;try{app.downloadStorage.download(post,DownloadStorage.Kind.BATCH){received,length->val now=System.nanoTime();if(now-updated>100000000L || received==length){updated=now;scope.launch{currentBytes=received;currentSize=length}}};done++}catch(e:CancellationException){throw e}catch(e:Exception){failures++;lastFailure=libraryError(context,e);message=lastFailure}};message=context.getString(R.string.ui_batch_result,done,failures)+(lastFailure?.let{"\n$it"} ?: "")}catch(e:CancellationException){message=context.getString(R.string.ui_download_cancelled);throw e}catch(e:Exception){message=libraryError(context,e)}finally{busy=false;mediaRevision++;usage=app.offlineMedia.bytes()}}}
     }){Text(text(R.string.ui_download_video))}},dismissButton={TextButton(onClick={downloadConfirm=false}){Text(text(R.string.ui_cancel))}})
 }
 

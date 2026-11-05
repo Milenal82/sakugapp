@@ -50,7 +50,7 @@ class DownloadFoldersDeviceTest {
     @Test fun safFoldersPersistTransfersCancelFailuresAndLegacyExportAreSafe()=runBlocking{
         lateinit var app:com.sakugapp.ui.AppViewModel;ui.runOnUiThread{app=ViewModelProvider(ui.activity)[com.sakugapp.ui.AppViewModel::class.java]}
         val image=PostParser.posts(instrumentation.context.assets.open("library-real-posts.json").bufferedReader().use{it.readText()}).first().copy(fileExt="jpg")
-        assertFalse("Image favorites are not video downloads",app.hasOffline(image))
+        assertNull("Image favorites are not video downloads",app.offlineUri(image))
         val single="SakugappSingleTest";val batch="SakugappBatchTest"
         ui.onNodeWithText("Menu").performClick();ui.onNodeWithText("Settings").performClick()
         picker(DownloadStorage.Kind.SINGLE,single,app.downloadStorage);picker(DownloadStorage.Kind.BATCH,batch,app.downloadStorage)
@@ -92,9 +92,18 @@ class DownloadFoldersDeviceTest {
     }
     @Test fun defaultsUsePublicMediaStoreWithoutAFilePicker()=runBlocking{
         val storage=DownloadStorage(context);DownloadStorage.Kind.entries.forEach(storage::reset)
-        if(android.os.Build.VERSION.SDK_INT<29)device.executeShellCommand("pm grant ${context.packageName} android.permission.WRITE_EXTERNAL_STORAGE")
-        // Export a local fixture through exactly the same public-directory allocation/commit path.
-        val file=File(context.cacheDir,"default-folder-${System.nanoTime()}.mp4").apply{writeBytes(instrumentation.context.assets.open("frame-index-vfr.mp4").use{it.readBytes()})}
-        try{assertTrue(storage.exportLegacy(file));resolver.query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,arrayOf(MediaStore.Video.Media.DISPLAY_NAME),"${MediaStore.Video.Media.DISPLAY_NAME}=?",arrayOf(file.name),null)!!.use{assertTrue("Visible in the system media catalog",it.moveToFirst())}}finally{resolver.delete(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,"${MediaStore.Video.Media.DISPLAY_NAME}=?",arrayOf(file.name));file.delete()}
+        val file=File(context.filesDir,"favorites-media/default-folder-${System.nanoTime()}.mp4").apply{parentFile!!.mkdirs();writeBytes(instrumentation.context.assets.open("frame-index-vfr.mp4").use{it.readBytes()})}
+        try{
+            ui.onNodeWithText("Menu").performClick();ui.onNodeWithText("Settings").performClick()
+            ui.onNodeWithText(ui.activity.getString(R.string.ui_export_legacy)).performScrollTo().performClick()
+            if(android.os.Build.VERSION.SDK_INT<29){
+                device.wait(Until.findObject(By.res("com.android.packageinstaller:id/permission_allow_button")),5000)?.click()
+            }
+            fun visible()=resolver.query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,arrayOf(MediaStore.Video.Media.DISPLAY_NAME),"${MediaStore.Video.Media.DISPLAY_NAME}=?",arrayOf(file.name),null)!!.use{it.moveToFirst()}
+            ui.waitUntil(15000){visible()}
+            val location=if(android.os.Build.VERSION.SDK_INT>=29)MediaStore.Video.Media.RELATIVE_PATH else MediaStore.Video.Media.DATA
+            resolver.query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,arrayOf(location),"${MediaStore.Video.Media.DISPLAY_NAME}=?",arrayOf(file.name),null)!!.use{assertTrue(it.moveToFirst());assertTrue(it.getString(0).contains("Movies/Sakugapp/Batch/"))}
+            assertTrue("Export keeps the original",file.exists())
+        }finally{resolver.delete(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,"${MediaStore.Video.Media.DISPLAY_NAME}=?",arrayOf(file.name));file.delete()}
     }
 }

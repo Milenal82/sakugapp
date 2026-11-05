@@ -25,7 +25,6 @@ class AppViewModel(application:Application):AndroidViewModel(application) {
     fun visited(post:Post){viewModelScope.launch{try{personal.learn(post.tags);personal.record(post);_personalError.value=null}catch(e:CancellationException){throw e}catch(e:Exception){_personalError.value=e}}}
     val offlineMedia=OfflineLibraryMedia(application)
     val downloadStorage=DownloadStorage(application)
-    fun hasOffline(post:Post)=post.isVideo && (offlineMedia.existing(post)!=null || downloadStorage.knownBatch(post)!=null)
     fun offlineUri(post:Post)=offlineMedia.existing(post)?.let(android.net.Uri::fromFile) ?: downloadStorage.existing(post,DownloadStorage.Kind.BATCH)
     val session=SecureSession(application)
     val suggestions:SuggestionSource=TagSuggestionRepository()

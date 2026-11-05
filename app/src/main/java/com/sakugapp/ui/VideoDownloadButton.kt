@@ -16,8 +16,6 @@ import kotlinx.coroutines.*
 
 @Composable fun VideoDownloadButton(post:Post) {
     val context=LocalContext.current
-    val resolver=context.contentResolver
-    val plan=remember(post){VideoDownloadPlan.from(post)}
     val scope=rememberCoroutineScope()
     var job by remember{mutableStateOf<Job?>(null)}
     var busy by remember{mutableStateOf(false)}

@@ -27,12 +27,7 @@ import com.sakugapp.data.PostParser
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import okhttp3.*
 import java.io.File
-import java.security.MessageDigest
-import java.util.concurrent.TimeUnit
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 
 internal class FrameDecoder(private val context:Context,private val url:String,private val preparedFile:File?=null,
     private val pageCache:com.sakugapp.data.PageVideoCache?=null) {

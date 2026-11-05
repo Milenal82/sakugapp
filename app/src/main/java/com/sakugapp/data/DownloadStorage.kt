@@ -29,23 +29,24 @@ class DownloadStorage(private val context:Context,private val downloader:VideoDo
     }
     fun reset(kind:Kind){prefs.edit().remove("tree_${kind.name}").commit()}
     fun needsLegacyPermission(kind:Kind)=Build.VERSION.SDK_INT<29 && directory(kind)==null
-    fun knownBatch(post:Post):Uri?=prefs.getString(key(post,Kind.BATCH),null)?.let(Uri::parse)
     private fun oldKey(post:Post)="${post.id}-${key(post,Kind.BATCH).substringAfter("BATCH_").take(24)}.${VideoDownloadPlan.from(post).filename.substringAfterLast('.')}"
     private fun key(post:Post,kind:Kind)=kind.name+"_"+MessageDigest.getInstance("SHA-256").digest(VideoDownloadPlan.from(post).url.toString().toByteArray()).joinToString(""){"%02x".format(it)}
+    private fun readable(uri:Uri)=runCatching{resolver.query(uri,arrayOf(android.provider.OpenableColumns.SIZE),null,null,null)?.use{it.moveToFirst() && (it.isNull(0) || it.getLong(0)!=0L)}==true}.getOrDefault(false)
     fun existing(post:Post,kind:Kind):Uri?=runCatching{
         val stored=prefs.getString(key(post,kind),null) ?: if(kind==Kind.BATCH)prefs.getString("old_"+oldKey(post),null)else null
         val uri=stored?.let(Uri::parse) ?: return@runCatching null
-        resolver.openAssetFileDescriptor(uri,"r")?.use{if(it.length!=0L)uri else null}
+        uri.takeIf(::readable)
     }.getOrNull()
     private data class Target(val uri:Uri,val pending:Boolean)
     private fun create(filename:String,mime:String,kind:Kind):Target{
         val tree=directory(kind)
         if(tree!=null)try{
+            if(resolver.persistedUriPermissions.none{it.uri==tree && it.isReadPermission && it.isWritePermission})throw LibraryFailure("directory_access")
             val parent=Docs.buildDocumentUriUsingTree(tree,Docs.getTreeDocumentId(tree));val names=mutableSetOf<String>()
             resolver.query(Docs.buildChildDocumentsUriUsingTree(tree,Docs.getTreeDocumentId(tree)),arrayOf(Docs.Document.COLUMN_DISPLAY_NAME),null,null,null)?.use{while(it.moveToNext())names+=it.getString(0)} ?: throw IOException()
             val name=MediaFileNames.unique(filename){it in names}
             return Target(Docs.createDocument(resolver,parent,mime,name) ?: throw IOException(),false)
-        }catch(e:Exception){val failure=storageFailure(e);throw if((failure as? LibraryFailure)?.code=="storage_full")failure else LibraryFailure("directory_access")}
+        }catch(e:Exception){val failure=storageFailure(e);throw if((failure as? LibraryFailure)?.code=="storage_full")failure else LibraryFailure("directory_access").also{it.initCause(e)}}
         try{
             val values=ContentValues().apply{put(MediaStore.Video.Media.DISPLAY_NAME,filename);put(MediaStore.Video.Media.MIME_TYPE,mime)}
             if(Build.VERSION.SDK_INT>=29){values.put(MediaStore.Video.Media.RELATIVE_PATH,kind.path);values.put(MediaStore.Video.Media.IS_PENDING,1)}
@@ -55,7 +56,7 @@ class DownloadStorage(private val context:Context,private val downloader:VideoDo
                 val name=MediaFileNames.unique(filename){File(folder,it).exists()};values.put(MediaStore.Video.Media.DISPLAY_NAME,name);values.put(MediaStore.Video.Media.DATA,File(folder,name).path)
             }
             return Target(resolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,values) ?: throw IOException(),Build.VERSION.SDK_INT>=29)
-        }catch(e:Exception){val failure=storageFailure(e);throw if((failure as? LibraryFailure)?.code=="storage_full")failure else LibraryFailure("directory_access")}
+        }catch(e:Exception){val failure=storageFailure(e);throw if((failure as? LibraryFailure)?.code=="storage_full")failure else LibraryFailure("directory_access").also{it.initCause(e)}}
     }
     private fun delete(target:Target){runCatching{if(Docs.isDocumentUri(context,target.uri))Docs.deleteDocument(resolver,target.uri)else resolver.delete(target.uri,null,null)}}
     private fun commit(target:Target,post:Post,kind:Kind,bytes:Long){
@@ -67,7 +68,7 @@ class DownloadStorage(private val context:Context,private val downloader:VideoDo
         if(post.fileSize?.let{it>OfflineLibraryMedia.MAX_FILE}==true)throw LibraryFailure("media_limit")
         val used=if(kind==Kind.BATCH)prefs.all.filter{it.key.startsWith("bytes_BATCH_")}.entries.sumOf{(name,value)->
             val receipt=name.removePrefix("bytes_");val uri=prefs.getString(receipt,null)
-            val valid=uri!=null && runCatching{resolver.openAssetFileDescriptor(Uri.parse(uri),"r")?.use{it.length!=0L}==true}.getOrDefault(false)
+            val valid=uri!=null && readable(Uri.parse(uri))
             if(valid)(value as? Long) ?: 0L else{prefs.edit().remove(name).remove(receipt).commit();0L}
         }else 0L
         val available=if(kind==Kind.BATCH)(OfflineLibraryMedia.MAX_TOTAL-used).coerceAtLeast(0)else OfflineLibraryMedia.MAX_FILE
@@ -86,7 +87,7 @@ class DownloadStorage(private val context:Context,private val downloader:VideoDo
     suspend fun exportLegacy(file:File):Boolean=lock.withLock{withContext(Dispatchers.IO){
         val receipt="legacy_"+file.name+"_"+file.length()
         val previous=prefs.getString(receipt,null)
-        if(previous!=null && runCatching{resolver.openAssetFileDescriptor(Uri.parse(previous),"r")?.use{it.length!=0L}==true}.getOrDefault(false))return@withContext false
+        if(previous!=null && readable(Uri.parse(previous)))return@withContext false
         val mime=when(file.extension.lowercase()){"mp4"->"video/mp4";"webm"->"video/webm";"mkv"->"video/x-matroska";else->throw LibraryFailure("download_storage")}
         val target=create(file.name,mime,Kind.BATCH)
         try{file.inputStream().use{input->resolver.openOutputStream(target.uri,"w")!!.use{out->val buffer=ByteArray(32768);while(true){ensureActive();val n=input.read(buffer);if(n<0)break;out.write(buffer,0,n)}}}

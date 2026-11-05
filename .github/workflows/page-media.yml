@@ -70,7 +70,6 @@ jobs:
             git switch -c page-evidence "origin/$branch"
           else
             git switch --orphan page-evidence
-            git rm -rf . >/dev/null
           fi
           cp "$RUNNER_TEMP/page-evidence/report.json" report.json
           cp "$RUNNER_TEMP/page-evidence/README.md" README.md
