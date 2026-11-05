@@ -62,4 +62,9 @@ object MediaFileNames {
         }
         throw LibraryFailure("media_limit")
     }
+    fun forClip(post:Post,extension:String,range:ClipRange,mode:ClipMode):String {
+        val original=forPost(post,extension).substringBeforeLast('.').removeSuffix("_${post.id}")
+        val suffix="_${post.id}_AB_${range.startMs}-${range.endMs}_${mode.name.lowercase(Locale.ROOT)}.${extension.lowercase(Locale.ROOT)}"
+        return limit(original,MAX_BYTES-suffix.toByteArray(Charsets.UTF_8).size)+suffix
+    }
 }

@@ -34,3 +34,5 @@ Apache-2.0 全文随 APK 放在 `assets/licenses/APACHE-2.0.txt`。OkHttp 的 Pu
 Sakugabooru 帖子和媒体仍归其各自权利人所有，应用许可证不授予帖子内容的版权。测试样本仅保留公开 API 的必要字段；获取地址、时间、摘要和脱敏规则在 `app/src/test/resources/live/provenance.json` 中。应用不捆绑站点图片或视频文件。
 
 Room 2.7.1 / AndroidX SQLite（runtime 与编译器）：Apache-2.0，https://developer.android.com/jetpack/androidx/releases/room ，源码 https://android.googlesource.com/platform/frameworks/support/ 。Kotlin KAPT 2.1.20 为构建工具，不包含任何私有凭据。
+
+Sakuga Enhancer / Sakuga Enhancer App — Punyesh, MIT, https://github.com/Punyesh/sakugaEnhancer and https://github.com/Punyesh/sakugaEnhancerApp . The frame-bar and trim-mode interaction was inspected as a reference; no source code or runtime is copied. Native implementation: Sakugapp contributors. Media3 Transformer 1.6.1 (Android Open Source Project, Apache-2.0) supplies explicitly re-encoded clip export; platform MediaExtractor/MediaMuxer supplies stream copy.

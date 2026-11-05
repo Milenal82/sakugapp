@@ -460,7 +460,7 @@
     <string name="ui_single_directory">Single video folder</string>
     <string name="ui_batch_directory">Batch video folder</string>
     <string name="ui_change_directory">Change folder</string>
-    <string name="ui_reset_directory">Use default</string>
+    <string name="ui_reset_directory">Reset folder</string>
     <string name="ui_directory_error">Folder unavailable. Select a writable folder, or allow storage access on Android 8–9.</string>
     <string name="ui_storage_full">Not enough storage space.</string>
     <string name="ui_storage_error">Unable to save the video. Check storage space and folder access.</string>
@@ -468,4 +468,19 @@
     <string name="ui_legacy_export_hint">Copies old private videos to the batch folder. Originals are kept.</string>
     <string name="ui_batch_result">Saved: %1$d · Failed: %2$d</string>
     <string name="ui_media_unavailable">Media unavailable</string>
+    <string name="ui_clip_directory">Clip download folder</string>
+    <string name="ui_choose_directory">Select a folder</string>
+    <string name="ui_export_clip">Download A–B clip</string>
+    <string name="ui_clip_copy">Lossless copy</string>
+    <string name="ui_clip_precise">Precise · re-encode</string>
+    <string name="ui_clip_copy_warning">Copies encoded samples from the previous to the next keyframe. Actual boundaries may differ; the original is unchanged.</string>
+    <string name="ui_clip_precise_warning">Re-encodes to MP4 (H.264/AAC). Codec/frame intervals limit precision; output is verified before saving.</string>
+    <string name="ui_clip_selection">A %1$s · B %2$s · Duration %3$s</string>
+    <string name="ui_clip_saved">Saved · actual range %1$s–%2$s · duration %3$s</string>
+    <string name="ui_clip_verify">Output verification failed. No completed clip was saved.</string>
+    <string name="ui_clip_unsupported">This container, codec or device cannot export this mode. Try re-encoded MP4.</string>
+    <string name="ui_frame_working">Locating frame…</string>
+    <string name="ui_frame_exact">Decoded frame index · verified timestamps</string>
+    <string name="ui_frame_index_estimated_time">Decoded index · estimated time</string>
+    <string name="ui_frame_estimate">Estimated time seek · reported FPS or 24 FPS fallback</string>
 </resources>

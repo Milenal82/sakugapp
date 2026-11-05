@@ -25,6 +25,7 @@ SHA = os.environ['GITHUB_SHA']
 CAPTURES = [f'maintenance-{screen}-{theme}.png'
             for screen in ['search', 'history', 'settings', 'settings-backup']
             for theme in ['dark', 'light']] + ['appearance-settings.png', 'appearance-player-75.png', 'appearance-player-125.png', 'appearance-search-75.png', 'appearance-search-125.png', 'stability-full-hidden.png', 'stability-full-controls.png', 'stability-tags-zero.png', 'stability-tags-twenty.png', 'stability-favorite-dark.png', 'stability-favorite-light.png']
+CAPTURES += ['frames-inline-confirmed.png','frames-layout-dark.png','frames-layout-light.png']
 COUNT_KEYS = ['tests', 'failures', 'errors', 'skipped']
 CAPTURES += ['v121-folder-order.png','v121-subfolders.png','v121-blue-dark.png','v121-pink-light.png','v121-favorites-primary.png']
 CAPTURES += [f'v122-settings-{palette}-{mode}.png' for palette in ['pink','mint'] for mode in ['light','dark']] + ['v122-main-menu.png','v122-folder-menu.png']
@@ -240,6 +241,15 @@ def main():
             'Storage-full handling uses an injected ENOSPC write failure; no device disk is filled. '
             'API 28 and 35 emulator results are recorded per report path. This is not a physical SD-card or long-duration stress test. '
             'Existing Android CI remains enabled separately. No signing material or user media is collected.\n')
+    if os.environ.get('GITHUB_REF_NAME') == 'feature/frame-controls-clip-export':
+        report['scope']='Actual VFR decoded +/-1/2/3 frame selection, shared A/B points, fixed geometry, copy sample hashes, re-encoded boundaries, SAF single/clip/batch destinations on API 28/35 phones and tablet.'
+        (OUTPUT / 'report.json').write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
+        (OUTPUT / 'README.md').write_text(f'# Player tools checks\n\nSource: `{SHA}`\n\nRun: {report["run_url"]}\n\n'
+            'Actual decoder frames, serialized rapid steps, confirmed timestamps, player identity and video bounds; '
+            'stream-copy encoded-sample hashes and re-encoded duration/frame counts, with separate SAF destinations. '
+            'Synthetic codec fixtures are never represented as website content. '
+            'Reports distinguish API 28/35 and physical emulator profiles; physical devices and arbitrary codecs remain unverified. '
+            'No version, tag, Release or signing changes.\n')
     print('Maintenance evidence recorded for', SHA, report['test_counts'])
 
 

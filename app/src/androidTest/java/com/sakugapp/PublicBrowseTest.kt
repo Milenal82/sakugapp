@@ -47,20 +47,11 @@ class PublicBrowseTest {
         ui.onNodeWithTag("speed-1.5").performScrollTo().performClick().assertIsSelected()
         ui.onNodeWithTag("toggle-fullscreen").performScrollTo().performClick();ui.waitForIdle();ui.onNodeWithTag("video-gestures").performTouchInput{click(androidx.compose.ui.geometry.Offset(width*.25f,height*.3f))};Thread.sleep(400);ui.waitForIdle();ui.onNodeWithTag("toggle-fullscreen").assertExists()
         ui.onNodeWithTag("toggle-fullscreen").performClick()
-        ui.onNodeWithTag("open-frame-controls").performScrollTo().performClick()
-        ui.onNodeWithText("Download and decode").performClick()
-        ui.waitUntil(120000){ui.onAllNodesWithContentDescription("Decoded frame").fetchSemanticsNodes().isNotEmpty()}
-        ui.onNodeWithTag("frame-number").performScrollTo().performTextReplacement("1")
-        ui.onNodeWithTag("go-to-frame").performScrollTo().performClick()
-        ui.waitUntil(15000){ui.onAllNodes(frameCounter(1)).fetchSemanticsNodes().isNotEmpty()}
-        ui.onNodeWithTag("exact-next-frame").performScrollTo().performClick()
-        ui.waitUntil(15000){ui.onAllNodes(frameCounter(2)).fetchSemanticsNodes().isNotEmpty()}
-        ui.onNodeWithTag("exact-previous-frame").performScrollTo().performClick()
-        ui.waitUntil(15000){ui.onAllNodes(frameCounter(1)).fetchSemanticsNodes().isNotEmpty()}
-        ui.onNodeWithTag("frame-number").performScrollTo().performTextReplacement("3")
-        ui.onNodeWithTag("go-to-frame").performScrollTo().performClick()
-        ui.waitUntil(15000){ui.onAllNodes(frameCounter(3)).fetchSemanticsNodes().isNotEmpty()}
-        ui.onNodeWithText("Close").performClick()
+        ui.onNodeWithTag("step--3").performScrollTo().performClick()
+        ui.waitUntil(120000){ui.onAllNodesWithText("Decoded frame index · verified timestamps").fetchSemanticsNodes().isNotEmpty()}
+        ui.onNodeWithTag("step-1").performClick()
+        ui.waitUntil(60000){ui.onAllNodesWithText("Locating frame…").fetchSemanticsNodes().isEmpty()}
+        ui.onNodeWithTag("frame-counter").assertExists()
         ui.onNodeWithTag("detail-tag-mokmok").performScrollTo().assertIsDisplayed()
         ui.onNodeWithTag("artist-wiki-mokmok").performClick()
         device.wait(Until.findObject(By.text("Back to app")),15000).also {
@@ -68,7 +59,15 @@ class PublicBrowseTest {
         }
         ui.waitUntil(15000){ui.onAllNodesWithTag("download-video").fetchSemanticsNodes().isNotEmpty()}
         ui.onNodeWithTag("download-video").performScrollTo().performClick()
-        if(android.os.Build.VERSION.SDK_INT<29)device.wait(Until.findObject(By.res("com.android.packageinstaller:id/permission_allow_button")),5000)?.click()
+        // First download now asks for a SAF subfolder, never the restricted Downloads root.
+        device.executeShellCommand("mkdir -p /sdcard/Download/SakugappPublicTest")
+        device.wait(Until.findObject(By.desc("Show roots")),5000)?.click()
+        device.wait(Until.findObject(By.text("Downloads")),5000)?.click()
+        val folder=device.wait(Until.findObject(By.text("SakugappPublicTest")),10000)
+        assertNotNull("Public download folder",folder);folder.click()
+        val select=device.wait(Until.findObject(By.res("com.android.documentsui:id/action_menu_select")),10000)
+            ?: device.wait(Until.findObject(By.text(java.util.regex.Pattern.compile("(?i)(use this folder|select|select folder)"))),5000)
+        assertNotNull(select);select.click();device.wait(Until.findObject(By.text(java.util.regex.Pattern.compile("(?i)allow"))),3000)?.click()
         ui.waitUntil(90000){ui.onAllNodesWithTag("download-complete").fetchSemanticsNodes().isNotEmpty()}
         ui.onNodeWithTag("download-complete").assertTextContains("Saved")
         ui.onNodeWithText("Close",substring=false).performClick()

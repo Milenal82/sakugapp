@@ -4,6 +4,10 @@ package com.sakugapp
 import android.content.res.Configuration
 import android.content.pm.ActivityInfo
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.Column
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.media3.common.Player
@@ -50,14 +54,14 @@ class PlayerRotationDeviceTest {
             // Establish the ordinary browsing policy before mounting this isolated player scene.
             ui.runOnUiThread{activity.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_PORTRAIT}
             awaitStage("initial portrait",15000){ui.activity.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT}
-            ui.runOnUiThread{activity.setContent{SakugappTheme(false){VideoPanel(file.toURI().toString(),AppSettings(),onPlayerReady={player=it;instances.incrementAndGet()})}}}
+            ui.runOnUiThread{activity.setContent{SakugappTheme(false){Column(Modifier.verticalScroll(rememberScrollState())){VideoPanel(file.toURI().toString(),AppSettings(),onPlayerReady={player=it;instances.incrementAndGet()})}}}}
             awaitStage("video ready",15000){playerMatches{it?.playbackState==Player.STATE_READY}}
-            ui.onNodeWithTag("more-controls").performClick()
+            ui.onNodeWithTag("more-controls").performScrollTo().performClick()
             ui.onNodeWithTag("speed-1.5").performScrollTo().performClick().assertIsSelected()
             ui.runOnUiThread{player!!.pause();player!!.seekTo(400)}
             awaitStage("seek paused video",5000){playerMatches{it!=null && it.currentPosition>=350}}
             val retained=player
-            ui.onNodeWithTag("toggle-fullscreen").performClick();ui.waitForIdle();ui.onNodeWithTag("video-gestures").performTouchInput{click(androidx.compose.ui.geometry.Offset(width*.25f,height*.3f))};Thread.sleep(400);ui.waitForIdle()
+            ui.onNodeWithTag("toggle-fullscreen").performScrollTo().performClick();ui.waitForIdle();ui.onNodeWithTag("video-gestures").performTouchInput{click(androidx.compose.ui.geometry.Offset(width*.25f,height*.3f))};Thread.sleep(400);ui.waitForIdle()
             // Wide videos now enter landscape automatically; verify both manual directions.
             ui.waitUntil(15000){ui.activity.resources.configuration.orientation==android.content.res.Configuration.ORIENTATION_LANDSCAPE}
             ui.onNodeWithTag("rotate-video").performClick()

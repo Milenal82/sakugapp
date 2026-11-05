@@ -84,7 +84,7 @@ class PlayerStabilityDeviceTest {
                 ui.runOnUiThread{current!!.seekTo(1200)};ready()
                 ui.onNodeWithTag("set-b").performScrollTo().performClick()
                 ui.onNodeWithTag("ab-toggle").performScrollTo().assertIsEnabled().performClick().assertIsSelected()
-                ui.onNodeWithTag("open-frame-controls").performScrollTo().assertIsDisplayed()
+                ui.onNodeWithTag("step--1").performScrollTo().assertIsDisplayed()
                 if(it==0)UiEvidence.capture("stability-full-controls.png")
                 ui.onNodeWithTag("toggle-fullscreen").performClick()
                 ui.waitUntil(15000){context.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT}

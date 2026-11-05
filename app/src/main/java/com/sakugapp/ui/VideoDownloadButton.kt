@@ -26,7 +26,7 @@ import kotlinx.coroutines.*
     var total by remember{mutableLongStateOf(-1L)}
     var status by remember{mutableStateOf(false)}
     val storage=remember(context){DownloadStorage(context.applicationContext)}
-    val access=rememberDownloadAccess(storage){error=context.getString(R.string.ui_directory_error);status=true}
+    val access=rememberDirectoryAccess(storage,DownloadStorage.Kind.SINGLE){error=context.getString(R.string.ui_directory_error);status=true}
     fun start(){
         busy=true;done=false;cancelled=false;error=null;bytes=0;total=-1;status=true
         job=scope.launch{var updated=0L
@@ -34,7 +34,7 @@ import kotlinx.coroutines.*
             catch(e:CancellationException){cancelled=true;throw e}catch(e:Exception){error=libraryError(context,e)}finally{busy=false}
         }
     }
-    ActionIcon(R.drawable.ic_download,text(R.string.ui_download_video),{if(busy)status=true else access(DownloadStorage.Kind.SINGLE){start()}},Modifier.testTag("download-video"))
+    ActionIcon(R.drawable.ic_download,text(R.string.ui_download_video),{if(busy)status=true else access{start()}},Modifier.testTag("download-video"))
     if(status)AlertDialog(onDismissRequest={status=false},title={Text(text(R.string.ui_download_video))},text={Column {
         if(busy) {
             if(total>0)LinearProgressIndicator(progress={(bytes.toDouble()/total).toFloat().coerceIn(0f,1f)},modifier=Modifier.fillMaxWidth())else LinearProgressIndicator(Modifier.fillMaxWidth())

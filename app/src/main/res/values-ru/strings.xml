@@ -457,7 +457,7 @@
     <string name="ui_single_directory">Папка отдельных видео</string>
     <string name="ui_batch_directory">Папка пакетных загрузок</string>
     <string name="ui_change_directory">Изменить папку</string>
-    <string name="ui_reset_directory">По умолчанию</string>
+    <string name="ui_reset_directory">Сбросить папку</string>
     <string name="ui_directory_error">Выберите папку с доступом на запись. В Android 8–9 для папки по умолчанию нужно разрешение на хранилище.</string>
     <string name="ui_storage_full">Недостаточно места.</string>
     <string name="ui_storage_error">Не удалось сохранить. Проверьте место и доступ к папке.</string>
@@ -465,4 +465,19 @@
     <string name="ui_legacy_export_hint">Копирует в папку пакетных загрузок. Оригиналы сохраняются.</string>
     <string name="ui_batch_result">Сохранено: %1$d · Ошибки: %2$d</string>
     <string name="ui_media_unavailable">Медиа недоступно</string>
+    <string name="ui_clip_directory">Папка фрагментов</string>
+    <string name="ui_choose_directory">Выбрать папку</string>
+    <string name="ui_export_clip">Скачать фрагмент A–B</string>
+    <string name="ui_clip_copy">Копия без потерь</string>
+    <string name="ui_clip_precise">Точно · перекодирование</string>
+    <string name="ui_clip_copy_warning">Копирует между соседними ключевыми кадрами. Границы могут отличаться. Оригинал не меняется.</string>
+    <string name="ui_clip_precise_warning">Перекодирует в MP4 (H.264/AAC). Точность зависит от кадров и кодека. Перед сохранением результат проверяется.</string>
+    <string name="ui_clip_selection">A %1$s · B %2$s · Длительность %3$s</string>
+    <string name="ui_clip_saved">Сохранено · границы %1$s–%2$s · длительность %3$s</string>
+    <string name="ui_clip_verify">Проверка не пройдена. Готовый фрагмент не сохранён.</string>
+    <string name="ui_clip_unsupported">Формат или кодек не поддерживается. Попробуйте перекодирование MP4.</string>
+    <string name="ui_frame_working">Поиск кадра…</string>
+    <string name="ui_frame_exact">Индекс декодирования · проверенные метки</string>
+    <string name="ui_frame_index_estimated_time">Индекс декодирования · время оценено</string>
+    <string name="ui_frame_estimate">Оценка позиции · FPS видео или 24 FPS</string>
 </resources>

@@ -1,6 +1,13 @@
 # Changelog
 
-## Unreleased — page cache and download folders
+## Unreleased — inline frame controls and clip export
+
+- Add permanent ±1/2/3 frame controls, confirmed frame timestamps for A/B, and right-aligned fullscreen/More actions. Remove the duplicate analysis dialog.
+- Keep video geometry and the existing player unchanged when expanding advanced controls.
+- Export the shared A/B interval as encoded stream copy or explicitly re-encoded MP4; verify output before writing. Add an independent persisted SAF clip folder; unset destinations open the system picker.
+- No version, tag, signing or Release change. Precision/format limits: [player tools](docs/player-tools.md).
+
+## Earlier development — page cache and download folders
 
 - Page-scoped Media3 disk cache (200 MiB LRU), shared by playback and strict frame reads; preserve it across fullscreen/view recreation and clean it on page exit or after a crashed process.
 - Independent persistent SAF destinations for single and batch videos, with public Movies defaults, progress/cancellation and unchanged file naming. Keep old private playback and add copy-only legacy export.

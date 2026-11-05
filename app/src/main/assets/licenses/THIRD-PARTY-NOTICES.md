@@ -22,3 +22,5 @@ JUnit (EPL-1.0), MockWebServer / okhttp-tls (Apache-2.0) and AndroidX testing to
 Sakugabooru content remains the property of its respective rights holders. This APK does not bundle website media. The synthetic video in androidTest is only a decoder test pattern and is never displayed as a website post.
 
 Room 2.7.1 / AndroidX SQLite（runtime 与编译器）：Apache-2.0，https://developer.android.com/jetpack/androidx/releases/room ，源码 https://android.googlesource.com/platform/frameworks/support/ 。Kotlin KAPT 2.1.20 为构建工具，不包含任何私有凭据。
+
+Sakuga Enhancer / Sakuga Enhancer App — Punyesh, MIT, https://github.com/Punyesh/sakugaEnhancer and https://github.com/Punyesh/sakugaEnhancerApp . The frame-bar and trim-mode interaction was inspected as a reference; no source code or runtime is copied. Native implementation: Sakugapp contributors. Media3 Transformer 1.6.1 (Android Open Source Project, Apache-2.0) supplies explicitly re-encoded clip export; platform MediaExtractor/MediaMuxer supplies stream copy.

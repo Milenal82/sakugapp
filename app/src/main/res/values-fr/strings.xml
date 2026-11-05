@@ -454,7 +454,7 @@
     <string name="ui_single_directory">Dossier des vidéos individuelles</string>
     <string name="ui_batch_directory">Dossier des téléchargements groupés</string>
     <string name="ui_change_directory">Changer de dossier</string>
-    <string name="ui_reset_directory">Valeur par défaut</string>
+    <string name="ui_reset_directory">Réinitialiser le dossier</string>
     <string name="ui_directory_error">Choisissez un dossier accessible en écriture. Sur Android 8–9, autorisez le stockage pour le dossier par défaut.</string>
     <string name="ui_storage_full">Espace de stockage insuffisant.</string>
     <string name="ui_storage_error">Impossible de sauvegarder. Vérifiez l’espace et les droits du dossier.</string>
@@ -462,4 +462,19 @@
     <string name="ui_legacy_export_hint">Copie vers le dossier groupé. Les originaux sont conservés.</string>
     <string name="ui_batch_result">Enregistrées : %1$d · Échecs : %2$d</string>
     <string name="ui_media_unavailable">Média indisponible</string>
+    <string name="ui_clip_directory">Dossier des extraits</string>
+    <string name="ui_choose_directory">Choisir un dossier</string>
+    <string name="ui_export_clip">Télécharger A–B</string>
+    <string name="ui_clip_copy">Copie sans perte</string>
+    <string name="ui_clip_precise">Précis · réencodage</string>
+    <string name="ui_clip_copy_warning">Copie entre les images clés voisines. Les limites réelles peuvent différer. Original inchangé.</string>
+    <string name="ui_clip_precise_warning">Réencode en MP4 (H.264/AAC). Précision limitée par les images et le codec. Sortie vérifiée avant sauvegarde.</string>
+    <string name="ui_clip_selection">A %1$s · B %2$s · Durée %3$s</string>
+    <string name="ui_clip_saved">Enregistré · limites %1$s–%2$s · durée %3$s</string>
+    <string name="ui_clip_verify">Échec de vérification. Aucun extrait complet sauvegardé.</string>
+    <string name="ui_clip_unsupported">Format ou codec non pris en charge. Essayez le MP4 réencodé.</string>
+    <string name="ui_frame_working">Recherche de l’image…</string>
+    <string name="ui_frame_exact">Index décodé · horodatages vérifiés</string>
+    <string name="ui_frame_index_estimated_time">Index décodé · temps estimé</string>
+    <string name="ui_frame_estimate">Position estimée · FPS du média, sinon 24 FPS</string>
 </resources>

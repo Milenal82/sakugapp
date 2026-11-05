@@ -454,7 +454,7 @@
     <string name="ui_single_directory">Carpeta de vídeos individuales</string>
     <string name="ui_batch_directory">Carpeta de descargas por lotes</string>
     <string name="ui_change_directory">Cambiar carpeta</string>
-    <string name="ui_reset_directory">Restaurar predeterminada</string>
+    <string name="ui_reset_directory">Restablecer carpeta</string>
     <string name="ui_directory_error">Elija una carpeta con permiso de escritura. Android 8–9 requiere permiso de almacenamiento para la carpeta predeterminada.</string>
     <string name="ui_storage_full">No hay espacio suficiente.</string>
     <string name="ui_storage_error">No se pudo guardar. Revise el espacio y los permisos de la carpeta.</string>
@@ -462,4 +462,19 @@
     <string name="ui_legacy_export_hint">Copia a la carpeta por lotes. Conserva los originales.</string>
     <string name="ui_batch_result">Guardados: %1$d · Fallidos: %2$d</string>
     <string name="ui_media_unavailable">Contenido no disponible</string>
+    <string name="ui_clip_directory">Carpeta de fragmentos</string>
+    <string name="ui_choose_directory">Elegir carpeta</string>
+    <string name="ui_export_clip">Descargar intervalo A–B</string>
+    <string name="ui_clip_copy">Copia sin pérdida</string>
+    <string name="ui_clip_precise">Preciso · recodificar</string>
+    <string name="ui_clip_copy_warning">Copia entre fotogramas clave vecinos. Los límites pueden variar. El original no cambia.</string>
+    <string name="ui_clip_precise_warning">Recodifica a MP4 (H.264/AAC). Precisión limitada por los fotogramas y el códec. Se verifica antes de guardar.</string>
+    <string name="ui_clip_selection">A %1$s · B %2$s · Duración %3$s</string>
+    <string name="ui_clip_saved">Guardado · intervalo %1$s–%2$s · duración %3$s</string>
+    <string name="ui_clip_verify">La verificación falló. No se guardó un fragmento completo.</string>
+    <string name="ui_clip_unsupported">Formato o códec no compatible. Pruebe MP4 recodificado.</string>
+    <string name="ui_frame_working">Localizando fotograma…</string>
+    <string name="ui_frame_exact">Índice decodificado · tiempos verificados</string>
+    <string name="ui_frame_index_estimated_time">Índice decodificado · tiempo estimado</string>
+    <string name="ui_frame_estimate">Posición estimada · FPS del medio, o 24 FPS</string>
 </resources>

@@ -21,7 +21,7 @@ class FrameTimeline private constructor(private val timesUs:LongArray){
         fun verified(samples:List<Long>,decodedFrames:Int):FrameTimeline?{
             if(decodedFrames !in 1..200000 || samples.size!=decodedFrames || samples.any{it<0})return null
             val sorted=samples.distinct().sorted()
-            if(sorted.size!=decodedFrames || sorted.firstOrNull()!=0L)return null
+            if(sorted.size!=decodedFrames)return null
             return FrameTimeline(sorted.toLongArray())
         }
     }

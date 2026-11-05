@@ -448,7 +448,7 @@
     <string name="ui_single_directory">單個影片下載目錄</string>
     <string name="ui_batch_directory">批次影片下載目錄</string>
     <string name="ui_change_directory">更改目錄</string>
-    <string name="ui_reset_directory">恢復預設目錄</string>
+    <string name="ui_reset_directory">重設目錄</string>
     <string name="ui_directory_error">目錄無法寫入或授權失效，請重新選擇；Android 8–9 的預設目錄需允許儲存權限。</string>
     <string name="ui_storage_full">儲存空間不足。</string>
     <string name="ui_storage_error">無法儲存影片，請檢查空間和目錄權限。</string>
@@ -456,4 +456,19 @@
     <string name="ui_legacy_export_hint">複製到批次下載目錄，保留原檔。</string>
     <string name="ui_batch_result">成功：%1$d · 失敗：%2$d</string>
     <string name="ui_media_unavailable">媒體無法使用</string>
+    <string name="ui_clip_directory">指定片段下載目錄</string>
+    <string name="ui_choose_directory">請選擇目錄</string>
+    <string name="ui_export_clip">下載指定片段</string>
+    <string name="ui_clip_copy">無損快速裁剪</string>
+    <string name="ui_clip_precise">精確裁剪 · 重編碼</string>
+    <string name="ui_clip_copy_warning">從前一個至後一個關鍵幀複製編碼資料，實際邊界可能偏離選點；原片不變。</string>
+    <string name="ui_clip_precise_warning">重編碼為 MP4（H.264/AAC）。精度受幀間隔和裝置編碼器限制，驗證輸出後才儲存。</string>
+    <string name="ui_clip_selection">A %1$s · B %2$s · 預計時長 %3$s</string>
+    <string name="ui_clip_saved">已儲存 · 實際範圍 %1$s–%2$s · 時長 %3$s</string>
+    <string name="ui_clip_verify">輸出驗證失敗，未儲存為已完成的片段。</string>
+    <string name="ui_clip_unsupported">目前容器、編碼或裝置不支援此模式，可嘗試重編碼 MP4。</string>
+    <string name="ui_frame_working">正在定位幀…</string>
+    <string name="ui_frame_exact">實際解碼幀索引 · 已核實時間戳</string>
+    <string name="ui_frame_index_estimated_time">實際解碼索引 · 時間估算</string>
+    <string name="ui_frame_estimate">估算時間定位 · 使用媒體幀率，缺失時採用 24 FPS</string>
 </resources>

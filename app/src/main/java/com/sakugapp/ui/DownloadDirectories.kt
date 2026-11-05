@@ -29,13 +29,13 @@ import java.io.File
     val context=LocalContext.current;val scope=rememberCoroutineScope();val storage=model.downloadStorage
     var revision by remember{mutableIntStateOf(0)};var selecting by rememberSaveable{mutableStateOf(DownloadStorage.Kind.SINGLE)}
     var message by remember{mutableStateOf<String?>(null)};var job by remember{mutableStateOf<Job?>(null)};var busy by remember{mutableStateOf(false)}
-    val access=rememberDownloadAccess(storage){message=context.getString(R.string.ui_directory_error)}
+    val access=rememberDirectoryAccess(storage,DownloadStorage.Kind.BATCH){message=context.getString(R.string.ui_directory_error)}
     val picker=rememberLauncherForActivityResult(ActivityResultContracts.OpenDocumentTree()){uri->if(uri!=null)scope.launch{try{withContext(Dispatchers.IO){storage.choose(selecting,uri)};revision++}catch(e:Exception){message=context.getString(R.string.ui_directory_error)}}}
     Column(Modifier.fillMaxWidth(),verticalArrangement=Arrangement.spacedBy(8.dp)){
         for(kind in DownloadStorage.Kind.entries){
-            Text(text(if(kind==DownloadStorage.Kind.SINGLE)R.string.ui_single_directory else R.string.ui_batch_directory),style=MaterialTheme.typography.bodyLarge)
+            Text(text(when(kind){DownloadStorage.Kind.SINGLE->R.string.ui_single_directory;DownloadStorage.Kind.BATCH->R.string.ui_batch_directory;DownloadStorage.Kind.CLIP->R.string.ui_clip_directory}),style=MaterialTheme.typography.bodyLarge)
             val uri=remember(kind,revision){storage.directory(kind)}
-            Text(uri?.let{runCatching{android.provider.DocumentsContract.getTreeDocumentId(it)}.getOrDefault(it.toString())} ?: kind.path,style=MaterialTheme.typography.bodySmall)
+            Text(uri?.let{runCatching{android.provider.DocumentsContract.getTreeDocumentId(it)}.getOrDefault(it.toString())} ?: text(R.string.ui_choose_directory),style=MaterialTheme.typography.bodySmall)
             @OptIn(ExperimentalLayoutApi::class)
             FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp)){
                 OutlinedButton(enabled=!busy,onClick={selecting=kind;picker.launch(uri)}){Text(text(R.string.ui_change_directory))}
@@ -44,7 +44,7 @@ import java.io.File
             HorizontalDivider(color=MaterialTheme.colorScheme.outlineVariant)
         }
         Text(text(R.string.ui_legacy_export_hint),style=MaterialTheme.typography.bodySmall)
-        OutlinedButton(enabled=!busy,onClick={access(DownloadStorage.Kind.BATCH){busy=true;job=scope.launch{
+        OutlinedButton(enabled=!busy,onClick={access{busy=true;job=scope.launch{
             var done=0;var failed=0;var lastFailure:String?=null
             try{val files=withContext(Dispatchers.IO){File(context.filesDir,"favorites-media").listFiles().orEmpty().filter{it.isFile && !it.name.startsWith(".") && it.extension in setOf("mp4","webm","mkv")}}
                 for(file in files){try{if(storage.exportLegacy(file))done++}catch(e:CancellationException){throw e}catch(e:Exception){failed++;lastFailure=libraryError(context,e)}}
@@ -54,4 +54,13 @@ import java.io.File
         if(busy){LinearProgressIndicator(Modifier.fillMaxWidth());TextButton(onClick={job?.cancel()}){Text(text(R.string.ui_cancel_download))}}
         message?.let{Text(it,style=MaterialTheme.typography.bodySmall)}
     }
+}
+
+@Composable internal fun rememberDirectoryAccess(storage:DownloadStorage,kind:DownloadStorage.Kind,error:()->Unit):(() -> Unit)->Unit{
+    val scope=rememberCoroutineScope();var pending by remember{mutableStateOf<(() -> Unit)?>(null)}
+    val picker=rememberLauncherForActivityResult(ActivityResultContracts.OpenDocumentTree()){uri->
+        val action=pending;pending=null
+        if(uri!=null)scope.launch{try{withContext(Dispatchers.IO){storage.choose(kind,uri)};action?.invoke()}catch(e:CancellationException){throw e}catch(e:Exception){error()}}
+    }
+    return {action->if(storage.directory(kind)==null){pending=action;picker.launch(null)}else action()}
 }

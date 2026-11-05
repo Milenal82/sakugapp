@@ -15,6 +15,8 @@ import kotlin.math.abs
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 class VideoGestureHost(context:Context):FrameLayout(context){
     val playerView=LayoutInflater.from(context).inflate(R.layout.native_player,this,false) as PlayerView
+    private val frameView=android.widget.ImageView(context).apply{scaleType=android.widget.ImageView.ScaleType.FIT_CENTER;visibility=View.GONE;isClickable=false;importantForAccessibility=View.IMPORTANT_FOR_ACCESSIBILITY_NO}
+    fun showFrame(bitmap:Bitmap?){frameView.setImageBitmap(bitmap);frameView.visibility=if(bitmap==null)View.GONE else View.VISIBLE}
     var lastGestureSummary="";private set
     var gesturesEnabled=true
     var onPostSwipe:(Int)->Unit={}
@@ -49,7 +51,7 @@ class VideoGestureHost(context:Context):FrameLayout(context){
             change(transform.copy(scale=transform.scale*detector.scaleFactor));return true
         }
     })
-    init{scales.isQuickScaleEnabled=false;scales.isStylusScaleEnabled=false;addView(playerView,LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));clipChildren=true}
+    init{scales.isQuickScaleEnabled=false;scales.isStylusScaleEnabled=false;addView(playerView,LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));clipChildren=true;(playerView.findViewById<View>(androidx.media3.ui.R.id.exo_content_frame) as android.view.ViewGroup).addView(frameView,LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT))}
     fun configure(value:AppSettings,requested:VideoTransform){
         fun resizeText(view:View){
             if(view is android.widget.TextView){
@@ -65,7 +67,7 @@ class VideoGestureHost(context:Context):FrameLayout(context){
     }
     private fun change(value:VideoTransform){transform=value.bounded();applySurface(false);onTransform(transform)}
     private fun applySurface(effects:Boolean){
-        (playerView.videoSurfaceView as? TextureView)?.apply{
+        listOfNotNull(playerView.videoSurfaceView as? TextureView,frameView).forEach{surface->surface.apply{
             scaleX=transform.scale*(if(settings?.mirror==true)-1f else 1f);scaleY=transform.scale
             translationX=transform.panX*width;translationY=transform.panY*height
             if(effects){
@@ -75,7 +77,7 @@ class VideoGestureHost(context:Context):FrameLayout(context){
                 matrix.postConcat(ColorMatrix(floatArrayOf(c,0f,0f,0f,offset,0f,c,0f,0f,offset,0f,0f,c,0f,offset,0f,0f,0f,1f,0f)))
                 setLayerType(View.LAYER_TYPE_HARDWARE,Paint().apply{colorFilter=ColorMatrixColorFilter(matrix)})
             }
-        }
+        }}
     }
     override fun onLayout(changed:Boolean,l:Int,t:Int,r:Int,b:Int){super.onLayout(changed,l,t,r,b);applySurface(false)}
     private fun touchesProgress(event:MotionEvent):Boolean{

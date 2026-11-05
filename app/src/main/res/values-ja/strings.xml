@@ -448,7 +448,7 @@
     <string name="ui_single_directory">動画の保存先</string>
     <string name="ui_batch_directory">一括ダウンロードの保存先</string>
     <string name="ui_change_directory">フォルダを変更</string>
-    <string name="ui_reset_directory">既定に戻す</string>
+    <string name="ui_reset_directory">保存先をリセット</string>
     <string name="ui_directory_error">書き込めるフォルダを選び直してください。Android 8–9 の既定フォルダにはストレージ権限が必要です。</string>
     <string name="ui_storage_full">ストレージ容量が不足しています。</string>
     <string name="ui_storage_error">保存できません。空き容量とフォルダの権限を確認してください。</string>
@@ -456,4 +456,19 @@
     <string name="ui_legacy_export_hint">一括保存先にコピーします。元のファイルは保持します。</string>
     <string name="ui_batch_result">保存：%1$d · 失敗：%2$d</string>
     <string name="ui_media_unavailable">メディアを利用できません</string>
+    <string name="ui_clip_directory">区間動画の保存先</string>
+    <string name="ui_choose_directory">フォルダを選択</string>
+    <string name="ui_export_clip">A–B 区間を保存</string>
+    <string name="ui_clip_copy">無劣化コピー</string>
+    <string name="ui_clip_precise">高精度・再エンコード</string>
+    <string name="ui_clip_copy_warning">前後のキーフレーム間をコピーします。選択と実際の境界は異なる場合があります。原本は変更しません。</string>
+    <string name="ui_clip_precise_warning">MP4（H.264/AAC）に再エンコードします。精度はフレーム間隔と端末に依存し、保存前に出力を検証します。</string>
+    <string name="ui_clip_selection">A %1$s · B %2$s · 長さ %3$s</string>
+    <string name="ui_clip_saved">保存済み · 実際の範囲 %1$s–%2$s · 長さ %3$s</string>
+    <string name="ui_clip_verify">出力を検証できず、完成ファイルは保存していません。</string>
+    <string name="ui_clip_unsupported">この形式・コーデック・端末では使用できません。MP4 再エンコードをお試しください。</string>
+    <string name="ui_frame_working">フレームを取得中…</string>
+    <string name="ui_frame_exact">実デコード番号・確認済み時刻</string>
+    <string name="ui_frame_index_estimated_time">実デコード番号・推定時刻</string>
+    <string name="ui_frame_estimate">推定シーク・メディア FPS、取得不可なら 24 FPS</string>
 </resources>

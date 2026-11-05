@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.*
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -47,38 +48,38 @@ interface VideoOrientationHost { var hasFullscreenPlayer:Boolean;var fullscreenO
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=false,seekRequest:Pair<Long,Int>?=null,
-    onPlayerReady:((Player)->Unit)?=null,onDurationChanged:(Long)->Unit={},onNavigate:(Int)->Boolean={false},videoDimensions:Pair<Int,Int>?=null) {
+    onPlayerReady:((Player)->Unit)?=null,onDurationChanged:(Long)->Unit={},onNavigate:(Int)->Boolean={false},videoDimensions:Pair<Int,Int>?=null,downloadPost:Post?=null) {
+    val mediaKey=url+":"+downloadPost?.id
     val pageCache=LocalPageVideoCache.current
     val context=LocalContext.current;val owner=LocalLifecycleOwner.current;val scope=rememberCoroutineScope()
     val shareTitle=text(R.string.ui_share_frame)
     val activity=LocalActivity.current;val orientationHost=activity as? VideoOrientationHost
-    val handoff=remember(url){if(preview)null else orientationHost?.fullscreenHandoff}
-    var controlsVisible by remember(url){mutableStateOf(false)}
-    var manualRotation by remember(url){mutableStateOf(false)}
-    var mediaWidth by remember(url){mutableIntStateOf(videoDimensions?.first ?: 0)}
-    var mediaHeight by remember(url){mutableIntStateOf(videoDimensions?.second ?: 0)}
-    var fullscreen by rememberSaveable(url){mutableStateOf(handoff!=null)}
-    var more by rememberSaveable(url){mutableStateOf(false)}
-    var inlineExpanded by rememberSaveable(url){mutableStateOf(false)}
-    var frames by remember(url){mutableStateOf(false)};var frameStep by remember(url){mutableIntStateOf(0)};var frameStart by remember(url){mutableLongStateOf(0)}
-    var muted by rememberSaveable(url){mutableStateOf(true)}
-    var loop by rememberSaveable(url){mutableStateOf(true)}
-    var speed by rememberSaveable(url){mutableFloatStateOf(settings.speed)}
-    var volume by rememberSaveable(url){mutableFloatStateOf(1f)}
-    var position by rememberSaveable(url){mutableLongStateOf(0L)}
-    var duration by remember(url){mutableLongStateOf(0L)};var nominalFps by remember(url){mutableStateOf<Float?>(null)}
-    var a by rememberSaveable(url){mutableStateOf<Long?>(null)};var b by rememberSaveable(url){mutableStateOf<Long?>(null)}
-    var abEnabled by rememberSaveable(url){mutableStateOf(false)};var invalidAB by remember(url){mutableStateOf(false)}
+    val handoff=remember(mediaKey){if(preview)null else orientationHost?.fullscreenHandoff}
+    var controlsVisible by remember(mediaKey){mutableStateOf(false)}
+    var manualRotation by remember(mediaKey){mutableStateOf(false)}
+    var mediaWidth by remember(mediaKey){mutableIntStateOf(videoDimensions?.first ?: 0)}
+    var mediaHeight by remember(mediaKey){mutableIntStateOf(videoDimensions?.second ?: 0)}
+    var fullscreen by rememberSaveable(mediaKey){mutableStateOf(handoff!=null)}
+    var more by rememberSaveable(mediaKey){mutableStateOf(false)}
+    var inlineHeight by remember{mutableStateOf(300.dp)}
+    var muted by rememberSaveable(mediaKey){mutableStateOf(true)}
+    var loop by rememberSaveable(mediaKey){mutableStateOf(true)}
+    var speed by rememberSaveable(mediaKey){mutableFloatStateOf(settings.speed)}
+    var volume by rememberSaveable(mediaKey){mutableFloatStateOf(1f)}
+    var position by rememberSaveable(mediaKey){mutableLongStateOf(0L)}
+    var duration by remember(mediaKey){mutableLongStateOf(0L)};var nominalFps by remember(mediaKey){mutableStateOf<Float?>(null)}
+    var a by rememberSaveable(mediaKey){mutableStateOf<Long?>(null)};var b by rememberSaveable(mediaKey){mutableStateOf<Long?>(null)}
+    var abEnabled by rememberSaveable(mediaKey){mutableStateOf(false)};var invalidAB by remember(mediaKey){mutableStateOf(false)}
     val ab=ABLoop(a,b,abEnabled)
-    var zoom by rememberSaveable(url){mutableFloatStateOf(1f)};var panX by rememberSaveable(url){mutableFloatStateOf(0f)};var panY by rememberSaveable(url){mutableFloatStateOf(0f)}
-    var error by remember(url){mutableStateOf<String?>(null)}
+    var zoom by rememberSaveable(mediaKey){mutableFloatStateOf(1f)};var panX by rememberSaveable(mediaKey){mutableFloatStateOf(0f)};var panY by rememberSaveable(mediaKey){mutableFloatStateOf(0f)}
+    var error by remember(mediaKey){mutableStateOf<String?>(null)}
     var view by remember{mutableStateOf<PlayerView?>(null)}
-    var rendered by remember(url){mutableStateOf(false)};var playing by remember(url){mutableStateOf(false)}
-    var resumeRequested by rememberSaveable(url){mutableStateOf(handoff?.play ?: preview)}
-    var capturing by remember(url){mutableStateOf(false)}
+    var rendered by remember(mediaKey){mutableStateOf(false)};var playing by remember(mediaKey){mutableStateOf(false)}
+    var resumeRequested by rememberSaveable(mediaKey){mutableStateOf(handoff?.play ?: preview)}
+    var capturing by remember(mediaKey){mutableStateOf(false)}
     val focus=LocalFocusManager.current
     val orientation=LocalConfiguration.current.orientation
-    var normalOrientation by rememberSaveable(url){mutableIntStateOf(handoff?.orientation ?: activity?.requestedOrientation ?: ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)}
+    var normalOrientation by rememberSaveable(mediaKey){mutableIntStateOf(handoff?.orientation ?: activity?.requestedOrientation ?: ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)}
     fun exitFullscreen(){
         orientationHost?.fullscreenHandoff=null;orientationHost?.hasFullscreenPlayer=false;orientationHost?.fullscreenOwner=null
         fullscreen=false;activity?.requestedOrientation=normalOrientation
@@ -87,13 +88,18 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
         focus.clearFocus(force=true)
         activity?.window?.let{WindowCompat.getInsetsController(it,it.decorView).hide(WindowInsetsCompat.Type.ime())}
         normalOrientation=activity?.requestedOrientation ?: ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        inlineExpanded=more;controlsVisible=false;manualRotation=false;orientationHost?.hasFullscreenPlayer=true;fullscreen=true
+        controlsVisible=false;manualRotation=false;orientationHost?.hasFullscreenPlayer=true;fullscreen=true
     }
-    val player=remember(url){ExoPlayer.Builder(context.applicationContext).apply{pageCache?.let{setMediaSourceFactory(androidx.media3.exoplayer.source.DefaultMediaSourceFactory(it.factory()))}}.setLoadControl(DefaultLoadControl.Builder()
+    val player=remember(mediaKey){ExoPlayer.Builder(context.applicationContext).apply{pageCache?.let{setMediaSourceFactory(androidx.media3.exoplayer.source.DefaultMediaSourceFactory(it.factory()))}}.setLoadControl(DefaultLoadControl.Builder()
         .setBufferDurationsMs(3000,15000,500,1000).setTargetBufferBytes((if(preview)8 else 24)*1024*1024)
         .setPrioritizeTimeOverSizeThresholds(false).build()).build().apply{
         setSeekParameters(SeekParameters.EXACT);setMediaItem(MediaItem.fromUri(url));seekTo(position);playWhenReady=handoff?.play ?: preview
     }}
+    val currentRate by rememberUpdatedState(nominalFps)
+    val currentLength by rememberUpdatedState(duration)
+    val stepper=remember(player,mediaKey){FrameStepper(player,FrameDecoder(context.applicationContext,url,pageCache=pageCache),{currentRate},{currentLength})}
+    LaunchedEffect(stepper){stepper.run()}
+    fun resumePlayback(){if(stepper.pending>0)return;stepper.reset();if(player.playbackState==Player.STATE_IDLE)player.prepare();player.play()}
     val durationCallback by rememberUpdatedState(onDurationChanged)
     DisposableEffect(player,owner){
         var reportedDuration=-1L
@@ -101,7 +107,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
             override fun onEvents(player:Player,events:Player.Events){
                 val actual=player.duration
                 if(actual>0 && actual!=C.TIME_UNSET && actual!=reportedDuration){reportedDuration=actual;duration=actual;durationCallback(actual)}
-                nominalFps=(player as? ExoPlayer)?.videoFormat?.frameRate?.takeIf{it>0 && it.isFinite()}
+                (player as? ExoPlayer)?.videoFormat?.frameRate?.takeIf{it>0 && it.isFinite()}?.let{nominalFps=it}
             }
             override fun onPlayerError(failure:PlaybackException){error=context.getString(R.string.ui_playback_failed,failure.errorCodeName)}
             override fun onRenderedFirstFrame(){rendered=true}
@@ -112,13 +118,14 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                     mediaHeight=if(rotated)size.width else size.height
                 }
             }
-            override fun onPlayWhenReadyChanged(ready:Boolean,reason:Int){if(owner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)){resumeRequested=player.playWhenReady;if(ready && player.playWhenReady)PlaybackResources.claim(player)}}
+            override fun onPositionDiscontinuity(old:Player.PositionInfo,new:Player.PositionInfo,reason:Int){if(reason==Player.DISCONTINUITY_REASON_SEEK)stepper.discontinuity(new.positionMs)}
+            override fun onPlayWhenReadyChanged(ready:Boolean,reason:Int){if(owner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)){if(ready && stepper.pending>0){player.pause();resumeRequested=false}else{resumeRequested=player.playWhenReady;if(ready && player.playWhenReady){stepper.reset();PlaybackResources.claim(player)}}}}
             override fun onIsPlayingChanged(isPlaying:Boolean){playing=isPlaying;if(isPlaying)PlaybackResources.claim(player)}
         }
         player.addListener(listener)
         val observer=LifecycleEventObserver{_,event->when(event){
-            Lifecycle.Event.ON_PAUSE->{resumeRequested=player.playWhenReady;if(!frames && player.playbackState!=Player.STATE_IDLE)position=player.currentPosition;player.pause();player.stop()}
-            Lifecycle.Event.ON_RESUME->{if(!frames){player.seekTo(position);if(player.playbackState==Player.STATE_IDLE)player.prepare();player.playWhenReady=resumeRequested}}
+            Lifecycle.Event.ON_PAUSE->{resumeRequested=player.playWhenReady;if(stepper.confirmed==null && player.playbackState!=Player.STATE_IDLE)position=player.currentPosition;player.pause();player.stop()}
+            Lifecycle.Event.ON_RESUME->{if(stepper.confirmed==null){player.seekTo(position);if(player.playbackState==Player.STATE_IDLE)player.prepare();player.playWhenReady=resumeRequested}}
             else->Unit
         }}
         owner.lifecycle.addObserver(observer)
@@ -129,15 +136,15 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
         onPlayerReady?.invoke(player)
         if(player.playWhenReady)PlaybackResources.claim(player)
         if(owner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED) && player.playbackState==Player.STATE_IDLE)player.prepare()
-        onDispose{if(!frames && player.playbackState!=Player.STATE_IDLE)position=player.currentPosition;if(view?.player===player){view?.player=null;view=null};PlaybackResources.release(player);player.release();cacheLease?.close()}
+        onDispose{if(stepper.confirmed==null && player.playbackState!=Player.STATE_IDLE)position=player.currentPosition;if(view?.player===player){view?.player=null;view=null};PlaybackResources.release(player);player.release();cacheLease?.close()}
     }
     LaunchedEffect(player,muted,loop,speed,volume,abEnabled){player.volume=if(muted)0f else volume;player.repeatMode=if(loop || abEnabled)Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF;player.setPlaybackSpeed(speed)}
     LaunchedEffect(player,ab,owner){
         owner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){var lastUiUpdate=0L;while(isActive){
             val now=android.os.SystemClock.elapsedRealtime()
-            if(!frames && player.playbackState!=Player.STATE_IDLE && now-lastUiUpdate>=250){position=player.currentPosition.coerceAtLeast(0);lastUiUpdate=now}
+            if(stepper.confirmed==null && stepper.pending==0 && player.playbackState!=Player.STATE_IDLE && now-lastUiUpdate>=250){position=player.currentPosition.coerceAtLeast(0);lastUiUpdate=now}
             if(player.isPlaying)ab.wrapPosition(player.currentPosition)?.let{player.seekTo(it)}
-            delay(if(ab.enabled && !frames)30 else 250)
+            delay(if(ab.enabled && stepper.pending==0)10 else 100)
         }}
     }
     LaunchedEffect(player,seekRequest){seekRequest?.let{player.seekTo(it.first)}}
@@ -152,24 +159,21 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
         if(fullscreen && !manualRotation && mediaWidth>0 && mediaHeight>0)
             activity?.requestedOrientation=if(mediaWidth>mediaHeight)ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE else ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
-    fun openFrames(delta:Int=0){frameStart=player.currentPosition;frameStep=delta;player.pause();player.stop();if(fullscreen)exitFullscreen();frames=true}
     fun navigate(delta:Int){
         if(fullscreen)orientationHost?.fullscreenHandoff=FullscreenHandoff(normalOrientation,player.playWhenReady)
-        if(onNavigate(delta)){player.pause();player.stop()}else{
+        if(onNavigate(delta)){stepper.reset();player.pause();player.stop()}else{
             orientationHost?.fullscreenHandoff=null
             activity?.window?.decorView?.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
             android.widget.Toast.makeText(context,R.string.ui_post_boundary,android.widget.Toast.LENGTH_SHORT).show()
         }
     }
+    val clipControls=downloadPost?.let{post->key(mediaKey){rememberClipExport(post,url,ab,stepper.pending>0)}}
     val primaryControls:@Composable ()->Unit={
             Surface(shape=RoundedCornerShape(12.dp),color=MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha=if(fullscreen).94f else 1f)){
             Row(Modifier.padding(4.dp),horizontalArrangement=Arrangement.spacedBy(4.dp)){
                 ActionIcon(if(fullscreen)R.drawable.ic_fullscreen_exit else R.drawable.ic_fullscreen,
                     text(if(fullscreen)R.string.ui_exit_full_screen else R.string.ui_full_screen),
                     {if(fullscreen)exitFullscreen()else enterFullscreen()},Modifier.testTag("toggle-fullscreen"))
-                if(fullscreen)ActionIcon(R.drawable.ic_rotate,text(R.string.ui_rotate_screen),{
-                    manualRotation=true;activity?.requestedOrientation=if(orientation==Configuration.ORIENTATION_LANDSCAPE)ActivityInfo.SCREEN_ORIENTATION_PORTRAIT else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                },Modifier.testTag("rotate-video"))
                 ActionIcon(R.drawable.ic_more,text(if(more)R.string.ui_fewer_controls else R.string.ui_more_controls),{more=!more},Modifier.testTag("more-controls"),selected=more)
             }
         }
@@ -177,6 +181,9 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
     val advancedControls:@Composable (androidx.compose.ui.unit.Dp)->Unit={controlsHeight->
                 AnimatedVisibility(more,enter=expandVertically(tween(Motion.controls)),exit=shrinkVertically(tween(Motion.controls))){
                 Column(Modifier.fillMaxWidth().heightIn(max=controlsHeight).verticalScroll(rememberScrollState()).padding(horizontal=8.dp).testTag("advanced-controls"),verticalArrangement=Arrangement.spacedBy(8.dp)){
+                    if(fullscreen){ActionIcon(R.drawable.ic_rotate,text(R.string.ui_rotate_screen),{
+                    manualRotation=true;activity?.requestedOrientation=if(orientation==Configuration.ORIENTATION_LANDSCAPE)ActivityInfo.SCREEN_ORIENTATION_PORTRAIT else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                    },Modifier.testTag("rotate-video"))}
                     if(fullscreen)TextButton(contentPadding=textButtonPadding(),onClick={manualRotation=true;activity?.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_FULL_USER}){Text(text(R.string.ui_follow_rotation_lock))}
                     ControlGroup(text(R.string.ui_playback_speed),"speed-controls","$speed×"){
                         FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
@@ -184,28 +191,20 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                         }
                     }
                     ControlGroup(text(R.string.ui_ab_loop),"ab-controls"){
-                    Text(text(R.string.ui_ab_interval,a?.let(::mediaTime) ?: "—",b?.let(::mediaTime) ?: "—"),Modifier.testTag("ab-interval"))
+                    Text(text(R.string.ui_ab_interval,a?.let(::formatClipTime) ?: "—",b?.let(::formatClipTime) ?: "—"),Modifier.testTag("ab-interval"))
                     FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
-                        TextButton(contentPadding=textButtonPadding(),onClick={val updated=ab.withA(player.currentPosition.coerceAtLeast(0));a=updated.aMs;b=updated.bMs;abEnabled=false;invalidAB=false},modifier=Modifier.testTag("set-a")){Text(text(R.string.ui_set_a))}
-                        TextButton(contentPadding=textButtonPadding(),onClick={try{val updated=ab.withB(player.currentPosition.coerceAtLeast(0));b=updated.bMs;abEnabled=false;invalidAB=false}catch(_:IllegalArgumentException){invalidAB=true}},modifier=Modifier.testTag("set-b")){Text(text(R.string.ui_set_b))}
-                        FilterChip(selected=abEnabled,enabled=ab.valid,onClick={abEnabled=!abEnabled},modifier=Modifier.heightIn(min=40.dp).testTag("ab-toggle"),label={Text(text(if(abEnabled)R.string.ui_disable_ab else R.string.ui_enable_ab))})
+                        TextButton(enabled=stepper.pending==0,contentPadding=textButtonPadding(),onClick={val updated=ab.withA((stepper.confirmed?.timeMs ?: player.currentPosition).coerceAtLeast(0));a=updated.aMs;b=updated.bMs;abEnabled=false;invalidAB=false},modifier=Modifier.testTag("set-a")){Text(text(R.string.ui_set_a))}
+                        TextButton(enabled=stepper.pending==0,contentPadding=textButtonPadding(),onClick={try{val updated=ab.withB((stepper.confirmed?.timeMs ?: player.currentPosition).coerceAtLeast(0));b=updated.bMs;abEnabled=false;invalidAB=false}catch(_:IllegalArgumentException){invalidAB=true}},modifier=Modifier.testTag("set-b")){Text(text(R.string.ui_set_b))}
+                        FilterChip(selected=abEnabled,enabled=ab.valid,onClick={if(!abEnabled){stepper.reset();if(player.playbackState==Player.STATE_IDLE)player.prepare();player.seekTo(a!!)};abEnabled=!abEnabled},modifier=Modifier.heightIn(min=40.dp).testTag("ab-toggle"),label={Text(text(if(abEnabled)R.string.ui_disable_ab else R.string.ui_enable_ab))})
                         TextButton(contentPadding=textButtonPadding(),onClick={a=null;b=null;abEnabled=false;invalidAB=false}){Text(text(R.string.ui_clear_ab))}
                     }
                     if(duration>0 && ab.valid){
-                        RangeSlider(value=a!!.toFloat()..b!!.toFloat(),onValueChange={range->a=range.start.toLong().coerceIn(0,duration-1);b=range.endInclusive.toLong().coerceIn(a!!+1,duration);abEnabled=false},valueRange=0f..duration.toFloat(),modifier=Modifier.testTag("ab-range"))
+                        RangeSlider(value=a!!.toFloat()..b!!.toFloat(),onValueChange={range->stepper.reset();a=range.start.toLong().coerceIn(0,duration-1);b=range.endInclusive.toLong().coerceIn(a!!+1,duration);abEnabled=false},valueRange=0f..duration.toFloat(),modifier=Modifier.testTag("ab-range"))
                     }
                     if(invalidAB)Text(text(R.string.ui_ab_invalid),color=MaterialTheme.colorScheme.error)
                     Text(text(R.string.ui_ab_precision),style=MaterialTheme.typography.labelSmall)
                     }
-                    ControlGroup(text(R.string.ui_frame_analysis),"frame-controls"){
-                    Text(text(R.string.ui_playback_time_value,mediaTime(position),if(duration>0)mediaTime(duration)else"—"),style=MaterialTheme.typography.labelMedium,modifier=Modifier.testTag("analysis-time"))
-                    FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
-                        OutlinedButton(contentPadding=textButtonPadding(),onClick={openFrames()},modifier=Modifier.testTag("open-frame-controls")){Text(text(R.string.ui_frame_by_frame))}
-                        TextButton(contentPadding=textButtonPadding(),onClick={openFrames(-1)}){Text(text(R.string.ui_previous_frame))}
-                        TextButton(contentPadding=textButtonPadding(),onClick={openFrames(1)}){Text(text(R.string.ui_next_frame))}
-                    }
-                    nominalFps?.let{Text(text(R.string.ui_nominal_fps,String.format(Locale.ROOT,"%.3f",it)),style=MaterialTheme.typography.labelSmall)}
-                    }
+                    clipControls?.invoke()
                     ControlGroup(text(R.string.ui_audio_display),"audio-controls"){
                     FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
                         TextButton(contentPadding=textButtonPadding(),onClick={muted=!muted}){Text(text(if(muted)R.string.ui_unmute else R.string.ui_mute))}
@@ -214,7 +213,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                         Text(text(R.string.ui_zoom_value,String.format(Locale.ROOT,"%.2f",zoom)),Modifier.testTag("zoom-level"))
                         TextButton(contentPadding=textButtonPadding(),enabled=!capturing,onClick={
                             capturing=true
-                            val bitmap=(view?.videoSurfaceView as? TextureView)?.bitmap
+                            val bitmap=stepper.confirmed?.bitmap?.copy(Bitmap.Config.ARGB_8888,false) ?: (view?.videoSurfaceView as? TextureView)?.bitmap
                             if(bitmap==null){error=context.getString(R.string.ui_no_decoded_frame_is_available_to_capture);capturing=false}
                             else scope.launch{
                                 try{val uri=withContext(Dispatchers.IO){val dir=File(context.cacheDir,"screenshots").apply{mkdirs()};val file=File(dir,"frame-${System.currentTimeMillis()}.png");file.outputStream().use{bitmap.compress(Bitmap.CompressFormat.PNG,100,it)};FileProvider.getUriForFile(context,"${context.packageName}.files",file)}
@@ -239,7 +238,8 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
 AndroidView(factory={VideoGestureHost(it)},modifier=videoModifier.testTag("video-gestures").semantics{
                 contentDescription=context.getString(if(rendered)R.string.ui_video_frame_rendered else R.string.ui_video_loading)
                 stateDescription=context.getString(if(playing)R.string.ui_playing else R.string.ui_paused)
-            },onRelease={host->if(view===host.playerView)view=null;host.playerView.player=null;host.onPostSwipe={};host.onPlaybackRequest={};host.playbackRequested={false};host.onTransform={};host.onConfirmedTap={}},update={host->
+            },onRelease={host->if(view===host.playerView)view=null;host.playerView.player=null;host.onPostSwipe={};host.onPlaybackRequest={};host.playbackRequested={false};host.onTransform={};host.onConfirmedTap={};host.showFrame(null)},update={host->
+                host.showFrame(stepper.confirmed?.bitmap)
                 val v=host.playerView
                 if(view!==v){PlayerView.switchTargetView(player,view,v);view=v}
                 else if(v.player!==player)v.player=player
@@ -251,32 +251,18 @@ AndroidView(factory={VideoGestureHost(it)},modifier=videoModifier.testTag("video
                 host.immersiveTapControl=fullscreen;host.onConfirmedTap={controlsVisible=!controlsVisible}
                 v.setShowNextButton(false);v.setShowPreviousButton(false);v.setShowFastForwardButton(false);v.setShowRewindButton(false)
                 host.configure(settings,VideoTransform(zoom,panX,panY));host.gesturesEnabled=!preview
-                host.playbackRequested={player.playWhenReady};host.onPlaybackRequest={if(it)player.play()else player.pause()}
+                host.playbackRequested={player.playWhenReady};host.onPlaybackRequest={if(it)resumePlayback()else player.pause()}
                 host.onPostSwipe=::navigate;host.onTransform={zoom=it.scale;panX=it.panX;panY=it.panY}
             })
     }
-    val content:@Composable (Modifier)->Unit={modifier->
-        BoxWithConstraints(modifier.background(if(fullscreen || preview)Color.Black else MaterialTheme.colorScheme.surface)){
-            val advancedHeight=maxHeight*.45f
-            if(fullscreen){
-                videoSurface(Modifier.fillMaxSize())
-                if(controlsVisible){
-                    Box(Modifier.align(Alignment.TopEnd).padding(8.dp)){primaryControls()}
-                    Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth().background(MaterialTheme.colorScheme.surface.copy(alpha=.96f))){
-                        advancedControls(advancedHeight);feedback()
-                    }
-                }
-            }else Column(Modifier.fillMaxSize()){
-                videoSurface(Modifier.fillMaxWidth().weight(1f))
-                if(!preview){primaryControls();advancedControls(260.dp)}
-                feedback()
-            }
-        }
+    val ratio=if(mediaWidth>0 && mediaHeight>0)mediaWidth.toFloat()/mediaHeight else 16f/9f
+    val toolbar:@Composable ()->Unit={
+        FrameControlBar(stepper.confirmed,position,stepper.pending,duration>0,{delta->abEnabled=false;resumeRequested=false;stepper.step(delta)},primaryControls)
+        stepper.failure?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error)}
     }
-    MaterialTheme{
-        if(fullscreen){
-            Box(Modifier.fillMaxWidth().height(if(inlineExpanded)480.dp else 300.dp))
-            Dialog(onDismissRequest={exitFullscreen()},properties=DialogProperties(usePlatformDefaultWidth=false,decorFitsSystemWindows=false)){
+    if(fullscreen){
+        Spacer(Modifier.fillMaxWidth().height(inlineHeight))
+        Dialog(onDismissRequest={exitFullscreen()},properties=DialogProperties(usePlatformDefaultWidth=false,decorFitsSystemWindows=false)){
             BackHandler{exitFullscreen()}
             val window=(LocalView.current.parent as? DialogWindowProvider)?.window
             DisposableEffect(window){
@@ -287,11 +273,23 @@ AndroidView(factory={VideoGestureHost(it)},modifier=videoModifier.testTag("video
                 controller?.systemBarsBehavior=WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE;controller?.hide(WindowInsetsCompat.Type.systemBars())
                 onDispose{dialog?.setOnKeyListener(null);controller?.show(WindowInsetsCompat.Type.systemBars())}
             }
-            content(Modifier.fillMaxSize().displayCutoutPadding())
-        } }
-        else content(if(preview)Modifier.fillMaxWidth().aspectRatio(16f/9f)else Modifier.fillMaxWidth().animateContentSize(tween(Motion.controls)).height(if(more)480.dp else 300.dp))
-        if(frames)StrictFrameDialog(url,startPositionMs=frameStart,initialDelta=frameStep,onFrameTime={position=it}){frames=false;player.seekTo(position);player.prepare()}
+            BoxWithConstraints(Modifier.fillMaxSize().background(Color.Black).displayCutoutPadding()){
+                val maxPanelHeight=maxHeight*.45f
+                videoSurface(Modifier.fillMaxSize())
+                if(controlsVisible)Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth().background(MaterialTheme.colorScheme.surface.copy(alpha=.96f))){
+                    toolbar();advancedControls(maxPanelHeight);feedback()
+                }
+            }
+        }
+    }else{
+        val density=LocalDensity.current
+        Column(Modifier.fillMaxWidth().onSizeChanged{inlineHeight=with(density){it.height.toDp()}}){
+            videoSurface(Modifier.fillMaxWidth().aspectRatio(if(preview)16f/9f else ratio).background(Color.Black))
+            if(!preview){toolbar();advancedControls(320.dp)}
+            feedback()
+        }
     }
+
 }
 
 @Composable private fun ControlGroup(title:String,tag:String,value:String?=null,content:@Composable ColumnScope.()->Unit){

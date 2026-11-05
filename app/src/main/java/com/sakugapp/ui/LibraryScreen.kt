@@ -41,7 +41,7 @@ import kotlinx.coroutines.*
     var message by remember{mutableStateOf<String?>(null)}
     var busy by remember{mutableStateOf(false)};var downloadConfirm by remember{mutableStateOf(false)}
     var job by remember{mutableStateOf<Job?>(null)};var done by remember{mutableIntStateOf(0)};var total by remember{mutableIntStateOf(0)};var currentBytes by remember{mutableLongStateOf(0)};var currentSize by remember{mutableLongStateOf(-1L)}
-    val downloadAccess=rememberDownloadAccess(app.downloadStorage){message=context.getString(R.string.ui_directory_error)}
+    val downloadAccess=rememberDirectoryAccess(app.downloadStorage,DownloadStorage.Kind.BATCH){message=context.getString(R.string.ui_directory_error)}
     var mediaRevision by remember{mutableIntStateOf(0)}
     androidx.lifecycle.compose.LifecycleEventEffect(androidx.lifecycle.Lifecycle.Event.ON_RESUME){mediaRevision++}
     val offlineIds by produceState(emptySet<Long>(),state.decoded,mediaRevision){value=withContext(Dispatchers.IO){state.decoded.values.filter{it.isVideo && app.offlineUri(it)!=null}.map{it.id}.toSet()}}
@@ -205,7 +205,7 @@ import kotlinx.coroutines.*
     }},confirmButton={TextButton(onClick={moving=false}){Text(text(R.string.ui_cancel))}})
     if(clearMedia)AlertDialog(onDismissRequest={clearMedia=false},title={Text(text(R.string.ui_clear_offline_media))},text={Text(text(R.string.ui_clear_offline_warning))},confirmButton={TextButton(onClick={operation{app.offlineMedia.clear();usage=0;mediaRevision++;clearMedia=false}}){Text(text(R.string.ui_delete))}},dismissButton={TextButton(onClick={clearMedia=false}){Text(text(R.string.ui_cancel))}})
     if(downloadConfirm)AlertDialog(onDismissRequest={downloadConfirm=false},title={Text(text(R.string.ui_batch_download))},text={Text(text(R.string.ui_batch_download_hint))},confirmButton={TextButton(onClick={
-        downloadConfirm=false;downloadAccess(DownloadStorage.Kind.BATCH){val pending=candidates.mapNotNull{state.decoded[it.id]}.filter{it.isVideo && it.id !in offlineIds}.take(OfflineLibraryMedia.BATCH_SIZE)
+        downloadConfirm=false;downloadAccess{val pending=candidates.mapNotNull{state.decoded[it.id]}.filter{it.isVideo && it.id !in offlineIds}.take(OfflineLibraryMedia.BATCH_SIZE)
         busy=true;done=0;total=pending.size
         job=scope.launch{var failures=0;var lastFailure:String?=null;try{for(post in pending){currentBytes=0;currentSize=-1;var updated=0L;try{app.downloadStorage.download(post,DownloadStorage.Kind.BATCH){received,length->val now=System.nanoTime();if(now-updated>100000000L || received==length){updated=now;scope.launch{currentBytes=received;currentSize=length}}};done++}catch(e:CancellationException){throw e}catch(e:Exception){failures++;lastFailure=libraryError(context,e);message=lastFailure}};message=context.getString(R.string.ui_batch_result,done,failures)+(lastFailure?.let{"\n$it"} ?: "")}catch(e:CancellationException){message=context.getString(R.string.ui_download_cancelled);throw e}catch(e:Exception){message=libraryError(context,e)}finally{busy=false;mediaRevision++;usage=app.offlineMedia.bytes()}}}
     }){Text(text(R.string.ui_download_video))}},dismissButton={TextButton(onClick={downloadConfirm=false}){Text(text(R.string.ui_cancel))}})

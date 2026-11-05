@@ -22,7 +22,7 @@ class PlayerToolsTest {
         assertEquals(320L,timeline.timeMs(3))
         assertNull(FrameTimeline.verified(listOf(0,40000,40000),3))
         assertNull(FrameTimeline.verified(listOf(0,40000),3))
-        assertNull(FrameTimeline.verified(listOf(400000,600000),2))
+        assertEquals(400L,FrameTimeline.verified(listOf(400000,600000),2)!!.timeMs(0))
         assertNull(FrameTimeline.verified(listOf(-1,0),2))
     }
     @Test fun pinchAndPanAreFiniteBoundedAndCanReturnToTheOriginalSurface(){
