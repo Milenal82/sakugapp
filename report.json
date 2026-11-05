@@ -1,0 +1,162 @@
+{
+  "source_commit": "a67d717c757aca115b4942254f924ed1923e3a97",
+  "run_id": "42101677631",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42101677631",
+  "captured_utc": "2026-11-05T20:20:59.997779+00:00",
+  "validation_result": "failure",
+  "scope": "Actual VFR decoded +/-1/2/3 frame selection, shared A/B points, fixed geometry, copy sample hashes, re-encoded boundaries, SAF single/clip/batch destinations on API 28/35 phones and tablet.",
+  "jobs": [
+    {
+      "name": "devices (28, Nexus S)",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42101677631/job/127505780369",
+      "id": 127505780369
+    },
+    {
+      "name": "devices (35, Nexus 6)",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42101677631/job/127505780824",
+      "id": 127505780824
+    },
+    {
+      "name": "devices (28, pixel_c)",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42101677631/job/127505781048",
+      "id": 127505781048
+    },
+    {
+      "name": "evidence",
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42101677631/job/127508744024",
+      "id": 127508744024
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "player-tools-reports-28-pixel_c",
+      "bytes": 78137,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42101677631/artifacts/13449658391"
+    },
+    {
+      "name": "player-tools-reports-35-Nexus 6",
+      "bytes": 129816,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42101677631/artifacts/13449623370"
+    },
+    {
+      "name": "player-tools-reports-28-Nexus S",
+      "bytes": 75495,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42101677631/artifacts/13448923991"
+    }
+  ],
+  "test_counts": {
+    "device": {
+      "tests": 27,
+      "failures": 15,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "lint": {},
+  "failures": [
+    {
+      "job": "devices (28, Nexus S)",
+      "conclusion": "failure",
+      "message": "2026-11-05T20:19:58.6319055Z com.sakugapp.FrameControlsDeviceTest > frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes[emulator-5554 - 9] FAILED \n2026-11-05T20:20:01.9322485Z com.sakugapp.FrameControlsDeviceTest > rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop[emulator-5554 - 9] FAILED \n2026-11-05T20:20:03.6307694Z com.sakugapp.ClipExportDeviceTest > preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource[emulator-5554 - 9] FAILED \n2026-11-05T20:20:03.8299253Z com.sakugapp.ClipExportDeviceTest > streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv[emulator-5554 - 9] FAILED \n2026-11-05T20:20:03.8300526Z \tjava.lang.AssertionError\n2026-11-05T20:20:35.0319845Z com.sakugapp.DownloadFoldersDeviceTest > defaultsUsePublicMediaStoreWithoutAFilePicker[emulator-5554 - 9] FAILED \n2026-11-05T20:20:41.9319135Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-05T20:20:42.0341857Z * What went wrong:\n2026-11-05T20:20:42.0352600Z BUILD FAILED in 3m 32s\n2026-11-05T20:20:42.6077143Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
+    },
+    {
+      "job": "devices (35, Nexus 6)",
+      "conclusion": "failure",
+      "message": "2026-11-05T20:18:20.1390221Z com.sakugapp.FrameControlsDeviceTest > frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes[emulator-5554 - 15] FAILED \n2026-11-05T20:18:24.0471680Z com.sakugapp.FrameControlsDeviceTest > rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop[emulator-5554 - 15] FAILED \n2026-11-05T20:18:25.5352446Z com.sakugapp.ClipExportDeviceTest > preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource[emulator-5554 - 15] FAILED \n2026-11-05T20:18:25.6471534Z com.sakugapp.ClipExportDeviceTest > streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv[emulator-5554 - 15] FAILED \n2026-11-05T20:18:25.6499401Z \tjava.lang.AssertionError: Encoded samples must be unchanged, clip-gop.mp4 PTS=999900 expected:<null> but was:<[14, -97, 90, 10, -107, -9, 48, -87, -47, -74, -89, -47, -92, 18, 48, -104, 0, 27, -69, 46, 22, 117, 41, -109, 115, 15, -96, 67, -107, -45, -118, 78]>\n2026-11-05T20:19:30.2389075Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-05T20:19:30.2425569Z * What went wrong:\n2026-11-05T20:19:30.2433082Z BUILD FAILED in 2m 42s\n2026-11-05T20:19:30.6884815Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
+    },
+    {
+      "job": "devices (28, pixel_c)",
+      "conclusion": "failure",
+      "message": "2026-11-05T20:19:25.0006765Z com.sakugapp.FrameControlsDeviceTest > frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes[emulator-5554 - 9] FAILED \n2026-11-05T20:19:30.6007203Z com.sakugapp.FrameControlsDeviceTest > rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop[emulator-5554 - 9] FAILED \n2026-11-05T20:19:32.6070679Z com.sakugapp.ClipExportDeviceTest > preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource[emulator-5554 - 9] FAILED \n2026-11-05T20:19:32.6106144Z com.sakugapp.ClipExportDeviceTest > streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv[emulator-5554 - 9] FAILED \n2026-11-05T20:19:32.6107096Z \tjava.lang.AssertionError\n2026-11-05T20:20:06.5031272Z com.sakugapp.DownloadFoldersDeviceTest > defaultsUsePublicMediaStoreWithoutAFilePicker[emulator-5554 - 9] FAILED \n2026-11-05T20:20:11.6022140Z com.sakugapp.PlayerRotationDeviceTest > manualRotationWithSystemLockPreservesThePlayerPositionAndControls[emulator-5554 - 9] FAILED \n2026-11-05T20:20:11.6023349Z \tjava.lang.AssertionError: Failed to assert the following: (Selected = 'true')\n2026-11-05T20:20:13.2029271Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-05T20:20:13.3125936Z * What went wrong:\n2026-11-05T20:20:13.3174064Z BUILD FAILED in 2m 50s\n2026-11-05T20:20:13.7635037Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
+    },
+    {
+      "test": "com.sakugapp.FrameControlsDeviceTest.frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes",
+      "report": "player-tools-reports-28-Nexus S/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "message": "java.lang.IllegalStateException: Player is accessed on the wrong thread.\nCurrent thread: 'DefaultDispatcher-worker-1'\nExpected thread: 'main'\nSee https://developer.android.com/guide/topics/media/issues/player-accessed-on-wrong-thread\nat androidx.media3.exoplayer.ExoPlayerImpl.verifyApplicationThread(ExoPlayerImpl.java:2810)\nat androidx.media3.exoplayer.ExoPlayerImpl.setPlayWhenReady(ExoPlayerImpl.java:800)\nat androidx.media3.common.BasePlayer.pause(BasePlayer.java:118)\nat com.sakugapp.ui.FrameStepper.run(FrameStepper.kt:45)\nat com.sakugapp.ui.FrameStepper$run$1.invokeSuspend(Unknown Source:14)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat androidx.compose.ui.test.ApplyingContinuationInterceptor$SendApplyContinuation.resumeWith(ApplyingContinuationInterceptor.kt:52)\nat androidx.compose.ui.test.FrameDeferringContinuationInterceptor$FrameDeferredContinuation.resumeWith(FrameDeferringContinuationInterceptor.jvm.kt:187)\nat kotlinx.coroutines.internal.DispatchedContinuationKt.resumeCancellableWith(DispatchedContinuation.kt:279)\nat kotlinx.coroutines.DispatchedCoroutine.afterResume(Builders.common.kt:256)\nat kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\n"
+    },
+    {
+      "test": "com.sakugapp.FrameControlsDeviceTest.rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop",
+      "report": "player-tools-reports-28-Nexus S/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "message": "java.lang.IllegalStateException: Player is accessed on the wrong thread.\nCurrent thread: 'DefaultDispatcher-worker-1'\nExpected thread: 'main'\nSee https://developer.android.com/guide/topics/media/issues/player-accessed-on-wrong-thread\nat androidx.media3.exoplayer.ExoPlayerImpl.verifyApplicationThread(ExoPlayerImpl.java:2810)\nat androidx.media3.exoplayer.ExoPlayerImpl.setPlayWhenReady(ExoPlayerImpl.java:800)\nat androidx.media3.common.BasePlayer.pause(BasePlayer.java:118)\nat com.sakugapp.ui.FrameStepper.run(FrameStepper.kt:45)\nat com.sakugapp.ui.FrameStepper$run$1.invokeSuspend(Unknown Source:14)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat androidx.compose.ui.test.ApplyingContinuationInterceptor$SendApplyContinuation.resumeWith(ApplyingContinuationInterceptor.kt:52)\nat androidx.compose.ui.test.FrameDeferringContinuationInterceptor$FrameDeferredContinuation.resumeWith(FrameDeferringContinuationInterceptor.jvm.kt:187)\nat kotlinx.coroutines.internal.DispatchedContinuationKt.resumeCancellableWith(DispatchedContinuation.kt:279)\nat kotlinx.coroutines.DispatchedCoroutine.afterResume(Builders.common.kt:256)\nat kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\n"
+    },
+    {
+      "test": "com.sakugapp.ClipExportDeviceTest.preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource",
+      "report": "player-tools-reports-28-Nexus S/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "message": "java.lang.IllegalStateException: clip_verify\nat com.sakugapp.data.ClipExporter$export$3.invokeSuspend(ClipExporter.kt:41)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\n"
+    },
+    {
+      "test": "com.sakugapp.ClipExportDeviceTest.streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv",
+      "report": "player-tools-reports-28-Nexus S/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "message": "java.lang.AssertionError\nat org.junit.Assert.fail(Assert.java:87)\nat org.junit.Assert.assertTrue(Assert.java:42)\nat org.junit.Assert.assertTrue(Assert.java:53)\nat com.sakugapp.ClipExportDeviceTest$streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv$1.invokeSuspend(ClipExportDeviceTest.kt:33)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.ClipExportDeviceTest.streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv(ClipExportDeviceTest.kt:27)\n"
+    },
+    {
+      "test": "com.sakugapp.DownloadFoldersDeviceTest.defaultsUsePublicMediaStoreWithoutAFilePicker",
+      "report": "player-tools-reports-28-Nexus S/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "message": "com.sakugapp.data.LibraryFailure: directory_access\nat com.sakugapp.data.DownloadStorage.create(DownloadStorage.kt:59)\nat com.sakugapp.data.DownloadStorage.access$create(DownloadStorage.kt:17)\nat com.sakugapp.data.DownloadStorage$exportLegacy$2$1.invokeSuspend(DownloadStorage.kt:92)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\nCaused by: java.io.IOException\nat com.sakugapp.data.DownloadStorage.create(DownloadStorage.kt:55)\n... 10 more\n"
+    },
+    {
+      "test": "com.sakugapp.FrameControlsDeviceTest.frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes",
+      "report": "player-tools-reports-35-Nexus 6/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 15-_app-.xml",
+      "message": "java.lang.IllegalStateException: Player is accessed on the wrong thread.\nCurrent thread: 'DefaultDispatcher-worker-1'\nExpected thread: 'main'\nSee https://developer.android.com/guide/topics/media/issues/player-accessed-on-wrong-thread\nat androidx.media3.exoplayer.ExoPlayerImpl.verifyApplicationThread(ExoPlayerImpl.java:2810)\nat androidx.media3.exoplayer.ExoPlayerImpl.setPlayWhenReady(ExoPlayerImpl.java:800)\nat androidx.media3.common.BasePlayer.pause(BasePlayer.java:118)\nat com.sakugapp.ui.FrameStepper.run(FrameStepper.kt:45)\nat com.sakugapp.ui.FrameStepper$run$1.invokeSuspend(Unknown Source:14)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat androidx.compose.ui.test.ApplyingContinuationInterceptor$SendApplyContinuation.resumeWith(ApplyingContinuationInterceptor.kt:52)\nat androidx.compose.ui.test.FrameDeferringContinuationInterceptor$FrameDeferredContinuation.resumeWith(FrameDeferringContinuationInterceptor.jvm.kt:187)\nat kotlinx.coroutines.internal.DispatchedContinuationKt.resumeCancellableWith(DispatchedContinuation.kt:279)\nat kotlinx.coroutines.DispatchedCoroutine.afterResume(Builders.common.kt:256)\nat kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\n"
+    },
+    {
+      "test": "com.sakugapp.FrameControlsDeviceTest.rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop",
+      "report": "player-tools-reports-35-Nexus 6/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 15-_app-.xml",
+      "message": "java.lang.IllegalStateException: Player is accessed on the wrong thread.\nCurrent thread: 'DefaultDispatcher-worker-2'\nExpected thread: 'main'\nSee https://developer.android.com/guide/topics/media/issues/player-accessed-on-wrong-thread\nat androidx.media3.exoplayer.ExoPlayerImpl.verifyApplicationThread(ExoPlayerImpl.java:2810)\nat androidx.media3.exoplayer.ExoPlayerImpl.setPlayWhenReady(ExoPlayerImpl.java:800)\nat androidx.media3.common.BasePlayer.pause(BasePlayer.java:118)\nat com.sakugapp.ui.FrameStepper.run(FrameStepper.kt:45)\nat com.sakugapp.ui.FrameStepper$run$1.invokeSuspend(Unknown Source:14)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat androidx.compose.ui.test.ApplyingContinuationInterceptor$SendApplyContinuation.resumeWith(ApplyingContinuationInterceptor.kt:52)\nat androidx.compose.ui.test.FrameDeferringContinuationInterceptor$FrameDeferredContinuation.resumeWith(FrameDeferringContinuationInterceptor.jvm.kt:187)\nat kotlinx.coroutines.internal.DispatchedContinuationKt.resumeCancellableWith(DispatchedContinuation.kt:279)\nat kotlinx.coroutines.DispatchedCoroutine.afterResume(Builders.common.kt:256)\nat kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\n"
+    },
+    {
+      "test": "com.sakugapp.ClipExportDeviceTest.preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource",
+      "report": "player-tools-reports-35-Nexus 6/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 15-_app-.xml",
+      "message": "java.lang.IllegalStateException: clip_verify\nat com.sakugapp.data.ClipExporter$export$3.invokeSuspend(ClipExporter.kt:41)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\n"
+    },
+    {
+      "test": "com.sakugapp.ClipExportDeviceTest.streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv",
+      "report": "player-tools-reports-35-Nexus 6/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 15-_app-.xml",
+      "message": "java.lang.AssertionError: Encoded samples must be unchanged, clip-gop.mp4 PTS=999900 expected:<null> but was:<[14, -97, 90, 10, -107, -9, 48, -87, -47, -74, -89, -47, -92, 18, 48, -104, 0, 27, -69, 46, 22, 117, 41, -109, 115, 15, -96, 67, -107, -45, -118, 78]>\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.failNotEquals(Assert.java:835)\nat org.junit.Assert.assertEquals(Assert.java:120)\nat com.sakugapp.ClipExportDeviceTest$streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv$1.invokeSuspend(ClipExportDeviceTest.kt:35)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.ClipExportDeviceTest.streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv(ClipExportDeviceTest.kt:27)\n"
+    },
+    {
+      "test": "com.sakugapp.FrameControlsDeviceTest.frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes",
+      "report": "player-tools-reports-28-pixel_c/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "message": "java.lang.IllegalStateException: Player is accessed on the wrong thread.\nCurrent thread: 'DefaultDispatcher-worker-4'\nExpected thread: 'main'\nSee https://developer.android.com/guide/topics/media/issues/player-accessed-on-wrong-thread\nat androidx.media3.exoplayer.ExoPlayerImpl.verifyApplicationThread(ExoPlayerImpl.java:2810)\nat androidx.media3.exoplayer.ExoPlayerImpl.setPlayWhenReady(ExoPlayerImpl.java:800)\nat androidx.media3.common.BasePlayer.pause(BasePlayer.java:118)\nat com.sakugapp.ui.FrameStepper.run(FrameStepper.kt:45)\nat com.sakugapp.ui.FrameStepper$run$1.invokeSuspend(Unknown Source:14)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat androidx.compose.ui.test.ApplyingContinuationInterceptor$SendApplyContinuation.resumeWith(ApplyingContinuationInterceptor.kt:52)\nat androidx.compose.ui.test.FrameDeferringContinuationInterceptor$FrameDeferredContinuation.resumeWith(FrameDeferringContinuationInterceptor.jvm.kt:187)\nat kotlinx.coroutines.internal.DispatchedContinuationKt.resumeCancellableWith(DispatchedContinuation.kt:279)\nat kotlinx.coroutines.DispatchedCoroutine.afterResume(Builders.common.kt:256)\nat kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\n"
+    },
+    {
+      "test": "com.sakugapp.FrameControlsDeviceTest.rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop",
+      "report": "player-tools-reports-28-pixel_c/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "message": "java.lang.IllegalStateException: Player is accessed on the wrong thread.\nCurrent thread: 'DefaultDispatcher-worker-3'\nExpected thread: 'main'\nSee https://developer.android.com/guide/topics/media/issues/player-accessed-on-wrong-thread\nat androidx.media3.exoplayer.ExoPlayerImpl.verifyApplicationThread(ExoPlayerImpl.java:2810)\nat androidx.media3.exoplayer.ExoPlayerImpl.setPlayWhenReady(ExoPlayerImpl.java:800)\nat androidx.media3.common.BasePlayer.pause(BasePlayer.java:118)\nat com.sakugapp.ui.FrameStepper.run(FrameStepper.kt:45)\nat com.sakugapp.ui.FrameStepper$run$1.invokeSuspend(Unknown Source:14)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat androidx.compose.ui.test.ApplyingContinuationInterceptor$SendApplyContinuation.resumeWith(ApplyingContinuationInterceptor.kt:52)\nat androidx.compose.ui.test.FrameDeferringContinuationInterceptor$FrameDeferredContinuation.resumeWith(FrameDeferringContinuationInterceptor.jvm.kt:187)\nat kotlinx.coroutines.internal.DispatchedContinuationKt.resumeCancellableWith(DispatchedContinuation.kt:279)\nat kotlinx.coroutines.DispatchedCoroutine.afterResume(Builders.common.kt:256)\nat kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\n"
+    },
+    {
+      "test": "com.sakugapp.ClipExportDeviceTest.preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource",
+      "report": "player-tools-reports-28-pixel_c/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "message": "java.lang.IllegalStateException: clip_verify\nat com.sakugapp.data.ClipExporter$export$3.invokeSuspend(ClipExporter.kt:41)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\n"
+    },
+    {
+      "test": "com.sakugapp.ClipExportDeviceTest.streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv",
+      "report": "player-tools-reports-28-pixel_c/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "message": "java.lang.AssertionError\nat org.junit.Assert.fail(Assert.java:87)\nat org.junit.Assert.assertTrue(Assert.java:42)\nat org.junit.Assert.assertTrue(Assert.java:53)\nat com.sakugapp.ClipExportDeviceTest$streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv$1.invokeSuspend(ClipExportDeviceTest.kt:33)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.ClipExportDeviceTest.streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv(ClipExportDeviceTest.kt:27)\n"
+    },
+    {
+      "test": "com.sakugapp.DownloadFoldersDeviceTest.defaultsUsePublicMediaStoreWithoutAFilePicker",
+      "report": "player-tools-reports-28-pixel_c/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "message": "com.sakugapp.data.LibraryFailure: directory_access\nat com.sakugapp.data.DownloadStorage.create(DownloadStorage.kt:59)\nat com.sakugapp.data.DownloadStorage.access$create(DownloadStorage.kt:17)\nat com.sakugapp.data.DownloadStorage$exportLegacy$2$1.invokeSuspend(DownloadStorage.kt:92)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\nCaused by: java.io.IOException\nat com.sakugapp.data.DownloadStorage.create(DownloadStorage.kt:55)\n... 10 more\n"
+    },
+    {
+      "test": "com.sakugapp.PlayerRotationDeviceTest.manualRotationWithSystemLockPreservesThePlayerPositionAndControls",
+      "report": "player-tools-reports-28-pixel_c/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "message": "java.lang.AssertionError: Failed to assert the following: (Selected = 'true')\nSemantics of the node:\nNode #1209 at (l=852.0, t=1926.0, r=972.0, b=2006.0)px, Tag: 'speed-1.5'\nFocused = 'false'\nRole = 'Checkbox'\nSelected = 'false'\nText = '[1.5×]'\nActions = [ClearTextSubstitution, GetTextLayoutResult, OnClick, RequestFocus, SetTextSubstitution, ShowTextSubstitution]\nMergeDescendants = 'true'\nHas 10 siblings\nSelector used: (TestTag = 'speed-1.5')\n\nat androidx.compose.ui.test.AssertionsKt.assert(Assertions.kt:260)\nat androidx.compose.ui.test.AssertionsKt.assert$default(Assertions.kt:250)\nat androidx.compose.ui.test.AssertionsKt.assertIsSelected(Assertions.kt:84)\nat com.sakugapp.PlayerRotationDeviceTest.manualRotationWithSystemLockPreservesThePlayerPositionAndControls(PlayerRotationDeviceTest.kt:60)\n"
+    }
+  ],
+  "device_diagnostics": [],
+  "scroll_profile": {},
+  "main_automatic_checks": {
+    "status": "not_requested",
+    "reason": "This push is not main."
+  }
+}
