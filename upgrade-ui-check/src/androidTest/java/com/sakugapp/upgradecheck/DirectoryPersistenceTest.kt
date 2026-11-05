@@ -21,7 +21,13 @@ class DirectoryPersistenceTest {
     private fun launch(){device.executeShellCommand("am start -W -n com.sakugapp/.MainActivity");find(By.text("Menu"))}
     private fun choose(label:String,name:String){
         device.executeShellCommand("mkdir -p /sdcard/Download/$name")
-        val title=visible(By.text(label));val bottom=title.visibleBounds.bottom
+        var title=visible(By.text(label))
+        if(title.visibleBounds.bottom>device.displayHeight*.45){
+            device.swipe(device.displayWidth/2,(device.displayHeight*.8).toInt(),device.displayWidth/2,(device.displayHeight*.5).toInt(),60)
+            title=visible(By.text(label))
+        }
+        device.waitForIdle()
+        val bottom=title.visibleBounds.bottom
         val button=device.findObjects(By.text("Change folder")).filter{it.visibleBounds.centerY()>bottom}.minByOrNull{it.visibleBounds.centerY()}
         checkNotNull(button).click()
         device.wait(Until.findObject(By.desc("Show roots")),3000)?.click();device.wait(Until.findObject(By.text("Downloads")),3000)?.click()
