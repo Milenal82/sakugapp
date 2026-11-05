@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -54,7 +55,7 @@ class PlayerRotationDeviceTest {
             // Establish the ordinary browsing policy before mounting this isolated player scene.
             ui.runOnUiThread{activity.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_PORTRAIT}
             awaitStage("initial portrait",15000){ui.activity.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT}
-            ui.runOnUiThread{activity.setContent{SakugappTheme(false){Column(Modifier.verticalScroll(rememberScrollState())){VideoPanel(file.toURI().toString(),AppSettings(),onPlayerReady={player=it;instances.incrementAndGet()})}}}}
+            ui.runOnUiThread{activity.setContent{SakugappTheme(false){Column(Modifier.systemBarsPadding().verticalScroll(rememberScrollState())){VideoPanel(file.toURI().toString(),AppSettings(),onPlayerReady={player=it;instances.incrementAndGet()})}}}}
             awaitStage("video ready",15000){playerMatches{it?.playbackState==Player.STATE_READY}}
             ui.onNodeWithTag("more-controls").performScrollTo().performClick()
             ui.onNodeWithTag("speed-1.5").performScrollTo().performClick()

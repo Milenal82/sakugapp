@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -38,7 +39,7 @@ class ProfessionalPlayerDeviceTest {
             return null
         }
         try{
-            ui.runOnUiThread{ui.activity.setContent{SakugappTheme(false){Column(Modifier.verticalScroll(rememberScrollState())){VideoPanel(file.toURI().toString(),AppSettings(),onPlayerReady={
+            ui.runOnUiThread{ui.activity.setContent{SakugappTheme(false){Column(Modifier.systemBarsPadding().verticalScroll(rememberScrollState())){VideoPanel(file.toURI().toString(),AppSettings(),onPlayerReady={
                 player=it;it.addListener(object:Player.Listener{
                     override fun onPositionDiscontinuity(old:Player.PositionInfo,new:Player.PositionInfo,reason:Int){if(reason==Player.DISCONTINUITY_REASON_SEEK)seeks.incrementAndGet()}
                 })

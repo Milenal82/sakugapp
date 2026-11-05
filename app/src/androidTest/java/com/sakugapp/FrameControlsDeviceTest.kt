@@ -34,7 +34,7 @@ class FrameControlsDeviceTest {
         val file=fixture();var player:Player?=null;var instances=0
         fun matches(check:(Player)->Boolean):Boolean{var answer=false;ui.runOnUiThread{player?.let{answer=check(it)}};return answer}
         try{
-            ui.runOnUiThread{ui.activity.setContent{SakugappTheme(false){Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())){
+            ui.runOnUiThread{ui.activity.setContent{SakugappTheme(false){Column(Modifier.fillMaxSize().systemBarsPadding().verticalScroll(rememberScrollState())){
                 VideoPanel(file.toURI().toString(),onPlayerReady={player=it;instances++})
             }}}}
             ui.waitUntil(20000){matches{it.playbackState==Player.STATE_READY}}
@@ -79,13 +79,32 @@ class FrameControlsDeviceTest {
             withContext(Dispatchers.Main){assertEquals(0,stepper.confirmed!!.index);assertEquals(400L,stepper.confirmed!!.timeMs);assertFalse(player.playWhenReady);stepper.reset();assertNull(stepper.confirmed)}
         }finally{withContext(Dispatchers.Main){runner?.cancelAndJoin();if(created)player.release()};scope.cancel();file.delete()}
     }
+    @Test fun estimatedFallbackWaitsForRenderedSeekAndStaysPaused()=runBlocking{
+        val file=fixture();val scope=CoroutineScope(SupervisorJob()+Dispatchers.Main.immediate)
+        lateinit var player:androidx.media3.exoplayer.ExoPlayer;lateinit var stepper:FrameStepper;var runner:Job?=null;var rendered=0
+        try{
+            ui.runOnUiThread{
+                player=androidx.media3.exoplayer.ExoPlayer.Builder(ui.activity).build()
+                player.addListener(object:Player.Listener{override fun onRenderedFirstFrame(){rendered++}})
+                player.setMediaItem(androidx.media3.common.MediaItem.fromUri(file.toURI().toString()));player.prepare()
+                // A real working player paired with unavailable index decoding exercises the fallback.
+                stepper=FrameStepper(player,FrameDecoder(ui.activity,File(ui.activity.cacheDir,"no-frame-index.mp4").toURI().toString()),{10f},{2200L})
+                runner=scope.launch{stepper.run()}
+                ui.activity.setContent{androidx.compose.ui.viewinterop.AndroidView(factory={VideoGestureHost(it).apply{playerView.player=player}},modifier=Modifier.fillMaxSize())}
+            }
+            ui.waitUntil(20000){var ready=false;ui.runOnUiThread{ready=player.playbackState==Player.STATE_READY && rendered>0};ready}
+            var before=0;ui.runOnUiThread{player.seekTo(400);before=rendered;stepper.step(3);assertTrue(stepper.pending>0)}
+            ui.waitUntil(20000){var done=false;ui.runOnUiThread{done=stepper.pending==0 && stepper.confirmed!=null};done}
+            ui.runOnUiThread{val frame=stepper.confirmed!!;assertFalse(frame.decoded);assertFalse(frame.exactTime);assertEquals(700L,frame.timeMs);assertTrue(rendered>before);assertFalse(player.playWhenReady)}
+        }finally{withContext(Dispatchers.Main){runner?.cancelAndJoin();player.release()};scope.cancel();file.delete()}
+    }
     @Test fun frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes(){
         val file=fixture();var player:Player?=null;var instances=0
         var selectedPost by mutableLongStateOf(100)
         val original=PostParser.posts(InstrumentationRegistry.getInstrumentation().context.assets.open("library-real-posts.json").bufferedReader().use{it.readText()}).first()
         try{
             for(light in listOf(false,true)){
-                ui.runOnUiThread{ui.activity.setContent{SakugappTheme(light,if(light)1.25f else .75f){Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())){VideoPanel(file.toURI().toString(),downloadPost=original.copy(id=selectedPost),onPlayerReady={player=it;instances++})}}}}
+                ui.runOnUiThread{ui.activity.setContent{SakugappTheme(light,if(light)1.25f else .75f){key(light){Column(Modifier.fillMaxSize().systemBarsPadding().verticalScroll(rememberScrollState())){VideoPanel(file.toURI().toString(),downloadPost=original.copy(id=selectedPost),onPlayerReady={player=it;instances++})}}}}}
                 ui.waitUntil(20000){var ready=false;ui.runOnUiThread{ready=player?.playbackState==Player.STATE_READY};ready}
                 val identity=player
                 ui.onNodeWithTag("step-1").performScrollTo().performClick()

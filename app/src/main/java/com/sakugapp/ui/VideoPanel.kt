@@ -179,9 +179,10 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
             }
         }
     }
-    val advancedControls:@Composable (androidx.compose.ui.unit.Dp)->Unit={controlsHeight->
+    val advancedControls:@Composable (androidx.compose.ui.unit.Dp?)->Unit={controlsHeight->
                 AnimatedVisibility(more,enter=expandVertically(tween(Motion.controls)),exit=shrinkVertically(tween(Motion.controls))){
-                Column(Modifier.fillMaxWidth().heightIn(max=controlsHeight).verticalScroll(rememberScrollState()).padding(horizontal=8.dp).testTag("advanced-controls"),verticalArrangement=Arrangement.spacedBy(8.dp)){
+                val panelScroll=rememberScrollState()
+                Column(Modifier.fillMaxWidth().then(if(controlsHeight!=null)Modifier.heightIn(max=controlsHeight).verticalScroll(panelScroll)else Modifier).padding(horizontal=8.dp).testTag("advanced-controls"),verticalArrangement=Arrangement.spacedBy(8.dp)){
                     if(fullscreen){ActionIcon(R.drawable.ic_rotate,text(R.string.ui_rotate_screen),{
                     manualRotation=true;activity?.requestedOrientation=if(orientation==Configuration.ORIENTATION_LANDSCAPE)ActivityInfo.SCREEN_ORIENTATION_PORTRAIT else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
                     },Modifier.testTag("rotate-video"))}
@@ -286,7 +287,7 @@ AndroidView(factory={VideoGestureHost(it)},modifier=videoModifier.testTag("video
         val density=LocalDensity.current
         Column(Modifier.fillMaxWidth().onSizeChanged{inlineHeight=with(density){it.height.toDp()}}){
             videoSurface(Modifier.fillMaxWidth().aspectRatio(if(preview)16f/9f else ratio).background(Color.Black))
-            if(!preview){toolbar();advancedControls(320.dp)}
+            if(!preview){toolbar();advancedControls(null)}
             feedback()
         }
     }

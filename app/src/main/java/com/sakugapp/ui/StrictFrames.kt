@@ -40,12 +40,18 @@ internal class FrameDecoder(private val context:Context,private val url:String,p
         check(count!=null && count>0){"This device/format does not expose a decoded frame count."}
         timeline=null
         (data as? java.io.Flushable)?.flush() // commit read ranges before the extractor opens another reader
-        if(count<=200000){val extractor=MediaExtractor();val second=if(local==null && uri.scheme!="content")(pageCache ?: ownCache)!!.mediaDataSource(url)else null
+        if(count<=200000){
+            val second=if(local==null && uri.scheme!="content")(pageCache ?: ownCache)!!.mediaDataSource(url)else null
             try{
-                if(local!=null)extractor.setDataSource(local.path)else if(uri.scheme=="content")extractor.setDataSource(context,uri,null)else extractor.setDataSource(second!!)
-                val track=(0 until extractor.trackCount).firstOrNull{extractor.getTrackFormat(it).getString(android.media.MediaFormat.KEY_MIME)?.startsWith("video/")==true}
-                if(track!=null){extractor.selectTrack(track);val timestamps=ArrayList<Long>();while(extractor.sampleTime>=0 && timestamps.size<=count){timestamps+=extractor.sampleTime;if(!extractor.advance())break};timeline=FrameTimeline.verified(timestamps,count)}
-            }catch(_:Exception){timeline=null}finally{extractor.release();second?.close()}
+                val samples=when{
+                    local!=null->com.sakugapp.data.MediaSampleIndex.read(local)
+                    second!=null->com.sakugapp.data.MediaSampleIndex.read(second.size){p,b,o,n->second.readAt(p,b,o,n)}
+                    else->context.contentResolver.openFileDescriptor(uri,"r")!!.use{descriptor->
+                        java.io.FileInputStream(descriptor.fileDescriptor).channel.use{channel->com.sakugapp.data.MediaSampleIndex.read(channel.size()){p,b,o,n->channel.position(p);channel.read(java.nio.ByteBuffer.wrap(b,o,n))}}
+                    }
+                }
+                timeline=FrameTimeline.verified(samples.video.samples.map{it.timeUs},count)
+            }catch(_:CancellationException){throw CancellationException()}catch(_:Exception){timeline=null}finally{second?.close()}
         }
         count
     }}

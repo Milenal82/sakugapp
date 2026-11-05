@@ -20,8 +20,9 @@ class ClipExportDeviceTest {
     private fun hash(file:File)=MessageDigest.getInstance("SHA-256").digest(file.readBytes()).toList()
     private fun samples(file:File):Pair<String,Map<Long,List<Byte>>>{
         val e=MediaExtractor();try{e.setDataSource(file.path);val v=(0 until e.trackCount).first{e.getTrackFormat(it).getString(MediaFormat.KEY_MIME)!!.startsWith("video/")};val mime=e.getTrackFormat(v).getString(MediaFormat.KEY_MIME)!!;e.selectTrack(v)
+            val timeline=MediaSampleIndex.read(file).video.samples;var ordinal=0
             val values=mutableMapOf<Long,List<Byte>>();val buffer=ByteBuffer.allocate(1 shl 20)
-            while(e.sampleTime>=0){val n=e.readSampleData(buffer,0);if(n<0)break;val bytes=ByteArray(n);buffer.position(0);buffer.get(bytes);values[e.sampleTime]=MessageDigest.getInstance("SHA-256").digest(bytes).toList();if(!e.advance())break};return mime to values
+            while(e.sampleTime>=0){val n=e.readSampleData(buffer,0);if(n<0)break;val bytes=ByteArray(n);buffer.position(0);buffer.get(bytes);values[timeline[ordinal++].timeUs]=MessageDigest.getInstance("SHA-256").digest(bytes).toList();if(!e.advance())break};return mime to values
         }finally{e.release()}
     }
     @Test fun streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv()=runBlocking{
@@ -53,6 +54,19 @@ class ClipExportDeviceTest {
                 assertTrue(kotlin.math.abs((result.actualEndUs-result.actualStartUs)-range.durationMs*1000)<=100000)
                 assertEquals(original,hash(source));assertEquals("video/avc",samples(result.file).first)
                 println("PRECISE selected=$range actual=${result.actualStartUs}..${result.actualEndUs} frames=${result.videoSamples}");result.file.delete()
+            }
+            val colors=fixture("clip-colors.mp4",folder)
+            val expected=com.google.gson.JsonParser.parseString(InstrumentationRegistry.getInstrumentation().context.assets.open("frame-index-colors.json").bufferedReader().use{it.readText()}).asJsonArray
+            for(range in listOf(ClipRange(200,800),ClipRange(0,600))){
+                val result=exporter.export(colors,folder,range,ClipMode.PRECISE)
+                val decoder=MediaMetadataRetriever();try{decoder.setDataSource(result.file.path)
+                    for((index,sourceIndex)in listOf(0 to (range.startMs/100).toInt(),result.videoSamples-1 to (range.endMs/100-1).toInt())){
+                        val bitmap=decoder.getFrameAtIndex(index)!!;val pixel=bitmap.getPixel(bitmap.width/2,bitmap.height/2);val rgb=expected[sourceIndex].asJsonArray
+                        assertTrue("Boundary red $range index=$index",kotlin.math.abs(android.graphics.Color.red(pixel)-rgb[0].asInt)<35)
+                        assertTrue("Boundary green $range index=$index",kotlin.math.abs(android.graphics.Color.green(pixel)-rgb[1].asInt)<35)
+                        assertTrue("Boundary blue $range index=$index",kotlin.math.abs(android.graphics.Color.blue(pixel)-rgb[2].asInt)<35);bitmap.recycle()
+                    }
+                }finally{decoder.release()};result.file.delete()
             }
         }finally{folder.deleteRecursively()}
     }
