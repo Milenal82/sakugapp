@@ -1,61 +1,61 @@
 {
-  "source_commit": "21d86b3b07359e716ac2a3b75a8aedefc0a4879f",
-  "run_id": "42103366153",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366153",
-  "captured_utc": "2026-11-05T20:33:20.443573+00:00",
+  "source_commit": "b79c33abf69aa06c23ae261aa4d427a983e41389",
+  "run_id": "42105761887",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761887",
+  "captured_utc": "2026-11-05T20:52:01.953924+00:00",
   "validation_result": "failure",
   "scope": "Actual VFR decoded +/-1/2/3 frame selection, shared A/B points, fixed geometry, copy sample hashes, re-encoded boundaries, SAF single/clip/batch destinations on API 28/35 phones and tablet.",
   "jobs": [
     {
-      "name": "devices (35, Nexus 6)",
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366153/job/127511686412",
-      "id": 127511686412
-    },
-    {
       "name": "devices (28, Nexus S)",
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366153/job/127511686897",
-      "id": 127511686897
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761887/job/127520024895",
+      "id": 127520024895
+    },
+    {
+      "name": "devices (35, Nexus 6)",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761887/job/127520025529",
+      "id": 127520025529
     },
     {
       "name": "devices (28, pixel_c)",
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366153/job/127511686934",
-      "id": 127511686934
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761887/job/127520025543",
+      "id": 127520025543
     },
     {
       "name": "evidence",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366153/job/127514778101",
-      "id": 127514778101
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761887/job/127523193999",
+      "id": 127523193999
     }
   ],
   "artifacts": [
     {
-      "name": "player-tools-reports-35-Nexus 6",
-      "bytes": 147751,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366153/artifacts/13452085030"
-    },
-    {
       "name": "player-tools-reports-28-pixel_c",
-      "bytes": 79988,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366153/artifacts/13451130642"
+      "bytes": 87339,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761887/artifacts/13453045150"
     },
     {
       "name": "player-tools-reports-28-Nexus S",
-      "bytes": 77519,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366153/artifacts/13450118740"
+      "bytes": 77796,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761887/artifacts/13452835743"
+    },
+    {
+      "name": "player-tools-reports-35-Nexus 6",
+      "bytes": 149593,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761887/artifacts/13451917318"
     }
   ],
   "test_counts": {
     "device": {
-      "tests": 27,
-      "failures": 11,
+      "tests": 30,
+      "failures": 10,
       "errors": 0,
       "skipped": 0
     }
@@ -63,207 +63,210 @@
   "lint": {},
   "failures": [
     {
-      "job": "devices (35, Nexus 6)",
-      "conclusion": "failure",
-      "message": "2026-11-05T20:30:18.8628100Z com.sakugapp.FrameControlsDeviceTest > frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes[emulator-5554 - 15] FAILED \n2026-11-05T20:30:18.8630416Z \tjava.lang.AssertionError: Action performScrollTo() failed.\n2026-11-05T20:30:32.6630693Z com.sakugapp.ClipExportDeviceTest > preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource[emulator-5554 - 15] FAILED \n2026-11-05T20:31:50.1623404Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-05T20:31:50.2637632Z * What went wrong:\n2026-11-05T20:31:50.2718899Z BUILD FAILED in 4m 2s\n2026-11-05T20:31:50.7140993Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
-    },
-    {
       "job": "devices (28, Nexus S)",
       "conclusion": "failure",
-      "message": "2026-11-05T20:30:22.7718308Z com.sakugapp.FrameControlsDeviceTest > frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes[emulator-5554 - 9] FAILED \n2026-11-05T20:30:22.7719580Z \tjava.lang.AssertionError: Action performScrollTo() failed.\n2026-11-05T20:30:26.0739947Z com.sakugapp.FrameControlsDeviceTest > rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop[emulator-5554 - 9] FAILED \n2026-11-05T20:30:26.0741005Z \tjava.lang.AssertionError: Failed to assert the following: (Text + InputText + EditableText contains '0:00.600' (ignoreCase: false) as substring)\n2026-11-05T20:30:27.0720154Z com.sakugapp.ClipExportDeviceTest > preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource[emulator-5554 - 9] FAILED \n2026-11-05T20:30:27.1718166Z com.sakugapp.ClipExportDeviceTest > streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv[emulator-5554 - 9] FAILED \n2026-11-05T20:30:27.1720827Z \tjava.lang.AssertionError: clip-gop.mp4 ClipRange(startMs=1250, endMs=2750) actual=1400100..3400100 outputPTS=[200100, 500100, 300100, 400100, 800100, 600100, 700100, 1000100, 900100, 1100100, 1200000, 1500100, 1300100, 1400100, 1700100, 1600100, 2000100, 1800100, 1900100, 2100100]\n2026-11-05T20:31:04.1734672Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-05T20:31:04.2741835Z * What went wrong:\n2026-11-05T20:31:04.2756828Z BUILD FAILED in 3m 9s\n2026-11-05T20:31:04.6971896Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
+      "message": "2026-11-05T20:45:38.4175219Z com.sakugapp.FrameControlsDeviceTest > frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes[emulator-5554 - 9] FAILED \n2026-11-05T20:45:38.4176941Z \tjava.lang.AssertionError: expected same:<androidx.media3.exoplayer.ExoPlayerImpl@19a941b> was not:<androidx.media3.exoplayer.ExoPlayerImpl@568bd1d>\n2026-11-05T20:45:46.7173559Z com.sakugapp.ClipExportDeviceTest > preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource[emulator-5554 - 9] FAILED \n2026-11-05T20:45:46.8169413Z com.sakugapp.ClipExportDeviceTest > streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv[emulator-5554 - 9] FAILED \n2026-11-05T20:45:46.8194845Z \tjava.lang.AssertionError: Muxer timestamp quantization: clip-gop.mp4 PTS=200100 source=1000000\n2026-11-05T20:46:22.7199551Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-05T20:46:22.7299551Z * What went wrong:\n2026-11-05T20:46:22.7304095Z BUILD FAILED in 2m 43s\n2026-11-05T20:46:23.1647873Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
+    },
+    {
+      "job": "devices (35, Nexus 6)",
+      "conclusion": "failure",
+      "message": "2026-11-05T20:44:54.5923232Z com.sakugapp.FrameControlsDeviceTest > frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes[emulator-5554 - 15] FAILED \n2026-11-05T20:44:54.5924408Z \tjava.lang.AssertionError: expected same:<androidx.media3.exoplayer.ExoPlayerImpl@d03128f> was not:<androidx.media3.exoplayer.ExoPlayerImpl@eabb77>\n2026-11-05T20:45:08.9888815Z com.sakugapp.ClipExportDeviceTest > preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource[emulator-5554 - 15] FAILED \n2026-11-05T20:45:09.0970027Z com.sakugapp.ClipExportDeviceTest > streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv[emulator-5554 - 15] FAILED \n2026-11-05T20:46:16.6912287Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-05T20:46:16.9521397Z * What went wrong:\n2026-11-05T20:46:17.0226182Z BUILD FAILED in 3m 6s\n2026-11-05T20:46:17.5512559Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
     },
     {
       "job": "devices (28, pixel_c)",
       "conclusion": "failure",
-      "message": "2026-11-05T20:30:04.2527240Z com.sakugapp.FrameControlsDeviceTest > frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes[emulator-5554 - 9] FAILED \n2026-11-05T20:30:04.2528533Z \tjava.lang.AssertionError: Action performScrollTo() failed.\n2026-11-05T20:30:10.9536302Z com.sakugapp.FrameControlsDeviceTest > rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop[emulator-5554 - 9] FAILED \n2026-11-05T20:30:10.9556785Z \tjava.lang.AssertionError: Failed to assert the following: (Text + InputText + EditableText contains '0:00.600' (ignoreCase: false) as substring)\n2026-11-05T20:30:11.8443619Z com.sakugapp.ClipExportDeviceTest > preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource[emulator-5554 - 9] FAILED \n2026-11-05T20:30:11.9486636Z com.sakugapp.ClipExportDeviceTest > streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv[emulator-5554 - 9] FAILED \n2026-11-05T20:30:11.9488209Z \tjava.lang.AssertionError: clip-gop.mp4 ClipRange(startMs=1250, endMs=2750) actual=1400100..3400100 outputPTS=[200100, 500100, 300100, 400100, 800100, 600100, 700100, 1000100, 900100, 1100100, 1200000, 1500100, 1300100, 1400100, 1700100, 1600100, 2000100, 1800100, 1900100, 2100100]\n2026-11-05T20:30:54.6536544Z com.sakugapp.PlayerRotationDeviceTest > manualRotationWithSystemLockPreservesThePlayerPositionAndControls[emulator-5554 - 9] FAILED \n2026-11-05T20:30:54.6537804Z \tjava.lang.AssertionError: Rotation stage failed: stage=speed selected state=3 error=null orientation=2 requested=2 initial=2 sameActivity=true instances=1\n2026-11-05T20:30:56.3474669Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-05T20:30:56.4462051Z * What went wrong:\n2026-11-05T20:30:56.4467955Z BUILD FAILED in 2m 40s\n2026-11-05T20:30:56.8687981Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
+      "message": "2026-11-05T20:46:04.0505452Z com.sakugapp.FrameControlsDeviceTest > frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes[emulator-5554 - 9] FAILED \n2026-11-05T20:46:04.0534202Z \tjava.lang.AssertionError: expected same:<androidx.media3.exoplayer.ExoPlayerImpl@ab2bf5a> was not:<androidx.media3.exoplayer.ExoPlayerImpl@8439da4>\n2026-11-05T20:46:21.9327898Z com.sakugapp.ClipExportDeviceTest > preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource[emulator-5554 - 9] FAILED \n2026-11-05T20:46:22.1374401Z com.sakugapp.ClipExportDeviceTest > streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv[emulator-5554 - 9] FAILED \n2026-11-05T20:46:22.1386405Z \tjava.lang.AssertionError: Muxer timestamp quantization: clip-gop.mp4 PTS=200100 source=1000000\n2026-11-05T20:47:27.2432557Z com.sakugapp.PlayerRotationDeviceTest > manualRotationWithSystemLockPreservesThePlayerPositionAndControls[emulator-5554 - 9] FAILED \n2026-11-05T20:47:27.2434729Z \tjava.lang.AssertionError: Rotation stage failed: stage=restore portrait state=3 error=null orientation=2 requested=2 initial=2 sameActivity=true instances=1\n2026-11-05T20:47:29.4330676Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-05T20:47:29.5339732Z * What went wrong:\n2026-11-05T20:47:29.5346221Z BUILD FAILED in 3m 56s\n2026-11-05T20:47:30.0212235Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
     },
     {
       "test": "com.sakugapp.FrameControlsDeviceTest.frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes",
       "report": "player-tools-reports-28-Nexus S/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-      "message": "java.lang.AssertionError: Action performScrollTo() failed.\nReason: Expected exactly '1' node but could not find any node that satisfies: (TestTag = 'set-a')\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:82)\nat com.sakugapp.FrameControlsDeviceTest.frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes(FrameControlsDeviceTest.kt:107)\n"
-    },
-    {
-      "test": "com.sakugapp.FrameControlsDeviceTest.rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop",
-      "report": "player-tools-reports-28-Nexus S/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-      "message": "java.lang.AssertionError: Failed to assert the following: (Text + InputText + EditableText contains '0:00.600' (ignoreCase: false) as substring)\nSemantics of the node:\nNode #548 at (l=27.0, t=849.0, r=136.0, b=885.0)px, Tag: 'ab-interval'\nText = '[A: — B: —]'\nActions = [ClearTextSubstitution, GetTextLayoutResult, SetTextSubstitution, ShowTextSubstitution]\nHas 6 siblings\nSelector used: (TestTag = 'ab-interval')\n\nat androidx.compose.ui.test.AssertionsKt.assert(Assertions.kt:260)\nat androidx.compose.ui.test.AssertionsKt.assert$default(Assertions.kt:250)\nat androidx.compose.ui.test.AssertionsKt.assertTextContains(Assertions.kt:204)\nat androidx.compose.ui.test.AssertionsKt.assertTextContains$default(Assertions.kt:200)\nat com.sakugapp.FrameControlsDeviceTest.rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop(FrameControlsDeviceTest.kt:57)\n"
+      "message": "java.lang.AssertionError: expected same:<androidx.media3.exoplayer.ExoPlayerImpl@19a941b> was not:<androidx.media3.exoplayer.ExoPlayerImpl@568bd1d>\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.failNotSame(Assert.java:829)\nat org.junit.Assert.assertSame(Assert.java:772)\nat org.junit.Assert.assertSame(Assert.java:783)\nat com.sakugapp.FrameControlsDeviceTest.frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes(FrameControlsDeviceTest.kt:124)\n"
     },
     {
       "test": "com.sakugapp.ClipExportDeviceTest.preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource",
       "report": "player-tools-reports-28-Nexus S/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-      "message": "java.lang.IllegalStateException: clip_verify expected=15 output=14 inputFirst=200000 outputPTS=[0, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000, 1100000, 1200000, 1300000] duration=1400000\nat com.sakugapp.data.ClipExporter$export$3.invokeSuspend(ClipExporter.kt:41)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\n"
+      "message": "java.lang.IllegalStateException: clip_verify expected=15 output=14 inputFirst=0 outputPTS=[0, 101000, 201000, 301000, 401000, 501000, 601000, 701000, 801000, 901000, 1001000, 1101000, 1201000, 1301000] duration=1536000\nat com.sakugapp.data.ClipExporter$export$3.invokeSuspend(ClipExporter.kt:41)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\n"
     },
     {
       "test": "com.sakugapp.ClipExportDeviceTest.streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv",
       "report": "player-tools-reports-28-Nexus S/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-      "message": "java.lang.AssertionError: clip-gop.mp4 ClipRange(startMs=1250, endMs=2750) actual=1400100..3400100 outputPTS=[200100, 500100, 300100, 400100, 800100, 600100, 700100, 1000100, 900100, 1100100, 1200000, 1500100, 1300100, 1400100, 1700100, 1600100, 2000100, 1800100, 1900100, 2100100]\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.assertTrue(Assert.java:42)\nat com.sakugapp.ClipExportDeviceTest$streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv$1.invokeSuspend(ClipExportDeviceTest.kt:33)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.ClipExportDeviceTest.streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv(ClipExportDeviceTest.kt:27)\n"
+      "message": "java.lang.AssertionError: Muxer timestamp quantization: clip-gop.mp4 PTS=200100 source=1000000\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.assertTrue(Assert.java:42)\nat com.sakugapp.ClipExportDeviceTest$streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv$1.invokeSuspend(ClipExportDeviceTest.kt:37)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.ClipExportDeviceTest.streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv(ClipExportDeviceTest.kt:28)\n"
     },
     {
       "test": "com.sakugapp.FrameControlsDeviceTest.frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes",
       "report": "player-tools-reports-35-Nexus 6/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 15-_app-.xml",
-      "message": "java.lang.AssertionError: Action performScrollTo() failed.\nReason: Expected exactly '1' node but could not find any node that satisfies: (TestTag = 'set-a')\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:82)\nat com.sakugapp.FrameControlsDeviceTest.frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes(FrameControlsDeviceTest.kt:107)\n"
+      "message": "java.lang.AssertionError: expected same:<androidx.media3.exoplayer.ExoPlayerImpl@d03128f> was not:<androidx.media3.exoplayer.ExoPlayerImpl@eabb77>\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.failNotSame(Assert.java:829)\nat org.junit.Assert.assertSame(Assert.java:772)\nat org.junit.Assert.assertSame(Assert.java:783)\nat com.sakugapp.FrameControlsDeviceTest.frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes(FrameControlsDeviceTest.kt:124)\n"
     },
     {
       "test": "com.sakugapp.ClipExportDeviceTest.preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource",
       "report": "player-tools-reports-35-Nexus 6/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 15-_app-.xml",
-      "message": "java.lang.IllegalStateException: clip_verify expected=15 output=14 inputFirst=0 outputPTS=[0, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000, 1100000, 1200000, 1300000] duration=1400000\nat com.sakugapp.data.ClipExporter$export$3.invokeSuspend(ClipExporter.kt:41)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\n"
+      "message": "java.lang.IllegalStateException: clip_verify expected=15 output=14 inputFirst=0 outputPTS=[0, 101000, 201000, 301000, 401000, 501000, 601000, 701000, 801000, 901000, 1001000, 1101000, 1201000, 1301000] duration=1514700\nat com.sakugapp.data.ClipExporter$export$3.invokeSuspend(ClipExporter.kt:41)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\n"
+    },
+    {
+      "test": "com.sakugapp.ClipExportDeviceTest.streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv",
+      "report": "player-tools-reports-35-Nexus 6/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 15-_app-.xml",
+      "message": "java.lang.IllegalStateException: clip_unsupported\nat com.sakugapp.data.ClipExporter.copy(ClipExporter.kt:92)\nat com.sakugapp.data.ClipExporter.access$copy(ClipExporter.kt:21)\nat com.sakugapp.data.ClipExporter$export$2.invokeSuspend(ClipExporter.kt:38)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\n"
     },
     {
       "test": "com.sakugapp.FrameControlsDeviceTest.frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes",
       "report": "player-tools-reports-28-pixel_c/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-      "message": "java.lang.AssertionError: Action performScrollTo() failed.\nReason: Expected exactly '1' node but could not find any node that satisfies: (TestTag = 'set-a')\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:82)\nat com.sakugapp.FrameControlsDeviceTest.frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes(FrameControlsDeviceTest.kt:107)\n"
-    },
-    {
-      "test": "com.sakugapp.FrameControlsDeviceTest.rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop",
-      "report": "player-tools-reports-28-pixel_c/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-      "message": "java.lang.AssertionError: Failed to assert the following: (Text + InputText + EditableText contains '0:00.600' (ignoreCase: false) as substring)\nSemantics of the node:\nNode #502 at (l=36.0, t=2128.0, r=177.0, b=2176.0)px, Tag: 'ab-interval'\nText = '[A: — B: —]'\nActions = [ClearTextSubstitution, GetTextLayoutResult, SetTextSubstitution, ShowTextSubstitution]\nHas 6 siblings\nSelector used: (TestTag = 'ab-interval')\n\nat androidx.compose.ui.test.AssertionsKt.assert(Assertions.kt:260)\nat androidx.compose.ui.test.AssertionsKt.assert$default(Assertions.kt:250)\nat androidx.compose.ui.test.AssertionsKt.assertTextContains(Assertions.kt:204)\nat androidx.compose.ui.test.AssertionsKt.assertTextContains$default(Assertions.kt:200)\nat com.sakugapp.FrameControlsDeviceTest.rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop(FrameControlsDeviceTest.kt:57)\n"
+      "message": "java.lang.AssertionError: expected same:<androidx.media3.exoplayer.ExoPlayerImpl@ab2bf5a> was not:<androidx.media3.exoplayer.ExoPlayerImpl@8439da4>\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.failNotSame(Assert.java:829)\nat org.junit.Assert.assertSame(Assert.java:772)\nat org.junit.Assert.assertSame(Assert.java:783)\nat com.sakugapp.FrameControlsDeviceTest.frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes(FrameControlsDeviceTest.kt:124)\n"
     },
     {
       "test": "com.sakugapp.ClipExportDeviceTest.preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource",
       "report": "player-tools-reports-28-pixel_c/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-      "message": "java.lang.IllegalStateException: clip_verify expected=15 output=14 inputFirst=200000 outputPTS=[0, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000, 1100000, 1200000, 1300000] duration=1400000\nat com.sakugapp.data.ClipExporter$export$3.invokeSuspend(ClipExporter.kt:41)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\n"
+      "message": "java.lang.IllegalStateException: clip_verify expected=15 output=14 inputFirst=0 outputPTS=[0, 101000, 201000, 301000, 401000, 501000, 601000, 701000, 801000, 901000, 1001000, 1101000, 1201000, 1301000] duration=1536000\nat com.sakugapp.data.ClipExporter$export$3.invokeSuspend(ClipExporter.kt:41)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\n"
     },
     {
       "test": "com.sakugapp.ClipExportDeviceTest.streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv",
       "report": "player-tools-reports-28-pixel_c/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-      "message": "java.lang.AssertionError: clip-gop.mp4 ClipRange(startMs=1250, endMs=2750) actual=1400100..3400100 outputPTS=[200100, 500100, 300100, 400100, 800100, 600100, 700100, 1000100, 900100, 1100100, 1200000, 1500100, 1300100, 1400100, 1700100, 1600100, 2000100, 1800100, 1900100, 2100100]\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.assertTrue(Assert.java:42)\nat com.sakugapp.ClipExportDeviceTest$streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv$1.invokeSuspend(ClipExportDeviceTest.kt:33)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.ClipExportDeviceTest.streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv(ClipExportDeviceTest.kt:27)\n"
+      "message": "java.lang.AssertionError: Muxer timestamp quantization: clip-gop.mp4 PTS=200100 source=1000000\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.assertTrue(Assert.java:42)\nat com.sakugapp.ClipExportDeviceTest$streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv$1.invokeSuspend(ClipExportDeviceTest.kt:37)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.ClipExportDeviceTest.streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv(ClipExportDeviceTest.kt:28)\n"
     },
     {
       "test": "com.sakugapp.PlayerRotationDeviceTest.manualRotationWithSystemLockPreservesThePlayerPositionAndControls",
       "report": "player-tools-reports-28-pixel_c/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-      "message": "java.lang.AssertionError: Rotation stage failed: stage=speed selected state=3 error=null orientation=2 requested=2 initial=2 sameActivity=true instances=1\nat com.sakugapp.PlayerRotationDeviceTest.manualRotationWithSystemLockPreservesThePlayerPositionAndControls$awaitStage(PlayerRotationDeviceTest.kt:46)\nat com.sakugapp.PlayerRotationDeviceTest.manualRotationWithSystemLockPreservesThePlayerPositionAndControls(PlayerRotationDeviceTest.kt:61)\n... 53 trimmed\nCaused by: androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 5000 ms\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:504)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:339)\nat com.sakugapp.PlayerRotationDeviceTest.manualRotationWithSystemLockPreservesThePlayerPositionAndControls$awaitStage(PlayerRotationDeviceTest.kt:42)\n... 55 more\n"
+      "message": "java.lang.AssertionError: Rotation stage failed: stage=restore portrait state=3 error=null orientation=2 requested=2 initial=2 sameActivity=true instances=1\nat com.sakugapp.PlayerRotationDeviceTest.manualRotationWithSystemLockPreservesThePlayerPositionAndControls$awaitStage(PlayerRotationDeviceTest.kt:47)\nat com.sakugapp.PlayerRotationDeviceTest.manualRotationWithSystemLockPreservesThePlayerPositionAndControls(PlayerRotationDeviceTest.kt:88)\n... 53 trimmed\nCaused by: androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:504)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:339)\nat com.sakugapp.PlayerRotationDeviceTest.manualRotationWithSystemLockPreservesThePlayerPositionAndControls$awaitStage(PlayerRotationDeviceTest.kt:43)\n... 55 more\n"
     }
   ],
   "device_diagnostics": [],
   "scroll_profile": {},
   "main_automatic_checks": {
-    "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366633",
-    "source_commit": "21d86b3b07359e716ac2a3b75a8aedefc0a4879f",
+    "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761709",
+    "source_commit": "b79c33abf69aa06c23ae261aa4d427a983e41389",
     "status": "completed",
     "conclusion": "failure",
     "jobs": [
       {
-        "name": "device-tests",
-        "status": "completed",
-        "conclusion": "failure",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366633/job/127511689082",
-        "id": 127511689082
-      },
-      {
         "name": "build",
         "status": "completed",
         "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366633/job/127511689495",
-        "id": 127511689495
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761709/job/127520026609",
+        "id": 127520026609
+      },
+      {
+        "name": "device-tests",
+        "status": "completed",
+        "conclusion": "failure",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761709/job/127520026956",
+        "id": 127520026956
       },
       {
         "name": "search-back-gestures",
         "status": "completed",
         "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366633/job/127511689509",
-        "id": 127511689509
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761709/job/127520027048",
+        "id": 127520027048
       },
       {
         "name": "six-column-display (phone, Nexus S)",
         "status": "completed",
         "conclusion": "failure",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366633/job/127511689643",
-        "id": 127511689643
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761709/job/127520027060",
+        "id": 127520027060
       },
       {
         "name": "six-column-display (landscape, pixel_c)",
         "status": "completed",
-        "conclusion": "failure",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366633/job/127511689977",
-        "id": 127511689977
-      },
-      {
-        "name": "release-preflight",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366633/job/127511691324",
-        "id": 127511691324
-      },
-      {
-        "name": "candidate-upgrade-install",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366633/job/127511691932",
-        "id": 127511691932
-      },
-      {
-        "name": "documentation-screenshots",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366633/job/127511692092",
-        "id": 127511692092
-      },
-      {
-        "name": "signed-candidate",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366633/job/127511692176",
-        "id": 127511692176
-      },
-      {
-        "name": "candidate-evidence",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366633/job/127511693837",
-        "id": 127511693837
+        "conclusion": "success",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761709/job/127520027307",
+        "id": 127520027307
       },
       {
         "name": "release-signing",
         "status": "completed",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366633/job/127511737603",
-        "id": 127511737603
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761709/job/127520029310",
+        "id": 127520029310
+      },
+      {
+        "name": "signed-candidate",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761709/job/127520029395",
+        "id": 127520029395
+      },
+      {
+        "name": "documentation-screenshots",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761709/job/127520029406",
+        "id": 127520029406
+      },
+      {
+        "name": "release-preflight",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761709/job/127520029700",
+        "id": 127520029700
+      },
+      {
+        "name": "candidate-upgrade-install",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761709/job/127520030092",
+        "id": 127520030092
+      },
+      {
+        "name": "candidate-evidence",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761709/job/127520031232",
+        "id": 127520031232
       },
       {
         "name": "checks-evidence",
         "status": "completed",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366633/job/127515397617",
-        "id": 127515397617
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761709/job/127525373272",
+        "id": 127525373272
       }
     ],
     "artifacts": [
       {
+        "name": "six-column-landscape-reports",
+        "bytes": 3148399,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761709/artifacts/13453195049"
+      },
+      {
         "name": "search-back-gesture-reports",
-        "bytes": 1851428,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366633/artifacts/13451945222"
+        "bytes": 1851238,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761709/artifacts/13452801257"
       },
       {
         "name": "check-reports",
-        "bytes": 169835,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366633/artifacts/13451235687"
+        "bytes": 172409,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761709/artifacts/13452721425"
       },
       {
         "name": "sakugapp-source",
-        "bytes": 2562563,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366633/artifacts/13451025940"
-      },
-      {
-        "name": "six-column-landscape-reports",
-        "bytes": 3078384,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366633/artifacts/13450842191"
+        "bytes": 2567225,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761709/artifacts/13452656482"
       },
       {
         "name": "sakugapp-debug",
-        "bytes": 18423715,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366633/artifacts/13450468325"
-      },
-      {
-        "name": "six-column-phone-reports",
-        "bytes": 256642,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366633/artifacts/13450438741"
+        "bytes": 18431203,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761709/artifacts/13452387089"
       },
       {
         "name": "device-test-reports",
-        "bytes": 7858098,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42103366633/artifacts/13450384174"
+        "bytes": 8180926,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761709/artifacts/13452253011"
+      },
+      {
+        "name": "six-column-phone-reports",
+        "bytes": 258500,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42105761709/artifacts/13450579991"
       }
     ],
     "test_counts": {
+      "six-column-landscape-reports": {
+        "device": {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      },
       "search-back-gesture-reports": {
         "device": {
           "tests": 2,
@@ -286,10 +289,10 @@
           "skipped": 0
         }
       },
-      "six-column-landscape-reports": {
+      "device-test-reports": {
         "device": {
-          "tests": 2,
-          "failures": 1,
+          "tests": 34,
+          "failures": 3,
           "errors": 0,
           "skipped": 0
         }
@@ -301,60 +304,47 @@
           "errors": 0,
           "skipped": 0
         }
-      },
-      "device-test-reports": {
-        "device": {
-          "tests": 34,
-          "failures": 2,
-          "errors": 0,
-          "skipped": 0
-        }
       }
     },
     "lint": {
       "check-reports/reports/lint-results-debug.xml": {
         "errors": 0,
-        "warnings": 56
+        "warnings": 57
       },
       "check-reports/reports/lint-results-release.xml": {
         "errors": 0,
-        "warnings": 58
+        "warnings": 59
       }
     },
     "failures": [
       {
         "job": "device-tests",
         "conclusion": "failure",
-        "message": "2026-11-05T20:31:17.3089462Z com.sakugapp.ProfessionalPlayerDeviceTest > actualLoopPinchPanDoubleTapAndSwipeRespectTransportControls[emulator-5554 - 9] FAILED \n2026-11-05T20:31:17.3090498Z \tjava.lang.AssertionError: Semantic Node has no parent layout with a Scroll SemanticsAction\n2026-11-05T20:32:56.9138556Z com.sakugapp.AdvancedControlsLayoutDeviceTest > groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape[emulator-5554 - 9] FAILED \n2026-11-05T20:32:56.9139489Z \tjava.lang.AssertionError: Semantic Node has no parent layout with a Scroll SemanticsAction\n2026-11-05T20:32:58.7050074Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-05T20:32:58.8297462Z * What went wrong:\n2026-11-05T20:32:58.8439477Z BUILD FAILED in 5m 7s\n2026-11-05T20:32:59.2839790Z ##[error]The process '/usr/bin/sh' failed with exit code 1\n2026-11-05T20:33:02.4175327Z java.lang.AssertionError: Semantic Node has no parent layout with a Scroll SemanticsAction\n2026-11-05T20:33:02.4177841Z java.lang.AssertionError: Semantic Node has no parent layout with a Scroll SemanticsAction"
+        "message": "2026-11-05T20:48:36.8138227Z com.sakugapp.PublicBrowseTest > actualPostSearchDetailsPlaybackAndFrameAnalysis[emulator-5554 - 9] FAILED \n2026-11-05T20:49:39.5113587Z com.sakugapp.ProfessionalPlayerDeviceTest > actualLoopPinchPanDoubleTapAndSwipeRespectTransportControls[emulator-5554 - 9] FAILED \n2026-11-05T20:49:39.5114976Z \tjava.lang.AssertionError: Semantic Node has no parent layout with a Scroll SemanticsAction\n2026-11-05T20:51:35.6112762Z com.sakugapp.AdvancedControlsLayoutDeviceTest > groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape[emulator-5554 - 9] FAILED \n2026-11-05T20:51:35.6113769Z \tjava.lang.AssertionError: Semantic Node has no parent layout with a Scroll SemanticsAction\n2026-11-05T20:51:37.8128824Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-05T20:51:37.9213314Z * What went wrong:\n2026-11-05T20:51:37.9221456Z BUILD FAILED in 8m 12s\n2026-11-05T20:51:38.4837110Z ##[error]The process '/usr/bin/sh' failed with exit code 1\n2026-11-05T20:51:41.8381433Z java.lang.AssertionError: Semantic Node has no parent layout with a Scroll SemanticsAction\n2026-11-05T20:51:41.8388896Z java.lang.AssertionError: Semantic Node has no parent layout with a Scroll SemanticsAction"
       },
       {
         "job": "six-column-display (phone, Nexus S)",
         "conclusion": "failure",
-        "message": "2026-11-05T20:30:24.6863658Z com.sakugapp.AdvancedControlsLayoutDeviceTest > groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape[emulator-5554 - 9] FAILED \n2026-11-05T20:30:24.6874665Z \tjava.lang.AssertionError: Assert failed: The component is not displayed!\n2026-11-05T20:30:26.1884938Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-05T20:30:26.1940898Z * What went wrong:\n2026-11-05T20:30:26.1975973Z BUILD FAILED in 2m 14s\n2026-11-05T20:30:26.6944845Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
+        "message": "2026-11-05T20:46:19.2270545Z com.sakugapp.AdvancedControlsLayoutDeviceTest > groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape[emulator-5554 - 9] FAILED \n2026-11-05T20:46:19.2273218Z \tjava.lang.AssertionError: Semantic Node has no parent layout with a Scroll SemanticsAction\n2026-11-05T20:46:21.0275120Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-05T20:46:21.1311431Z * What went wrong:\n2026-11-05T20:46:21.1341970Z BUILD FAILED in 2m 57s\n2026-11-05T20:46:21.5855910Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
       },
       {
-        "job": "six-column-display (landscape, pixel_c)",
-        "conclusion": "failure",
-        "message": "2026-11-05T20:30:52.4930228Z com.sakugapp.AdvancedControlsLayoutDeviceTest > groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape[emulator-5554 - 9] FAILED \n2026-11-05T20:30:52.4931949Z \tjava.lang.AssertionError: Assert failed: The component is not displayed!\n2026-11-05T20:30:54.0893755Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-05T20:30:54.1941640Z * What went wrong:\n2026-11-05T20:30:54.1959049Z BUILD FAILED in 2m 55s\n2026-11-05T20:30:54.6779949Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
-      },
-      {
-        "test": "com.sakugapp.AdvancedControlsLayoutDeviceTest.groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape",
-        "report": "six-column-landscape-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-        "message": "java.lang.AssertionError: Assert failed: The component is not displayed!\nat androidx.compose.ui.test.AssertionsKt.assertIsDisplayed(Assertions.kt:34)\nat com.sakugapp.AdvancedControlsLayoutDeviceTest.groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape$bounded(AdvancedControlsLayoutDeviceTest.kt:39)\nat com.sakugapp.AdvancedControlsLayoutDeviceTest.groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape(AdvancedControlsLayoutDeviceTest.kt:51)\n"
-      },
-      {
-        "test": "com.sakugapp.AdvancedControlsLayoutDeviceTest.groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape",
-        "report": "six-column-phone-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-        "message": "java.lang.AssertionError: Assert failed: The component is not displayed!\nat androidx.compose.ui.test.AssertionsKt.assertIsDisplayed(Assertions.kt:34)\nat com.sakugapp.AdvancedControlsLayoutDeviceTest.groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape$bounded(AdvancedControlsLayoutDeviceTest.kt:39)\nat com.sakugapp.AdvancedControlsLayoutDeviceTest.groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape(AdvancedControlsLayoutDeviceTest.kt:55)\n"
+        "test": "com.sakugapp.PublicBrowseTest.actualPostSearchDetailsPlaybackAndFrameAnalysis",
+        "report": "device-test-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+        "message": "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 120000 ms\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:504)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:339)\nat com.sakugapp.PublicBrowseTest.actualPostSearchDetailsPlaybackAndFrameAnalysis(PublicBrowseTest.kt:51)\n"
       },
       {
         "test": "com.sakugapp.ProfessionalPlayerDeviceTest.actualLoopPinchPanDoubleTapAndSwipeRespectTransportControls",
         "report": "device-test-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-        "message": "java.lang.AssertionError: Semantic Node has no parent layout with a Scroll SemanticsAction\nat androidx.compose.ui.test.ActionsKt.scrollToNode(Actions.kt:98)\nat androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:83)\nat com.sakugapp.ProfessionalPlayerDeviceTest.actualLoopPinchPanDoubleTapAndSwipeRespectTransportControls(ProfessionalPlayerDeviceTest.kt:69)\n"
+        "message": "java.lang.AssertionError: Semantic Node has no parent layout with a Scroll SemanticsAction\nat androidx.compose.ui.test.ActionsKt.scrollToNode(Actions.kt:98)\nat androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:83)\nat com.sakugapp.ProfessionalPlayerDeviceTest.actualLoopPinchPanDoubleTapAndSwipeRespectTransportControls(ProfessionalPlayerDeviceTest.kt:70)\n"
       },
       {
         "test": "com.sakugapp.AdvancedControlsLayoutDeviceTest.groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape",
         "report": "device-test-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+        "message": "java.lang.AssertionError: Semantic Node has no parent layout with a Scroll SemanticsAction\nat androidx.compose.ui.test.ActionsKt.scrollToNode(Actions.kt:98)\nat androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:83)\nat com.sakugapp.AdvancedControlsLayoutDeviceTest.groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape(AdvancedControlsLayoutDeviceTest.kt:74)\n"
+      },
+      {
+        "test": "com.sakugapp.AdvancedControlsLayoutDeviceTest.groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape",
+        "report": "six-column-phone-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
         "message": "java.lang.AssertionError: Semantic Node has no parent layout with a Scroll SemanticsAction\nat androidx.compose.ui.test.ActionsKt.scrollToNode(Actions.kt:98)\nat androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:83)\nat com.sakugapp.AdvancedControlsLayoutDeviceTest.groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape(AdvancedControlsLayoutDeviceTest.kt:74)\n"
       }
     ]
