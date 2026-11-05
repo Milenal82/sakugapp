@@ -83,6 +83,8 @@ class CompactInterfaceDeviceTest {
                         PostDetail(post,AppSettings(lightTheme=light),false,app,false,{}, {}, {}, {}, {},false,true,{direction=it;true})
                     }
                 }}}
+                ui.waitUntil(15000){ui.onAllNodesWithTag("video-gestures",useUnmergedTree=true).fetchSemanticsNodes().isNotEmpty()}
+                ui.waitForIdle()
                 ui.onNodeWithTag("detail-actions").performScrollTo()
                 val row=ui.onNodeWithTag("detail-actions").fetchSemanticsNode().boundsInRoot
                 val tags=listOf("previous-post","next-post","download-video","original-post","favorite-action")

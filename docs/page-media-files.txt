@@ -2,8 +2,11 @@
 CHANGELOG.md
 README.md
 app/build.gradle.kts
+app/src/androidTest/java/com/sakugapp/CompactInterfaceDeviceTest.kt
 app/src/androidTest/java/com/sakugapp/DownloadFoldersDeviceTest.kt
 app/src/androidTest/java/com/sakugapp/PageCacheDeviceTest.kt
+app/src/androidTest/java/com/sakugapp/PublicBrowseTest.kt
+app/src/androidTest/java/com/sakugapp/PublicPaginationTest.kt
 app/src/main/AndroidManifest.xml
 app/src/main/java/com/sakugapp/MainActivity.kt
 app/src/main/java/com/sakugapp/SakugappApplication.kt

@@ -407,7 +407,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
     var seek by remember{mutableStateOf<Pair<Long,Int>?>(null)}
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(12.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
         if(localSnapshot)Text(text(R.string.ui_library_snapshot_hint),style=MaterialTheme.typography.bodySmall)
-        if(post.isVideo){if(playbackUrl!=null)VideoPanel(playbackUrl,settings,seekRequest=seek,onDurationChanged=onDuration,onNavigate=onNavigate,videoDimensions=if(post.width!=null && post.height!=null)post.width to post.height else null)else if(!playback.first)CircularProgressIndicator()else Text(text(R.string.ui_media_unavailable))}
+        if(post.isVideo){if(playbackUrl!=null)VideoPanel(playbackUrl,settings,seekRequest=seek,onDurationChanged=onDuration,onNavigate=onNavigate,videoDimensions=if(post.width!=null && post.height!=null)post.width to post.height else null)else if(!playback.first)Box(Modifier.fillMaxWidth().height(300.dp),contentAlignment=Alignment.Center){CircularProgressIndicator()}else Text(text(R.string.ui_media_unavailable))}
         else PostImage(post,Modifier.fillMaxWidth().height(320.dp),settings,metered,true)
         Row(Modifier.widthIn(max=360.dp).fillMaxWidth().testTag("detail-actions"),horizontalArrangement=Arrangement.SpaceEvenly,verticalAlignment=Alignment.CenterVertically){
             ActionIcon(R.drawable.ic_previous,text(R.string.ui_previous_post),{onNavigate(-1)},Modifier.testTag("previous-post"),enabled=hasPrevious)

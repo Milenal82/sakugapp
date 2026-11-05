@@ -65,14 +65,14 @@ class DownloadStorage(private val context:Context,private val downloader:VideoDo
     }
     suspend fun download(post:Post,kind:Kind,progress:(Long,Long)->Unit={_,_->}):Uri=lock.withLock{withContext(Dispatchers.IO){
         existing(post,kind)?.let{return@withContext it}
-        if(post.fileSize?.let{it>OfflineLibraryMedia.MAX_FILE}==true)throw LibraryFailure("media_limit")
+        if(kind==Kind.BATCH && post.fileSize?.let{it>OfflineLibraryMedia.MAX_FILE}==true)throw LibraryFailure("media_limit")
         val used=if(kind==Kind.BATCH)prefs.all.filter{it.key.startsWith("bytes_BATCH_")}.entries.sumOf{(name,value)->
             val receipt=name.removePrefix("bytes_");val uri=prefs.getString(receipt,null)
             val valid=uri!=null && readable(Uri.parse(uri))
             if(valid)(value as? Long) ?: 0L else{prefs.edit().remove(name).remove(receipt).commit();0L}
         }else 0L
-        val available=if(kind==Kind.BATCH)(OfflineLibraryMedia.MAX_TOTAL-used).coerceAtLeast(0)else OfflineLibraryMedia.MAX_FILE
-        val max=minOf(OfflineLibraryMedia.MAX_FILE,available)
+        val available=if(kind==Kind.BATCH)(OfflineLibraryMedia.MAX_TOTAL-used).coerceAtLeast(0)else Long.MAX_VALUE
+        val max=if(kind==Kind.BATCH)minOf(OfflineLibraryMedia.MAX_FILE,available)else Long.MAX_VALUE
         if(max<=0 || (post.fileSize ?: 0)>max)throw LibraryFailure("media_limit")
         val target=VideoDownloadPlan.from(post).let{create(it.filename,it.mime,kind)};var received=0L
         try{

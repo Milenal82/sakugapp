@@ -97,9 +97,10 @@ class PublicPaginationTest {
             ui.onNodeWithTag("detail-post-id").performScrollTo().assertIsDisplayed()
             val next=checkNotNull(feed.adjacent(1))
             assertNotNull("Five batches provide a real adjacent result",next)
-            ui.onNodeWithTag("video-gestures").performScrollTo().performTouchInput{swipeLeft(durationMillis=400)}
+            ui.waitUntil(15000){ui.onAllNodesWithTag("video-gestures",useUnmergedTree=true).fetchSemanticsNodes().isNotEmpty()}
+            ui.onNodeWithTag("video-gestures",useUnmergedTree=true).performScrollTo().performTouchInput{swipeLeft(durationMillis=400)}
             assertEquals("Edge gestures must not change posts",anchor.id,feed.selected.value!!.id)
-            ui.onNodeWithTag("video-gestures").performTouchInput{swipe(start=androidx.compose.ui.geometry.Offset(center.x*1.6f,center.y),end=androidx.compose.ui.geometry.Offset(center.x*0.4f,center.y),durationMillis=400)}
+            ui.onNodeWithTag("video-gestures",useUnmergedTree=true).performTouchInput{swipe(start=androidx.compose.ui.geometry.Offset(center.x*1.6f,center.y),end=androidx.compose.ui.geometry.Offset(center.x*0.4f,center.y),durationMillis=400)}
             try{ui.waitUntil(15000){feed.selected.value?.id==next.id && ui.onAllNodes(hasTestTag("detail-post-id") and hasText("#${next.id}",substring=true)).fetchSemanticsNodes().isNotEmpty()}}
             catch(failure:Throwable){
                 val diagnostics=mutableListOf<String>()

@@ -68,8 +68,7 @@ class PublicBrowseTest {
         }
         ui.waitUntil(15000){ui.onAllNodesWithTag("download-video").fetchSemanticsNodes().isNotEmpty()}
         ui.onNodeWithTag("download-video").performScrollTo().performClick()
-        val save=device.wait(Until.findObject(By.text(java.util.regex.Pattern.compile("(?i)save"))),15000)
-        assertNotNull("System save document picker",save);save.click()
+        if(android.os.Build.VERSION.SDK_INT<29)device.wait(Until.findObject(By.res("com.android.packageinstaller:id/permission_allow_button")),5000)?.click()
         ui.waitUntil(90000){ui.onAllNodesWithTag("download-complete").fetchSemanticsNodes().isNotEmpty()}
         ui.onNodeWithTag("download-complete").assertTextContains("Saved")
         ui.onNodeWithText("Close",substring=false).performClick()
