@@ -1,4 +1,4 @@
-name: Read bounded player test diagnostics
+name: Read completed player test diagnostics
 on:
   push:
     branches: [ci/player-tools-audit]
