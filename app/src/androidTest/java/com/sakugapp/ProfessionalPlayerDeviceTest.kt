@@ -46,7 +46,7 @@ class ProfessionalPlayerDeviceTest {
             },onNavigate={directions+=it;false})}}}}
             ui.waitUntil(20000){matches{it.playbackState==Player.STATE_READY}}
             ui.onNodeWithText("Set A").assertDoesNotExist()
-            ui.onNodeWithTag("more-controls").performScrollTo().performClick()
+            ui.onNodeWithTag("more-controls").scrollIntoViewIfNeeded().performClick()
             ui.runOnUiThread{player!!.pause();player!!.seekTo(500)}
             ui.waitUntil(10000){matches{it.playbackState==Player.STATE_READY && it.currentPosition==500L}}
             ui.onNodeWithText("Set A",substring=false).performScrollTo().performClick()
@@ -59,7 +59,7 @@ class ProfessionalPlayerDeviceTest {
             ui.waitUntil(15000){seeks.get()>beforeLoop+1 && matches{it.currentPosition in 500..700}}
             ui.onNodeWithText("Disable A–B loop",substring=false).assertExists()
             ui.runOnUiThread{player!!.pause()}
-            ui.onNodeWithTag("toggle-fullscreen").performScrollTo().performClick();ui.waitForIdle();ui.onNodeWithTag("video-gestures").performTouchInput{click(androidx.compose.ui.geometry.Offset(width*.25f,height*.3f))};Thread.sleep(400);ui.waitForIdle()
+            ui.onNodeWithTag("toggle-fullscreen").scrollIntoViewIfNeeded().performClick();ui.waitForIdle();ui.onNodeWithTag("video-gestures").performTouchInput{click(androidx.compose.ui.geometry.Offset(width*.25f,height*.3f))};Thread.sleep(400);ui.waitForIdle()
             // Wide videos now enter landscape automatically; verify both manual directions.
             ui.waitUntil(15000){ui.activity.resources.configuration.orientation==android.content.res.Configuration.ORIENTATION_LANDSCAPE}
             ui.onNodeWithTag("rotate-video").performClick()
@@ -67,7 +67,7 @@ class ProfessionalPlayerDeviceTest {
             ui.onNodeWithTag("rotate-video").performClick()
             ui.waitUntil(15000){ui.activity.resources.configuration.orientation==android.content.res.Configuration.ORIENTATION_LANDSCAPE}
             ui.onNodeWithText("Disable A–B loop",substring=false).assertExists()
-            ui.onNodeWithTag("toggle-fullscreen").performScrollTo().performClick()
+            ui.onNodeWithTag("toggle-fullscreen").scrollIntoViewIfNeeded().performClick()
             ui.waitUntil(15000){ui.activity.resources.configuration.orientation==android.content.res.Configuration.ORIENTATION_PORTRAIT}
             ui.onNodeWithTag("ab-toggle").performScrollTo().performClick()
             ui.runOnUiThread{player!!.pause();player!!.seekTo(500)}
@@ -78,7 +78,7 @@ class ProfessionalPlayerDeviceTest {
             ui.onNodeWithTag("step--1").performScrollTo().performClick()
             ui.waitUntil(10000){ui.onAllNodesWithText("1\n/12",substring=false).fetchSemanticsNodes().isNotEmpty()}
             assertTrue(matches{!it.playWhenReady})
-            ui.onNodeWithTag("more-controls").performScrollTo().performClick()
+            ui.onNodeWithTag("more-controls").scrollIntoViewIfNeeded().performClick()
             val beforeDouble=seeks.get()
             ui.onNodeWithTag("video-gestures").performTouchInput{doubleClick(androidx.compose.ui.geometry.Offset(center.x,center.y*0.5f))}
             ui.waitUntil(5000){matches{it.playWhenReady}}
@@ -112,9 +112,9 @@ class ProfessionalPlayerDeviceTest {
             ui.waitUntil(10000){var zoom=1f;ui.runOnUiThread{zoom=host()!!.transform.scale};zoom>1.05f}
             ui.onNodeWithTag("video-gestures").performTouchInput{swipe(start=androidx.compose.ui.geometry.Offset(center.x*1.6f,center.y*0.5f),end=androidx.compose.ui.geometry.Offset(center.x*0.4f,center.y*0.5f),durationMillis=400)}
             ui.runOnUiThread{assertTrue(host()!!.transform.panX!=0f);assertTrue(directions.isEmpty())}
-            ui.onNodeWithTag("more-controls").performScrollTo().performClick()
+            ui.onNodeWithTag("more-controls").scrollIntoViewIfNeeded().performClick()
             ui.onNodeWithTag("reset-zoom").performScrollTo().performClick()
-            ui.onNodeWithTag("more-controls").performScrollTo().performClick()
+            ui.onNodeWithTag("more-controls").scrollIntoViewIfNeeded().performClick()
             ui.runOnUiThread{assertEquals(1f,host()!!.transform.scale,0.001f)}
             ui.onNodeWithTag("video-gestures").performTouchInput{swipe(start=androidx.compose.ui.geometry.Offset(center.x*1.6f,center.y*0.5f),end=androidx.compose.ui.geometry.Offset(center.x*0.4f,center.y*0.5f),durationMillis=400)}
             ui.waitUntil(5000){directions==listOf(1)}

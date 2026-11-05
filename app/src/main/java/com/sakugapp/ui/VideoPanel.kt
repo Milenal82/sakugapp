@@ -137,7 +137,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
         onPlayerReady?.invoke(player)
         if(player.playWhenReady)PlaybackResources.claim(player)
         if(owner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED) && player.playbackState==Player.STATE_IDLE)player.prepare()
-        onDispose{if(stepper.confirmed==null && player.playbackState!=Player.STATE_IDLE)position=player.currentPosition;if(view?.player===player){view?.player=null;view=null};PlaybackResources.release(player);player.release();cacheLease?.close()}
+        onDispose{if(stepper.confirmed==null && player.playbackState!=Player.STATE_IDLE)position=player.currentPosition;stepper.dispose();if(view?.player===player){view?.player=null;view=null};PlaybackResources.release(player);player.release();cacheLease?.close()}
     }
     LaunchedEffect(player,muted,loop,speed,volume,abEnabled){player.volume=if(muted)0f else volume;player.repeatMode=if(loop || abEnabled)Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF;player.setPlaybackSpeed(speed)}
     LaunchedEffect(player,ab,owner){
@@ -195,8 +195,8 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                     ControlGroup(text(R.string.ui_ab_loop),"ab-controls"){
                     Text(text(R.string.ui_ab_interval,a?.let(::formatClipTime) ?: "—",b?.let(::formatClipTime) ?: "—"),Modifier.testTag("ab-interval"))
                     FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
-                        TextButton(enabled=stepper.pending==0,contentPadding=textButtonPadding(),onClick={val updated=ab.withA((stepper.confirmed?.timeMs ?: player.currentPosition).coerceAtLeast(0));a=updated.aMs;b=updated.bMs;abEnabled=false;invalidAB=false},modifier=Modifier.testTag("set-a")){Text(text(R.string.ui_set_a))}
-                        TextButton(enabled=stepper.pending==0,contentPadding=textButtonPadding(),onClick={try{val updated=ab.withB((stepper.confirmed?.timeMs ?: player.currentPosition).coerceAtLeast(0));b=updated.bMs;abEnabled=false;invalidAB=false}catch(_:IllegalArgumentException){invalidAB=true}},modifier=Modifier.testTag("set-b")){Text(text(R.string.ui_set_b))}
+                        TextButton(enabled=stepper.pending==0 && stepper.failure==null,contentPadding=textButtonPadding(),onClick={val updated=ab.withA((stepper.confirmed?.timeMs ?: player.currentPosition).coerceAtLeast(0));a=updated.aMs;b=updated.bMs;abEnabled=false;invalidAB=false},modifier=Modifier.testTag("set-a")){Text(text(R.string.ui_set_a))}
+                        TextButton(enabled=stepper.pending==0 && stepper.failure==null,contentPadding=textButtonPadding(),onClick={try{val updated=ab.withB((stepper.confirmed?.timeMs ?: player.currentPosition).coerceAtLeast(0));b=updated.bMs;abEnabled=false;invalidAB=false}catch(_:IllegalArgumentException){b=null;abEnabled=false;invalidAB=true}},modifier=Modifier.testTag("set-b")){Text(text(R.string.ui_set_b))}
                         FilterChip(selected=abEnabled,enabled=ab.valid,onClick={if(!abEnabled){stepper.reset();if(player.playbackState==Player.STATE_IDLE)player.prepare();player.seekTo(a!!)};abEnabled=!abEnabled},modifier=Modifier.heightIn(min=40.dp).testTag("ab-toggle"),label={Text(text(if(abEnabled)R.string.ui_disable_ab else R.string.ui_enable_ab))})
                         TextButton(contentPadding=textButtonPadding(),onClick={a=null;b=null;abEnabled=false;invalidAB=false}){Text(text(R.string.ui_clear_ab))}
                     }

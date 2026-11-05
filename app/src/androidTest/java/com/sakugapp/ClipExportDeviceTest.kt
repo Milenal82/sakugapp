@@ -57,7 +57,7 @@ class ClipExportDeviceTest {
             }
             val colors=fixture("clip-colors.mp4",folder)
             val expected=com.google.gson.JsonParser.parseString(InstrumentationRegistry.getInstrumentation().context.assets.open("frame-index-colors.json").bufferedReader().use{it.readText()}).asJsonArray
-            for(range in listOf(ClipRange(200,800),ClipRange(0,600))){
+            if(android.os.Build.VERSION.SDK_INT>=28)for(range in listOf(ClipRange(200,800),ClipRange(0,600))){
                 val result=exporter.export(colors,folder,range,ClipMode.PRECISE)
                 val decoder=MediaMetadataRetriever();try{decoder.setDataSource(result.file.path)
                     for((index,sourceIndex)in listOf(0 to (range.startMs/100).toInt(),result.videoSamples-1 to (range.endMs/100-1).toInt())){

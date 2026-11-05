@@ -2,14 +2,12 @@
 package com.sakugapp.data
 
 import android.content.Context
-import android.media.*
 import android.net.Uri
 import android.os.StatFs
 import androidx.media3.common.*
 import androidx.media3.transformer.*
 import kotlinx.coroutines.*
 import java.io.File
-import java.nio.ByteBuffer
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -35,10 +33,10 @@ class ClipExporter(private val context:Context){
     }
     suspend fun export(source:File,directory:File,range:ClipRange,mode:ClipMode):ClipResult {
         require(source.length() in 1..MAX_SOURCE)
-        return if(mode==ClipMode.COPY)withContext(Dispatchers.IO){copy(source,directory,range)}else{
-            val out=File(directory,"clip.mp4")
-            encode(source,out,range)
-            withContext(Dispatchers.IO){val scan=scan(out);val input=scan(source);val kept=input.timesUs.filter{it>=range.startMs*1000 && it<range.endMs*1000};check(kept.isNotEmpty() && scan.samples==kept.size && scan.durationUs>0){"clip_verify expected=${kept.size} output=${scan.samples} inputFirst=${input.firstUs} outputPTS=${scan.timesUs} duration=${scan.durationUs}"}
+        return if(mode==ClipMode.COPY)copy(source,directory,range)else{
+            val out=File(directory,"clip-${java.util.UUID.randomUUID()}.mp4")
+            val encoded=transform(source,out,range,copy=false)
+            withContext(Dispatchers.IO){val scan=scan(out);val input=scan(source);val kept=input.timesUs.filter{it>=range.startMs*1000 && it<range.endMs*1000};check(kept.isNotEmpty() && scan.samples==kept.size && scan.durationUs>0){"clip_verify encoded=${encoded.videoFrameCount} expected=${kept.size} output=${scan.samples} inputFirst=${input.firstUs} outputPTS=${scan.timesUs} duration=${scan.durationUs}"}
                 // A real encoded frame interval bounds the observed output-duration difference.
                 check(kotlin.math.abs(scan.durationUs-range.durationMs*1000)<=maxOf(scan.maxStepUs,100_000L)){"clip_verify"}
                 ClipResult(out,mode,range,kept.first(),input.timesUs.firstOrNull{it>kept.last()} ?: input.durationUs,scan.samples,"video/mp4")
@@ -51,65 +49,35 @@ class ClipExporter(private val context:Context){
         val step=times.zipWithNext().maxOfOrNull{it.second-it.first} ?: 41667L
         return Scan(times.first(),maxOf(index.durationUs,times.last()+minOf(step,100000)),times.size,step,times)
     }
-    private suspend fun copy(source:File,directory:File,range:ClipRange):ClipResult{
-        val index=MediaSampleIndex.read(source);val video=index.video
-        val vm=checkNotNull(video.format?.sampleMimeType);val webm=vm in setOf("video/x-vnd.on2.vp8","video/x-vnd.on2.vp9")
-        val supported=if(webm)setOf("video/x-vnd.on2.vp8","video/x-vnd.on2.vp9","audio/vorbis","audio/opus")else setOf("video/avc","video/hevc","video/mp4v-es","audio/mp4a-latm","audio/3gpp","audio/amr-wb")
-        check(vm in supported){"clip_unsupported"}
+    private suspend fun copy(source:File,directory:File,range:ClipRange):ClipResult=withContext(Dispatchers.IO){
+        val task=currentCoroutineContext();val index=MediaSampleIndex.read(source){task.ensureActive()};val video=index.video
+        val vm=checkNotNull(video.format?.sampleMimeType);val webm=vm in setOf(MimeTypes.VIDEO_VP8,MimeTypes.VIDEO_VP9)
+        val supported=if(webm)setOf(MimeTypes.VIDEO_VP8,MimeTypes.VIDEO_VP9,MimeTypes.AUDIO_VORBIS,MimeTypes.AUDIO_OPUS)else setOf(MimeTypes.VIDEO_H264,MimeTypes.VIDEO_H265,MimeTypes.VIDEO_MP4V,MimeTypes.AUDIO_AAC,MimeTypes.AUDIO_AMR_NB,MimeTypes.AUDIO_AMR_WB)
+        check(index.tracks.all{it.format?.sampleMimeType in supported}){"clip_unsupported"}
         val sync=video.samples.filter{it.key}.map{it.timeUs}.sorted()
         val start=sync.lastOrNull{it<=range.startMs*1000} ?: error("clip_unsupported")
-        val sourceScan=scan(source)
-        val end=sync.firstOrNull{it>=range.endMs*1000 && it>start} ?: sourceScan.durationUs
-        check(end>start && range.startMs*1000<sourceScan.durationUs){"clip_unsupported"}
-        val output=File(directory,if(webm)"clip.webm"else"clip.mp4")
-        val muxer=MediaMuxer(output.path,if(webm)MediaMuxer.OutputFormat.MUXER_OUTPUT_WEBM else MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4)
-        var started=false
-        try{
-            val probe=MediaExtractor();val tracks=mutableListOf<Triple<Int,MediaSampleIndex.Track,Int>>()
-            try{probe.setDataSource(source.path);val remaining=index.tracks.toMutableList()
-                for(i in 0 until probe.trackCount){val format=probe.getTrackFormat(i);val mime=format.getString(MediaFormat.KEY_MIME).orEmpty()
-                    if(!mime.startsWith("video/") && !mime.startsWith("audio/"))continue
-                    check(mime in supported){"clip_unsupported"}
-                    val track=remaining.firstOrNull{it.format?.sampleMimeType==mime} ?: error("clip_unsupported");remaining.remove(track)
-                    tracks+=Triple(i,track,muxer.addTrack(format))
-                }
-            }finally{probe.release()}
-            val rotation=video.format?.rotationDegrees ?: 0;if(!webm)muxer.setOrientationHint(rotation)
-            muxer.start();started=true;val buffer=ByteBuffer.allocateDirect(16*1024*1024);val info=MediaCodec.BufferInfo()
-            var copied=0
-            for((trackId,track,target)in tracks){
-                val e=MediaExtractor()
-                try{e.setDataSource(source.path);e.selectTrack(trackId);var ordinal=0
-                    while(e.sampleTime>=0){currentCoroutineContext().ensureActive()
-                        val sample=track.samples.getOrNull(ordinal++) ?: error("clip_unsupported")
-                        if(sample.timeUs>=start && sample.timeUs<end){
-                            buffer.clear();val n=e.readSampleData(buffer,0);check(n>0 && n<=buffer.capacity()){"clip_unsupported"}
-                            info.set(0,n,sample.timeUs-start,if(sample.key)MediaCodec.BUFFER_FLAG_KEY_FRAME else 0)
-                            muxer.writeSampleData(target,buffer,info);if(track.type==C.TRACK_TYPE_VIDEO)copied++
-                        }
-                        if(!e.advance())break
-                    }
-                    check(ordinal==track.samples.size){"clip_unsupported"}
-                }finally{e.release()}
-            }
-            muxer.stop();started=false
-            val result=scan(output);check(copied>0 && result.samples==copied && result.durationUs>0){"clip_verify"}
-            return ClipResult(output,ClipMode.COPY,range,start+result.firstUs,start+result.durationUs,copied,if(webm)"video/webm"else"video/mp4")
-        }finally{if(started)runCatching{muxer.stop()};muxer.release()}
+        val end=sync.firstOrNull{it>=range.endMs*1000 && it>start} ?: scan(source).durationUs
+        val output=File(directory,"clip-${java.util.UUID.randomUUID()}.${if(webm)"webm"else"mp4"}")
+        val copied=transform(source,output,ClipRange(start/1000,(end+999)/1000),copy=true,webm=webm)
+        check(copied.videoEncoderName==null && copied.audioEncoderName==null){"clip_verify copy videoEncoder=${copied.videoEncoderName} audioEncoder=${copied.audioEncoderName}"}
+        val result=scan(output);val kept=video.samples.filter{it.timeUs>=start && it.timeUs<end}
+        check(result.samples==kept.size && result.samples>0){"clip_verify copy expected=${kept.size} output=${result.samples}"}
+        ClipResult(output,ClipMode.COPY,range,start+result.firstUs,start+result.durationUs,result.samples,if(webm)"video/webm"else"video/mp4")
     }
-    private suspend fun encode(source:File,out:File,range:ClipRange)=withContext(Dispatchers.Main.immediate){
+    private suspend fun transform(source:File,out:File,range:ClipRange,copy:Boolean,webm:Boolean=false):ExportResult=withContext(Dispatchers.Main.immediate){
         var active:Transformer?=null
-        try{suspendCancellableCoroutine<Unit>{c->
+        try{suspendCancellableCoroutine<ExportResult>{c->
             val base=DefaultEncoderFactory.Builder(context).setEnableFallback(true).build()
             val force=object:Codec.EncoderFactory by base{override fun videoNeedsEncoding()=true;override fun audioNeedsEncoding()=true}
-            val transformer=Transformer.Builder(context).setEncoderFactory(force).setVideoMimeType(MimeTypes.VIDEO_H264).setAudioMimeType(MimeTypes.AUDIO_AAC)
-                .addListener(object:Transformer.Listener{
-                    override fun onCompleted(composition:Composition,result:ExportResult){if(c.isActive){if(result.videoEncoderName==null)c.resumeWithException(IllegalStateException("clip_verify"))else c.resume(Unit)}}
-                    override fun onError(composition:Composition,result:ExportResult,error:ExportException){if(c.isActive)c.resumeWithException(IllegalStateException("clip_unsupported",error))}
+            val builder=Transformer.Builder(context).setMuxerFactory(if(webm)WebmClipMuxer.Factory()else InAppMp4Muxer.Factory())
+            if(!copy)builder.setEncoderFactory(force).setVideoMimeType(MimeTypes.VIDEO_H264).setAudioMimeType(MimeTypes.AUDIO_AAC)
+            val transformer=builder.addListener(object:Transformer.Listener{
+                    override fun onCompleted(composition:Composition,result:ExportResult){if(c.isActive){if(!copy && result.videoEncoderName==null)c.resumeWithException(IllegalStateException("clip_verify"))else c.resume(result)}}
+                    override fun onError(composition:Composition,result:ExportResult,error:ExportException){if(c.isActive){val full=generateSequence<Throwable>(error){it.cause}.any{it.message?.contains("ENOSPC")==true || it.message?.contains("No space left")==true};c.resumeWithException(if(full)LibraryFailure("storage_full")else IllegalStateException("clip_unsupported",error))}}
                 }).build()
             active=transformer
             c.invokeOnCancellation{if(android.os.Looper.myLooper()==android.os.Looper.getMainLooper())transformer.cancel()else android.os.Handler(android.os.Looper.getMainLooper()).post{transformer.cancel()}}
-            try{val media=MediaItem.Builder().setUri(Uri.fromFile(source)).setClippingConfiguration(MediaItem.ClippingConfiguration.Builder().setStartPositionMs((range.startMs-1).coerceAtLeast(0)).setEndPositionMs(range.endMs).build()).build();transformer.start(EditedMediaItem.Builder(media).build(),out.path)}catch(e:Exception){if(c.isActive)c.resumeWithException(e)}
+            try{val media=MediaItem.Builder().setUri(Uri.fromFile(source)).setClippingConfiguration(MediaItem.ClippingConfiguration.Builder().setStartPositionMs(if(copy)range.startMs else (range.startMs-1).coerceAtLeast(0)).setEndPositionMs(range.endMs).setStartsAtKeyFrame(copy).build()).build();transformer.start(EditedMediaItem.Builder(media).build(),out.path)}catch(e:Exception){if(c.isActive)c.resumeWithException(e)}
         }}finally{withContext(NonCancellable+Dispatchers.Main.immediate){active?.cancel()}}
     }
 }

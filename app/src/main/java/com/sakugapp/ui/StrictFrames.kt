@@ -4,7 +4,6 @@ package com.sakugapp.ui
 import android.content.Context
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
-import android.media.MediaExtractor
 import androidx.annotation.RequiresApi
 import com.sakugapp.data.FrameTimeline
 import com.sakugapp.data.PostParser
@@ -41,13 +40,14 @@ internal class FrameDecoder(private val context:Context,private val url:String,p
         timeline=null
         (data as? java.io.Flushable)?.flush() // commit read ranges before the extractor opens another reader
         if(count<=200000){
+            val task=currentCoroutineContext()
             val second=if(local==null && uri.scheme!="content")(pageCache ?: ownCache)!!.mediaDataSource(url)else null
             try{
                 val samples=when{
-                    local!=null->com.sakugapp.data.MediaSampleIndex.read(local)
-                    second!=null->com.sakugapp.data.MediaSampleIndex.read(second.size){p,b,o,n->second.readAt(p,b,o,n)}
+                    local!=null->com.sakugapp.data.MediaSampleIndex.read(local){task.ensureActive()}
+                    second!=null->com.sakugapp.data.MediaSampleIndex.read(second.size,{task.ensureActive()}){p,b,o,n->second.readAt(p,b,o,n)}
                     else->context.contentResolver.openFileDescriptor(uri,"r")!!.use{descriptor->
-                        java.io.FileInputStream(descriptor.fileDescriptor).channel.use{channel->com.sakugapp.data.MediaSampleIndex.read(channel.size()){p,b,o,n->channel.position(p);channel.read(java.nio.ByteBuffer.wrap(b,o,n))}}
+                        java.io.FileInputStream(descriptor.fileDescriptor).channel.use{channel->com.sakugapp.data.MediaSampleIndex.read(channel.size(),{task.ensureActive()}){p,b,o,n->channel.position(p);channel.read(java.nio.ByteBuffer.wrap(b,o,n))}}
                     }
                 }
                 timeline=FrameTimeline.verified(samples.video.samples.map{it.timeUs},count)

@@ -53,18 +53,21 @@ class PlayerRotationDeviceTest {
             // Confirm it in the emulator fixture so the single Back targets the app.
             device.executeShellCommand("settings put secure immersive_mode_confirmations confirmed")
             // Establish the ordinary browsing policy before mounting this isolated player scene.
-            ui.runOnUiThread{activity.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_PORTRAIT}
-            awaitStage("initial portrait",15000){ui.activity.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT}
+            if(activity.resources.configuration.smallestScreenWidthDp<600){
+                ui.runOnUiThread{activity.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_PORTRAIT}
+                awaitStage("initial portrait",15000){ui.activity.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT}
+            }
+            val browseConfiguration=ui.activity.resources.configuration.orientation
             ui.runOnUiThread{activity.setContent{SakugappTheme(false){Column(Modifier.systemBarsPadding().verticalScroll(rememberScrollState())){VideoPanel(file.toURI().toString(),AppSettings(),onPlayerReady={player=it;instances.incrementAndGet()})}}}}
             awaitStage("video ready",15000){playerMatches{it?.playbackState==Player.STATE_READY}}
-            ui.onNodeWithTag("more-controls").performScrollTo().performClick()
+            ui.onNodeWithTag("more-controls").scrollIntoViewIfNeeded().performClick()
             ui.onNodeWithTag("speed-1.5").performScrollTo().performClick()
             awaitStage("speed selected",5000){playerMatches{it?.playbackParameters?.speed==1.5f}}
             ui.onNodeWithTag("speed-1.5").assertIsSelected()
             ui.runOnUiThread{player!!.pause();player!!.seekTo(400)}
             awaitStage("seek paused video",5000){playerMatches{it!=null && it.currentPosition>=350}}
             val retained=player
-            ui.onNodeWithTag("toggle-fullscreen").performScrollTo().performClick();ui.waitForIdle();ui.onNodeWithTag("video-gestures").performTouchInput{click(androidx.compose.ui.geometry.Offset(width*.25f,height*.3f))};Thread.sleep(400);ui.waitForIdle()
+            ui.onNodeWithTag("toggle-fullscreen").scrollIntoViewIfNeeded().performClick();ui.waitForIdle();ui.onNodeWithTag("video-gestures").performTouchInput{click(androidx.compose.ui.geometry.Offset(width*.25f,height*.3f))};Thread.sleep(400);ui.waitForIdle()
             // Wide videos now enter landscape automatically; verify both manual directions.
             ui.waitUntil(15000){ui.activity.resources.configuration.orientation==android.content.res.Configuration.ORIENTATION_LANDSCAPE}
             ui.onNodeWithTag("rotate-video").performClick()
@@ -85,7 +88,7 @@ class PlayerRotationDeviceTest {
                 throw AssertionError("Unexpected foreground window before Back: ${hierarchy.toString("UTF-8")}")
             }
             androidx.test.espresso.Espresso.pressBack()
-            awaitStage("restore portrait",15000){ui.activity.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT}
+            awaitStage("restore browse orientation",15000){ui.activity.resources.configuration.orientation==browseConfiguration}
             ui.onNodeWithTag("toggle-fullscreen").assertExists()
             assertSame(activity,ui.activity);assertEquals(1,instances.get())
             ui.runOnUiThread{

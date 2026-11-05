@@ -14,9 +14,9 @@ internal object MediaSampleIndex {
     data class Sample(val timeUs:Long,val key:Boolean)
     data class Track(val type:Int,var format:Format?=null,val samples:MutableList<Sample> = mutableListOf())
     data class Index(val tracks:List<Track>,val durationUs:Long){val video get()=tracks.single{it.type==C.TRACK_TYPE_VIDEO}}
-    fun read(file:File):Index=RandomAccessFile(file,"r").use{r->read(r.length()){p,b,o,n->r.seek(p);r.read(b,o,n)}}
-    fun read(length:Long,readAt:(Long,ByteArray,Int,Int)->Int):Index{
-        val input=Input(length,readAt)
+    fun read(file:File,checkActive:()->Unit={}):Index=RandomAccessFile(file,"r").use{r->read(r.length(),checkActive){p,b,o,n->r.seek(p);r.read(b,o,n)}}
+    fun read(length:Long,checkActive:()->Unit={},readAt:(Long,ByteArray,Int,Int)->Int):Index{
+        val input=Input(length){p,b,o,n->checkActive();readAt(p,b,o,n)}
         val candidates=DefaultExtractorsFactory().createExtractors()
         val extractor=candidates.firstOrNull{e->try{input.p=0;input.resetPeekPosition();e.sniff(input)}catch(_:EOFException){false}}
         candidates.filter{it!==extractor}.forEach{it.release()}
@@ -43,7 +43,7 @@ internal object MediaSampleIndex {
                 }
             })
             val position=PositionHolder()
-            while(true){if(Thread.currentThread().isInterrupted)throw java.io.InterruptedIOException();when(extractor.read(input,position)){Extractor.RESULT_END_OF_INPUT->break;Extractor.RESULT_SEEK->{input.p=position.position;input.resetPeekPosition()}}}
+            while(true){checkActive();if(Thread.currentThread().isInterrupted)throw java.io.InterruptedIOException();when(extractor.read(input,position)){Extractor.RESULT_END_OF_INPUT->break;Extractor.RESULT_SEEK->{input.p=position.position;input.resetPeekPosition()}}}
             val list=tracks.values.filter{it.type in listOf(C.TRACK_TYPE_VIDEO,C.TRACK_TYPE_AUDIO)}
             check(list.count{it.type==C.TRACK_TYPE_VIDEO}==1){"clip_unsupported"}
             return Index(list,duration)

@@ -42,12 +42,12 @@ class AdvancedControlsLayoutDeviceTest {
         try{
             for(light in listOf(false,true)){
                 val theme=if(light)"light"else"dark"
-                ui.runOnUiThread{ui.activity.setContent{SakugappTheme(light){Surface(Modifier.fillMaxSize().systemBarsPadding()){
+                ui.runOnUiThread{player=null;ui.activity.setContent{SakugappTheme(light){Surface(Modifier.fillMaxSize().systemBarsPadding()){
                     key(light){Column(Modifier.verticalScroll(rememberScrollState())){VideoPanel(file.toURI().toString(),AppSettings(lightTheme=light),onPlayerReady={player=it})}}
                 }}}}
                 ui.waitUntil(20000){matches{it.playbackState==Player.STATE_READY}}
                 ui.onNodeWithTag("speed-controls").assertDoesNotExist()
-                ui.onNodeWithTag("more-controls").performScrollTo().performClick()
+                ui.onNodeWithTag("more-controls").scrollIntoViewIfNeeded().performClick()
                 for(speed in PreferenceRules.speeds)bounded("speed-$speed")
                 ui.onNodeWithTag("speed-1.5").performScrollTo().performClick().assertIsSelected()
                 ui.waitUntil(5000){matches{it.playbackParameters.speed==1.5f}}
@@ -61,7 +61,7 @@ class AdvancedControlsLayoutDeviceTest {
                 ui.onNodeWithTag("ab-toggle").performScrollTo().assertIsEnabled().performClick().assertIsSelected()
                 if(geometry=="portrait" && !light)UiEvidence.capture("controls-ab-group.png")
                 if(ui.activity.resources.configuration.smallestScreenWidthDp<600){
-                    ui.onNodeWithTag("toggle-fullscreen").performScrollTo().performClick();ui.waitForIdle();ui.onNodeWithTag("video-gestures").performTouchInput{click(androidx.compose.ui.geometry.Offset(width*.25f,height*.3f))};Thread.sleep(400);ui.waitForIdle()
+                    ui.onNodeWithTag("toggle-fullscreen").scrollIntoViewIfNeeded().performClick();ui.waitForIdle();ui.onNodeWithTag("video-gestures").performTouchInput{click(androidx.compose.ui.geometry.Offset(width*.25f,height*.3f))};Thread.sleep(400);ui.waitForIdle()
                     // Wide videos now enter landscape automatically; verify both manual directions.
                     ui.waitUntil(15000){ui.activity.resources.configuration.orientation==android.content.res.Configuration.ORIENTATION_LANDSCAPE}
                     ui.onNodeWithTag("rotate-video").performClick()
@@ -71,10 +71,10 @@ class AdvancedControlsLayoutDeviceTest {
                     bounded("speed-1.5");ui.onNodeWithTag("speed-1.5").assertIsSelected()
                     if(geometry=="portrait")UiEvidence.capture("controls-phone-landscape-$theme.png")
                     for(tag in listOf("set-a","set-b","ab-toggle"))bounded(tag)
-                    ui.onNodeWithTag("toggle-fullscreen").performScrollTo().performClick()
+                    ui.onNodeWithTag("toggle-fullscreen").scrollIntoViewIfNeeded().performClick()
                     ui.waitUntil(15000){ui.activity.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT}
                 }
-                ui.onNodeWithTag("more-controls").performScrollTo().performClick()
+                ui.onNodeWithTag("more-controls").scrollIntoViewIfNeeded().performClick()
                 ui.onNodeWithTag("speed-controls").assertDoesNotExist()
                 assertTrue(matches{it.playbackParameters.speed==1.5f})
             }

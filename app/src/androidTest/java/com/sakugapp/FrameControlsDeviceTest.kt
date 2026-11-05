@@ -104,7 +104,7 @@ class FrameControlsDeviceTest {
         val original=PostParser.posts(InstrumentationRegistry.getInstrumentation().context.assets.open("library-real-posts.json").bufferedReader().use{it.readText()}).first()
         try{
             for(light in listOf(false,true)){
-                ui.runOnUiThread{ui.activity.setContent{SakugappTheme(light,if(light)1.25f else .75f){key(light){Column(Modifier.fillMaxSize().systemBarsPadding().verticalScroll(rememberScrollState())){VideoPanel(file.toURI().toString(),downloadPost=original.copy(id=selectedPost),onPlayerReady={player=it;instances++})}}}}}
+                ui.runOnUiThread{player=null;ui.activity.setContent{SakugappTheme(light,if(light)1.25f else .75f){key(light){Column(Modifier.fillMaxSize().systemBarsPadding().verticalScroll(rememberScrollState())){VideoPanel(file.toURI().toString(),downloadPost=original.copy(id=selectedPost),onPlayerReady={player=it;instances++})}}}}}
                 ui.waitUntil(20000){var ready=false;ui.runOnUiThread{ready=player?.playbackState==Player.STATE_READY};ready}
                 val identity=player
                 ui.onNodeWithTag("step-1").performScrollTo().performClick()
