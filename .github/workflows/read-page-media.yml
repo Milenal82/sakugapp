@@ -16,27 +16,27 @@ jobs:
         run: |
           python3 - <<'PY'
           import subprocess,pathlib,json,os,xml.etree.ElementTree as ET,re
-          repo='Milenal82/sakugapp';run='42075294156'
+          repo='Milenal82/sakugapp';run='42077751188'
           out=pathlib.Path(os.environ['RUNNER_TEMP'])/'page-audit';out.mkdir()
           def api(path):return subprocess.check_output(['gh','api','--allow-escape-sequences',f'repos/{repo}/'+path])
           meta=json.loads(api('actions/runs/'+run));v={'source_commit':meta['head_sha'],'run':run,'run_url':meta['html_url'],'failures':[],'counts':[],'logs':[]}
-          subprocess.run(['gh','run','download',run,'--repo',repo,'--pattern','page-media-reports-*','--dir',str(out/'input')],check=True)
+          subprocess.run(['gh','run','download',run,'--repo',repo,'--pattern','*reports*','--dir',str(out/'input')],check=True)
           for p in (out/'input').rglob('TEST-*.xml'):
               root=ET.parse(p).getroot();v['counts'].append({'path':str(p.relative_to(out)),'attributes':root.attrib})
               for c in root.iter('testcase'):
                   for f in list(c.findall('failure'))+list(c.findall('error')):v['failures'].append({'test':c.get('classname')+'.'+c.get('name'),'path':str(p.relative_to(out)),'message':(f.text or '')[:16000]})
           jobs=json.loads(api('actions/runs/'+run+'/jobs?per_page=100'))['jobs']
           for j in jobs:
-              if j['conclusion']=='failure' and j['name'].startswith('devices'):
+              if j['conclusion']=='failure':
                   log=api('actions/jobs/'+str(j['id'])+'/logs').decode(errors='replace');v['logs'].append({'name':j['name'],'tail':re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]','',log)[-20000:]})
           (out/'report.json').write_text(json.dumps(v,indent=2)+'\n')
           PY
       - name: Store report on independent evidence branch
         run: |
           set -euo pipefail
-          if git ls-remote --exit-code --heads origin evidence/page-media >/dev/null; then
-            git fetch origin refs/heads/evidence/page-media:refs/remotes/origin/evidence/page-media
-            git switch -c audit-output origin/evidence/page-media
+          if git ls-remote --exit-code --heads origin evidence/page-media-regression >/dev/null; then
+            git fetch origin refs/heads/evidence/page-media-regression:refs/remotes/origin/evidence/page-media-regression
+            git switch -c audit-output origin/evidence/page-media-regression
           else
             git switch --orphan audit-output
           fi
@@ -45,4 +45,4 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add report.json
           git commit -m 'Record failed page-media test evidence'
-          git push origin HEAD:refs/heads/evidence/page-media
+          git push origin HEAD:refs/heads/evidence/page-media-regression
