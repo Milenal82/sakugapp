@@ -1,43 +1,43 @@
 {
-  "source_commit": "a9f50e3da6d29b93d2ddd60bed2ba5a101ce9cf9",
-  "run_id": "42077751126",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42077751126",
-  "captured_utc": "2026-11-05T17:50:59.500701+00:00",
+  "source_commit": "7a67bfbb10bd7673ff27a1728addd97ba1d77227",
+  "run_id": "42080068931",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42080068931",
+  "captured_utc": "2026-11-05T18:06:10.535858+00:00",
   "validation_result": "success",
   "scope": "Page cache HTTPS ranges/repeats/frame decode/fullscreen/recreation/cleanup and public/SAF download destinations, cancellation, errors and legacy exports on API 28 and 35.",
   "jobs": [
     {
-      "name": "devices (35)",
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42077751126/job/127422367444",
-      "id": 127422367444
-    },
-    {
       "name": "devices (28)",
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42077751126/job/127422367879",
-      "id": 127422367879
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42080068931/job/127430489807",
+      "id": 127430489807
+    },
+    {
+      "name": "devices (35)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42080068931/job/127430490420",
+      "id": 127430490420
     },
     {
       "name": "evidence",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42077751126/job/127425281028",
-      "id": 127425281028
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42080068931/job/127433614694",
+      "id": 127433614694
     }
   ],
   "artifacts": [
     {
       "name": "page-media-reports-28",
-      "bytes": 56664,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42077751126/artifacts/13438468945"
+      "bytes": 57016,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42080068931/artifacts/13440366893"
     },
     {
       "name": "page-media-reports-35",
-      "bytes": 89930,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42077751126/artifacts/13438078962"
+      "bytes": 98093,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42080068931/artifacts/13439639749"
     }
   ],
   "test_counts": {
