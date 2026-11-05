@@ -6,13 +6,11 @@ permissions:
   contents: write
   actions: read
 jobs:
-  baseline:
+  persistence:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
-        with:
-          ref: e308e10f2464d8a338d7828c42dca23e058c3312
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
@@ -20,6 +18,11 @@ jobs:
       - run: ./scripts/ci-android-sdk.sh
       - uses: gradle/actions/setup-gradle@v5
       - run: sudo chmod a+rw /dev/kvm
+      - name: Download the exact tested Debug APK
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh run download 42080069440 --repo Milenal82/sakugapp --name sakugapp-debug --dir "$RUNNER_TEMP/application"
+      - run: ./gradlew --no-daemon -PupgradeUiCheck=true :upgrade-ui-check:assembleDebug :upgrade-ui-check:assembleDebugAndroidTest
       - uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
@@ -28,15 +31,15 @@ jobs:
           profile: Nexus 6
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
-          script: ./scripts/run-search-back-checks.sh
+          script: python3 scripts/verify-directory-restart.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: baseline-search-reports
-          path: app/build/outputs/androidTest-results/
+          name: directory-restart-report
+          path: ${{ runner.temp }}/directory-restart.txt
   read:
     if: always()
-    needs: baseline
+    needs: persistence
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
@@ -46,12 +49,12 @@ jobs:
         run: |
           python3 - <<'PY'
           import subprocess,pathlib,json,os,xml.etree.ElementTree as ET,re
-          repo='Milenal82/sakugapp';run='42077751188'
+          repo='Milenal82/sakugapp';run='42080069440'
           out=pathlib.Path(os.environ['RUNNER_TEMP'])/'page-audit';out.mkdir()
           def api(path):return subprocess.check_output(['gh','api','--allow-escape-sequences',f'repos/{repo}/'+path])
           meta=json.loads(api('actions/runs/'+run));v={'source_commit':meta['head_sha'],'run':run,'run_url':meta['html_url'],'failures':[],'counts':[],'logs':[]}
           subprocess.run(['gh','run','download',run,'--repo',repo,'--pattern','*reports*','--dir',str(out/'input')],check=True)
-          subprocess.run(['gh','run','download',os.environ['GITHUB_RUN_ID'],'--repo',repo,'--name','baseline-search-reports','--dir',str(out/'input/baseline-e308e10')],check=True)
+          subprocess.run(['gh','run','download',os.environ['GITHUB_RUN_ID'],'--repo',repo,'--name','directory-restart-report','--dir',str(out/'restart')],check=True)
           for p in (out/'input').rglob('TEST-*.xml'):
               root=ET.parse(p).getroot();v['counts'].append({'path':str(p.relative_to(out)),'attributes':root.attrib})
               for c in root.iter('testcase'):
@@ -60,6 +63,7 @@ jobs:
           for j in jobs:
               if j['conclusion']=='failure':
                   log=api('actions/jobs/'+str(j['id'])+'/logs').decode(errors='replace');v['logs'].append({'name':j['name'],'tail':re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]','',log)[-20000:]})
+          v['directory_restart']=(out/'restart/directory-restart.txt').read_text()
           (out/'report.json').write_text(json.dumps(v,indent=2)+'\n')
           PY
       - name: Store report on independent evidence branch
