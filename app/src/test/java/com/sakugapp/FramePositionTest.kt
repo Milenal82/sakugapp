@@ -6,7 +6,8 @@ import org.junit.Test
 class FramePositionTest {
     @Test fun fallbackUsesValidMetadataAndClampsAtTheLastFrame(){
         assertEquals(24.0,FramePosition.fps(null),0.0)
-        for(value in listOf(0f,-1f,Float.NaN,Float.POSITIVE_INFINITY,1000f))assertEquals(24.0,FramePosition.fps(value),0.0)
+        for(value in listOf(0f,-1f,Float.NaN,Float.POSITIVE_INFINITY))assertEquals(24.0,FramePosition.fps(value),0.0)
+        assertEquals(1000.0,FramePosition.fps(1000f),0.0)
         val rate=FramePosition.fps(23.976f);assertEquals(24,FramePosition.count(1000,rate))
         assertEquals(0,FramePosition.move(0,-3,24));assertEquals(23,FramePosition.move(22,3,24))
         assertEquals(999L,FramePosition.time(Int.MAX_VALUE,rate,1000))

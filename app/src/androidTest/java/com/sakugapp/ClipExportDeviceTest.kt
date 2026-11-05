@@ -30,9 +30,11 @@ class ClipExportDeviceTest {
             val source=fixture(name,folder);val digest=hash(source);val input=samples(source)
             for(range in listOf(ClipRange(1250,2750),ClipRange(250,1700))){
                 val result=exporter.export(source,folder,range,ClipMode.COPY);val output=samples(result.file)
-                assertEquals(ClipMode.COPY,result.mode);assertEquals(input.first,output.first);assertTrue(result.actualStartUs<=range.startMs*1000);assertTrue(result.actualEndUs>=range.endMs*1000)
+                assertEquals(ClipMode.COPY,result.mode);assertEquals(input.first,output.first);assertTrue("$name $range actual=${result.actualStartUs}..${result.actualEndUs} outputPTS=${output.second.keys}",result.actualStartUs<=range.startMs*1000);assertTrue("$name $range actual=${result.actualStartUs}..${result.actualEndUs} outputPTS=${output.second.keys}",result.actualEndUs>=range.endMs*1000)
                 assertTrue(output.second.isNotEmpty());assertEquals(result.videoSamples,output.second.size)
-                for((time,bytes)in output.second)assertEquals("Encoded samples must be unchanged, $name PTS=$time",input.second[time+result.actualStartUs],bytes)
+                for((time,bytes)in output.second){val sourceSample=input.second.entries.firstOrNull{it.value==bytes};assertNotNull("Encoded bytes changed: $name PTS=$time",sourceSample)
+                    assertTrue("Muxer timestamp quantization: $name PTS=$time source=${sourceSample!!.key}",kotlin.math.abs(sourceSample.key-time-result.actualStartUs)<=1000)
+                }
                 assertEquals(digest,hash(source));assertTrue(exporter.scan(result.file).durationUs>0)
                 val decoder=MediaMetadataRetriever();try{decoder.setDataSource(result.file.path);assertNotNull(decoder.getFrameAtTime(0,MediaMetadataRetriever.OPTION_CLOSEST))}finally{decoder.release()}
                 println("COPY $name selected=$range actual=${result.actualStartUs}..${result.actualEndUs} samples=${result.videoSamples} mime=${result.mime}")

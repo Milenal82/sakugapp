@@ -81,6 +81,14 @@ class DownloadFoldersDeviceTest {
             try{val name=MediaFileNames.forClip(post,"mp4",ClipRange(400,800),ClipMode.COPY)
                 val one=storage.saveClip(clipFile,name,"video/mp4");val two=storage.saveClip(clipFile,name,"video/mp4");created+=one;created+=two
                 assertTrue(one.toString().contains(clips));assertNotEquals(one,two);assertArrayEquals(bytes,resolver.openInputStream(one)!!.use{it.readBytes()})
+                val beforeClips=contents(storedClip)
+                val fullClip=DownloadStorage(context,output={throw IOException("ENOSPC: No space left")})
+                try{fullClip.saveClip(clipFile,name,"video/mp4");fail("Full destination must fail")}catch(e:LibraryFailure){assertEquals("storage_full",e.code)}
+                assertEquals(beforeClips,contents(storedClip))
+                val startedClip=CompletableDeferred<Unit>();val large=File(context.cacheDir,"cancel-clip.mp4").apply{writeBytes(ByteArray(256*1024))}
+                try{val slow=DownloadStorage(context,output={uri->object:java.io.FilterOutputStream(resolver.openOutputStream(uri,"w")!!){override fun write(b:ByteArray,o:Int,n:Int){out.write(b,o,n);startedClip.complete(Unit);Thread.sleep(100)}}})
+                    val cancel=launch{slow.saveClip(large,"cancel-clip.mp4","video/mp4")};withTimeout(10000){startedClip.await()};cancel.cancelAndJoin();assertEquals(beforeClips,contents(storedClip));assertTrue(large.exists())
+                }finally{large.delete()}
                 assertEquals(storedSingle,storage.directory(DownloadStorage.Kind.SINGLE));assertEquals(storedBatch,storage.directory(DownloadStorage.Kind.BATCH))
             }finally{clipFile.delete()}
             val before=contents(storedSingle)
@@ -97,17 +105,14 @@ class DownloadFoldersDeviceTest {
             assertTrue(storage.existing(variant("/BATCH.mp4"),DownloadStorage.Kind.BATCH)!=null)
         }finally{created.forEach{runCatching{Docs.deleteDocument(resolver,it)}};storage.reset(DownloadStorage.Kind.SINGLE);storage.reset(DownloadStorage.Kind.BATCH);storage.reset(DownloadStorage.Kind.CLIP);server.shutdown();client.connectionPool.evictAll();client.dispatcher.executorService.shutdown()}
     }
-    @Test fun defaultsUsePublicMediaStoreWithoutAFilePicker()=runBlocking{
+    @Test fun unsetDestinationOpensTheSystemPickerAndCancellationRetainsLegacyFiles()=runBlocking{
         val storage=DownloadStorage(context);DownloadStorage.Kind.entries.forEach(storage::reset)
-        val file=File(context.filesDir,"favorites-media/default-folder-${System.nanoTime()}.mp4").apply{parentFile!!.mkdirs();writeBytes(instrumentation.context.assets.open("frame-index-vfr.mp4").use{it.readBytes()})}
+        val file=File(context.filesDir,"favorites-media/picker-cancel.mp4").apply{parentFile!!.mkdirs();writeBytes(instrumentation.context.assets.open("frame-index-vfr.mp4").use{it.readBytes()})}
         try{
-            if(android.os.Build.VERSION.SDK_INT<29)instrumentation.uiAutomation.grantRuntimePermission(context.packageName,android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            assertTrue(storage.exportLegacy(file))
-            fun visible()=resolver.query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,arrayOf(MediaStore.Video.Media.DISPLAY_NAME),"${MediaStore.Video.Media.DISPLAY_NAME}=?",arrayOf(file.name),null)!!.use{it.moveToFirst()}
-            ui.waitUntil(15000){visible()}
-            val location=if(android.os.Build.VERSION.SDK_INT>=29)MediaStore.Video.Media.RELATIVE_PATH else MediaStore.Video.Media.DATA
-            resolver.query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,arrayOf(location),"${MediaStore.Video.Media.DISPLAY_NAME}=?",arrayOf(file.name),null)!!.use{assertTrue(it.moveToFirst());assertTrue(it.getString(0).contains("Movies/Sakugapp/Batch/"))}
-            assertTrue("Export keeps the original",file.exists())
-        }finally{resolver.delete(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,"${MediaStore.Video.Media.DISPLAY_NAME}=?",arrayOf(file.name));file.delete()}
+            ui.onNodeWithText("Menu").performClick();ui.onNodeWithText("Settings").performClick()
+            ui.onNodeWithText(ui.activity.getString(R.string.ui_export_legacy)).performScrollTo().performClick()
+            assertTrue(device.wait(Until.hasObject(By.pkg("com.android.documentsui")),10000))
+            device.pressBack();ui.waitForIdle();assertNull(storage.directory(DownloadStorage.Kind.BATCH));assertTrue(file.exists())
+        }finally{file.delete()}
     }
 }

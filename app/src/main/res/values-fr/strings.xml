@@ -467,7 +467,7 @@
     <string name="ui_export_clip">Télécharger A–B</string>
     <string name="ui_clip_copy">Copie sans perte</string>
     <string name="ui_clip_precise">Précis · réencodage</string>
-    <string name="ui_clip_copy_warning">Copie entre les images clés voisines. Les limites réelles peuvent différer. Original inchangé.</string>
+    <string name="ui_clip_copy_warning">Copie entre les images clés voisines. Limites variables ; sortie MP4 ou WebM selon les codecs. Original inchangé.</string>
     <string name="ui_clip_precise_warning">Réencode en MP4 (H.264/AAC). Précision limitée par les images et le codec. Sortie vérifiée avant sauvegarde.</string>
     <string name="ui_clip_selection">A %1$s · B %2$s · Durée %3$s</string>
     <string name="ui_clip_saved">Enregistré · limites %1$s–%2$s · durée %3$s</string>

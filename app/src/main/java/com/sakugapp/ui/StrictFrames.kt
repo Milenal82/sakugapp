@@ -52,4 +52,3 @@ internal class FrameDecoder(private val context:Context,private val url:String,p
     @RequiresApi(28) suspend fun frame(index:Int):Bitmap=mutex.withLock{withContext(Dispatchers.IO){try{checkNotNull(retriever?.getFrameAtIndex(index)){"The device decoder could not return this exact frame."}}finally{(data as? java.io.Flushable)?.flush()}}}
     suspend fun close()=mutex.withLock{withContext(Dispatchers.IO){try{retriever?.release()}finally{retriever=null;data?.close();data=null;ownCache?.close();ownCache=null;timeline=null}}}
 }
-

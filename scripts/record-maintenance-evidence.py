@@ -105,17 +105,18 @@ def failed_job_diagnostics(jobs):
 
 
 def same_commit_main_checks():
-    if os.environ.get('GITHUB_REF') != 'refs/heads/main':
+    if os.environ.get('GITHUB_REF_NAME') not in ['main','feature/frame-controls-clip-export']:
         return {'status': 'not_requested', 'reason': 'This push is not main.'}
+    source_branch=os.environ['GITHUB_REF_NAME']
     # Existing android.yml may finish after these scoped checks. Wait read-only for
     # that same source SHA; never dispatch/re-run tests or change established CI.
     deadline = time.monotonic() + 28 * 60
     discovery_deadline = time.monotonic() + 2 * 60
     selected = None
     while True:
-        runs = api('actions/workflows/android.yml/runs?branch=main&event=push&per_page=20'
+        runs = api(f'actions/workflows/android.yml/runs?branch={source_branch}&event=push&per_page=20'
                    f'&head_sha={SHA}')['workflow_runs']
-        matching = [run for run in runs if run['head_sha'] == SHA and run['head_branch'] == 'main']
+        matching = [run for run in runs if run['head_sha'] == SHA and run['head_branch'] == source_branch]
         if matching:
             selected = max(matching, key=lambda run: run['id'])
             if selected['status'] == 'completed' or os.environ.get('EVIDENCE_WAIT_FOR_MAIN')=='false':

@@ -467,7 +467,7 @@
     <string name="ui_export_clip">Descargar intervalo A–B</string>
     <string name="ui_clip_copy">Copia sin pérdida</string>
     <string name="ui_clip_precise">Preciso · recodificar</string>
-    <string name="ui_clip_copy_warning">Copia entre fotogramas clave vecinos. Los límites pueden variar. El original no cambia.</string>
+    <string name="ui_clip_copy_warning">Copia entre fotogramas clave vecinos. Los límites pueden variar; salida MP4 o WebM según los códecs. Original sin cambios.</string>
     <string name="ui_clip_precise_warning">Recodifica a MP4 (H.264/AAC). Precisión limitada por los fotogramas y el códec. Se verifica antes de guardar.</string>
     <string name="ui_clip_selection">A %1$s · B %2$s · Duración %3$s</string>
     <string name="ui_clip_saved">Guardado · intervalo %1$s–%2$s · duración %3$s</string>

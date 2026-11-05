@@ -99,6 +99,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
     val currentLength by rememberUpdatedState(duration)
     val stepper=remember(player,mediaKey){FrameStepper(player,FrameDecoder(context.applicationContext,url,pageCache=pageCache),{currentRate},{currentLength})}
     LaunchedEffect(stepper){stepper.run()}
+    LaunchedEffect(stepper.confirmed?.timeMs){stepper.confirmed?.let{position=it.timeMs}}
     fun resumePlayback(){if(stepper.pending>0)return;stepper.reset();if(player.playbackState==Player.STATE_IDLE)player.prepare();player.play()}
     val durationCallback by rememberUpdatedState(onDurationChanged)
     DisposableEffect(player,owner){
@@ -174,7 +175,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                 ActionIcon(if(fullscreen)R.drawable.ic_fullscreen_exit else R.drawable.ic_fullscreen,
                     text(if(fullscreen)R.string.ui_exit_full_screen else R.string.ui_full_screen),
                     {if(fullscreen)exitFullscreen()else enterFullscreen()},Modifier.testTag("toggle-fullscreen"))
-                ActionIcon(R.drawable.ic_more,text(if(more)R.string.ui_fewer_controls else R.string.ui_more_controls),{more=!more},Modifier.testTag("more-controls"),selected=more)
+                ActionIcon(R.drawable.ic_more,text(if(more)R.string.ui_fewer_controls else R.string.ui_more_controls),{more=!more},Modifier.testTag("more-controls").semantics{selected=more},selected=more)
             }
         }
     }
@@ -203,8 +204,8 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                     }
                     if(invalidAB)Text(text(R.string.ui_ab_invalid),color=MaterialTheme.colorScheme.error)
                     Text(text(R.string.ui_ab_precision),style=MaterialTheme.typography.labelSmall)
-                    }
                     clipControls?.invoke()
+                    }
                     ControlGroup(text(R.string.ui_audio_display),"audio-controls"){
                     FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
                         TextButton(contentPadding=textButtonPadding(),onClick={muted=!muted}){Text(text(if(muted)R.string.ui_unmute else R.string.ui_mute))}

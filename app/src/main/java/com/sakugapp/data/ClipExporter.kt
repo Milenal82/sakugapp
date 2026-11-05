@@ -38,7 +38,7 @@ class ClipExporter(private val context:Context){
         return if(mode==ClipMode.COPY)withContext(Dispatchers.IO){copy(source,directory,range)}else{
             val out=File(directory,"clip.mp4")
             encode(source,out,range)
-            withContext(Dispatchers.IO){val scan=scan(out);val input=scan(source);val kept=input.timesUs.filter{it>=range.startMs*1000 && it<range.endMs*1000};check(kept.isNotEmpty() && scan.samples==kept.size && scan.durationUs>0){"clip_verify"}
+            withContext(Dispatchers.IO){val scan=scan(out);val input=scan(source);val kept=input.timesUs.filter{it>=range.startMs*1000 && it<range.endMs*1000};check(kept.isNotEmpty() && scan.samples==kept.size && scan.durationUs>0){"clip_verify expected=${kept.size} output=${scan.samples} inputFirst=${input.firstUs} outputPTS=${scan.timesUs} duration=${scan.durationUs}"}
                 // A real encoded frame interval bounds the observed output-duration difference.
                 check(kotlin.math.abs(scan.durationUs-range.durationMs*1000)<=maxOf(scan.maxStepUs,100_000L)){"clip_verify"}
                 ClipResult(out,mode,range,kept.first(),input.timesUs.firstOrNull{it>kept.last()} ?: input.durationUs,scan.samples,"video/mp4")

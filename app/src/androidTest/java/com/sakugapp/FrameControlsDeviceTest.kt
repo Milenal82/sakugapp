@@ -48,6 +48,7 @@ class FrameControlsDeviceTest {
             val after=ui.onNodeWithTag("video-gestures").fetchSemanticsNode().boundsInRoot
             assertEquals(before.width,after.width,0.1f);assertEquals(before.height,after.height,0.1f)
             ui.onNodeWithTag("set-a").performScrollTo().performClick()
+            ui.onNodeWithTag("set-b").performScrollTo().performClick()
             ui.onNodeWithTag("ab-toggle").assertIsNotEnabled()
             for(delta in listOf(1,2,3))ui.onNodeWithTag("step-$delta").performScrollTo().performClick()
             ui.waitUntil(20000){counter()=="8/12"}
@@ -84,7 +85,7 @@ class FrameControlsDeviceTest {
         val original=PostParser.posts(InstrumentationRegistry.getInstrumentation().context.assets.open("library-real-posts.json").bufferedReader().use{it.readText()}).first()
         try{
             for(light in listOf(false,true)){
-                ui.runOnUiThread{ui.activity.setContent{SakugappTheme(light){Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())){VideoPanel(file.toURI().toString(),downloadPost=original.copy(id=selectedPost),onPlayerReady={player=it;instances++})}}}}
+                ui.runOnUiThread{ui.activity.setContent{SakugappTheme(light,if(light)1.25f else .75f){Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())){VideoPanel(file.toURI().toString(),downloadPost=original.copy(id=selectedPost),onPlayerReady={player=it;instances++})}}}}
                 ui.waitUntil(20000){var ready=false;ui.runOnUiThread{ready=player?.playbackState==Player.STATE_READY};ready}
                 val identity=player
                 ui.onNodeWithTag("step-1").performScrollTo().performClick()

@@ -15,7 +15,7 @@ import java.security.MessageDigest
 
 /** Independent persisted destinations and owned-file receipts; old private index is untouched. */
 class DownloadStorage(private val context:Context,private val downloader:VideoDownloader=VideoDownloader(),private val output:((Uri)->OutputStream)?=null){
-    enum class Kind(val path:String){SINGLE("Movies/Sakugapp/"),BATCH("Movies/Sakugapp/Batch/"),CLIP("Movies/Sakugapp/Clips/")}
+    enum class Kind(val path:String){SINGLE("Movies/Sakugapp/"),CLIP("Movies/Sakugapp/Clips/"),BATCH("Movies/Sakugapp/Batch/")}
     private val prefs=context.getSharedPreferences("download_destinations_v1",Context.MODE_PRIVATE)
     private val resolver=context.contentResolver
     companion object {private val lock=Mutex()}
@@ -102,7 +102,7 @@ class DownloadStorage(private val context:Context,private val downloader:VideoDo
     suspend fun saveClip(file:File,filename:String,mime:String):Uri=lock.withLock{withContext(Dispatchers.IO){
         if(directory(Kind.CLIP)==null)throw LibraryFailure("directory_access")
         val target=create(filename,mime,Kind.CLIP)
-        try{file.inputStream().use{input->resolver.openOutputStream(target.uri,"w")!!.use{out->val buffer=ByteArray(65536);while(true){ensureActive();val n=input.read(buffer);if(n<0)break;out.write(buffer,0,n)}}}
+        try{file.inputStream().use{input->((output?.invoke(target.uri) ?: resolver.openOutputStream(target.uri,"w")) ?: throw IOException()).use{out->val buffer=ByteArray(65536);while(true){ensureActive();val n=input.read(buffer);if(n<0)break;out.write(buffer,0,n)}}}
             ensureActive();if(target.pending)check(resolver.update(target.uri,ContentValues().apply{put(MediaStore.Video.Media.IS_PENDING,0)},null,null)==1);target.uri
         }catch(e:CancellationException){delete(target);throw e}catch(e:Exception){delete(target);throw storageFailure(e)}
     }}

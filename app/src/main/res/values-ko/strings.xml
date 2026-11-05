@@ -461,7 +461,7 @@
     <string name="ui_export_clip">A–B 구간 다운로드</string>
     <string name="ui_clip_copy">무손실 복사</string>
     <string name="ui_clip_precise">정밀 · 재인코딩</string>
-    <string name="ui_clip_copy_warning">앞뒤 키 프레임 사이의 데이터를 복사합니다. 실제 경계가 다를 수 있으며 원본은 유지됩니다.</string>
+    <string name="ui_clip_copy_warning">앞뒤 키 프레임 사이의 데이터를 복사합니다. 실제 경계가 다를 수 있으며 코덱에 따라 MP4 또는 WebM으로 저장합니다. 원본은 유지됩니다.</string>
     <string name="ui_clip_precise_warning">MP4(H.264/AAC)로 재인코딩합니다. 정밀도는 프레임 간격과 기기에 따라 달라지며 저장 전에 검증합니다.</string>
     <string name="ui_clip_selection">A %1$s · B %2$s · 길이 %3$s</string>
     <string name="ui_clip_saved">저장됨 · 실제 범위 %1$s–%2$s · 길이 %3$s</string>

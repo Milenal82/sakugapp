@@ -31,7 +31,7 @@ import java.io.File
                 storage.saveClip(result.file,filename,result.mime)
                 message=context.getString(R.string.ui_clip_saved,formatClipTime(result.actualStartUs/1000),formatClipTime(result.actualEndUs/1000),formatClipTime((result.actualEndUs-result.actualStartUs)/1000))
             }catch(e:CancellationException){message=context.getString(R.string.ui_download_cancelled);throw e}
-            catch(e:Exception){message=when((e as? LibraryFailure)?.code ?: e.message){"clip_space"->context.getString(R.string.ui_storage_full);"clip_verify"->context.getString(R.string.ui_clip_verify);"clip_unsupported"->context.getString(R.string.ui_clip_unsupported);else->libraryError(context,e)}}
+            catch(e:Exception){message=when((e as? LibraryFailure)?.code ?: e.message?.substringBefore(' ')){"clip_space"->context.getString(R.string.ui_storage_full);"clip_verify"->context.getString(R.string.ui_clip_verify);"clip_unsupported"->context.getString(R.string.ui_clip_unsupported);else->libraryError(context,e)}}
             finally{withContext(NonCancellable+Dispatchers.IO){folder.deleteRecursively()};busy=false}
         }
     }

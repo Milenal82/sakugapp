@@ -21,9 +21,9 @@ internal class FrameStepper(private val player:Player,private val decoder:FrameD
     private var opened=false;private var count:Int?=null
     var expectedSeek:Long?=null;private set
     fun step(delta:Int){require(delta in -3..3 && delta!=0);player.pause();pending++;queue.trySend(delta to epoch)}
-    fun reset(){epoch++;pending=0;confirmed=null;expectedSeek=null;queue.trySend(0 to epoch)}
+    fun reset(){epoch++;pending=0;confirmed=null;failure=null;expectedSeek=null;queue.trySend(0 to epoch)}
     fun discontinuity(position:Long){if(expectedSeek?.let{kotlin.math.abs(it-position)<=1}==true)expectedSeek=null else reset()}
-    suspend fun run(){try{for((delta,generation)in queue){
+    suspend fun run()=withContext(Dispatchers.Main.immediate){try{for((delta,generation)in queue){
         if(generation!=epoch)continue
         if(delta==0){decoder.close();opened=false;count=null;continue}
         player.pause();player.stop()

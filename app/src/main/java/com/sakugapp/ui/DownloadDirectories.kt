@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 package com.sakugapp.ui
 
-import android.Manifest
-import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
@@ -12,18 +10,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import com.sakugapp.R
 import com.sakugapp.data.DownloadStorage
 import kotlinx.coroutines.*
 import java.io.File
-
-@Composable internal fun rememberDownloadAccess(storage:DownloadStorage,denied:()->Unit):(DownloadStorage.Kind,()->Unit)->Unit{
-    val context=LocalContext.current;var pending by remember{mutableStateOf<(() -> Unit)?>(null)}
-    val latestDenied by rememberUpdatedState(denied)
-    val permission=rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()){allowed->val action=pending;pending=null;if(allowed)action?.invoke()else latestDenied()}
-    return {kind,action->if(storage.needsLegacyPermission(kind) && ContextCompat.checkSelfPermission(context,Manifest.permission.WRITE_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED){pending=action;permission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)}else action()}
-}
 
 @Composable internal fun DownloadDirectories(model:AppViewModel){
     val context=LocalContext.current;val scope=rememberCoroutineScope();val storage=model.downloadStorage
