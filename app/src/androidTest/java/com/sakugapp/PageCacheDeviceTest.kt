@@ -56,6 +56,8 @@ class PageCacheDeviceTest {
         assertArrayEquals(data.copyOfRange(0,1024),withContext(Dispatchers.IO){read(cache,0,1024)})
         val partial=server.requestCount
         repeat(3){assertArrayEquals(data.copyOfRange(10,100),withContext(Dispatchers.IO){read(cache,10,90)})};assertEquals(partial,server.requestCount)
+        val partialDecoder=FrameDecoder(context,url,pageCache=cache)
+        try{assertTrue(withTimeout(20000){partialDecoder.open()}>1)}finally{partialDecoder.close()}
         assertArrayEquals(data,withContext(Dispatchers.IO){read(cache)})
         val complete=server.requestCount
         repeat(3){assertArrayEquals(data,withContext(Dispatchers.IO){read(cache)})}

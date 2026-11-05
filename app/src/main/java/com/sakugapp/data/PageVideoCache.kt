@@ -45,7 +45,22 @@ class PageVideoCache(context:Context,private val upstream:DataSource.Factory=Def
         private var original:DataSpec?=null;private var consumed=0L;private var bypass=false
         private val listeners=mutableListOf<TransferListener>()
         override fun addTransferListener(listener:TransferListener){listeners+=listener;delegate?.addTransferListener(listener)}
-        override fun open(spec:DataSpec):Long {original=spec;consumed=0;bypass=false;lease=retain();try{val source=cachedFactory().createDataSource();delegate=source;synchronized(this@PageVideoCache){if(closed)throw IOException("Page closed");readers.add(this)};listeners.forEach(source::addTransferListener);return try{source.open(spec)}catch(e:Cache.CacheException){runCatching{source.close()};bypass=true;val fresh=upstream.createDataSource();delegate=fresh;listeners.forEach(fresh::addTransferListener);fresh.open(spec)}}catch(e:Exception){close();throw e}}
+        override fun open(spec:DataSpec):Long {
+            original=spec;consumed=0;bypass=false;lease=retain()
+            try{
+                val source=cachedFactory().createDataSource();delegate=source
+                synchronized(this@PageVideoCache){if(closed)throw IOException("Page closed");readers.add(this)}
+                listeners.forEach(source::addTransferListener)
+                val length=try{source.open(spec)}catch(e:Cache.CacheException){
+                    runCatching{source.close()};bypass=true;val fresh=upstream.createDataSource();delegate=fresh;listeners.forEach(fresh::addTransferListener);fresh.open(spec)
+                }
+                // A bounded HTTP range also tells us the original size; retain it for random-access decoders.
+                val range=delegate?.responseHeaders?.entries?.firstOrNull{it.key.equals("Content-Range",true)}?.value?.firstOrNull()
+                val size=range?.substringAfterLast('/')?.toLongOrNull()
+                if(size!=null)runCatching{val change=ContentMetadataMutations();ContentMetadataMutations.setContentLength(change,size);cache?.applyContentMetadataMutations(spec.key ?: spec.uri.toString(),change)}
+                return length
+            }catch(e:Exception){close();throw e}
+        }
         override fun read(buffer:ByteArray,offset:Int,length:Int):Int{
             val n=try{checkNotNull(delegate).read(buffer,offset,length)}catch(e:IOException){
                 var cause:Throwable?=e;var cacheError=false;while(cause!=null){if(cause is Cache.CacheException)cacheError=true;cause=cause.cause}
@@ -65,7 +80,7 @@ class PageVideoCache(context:Context,private val upstream:DataSource.Factory=Def
     @Synchronized fun close(){closed=true;val active=readers.toList();io.launch{active.forEach{runCatching{it.close()}}};cleanup()}
     @Synchronized private fun cleanup(){if(closed && leases==0 && !cleaning){cleaning=true;val store=cache;io.launch{try{store?.release()}finally{directory.deleteRecursively()}}}}
     /** MediaRetriever/Extractor seek into the same cached byte ranges, without a second full copy. */
-    fun mediaDataSource(url:String):MediaDataSource = object:MediaDataSource(){
+    fun mediaDataSource(url:String):MediaDataSource = object:MediaDataSource(),java.io.Flushable{
         private val lease=retain();private var source:DataSource?=null;private var at=0L;private var size=-1L;private var ended=false
         @Synchronized override fun getSize():Long{if(size<0)open(0);return size}
         private fun open(position:Long){source?.close();source=factory().createDataSource();at=position
@@ -75,6 +90,7 @@ class PageVideoCache(context:Context,private val upstream:DataSource.Factory=Def
             if(source==null || position!=at)open(position)
             val read=source!!.read(buffer,offset,count);if(read>0)at+=read;return read
         }
+        @Synchronized override fun flush(){source?.close();source=null}
         @Synchronized override fun close(){if(!ended){ended=true;try{source?.close()}finally{source=null;lease.close()}}}
     }
 }

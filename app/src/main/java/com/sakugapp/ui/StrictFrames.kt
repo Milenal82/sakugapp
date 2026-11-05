@@ -59,6 +59,7 @@ internal class FrameDecoder(private val context:Context,private val url:String,p
         val count=r.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_FRAME_COUNT)?.toIntOrNull()
         check(count!=null && count>0){"This device/format does not expose a decoded frame count. No estimated FPS stepping is used."}
         timeline=null
+        (data as? java.io.Flushable)?.flush() // commit read ranges before the extractor opens another reader
         if(count<=200000){val extractor=MediaExtractor();val second=if(local==null && uri.scheme!="content")(pageCache ?: ownCache)!!.mediaDataSource(url)else null
             try{
                 if(local!=null)extractor.setDataSource(local.path)else if(uri.scheme=="content")extractor.setDataSource(context,uri,null)else extractor.setDataSource(second!!)
