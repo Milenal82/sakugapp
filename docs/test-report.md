@@ -1,3 +1,7 @@
+# Page cache and download folders — development
+
+See [implementation, test cases and limits](page-media.md). API 28/35 device results must be checked against the actual source SHA in [page-media evidence](https://github.com/Milenal82/sakugapp/blob/evidence/page-media/report.json). Prior release results below do not establish results for this change. No new official signed Release is requested.
+
 # v1.2.2 / code 15：设置、菜单和完整主题
 
 本地检查：448 项八语资源通过，30 项受影响 JVM 测试通过，Debug Lint 0 错误 / 21 警告；Debug、设备测试 APK 及独立升级检查 APK 均编译成功。16 项发布工具安全测试通过。本地无 KVM，设备结果和原始截图由[定向 CI](https://github.com/Milenal82/sakugapp/actions/workflows/maintenance.yml)记录，正式签名与 v1.2.1 覆盖安装由[发布流程](https://github.com/Milenal82/sakugapp/actions/workflows/release.yml)验证。须核对结果中的实际源码 SHA；旧版通过结果不代替本轮检查。[检查范围与限制](release-1.2.2.md)。

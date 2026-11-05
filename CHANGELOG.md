@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — page cache and download folders
+
+- Page-scoped Media3 disk cache (200 MiB LRU), shared by playback and strict frame reads; preserve it across fullscreen/view recreation and clean it on page exit or after a crashed process.
+- Independent persistent SAF destinations for single and batch videos, with public Movies defaults, progress/cancellation and unchanged file naming. Keep old private playback and add copy-only legacy export.
+- No version or signing change; no public Release for this development update.
+
 ## 1.2.2 / code 15 — 2026-11-02
 
 - 精简设置为外观、浏览、播放、数据与关于五组；移除七项开关，迁移旧值并保留用户数据。

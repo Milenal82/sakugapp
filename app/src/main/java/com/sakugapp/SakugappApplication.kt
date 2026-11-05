@@ -9,6 +9,7 @@ import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 
 class SakugappApplication:Application(),ImageLoaderFactory {
+    override fun onCreate(){super.onCreate();java.util.concurrent.Executors.newSingleThreadExecutor().apply{execute{com.sakugapp.data.PageVideoCache.cleanOrphans(this@SakugappApplication)};shutdown()}}
     override fun newImageLoader():ImageLoader = ImageLoader.Builder(this)
         .memoryCache { coil.memory.MemoryCache.Builder(this).maxSizeBytes(minOf(48L*1024*1024,
             (getSystemService(ACTIVITY_SERVICE) as android.app.ActivityManager).memoryClass.toLong()*1024*1024*15/100).toInt()).build() }

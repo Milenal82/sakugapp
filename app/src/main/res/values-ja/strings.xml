@@ -58,7 +58,7 @@
     <string name="ui_download_cancelled">保存を中止しました。</string>
     <string name="ui_download_total">%1$d KiB / %2$d KiB</string>
     <string name="ui_download_video">動画を保存</string>
-    <string name="ui_downloads_the_original_video_into_private_cache_up_to_200_mib_and">元動画を専用キャッシュに保存します（最大200 MiB）。Android 9以上とフレーム索引対応デコーダーが必要です。再生時刻とは別に、実際の先頭フレームから解析します。</string>
+    <string name="ui_downloads_the_original_video_into_private_cache_up_to_200_mib_and">元動画を必要に応じて読み込み、画面の一時キャッシュ（最大 200 MiB）を共有します。</string>
     <string name="ui_edit">編集</string>
     <string name="ui_edit_your_comment">コメント編集</string>
     <string name="ui_either_tag_or">いずれかのタグ（OR）</string>
@@ -339,7 +339,7 @@
     <string name="ui_move_up">フォルダーを上へ</string>
     <string name="ui_move_down">フォルダーを下へ</string>
     <string name="ui_batch_download">フォルダーの動画をダウンロード</string>
-    <string name="ui_batch_download_hint">1回20本、1本200 MiB、合計1 GiBまで。完了まで画面を開いてください。アプリ内に保存します。</string>
+    <string name="ui_batch_download_hint">一括保存先に最大20件。1件200 MiB、合計1 GiBまで。</string>
     <string name="ui_download_batch_progress">保存済み %1$d / %2$d</string>
     <string name="ui_offline_ready">動画をオフライン再生できます</string>
     <string name="ui_offline_usage">アプリ内の動画：%1$d MiB / 1024 MiB</string>
@@ -445,4 +445,15 @@
     <string name="ui_theme_mint">ミントシアン</string>
     <string name="ui_video_playback">動画と再生</string>
     <string name="ui_data_management">データ管理</string>
+    <string name="ui_single_directory">動画の保存先</string>
+    <string name="ui_batch_directory">一括ダウンロードの保存先</string>
+    <string name="ui_change_directory">フォルダを変更</string>
+    <string name="ui_reset_directory">既定に戻す</string>
+    <string name="ui_directory_error">書き込めるフォルダを選び直してください。Android 8–9 の既定フォルダにはストレージ権限が必要です。</string>
+    <string name="ui_storage_full">ストレージ容量が不足しています。</string>
+    <string name="ui_storage_error">保存できません。空き容量とフォルダの権限を確認してください。</string>
+    <string name="ui_export_legacy">旧オフライン動画をエクスポート</string>
+    <string name="ui_legacy_export_hint">一括保存先にコピーします。元のファイルは保持します。</string>
+    <string name="ui_batch_result">保存：%1$d · 失敗：%2$d</string>
+    <string name="ui_media_unavailable">メディアを利用できません</string>
 </resources>

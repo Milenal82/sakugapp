@@ -116,6 +116,7 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel,language:()->Unit,abo
             SettingAction(text(R.string.ui_reset_video_effects),onClick={model.number("brightness",1f);model.number("contrast",1f);model.number("saturation",1f);model.flag("mirror",false)})
         }
         SettingsGroup(R.drawable.ic_folder,text(R.string.ui_data_management)){
+            DownloadDirectories(model)
             SettingAction(text(R.string.ui_clear_media_cache),enabled=!clearing,onClick={scope.launch{
                 clearing=true
                 try{withContext(Dispatchers.IO){Coil.imageLoader(context).diskCache?.clear();java.io.File(context.cacheDir,"frames").deleteRecursively();java.io.File(context.cacheDir,"screenshots").deleteRecursively()};Coil.imageLoader(context).memoryCache?.clear();message=context.getString(R.string.ui_cache_cleared)}

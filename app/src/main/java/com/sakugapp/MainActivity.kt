@@ -126,19 +126,19 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                 }}
             }
         }}){insets->NavHost(navController=nav,startDestination="posts",modifier=Modifier.padding(insets).semantics{testTagsAsResourceId=true}){
-            composable("posts"){
+            composable("posts"){PageMediaScope{
                 val browse=model.browsingState
                 val home=remember(browse,library.durations){browse.copy(posts=browse.posts.map{post->library.durations[post.fileUrl]?.takeIf{it!=post.durationMs}?.let{post.copy(durationMs=it)} ?: post})}
                 PostsScreen(home,grid,settings,history,metered,app,::search,{post->model.open(post);nav.navigate("post/${post.id}")},model::loadMore,model::refresh,isActive=entry?.destination?.route=="posts")
-            }
-            composable("search"){PostsScreen(feed,rememberLazyGridState(),settings,history,metered,app,::search,{post->model.open(post);nav.navigate("post/${post.id}")},model::loadMore,model::refresh,isActive=entry?.destination?.route=="search")}
-            composable("library"){LibraryScreen(app,::search,{nav.navigate("tags")}){post,order->model.openLocal(post,order);nav.navigate("post/${post.id}")}}
+            }}
+            composable("search"){PageMediaScope{PostsScreen(feed,rememberLazyGridState(),settings,history,metered,app,::search,{post->model.open(post);nav.navigate("post/${post.id}")},model::loadMore,model::refresh,isActive=entry?.destination?.route=="search")}}
+            composable("library"){PageMediaScope{LibraryScreen(app,::search,{nav.navigate("tags")}){post,order->model.openLocal(post,order);nav.navigate("post/${post.id}")}}}
             composable("tags"){TagFavoritesScreen(app,{nav.popBackStack()}){value->nav.popBackStack("posts",false);search(value)}}
-            composable("history"){BrowsingHistoryScreen(app,{nav.popBackStack()}){post,order->model.openLocal(post,order);nav.navigate("post/${post.id}")}}
+            composable("history"){PageMediaScope{BrowsingHistoryScreen(app,{nav.popBackStack()}){post,order->model.openLocal(post,order);nav.navigate("post/${post.id}")}}}
             composable("account"){AccountScreen(app,openSite)}
             composable("language"){LanguageScreen(settings.language,app::language)}
             composable("settings"){SettingsScreen(settings,app,{nav.navigate("language")},{about=true})}
-            composable("post/{id}"){backStack->
+            composable("post/{id}"){backStack->PageMediaScope{
                 val id=backStack.arguments?.getString("id")?.toLongOrNull()
                 LaunchedEffect(id){if(id!=null && selected?.id!=id)model.openId(id)}
                 val post=selected?.takeIf{it.id==id}
@@ -160,7 +160,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                     })}
 
                 else Column(Modifier.padding(16.dp)){if(detailError==null)CircularProgressIndicator()else{Text(translateMessage(detailError.orEmpty()),color=MaterialTheme.colorScheme.error);TextButton(onClick={id?.let(model::openId)}){Text(text(R.string.ui_retry))}}}
-            }
+            }}
         }}
     }}
 }
@@ -402,11 +402,12 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
 
 @Composable internal fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,localSnapshot:Boolean,search:(String)->Unit,wiki:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit,onDuration:(Long)->Unit,hasPrevious:Boolean,hasNext:Boolean,onNavigate:(Int)->Boolean){
     val uri=LocalUriHandler.current;var linkError by remember{mutableStateOf(false)}
-    val playbackUrl=remember(post.id){app.offlineMedia.existing(post)?.toURI()?.toString() ?: post.fileUrl}
+    val playback by produceState<Pair<Boolean,String?>>(false to null,post.id){value=true to withContext(Dispatchers.IO){app.offlineUri(post)?.toString() ?: post.fileUrl}}
+    val playbackUrl=playback.second
     var seek by remember{mutableStateOf<Pair<Long,Int>?>(null)}
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(12.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
         if(localSnapshot)Text(text(R.string.ui_library_snapshot_hint),style=MaterialTheme.typography.bodySmall)
-        if(post.isVideo)VideoPanel(playbackUrl!!,settings,seekRequest=seek,onDurationChanged=onDuration,onNavigate=onNavigate,videoDimensions=if(post.width!=null && post.height!=null)post.width to post.height else null)
+        if(post.isVideo){if(playbackUrl!=null)VideoPanel(playbackUrl,settings,seekRequest=seek,onDurationChanged=onDuration,onNavigate=onNavigate,videoDimensions=if(post.width!=null && post.height!=null)post.width to post.height else null)else if(!playback.first)CircularProgressIndicator()else Text(text(R.string.ui_media_unavailable))}
         else PostImage(post,Modifier.fillMaxWidth().height(320.dp),settings,metered,true)
         Row(Modifier.widthIn(max=360.dp).fillMaxWidth().testTag("detail-actions"),horizontalArrangement=Arrangement.SpaceEvenly,verticalAlignment=Alignment.CenterVertically){
             ActionIcon(R.drawable.ic_previous,text(R.string.ui_previous_post),{onNavigate(-1)},Modifier.testTag("previous-post"),enabled=hasPrevious)

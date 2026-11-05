@@ -55,7 +55,7 @@
     <string name="ui_download_and_decode">Descargar y decodificar</string>
     <string name="ui_download_cancelled">Descarga cancelada.</string>
     <string name="ui_download_video">Descargar vídeo</string>
-    <string name="ui_downloads_the_original_video_into_private_cache_up_to_200_mib_and">Descarga el vídeo original a la caché privada (máx. 200 MiB). Requiere Android 9+ y un decodificador con índices. Empieza en el fotograma real 1, sin depender de la reproducción.</string>
+    <string name="ui_downloads_the_original_video_into_private_cache_up_to_200_mib_and">Lee los datos necesarios usando la caché temporal de esta página (hasta 200 MiB).</string>
     <string name="ui_edit">Editar</string>
     <string name="ui_edit_your_comment">Editar tu comentario</string>
     <string name="ui_either_tag_or">Cualquiera de las etiquetas (O)</string>
@@ -335,7 +335,7 @@
     <string name="ui_move_up">Subir carpeta</string>
     <string name="ui_move_down">Bajar carpeta</string>
     <string name="ui_batch_download">Descargar vídeos de la carpeta</string>
-    <string name="ui_batch_download_hint">Máximo 20 vídeos por lote, 200 MiB por archivo y 1 GiB total. Mantén la página abierta. Los archivos quedan en el almacenamiento de la aplicación.</string>
+    <string name="ui_batch_download_hint">Hasta 20 vídeos en la carpeta por lotes, 200 MiB por archivo, 1 GiB en total.</string>
     <string name="ui_download_batch_progress">Descargados: %1$d / %2$d</string>
     <string name="ui_offline_ready">Vídeo disponible sin conexión</string>
     <string name="ui_offline_usage">Vídeos privados: %1$d MiB / 1024 MiB</string>
@@ -451,4 +451,15 @@
     <string name="ui_theme_mint">Cian menta</string>
     <string name="ui_video_playback">Vídeo y reproducción</string>
     <string name="ui_data_management">Gestión de datos</string>
+    <string name="ui_single_directory">Carpeta de vídeos individuales</string>
+    <string name="ui_batch_directory">Carpeta de descargas por lotes</string>
+    <string name="ui_change_directory">Cambiar carpeta</string>
+    <string name="ui_reset_directory">Restaurar predeterminada</string>
+    <string name="ui_directory_error">Elija una carpeta con permiso de escritura. Android 8–9 requiere permiso de almacenamiento para la carpeta predeterminada.</string>
+    <string name="ui_storage_full">No hay espacio suficiente.</string>
+    <string name="ui_storage_error">No se pudo guardar. Revise el espacio y los permisos de la carpeta.</string>
+    <string name="ui_export_legacy">Exportar vídeos sin conexión antiguos</string>
+    <string name="ui_legacy_export_hint">Copia a la carpeta por lotes. Conserva los originales.</string>
+    <string name="ui_batch_result">Guardados: %1$d · Fallidos: %2$d</string>
+    <string name="ui_media_unavailable">Contenido no disponible</string>
 </resources>

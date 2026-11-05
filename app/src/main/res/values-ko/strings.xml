@@ -55,7 +55,7 @@
     <string name="ui_download_and_decode">다운로드 및 디코딩</string>
     <string name="ui_download_cancelled">다운로드를 취소했습니다.</string>
     <string name="ui_download_video">동영상 다운로드</string>
-    <string name="ui_downloads_the_original_video_into_private_cache_up_to_200_mib_and">원본 동영상을 앱 전용 캐시에 다운로드합니다(최대 200 MiB). Android 9 이상 및 프레임 인덱스 디코더가 필요합니다. 재생 위치와 관계없이 실제 1번 프레임부터 시작합니다.</string>
+    <string name="ui_downloads_the_original_video_into_private_cache_up_to_200_mib_and">필요한 영상 구간을 이 페이지의 임시 캐시로 읽습니다(최대 200 MiB).</string>
     <string name="ui_edit">편집</string>
     <string name="ui_edit_your_comment">내 댓글 편집</string>
     <string name="ui_either_tag_or">어느 한 태그 (OR)</string>
@@ -335,7 +335,7 @@
     <string name="ui_move_up">폴더 위로</string>
     <string name="ui_move_down">폴더 아래로</string>
     <string name="ui_batch_download">폴더의 동영상 다운로드</string>
-    <string name="ui_batch_download_hint">한 번에 최대 20개, 파일당 200 MiB, 전체 1 GiB입니다. 이 화면을 열어 두세요. 파일은 앱 전용 공간에 저장됩니다.</string>
+    <string name="ui_batch_download_hint">일괄 폴더에 최대 20개, 파일당 200 MiB, 전체 1 GiB.</string>
     <string name="ui_download_batch_progress">다운로드: %1$d / %2$d</string>
     <string name="ui_offline_ready">오프라인 동영상 사용 가능</string>
     <string name="ui_offline_usage">앱 전용 동영상: %1$d MiB / 1024 MiB</string>
@@ -445,4 +445,15 @@
     <string name="ui_theme_mint">민트 시안</string>
     <string name="ui_video_playback">동영상 및 재생</string>
     <string name="ui_data_management">데이터 관리</string>
+    <string name="ui_single_directory">개별 동영상 다운로드 폴더</string>
+    <string name="ui_batch_directory">일괄 다운로드 폴더</string>
+    <string name="ui_change_directory">폴더 변경</string>
+    <string name="ui_reset_directory">기본값으로 복원</string>
+    <string name="ui_directory_error">쓰기 가능한 폴더를 다시 선택하세요. Android 8–9의 기본 폴더에는 저장소 권한이 필요합니다.</string>
+    <string name="ui_storage_full">저장 공간이 부족합니다.</string>
+    <string name="ui_storage_error">저장할 수 없습니다. 공간과 폴더 권한을 확인하세요.</string>
+    <string name="ui_export_legacy">이전 오프라인 동영상 내보내기</string>
+    <string name="ui_legacy_export_hint">일괄 다운로드 폴더로 복사합니다. 원본은 유지됩니다.</string>
+    <string name="ui_batch_result">저장: %1$d · 실패: %2$d</string>
+    <string name="ui_media_unavailable">미디어를 사용할 수 없습니다</string>
 </resources>

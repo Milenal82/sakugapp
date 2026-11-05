@@ -27,27 +27,16 @@ import kotlinx.coroutines.*
     var bytes by remember{mutableLongStateOf(0L)}
     var total by remember{mutableLongStateOf(-1L)}
     var status by remember{mutableStateOf(false)}
-    val picker=rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument(plan.mime)){uri->
-        if(uri!=null) {
-            busy=true;done=false;cancelled=false;error=null;bytes=0;total=-1;status=true
-            job=scope.launch {
-                var updated=0L
-                try {
-                    VideoDownloader().download(plan,
-                        open={checkNotNull(resolver.openOutputStream(uri,"w"))},
-                        discard={android.provider.DocumentsContract.deleteDocument(resolver,uri)},
-                        progress={received,length->
-                            val now=System.nanoTime()
-                            if(now-updated>100_000_000L || received==length){updated=now;scope.launch{bytes=received;total=length}}
-                        })
-                    done=true
-                }catch(e:CancellationException){cancelled=true;throw e}
-                catch(e:Exception){error=e.message ?: context.getString(R.string.ui_video_download_failed_please_retry)}
-                finally{busy=false}
-            }
+    val storage=remember(context){DownloadStorage(context.applicationContext)}
+    val access=rememberDownloadAccess(storage){error=context.getString(R.string.ui_directory_error);status=true}
+    fun start(){
+        busy=true;done=false;cancelled=false;error=null;bytes=0;total=-1;status=true
+        job=scope.launch{var updated=0L
+            try{storage.download(post,DownloadStorage.Kind.SINGLE){received,length->val now=System.nanoTime();if(now-updated>100_000_000L || received==length){updated=now;scope.launch{bytes=received;total=length}}};done=true}
+            catch(e:CancellationException){cancelled=true;throw e}catch(e:Exception){error=libraryError(context,e)}finally{busy=false}
         }
     }
-    ActionIcon(R.drawable.ic_download,text(R.string.ui_download_video),{if(busy)status=true else picker.launch(plan.filename)},Modifier.testTag("download-video"))
+    ActionIcon(R.drawable.ic_download,text(R.string.ui_download_video),{if(busy)status=true else access(DownloadStorage.Kind.SINGLE){start()}},Modifier.testTag("download-video"))
     if(status)AlertDialog(onDismissRequest={status=false},title={Text(text(R.string.ui_download_video))},text={Column {
         if(busy) {
             if(total>0)LinearProgressIndicator(progress={(bytes.toDouble()/total).toFloat().coerceIn(0f,1f)},modifier=Modifier.fillMaxWidth())else LinearProgressIndicator(Modifier.fillMaxWidth())

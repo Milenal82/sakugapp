@@ -1,0 +1,81 @@
+name: Page media cache and download folders
+on:
+  push:
+    branches: [feature/page-cache-download-folders]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: page-media-${{ github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  devices:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        api: [28, 35]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: ./scripts/ci-android-sdk.sh
+      - uses: gradle/actions/setup-gradle@v5
+      - run: sudo chmod a+rw /dev/kvm
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api }}
+          arch: x86_64
+          target: default
+          profile: Nexus 6
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
+          script: ./gradlew --no-daemon connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.sakugapp.PageCacheDeviceTest,com.sakugapp.DownloadFoldersDeviceTest,com.sakugapp.OfflineLibraryDeviceTest
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: page-media-reports-${{ matrix.api }}
+          path: |
+            app/build/outputs/androidTest-results/
+            app/build/reports/androidTests/
+  evidence:
+    if: always()
+    needs: devices
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: page-media-reports-*
+          path: ${{ runner.temp }}/page-reports
+      - name: Record bounded test results
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVIDENCE_DOWNLOADS: ${{ runner.temp }}/page-reports
+          EVIDENCE_OUTPUT: ${{ runner.temp }}/page-evidence
+          MAINTENANCE_VALIDATION_RESULT: ${{ needs.devices.result }}
+        run: python3 scripts/record-maintenance-evidence.py
+      - name: Save evidence independently of application code
+        run: |
+          set -euo pipefail
+          branch=evidence/page-media
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null; then
+            git fetch origin "refs/heads/$branch:refs/remotes/origin/$branch"
+            git switch -c page-evidence "origin/$branch"
+          else
+            git switch --orphan page-evidence
+            git rm -rf . >/dev/null
+          fi
+          cp "$RUNNER_TEMP/page-evidence/report.json" report.json
+          cp "$RUNNER_TEMP/page-evidence/README.md" README.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add report.json README.md
+          git commit -m "Page media verification for $GITHUB_SHA"
+          git push origin "HEAD:refs/heads/$branch"

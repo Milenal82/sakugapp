@@ -63,7 +63,7 @@
     <string name="ui_download_cancelled">Download cancelled.</string>
     <string name="ui_download_total">%1$d KiB / %2$d KiB</string>
     <string name="ui_download_video">Download video</string>
-    <string name="ui_downloads_the_original_video_into_private_cache_up_to_200_mib_and">Downloads the original video into private cache (up to 200 MiB). Android 9+ and a decoder supporting frame indexes are required. Starts at actual frame 1, independent of playback position.</string>
+    <string name="ui_downloads_the_original_video_into_private_cache_up_to_200_mib_and">Reads original video ranges on demand using this page’s temporary cache (up to 200 MiB).</string>
     <string name="ui_edit">Edit</string>
     <string name="ui_edit_your_comment">Edit your comment</string>
     <string name="ui_either_tag_or">Either tag (OR)</string>
@@ -344,7 +344,7 @@
     <string name="ui_move_up">Move folder up</string>
     <string name="ui_move_down">Move folder down</string>
     <string name="ui_batch_download">Download folder videos</string>
-    <string name="ui_batch_download_hint">Up to 20 videos per batch, 200 MiB per file, 1 GiB total. Keep this page open. Files stay in app storage.</string>
+    <string name="ui_batch_download_hint">Up to 20 original videos to the batch folder. 200 MiB per file, 1 GiB total.</string>
     <string name="ui_download_batch_progress">Downloaded %1$d / %2$d</string>
     <string name="ui_offline_ready">Offline video available</string>
     <string name="ui_offline_usage">Private video storage: %1$d MiB / 1024 MiB</string>
@@ -457,4 +457,15 @@
     <string name="ui_theme_mint">Mint Cyan</string>
     <string name="ui_video_playback">Video &amp; playback</string>
     <string name="ui_data_management">Data &amp; management</string>
+    <string name="ui_single_directory">Single video folder</string>
+    <string name="ui_batch_directory">Batch video folder</string>
+    <string name="ui_change_directory">Change folder</string>
+    <string name="ui_reset_directory">Use default</string>
+    <string name="ui_directory_error">Folder unavailable. Select a writable folder, or allow storage access on Android 8–9.</string>
+    <string name="ui_storage_full">Not enough storage space.</string>
+    <string name="ui_storage_error">Unable to save the video. Check storage space and folder access.</string>
+    <string name="ui_export_legacy">Export old offline videos</string>
+    <string name="ui_legacy_export_hint">Copies old private videos to the batch folder. Originals are kept.</string>
+    <string name="ui_batch_result">Saved: %1$d · Failed: %2$d</string>
+    <string name="ui_media_unavailable">Media unavailable</string>
 </resources>

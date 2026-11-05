@@ -55,7 +55,7 @@
     <string name="ui_download_and_decode">Загрузить и декодировать</string>
     <string name="ui_download_cancelled">Загрузка отменена.</string>
     <string name="ui_download_video">Скачать видео</string>
-    <string name="ui_downloads_the_original_video_into_private_cache_up_to_200_mib_and">Загружает оригинал в закрытый кеш (до 200 MiB). Нужны Android 9+ и декодер с индексами кадров. Начинает с кадра 1 независимо от позиции воспроизведения.</string>
+    <string name="ui_downloads_the_original_video_into_private_cache_up_to_200_mib_and">Читает нужные фрагменты через временный кеш страницы (до 200 МиБ).</string>
     <string name="ui_edit">Изменить</string>
     <string name="ui_edit_your_comment">Изменить свой комментарий</string>
     <string name="ui_either_tag_or">Любой тег (ИЛИ)</string>
@@ -335,7 +335,7 @@
     <string name="ui_move_up">Поднять папку</string>
     <string name="ui_move_down">Опустить папку</string>
     <string name="ui_batch_download">Скачать видео папки</string>
-    <string name="ui_batch_download_hint">До 20 видео за раз, 200 MiB на файл, всего 1 GiB. Не закрывайте страницу. Файлы хранятся в приложении.</string>
+    <string name="ui_batch_download_hint">До 20 видео в папку пакетных загрузок: 200 МиБ на файл, всего 1 ГиБ.</string>
     <string name="ui_download_batch_progress">Загружено: %1$d / %2$d</string>
     <string name="ui_offline_ready">Видео доступно офлайн</string>
     <string name="ui_offline_usage">Видео в приложении: %1$d MiB / 1024 MiB</string>
@@ -454,4 +454,15 @@
     <string name="ui_theme_mint">Мятный циан</string>
     <string name="ui_video_playback">Видео и воспроизведение</string>
     <string name="ui_data_management">Управление данными</string>
+    <string name="ui_single_directory">Папка отдельных видео</string>
+    <string name="ui_batch_directory">Папка пакетных загрузок</string>
+    <string name="ui_change_directory">Изменить папку</string>
+    <string name="ui_reset_directory">По умолчанию</string>
+    <string name="ui_directory_error">Выберите папку с доступом на запись. В Android 8–9 для папки по умолчанию нужно разрешение на хранилище.</string>
+    <string name="ui_storage_full">Недостаточно места.</string>
+    <string name="ui_storage_error">Не удалось сохранить. Проверьте место и доступ к папке.</string>
+    <string name="ui_export_legacy">Экспорт старых офлайн-видео</string>
+    <string name="ui_legacy_export_hint">Копирует в папку пакетных загрузок. Оригиналы сохраняются.</string>
+    <string name="ui_batch_result">Сохранено: %1$d · Ошибки: %2$d</string>
+    <string name="ui_media_unavailable">Медиа недоступно</string>
 </resources>

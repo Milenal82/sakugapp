@@ -58,7 +58,7 @@
     <string name="ui_download_cancelled">已取消下载。</string>
     <string name="ui_download_total">%1$d KiB / %2$d KiB</string>
     <string name="ui_download_video">下载视频</string>
-    <string name="ui_downloads_the_original_video_into_private_cache_up_to_200_mib_and">将原始视频下载至私人缓存（最多 200 MiB）。需要 Android 9 以上及支援帧索引的解码器。从实际第 1 帧开始，与播放时间位置分开。</string>
+    <string name="ui_downloads_the_original_video_into_private_cache_up_to_200_mib_and">按需读取原始视频，与当前页面共享临时缓存（最多 200 MiB）。</string>
     <string name="ui_edit">编辑</string>
     <string name="ui_edit_your_comment">编辑你的评论</string>
     <string name="ui_either_tag_or">搜索有 tag1 或 tag2 的帖子</string>
@@ -339,7 +339,7 @@
     <string name="ui_move_up">收藏夹上移</string>
     <string name="ui_move_down">收藏夹下移</string>
     <string name="ui_batch_download">批量下载收藏夹视频</string>
-    <string name="ui_batch_download_hint">每批最多 20 个视频，单个上限 200 MiB，总计 1 GiB。请保持页面打开，文件保存在应用内。</string>
+    <string name="ui_batch_download_hint">保存到批量下载目录，每批最多 20 个，单个最多 200 MiB，总量上限 1 GiB。</string>
     <string name="ui_download_batch_progress">已下载 %1$d / %2$d</string>
     <string name="ui_offline_ready">视频可离线播放</string>
     <string name="ui_offline_usage">私有视频存储：%1$d MiB / 1024 MiB</string>
@@ -445,4 +445,15 @@
     <string name="ui_theme_mint">薄荷青</string>
     <string name="ui_video_playback">视频与播放</string>
     <string name="ui_data_management">数据与管理</string>
+    <string name="ui_single_directory">单个视频下载目录</string>
+    <string name="ui_batch_directory">批量视频下载目录</string>
+    <string name="ui_change_directory">更改目录</string>
+    <string name="ui_reset_directory">恢复默认目录</string>
+    <string name="ui_directory_error">目录不可写或授权失效，请重新选择；Android 8–9 的默认目录需允许存储权限。</string>
+    <string name="ui_storage_full">存储空间不足。</string>
+    <string name="ui_storage_error">无法保存视频，请检查存储空间和目录权限。</string>
+    <string name="ui_export_legacy">导出旧版离线视频</string>
+    <string name="ui_legacy_export_hint">复制到批量下载目录，保留原文件。</string>
+    <string name="ui_batch_result">成功：%1$d · 失败：%2$d</string>
+    <string name="ui_media_unavailable">媒体不可用</string>
 </resources>

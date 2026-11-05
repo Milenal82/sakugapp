@@ -15,6 +15,8 @@ Sakuga Mobile（安装名称 Sakugapp）是 Sakugabooru 的非官方 Android 客
 - 本地多收藏夹、拖拽排序与封面，夹内支持一层子收藏夹及多分类，JSON 备份；独立的标签收藏和本地备注。浏览历史自动记录，可逐条删除或清空。
 - 深浅色外观及标准 / 樱花粉 / 薄荷青完整配色、75%–125% 应用字号、0–20 dp 预览标签额外行距，八种界面语言；账户、Vote、评论和 Blog / Forum 入口。网站内容与原始标签保持原文，官网语言仅使用英语或日语。
 
+当前页面的视频使用最多 200 MiB 临时磁盘缓存，播放器和逐帧分析共享已加载区间；退出页面后清理。设置 → 数据管理可分别选择单个和批量视频目录，默认 `Movies/Sakugapp/` 与 `Movies/Sakugapp/Batch/`。旧版私有视频可导出，原文件保留。Android 8–9 的默认公共目录需要存储权限，其他版本通过 MediaStore 或 SAF 写入。
+
 全屏默认仅显示视频，单击切换控制栏。视频默认静音、循环播放，可在播放器中临时调整；手势和截图分享始终可用，图片和预览不限制 Wi-Fi。设置按外观、浏览、播放、数据和关于分组。参见 [v1.2.2 更新说明](docs/release-1.2.2.md)。
 
 ### 下载与备份
@@ -51,6 +53,8 @@ Sakuga Mobile (installed as Sakugapp) is an unofficial Android client for Sakuga
 - Local folders with drag ordering, covers, one level of subfolders and multiple classifications, and JSON backup; separate tag favorites and local notes. Browsing history is recorded automatically; entries can be deleted individually or cleared.
 - Light and dark appearances with complete Default / Sakura Pink / Mint Cyan palettes, 75%–125% app text size, 0–20 dp extra preview tag-row spacing, eight UI languages, account / Vote / comment features, and Blog / Forum links. Website content and tags stay in their original language; website locale uses English or Japanese only.
 
+Each page shares up to 200 MiB of temporary disk video cache, including frame analysis, and clears it on exit. Data settings provide separate single/batch folders (defaults: `Movies/Sakugapp/` and `Movies/Sakugapp/Batch/`). Old private videos can be exported without deleting originals. Android 8–9 requires storage permission for the default public folders; newer versions use MediaStore or SAF.
+
 Fullscreen starts with video only; a single tap toggles the controls. Videos start muted and looping, with temporary controls in the player. Gestures and snapshot sharing remain enabled; images and previews are allowed on mobile networks. Settings are grouped into appearance, browsing, playback, data, and about. See the [v1.2.2 notes](docs/release-1.2.2.md).
 
 ### Download and backup
@@ -86,6 +90,8 @@ Sakuga Mobile（インストール名 Sakugapp）は Sakugabooru の非公式 An
 - 全画面回転、速度と音量、A–B リピート、ピンチズーム、ダブルタップで一時停止、左右の投稿切り替え。詳細操作は折りたたみ可能で、実際のデコードインデックスによるコマ送りとフレーム番号に対応。
 - ドラッグで並べ替えできるローカルフォルダ、カバー、1 階層のサブフォルダと複数分類、JSON バックアップ、独立したタグのお気に入りとメモ。閲覧履歴は自動で記録し、個別削除と全消去に対応。
 - ライト / ダーク表示と標準 / Sakura Pink（桜色）/ Mint Cyan（ミント色）の全体配色、75%–125% の文字サイズ、プレビュータグの追加行間 0–20 dp、8 言語の UI、アカウント / Vote / コメント機能、Blog / Forum へのリンク。サイト本文とタグは原文のまま、サイトの言語指定は英語または日本語のみ。
+
+画面ごとに最大 200 MiB の一時動画キャッシュを共有し、コマ送りでも利用します。画面を離れると削除します。データ設定で個別・一括の保存先を選択できます（既定：`Movies/Sakugapp/`、`Movies/Sakugapp/Batch/`）。旧私有動画は原本を残してエクスポートできます。Android 8–9 の既定保存先にはストレージ権限が必要で、新しい版では MediaStore または SAF を使用します。
 
 全画面では動画のみを表示し、シングルタップで操作を表示・非表示にします。動画はミュート・リピートで開始し、再生中は個別に変更できます。ジェスチャーと画面共有は常に有効で、画像とプレビューはモバイル回線でも読み込みます。設定を外観・閲覧・再生・データ・アプリ情報に整理しました。[v1.2.2 更新情報](docs/release-1.2.2.md)を参照してください。
 

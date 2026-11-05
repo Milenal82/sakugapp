@@ -48,6 +48,7 @@ interface VideoOrientationHost { var hasFullscreenPlayer:Boolean;var fullscreenO
 @Composable
 fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=false,seekRequest:Pair<Long,Int>?=null,
     onPlayerReady:((Player)->Unit)?=null,onDurationChanged:(Long)->Unit={},onNavigate:(Int)->Boolean={false},videoDimensions:Pair<Int,Int>?=null) {
+    val pageCache=LocalPageVideoCache.current
     val context=LocalContext.current;val owner=LocalLifecycleOwner.current;val scope=rememberCoroutineScope()
     val shareTitle=text(R.string.ui_share_frame)
     val activity=LocalActivity.current;val orientationHost=activity as? VideoOrientationHost
@@ -88,7 +89,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
         normalOrientation=activity?.requestedOrientation ?: ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         inlineExpanded=more;controlsVisible=false;manualRotation=false;orientationHost?.hasFullscreenPlayer=true;fullscreen=true
     }
-    val player=remember(url){ExoPlayer.Builder(context.applicationContext).setLoadControl(DefaultLoadControl.Builder()
+    val player=remember(url){ExoPlayer.Builder(context.applicationContext).apply{pageCache?.let{setMediaSourceFactory(androidx.media3.exoplayer.source.DefaultMediaSourceFactory(it.factory()))}}.setLoadControl(DefaultLoadControl.Builder()
         .setBufferDurationsMs(3000,15000,500,1000).setTargetBufferBytes((if(preview)8 else 24)*1024*1024)
         .setPrioritizeTimeOverSizeThresholds(false).build()).build().apply{
         setSeekParameters(SeekParameters.EXACT);setMediaItem(MediaItem.fromUri(url));seekTo(position);playWhenReady=handoff?.play ?: preview
@@ -124,10 +125,11 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
         onDispose{owner.lifecycle.removeObserver(observer);player.removeListener(listener)}
     }
     DisposableEffect(player){
+        val cacheLease=pageCache?.retain()
         onPlayerReady?.invoke(player)
         if(player.playWhenReady)PlaybackResources.claim(player)
         if(owner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED) && player.playbackState==Player.STATE_IDLE)player.prepare()
-        onDispose{if(!frames && player.playbackState!=Player.STATE_IDLE)position=player.currentPosition;if(view?.player===player){view?.player=null;view=null};PlaybackResources.release(player);player.release()}
+        onDispose{if(!frames && player.playbackState!=Player.STATE_IDLE)position=player.currentPosition;if(view?.player===player){view?.player=null;view=null};PlaybackResources.release(player);player.release();cacheLease?.close()}
     }
     LaunchedEffect(player,muted,loop,speed,volume,abEnabled){player.volume=if(muted)0f else volume;player.repeatMode=if(loop || abEnabled)Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF;player.setPlaybackSpeed(speed)}
     LaunchedEffect(player,ab,owner){

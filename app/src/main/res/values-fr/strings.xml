@@ -55,7 +55,7 @@
     <string name="ui_download_and_decode">Télécharger et décoder</string>
     <string name="ui_download_cancelled">Téléchargement annulé.</string>
     <string name="ui_download_video">Télécharger la vidéo</string>
-    <string name="ui_downloads_the_original_video_into_private_cache_up_to_200_mib_and">Télécharge la vidéo originale dans le cache privé (200 MiB max.). Android 9+ et un décodeur par index sont requis. Commence à l’image réelle 1, indépendamment de la lecture.</string>
+    <string name="ui_downloads_the_original_video_into_private_cache_up_to_200_mib_and">Lit les plages vidéo à la demande dans le cache temporaire de cette page (200 Mio maximum).</string>
     <string name="ui_edit">Modifier</string>
     <string name="ui_edit_your_comment">Modifier votre commentaire</string>
     <string name="ui_either_tag_or">Une des étiquettes (OU)</string>
@@ -335,7 +335,7 @@
     <string name="ui_move_up">Monter le dossier</string>
     <string name="ui_move_down">Descendre le dossier</string>
     <string name="ui_batch_download">Télécharger les vidéos du dossier</string>
-    <string name="ui_batch_download_hint">20 vidéos max. par lot, 200 MiB par fichier, 1 GiB au total. Gardez la page ouverte. Fichiers dans le stockage privé de l’application.</string>
+    <string name="ui_batch_download_hint">Jusqu’à 20 vidéos dans le dossier groupé, 200 Mio par fichier, 1 Gio au total.</string>
     <string name="ui_download_batch_progress">Téléchargés : %1$d / %2$d</string>
     <string name="ui_offline_ready">Vidéo disponible hors ligne</string>
     <string name="ui_offline_usage">Vidéos privées : %1$d MiB / 1024 MiB</string>
@@ -451,4 +451,15 @@
     <string name="ui_theme_mint">Cyan menthe</string>
     <string name="ui_video_playback">Vidéo et lecture</string>
     <string name="ui_data_management">Gestion des données</string>
+    <string name="ui_single_directory">Dossier des vidéos individuelles</string>
+    <string name="ui_batch_directory">Dossier des téléchargements groupés</string>
+    <string name="ui_change_directory">Changer de dossier</string>
+    <string name="ui_reset_directory">Valeur par défaut</string>
+    <string name="ui_directory_error">Choisissez un dossier accessible en écriture. Sur Android 8–9, autorisez le stockage pour le dossier par défaut.</string>
+    <string name="ui_storage_full">Espace de stockage insuffisant.</string>
+    <string name="ui_storage_error">Impossible de sauvegarder. Vérifiez l’espace et les droits du dossier.</string>
+    <string name="ui_export_legacy">Exporter les anciennes vidéos hors ligne</string>
+    <string name="ui_legacy_export_hint">Copie vers le dossier groupé. Les originaux sont conservés.</string>
+    <string name="ui_batch_result">Enregistrées : %1$d · Échecs : %2$d</string>
+    <string name="ui_media_unavailable">Média indisponible</string>
 </resources>

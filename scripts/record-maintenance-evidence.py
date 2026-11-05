@@ -232,6 +232,14 @@ def main():
             'Original captures use public-response fixtures and an isolated codec pattern. '
             'scroll_profile is actual emulator FrameMetrics with thumbnails absent to isolate layout; it is not a real-device benchmark. '
             'The existing main CI remains enabled. Official v1.2.1-to-v1.2.2 signed upgrade checks run separately before publication.\n')
+    if os.environ.get('GITHUB_REF_NAME') == 'feature/page-cache-download-folders':
+        report['scope']='Page cache HTTPS ranges/repeats/frame decode/fullscreen/recreation/cleanup and public/SAF download destinations, cancellation, errors and legacy exports on API 28 and 35.'
+        (OUTPUT / 'report.json').write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
+        (OUTPUT / 'README.md').write_text(f'# Page media checks\n\nSource: `{SHA}`\n\nRun: {report["run_url"]}\n\n'
+            'Controlled TLS fixture transfers, actual Media3 looping and frame-index reads, page cleanup, native folder picker grants and persistent destinations. '
+            'Storage-full handling uses an injected ENOSPC write failure; no device disk is filled. '
+            'API 28 and 35 emulator results are recorded per report path. This is not a physical SD-card or long-duration stress test. '
+            'Existing Android CI remains enabled separately. No signing material or user media is collected.\n')
     print('Maintenance evidence recorded for', SHA, report['test_counts'])
 
 
