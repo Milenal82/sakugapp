@@ -1,8 +1,8 @@
 {
-  "source_commit": "30c66e11729347c0eeab598fd8fba882062fe938",
-  "run_id": "42161847263",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42161847263",
-  "captured_utc": "2026-11-06T04:27:04.905745+00:00",
+  "source_commit": "fa558ea948ebe150934e794f09834a95411e9c95",
+  "run_id": "42162609136",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136",
+  "captured_utc": "2026-11-06T04:34:42.627984+00:00",
   "validation_result": "success",
   "scope": "Compact frame/lock controls, window/aspect detail sizing, community state and persistent SAF batch queue; emulator checks only.",
   "jobs": [
@@ -10,63 +10,63 @@
       "name": "build",
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42161847263/job/127709128592",
-      "id": 127709128592
-    },
-    {
-      "name": "devices (28, pixel_c)",
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42161847263/job/127709128818",
-      "id": 127709128818
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136/job/127711579225",
+      "id": 127711579225
     },
     {
       "name": "devices (28, Nexus S)",
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42161847263/job/127709128829",
-      "id": 127709128829
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136/job/127711579372",
+      "id": 127711579372
     },
     {
       "name": "devices (35, Nexus 6)",
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42161847263/job/127709129105",
-      "id": 127709129105
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136/job/127711579542",
+      "id": 127711579542
+    },
+    {
+      "name": "devices (28, pixel_c)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136/job/127711579605",
+      "id": 127711579605
     },
     {
       "name": "evidence",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42161847263/job/127711457079",
-      "id": 127711457079
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136/job/127713856894",
+      "id": 127713856894
     }
   ],
   "artifacts": [
     {
-      "name": "player-community-device-28-pixel_c",
-      "bytes": 308461,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42161847263/artifacts/13477686230"
-    },
-    {
-      "name": "player-community-build-reports",
-      "bytes": 74595,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42161847263/artifacts/13477247598"
-    },
-    {
       "name": "player-community-device-35-Nexus 6",
-      "bytes": 921614,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42161847263/artifacts/13476944519"
+      "bytes": 933999,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136/artifacts/13477513327"
+    },
+    {
+      "name": "player-community-device-28-pixel_c",
+      "bytes": 314333,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136/artifacts/13477508090"
     },
     {
       "name": "player-community-device-28-Nexus S",
-      "bytes": 267709,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42161847263/artifacts/13476594419"
+      "bytes": 271627,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136/artifacts/13477483241"
+    },
+    {
+      "name": "player-community-build-reports",
+      "bytes": 74591,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136/artifacts/13477079865"
     }
   ],
   "test_counts": {
     "device": {
-      "tests": 39,
+      "tests": 42,
       "failures": 0,
       "errors": 0,
       "skipped": 0
