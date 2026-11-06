@@ -1,67 +1,67 @@
 {
-  "source_commit": "8f858a3a273d328e1da2e112bc4335ee8a2b7e71",
-  "run_id": "42156199053",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42156199053",
-  "captured_utc": "2026-11-06T03:30:09.155687+00:00",
+  "source_commit": "6f1d0aac9140fad15950002b24673dfdeedf7c9a",
+  "run_id": "42157340261",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42157340261",
+  "captured_utc": "2026-11-06T03:40:47.295469+00:00",
   "validation_result": "failure",
   "scope": "Backup restore, native screens, app font size and tag spacing; no full player suite.",
   "jobs": [
     {
-      "name": "devices (28, Nexus S)",
+      "name": "devices (35, Nexus 6)",
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42156199053/job/127690829172",
-      "id": 127690829172
-    },
-    {
-      "name": "devices (28, pixel_c)",
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42156199053/job/127690829291",
-      "id": 127690829291
+      "conclusion": "success",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42157340261/job/127694509619",
+      "id": 127694509619
     },
     {
       "name": "build",
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42156199053/job/127690829375",
-      "id": 127690829375
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42157340261/job/127694509805",
+      "id": 127694509805
     },
     {
-      "name": "devices (35, Nexus 6)",
+      "name": "devices (28, pixel_c)",
       "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42156199053/job/127690829409",
-      "id": 127690829409
+      "conclusion": "failure",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42157340261/job/127694509842",
+      "id": 127694509842
+    },
+    {
+      "name": "devices (28, Nexus S)",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42157340261/job/127694509852",
+      "id": 127694509852
     },
     {
       "name": "evidence",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42156199053/job/127693146065",
-      "id": 127693146065
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42157340261/job/127696572035",
+      "id": 127696572035
     }
   ],
   "artifacts": [
     {
-      "name": "player-community-device-35-Nexus 6",
-      "bytes": 223484,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42156199053/artifacts/13475530260"
-    },
-    {
-      "name": "player-community-build-reports",
-      "bytes": 74582,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42156199053/artifacts/13475012218"
-    },
-    {
       "name": "player-community-device-28-pixel_c",
-      "bytes": 99020,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42156199053/artifacts/13474631966"
+      "bytes": 107530,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42157340261/artifacts/13475596809"
+    },
+    {
+      "name": "player-community-device-35-Nexus 6",
+      "bytes": 211812,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42157340261/artifacts/13475264070"
     },
     {
       "name": "player-community-device-28-Nexus S",
-      "bytes": 95253,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42156199053/artifacts/13474563122"
+      "bytes": 99068,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42157340261/artifacts/13474913069"
+    },
+    {
+      "name": "player-community-build-reports",
+      "bytes": 74585,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42157340261/artifacts/13474618349"
     }
   ],
   "test_counts": {
@@ -86,24 +86,24 @@
   },
   "failures": [
     {
-      "job": "devices (28, Nexus S)",
-      "conclusion": "failure",
-      "message": "2026-11-06T03:28:09.8977092Z com.sakugapp.BatchQueueDeviceTest > twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal[emulator-5554 - 9] FAILED \n2026-11-06T03:28:46.2994208Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-06T03:28:46.3133299Z * What went wrong:\n2026-11-06T03:28:46.3142371Z BUILD FAILED in 3m 57s\n2026-11-06T03:28:46.8173494Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
-    },
-    {
       "job": "devices (28, pixel_c)",
       "conclusion": "failure",
-      "message": "2026-11-06T03:27:30.9831675Z com.sakugapp.BatchQueueDeviceTest > twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal[emulator-5554 - 9] FAILED \n2026-11-06T03:28:16.1787583Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-06T03:28:16.2795088Z * What went wrong:\n2026-11-06T03:28:16.2807438Z BUILD FAILED in 3m 55s\n2026-11-06T03:28:16.6771907Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
+      "message": "2026-11-06T03:39:40.2072939Z com.sakugapp.BatchQueueDeviceTest > twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal[emulator-5554 - 9] FAILED \n2026-11-06T03:39:40.2074275Z \tjava.lang.AssertionError: two simultaneous requests: requests=0; error=null; tasks=901:FAILED:0:directory_access, 902:FAILED:0:directory_access; journal=2\n2026-11-06T03:40:27.5010527Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-06T03:40:27.6200345Z * What went wrong:\n2026-11-06T03:40:27.6301121Z BUILD FAILED in 4m 39s\n2026-11-06T03:40:28.0890066Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
+    },
+    {
+      "job": "devices (28, Nexus S)",
+      "conclusion": "failure",
+      "message": "2026-11-06T03:39:20.7234751Z com.sakugapp.BatchQueueDeviceTest > twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal[emulator-5554 - 9] FAILED \n2026-11-06T03:39:20.7241113Z \tjava.lang.AssertionError: two simultaneous requests: requests=0; error=null; tasks=901:FAILED:0:directory_access, 902:FAILED:0:directory_access; journal=2\n2026-11-06T03:39:55.5294322Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-06T03:39:55.6310918Z * What went wrong:\n2026-11-06T03:39:55.6315772Z BUILD FAILED in 3m 21s\n2026-11-06T03:39:56.0310823Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
     },
     {
       "test": "com.sakugapp.BatchQueueDeviceTest.twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal",
       "report": "player-community-device-28-Nexus S/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-      "message": "kotlinx.coroutines.TimeoutCancellationException: Timed out waiting for 30000 ms\nat kotlinx.coroutines.TimeoutKt.TimeoutCancellationException(Timeout.kt:189)\nat kotlinx.coroutines.TimeoutCoroutine.run(Timeout.kt:157)\nat kotlinx.coroutines.EventLoopImplBase$DelayedRunnableTask.run(EventLoop.common.kt:505)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.DefaultExecutor.run(DefaultExecutor.kt:105)\nat java.lang.Thread.run(Thread.java:764)\n"
+      "message": "java.lang.AssertionError: two simultaneous requests: requests=0; error=null; tasks=901:FAILED:0:directory_access, 902:FAILED:0:directory_access; journal=2\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.invokeSuspend$stage(BatchQueueDeviceTest.kt:41)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.access$invokeSuspend$stage(Unknown Source:0)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1$stage$1.invokeSuspend(Unknown Source:19)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.internal.ScopeCoroutine.afterResume(Scopes.kt:35)\nat kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:98)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.BatchQueueDeviceTest.twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal(BatchQueueDeviceTest.kt:23)\n... 52 trimmed\nCaused by: kotlinx.coroutines.TimeoutCancellationException: Timed out waiting for 30000 ms\nat kotlinx.coroutines.TimeoutKt.TimeoutCancellationException(Timeout.kt:189)\nat kotlinx.coroutines.TimeoutCoroutine.run(Timeout.kt:157)\nat kotlinx.coroutines.EventLoopImplBase$DelayedRunnableTask.run(EventLoop.common.kt:505)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.DefaultExecutor.run(DefaultExecutor.kt:105)\nat java.lang.Thread.run(Thread.java:764)\n"
     },
     {
       "test": "com.sakugapp.BatchQueueDeviceTest.twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal",
       "report": "player-community-device-28-pixel_c/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-      "message": "kotlinx.coroutines.TimeoutCancellationException: Timed out waiting for 30000 ms\nat kotlinx.coroutines.TimeoutKt.TimeoutCancellationException(Timeout.kt:189)\nat kotlinx.coroutines.TimeoutCoroutine.run(Timeout.kt:157)\nat kotlinx.coroutines.EventLoopImplBase$DelayedRunnableTask.run(EventLoop.common.kt:505)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.DefaultExecutor.run(DefaultExecutor.kt:105)\nat java.lang.Thread.run(Thread.java:764)\n"
+      "message": "java.lang.AssertionError: two simultaneous requests: requests=0; error=null; tasks=901:FAILED:0:directory_access, 902:FAILED:0:directory_access; journal=2\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.invokeSuspend$stage(BatchQueueDeviceTest.kt:41)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.access$invokeSuspend$stage(Unknown Source:0)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1$stage$1.invokeSuspend(Unknown Source:19)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.internal.ScopeCoroutine.afterResume(Scopes.kt:35)\nat kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:98)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.BatchQueueDeviceTest.twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal(BatchQueueDeviceTest.kt:23)\n... 52 trimmed\nCaused by: kotlinx.coroutines.TimeoutCancellationException: Timed out waiting for 30000 ms\nat kotlinx.coroutines.TimeoutKt.TimeoutCancellationException(Timeout.kt:189)\nat kotlinx.coroutines.TimeoutCoroutine.run(Timeout.kt:157)\nat kotlinx.coroutines.EventLoopImplBase$DelayedRunnableTask.run(EventLoop.common.kt:505)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.DefaultExecutor.run(DefaultExecutor.kt:105)\nat java.lang.Thread.run(Thread.java:764)\n"
     }
   ],
   "device_diagnostics": [],
