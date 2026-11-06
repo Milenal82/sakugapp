@@ -18,7 +18,7 @@ jobs:
           import subprocess,json,zipfile,io,xml.etree.ElementTree as ET,pathlib
           repo='Milenal82/sakugapp';output=[]
           def api(path):return subprocess.check_output(['gh','api',f'repos/{repo}/'+path])
-          for run in ['42155150105']:
+          for run in ['42156199053']:
               meta=json.loads(api('actions/runs/'+run));result={'run':run,'commit':meta['head_sha'],'status':meta['status'],'reports':[]}
               for item in json.loads(api(f'actions/runs/{run}/artifacts?per_page=100'))['artifacts']:
                   if not item['name'].startswith('player-community-') or item['size_in_bytes']>64*1024*1024:continue
