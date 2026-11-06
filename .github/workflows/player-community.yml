@@ -59,12 +59,7 @@ jobs:
           profile: ${{ matrix.profile }}
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
-          script: ./gradlew --no-daemon connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.sakugapp.CommunityUiDeviceTest,com.sakugapp.PlayerLockDeviceTest,com.sakugapp.DetailLayoutDeviceTest,com.sakugapp.FrameControlsDeviceTest,com.sakugapp.BatchQueueDeviceTest,com.sakugapp.DownloadFoldersDeviceTest,com.sakugapp.PlayerRotationDeviceTest
-      - name: Collect actual UI captures
-        if: always()
-        run: |
-          mkdir -p app/build/reports/ui-evidence
-          adb pull /sdcard/Download/sakugapp-ui-evidence/. app/build/reports/ui-evidence/ || true
+          script: bash scripts/run-player-community-checks.sh
       - uses: actions/upload-artifact@v4
         if: always()
         with:
