@@ -25,15 +25,20 @@ object QuizGenerator {
     fun accuracy(answers:List<QuizAnswer>)=if(answers.isEmpty())null else answers.count{it.right}*100.0/answers.size
 }
 /** Bounded metadata fetching only; no videos are preloaded in bulk. */
-class QuizRepository(private val posts:PostRepository=SakugaRepository(pageSize=100),private val catalog:suspend()->Map<String,TagCategory> = {(posts as SakugaRepository).classifications()},private val random:Random=Random.Default){
+class QuizRepository(private val posts:PostRepository=SakugaRepository(pageSize=100),private val catalog:suspend()->Map<String,TagCategory> = {(posts as SakugaRepository).classifications()},private val random:Random=Random.Default,private val supplement:suspend(Int)->List<DirectoryTag> = {page->if(posts is SakugaRepository)posts.directory(TagCategory.ARTIST,"count",page)else emptyList()}){
     private var candidates=emptyList<String>();private val buffer=ArrayDeque<Post>();private var attempts=0;private var settings=QuizSettings()
     suspend fun start(value:QuizSettings)=withContext(Dispatchers.Default){
         require(value.count in QuizSettings.counts && value.works.size<=20)
         val types=catalog()
         if(value.custom && (value.works.isEmpty() || value.works.any{types[it]!=TagCategory.COPYRIGHT}))throw DataFailure("quiz_pool")
-        val artists=types.asSequence().filter{it.value==TagCategory.ARTIST && it.key!="artist_unknown"}.map{it.key}.take(4096).toList()
+        val artists=types.asSequence().filter{it.value==TagCategory.ARTIST && it.key!="artist_unknown"}.map{it.key}.take(4096).toMutableList()
+        for(page in 1..2){
+            if(artists.distinct().size>=4)break
+            currentCoroutineContext().ensureActive()
+            artists+=supplement(page).filter{it.category==TagCategory.ARTIST && it.name!="artist_unknown" && LibraryCodec.tagName(it.name)}.map{it.name}
+        }
         if(artists.size<4)throw DataFailure("quiz_insufficient")
-        candidates=artists;settings=value;buffer.clear();attempts=0
+        candidates=artists.distinct().take(4096);settings=value;buffer.clear();attempts=0
     }
     suspend fun next(used:Set<Long>):QuizQuestion=withContext(Dispatchers.Default){
         while(true){
