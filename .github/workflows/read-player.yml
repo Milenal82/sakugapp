@@ -18,9 +18,9 @@ jobs:
           import subprocess,json,zipfile,io,xml.etree.ElementTree as ET,pathlib,time,re
           repo='Milenal82/sakugapp';output=[]
           def api(path):return subprocess.check_output(['gh','api',f'repos/{repo}/'+path])
-          for run in ['42228918327']:
+          for run in ['42251066679','42251066826']:
               meta=json.loads(api('actions/runs/'+run));result={'run':run,'commit':meta['head_sha'],'status':meta['status'],'reports':[]}
-              for attempt in range(30):
+              for attempt in range(1):
                   items=json.loads(api(f'actions/runs/{run}/artifacts?per_page=100'))['artifacts']
                   meta=json.loads(api('actions/runs/'+run))
                   if meta['status']=='completed' or {'extension-device-reports-28','extension-device-reports-35','extension-build-reports'}.issubset({i['name'] for i in items}):break
@@ -32,17 +32,17 @@ jobs:
                   if job['conclusion']=='failure':
                       try:
                           log=subprocess.check_output(['gh','api','--allow-escape-sequences',f'repos/{repo}/actions/jobs/{job["id"]}/logs']).decode(errors='replace')
-                          detail['errors']='\n'.join(line for line in log.splitlines() if any(k in line for k in ['e: file:','FAILED','What went wrong','Caused by:','##[error]','Could not','Lint found','> Task :app:']))[-14000:]
+                          detail['errors']='\n'.join(line for line in log.splitlines() if any(k in line for k in ['AssertionError','e: file:','FAILED','What went wrong','Caused by:','##[error]','Could not','Lint found','> Task :app:']))[-14000:]
                       except Exception:detail['errors']='See failed job logs'
                   result['jobs'].append(detail)
               result['artifacts']=[{'name':i['name'],'url':f'https://github.com/{repo}/actions/runs/{run}/artifacts/{i["id"]}'} for i in items]
               for item in items:
-                  if not item['name'].startswith('extension-') or item['name']=='extension-debug-apk' or item['size_in_bytes']>64*1024*1024:continue
+                  if 'reports' not in item['name'] or item['size_in_bytes']>64*1024*1024:continue
                   z=zipfile.ZipFile(io.BytesIO(api(f'actions/artifacts/{item["id"]}/zip')))
                   for p in z.infolist():
                       name=pathlib.PurePosixPath(p.filename).name
                       if p.file_size>4*1024*1024:continue
-                      if name.startswith('extension-') and name.endswith('.png'):
+                      if name.startswith(('extension-','v130-')) and name.endswith('.png'):
                           dest=pathlib.Path('/tmp/extension-captures')/(item['name']+'-'+name);dest.parent.mkdir(exist_ok=True);dest.write_bytes(z.read(p))
                       if name.startswith('lint-results-') and name.endswith('.xml'):
                           lint=ET.fromstring(z.read(p));result['lint']={'errors':sum(i.get('severity') in ['Error','Fatal'] for i in lint.findall('issue')),'warnings':sum(i.get('severity')=='Warning' for i in lint.findall('issue'))}
