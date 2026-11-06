@@ -1,8 +1,8 @@
 [
   {
-    "run": "42213783470",
-    "commit": "66749d155f243ed9b63a3d04c46319333ee0338b",
-    "status": "completed",
+    "run": "42214849198",
+    "commit": "d492af7263ed435fbd07dbf79f509e1f8405c125",
+    "status": "in_progress",
     "reports": [
       {
         "artifact": "extension-build-reports",
@@ -12,23 +12,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:57:53.073Z",
+          "timestamp": "2026-11-06T12:05:57.011Z",
           "hostname": "runnervm7aw5e",
-          "time": "3.304"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "extension-build-reports",
-        "counts": {
-          "name": "com.sakugapp.BatchQueueTest",
-          "tests": "4",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-06T11:57:56.649Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.068"
+          "time": "2.669"
         },
         "failures": []
       },
@@ -40,9 +26,23 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:57:56.388Z",
+          "timestamp": "2026-11-06T12:05:59.692Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.257"
+          "time": "0.22"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.BatchQueueTest",
+          "tests": "4",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T12:05:59.915Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.043"
         },
         "failures": []
       },
@@ -54,9 +54,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:57:56.723Z",
+          "timestamp": "2026-11-06T12:05:59.962Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.217"
+          "time": "0.133"
         },
         "failures": []
       },
@@ -68,9 +68,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:57:56.948Z",
+          "timestamp": "2026-11-06T12:06:00.097Z",
           "hostname": "runnervm7aw5e",
-          "time": "14.518"
+          "time": "14.447"
         },
         "failures": []
       },
@@ -82,9 +82,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:58:11.473Z",
+          "timestamp": "2026-11-06T12:06:14.546Z",
           "hostname": "runnervm7aw5e",
-          "time": "9.131"
+          "time": "9.112"
         },
         "failures": []
       },
@@ -96,9 +96,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:58:20.614Z",
+          "timestamp": "2026-11-06T12:06:23.667Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.021"
+          "time": "0.025"
         },
         "failures": []
       },
@@ -110,9 +110,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:58:20.644Z",
+          "timestamp": "2026-11-06T12:06:23.698Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.023"
+          "time": "0.014"
         },
         "failures": []
       },
@@ -124,9 +124,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:58:20.673Z",
+          "timestamp": "2026-11-06T12:06:23.717Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.137"
+          "time": "0.096"
         },
         "failures": []
       },
@@ -138,9 +138,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:58:20.811Z",
+          "timestamp": "2026-11-06T12:06:23.815Z",
           "hostname": "runnervm7aw5e",
-          "time": "1.709"
+          "time": "1.778"
         },
         "failures": []
       },
@@ -152,9 +152,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:58:22.524Z",
+          "timestamp": "2026-11-06T12:06:25.595Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.08"
+          "time": "0.036"
         },
         "failures": []
       },
@@ -166,9 +166,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:58:22.605Z",
+          "timestamp": "2026-11-06T12:06:25.632Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.024"
+          "time": "0.014"
         },
         "failures": []
       },
@@ -180,9 +180,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:58:22.630Z",
+          "timestamp": "2026-11-06T12:06:25.652Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.015"
+          "time": "0.007"
         },
         "failures": []
       },
@@ -194,9 +194,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:58:22.648Z",
+          "timestamp": "2026-11-06T12:06:25.661Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.033"
+          "time": "0.026"
         },
         "failures": []
       },
@@ -208,9 +208,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:58:22.685Z",
+          "timestamp": "2026-11-06T12:06:25.688Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.043"
+          "time": "0.042"
         },
         "failures": []
       },
@@ -222,9 +222,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:58:22.732Z",
+          "timestamp": "2026-11-06T12:06:25.734Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.005"
+          "time": "0.002"
         },
         "failures": []
       },
@@ -236,9 +236,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:58:22.740Z",
+          "timestamp": "2026-11-06T12:06:25.743Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.275"
+          "time": "0.1"
         },
         "failures": []
       },
@@ -250,23 +250,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:58:23.020Z",
+          "timestamp": "2026-11-06T12:06:25.848Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.022"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "extension-build-reports",
-        "counts": {
-          "name": "com.sakugapp.PlayerToolsTest",
-          "tests": "3",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-06T11:58:23.047Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.003"
+          "time": "0.025"
         },
         "failures": []
       },
@@ -278,9 +264,23 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:58:23.053Z",
+          "timestamp": "2026-11-06T12:06:25.882Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.009"
+          "time": "0.01"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.PlayerToolsTest",
+          "tests": "3",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T12:06:25.880Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.001"
         },
         "failures": []
       },
@@ -292,9 +292,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:58:23.068Z",
+          "timestamp": "2026-11-06T12:06:25.895Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.1"
+          "time": "0.071"
         },
         "failures": []
       },
@@ -306,9 +306,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:58:23.175Z",
+          "timestamp": "2026-11-06T12:06:25.970Z",
           "hostname": "runnervm7aw5e",
-          "time": "6.525"
+          "time": "6.784"
         },
         "failures": []
       },
@@ -320,9 +320,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:58:29.702Z",
+          "timestamp": "2026-11-06T12:06:32.755Z",
           "hostname": "runnervm7aw5e",
-          "time": "25.377"
+          "time": "25.353"
         },
         "failures": []
       },
@@ -334,9 +334,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:58:55.084Z",
+          "timestamp": "2026-11-06T12:06:58.109Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.029"
+          "time": "0.012"
         },
         "failures": []
       },
@@ -348,52 +348,14 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T11:58:55.115Z",
+          "timestamp": "2026-11-06T12:06:58.122Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.123"
+          "time": "0.096"
         },
         "failures": []
-      },
-      {
-        "artifact": "extension-device-reports-28",
-        "counts": {
-          "name": "com.sakugapp.ExtensionUiDeviceTest",
-          "tests": "21",
-          "failures": "1",
-          "errors": "0",
-          "skipped": "0",
-          "time": "44.5",
-          "timestamp": "2026-11-06T11:59:51",
-          "hostname": "localhost"
-        },
-        "failures": [
-          {
-            "test": "com.sakugapp.ExtensionUiDeviceTest.compactProfileDefaultsFavoritesAndAmberScaleLayouts",
-            "message": "java.lang.IllegalArgumentException: Failed requirement.\nat com.sakugapp.UiEvidence.capture(UiEvidence.kt:11)\nat com.sakugapp.ExtensionUiDeviceTest$compactProfileDefaultsFavoritesAndAmberScaleLayouts$1.invokeSuspend(ExtensionUiDeviceTest.kt:53)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.UndispatchedCoroutine.afterResume(CoroutineContext.kt:266)\nat kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.ExtensionUiDeviceTest.compactProfileDefaultsFavoritesAndAmberScaleLayouts(ExtensionUiDeviceTest.kt:47)\n"
-          }
-        ]
-      },
-      {
-        "artifact": "extension-device-reports-35",
-        "counts": {
-          "name": "com.sakugapp.ExtensionUiDeviceTest",
-          "tests": "21",
-          "failures": "1",
-          "errors": "0",
-          "skipped": "0",
-          "time": "123.398",
-          "timestamp": "2026-11-06T12:01:45",
-          "hostname": "localhost"
-        },
-        "failures": [
-          {
-            "test": "com.sakugapp.ExtensionUiDeviceTest.compactProfileDefaultsFavoritesAndAmberScaleLayouts",
-            "message": "java.lang.IllegalArgumentException: Failed requirement.\nat com.sakugapp.UiEvidence.capture(UiEvidence.kt:11)\nat com.sakugapp.ExtensionUiDeviceTest$compactProfileDefaultsFavoritesAndAmberScaleLayouts$1.invokeSuspend(ExtensionUiDeviceTest.kt:53)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.UndispatchedCoroutine.afterResume(CoroutineContext.kt:266)\nat kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.ExtensionUiDeviceTest.compactProfileDefaultsFavoritesAndAmberScaleLayouts(ExtensionUiDeviceTest.kt:47)\n"
-          }
-        ]
       }
     ],
-    "conclusion": "failure",
+    "conclusion": null,
     "jobs": [
       {
         "name": "build",
@@ -401,31 +363,29 @@
       },
       {
         "name": "devices (35, pixel_c)",
-        "conclusion": "failure",
-        "errors": "2026-11-06T11:56:25.5027284Z WARNING      | Could not open libX11.so, try libX11.so.6\n2026-11-06T11:56:25.5028900Z WARNING      | Could not open libX11-xcb.so, try libX11-xcb.so.1\n2026-11-06T11:57:34.8006392Z > Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED\n2026-11-06T11:57:34.8009039Z > Task :app:preBuild UP-TO-DATE\n2026-11-06T11:57:34.8016570Z > Task :app:preDebugBuild UP-TO-DATE\n2026-11-06T11:57:34.9000251Z > Task :app:generateDebugBuildConfig\n2026-11-06T11:57:36.0989580Z > Task :app:generateDebugResValues\n2026-11-06T11:57:36.0996143Z > Task :app:checkDebugAarMetadata\n2026-11-06T11:57:36.1999387Z > Task :app:mapDebugSourceSetPaths\n2026-11-06T11:57:36.2004913Z > Task :app:generateDebugResources\n2026-11-06T11:57:38.2030143Z > Task :app:packageDebugResources\n2026-11-06T11:57:39.3988672Z > Task :app:mergeDebugResources\n2026-11-06T11:57:39.3991939Z > Task :app:createDebugCompatibleScreenManifests\n2026-11-06T11:57:39.3992930Z > Task :app:extractDeepLinksDebug\n2026-11-06T11:57:39.4986982Z > Task :app:parseDebugLocalResources\n2026-11-06T11:57:39.7000702Z > Task :app:processDebugMainManifest\n2026-11-06T11:57:39.7990901Z > Task :app:processDebugManifest\n2026-11-06T11:57:39.9020067Z > Task :app:processDebugManifestForPackage\n2026-11-06T11:57:39.9034683Z > Task :app:javaPreCompileDebug\n2026-11-06T11:57:40.1000244Z > Task :app:preDebugAndroidTestBuild SKIPPED\n2026-11-06T11:57:40.5990764Z > Task :app:processDebugAndroidTestManifest\n2026-11-06T11:57:40.5999354Z > Task :app:generateDebugAndroidTestBuildConfig\n2026-11-06T11:57:40.6019289Z > Task :app:checkDebugAndroidTestAarMetadata\n2026-11-06T11:57:40.6055816Z > Task :app:generateDebugAndroidTestResValues\n2026-11-06T11:57:40.7010371Z > Task :app:mapDebugAndroidTestSourceSetPaths\n2026-11-06T11:57:40.7069873Z > Task :app:generateDebugAndroidTestResources\n2026-11-06T11:57:41.1000211Z > Task :app:processDebugResources\n2026-11-06T11:57:41.2020244Z > Task :app:mergeDebugAndroidTestResources\n2026-11-06T11:57:42.3987826Z > Task :app:processDebugAndroidTestResources\n2026-11-06T11:57:42.4000403Z > Task :app:javaPreCompileDebugAndroidTest\n2026-11-06T11:57:42.4012383Z > Task :app:mergeDebugShaders\n2026-11-06T11:57:42.5030341Z > Task :app:compileDebugShaders NO-SOURCE\n2026-11-06T11:57:42.5031225Z > Task :app:generateDebugAssets UP-TO-DATE\n2026-11-06T11:57:42.6000716Z > Task :app:mergeDebugAssets\n2026-11-06T11:57:42.6001535Z > Task :app:compressDebugAssets\n2026-11-06T11:57:42.6059820Z > Task :app:desugarDebugFileDependencies\n2026-11-06T11:57:43.1009862Z > Task :app:checkDebugDuplicateClasses\n2026-11-06T11:58:06.7995961Z > Task :app:mergeExtDexDebug\n2026-11-06T11:58:06.8020891Z > Task :app:mergeLibDexDebug\n2026-11-06T11:58:06.8047513Z > Task :app:mergeDebugJniLibFolders\n2026-11-06T11:58:07.3010919Z > Task :app:mergeDebugNativeLibs\n2026-11-06T11:58:07.4040196Z > Task :app:stripDebugDebugSymbols\n2026-11-06T11:58:08.5009890Z > Task :app:validateSigningDebug\n2026-11-06T11:58:08.5039560Z > Task :app:writeDebugAppMetadata\n2026-11-06T11:58:08.6020007Z > Task :app:writeDebugSigningConfigVersions\n2026-11-06T11:58:08.6034940Z > Task :app:mergeDebugAndroidTestShaders\n2026-11-06T11:58:08.6116951Z > Task :app:compileDebugAndroidTestShaders NO-SOURCE\n2026-11-06T11:58:08.6139574Z > Task :app:generateDebugAndroidTestAssets UP-TO-DATE\n2026-11-06T11:58:08.7000825Z > Task :app:mergeDebugAndroidTestAssets\n2026-11-06T11:58:08.8000235Z > Task :app:compressDebugAndroidTestAssets\n2026-11-06T11:58:08.8019796Z > Task :app:desugarDebugAndroidTestFileDependencies\n2026-11-06T11:58:09.1020216Z > Task :app:checkDebugAndroidTestDuplicateClasses\n2026-11-06T11:58:10.5030000Z > Task :app:mergeExtDexDebugAndroidTest\n2026-11-06T11:58:10.5041295Z > Task :app:mergeLibDexDebugAndroidTest\n2026-11-06T11:58:10.5985056Z > Task :app:mergeDebugAndroidTestJniLibFolders\n2026-11-06T11:58:10.7042872Z > Task :app:mergeDebugAndroidTestNativeLibs NO-SOURCE\n2026-11-06T11:58:10.7068634Z > Task :app:stripDebugAndroidTestDebugSymbols NO-SOURCE\n2026-11-06T11:58:10.7077511Z > Task :app:validateSigningDebugAndroidTest\n2026-11-06T11:58:10.7129483Z > Task :app:writeDebugAndroidTestSigningConfigVersions\n2026-11-06T11:58:11.0990175Z > Task :app:kaptGenerateStubsDebugKotlin\n2026-11-06T11:58:29.3993813Z > Task :app:kaptDebugKotlin\n2026-11-06T11:58:59.3984706Z > Task :app:compileDebugKotlin\n2026-11-06T11:59:03.2007883Z > Task :app:compileDebugJavaWithJavac\n2026-11-06T11:59:11.9999820Z > Task :app:bundleDebugClassesToCompileJar\n2026-11-06T11:59:12.5990614Z > Task :app:dexBuilderDebug\n2026-11-06T11:59:13.3020355Z > Task :app:mergeDebugGlobalSynthetics\n2026-11-06T11:59:13.4029995Z > Task :app:processDebugJavaRes\n2026-11-06T11:59:15.4050233Z > Task :app:mergeDebugJavaResource\n2026-11-06T11:59:16.7990788Z > Task :app:mergeProjectDexDebug\n2026-11-06T11:59:18.0990943Z > Task :app:packageDebug\n2026-11-06T11:59:18.1009795Z > Task :app:createDebugApkListingFileRedirect\n2026-11-06T11:59:19.6003371Z > Task :app:kaptGenerateStubsDebugAndroidTestKotlin\n2026-11-06T11:59:20.3989869Z > Task :app:kaptDebugAndroidTestKotlin\n2026-11-06T11:59:28.6029920Z > Task :app:compileDebugAndroidTestKotlin\n2026-11-06T11:59:29.0984601Z > Task :app:compileDebugAndroidTestJavaWithJavac\n2026-11-06T11:59:32.6985064Z > Task :app:dexBuilderDebugAndroidTest\n2026-11-06T11:59:32.7009726Z > Task :app:mergeDebugAndroidTestGlobalSynthetics\n2026-11-06T11:59:32.7029477Z > Task :app:processDebugAndroidTestJavaRes\n2026-11-06T11:59:32.8006403Z > Task :app:mergeDebugAndroidTestJavaResource\n2026-11-06T11:59:33.0029581Z > Task :app:mergeProjectDexDebugAndroidTest\n2026-11-06T11:59:33.0984595Z > Task :app:packageDebugAndroidTest\n2026-11-06T11:59:33.0989841Z > Task :app:createDebugAndroidTestApkListingFileRedirect\n2026-11-06T11:59:41.8109847Z > Task :app:connectedDebugAndroidTest\n2026-11-06T11:59:48.3031741Z com.sakugapp.ExtensionUiDeviceTest > compactProfileDefaultsFavoritesAndAmberScaleLayouts[emulator-5554 - 15] \u001b[31mFAILED \u001b[0m\n2026-11-06T12:01:45.1160154Z > Task :app:connectedDebugAndroidTest\n2026-11-06T12:01:46.0988264Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-06T12:01:46.0994237Z * What went wrong:\n2026-11-06T12:01:46.1007121Z BUILD FAILED in 4m 35s\n2026-11-06T12:01:46.6174149Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
+        "conclusion": null
       },
       {
         "name": "devices (28, Nexus S)",
-        "conclusion": "failure",
-        "errors": "2026-11-06T11:56:36.8248669Z WARNING      | Could not open libX11.so, try libX11.so.6\n2026-11-06T11:56:36.8249642Z WARNING      | Could not open libX11-xcb.so, try libX11-xcb.so.1\n2026-11-06T11:57:26.4202269Z > Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED\n2026-11-06T11:57:26.4203189Z > Task :app:preBuild UP-TO-DATE\n2026-11-06T11:57:26.4206381Z > Task :app:preDebugBuild UP-TO-DATE\n2026-11-06T11:57:26.5193905Z > Task :app:generateDebugBuildConfig\n2026-11-06T11:57:27.4235501Z > Task :app:generateDebugResValues\n2026-11-06T11:57:27.5225405Z > Task :app:checkDebugAarMetadata\n2026-11-06T11:57:27.5249519Z > Task :app:mapDebugSourceSetPaths\n2026-11-06T11:57:27.5284906Z > Task :app:generateDebugResources\n2026-11-06T11:57:29.0225295Z > Task :app:packageDebugResources\n2026-11-06T11:57:29.8232586Z > Task :app:mergeDebugResources\n2026-11-06T11:57:29.9201255Z > Task :app:createDebugCompatibleScreenManifests\n2026-11-06T11:57:29.9203361Z > Task :app:parseDebugLocalResources\n2026-11-06T11:57:29.9212292Z > Task :app:extractDeepLinksDebug\n2026-11-06T11:57:30.1220380Z > Task :app:processDebugMainManifest\n2026-11-06T11:57:30.2195510Z > Task :app:processDebugManifest\n2026-11-06T11:57:30.3205994Z > Task :app:processDebugManifestForPackage\n2026-11-06T11:57:30.3235067Z > Task :app:javaPreCompileDebug\n2026-11-06T11:57:30.5199559Z > Task :app:preDebugAndroidTestBuild SKIPPED\n2026-11-06T11:57:30.8205457Z > Task :app:processDebugAndroidTestManifest\n2026-11-06T11:57:30.8225329Z > Task :app:generateDebugAndroidTestBuildConfig\n2026-11-06T11:57:30.9217096Z > Task :app:checkDebugAndroidTestAarMetadata\n2026-11-06T11:57:30.9222170Z > Task :app:generateDebugAndroidTestResValues\n2026-11-06T11:57:30.9224127Z > Task :app:mapDebugAndroidTestSourceSetPaths\n2026-11-06T11:57:30.9225409Z > Task :app:generateDebugAndroidTestResources\n2026-11-06T11:57:31.2205626Z > Task :app:processDebugResources\n2026-11-06T11:57:31.4195376Z > Task :app:mergeDebugAndroidTestResources\n2026-11-06T11:57:32.2286500Z > Task :app:processDebugAndroidTestResources\n2026-11-06T11:57:32.3213769Z > Task :app:javaPreCompileDebugAndroidTest\n2026-11-06T11:57:32.3225079Z > Task :app:mergeDebugShaders\n2026-11-06T11:57:32.3225874Z > Task :app:compileDebugShaders NO-SOURCE\n2026-11-06T11:57:32.3226977Z > Task :app:generateDebugAssets UP-TO-DATE\n2026-11-06T11:57:32.4197655Z > Task :app:mergeDebugAssets\n2026-11-06T11:57:32.4200498Z > Task :app:compressDebugAssets\n2026-11-06T11:57:32.4207906Z > Task :app:desugarDebugFileDependencies\n2026-11-06T11:57:32.8198014Z > Task :app:checkDebugDuplicateClasses\n2026-11-06T11:57:52.2227644Z > Task :app:mergeExtDexDebug\n2026-11-06T11:57:52.2234960Z > Task :app:mergeLibDexDebug\n2026-11-06T11:57:52.3215295Z > Task :app:mergeDebugJniLibFolders\n2026-11-06T11:57:52.5214081Z > Task :app:mergeDebugNativeLibs\n2026-11-06T11:57:52.6295231Z > Task :app:stripDebugDebugSymbols\n2026-11-06T11:57:53.5225287Z > Task :app:validateSigningDebug\n2026-11-06T11:57:53.5227132Z > Task :app:writeDebugAppMetadata\n2026-11-06T11:57:53.6211705Z > Task :app:writeDebugSigningConfigVersions\n2026-11-06T11:57:53.6245186Z > Task :app:mergeDebugAndroidTestShaders\n2026-11-06T11:57:53.6245786Z > Task :app:compileDebugAndroidTestShaders NO-SOURCE\n2026-11-06T11:57:53.6246326Z > Task :app:generateDebugAndroidTestAssets UP-TO-DATE\n2026-11-06T11:57:53.7194453Z > Task :app:mergeDebugAndroidTestAssets\n2026-11-06T11:57:53.8200275Z > Task :app:compressDebugAndroidTestAssets\n2026-11-06T11:57:53.8245945Z > Task :app:desugarDebugAndroidTestFileDependencies\n2026-11-06T11:57:53.9205507Z > Task :app:checkDebugAndroidTestDuplicateClasses\n2026-11-06T11:57:55.0198517Z > Task :app:mergeExtDexDebugAndroidTest\n2026-11-06T11:57:55.0204928Z > Task :app:mergeLibDexDebugAndroidTest\n2026-11-06T11:57:55.0224803Z > Task :app:mergeDebugAndroidTestJniLibFolders\n2026-11-06T11:57:55.1225361Z > Task :app:mergeDebugAndroidTestNativeLibs NO-SOURCE\n2026-11-06T11:57:55.1235509Z > Task :app:stripDebugAndroidTestDebugSymbols NO-SOURCE\n2026-11-06T11:57:55.1264964Z > Task :app:validateSigningDebugAndroidTest\n2026-11-06T11:57:55.1294690Z > Task :app:writeDebugAndroidTestSigningConfigVersions\n2026-11-06T11:58:01.2195505Z > Task :app:kaptGenerateStubsDebugKotlin\n2026-11-06T11:58:08.8199526Z > Task :app:kaptDebugKotlin\n2026-11-06T11:58:33.4199580Z > Task :app:compileDebugKotlin\n2026-11-06T11:58:35.8235124Z > Task :app:compileDebugJavaWithJavac\n2026-11-06T11:58:42.0217604Z > Task :app:bundleDebugClassesToCompileJar\n2026-11-06T11:58:42.4203916Z > Task :app:dexBuilderDebug\n2026-11-06T11:58:43.0225525Z > Task :app:mergeDebugGlobalSynthetics\n2026-11-06T11:58:43.1225335Z > Task :app:processDebugJavaRes\n2026-11-06T11:58:45.1231975Z > Task :app:mergeDebugJavaResource\n2026-11-06T11:58:46.5216354Z > Task :app:mergeProjectDexDebug\n2026-11-06T11:58:47.4194813Z > Task :app:packageDebug\n2026-11-06T11:58:47.4225372Z > Task :app:createDebugApkListingFileRedirect\n2026-11-06T11:58:48.9195732Z > Task :app:kaptGenerateStubsDebugAndroidTestKotlin\n2026-11-06T11:58:49.5200770Z > Task :app:kaptDebugAndroidTestKotlin\n2026-11-06T11:58:56.8196674Z > Task :app:compileDebugAndroidTestKotlin\n2026-11-06T11:58:57.3200801Z > Task :app:compileDebugAndroidTestJavaWithJavac\n2026-11-06T11:58:59.6197441Z > Task :app:dexBuilderDebugAndroidTest\n2026-11-06T11:58:59.7212015Z > Task :app:mergeDebugAndroidTestGlobalSynthetics\n2026-11-06T11:58:59.7226293Z > Task :app:processDebugAndroidTestJavaRes\n2026-11-06T11:58:59.7258302Z > Task :app:mergeDebugAndroidTestJavaResource\n2026-11-06T11:58:59.9222589Z > Task :app:mergeProjectDexDebugAndroidTest\n2026-11-06T11:58:59.9265563Z > Task :app:packageDebugAndroidTest\n2026-11-06T11:58:59.9275371Z > Task :app:createDebugAndroidTestApkListingFileRedirect\n2026-11-06T11:59:03.5203995Z > Task :app:connectedDebugAndroidTest\n2026-11-06T11:59:10.4198772Z com.sakugapp.ExtensionUiDeviceTest > compactProfileDefaultsFavoritesAndAmberScaleLayouts[emulator-5554 - 9] \u001b[31mFAILED \u001b[0m\n2026-11-06T11:59:51.9265277Z > Task :app:connectedDebugAndroidTest\n2026-11-06T11:59:52.8240346Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-06T11:59:52.9302791Z * What went wrong:\n2026-11-06T11:59:52.9309244Z BUILD FAILED in 2m 43s\n2026-11-06T11:59:53.4760054Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
+        "conclusion": null
       }
     ],
     "artifacts": [
       {
-        "name": "extension-build-reports",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42213783470/artifacts/13500756161"
+        "name": "extension-device-reports-35",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42214849198/artifacts/13500856572"
       },
       {
         "name": "extension-device-reports-28",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42213783470/artifacts/13500746419"
-      },
-      {
-        "name": "extension-device-reports-35",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42213783470/artifacts/13500687273"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42214849198/artifacts/13500429282"
       },
       {
         "name": "extension-debug-apk",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42213783470/artifacts/13500477768"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42214849198/artifacts/13500223693"
+      },
+      {
+        "name": "extension-build-reports",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42214849198/artifacts/13500158891"
       }
     ],
     "lint": {
