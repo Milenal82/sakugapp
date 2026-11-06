@@ -264,6 +264,7 @@ AndroidView(factory={VideoGestureHost(it)},modifier=videoModifier.testTag("video
                 val v=host.playerView
                 v.setControllerAutoShow(false);v.setControllerHideOnTouch(false)
                 v.useController=!preview && !isPlayerLocked;v.controllerShowTimeoutMs=5000
+                v.setShowBuffering(if(isPlayerLocked || (fullscreen && !controlsVisible))PlayerView.SHOW_BUFFERING_NEVER else PlayerView.SHOW_BUFFERING_WHEN_PLAYING)
                 val rebound=view!==v || v.player!==player
                 if(view!==v){PlayerView.switchTargetView(player,view,v);view=v}else if(v.player!==player)v.player=player
                 if(rebound || isPlayerLocked || preview){v.hideController();controlsVisible=false}
@@ -298,7 +299,7 @@ AndroidView(factory={VideoGestureHost(it)},modifier=videoModifier.testTag("video
                 videoSurface(if(isPlayerLocked)Modifier.fillMaxWidth().height((maxHeight-48.dp).coerceAtLeast(1.dp))else Modifier.fillMaxSize())
                 if(isPlayerLocked || controlsVisible){
                     Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth().background(MaterialTheme.colorScheme.surface)){toolbar()}
-                    Column(Modifier.align(Alignment.BottomCenter).padding(bottom=48.dp).fillMaxWidth().background(MaterialTheme.colorScheme.surface)){advancedControls(maxPanelHeight);feedback()}
+                    Column(Modifier.align(Alignment.BottomCenter).padding(bottom=48.dp).fillMaxWidth().background(MaterialTheme.colorScheme.surface)){advancedControls(maxPanelHeight);if(!isPlayerLocked || more)feedback()}
                 }
             }
         }

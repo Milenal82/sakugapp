@@ -45,7 +45,7 @@ import com.sakugapp.data.*
             items(tasks,key={it.id}){task->
                 Surface(shape=MaterialTheme.shapes.medium,color=MaterialTheme.colorScheme.surfaceContainerHigh){
                     Column(Modifier.fillMaxWidth().padding(10.dp),verticalArrangement=Arrangement.spacedBy(4.dp)){
-                        Text(VideoDownloadPlan.from(task.post).filename,style=MaterialTheme.typography.bodySmall)
+                        Text(remember(task.post){VideoDownloadPlan.from(task.post).filename},style=MaterialTheme.typography.bodySmall)
                         Text(text(when(task.status){BatchStatus.WAITING->R.string.ui_queue_waiting;BatchStatus.DOWNLOADING->R.string.ui_queue_active;BatchStatus.COMPLETE->R.string.ui_queue_done;BatchStatus.FAILED->R.string.ui_queue_failed;BatchStatus.CANCELLED->R.string.ui_queue_cancelled;BatchStatus.PAUSED->R.string.ui_queue_paused}),style=MaterialTheme.typography.labelMedium)
                         if(task.status==BatchStatus.DOWNLOADING){
                             if(task.total>0)LinearProgressIndicator(progress={(task.bytes.toDouble()/task.total).toFloat().coerceIn(0f,1f)},modifier=Modifier.fillMaxWidth())else LinearProgressIndicator(Modifier.fillMaxWidth())

@@ -24,7 +24,12 @@ class BatchDownloadQueue(private val context:Context,val storage:DownloadStorage
     private var valid=true
     private val ready=scope.async {
         try {
-            val restored=withContext(Dispatchers.IO){storage.cleanAbandoned();if(file.baseFile.exists())BatchQueueCodec.recover(BatchQueueCodec.decode(file.openRead().bufferedReader().use{it.readText()}))else BatchQueueState()}
+            val restored=withContext(Dispatchers.IO){
+                storage.cleanAbandoned()
+                val saved=if(file.baseFile.exists())BatchQueueCodec.recover(BatchQueueCodec.decode(file.openRead().bufferedReader().use{it.readText()}))else BatchQueueState()
+                val legacy=OfflineLibraryMedia(context)
+                saved.copy(tasks=saved.tasks.map{if(it.status==BatchStatus.COMPLETE && legacy.existing(it.post)==null && storage.existing(it.post,DownloadStorage.Kind.BATCH)==null)it.copy(status=BatchStatus.FAILED,bytes=0,error="media_failure")else it})
+            }
             change{restored}
         }catch(e:CancellationException){throw e}catch(e:Exception){valid=false;_error.value="download_storage"}
     }

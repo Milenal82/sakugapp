@@ -8,6 +8,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.*
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -42,12 +43,12 @@ class FrameControlsDeviceTest {
             ui.onNodeWithTag("step-1").performScrollTo().performClick()
             ui.waitUntil(20000){counter()=="2"}
             assertTrue(matches{!it.playWhenReady})
-            val before=ui.onNodeWithTag("video-gestures").fetchSemanticsNode().boundsInRoot
+            val before=ui.onNodeWithTag("video-gestures").getUnclippedBoundsInRoot()
             ui.onNodeWithTag("more-controls").performClick()
             ui.onNodeWithTag("frame-precision").performScrollTo().assertTextEquals("Decoded frame index · verified timestamps")
             ui.onNodeWithTag("more-controls").performScrollTo()
-            val after=ui.onNodeWithTag("video-gestures").fetchSemanticsNode().boundsInRoot
-            assertEquals(before.width,after.width,0.1f);assertEquals(before.height,after.height,0.1f)
+            val after=ui.onNodeWithTag("video-gestures").getUnclippedBoundsInRoot()
+            assertEquals(before.width.value,after.width.value,0.1f);assertEquals(before.height.value,after.height.value,0.1f)
             ui.onNodeWithTag("set-a").performScrollTo().performClick()
             ui.onNodeWithTag("set-b").performScrollTo().performClick()
             ui.onNodeWithTag("ab-toggle").assertIsNotEnabled()
@@ -113,7 +114,7 @@ class FrameControlsDeviceTest {
                 val identity=player
                 ui.onNodeWithTag("step-1").performScrollTo().performClick()
                 ui.waitUntil(20000){counter()=="2"}
-                val surface=ui.onNodeWithTag("video-gestures").fetchSemanticsNode().boundsInRoot
+                val surface=ui.onNodeWithTag("video-gestures").getUnclippedBoundsInRoot()
                 val toolbar=ui.onNodeWithTag("frame-toolbar").fetchSemanticsNode().boundsInRoot
                 val full=ui.onNodeWithTag("toggle-fullscreen").fetchSemanticsNode().boundsInRoot
                 val more=ui.onNodeWithTag("more-controls").fetchSemanticsNode().boundsInRoot
@@ -121,10 +122,10 @@ class FrameControlsDeviceTest {
                     val bounds=ui.onNodeWithTag("step-$delta").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
                     assertTrue(bounds.right<=full.left+0.5f);assertTrue(bounds.left>=0);assertTrue(bounds.width>0 && bounds.height>0)
                 }
-                assertTrue(full.right<=more.left+0.5f);assertTrue(toolbar.top>=surface.bottom-0.5f)
+                assertTrue(full.right<=more.left+0.5f);assertTrue(toolbar.top>=surface.bottom.value*ui.activity.resources.displayMetrics.density-0.5f)
                 ui.onNodeWithTag("more-controls").performClick()
-                val expanded=ui.onNodeWithTag("video-gestures").fetchSemanticsNode().boundsInRoot
-                assertEquals(surface.height,expanded.height,0.1f);assertEquals(surface.width,expanded.width,0.1f)
+                val expanded=ui.onNodeWithTag("video-gestures").getUnclippedBoundsInRoot()
+                assertEquals(surface.height.value,expanded.height.value,0.1f);assertEquals(surface.width.value,expanded.width.value,0.1f)
                 assertSame(identity,player);assertEquals("2",counter())
                 UiEvidence.capture(if(light)"frames-layout-light.png"else"frames-layout-dark.png")
                 ui.onNodeWithTag("set-a").performScrollTo().performClick()

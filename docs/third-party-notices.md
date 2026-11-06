@@ -36,3 +36,5 @@ Sakugabooru 帖子和媒体仍归其各自权利人所有，应用许可证不�
 Room 2.7.1 / AndroidX SQLite（runtime 与编译器）：Apache-2.0，https://developer.android.com/jetpack/androidx/releases/room ，源码 https://android.googlesource.com/platform/frameworks/support/ 。Kotlin KAPT 2.1.20 为构建工具，不包含任何私有凭据。
 
 Sakuga Enhancer / Sakuga Enhancer App — Punyesh, MIT, https://github.com/Punyesh/sakugaEnhancer and https://github.com/Punyesh/sakugaEnhancerApp . The frame-bar and trim-mode interaction was inspected as a reference; no source code or runtime is copied. Native implementation: Sakugapp contributors. Media3 Transformer 1.6.1 (Android Open Source Project, Apache-2.0) supplies explicitly re-encoded clip export; Media3 in-app MP4 muxing and a platform WebM muxer adapter supply stream copy.
+
+Booru — weekanya, GPL-3.0, https://github.com/weekanya/Booru at `077ae27d1db4b6cc20715ed35a96beab65965ef0`. Its offline queue/store/service were inspected as a reference. No source or binary is copied; Sakugapp keeps its own storage format, limits and independently written implementation.

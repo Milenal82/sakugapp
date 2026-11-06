@@ -17,6 +17,15 @@ class FeedViewModelTest {
     @Before fun setup() { Dispatchers.setMain(dispatcher) }
     @After fun cleanup() { Dispatchers.resetMain() }
     private fun page(id: Long) = PostPage(PostParser.posts("""[{"id":$id}]"""), SakugaRepository.PAGE_SIZE)
+    @Test fun confirmedVoteScoreUpdatesBrowseSnapshotAndLocalAdjacentSequence()=runTest(dispatcher){
+        val posts=PostParser.posts(javaClass.getResource("/live/posts.json")!!.readText())
+        val repo=object:PostRepository{override suspend fun page(query:String,page:Int)=PostPage(posts,posts.size)}
+        val model=FeedViewModel(SavedStateHandle(),repo);advanceUntilIdle()
+        model.beginSearch("animated");advanceUntilIdle();model.open(posts.first());model.updateScore(posts.first().id,77)
+        assertEquals(77,model.selected.value!!.score);assertEquals(77,model.state.value.posts.first().score)
+        model.close();model.restoreBrowse();assertEquals(77,model.state.value.posts.first().score)
+        model.openLocal(posts.first(),posts);model.updateScore(posts.first().id,88);model.selectAdjacent(posts[1]);assertEquals(88,model.adjacent(-1)!!.score)
+    }
     @Test fun detailSwipesFollowResultOrderAndLocalFolderOrderWithoutRewritingTheFeed()=runTest(dispatcher){
         val posts=PostParser.posts(javaClass.getResource("/live/posts.json")!!.readText())
         val repo=object:PostRepository{override suspend fun page(query:String,page:Int)=PostPage(posts,posts.size)}

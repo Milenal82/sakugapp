@@ -7,8 +7,10 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.sakugapp.data.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.sample
 
 /** Data-sync foreground lifetime, with persistent task-level recovery on the next app visit. */
+@OptIn(kotlinx.coroutines.FlowPreview::class)
 class BatchDownloadService:Service(){
     private val scope=CoroutineScope(SupervisorJob()+Dispatchers.Main.immediate)
     private val queue get()=(application as SakugappApplication).batchDownloads
@@ -16,7 +18,7 @@ class BatchDownloadService:Service(){
     override fun onCreate(){super.onCreate()
         getSystemService(NotificationManager::class.java).createNotificationChannel(NotificationChannel("batch-downloads",getString(R.string.ui_download_queue),NotificationManager.IMPORTANCE_LOW))
         startForeground(71,notification(BatchQueueState()))
-        scope.launch{queue.state.collect{getSystemService(NotificationManager::class.java).notify(71,notification(it))}}
+        scope.launch{queue.state.sample(1000).collect{getSystemService(NotificationManager::class.java).notify(71,notification(it))}}
     }
     private fun notification(state:BatchQueueState):Notification {
         val complete=state.tasks.count{it.status==BatchStatus.COMPLETE};val all=state.tasks.size

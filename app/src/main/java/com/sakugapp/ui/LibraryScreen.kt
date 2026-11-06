@@ -24,6 +24,8 @@ import coil.compose.AsyncImage
 import com.sakugapp.R
 import com.sakugapp.data.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable fun LibraryScreen(app:AppViewModel,search:(String)->Unit={},tags:()->Unit={},open:(Post,List<Post>)->Unit){
@@ -41,13 +43,13 @@ import kotlinx.coroutines.*
     var message by remember{mutableStateOf<String?>(null)}
     var downloadConfirm by remember{mutableStateOf(false)}
     var queueOpen by remember{mutableStateOf(false)}
-    val queue by app.batchDownloads.state.collectAsStateWithLifecycle()
-    val busy=queue.tasks.any{it.status==BatchStatus.DOWNLOADING}
+    val transferSummary by remember(app.batchDownloads){app.batchDownloads.state.map{s->s.tasks.count{it.status==BatchStatus.DOWNLOADING} to s.tasks.count{it.status==BatchStatus.COMPLETE}}.distinctUntilChanged()}.collectAsStateWithLifecycle(initialValue=0 to 0)
+    val busy=transferSummary.first>0
     val notifications=androidx.activity.compose.rememberLauncherForActivityResult(androidx.activity.result.contract.ActivityResultContracts.RequestPermission()){}
     val downloadAccess=rememberDirectoryAccess(app.downloadStorage,DownloadStorage.Kind.BATCH){message=context.getString(R.string.ui_directory_error)}
     var mediaRevision by remember{mutableIntStateOf(0)}
     androidx.lifecycle.compose.LifecycleEventEffect(androidx.lifecycle.Lifecycle.Event.ON_RESUME){mediaRevision++}
-    val offlineIds by produceState(emptySet<Long>(),state.decoded,mediaRevision,queue.tasks.count{it.status==BatchStatus.COMPLETE}){value=withContext(Dispatchers.IO){state.decoded.values.filter{it.isVideo && app.offlineUri(it)!=null}.map{it.id}.toSet()}}
+    val offlineIds by produceState(emptySet<Long>(),state.decoded,mediaRevision,transferSummary.second){value=withContext(Dispatchers.IO){state.decoded.values.filter{it.isVideo && app.offlineUri(it)!=null}.map{it.id}.toSet()}}
     var usage by remember{mutableLongStateOf(app.offlineMedia.bytes())};var clearMedia by remember{mutableStateOf(false)}
     val folder=state.folders.firstOrNull{it.id==folderId}
     val inside=folderId!=null

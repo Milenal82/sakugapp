@@ -67,6 +67,13 @@ class AppearanceAndDownloadTest {
         catch(e:DataFailure){assertTrue(e.message!!.contains("403"))}
         assertFalse(opened);assertTrue(deleted);assertEquals(1,server.requestCount)
     }
+    @Test fun unsolicitedPartialResponseCannotBecomeACompletedOriginal():Unit=runBlocking {
+        server.enqueue(MockResponse().setResponseCode(206).setHeader("Content-Range","bytes 100-199/1000").setBody("partial"))
+        var opened=false;var discarded=false
+        try{VideoDownloader(client).download(plan(),{opened=true;ByteArrayOutputStream()},{discarded=true});fail("partial must fail")}
+        catch(_:DataFailure){assertFalse(opened);assertTrue(discarded)}
+        assertNull(server.takeRequest().getHeader("Range"))
+    }
     @Test fun htmlWithSuccessStatusCannotBeSavedAsAVideo():Unit=runBlocking {
         server.enqueue(MockResponse().setBody("<html>denied</html>").setHeader("Content-Type","text/html"));var deleted=false
         try{VideoDownloader(client).download(plan(),{fail("must not open");ByteArrayOutputStream()},{deleted=true});fail("expected failure")}

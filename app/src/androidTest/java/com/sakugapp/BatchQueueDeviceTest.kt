@@ -31,7 +31,8 @@ class BatchQueueDeviceTest {
         val storage=DownloadStorage(context,VideoDownloader(client));storage.reset(DownloadStorage.Kind.BATCH)
         val snapshot=PostParser.posts(instrumentation.context.assets.open("library-real-posts.json").bufferedReader().use{it.readText()}).first()
         val bytes=ByteArray(128*1024){(it%255).toByte()}
-        fun post(id:Long)=snapshot.copy(id=id,fileUrl=server.url("/$id.mp4").toString(),fileExt="mp4",fileSize=bytes.size.toLong())
+        val baseUrl=server.url("/").toString()
+        fun post(id:Long)=snapshot.copy(id=id,fileUrl="${baseUrl}$id.mp4",fileExt="mp4",fileSize=bytes.size.toLong())
         val journal="queue-device-${System.nanoTime()}.json"
         lateinit var queue:BatchDownloadQueue;var runner:Job?=null
         val serviceScope=CoroutineScope(SupervisorJob()+Dispatchers.Main.immediate)
@@ -48,7 +49,7 @@ class BatchQueueDeviceTest {
             assertArrayEquals(bytes,context.contentResolver.openInputStream(one)!!.use{it.readBytes()});assertArrayEquals(bytes,context.contentResolver.openInputStream(two)!!.use{it.readBytes()})
             runner!!.join()
             // A failed file remains retryable without removing successful media.
-            server.enqueue(MockResponse().setResponseCode(403))
+            server.enqueue(MockResponse().setHeader("Content-Type","video/mp4").setBody(Buffer().write(bytes)).setSocketPolicy(SocketPolicy.DISCONNECT_DURING_RESPONSE_BODY))
             withContext(Dispatchers.Main){queue.enqueue(listOf(post(903)))};until{queue.state.value.tasks.size==3}
             withContext(Dispatchers.Main){runner=serviceScope.launch{queue.run()}}
             until{queue.state.value.tasks.last().status==BatchStatus.FAILED};runner!!.join()
