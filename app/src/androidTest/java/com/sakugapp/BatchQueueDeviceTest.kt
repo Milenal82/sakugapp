@@ -21,14 +21,8 @@ import java.util.concurrent.TimeUnit
 class BatchQueueDeviceTest {
     @get:Rule val ui=createAndroidComposeRule<MainActivity>()
     private val context get()=ui.activity.applicationContext
-    @Test fun twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal()=runBlocking{
-        val instrumentation=InstrumentationRegistry.getInstrumentation()
-        val cert=HeldCertificate.Builder().addSubjectAlternativeName("localhost").build()
-        val trust=HandshakeCertificates.Builder().addTrustedCertificate(cert.certificate).build()
-        val client=OkHttpClient.Builder().sslSocketFactory(trust.sslSocketFactory(),trust.trustManager).retryOnConnectionFailure(false).build()
-        val server=MockWebServer().apply{useHttps(HandshakeCertificates.Builder().heldCertificate(cert).build().sslSocketFactory(),false);start()}
-        val storage=DownloadStorage(context,VideoDownloader(client));storage.reset(DownloadStorage.Kind.BATCH)
-        val device=UiDevice.getInstance(instrumentation)
+    private fun selectBatchDirectory(storage:DownloadStorage){
+        val device=UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         val directory="SakugappBatchQueueTest"
         device.executeShellCommand("mkdir -p /sdcard/Download/$directory")
         ui.onNodeWithText("Menu").performClick();ui.onNodeWithText("Settings").performClick()
@@ -46,6 +40,40 @@ class BatchQueueDeviceTest {
             ?: device.wait(Until.findObject(By.text(java.util.regex.Pattern.compile("(?i)(use this folder|select|select folder)"))),10000)
         checkNotNull(choose).click();device.wait(Until.findObject(By.text(java.util.regex.Pattern.compile("(?i)allow"))),2000)?.click()
         ui.waitUntil(15000){storage.directory(DownloadStorage.Kind.BATCH)?.toString()?.contains(directory)==true}
+    }
+    @Test fun productionForegroundServiceKeepsDownloadingAfterActivityGoesToBackground()=runBlocking{
+        val instrumentation=InstrumentationRegistry.getInstrumentation();val device=UiDevice.getInstance(instrumentation)
+        if(android.os.Build.VERSION.SDK_INT>=33){device.executeShellCommand("pm grant com.sakugapp android.permission.POST_NOTIFICATIONS");assertEquals(android.content.pm.PackageManager.PERMISSION_GRANTED,context.checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS))}
+        val storage=DownloadStorage(context);storage.reset(DownloadStorage.Kind.BATCH);selectBatchDirectory(storage)
+        val original=PostParser.posts(instrumentation.context.assets.open("library-real-posts.json").bufferedReader().use{it.readText()}).first()
+        val expected=instrumentation.context.assets.open("clip-gop.mp4").use{it.readBytes()}
+        val source="https://raw.githubusercontent.com/Milenal82/sakugapp/7fcc30a5519d2943fc7948da4af33c282c927c5b/app/src/androidTest/assets/clip-gop.mp4"
+        val posts=listOf(original.copy(id=906,fileUrl=source,fileExt="mp4",fileSize=expected.size.toLong()),original.copy(id=907,fileUrl="$source?download=1",fileExt="mp4",fileSize=expected.size.toLong()))
+        val queue=(context as SakugappApplication).batchDownloads
+        try{
+            withContext(Dispatchers.Main){queue.enqueue(posts)}
+            val notifications=context.getSystemService(android.app.NotificationManager::class.java)
+            withTimeout(30000){while(notifications.activeNotifications.none{it.id==71})delay(10)}
+            assertTrue(notifications.activeNotifications.first{it.id==71}.notification.flags and android.app.Notification.FLAG_ONGOING_EVENT!=0)
+            withContext(Dispatchers.Main){assertTrue(ui.activity.moveTaskToBack(true))}
+            withTimeout(30000){while(posts.any{p->queue.state.value.tasks.none{it.post.id==p.id && it.status==BatchStatus.COMPLETE}})delay(25)}
+            for(post in posts){val uri=checkNotNull(storage.existing(post,DownloadStorage.Kind.BATCH));assertArrayEquals(expected,context.contentResolver.openInputStream(uri)!!.use{it.readBytes()})}
+            withTimeout(10000){while(notifications.activeNotifications.any{it.id==71})delay(25)}
+        }finally{
+            withContext(Dispatchers.Main){posts.forEach{post->queue.state.value.tasks.firstOrNull{it.post.id==post.id}?.let{queue.cancel(it.id)}}}
+            device.executeShellCommand("am start -f 0x00020000 -n com.sakugapp/.MainActivity")
+            posts.forEach{post->storage.existing(post,DownloadStorage.Kind.BATCH)?.let{Docs.deleteDocument(context.contentResolver,it)}}
+            storage.reset(DownloadStorage.Kind.BATCH)
+        }
+    }
+    @Test fun twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal()=runBlocking{
+        val instrumentation=InstrumentationRegistry.getInstrumentation()
+        val cert=HeldCertificate.Builder().addSubjectAlternativeName("localhost").build()
+        val trust=HandshakeCertificates.Builder().addTrustedCertificate(cert.certificate).build()
+        val client=OkHttpClient.Builder().sslSocketFactory(trust.sslSocketFactory(),trust.trustManager).retryOnConnectionFailure(false).build()
+        val server=MockWebServer().apply{useHttps(HandshakeCertificates.Builder().heldCertificate(cert).build().sslSocketFactory(),false);start()}
+        val storage=DownloadStorage(context,VideoDownloader(client));storage.reset(DownloadStorage.Kind.BATCH)
+        selectBatchDirectory(storage)
         val snapshot=PostParser.posts(instrumentation.context.assets.open("library-real-posts.json").bufferedReader().use{it.readText()}).first()
         val bytes=ByteArray(128*1024){(it%255).toByte()}
         val baseUrl=server.url("/").toString()
