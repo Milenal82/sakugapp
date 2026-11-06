@@ -18,7 +18,7 @@ jobs:
           import subprocess,json,zipfile,io,xml.etree.ElementTree as ET,pathlib,time,re
           repo='Milenal82/sakugapp';output=[]
           def api(path):return subprocess.check_output(['gh','api',f'repos/{repo}/'+path])
-          for run in ['42262821578','42262821447']:
+          for run in ['42264916746','42264916801']:
               meta=json.loads(api('actions/runs/'+run));result={'run':run,'commit':meta['head_sha'],'status':meta['status'],'reports':[]}
               for attempt in range(1):
                   items=json.loads(api(f'actions/runs/{run}/artifacts?per_page=100'))['artifacts']
@@ -28,7 +28,7 @@ jobs:
               result['status']=meta['status'];result['conclusion']=meta['conclusion']
               result['jobs']=[]
               for job in json.loads(api(f'actions/runs/{run}/jobs?per_page=100'))['jobs']:
-                  detail={'name':job['name'],'conclusion':job['conclusion']}
+                  detail={'name':job['name'],'conclusion':job['conclusion'],'started_at':job['started_at'],'steps':[{'name':s['name'],'status':s['status'],'conclusion':s['conclusion'],'started_at':s.get('started_at')} for s in job['steps']]}
                   if job['conclusion']=='failure':
                       try:
                           log=subprocess.check_output(['gh','api','--allow-escape-sequences',f'repos/{repo}/actions/jobs/{job["id"]}/logs']).decode(errors='replace')
