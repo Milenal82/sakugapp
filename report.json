@@ -1,78 +1,78 @@
 {
-  "source_commit": "08c099b9dd335a15151116900b6f0bdeedb90c62",
-  "run_id": "42158196328",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42158196328",
-  "captured_utc": "2026-11-06T03:48:09.537529+00:00",
-  "validation_result": "cancelled",
+  "source_commit": "5afe53cf2b1e149fb5e513cf116cd6c63d30accd",
+  "run_id": "42158594229",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42158594229",
+  "captured_utc": "2026-11-06T03:54:59.456168+00:00",
+  "validation_result": "success",
   "scope": "Compact frame/lock controls, window/aspect detail sizing, community state and persistent SAF batch queue; emulator checks only.",
   "jobs": [
     {
       "name": "devices (28, Nexus S)",
       "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42158196328/job/127697285051",
-      "id": 127697285051
+      "conclusion": "success",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42158594229/job/127698953839",
+      "id": 127698953839
     },
     {
-      "name": "devices (28, pixel_c)",
+      "name": "devices (35, Nexus 6)",
       "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42158196328/job/127697285215",
-      "id": 127697285215
+      "conclusion": "success",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42158594229/job/127698954137",
+      "id": 127698954137
     },
     {
       "name": "build",
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42158196328/job/127697285448",
-      "id": 127697285448
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42158594229/job/127698954142",
+      "id": 127698954142
     },
     {
-      "name": "devices (35, Nexus 6)",
+      "name": "devices (28, pixel_c)",
       "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42158196328/job/127697285493",
-      "id": 127697285493
+      "conclusion": "success",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42158594229/job/127698954176",
+      "id": 127698954176
     },
     {
       "name": "evidence",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42158196328/job/127698902651",
-      "id": 127698902651
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42158594229/job/127701070219",
+      "id": 127701070219
     }
   ],
   "artifacts": [
     {
-      "name": "player-community-device-28-pixel_c",
-      "bytes": 189905,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42158196328/artifacts/13476001058"
-    },
-    {
       "name": "player-community-build-reports",
-      "bytes": 74546,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42158196328/artifacts/13475414623"
-    },
-    {
-      "name": "player-community-device-35-Nexus 6",
-      "bytes": 1098785,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42158196328/artifacts/13475238849"
+      "bytes": 74641,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42158594229/artifacts/13476500045"
     },
     {
       "name": "player-community-device-28-Nexus S",
-      "bytes": 96897,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42158196328/artifacts/13474784436"
+      "bytes": 99451,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42158594229/artifacts/13476385573"
+    },
+    {
+      "name": "player-community-device-28-pixel_c",
+      "bytes": 105158,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42158594229/artifacts/13476370705"
+    },
+    {
+      "name": "player-community-device-35-Nexus 6",
+      "bytes": 231340,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42158594229/artifacts/13476336185"
     }
   ],
   "test_counts": {
     "device": {
-      "tests": 13,
+      "tests": 39,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "debug_unit": {
-      "tests": 138,
+      "tests": 139,
       "failures": 0,
       "errors": 0,
       "skipped": 0
@@ -84,23 +84,7 @@
       "warnings": 62
     }
   },
-  "failures": [
-    {
-      "job": "devices (28, Nexus S)",
-      "conclusion": "cancelled",
-      "message": "See the Actions job for this unsuccessful check."
-    },
-    {
-      "job": "devices (28, pixel_c)",
-      "conclusion": "cancelled",
-      "message": "2026-11-06T03:47:57.0599020Z ##[error]The operation was canceled."
-    },
-    {
-      "job": "devices (35, Nexus 6)",
-      "conclusion": "cancelled",
-      "message": "2026-11-06T03:47:56.6929790Z ##[error]The operation was canceled."
-    }
-  ],
+  "failures": [],
   "device_diagnostics": [],
   "scroll_profile": {},
   "main_automatic_checks": {
