@@ -35,7 +35,14 @@ import java.io.File
 class PlayerStabilityDeviceTest {
     @get:Rule val ui=createAndroidComposeRule<MainActivity>()
     private class Owner:LifecycleOwner {val registry=LifecycleRegistry(this);override val lifecycle:Lifecycle get()=registry}
-    private fun tapVideo(){ui.onNodeWithTag("video-gestures").performTouchInput{click(Offset(width*.25f,height*.3f))};Thread.sleep(400);ui.waitForIdle()}
+    private fun tapVideo(){
+        // GestureDetector uses real event timestamps. Separate singles must not become a
+        // synthetic double tap when Compose's animation clock is idle between actions.
+        val bounds=ui.onNodeWithTag("video-gestures").fetchSemanticsNode().boundsInWindow
+        androidx.test.uiautomator.UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+            .click((bounds.left+bounds.width*.25f).toInt(),(bounds.top+bounds.height*.3f).toInt())
+        Thread.sleep(android.view.ViewConfiguration.getDoubleTapTimeout()+100L);ui.waitForIdle()
+    }
     private fun posts():List<Post>{val assets=InstrumentationRegistry.getInstrumentation().context.assets
         val types=assets.open("personal-tag-summary.json").bufferedReader().use{PostParser.tagSummary(it.readText())}
         return assets.open("library-real-posts.json").bufferedReader().use{PostParser.posts(it.readText(),types)}}
