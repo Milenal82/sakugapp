@@ -1,103 +1,72 @@
 {
-  "source_commit": "9d4f1419f9cee901bebadc995769eea88691d73d",
-  "run_id": "42142624580",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624580",
-  "captured_utc": "2026-11-06T01:24:52.476745+00:00",
-  "validation_result": "failure",
+  "source_commit": "7fcc30a5519d2943fc7948da4af33c282c927c5b",
+  "run_id": "42144041637",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041637",
+  "captured_utc": "2026-11-06T01:35:48.341786+00:00",
+  "validation_result": "success",
   "scope": "Actual VFR decoded +/-1/2/3 frame selection, shared A/B points, fixed geometry, copy sample hashes, re-encoded boundaries, SAF single/clip/batch destinations on API 28/35 phones and tablet.",
   "jobs": [
     {
+      "name": "devices (28, pixel_c)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041637/job/127651092102",
+      "id": 127651092102
+    },
+    {
       "name": "devices (28, Nexus S)",
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624580/job/127646401013",
-      "id": 127646401013
+      "conclusion": "success",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041637/job/127651092387",
+      "id": 127651092387
     },
     {
       "name": "devices (35, Nexus 6)",
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624580/job/127646401240",
-      "id": 127646401240
-    },
-    {
-      "name": "devices (28, pixel_c)",
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624580/job/127646401375",
-      "id": 127646401375
+      "conclusion": "success",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041637/job/127651092547",
+      "id": 127651092547
     },
     {
       "name": "evidence",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624580/job/127648345873",
-      "id": 127648345873
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041637/job/127652883596",
+      "id": 127652883596
     }
   ],
   "artifacts": [
     {
+      "name": "player-tools-reports-28-Nexus S",
+      "bytes": 74602,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041637/artifacts/13469521872"
+    },
+    {
       "name": "player-tools-reports-35-Nexus 6",
-      "bytes": 164238,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624580/artifacts/13469570226"
+      "bytes": 170871,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041637/artifacts/13468913638"
     },
     {
       "name": "player-tools-reports-28-pixel_c",
-      "bytes": 78640,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624580/artifacts/13468896483"
-    },
-    {
-      "name": "player-tools-reports-28-Nexus S",
-      "bytes": 76289,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624580/artifacts/13467259939"
+      "bytes": 76137,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041637/artifacts/13468818643"
     }
   ],
   "test_counts": {
     "device": {
       "tests": 30,
-      "failures": 3,
+      "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
   "lint": {},
-  "failures": [
-    {
-      "job": "devices (28, Nexus S)",
-      "conclusion": "failure",
-      "message": "2026-11-06T01:19:24.7044285Z com.sakugapp.ClipExportDeviceTest > preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource[emulator-5554 - 9] FAILED \n2026-11-06T01:20:00.3046618Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-06T01:20:00.4131791Z * What went wrong:\n2026-11-06T01:20:00.4166859Z BUILD FAILED in 2m 30s\n2026-11-06T01:20:00.8534742Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
-    },
-    {
-      "job": "devices (35, Nexus 6)",
-      "conclusion": "failure",
-      "message": "2026-11-06T01:19:24.1347613Z com.sakugapp.ClipExportDeviceTest > preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource[emulator-5554 - 15] FAILED \n2026-11-06T01:20:34.0346691Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-06T01:20:34.1394404Z * What went wrong:\n2026-11-06T01:20:34.1483152Z BUILD FAILED in 3m 8s\n2026-11-06T01:20:34.5465241Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
-    },
-    {
-      "job": "devices (28, pixel_c)",
-      "conclusion": "failure",
-      "message": "2026-11-06T01:19:44.5333407Z com.sakugapp.ClipExportDeviceTest > preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource[emulator-5554 - 9] FAILED \n2026-11-06T01:20:32.1333160Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-06T01:20:32.2479817Z * What went wrong:\n2026-11-06T01:20:32.2488586Z BUILD FAILED in 3m 5s\n2026-11-06T01:20:32.6336827Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
-    },
-    {
-      "test": "com.sakugapp.ClipExportDeviceTest.preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource",
-      "report": "player-tools-reports-28-Nexus S/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-      "message": "java.lang.IllegalStateException: clip_verify duration=1200000\nat com.sakugapp.data.ClipExporter.precise(ClipExporter.kt:64)\nat com.sakugapp.data.ClipExporter.access$precise(ClipExporter.kt:19)\nat com.sakugapp.data.ClipExporter$precise$1.invokeSuspend(Unknown Source:15)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.ClipExportDeviceTest.preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource(ClipExportDeviceTest.kt:46)\n"
-    },
-    {
-      "test": "com.sakugapp.ClipExportDeviceTest.preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource",
-      "report": "player-tools-reports-35-Nexus 6/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 15-_app-.xml",
-      "message": "java.lang.IllegalStateException: clip_verify duration=1200000\nat com.sakugapp.data.ClipExporter.precise(ClipExporter.kt:64)\nat com.sakugapp.data.ClipExporter.access$precise(ClipExporter.kt:19)\nat com.sakugapp.data.ClipExporter$precise$1.invokeSuspend(Unknown Source:15)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.ClipExportDeviceTest.preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource(ClipExportDeviceTest.kt:46)\n"
-    },
-    {
-      "test": "com.sakugapp.ClipExportDeviceTest.preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource",
-      "report": "player-tools-reports-28-pixel_c/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-      "message": "java.lang.IllegalStateException: clip_verify duration=1200000\nat com.sakugapp.data.ClipExporter.precise(ClipExporter.kt:64)\nat com.sakugapp.data.ClipExporter.access$precise(ClipExporter.kt:19)\nat com.sakugapp.data.ClipExporter$precise$1.invokeSuspend(Unknown Source:15)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.ClipExportDeviceTest.preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource(ClipExportDeviceTest.kt:46)\n"
-    }
-  ],
+  "failures": [],
   "device_diagnostics": [],
   "scroll_profile": {},
   "main_automatic_checks": {
-    "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624734",
-    "source_commit": "9d4f1419f9cee901bebadc995769eea88691d73d",
+    "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041663",
+    "source_commit": "7fcc30a5519d2943fc7948da4af33c282c927c5b",
     "status": "completed",
     "conclusion": "success",
     "jobs": [
@@ -105,141 +74,125 @@
         "name": "device-tests",
         "status": "completed",
         "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624734/job/127646401943",
-        "id": 127646401943
-      },
-      {
-        "name": "search-back-gestures",
-        "status": "completed",
-        "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624734/job/127646402116",
-        "id": 127646402116
-      },
-      {
-        "name": "build",
-        "status": "completed",
-        "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624734/job/127646402171",
-        "id": 127646402171
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041663/job/127651092407",
+        "id": 127651092407
       },
       {
         "name": "six-column-display (phone, Nexus S)",
         "status": "completed",
         "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624734/job/127646402323",
-        "id": 127646402323
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041663/job/127651092558",
+        "id": 127651092558
       },
       {
         "name": "six-column-display (landscape, pixel_c)",
         "status": "completed",
         "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624734/job/127646402362",
-        "id": 127646402362
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041663/job/127651092682",
+        "id": 127651092682
       },
       {
-        "name": "candidate-upgrade-install",
+        "name": "search-back-gestures",
         "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624734/job/127646403886",
-        "id": 127646403886
+        "conclusion": "success",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041663/job/127651092823",
+        "id": 127651092823
       },
       {
-        "name": "documentation-screenshots",
+        "name": "build",
         "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624734/job/127646403964",
-        "id": 127646403964
-      },
-      {
-        "name": "release-signing",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624734/job/127646403975",
-        "id": 127646403975
-      },
-      {
-        "name": "signed-candidate",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624734/job/127646404103",
-        "id": 127646404103
+        "conclusion": "success",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041663/job/127651092999",
+        "id": 127651092999
       },
       {
         "name": "release-preflight",
         "status": "completed",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624734/job/127646404227",
-        "id": 127646404227
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041663/job/127651093832",
+        "id": 127651093832
+      },
+      {
+        "name": "release-signing",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041663/job/127651093848",
+        "id": 127651093848
+      },
+      {
+        "name": "documentation-screenshots",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041663/job/127651093899",
+        "id": 127651093899
+      },
+      {
+        "name": "signed-candidate",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041663/job/127651093966",
+        "id": 127651093966
+      },
+      {
+        "name": "candidate-upgrade-install",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041663/job/127651094683",
+        "id": 127651094683
       },
       {
         "name": "candidate-evidence",
         "status": "completed",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624734/job/127646404584",
-        "id": 127646404584
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041663/job/127651095599",
+        "id": 127651095599
       },
       {
         "name": "checks-evidence",
         "status": "completed",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624734/job/127649769735",
-        "id": 127649769735
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041663/job/127653774179",
+        "id": 127653774179
       }
     ],
     "artifacts": [
       {
-        "name": "sakugapp-debug",
-        "bytes": 18444202,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624734/artifacts/13469745009"
-      },
-      {
-        "name": "six-column-phone-reports",
-        "bytes": 283153,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624734/artifacts/13469260993"
-      },
-      {
-        "name": "search-back-gesture-reports",
-        "bytes": 2152307,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624734/artifacts/13469146360"
+        "name": "sakugapp-source",
+        "bytes": 2571027,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041663/artifacts/13469821270"
       },
       {
         "name": "six-column-landscape-reports",
-        "bytes": 3108229,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624734/artifacts/13468881432"
+        "bytes": 3109380,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041663/artifacts/13469691481"
       },
       {
-        "name": "device-test-reports",
-        "bytes": 8339552,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624734/artifacts/13468807369"
+        "name": "sakugapp-debug",
+        "bytes": 18444498,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041663/artifacts/13469621628"
       },
       {
-        "name": "sakugapp-source",
-        "bytes": 2570482,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624734/artifacts/13468289250"
+        "name": "six-column-phone-reports",
+        "bytes": 285100,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041663/artifacts/13469501826"
       },
       {
         "name": "check-reports",
-        "bytes": 172430,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42142624734/artifacts/13468169452"
+        "bytes": 172321,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041663/artifacts/13469476892"
+      },
+      {
+        "name": "device-test-reports",
+        "bytes": 8224430,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041663/artifacts/13469068734"
+      },
+      {
+        "name": "search-back-gesture-reports",
+        "bytes": 2143312,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42144041663/artifacts/13468709520"
       }
     ],
     "test_counts": {
-      "six-column-phone-reports": {
-        "device": {
-          "tests": 2,
-          "failures": 0,
-          "errors": 0,
-          "skipped": 0
-        }
-      },
-      "search-back-gesture-reports": {
-        "device": {
-          "tests": 2,
-          "failures": 0,
-          "errors": 0,
-          "skipped": 0
-        }
-      },
       "six-column-landscape-reports": {
         "device": {
           "tests": 2,
@@ -248,9 +201,9 @@
           "skipped": 0
         }
       },
-      "device-test-reports": {
+      "six-column-phone-reports": {
         "device": {
-          "tests": 34,
+          "tests": 2,
           "failures": 0,
           "errors": 0,
           "skipped": 0
@@ -265,6 +218,22 @@
         },
         "release_unit": {
           "tests": 130,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      },
+      "device-test-reports": {
+        "device": {
+          "tests": 34,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      },
+      "search-back-gesture-reports": {
+        "device": {
+          "tests": 2,
           "failures": 0,
           "errors": 0,
           "skipped": 0
