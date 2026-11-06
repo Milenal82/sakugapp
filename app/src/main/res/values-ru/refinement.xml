@@ -1,0 +1,8 @@
+<resources>
+    <string name="ui_tag_conditions">Условия тегов</string>
+    <string name="ui_sort_rating">Сортировка и рейтинг</string>
+    <string name="ui_apply_search">Применить поиск</string>
+    <string name="ui_quiz_scope_custom">Свой список · %1$d произведений</string>
+    <string name="ui_quiz_accuracy">Точность</string>
+    <string name="ui_quiz_counts">Верно %1$d · Ошибок %2$d · Ответов %3$d</string>
+</resources>

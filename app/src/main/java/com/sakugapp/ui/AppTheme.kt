@@ -29,7 +29,10 @@ internal fun appColors(light:Boolean,accent:String="default"):ColorScheme {
             else tintedColors(false,0xFF142422,0xFF233633,0xFF2E4741,0xFF63C9BE,0xFF2E5F56,0xFFE3F6F2,0xFFB3D1CA,0xFF45655D,0xFF123C35,0xFF84AAA0)
         "amber"->if(light) tintedColors(true,0xFFFFF8EC,0xFFFFFDF8,0xFFFFE8BF,0xFF986000,0xFFFFC15A,0xFF332516,0xFF745E42,0xFFE5D3B6,0xFFFFFFFF,0xFF917A59)
             else tintedColors(false,0xFF18140F,0xFF211B14,0xFF342A1E,0xFFFFC45C,0xFF81551A,0xFFFFF0D9,0xFFD8BF9B,0xFF655338,0xFF352000,0xFFB49B76)
-        else->base.copy(surfaceContainerLowest=base.background,surfaceContainerLow=base.surface,surfaceContainerHighest=base.surfaceContainerHigh,
+        else->base.copy(primaryContainer=if(light)Color(0xFFD9E6FF)else Color(0xFF24446F),onPrimaryContainer=base.onSurface,
+            secondary=base.primary,onSecondary=base.onPrimary,secondaryContainer=if(light)Color(0xFFD9E6FF)else Color(0xFF24446F),onSecondaryContainer=base.onSurface,
+            tertiary=base.primary,onTertiary=base.onPrimary,tertiaryContainer=base.surfaceContainerHigh,onTertiaryContainer=base.onSurface,
+            surfaceContainerLowest=base.background,surfaceContainerLow=base.surface,surfaceContainerHighest=base.surfaceContainerHigh,
             surfaceBright=base.surfaceContainerHigh,surfaceDim=base.background,surfaceTint=base.primary)
     }
 }
@@ -51,7 +54,7 @@ internal fun copyrightColor(light:Boolean)=if(light)Color(0xFF926000)else Color(
 internal fun artistColor(light:Boolean)=if(light)Color(0xFF7542B8)else Color(0xFFC59BFF)
 internal fun scoreColor(light:Boolean)=if(light)Color(0xFFC62828)else Color(0xFFFF5252)
 internal fun themeIsLight(mode:String,systemDark:Boolean)=mode=="light" || (mode=="system" && !systemDark)
-internal object Motion { const val search=340;const val controls=320;const val history=300;const val folder=280;const val press=150 }
+internal object Motion { const val navigation=180;const val chrome=200;const val search=340;const val controls=320;const val history=300;const val folder=280;const val press=150 }
 internal object GridPolicy {
     fun options(smallestWidthDp:Int)=if(smallestWidthDp>=600)com.sakugapp.data.PreferenceRules.columnOptions else listOf(1,2,3,4,6)
     fun effective(requested:Int,smallestWidthDp:Int)=if(requested in options(smallestWidthDp))requested else if(requested in listOf(8,12))4 else 2

@@ -7,3 +7,10 @@ internal fun enterPostsForLegacyTest(ui:ComposeTestRule){
     ui.waitForIdle()
     if(ui.onAllNodesWithTag("nav-posts").fetchSemanticsNodes().isNotEmpty())ui.onNodeWithTag("nav-posts").performClick()
 }
+
+/** Removed overflow entries retain their proper page entry, without adding them back to production. */
+internal fun openLegacyDestination(ui:ComposeTestRule,label:String){
+    val target=when(label){"Favorites"->"library";"Posts"->"posts";"Settings"->"settings";"Browsing history"->"search_home";else->error("Unmapped test destination: $label")}
+    ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithTag("menu-$target").performClick()
+    if(label=="Browsing history")ui.onNodeWithTag("home-browsing").performScrollTo().performClick()
+}

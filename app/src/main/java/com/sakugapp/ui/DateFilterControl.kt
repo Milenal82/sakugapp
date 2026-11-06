@@ -15,11 +15,10 @@ import java.time.*
 @Composable internal fun DateFilterControl(query:String,edit:(String)->Unit){
     var open by remember{mutableStateOf(false)}
     val range=DateRangeFilter.read(query);val unsupported=DateRangeFilter.unsupported(query)
-    Row {
-        TextButton(enabled=!unsupported,onClick={open=true},modifier=Modifier.testTag("date-range")){Text(text(R.string.ui_date_range))}
+    Row(Modifier.fillMaxWidth(),verticalAlignment=androidx.compose.ui.Alignment.CenterVertically) {
+        TextButton(enabled=!unsupported,onClick={open=true},modifier=Modifier.weight(1f).testTag("date-range")){Text(range?.let{"${it.start} – ${it.end}"} ?: text(R.string.ui_date_range))}
         TextButton(enabled=range!=null,onClick={edit(DateRangeFilter.set(query,null))},modifier=Modifier.testTag("clear-date")){Text(text(R.string.ui_clear_date))}
     }
-    range?.let{Text(it.token,style=MaterialTheme.typography.bodySmall)}
     if(unsupported)Text(text(R.string.ui_date_raw),style=MaterialTheme.typography.bodySmall,color=MaterialTheme.colorScheme.error)
     if(open){
         val state=rememberDateRangePickerState(yearRange=minOf(1900,range?.start?.year ?: 1900)..maxOf(2100,range?.end?.year ?: 2100),initialSelectedStartDateMillis=range?.start?.atStartOfDay(ZoneOffset.UTC)?.toInstant()?.toEpochMilli(),initialSelectedEndDateMillis=range?.end?.atStartOfDay(ZoneOffset.UTC)?.toInstant()?.toEpochMilli())

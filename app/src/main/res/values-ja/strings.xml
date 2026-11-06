@@ -442,7 +442,7 @@
     <string name="ui_appearance_display">外観と表示</string>
     <string name="ui_color_theme">カラーテーマ</string>
     <string name="ui_theme_sakura">桜ピンク</string>
-    <string name="ui_theme_mint">ミントシアン</string>
+    <string name="ui_theme_mint">ミントグリーン</string>
     <string name="ui_video_playback">動画と再生</string>
     <string name="ui_data_management">データ管理</string>
     <string name="ui_single_directory">動画の保存先</string>

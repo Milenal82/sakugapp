@@ -61,7 +61,7 @@ class DiscoveryNavigationDeviceTest {
   ui.onNodeWithTag("candidate-test_show").assertDoesNotExist()
  }
  @Test fun nicknameUpdatesHeaderAndPersistsWithoutWebsiteLogin()=runBlocking{
-  val(_,app)=scene();ui.onNodeWithTag("nav-profile").performClick();ui.onNodeWithText(ui.activity.getString(R.string.ui_edit_nickname)).performClick()
+  val(_,app)=scene();ui.onNodeWithTag("nav-profile").performClick();ui.onNodeWithTag("edit-nickname").performClick()
   ui.onNodeWithTag("nickname-input").performTextClearance();ui.onNodeWithTag("nickname-input").performTextInput("原画師🙂");ui.onNodeWithTag("save-nickname").performClick()
   ui.waitUntil(10000){app.localProfile.value.nickname=="原画師🙂"};assertNull(app.account.value)
   ui.onNodeWithTag("nav-search_home").performClick();ui.onNodeWithTag("top-profile").assertTextContains("原画師🙂")

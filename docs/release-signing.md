@@ -2,7 +2,7 @@
 
 ## 已确定的身份
 
-本次正式版本 Sakugapp 1.2.0 / versionCode 13，applicationId `com.sakugapp`，标签 `v1.2.0`。v1.1.0 的 versionCode 为 10，v1.0.0 为 6。不要为了绕过签名不匹配而更换现有包名。后续沿用同一正式证书并递增 versionCode。
+本次目标 Sakugapp 1.3.0 / versionCode 16，applicationId `com.sakugapp`，标签 `v1.3.0`；上一正式版为 v1.2.2 / code 15。v1.1.0 的 versionCode 为 10，v1.0.0 为 6。不要为了绕过签名不匹配而更换现有包名。后续沿用同一正式证书并递增 versionCode。
 
 正式签名已通过受保护的 `release-signing` 环境配置并成功使用。现有证书 SHA-256 为 `9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff`。本地工作区不持有正式私钥，不需要重新生成或提交密钥。下面的生成步骤只供全新项目配置参考，现有发布必须复用原密钥。
 
@@ -64,7 +64,7 @@ gh workflow run android.yml --repo Milenal82/sakugapp --ref main -f release_tag=
 
 预检会检查标签与版本一致、标签提交属于 main、Release 单测/Lint、未签名构建的清单和 ELF。签名 job 仅从该提交检出，在环境授权后读取既有 Secrets；缺一项就明确失败，不回退 Debug、不生成新密钥。关闭签名 job 的 Gradle 构建/配置缓存；keystore 仅在 runner 临时目录以 600 权限存在，结束时清理。
 
-成功后会验证包名/版本、不可调试、APK 签名、证书指纹固定、非 Debug 证书及实际 ABI，再上传：正式 APK、同一提交完整源码 ZIP、SHA256SUMS.txt、发布说明和验证 JSON。工作流只创建/更新 **Draft**，拒绝覆盖公开 Release，不执行公开发布。
+成功后会验证包名/版本、不可调试、APK 签名、证书指纹固定、非 Debug 证书及实际 ABI，再上传：正式 APK、同一提交完整源码 ZIP、SHA256SUMS.txt、发布说明和验证 JSON。签名阶段只创建/更新 **Draft**，拒绝覆盖公开 Release；仅获所有者明确授权的版本在专属验证门槛全部通过后公开。
 
 下载正式 APK 后验证校验文件与公开证书指纹，并用真实设备测试首次安装、Debug 切换正式版及正式版覆盖升级。完成校验和升级检查后，才可按所有者的发布授权将草稿公开。v1.1.0 已获本次任务的公开发布授权；工作流本身仍保留草稿阶段，防止失败构建被自动公开。
 
@@ -84,3 +84,17 @@ python3 scripts/verify-apk.py app/build/outputs/apk/release/app-release-unsigned
 ## v1.2.0 的明确公开发布授权
 
 本次所有者明确要求直接发布 v1.2.0。工作流保留草稿签名阶段；仅 v1.2.0 在正式构建、签名/元数据验证、旧版实际覆盖安装和同一提交的字号/标签间距设备检查通过后，执行公开发布。其他版本仍保持原有草稿流程。公开前另与 v1.1.0 APK 核对证书和递增 versionCode；不会覆盖旧 Release。
+
+## v1.3.0 公开发布门槛
+
+本轮明确授权发布 v1.3.0，继续使用原证书，不生成新密钥。`release.yml` 为 v1.3.0 增加独立发布任务，先执行正式 Release 单测、Lint、签名与来源验证，再用官方 v1.2.2 APK 实际覆盖安装。升级前后通过正常导入／导出核对收藏夹与二级关系、封面、标签备注，检查浏览历史、设置与新本地昵称重启。未知版本会明确失败，不再默认回退 v1.0.0。
+
+公开前 `publish-v1.3.0.py` 同时要求精确源码的 main 标准 CI 和手机／平板专项验证成功，完整的四主题 × 深浅 × 三字号矩阵，正确签名与递增版本，以及升级报告。签名缺失、不匹配、测试或升级失败时保持草稿，不公开、不回退 Debug。正式附件由既有打包脚本生成：APK、对应源码 ZIP、SHA256SUMS、说明及验证 JSON。
+
+若需要从已存在的精确标签手动恢复发布，使用：
+
+```sh
+gh workflow run release.yml --repo Milenal82/sakugapp --ref v1.3.0 -f tag=v1.3.0
+```
+
+不要移动标签或覆盖已公开的 Release。私钥继续仅在受保护 runner 的临时目录存在，清理和日志保护沿用现有流程。

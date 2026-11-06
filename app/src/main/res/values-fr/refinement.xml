@@ -1,0 +1,8 @@
+<resources>
+    <string name="ui_tag_conditions">Conditions des tags</string>
+    <string name="ui_sort_rating">Tri et classification</string>
+    <string name="ui_apply_search">Appliquer la recherche</string>
+    <string name="ui_quiz_scope_custom">Sélection personnalisée · %1$d œuvres</string>
+    <string name="ui_quiz_accuracy">Taux de réussite</string>
+    <string name="ui_quiz_counts">Correctes %1$d · Incorrectes %2$d · Réponses %3$d</string>
+</resources>

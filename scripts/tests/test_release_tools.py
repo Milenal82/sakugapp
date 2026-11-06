@@ -24,7 +24,7 @@ def module(name, filename):
 
 apk = module("verify_apk", "verify-apk.py")
 source = module("verify_source", "verify-source-zip.py")
-from release_common import verify_checksums
+from release_common import verify_checksums, previous_release_tag
 
 
 class SigningPreparationTests(unittest.TestCase):
@@ -151,5 +151,29 @@ class ChecksumTests(unittest.TestCase):
             self.manifest(folder, ["app.apk", "app.apk"])
             with self.assertRaisesRegex(ValueError, "duplicate"): verify_checksums(folder, {"app.apk"})
 
+
+
+
+class UpgradePathTests(unittest.TestCase):
+    def test_v130_requires_the_actual_previous_official_release(self):
+        self.assertEqual("v1.2.2",previous_release_tag("v1.3.0"))
+        self.assertEqual("v1.2.1",previous_release_tag("v1.2.2"))
+    def test_unknown_versions_cannot_silently_reuse_v100(self):
+        with self.assertRaisesRegex(ValueError,"No verified previous release"):
+            previous_release_tag("v9.0.0")
+
+class LayoutGateTests(unittest.TestCase):
+    def matrix(self):
+        return [{'palette':p,'background':b,'font':f,'home_and_profile':'passed'}for p in ['default','mint','pink','amber']for b in ['light','dark']for f in [.75,1.0,1.25]]
+    def test_all_24_real_combinations_are_required(self):
+        from release_common import validate_layout_matrix
+        validate_layout_matrix(self.matrix())
+        with self.assertRaises(ValueError):validate_layout_matrix(self.matrix()[:-1])
+    def test_duplicates_and_failed_cases_cannot_satisfy_the_gate(self):
+        from release_common import validate_layout_matrix
+        cases=self.matrix();cases[-1]=cases[0]
+        with self.assertRaises(ValueError):validate_layout_matrix(cases)
+        cases=self.matrix();cases[-1]['home_and_profile']='not_run'
+        with self.assertRaises(ValueError):validate_layout_matrix(cases)
 
 if __name__ == "__main__": unittest.main()

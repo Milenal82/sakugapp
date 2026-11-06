@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3.0
+
+- Unify functional tiles and compact local profile actions.
+- Group combined search, keep Apply visible and preserve query/history/date behavior.
+- Refine quiz setup, two-by-two answers, semantic feedback and results.
+- Align four palettes, selections and shorter native navigation transitions.
+- Include the previously developed search/profile, discovery, website Favorites, quiz/pool, show/statistics and player/download features in the first formal release containing them.
+- Require the existing official certificate, exact-source checks and actual v1.2.2 upgrade before publication.
+
 ## Unreleased — six-item menu and managed quiz work pool
 
 - Limit the overflow menu to Posts, Search home, website account, local folders, settings and licenses/terms. Existing secondary pages stay available from their normal entry points.

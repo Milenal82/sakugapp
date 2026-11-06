@@ -122,7 +122,7 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
     val openSite:(String)->Unit={url->browser.launch(Intent(context,BrowserActivity::class.java).putExtra("url",url))}
     SakugappTheme(settings.lightTheme,settings.fontScale,settings.accent){CompositionLocalProvider(LocalLanguage provides language,LocalTagActions provides app){
         if(about)AboutDialog{about=false}
-        Scaffold(modifier=Modifier.semantics{testTagsAsResourceId=true},bottomBar={AnimatedVisibility(entry?.destination?.route in AppRoutes.main && (entry?.destination?.route!="posts" || bottomVisible),enter=expandVertically(tween(Motion.search)),exit=shrinkVertically(tween(Motion.search))){MainBottomBar(entry?.destination?.route ?: AppRoutes.SEARCH,::primary)}},topBar={Column(Modifier.statusBarsPadding()){
+        Scaffold(modifier=Modifier.semantics{testTagsAsResourceId=true},bottomBar={AnimatedVisibility(entry?.destination?.route in AppRoutes.main && (entry?.destination?.route!="posts" || bottomVisible),enter=expandVertically(tween(Motion.chrome)),exit=shrinkVertically(tween(Motion.chrome))){MainBottomBar(entry?.destination?.route ?: AppRoutes.SEARCH,::primary)}},topBar={Column(Modifier.statusBarsPadding()){
             Row(Modifier.fillMaxWidth().padding(horizontal=8.dp),verticalAlignment=Alignment.CenterVertically){
                 if(entry?.destination?.route !in AppRoutes.main)ActionIcon(R.drawable.ic_back,text(R.string.ui_back_to_app),{nav.popBackStack()},touchSize=40.dp)
                 BrandAndProfile(localProfile,entry?.destination?.route!="profile"){go("profile")}
@@ -132,7 +132,9 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
                 },{about=true})
                 }
             }
-        }}){insets->NavHost(navController=nav,startDestination="search_home",modifier=Modifier.padding(insets).semantics{testTagsAsResourceId=true}){
+        }}){insets->NavHost(navController=nav,startDestination="search_home",
+            enterTransition={fadeIn(tween(Motion.navigation))},exitTransition={fadeOut(tween(Motion.navigation))},
+            popEnterTransition={fadeIn(tween(Motion.navigation))},popExitTransition={fadeOut(tween(Motion.navigation))},modifier=Modifier.padding(insets).semantics{testTagsAsResourceId=true}){
             composable("search_home"){SearchHomeScreen(app,settings,::search,::go)}
             composable("profile"){ProfileHomeScreen(app,::go,openSite)}
             composable("quiz"){PageMediaScope{

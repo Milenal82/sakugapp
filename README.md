@@ -1,174 +1,72 @@
-# Sakuga Mobile
+# Sakugapp
 
-[简体中文](#简体中文) · [English](#english) · [日本語](#日本語) · [Downloads](https://github.com/Milenal82/sakugapp/releases) · [Changelog](CHANGELOG.md)
+[简体中文](#简体中文) · [English](#english) · [日本語](#日本語) · [Releases](https://github.com/Milenal82/sakugapp/releases/latest)
 
 ## 简体中文
 
-Sakuga Mobile（安装名称 Sakugapp）是 Sakugabooru 的非官方 Android 客户端，使用 Kotlin、Jetpack Compose 和 Media3。支持 Android 8.0 及以上，与 Sakugabooru、Sakuga Extended 无隶属关系。
+Sakugapp（Sakuga Mobile）是 Sakugabooru 的非官方原生 Android 客户端，使用 Kotlin、Compose 和 Media3，不以 WebView 实现帖子列表。
 
-### 功能
+- 搜索首页、Posts 与个人资料三个主入口；标签联想、组合条件、日期范围、搜索历史及 14 个发现入口。
+- 连续加载、下拉刷新、可调网格和浏览记录；原始分类标签、真实 Score、作品与集数浏览、采样原画师统计。
+- 原生视频详情，支持全屏、缩放、锁定、倍速、逐帧、A–B 循环及精确片段导出。
+- 本地多收藏夹、二级分类、排序、标签收藏／备注和 JSON 备份；网站 1／2／3 星 Favorites 独立显示，需登录。
+- 四选一原画猜谜，题数可选，支持最多 30 部已验证作品的自定义池。
+- 本地头像昵称；默认、薄荷、樱花、琥珀配色，支持深浅外观、75%–125% 字号及 0–20 dp 标签行距。
+- 单个、片段与批量下载使用独立目录。批量任务有进度、取消和失败重试。
 
-- 浏览真实帖子，连续加载、下拉刷新、返回保留位置。手机可选 1 / 2 / 3 / 4 / 6 列，平板另有 8 / 12 列。
-- 原始标签搜索、组合条件、标签联想、搜索历史和查询备忘录。平均色工具分析已显示的缩略图，不是网站的颜色相似搜索。
-- 原生详情、分类标签、Score、来源和评论；上一帖、下一帖、下载、原帖、收藏集中在同一操作栏。
-- 全屏旋转、倍速、音量、A–B 循环、双指缩放、双击暂停、左右切帖。视频下方提供 ±1/2/3 帧控制，支持确认帧选取 A/B 点；高级控制可折叠，并可导出选定片段（精确裁剪，重编码）。
-- 本地多收藏夹、拖拽排序与封面，夹内支持一层子收藏夹及多分类，JSON 备份；独立的标签收藏和本地备注。浏览历史自动记录，可逐条删除或清空。
-- 深浅色外观及标准 / 樱花粉 / 薄荷青 / 琥珀橙完整配色、75%–125% 应用字号、0–20 dp 预览标签额外行距，八种界面语言；账户、Vote、评论和 Blog / Forum 入口。网站内容与原始标签保持原文，官网语言仅使用英语或日语。
+从 [GitHub Releases](https://github.com/Milenal82/sakugapp/releases/latest) 下载正式 APK。Android 8.0 起可安装；实际解码帧索引需要 Android 9 或更高及兼容解码器。正式版使用同一签名，可直接覆盖升级并保留应用数据。Debug 与正式版签名不同，请先导出收藏备份，勿通过清除数据解决签名冲突。
 
-当前页面的视频使用最多 200 MiB 临时磁盘缓存，播放器和逐帧分析共享已加载区间；退出页面后清理。设置 → 数据管理分别选择普通视频、指定片段和批量下载的 SAF 目录，首次未设置时打开系统目录选择器。旧版私有视频可导出，原文件保留。片段导出与逐帧精度限制见[播放器说明](docs/player-tools.md)。
-
-全屏默认仅显示视频，单击切换控制栏。视频默认静音、循环播放，可在播放器中临时调整；手势和截图分享始终可用，图片和预览不限制 Wi-Fi。设置按外观、浏览、播放、数据和关于分组。参见 [v1.2.2 更新说明](docs/release-1.2.2.md)。
-
-### 下载与备份
-
-本开发分支包含搜索、个人资料、采样统计与作品浏览，以及先前的播放器和批量队列更新；正式版保持不变。Actions 提供 Debug APK、检查报告与设备截图。
-
-正式 APK 在 [GitHub Releases](https://github.com/Milenal82/sakugapp/releases)，开发测试包在 [Actions](https://github.com/Milenal82/sakugapp/actions)。本次正式版本为 **1.2.2 / code 15**。
-
-同包名 `com.sakugapp`、同正式证书签名的版本可覆盖安装。升级前建议导出收藏。Debug 与正式签名不同：切换前先备份，再卸载旧包、安装并导入；卸载会删除其他本地数据。
-
-在收藏页使用“导入收藏记录 / 导出收藏记录”。备份包含一级与二级收藏夹、顺序、封面、多收藏及分类关系、标签收藏及独立备注；不包含媒体、账户凭据、设置或任何浏览历史。新格式带 `format` 与 `schemaVersion`，兼容旧版 v1 / v2 JSON 和 schemaVersion 3，导入前展示数量及冲突选项，默认合并并保留本地备注。参见[备份格式与限制](docs/backup-format.md)。
-
-### 构建与说明
-
-需要 JDK 17、Android SDK 35 / Build Tools 35.0.0；使用仓库内 Gradle 8.13 Wrapper、AGP 8.9.2、Kotlin 2.1.20。最低 API 26，目标 API 35。
-
-```sh
-python3 scripts/check-localization.py
-./gradlew testDebugUnitTest lintDebug assembleDebug
-```
-
-APK：`app/build/outputs/apk/debug/app-debug.apk`。正式签名配置见[签名说明](docs/release-signing.md)，不提供私钥。未配置正式签名的 Release 构建会失败。
-
-逐帧分析需要 Android 9 以上及兼容解码器，单文件最多 200 MiB、最大 3840×2160；A–B 循环存在解码延迟。离线下载最多 20 个/批、200 MiB/文件、合计 1 GiB。浏览历史最多 500 条或 8 MiB，先移除最早记录。新译文经过资源与格式检查，未作母语审校；设备、网站访问和账户行为的验证范围见[测试记录](docs/test-report.md)。
+[安装和签名说明](docs/release-signing.md) · [v1.3.0 说明](docs/v1.3.0.md) · [备份格式](docs/backup-format.md) · [许可证](LICENSE) · [第三方声明](docs/third-party-notices.md)
 
 ## English
 
-Sakuga Mobile (installed as Sakugapp) is an unofficial Android client for Sakugabooru, built with Kotlin, Jetpack Compose, and Media3. Requires Android 8.0 or later. It is not affiliated with Sakugabooru or Sakuga Extended.
+Sakugapp (Sakuga Mobile) is an unofficial native Android client for Sakugabooru, built with Kotlin, Compose and Media3.
 
-### Features
+- Search, Posts and Profile navigation; tag suggestions, combined conditions, date ranges, search history and 14 discovery entries.
+- Continuous loading, pull-to-refresh, adjustable grids and browsing history; original classified tags, real Scores, show/episode browsing and sampled artist statistics.
+- Native playback with fullscreen, zoom, locking, speed, frame stepping, A–B loops and precise clip export.
+- Local folders, child classifications, ordering, saved tags/notes and JSON backups. Account-scoped 1/2/3-star website Favorites remain separate.
+- A four-choice artist quiz with selectable question counts and a verified custom pool of up to 30 works.
+- Local avatars/nicknames; Default, Mint, Sakura and Amber palettes in light/dark modes, 75%–125% text size and 0–20 dp preview tag spacing.
+- Separate destinations for individual videos, clips and batches; batch progress, cancellation and retry.
 
-- Real posts with continuous loading, pull to refresh, and restored scroll position. Phones support 1 / 2 / 3 / 4 / 6 columns; tablets also offer 8 / 12.
-- Original tag queries, combined filters, tag suggestions, search history, and a query reference. The average-color tool analyzes displayed thumbnails; it does not perform server-side color similarity search.
-- Native details with classified tags, Score, source, and comments. Previous, next, download, original post, and favorites share one toolbar.
-- Fullscreen rotation, speed and volume controls, A–B loops, pinch zoom, double-tap pause, and swiping between posts. A permanent ±1/2/3 frame bar supplies confirmed A/B points. Advanced controls fold away; selected clips export by verified re-encoding.
-- Local folders with drag ordering, covers, one level of subfolders and multiple classifications, and JSON backup; separate tag favorites and local notes. Browsing history is recorded automatically; entries can be deleted individually or cleared.
-- Light and dark appearances with complete Default / Sakura Pink / Mint Cyan / Amber Orange palettes, 75%–125% app text size, 0–20 dp extra preview tag-row spacing, eight UI languages, account / Vote / comment features, and Blog / Forum links. Website content and tags stay in their original language; website locale uses English or Japanese only.
+Download the official APK from [Releases](https://github.com/Milenal82/sakugapp/releases/latest). Android 8.0 or newer; decoded frame indices require Android 9 and a compatible decoder. Official releases share a certificate and support in-place upgrades. Debug uses a different signature: export a backup before switching; do not clear data to work around signing errors.
 
-Each page shares up to 200 MiB of temporary disk video cache, including frame analysis, and clears it on exit. Data settings provide independent SAF folders for full videos, selected clips and batches; first use opens the system folder picker if unset. Old private videos can be exported without deleting originals. See [player tools](docs/player-tools.md) for frame and export limits.
-
-Fullscreen starts with video only; a single tap toggles the controls. Videos start muted and looping, with temporary controls in the player. Gestures and snapshot sharing remain enabled; images and previews are allowed on mobile networks. Settings are grouped into appearance, browsing, playback, data, and about. See the [v1.2.2 notes](docs/release-1.2.2.md).
-
-### Download and backup
-
-This branch adds Search, Profile, sampled artist/work browsing, and the earlier player and batch-queue updates. Official Releases are unchanged. Actions provides a Debug APK, reports, and emulator screenshots.
-
-Find signed releases in [GitHub Releases](https://github.com/Milenal82/sakugapp/releases) and development artifacts in [Actions](https://github.com/Milenal82/sakugapp/actions). The release version is **1.2.2 / code 15**.
-
-Updates using the same package (`com.sakugapp`) and official certificate can be installed over the existing app. Export favorites first. Debug and official signatures differ: back up, uninstall, install the other build, and import. Uninstalling removes other local data.
-
-Use the import / export entries on the favorites page. Backups include folders and subfolders, ordering, covers, memberships and classifications, tag favorites, and standalone notes. They exclude media, credentials, settings, and all browsing history. The format has explicit `format` and `schemaVersion` fields and accepts legacy v1 / v2 JSON and schemaVersion 3. Imports preview counts and conflict options, merge by default, and retain existing notes by default. See the [backup format and limits](docs/backup-format.md).
-
-### Build and limitations
-
-Use JDK 17, Android SDK 35 / Build Tools 35.0.0, and the included Gradle 8.13 Wrapper. The project uses AGP 8.9.2 and Kotlin 2.1.20, with min API 26 and target API 35.
-
-```sh
-python3 scripts/check-localization.py
-./gradlew testDebugUnitTest lintDebug assembleDebug
-```
-
-APK: `app/build/outputs/apk/debug/app-debug.apk`. See the [signing guide](docs/release-signing.md) for Release configuration. Private signing keys are not distributed, and Release builds fail when signing is missing.
-
-Frame analysis requires Android 9 or later and a compatible decoder; the limit is 200 MiB per file and 3840×2160 frames. A–B loops are subject to decoding latency. Offline downloads allow 20 items per batch, 200 MiB per file, and 1 GiB total. Local history retains up to 500 entries or 8 MiB, removing oldest entries first. New translations have resource and format checks but no native-speaker review. See the [test report](docs/test-report.md) for device, website, and account verification limits.
+[Signing and installation](docs/release-signing.md) · [v1.3.0](docs/v1.3.0.md) · [Backup format](docs/backup-format.md) · [License](LICENSE) · [Third-party notices](docs/third-party-notices.md)
 
 ## 日本語
 
-Sakuga Mobile（インストール名 Sakugapp）は Sakugabooru の非公式 Android クライアントです。Kotlin、Jetpack Compose、Media3 を使用し、Android 8.0 以降に対応しています。Sakugabooru および Sakuga Extended とは提携していません。
+Sakugapp（Sakuga Mobile）は Kotlin、Compose、Media3 を使用した Sakugabooru 非公式の Android ネイティブクライアントです。
 
-### 機能
+- 検索・Posts・プロフィールのナビゲーション。タグ候補、複合条件、日付範囲、検索履歴、14 の発見メニュー。
+- 連続読み込み、更新、可変グリッドと閲覧履歴。元の分類タグ、実際の Score、作品・話数別閲覧、標本に基づくアニメーター統計。
+- 全画面、ズーム、操作ロック、速度変更、コマ送り、A–B ループ、精密クリップ書き出し。
+- ローカルフォルダー、子分類、並び替え、タグのお気に入りとメモ、JSON バックアップ。サイトの 1・2・3 星 Favorites は別管理です。
+- 四択クイズ、問題数設定、検証済み作品を最大 30 件選べる作品リスト。
+- ローカル画像とニックネーム。標準・ミント・桜・琥珀の配色、明暗モード、75%–125% の文字サイズ、0–20 dp のタグ行間。
+- 通常動画・クリップ・一括ダウンロードの保存先を個別に設定。一括処理の進行状況、キャンセル、再試行。
 
-- 実際の投稿の連続読み込み、引っ張って更新、戻った際のスクロール位置の復元。スマートフォンは 1 / 2 / 3 / 4 / 6 列、タブレットはさらに 8 / 12 列に対応。
-- 元のタグ名による検索、複合条件、タグ候補、検索履歴、検索構文の早見表。平均色ツールは表示中のサムネイルを分析するもので、サイトの色類似検索ではありません。
-- 分類別タグ、Score、出典、コメントを表示するネイティブ詳細画面。前後の投稿、ダウンロード、元投稿、お気に入りを同じ操作バーに配置。
-- 全画面回転、速度と音量、A–B リピート、ピンチズーム、ダブルタップで一時停止、左右の投稿切り替え。動画の下に ±1/2/3 フレーム操作を常設し、確定フレームから A/B 点を設定。詳細操作は折りたたみ可能で、区間を検証付き再エンコードで保存できます。
-- ドラッグで並べ替えできるローカルフォルダ、カバー、1 階層のサブフォルダと複数分類、JSON バックアップ、独立したタグのお気に入りとメモ。閲覧履歴は自動で記録し、個別削除と全消去に対応。
-- ライト / ダーク表示と標準 / Sakura Pink（桜色）/ Mint Cyan（ミント色）の全体配色、75%–125% の文字サイズ、プレビュータグの追加行間 0–20 dp、8 言語の UI、アカウント / Vote / コメント機能、Blog / Forum へのリンク。サイト本文とタグは原文のまま、サイトの言語指定は英語または日本語のみ。
+公式 APK は [Releases](https://github.com/Milenal82/sakugapp/releases/latest) から取得できます。Android 8.0 以降に対応し、デコード済みフレーム索引には Android 9 以降と対応デコーダーが必要です。公式版同士は上書き更新できます。Debug 版は署名が異なるため、切り替え前にバックアップしてください。署名エラーを回避するためにデータを消去しないでください。
 
-画面ごとに最大 200 MiB の一時動画キャッシュを共有し、コマ送りでも利用します。画面を離れると削除します。データ設定で通常動画・指定区間・一括保存の SAF フォルダーを個別に選択します。未設定なら初回にシステムのフォルダー選択を開きます。旧私有動画は原本を残してエクスポートできます。精度と形式の制限は[プレーヤー説明](docs/player-tools.md)を参照してください。
-
-全画面では動画のみを表示し、シングルタップで操作を表示・非表示にします。動画はミュート・リピートで開始し、再生中は個別に変更できます。ジェスチャーと画面共有は常に有効で、画像とプレビューはモバイル回線でも読み込みます。設定を外観・閲覧・再生・データ・アプリ情報に整理しました。[v1.2.2 更新情報](docs/release-1.2.2.md)を参照してください。
-
-### ダウンロードとバックアップ
-
-この開発ブランチには検索・プロフィール・取得済み投稿の統計と作品閲覧、および以前のプレイヤーと一括ダウンロードの更新が含まれます。正式版は変更せず、Actions から Debug APK・レポート・エミュレーター画像を取得できます。
-
-正式署名 APK は [GitHub Releases](https://github.com/Milenal82/sakugapp/releases)、開発用 APK は [Actions](https://github.com/Milenal82/sakugapp/actions) から取得できます。今回の正式版は **1.2.2 / code 15** です。
-
-パッケージ名 `com.sakugapp` と正式署名が同じ場合は上書きインストールできます。先にお気に入りをエクスポートしてください。Debug 版と正式版の署名は異なるため、切り替え時はバックアップ後にアンインストールし、別の版をインストールして取り込みます。アンインストールで他のローカルデータは消去されます。
-
-お気に入り画面のインポート / エクスポートを使用します。フォルダとサブフォルダ、順序、カバー、所属と分類、タグのお気に入り、単独のメモを保存します。メディア、認証情報、設定、閲覧履歴は含みません。`format` と `schemaVersion` を持つ形式で、旧 v1 / v2 JSON と schemaVersion 3 にも対応。取り込み前に件数と競合時の選択肢を表示し、既定では既存データに統合してローカルのメモを保持します。[形式と制限](docs/backup-format.md)を参照してください。
-
-### ビルドと制限
-
-JDK 17、Android SDK 35 / Build Tools 35.0.0、同梱の Gradle 8.13 Wrapper を使用します。AGP 8.9.2、Kotlin 2.1.20、min API 26、target API 35 です。
-
-```sh
-python3 scripts/check-localization.py
-./gradlew testDebugUnitTest lintDebug assembleDebug
-```
-
-APK：`app/build/outputs/apk/debug/app-debug.apk`。正式署名の設定は[署名ガイド](docs/release-signing.md)を参照してください。秘密鍵は配布せず、署名設定がなければ Release ビルドは失敗します。
-
-フレーム解析には Android 9 以降と対応デコーダーが必要です。上限は 1 ファイル 200 MiB、3840×2160。A–B リピートにはデコード遅延があります。オフライン保存は 1 回 20 件、1 ファイル 200 MiB、合計 1 GiB まで。閲覧履歴は最大 500 件または 8 MiB で、古いものから削除します。新しい訳文はリソースと書式を検査済みですが、母語話者による確認は未実施です。端末・サイト・アカウント操作の検証範囲は[テスト記録](docs/test-report.md)を参照してください。
+[署名とインストール](docs/release-signing.md) · [v1.3.0](docs/v1.3.0.md) · [バックアップ形式](docs/backup-format.md) · [ライセンス](LICENSE) · [サードパーティー](docs/third-party-notices.md)
 
 ## Screenshots / 截图 / スクリーンショット
 
-Actual Android emulator captures. These earlier captures do not show every change in the current development version; [capture details](docs/screenshots/README.md).
+Original emulator captures with local test fixtures; not live account data. / 模拟器原始截图，内容为测试样本。/ ローカル標本を使った実際の画面です。
 
-<p>
-  <img src="docs/screenshots/phone-post-detail.png" width="220" alt="Post details / 帖子详情 / 投稿詳細">
-  <img src="docs/screenshots/compact-settings-zh-cn.png" width="220" alt="Settings / 设置 / 設定">
-</p>
+<img src="https://raw.githubusercontent.com/Milenal82/sakugapp/evidence/v130/screenshots/phone-v130-home-default-light-100.png" width="240" alt="Search home" /> <img src="https://raw.githubusercontent.com/Milenal82/sakugapp/evidence/v130/screenshots/phone-v130-profile-dark-125.png" width="240" alt="Compact local profile, Amber dark, 125 percent text" /> <img src="https://raw.githubusercontent.com/Milenal82/sakugapp/evidence/v130/screenshots/phone-v130-quiz-answers.png" width="240" alt="Native four-choice quiz" />
 
-## License / 许可证 / ライセンス
+## Build / 构建 / ビルド
 
-[GPL-3.0-only](LICENSE). Corresponding source ZIPs accompany build artifacts and releases. Media remains the property of its rights holders. [Third-party notices](docs/third-party-notices.md) · [Data source](docs/data-source.md) · [Sakuga Extended feature review](docs/feature-matrix.md).
+JDK 17 · Android SDK 35 · Gradle Wrapper 8.13 · AGP 8.9.2 · Kotlin 2.1.20
 
-## Development / 开发 / 開発
+```sh
+python3 scripts/check-localization.py
+./gradlew --no-daemon testDebugUnitTest lintDebug assembleDebug
+```
 
-当前开发分支调整了逐帧控制与播放器锁定、详情页尺寸、Vote 和评论按需加载，并加入可恢复的后台批量队列。版本号未改变，尚未发布。
+Debug APK: `app/build/outputs/apk/debug/app-debug.apk`. Official signing is restricted to the existing protected release workflow; see [release-signing.md](docs/release-signing.md). Source archives include the wrapper, tests, license and build scripts, and exclude local configuration and secrets.
 
-The development branch adds compact frame controls and player locking, window-sized details, a Vote menu, on-demand comments and a recoverable background batch queue. No new formal Release is published.
+## Limits / 限制 / 制限
 
-開発ブランチではコマ送り・操作ロック、詳細画面のサイズ調整、評価メニュー、コメントの遅延読込、再開可能な一括ダウンロードを更新しています。バージョン変更・公開は行いません。
-
-[Implementation and verification / 实现与验证 / 実装と検証](docs/player-community-batch.md)
-
-## Search · 搜索 · 検索
-
-开发分支默认打开搜索首页，底部提供搜索、Posts、个人资料。搜索结果与普通浏览分别保留；本地头像昵称不关联网站账户。原画师统计和作品集数浏览使用真实投稿的有限采样，点击标签可转入 Posts。集数只依据 Source 中明确的文字标记，不代表完整播出目录。
-
-The development branch starts with Search and offers Search / Posts / Profile tabs, a local avatar and nickname, sampled artist statistics and work/episode browsing. Ordinary browsing and search results stay separate. Episode lookup covers the loaded sample, not a complete episode database.
-
-開発ブランチは検索から開始し、検索・Posts・プロフィールを切り替えられます。ローカル画像と名前、取得済み投稿による原画師統計・作品別話数閲覧に対応します。通常閲覧と検索結果は別に保持し、話数は取得範囲内のみです。
-
-[Scope, sources and limits / 实现范围与限制 / 実装と制限](docs/search-profile-discovery.md)
-
-## Development update · 开发更新 · 開発更新
-
-本开发分支压缩播放器高级控制区，仅保留精确裁剪；Posts 通过底部入口恢复普通浏览，提交搜索显示结果。资料卡更紧凑，增加琥珀橙、日期范围、14 个专题、独立网站 Favorites 和四选一原画猜谜。网站 Favorites 会核对个人 Vote，和本地收藏夹分开；猜谜只使用单个已验证 Artist 的真实视频。仅提供 Debug APK，不修改正式版。
-
-This branch compacts player/profile controls and keeps precise clipping only. It adds Amber Orange, calendar ranges, 14 discovery topics, account-scoped website Favorites and a four-choice artist quiz. Website votes are checked per post; quiz eligibility is verified locally. Debug builds only.
-
-詳細操作とプロフィールをコンパクトにし、区間保存は精密クリップのみに変更しました。アンバーオレンジ、日付範囲、14の特集、サイトの投票記録、4択原画師クイズを追加しています。投票は投稿ごとに確認し、ローカルのお気に入りとは別に扱います。Debug版のみです。
-
-[Implementation, checks and limitations / 实现与验证 / 実装と制限](docs/compact-explore-quiz.md)
-
-### Menu and quiz pool · 菜单与作品池 · メニューと作品リスト
-
-右上角菜单固定为贴文、搜寻、我的账户、收藏夹、设定、授权与条款。作品池移至独立管理页，支持自动保存、连续添加、单项移除和确认清空，最多 30 部。全部作品模式保留自定义清单但不使用它；自定义模式轮换作品、复用各自缓存，并对投稿 ID 去重。
-
-The overflow menu has six entries. Quiz work selection has its own auto-saving page, capped at 30 verified Copyright tags. All-works mode keeps the saved list without applying it. Custom rounds rotate works and reuse separate buffers, with global Post ID deduplication and bounded requests.
-
-メニューは6項目です。作品リストは独立した自動保存画面で管理でき、最大30作品まで選べます。全作品モードでもリストは保持されます。指定モードは作品を巡回し、投稿の重複と無制限の取得を防ぎます。
+Sakugabooru availability, authentication and request limits apply. Missing classifications and Scores are not invented. Sources are free text, so episode grouping can be incomplete; statistics cover sampled posts. Frame stepping distinguishes decoded indices from estimates; A–B playback and re-encoded clip boundaries have decoder/format limits. Offline batches retain the 20-item, 200 MiB/file and 1 GiB protections. History is bounded to 500 entries or 8 MiB. Website tags, comments and Sources remain original. Translations have resource checks, without native-speaker review. See [v1.3.0 verification and limits](docs/v1.3.0.md).

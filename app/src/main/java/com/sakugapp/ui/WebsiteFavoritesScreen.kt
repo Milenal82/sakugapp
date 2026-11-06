@@ -14,6 +14,7 @@ import com.sakugapp.PostCard
 import com.sakugapp.R
 import com.sakugapp.data.*
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable internal fun WebsiteFavoritesScreen(model:WebsiteFavoritesViewModel,app:AppViewModel,settings:AppSettings,login:()->Unit,search:(String)->Unit,open:(Post,List<Post>)->Unit){
     val account by app.account.collectAsStateWithLifecycle();val state by model.state.collectAsStateWithLifecycle();val grade by model.grade.collectAsStateWithLifecycle()
     val grid=rememberLazyGridState();var preview by remember{mutableStateOf<Long?>(null)}
@@ -26,7 +27,7 @@ import com.sakugapp.data.*
         Text(text(R.string.ui_website_favorites),style=MaterialTheme.typography.titleLarge,modifier=Modifier.padding(12.dp))
         if(account==null){Column(Modifier.padding(12.dp)){Text(text(R.string.ui_favorites_login));OutlinedButton(onClick=login){Text(text(R.string.ui_account_login))}}}
         else{
-            Row(Modifier.padding(horizontal=8.dp)){for(rank in 0..3)FilterChip(selected=grade==rank,onClick={model.grade(rank)},label={Text(if(rank==0)text(R.string.ui_all_votes)else"★".repeat(rank))},modifier=Modifier.testTag("favorites-$rank"))}
+            FlowRow(Modifier.padding(horizontal=12.dp),horizontalArrangement=Arrangement.spacedBy(8.dp)){for(rank in 0..3)SearchToolTile(R.drawable.ic_star,if(rank==0)text(R.string.ui_all_votes)else"★".repeat(rank),{model.grade(rank)},Modifier.testTag("favorites-$rank"),selected=grade==rank)}
             LazyVerticalGrid(GridCells.Fixed(settings.columns),state=grid,contentPadding=PaddingValues(12.dp),horizontalArrangement=Arrangement.spacedBy(6.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
                 item(span={GridItemSpan(maxLineSpan)}){Column{
                     Text(text(R.string.ui_favorites_levels),style=MaterialTheme.typography.bodySmall)

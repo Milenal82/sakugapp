@@ -451,7 +451,7 @@
     <string name="ui_appearance_display">Оформление и отображение</string>
     <string name="ui_color_theme">Цветовая тема</string>
     <string name="ui_theme_sakura">Розовая сакура</string>
-    <string name="ui_theme_mint">Мятный циан</string>
+    <string name="ui_theme_mint">Мятный</string>
     <string name="ui_video_playback">Видео и воспроизведение</string>
     <string name="ui_data_management">Управление данными</string>
     <string name="ui_single_directory">Папка отдельных видео</string>

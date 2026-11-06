@@ -448,7 +448,7 @@
     <string name="ui_appearance_display">Apparence et affichage</string>
     <string name="ui_color_theme">Thème de couleurs</string>
     <string name="ui_theme_sakura">Rose sakura</string>
-    <string name="ui_theme_mint">Cyan menthe</string>
+    <string name="ui_theme_mint">Menthe</string>
     <string name="ui_video_playback">Vidéo et lecture</string>
     <string name="ui_data_management">Gestion des données</string>
     <string name="ui_single_directory">Dossier des vidéos individuelles</string>

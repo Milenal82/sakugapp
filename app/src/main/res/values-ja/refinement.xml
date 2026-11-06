@@ -1,0 +1,8 @@
+<resources>
+    <string name="ui_tag_conditions">タグ条件</string>
+    <string name="ui_sort_rating">並び順とレーティング</string>
+    <string name="ui_apply_search">検索を適用</string>
+    <string name="ui_quiz_scope_custom">カスタム作品 · %1$d 件選択</string>
+    <string name="ui_quiz_accuracy">正答率</string>
+    <string name="ui_quiz_counts">正解 %1$d · 不正解 %2$d · 回答済み %3$d</string>
+</resources>

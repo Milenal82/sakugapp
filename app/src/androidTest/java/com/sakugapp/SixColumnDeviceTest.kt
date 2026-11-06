@@ -49,7 +49,7 @@ class SixColumnDeviceTest {
         runBlocking{app.localLibrary.ready();posts.forEach{app.localLibrary.membership(it,1,true)};app.preferences.columns(6);app.preferences.librarySort(2);app.preferences.theme("dark")}
         try{
             ui.waitUntil(10000){app.settings.value.columns==6 && app.settings.value.librarySort==2}
-            ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithText("Favorites",substring=false).performClick()
+            openLegacyDestination(ui,"Favorites")
             ui.onNodeWithTag("local-library").performScrollToNode(hasTestTag("folder-entry-1"))
             ui.onNodeWithTag("folder-entry-1").performClick();ui.onNodeWithTag("local-library").performScrollToIndex(1)
             val grid=ui.onNodeWithTag("local-library").fetchSemanticsNode().boundsInRoot

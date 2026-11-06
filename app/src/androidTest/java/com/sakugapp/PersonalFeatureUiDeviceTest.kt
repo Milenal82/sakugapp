@@ -21,7 +21,7 @@ import org.junit.runner.RunWith
 class PersonalFeatureUiDeviceTest {
     @get:Rule val ui=createAndroidComposeRule<MainActivity>()
     private fun app():AppViewModel {lateinit var result:AppViewModel;ui.runOnUiThread{result=ViewModelProvider(ui.activity)[AppViewModel::class.java]};return result}
-    private fun menu(label:String){ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithText(label,substring=false).performClick()}
+    private fun menu(label:String){openLegacyDestination(ui,label)}
     @org.junit.Before fun selectPostsEntry(){enterPostsForLegacyTest(ui)}
     @Test fun detailVisitsTagNotesFavoritesSearchAndHistoryUseIndependentNativePages(){
         val app=app();val instrumentation=InstrumentationRegistry.getInstrumentation();val device=UiDevice.getInstance(instrumentation)

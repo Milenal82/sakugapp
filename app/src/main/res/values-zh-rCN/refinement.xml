@@ -1,0 +1,8 @@
+<resources>
+    <string name="ui_tag_conditions">标签条件</string>
+    <string name="ui_sort_rating">排序与评级</string>
+    <string name="ui_apply_search">应用搜索</string>
+    <string name="ui_quiz_scope_custom">自定义作品池 · 已选 %1$d 部</string>
+    <string name="ui_quiz_accuracy">正确率</string>
+    <string name="ui_quiz_counts">正确 %1$d · 错误 %2$d · 完成 %3$d</string>
+</resources>

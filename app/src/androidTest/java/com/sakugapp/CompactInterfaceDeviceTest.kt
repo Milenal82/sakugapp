@@ -58,8 +58,9 @@ class CompactInterfaceDeviceTest {
         ui.onNodeWithTag("search-input").assertDoesNotExist()
         ui.onNodeWithTag("search-entry").performClick()
         ui.onNodeWithTag("open-combined-search").performScrollTo().performClick()
+        ui.onNodeWithTag("sort-rating-toggle").performScrollTo().performClick()
         ui.onNodeWithText("score:>=3",substring=false).performScrollTo().performClick()
-        ui.onNodeWithText("Apply",substring=false).performClick()
+        ui.onNodeWithTag("apply-combined-search").performClick()
         ui.waitUntil(10000){feed.state.value.query=="id:319947 score:>=3"}
         ui.onNodeWithTag("search-input").assertDoesNotExist()
         assertTrue(app.history.value.contains("id:319947"))

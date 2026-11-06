@@ -1,0 +1,8 @@
+<resources>
+    <string name="ui_tag_conditions">태그 조건</string>
+    <string name="ui_sort_rating">정렬 및 등급</string>
+    <string name="ui_apply_search">검색 적용</string>
+    <string name="ui_quiz_scope_custom">사용자 작품 목록 · %1$d개 선택</string>
+    <string name="ui_quiz_accuracy">정답률</string>
+    <string name="ui_quiz_counts">정답 %1$d · 오답 %2$d · 완료 %3$d</string>
+</resources>

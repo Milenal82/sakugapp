@@ -42,7 +42,7 @@ import kotlinx.coroutines.*
             item{
                 Column(verticalArrangement=Arrangement.spacedBy(6.dp)){
                     listOf(false to R.string.ui_all_works,true to R.string.ui_custom_pool).forEach{(custom,label)->
-                        Surface(onClick={save{app.preferences.quizMode(custom)}},shape=MaterialTheme.shapes.medium,color=if(config.custom==custom)MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainerHigh,modifier=Modifier.fillMaxWidth().testTag(if(custom)"pool-mode-custom"else"pool-mode-all")){
+                        FeatureSurface(Modifier.fillMaxWidth().testTag(if(custom)"pool-mode-custom"else"pool-mode-all"),onClick={save{app.preferences.quizMode(custom)}},selected=config.custom==custom){
                             Row(Modifier.padding(horizontal=8.dp),verticalAlignment=Alignment.CenterVertically){RadioButton(selected=config.custom==custom,onClick=null);Text(text(label),Modifier.padding(8.dp))}
                         }
                     }
@@ -60,7 +60,7 @@ import kotlinx.coroutines.*
                 }
                 items(candidates,key={"candidate:"+it.name}){tag->
                     val selected=tag.name in config.works
-                    Surface(shape=MaterialTheme.shapes.medium,color=MaterialTheme.colorScheme.surfaceContainerHigh,modifier=Modifier.fillMaxWidth().testTag("pool-candidate-${tag.name}")){
+                    FeatureSurface(Modifier.fillMaxWidth().testTag("pool-candidate-${tag.name}")){
                         Row(Modifier.padding(horizontal=10.dp,vertical=4.dp),verticalAlignment=Alignment.CenterVertically){
                             Column(Modifier.weight(1f)){Text(tag.name,color=copyrightColor(MaterialTheme.colorScheme.background.luminance()>.5f));tag.count?.let{Text(text(R.string.ui_pool_post_count,it),style=MaterialTheme.typography.bodySmall)}}
                             ActionIcon(if(selected)R.drawable.ic_check else R.drawable.ic_add,text(if(selected)R.string.ui_pool_added else R.string.ui_pool_add),{if(!selected)save{app.preferences.quizWork(tag.name)}},Modifier.testTag("pool-add-${tag.name}"),enabled=!selected,selected=selected)

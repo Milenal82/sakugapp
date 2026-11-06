@@ -14,6 +14,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -31,7 +32,8 @@ import com.sakugapp.data.*
     var order by rememberSaveable { mutableStateOf(initial.order) }
     var rating by rememberSaveable { mutableStateOf(initial.rating) }
     var historyOpen by rememberSaveable{mutableStateOf(false)}
-    var guide by remember { mutableStateOf(false) }
+    var guide by rememberSaveable { mutableStateOf(false) }
+    var filtersOpen by rememberSaveable { mutableStateOf(initial.order!="keep" || initial.rating!="keep" || SearchSyntax.tokens(initial.expression).any{it.startsWith("score:")}) }
     var expressionFocused by remember{mutableStateOf(false)}
     var nameFocused by remember{mutableStateOf(false)}
     val expressionSuggestions=rememberSuggestions(expression,expressionFocused,source)
@@ -40,7 +42,7 @@ import com.sakugapp.data.*
         expression=value
         val draft=SearchSyntax.draft(value.text);order=draft.order;rating=draft.rating
     }
-    fun load(value:String){edit(TextFieldValue(value,TextRange(value.length)));name=TextFieldValue("");mode="and"}
+    fun load(value:String){edit(TextFieldValue(value,TextRange(value.length)));name=TextFieldValue("");mode="and";filtersOpen=order!="keep" || rating!="keep" || SearchSyntax.tokens(value).any{it.startsWith("score:")}}
     fun complete(value:TextFieldValue,tag:String):TextFieldValue {
         if(value.composition!=null || !value.selection.collapsed)return value
         val edit=SearchEditing.complete(value.text,value.selection.start,tag);return TextFieldValue(edit.text,TextRange(edit.cursor))
@@ -67,27 +69,50 @@ import com.sakugapp.data.*
                         load(item);historyOpen=false
                     },modifier=Modifier.fillMaxWidth().testTag("combined-history-$index")){Text(item,maxLines=2,overflow=TextOverflow.Ellipsis)}}
                 }}
-                OutlinedTextField(expression,::edit,label={Text(text(R.string.ui_query))},modifier=Modifier.fillMaxWidth().testTag("query-expression").onFocusChanged{expressionFocused=it.isFocused},minLines=2)
-                TagSuggestionsMenu(expressionSuggestions,light){edit(complete(expression,it))}
-                DateFilterControl(expression.text){value->edit(TextFieldValue(value,TextRange(value.length)))}
-                Text(text(R.string.ui_score_shortcuts))
-                FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp)) {
-                    for(preset in SearchSyntax.scorePresets)FilterChip(selected=preset in SearchSyntax.tokens(expression.text),onClick={edit(SearchSyntax.score(expression.text,preset).let{TextFieldValue(it,TextRange(it.length))})},label={Text(preset)})
+                SearchFilterSection(text(R.string.ui_tag_conditions)){
+                    OutlinedTextField(expression,::edit,label={Text(text(R.string.ui_query))},modifier=Modifier.fillMaxWidth().testTag("query-expression").onFocusChanged{expressionFocused=it.isFocused},minLines=2)
+                    TagSuggestionsMenu(expressionSuggestions,light){edit(complete(expression,it))}
+                    OutlinedTextField(name,{name=it},label={Text(text(R.string.ui_tag_or_field_condition))},modifier=Modifier.fillMaxWidth().onFocusChanged{nameFocused=it.isFocused},singleLine=true)
+                    TagSuggestionsMenu(nameSuggestions,light){name=complete(name,it)}
+                    FlowRow(horizontalArrangement=Arrangement.spacedBy(6.dp)) { for((value,label) in listOf("and" to text(R.string.ui_and_all_tags),"or" to text(R.string.ui_or_tag),"exclude" to text(R.string.ui_exclude_tag))) FilterChip(selected=mode==value,onClick={mode=value},label={Text(label)}) }
+                    TextButton(contentPadding=textButtonPadding(),enabled=name.text.isNotBlank() && name.text.trim().none(Char::isWhitespace) && !name.text.trim().startsWith('-') && !name.text.trim().startsWith('~') && (mode!="or" || ':' !in name.text),onClick={edit(SearchSyntax.add(expression.text,name.text.trim(),mode).let{TextFieldValue(it,TextRange(it.length))});name=TextFieldValue("")}){Text(text(R.string.ui_add_condition))}
                 }
-                OutlinedTextField(name,{name=it},label={Text(text(R.string.ui_tag_or_field_condition))},modifier=Modifier.fillMaxWidth().onFocusChanged{nameFocused=it.isFocused},singleLine=true)
-                TagSuggestionsMenu(nameSuggestions,light){name=complete(name,it)}
-                FlowRow { for((value,label) in listOf("and" to text(R.string.ui_and_all_tags),"or" to text(R.string.ui_or_tag),"exclude" to text(R.string.ui_exclude_tag))) FilterChip(selected=mode==value,onClick={mode=value},label={Text(label)}) }
-                TextButton(contentPadding=textButtonPadding(),enabled=name.text.isNotBlank() && name.text.trim().none(Char::isWhitespace) && !name.text.trim().startsWith('-') && !name.text.trim().startsWith('~') && (mode!="or" || ':' !in name.text),onClick={edit(SearchSyntax.add(expression.text,name.text.trim(),mode).let{TextFieldValue(it,TextRange(it.length))});name=TextFieldValue("")}){Text(text(R.string.ui_add_condition))}
-                Text(text(R.string.ui_or_applies_to_ordinary_tags_enter_field_conditions_such_as_rating),style=MaterialTheme.typography.bodySmall)
-                Text(text(R.string.ui_order));FlowRow { for(value in listOf("keep","date")+SearchSyntax.orders) FilterChip(selected=order==value,onClick={
-                    val result=SearchSyntax.filters(expression.text,value,"keep");expression=TextFieldValue(result,TextRange(result.length));order=value
-                },modifier=Modifier.testTag("query-order-$value"),label={Text(when(value){"keep"->text(R.string.ui_keep_current);"date"->text(R.string.ui_website_default);else->"order:$value"})}) }
-                Text(text(R.string.ui_rating));FlowRow { for(value in listOf("keep","all","safe","questionable","explicit")) FilterChip(selected=rating==value,onClick={
-                    val result=SearchSyntax.filters(expression.text,"keep",value);expression=TextFieldValue(result,TextRange(result.length));rating=value
-                },modifier=Modifier.testTag("query-rating-$value"),label={Text(when(value){"keep"->text(R.string.ui_keep_current);"all"->text(R.string.ui_clear_rating_filter);else->value})}) }
+                SearchFilterSection(text(R.string.ui_date_range)){
+                    DateFilterControl(expression.text){value->edit(TextFieldValue(value,TextRange(value.length)))}
+                }
+                FeatureSurface(Modifier.fillMaxWidth()){
+                    Column(Modifier.padding(FeatureStyle.inset),verticalArrangement=Arrangement.spacedBy(6.dp)){
+                        TextButton(onClick={filtersOpen=!filtersOpen},modifier=Modifier.fillMaxWidth().testTag("sort-rating-toggle")){
+                            Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically){Text(text(R.string.ui_sort_rating),Modifier.weight(1f));Text(if(filtersOpen)"−"else"+")}
+                        }
+                        AnimatedVisibility(filtersOpen,enter=expandVertically(tween(Motion.controls)),exit=shrinkVertically(tween(Motion.controls))){Column{
+                            Text(text(R.string.ui_score_shortcuts),style=MaterialTheme.typography.titleSmall)
+                            FlowRow(horizontalArrangement=Arrangement.spacedBy(6.dp)){
+                                for(preset in SearchSyntax.scorePresets)FilterChip(selected=preset in SearchSyntax.tokens(expression.text),onClick={edit(SearchSyntax.score(expression.text,preset).let{TextFieldValue(it,TextRange(it.length))})},label={Text(preset)})
+                            }
+                            Text(text(R.string.ui_order),style=MaterialTheme.typography.titleSmall)
+                            FlowRow(horizontalArrangement=Arrangement.spacedBy(6.dp)){for(value in listOf("keep","date")+SearchSyntax.orders)FilterChip(selected=order==value,onClick={
+                                val result=SearchSyntax.filters(expression.text,value,"keep");expression=TextFieldValue(result,TextRange(result.length));order=value
+                            },modifier=Modifier.testTag("query-order-$value"),label={Text(when(value){"keep"->text(R.string.ui_keep_current);"date"->text(R.string.ui_website_default);else->"order:$value"})})}
+                            Text(text(R.string.ui_rating),style=MaterialTheme.typography.titleSmall)
+                            FlowRow(horizontalArrangement=Arrangement.spacedBy(6.dp)){for(value in listOf("keep","all","safe","questionable","explicit"))FilterChip(selected=rating==value,onClick={
+                                val result=SearchSyntax.filters(expression.text,"keep",value);expression=TextFieldValue(result,TextRange(result.length));rating=value
+                            },modifier=Modifier.testTag("query-rating-$value"),label={Text(when(value){"keep"->text(R.string.ui_keep_current);"all"->text(R.string.ui_clear_rating_filter);else->value})})}
+                        }}
+                    }
+                }
                 Text(finalQuery,style=MaterialTheme.typography.bodySmall)
                 SearchSyntax.warnings(finalQuery).forEach { Text(translateMessage(it),color=MaterialTheme.colorScheme.tertiary,style=MaterialTheme.typography.bodySmall) }
             }
         }
-    },confirmButton={TextButton(contentPadding=textButtonPadding(),onClick={apply(finalQuery)},modifier=Modifier.testTag("apply-combined-search")){Text(text(R.string.ui_apply))}},dismissButton={TextButton(contentPadding=textButtonPadding(),onClick=close){Text(text(R.string.ui_cancel))}})
+    },confirmButton={TextButton(contentPadding=textButtonPadding(),onClick={apply(finalQuery)},modifier=Modifier.testTag("apply-combined-search")){Text(text(R.string.ui_apply_search))}},dismissButton={TextButton(contentPadding=textButtonPadding(),onClick=close){Text(text(R.string.ui_cancel))}})
+}
+
+@Composable private fun SearchFilterSection(title:String,content:@Composable ColumnScope.()->Unit){
+    FeatureSurface(Modifier.fillMaxWidth()){
+        Column(Modifier.padding(FeatureStyle.inset),verticalArrangement=Arrangement.spacedBy(8.dp)){
+            Text(title,style=MaterialTheme.typography.titleSmall)
+            content()
+        }
+    }
 }

@@ -454,7 +454,7 @@
     <string name="ui_appearance_display">Appearance &amp; display</string>
     <string name="ui_color_theme">Color theme</string>
     <string name="ui_theme_sakura">Sakura Pink</string>
-    <string name="ui_theme_mint">Mint Cyan</string>
+    <string name="ui_theme_mint">Mint</string>
     <string name="ui_video_playback">Video &amp; playback</string>
     <string name="ui_data_management">Data &amp; management</string>
     <string name="ui_single_directory">Single video folder</string>

@@ -50,3 +50,18 @@ def verify_checksums(folder, expected):
         found.add(name)
     if found != expected:
         raise ValueError("Release checksum manifest is incomplete")
+
+
+def previous_release_tag(tag):
+    """Explicit upgrade paths only; unknown versions must never fall back to v1.0.0."""
+    versions={"v1.1.0":"v1.0.0","v1.2.0":"v1.1.0","v1.2.1":"v1.2.0","v1.2.2":"v1.2.1","v1.3.0":"v1.2.2"}
+    if tag not in versions:
+        raise ValueError("No verified previous release configured for "+tag)
+    return versions[tag]
+
+
+def validate_layout_matrix(cases):
+    expected={(palette,mode,scale)for palette in ['default','mint','pink','amber']for mode in ['light','dark']for scale in [.75,1.0,1.25]}
+    actual={(case['palette'],case['background'],case['font'])for case in cases}
+    if len(cases)!=24 or actual!=expected or any(case.get('home_and_profile')!='passed'for case in cases):
+        raise ValueError('The complete 24-case native layout matrix must pass')

@@ -29,4 +29,14 @@ class FullThemeTest {
         assertEquals(appColors(true,"mint").background,appColors(true,"blue").background)
         val p=AppSettings();assertTrue(p.gestures && p.screenshot && p.loop && p.muted && p.mobilePreview);assertFalse(p.wifiImages)
     }
+    @Test fun everyPaletteHasReadableSelectionAndRetainsSemanticTagColors(){
+        for(light in listOf(false,true))for(family in listOf("default","mint","pink","amber")){
+            val c=appColors(light,family)
+            for((foreground,background)in listOf(c.onPrimaryContainer to c.primaryContainer,c.onSurface to c.surfaceContainerHigh,c.primary to c.surface,c.onErrorContainer to c.errorContainer))
+                assertTrue("$family/$light contrast",contrast(foreground,background)>=4.5)
+            assertEquals(c.primary,c.secondary)
+            assertEquals(if(light)Color(0xFF7542B8)else Color(0xFFC59BFF),artistColor(light))
+            assertEquals(if(light)Color(0xFF926000)else Color(0xFFFFD166),copyrightColor(light))
+        }
+    }
 }
