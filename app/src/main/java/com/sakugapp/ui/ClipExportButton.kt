@@ -13,7 +13,7 @@ import kotlinx.coroutines.*
 import java.io.File
 
 @OptIn(ExperimentalLayoutApi::class)
-@Composable internal fun rememberClipExport(post:Post,url:String,range:ABLoop,selecting:Boolean):@Composable ()->Unit{
+@Composable internal fun rememberClipExport(post:Post,url:String,range:ABLoop,selecting:Boolean,prepare:suspend ()->Unit={},finished:()->Unit={}):@Composable ()->Unit{
     val context=LocalContext.current;val cache=LocalPageVideoCache.current;val scope=rememberCoroutineScope()
     val storage=remember{DownloadStorage(context.applicationContext)}
     var confirm by remember{mutableStateOf<ClipRange?>(null)};var mode by remember{mutableStateOf(ClipMode.COPY)}
@@ -25,14 +25,15 @@ import java.io.File
         job=scope.launch{
             val folder=File(context.cacheDir,"clip-export/${java.util.UUID.randomUUID()}")
             try{
+                prepare()
                 val exporter=ClipExporter(context.applicationContext);val input=exporter.stage(url,cache,folder)
                 val result=exporter.export(input,folder,selected,selectedMode)
                 val filename=MediaFileNames.forClip(post,result.file.extension,selected,selectedMode)
                 storage.saveClip(result.file,filename,result.mime)
-                message=context.getString(R.string.ui_clip_saved,formatClipTime(result.actualStartUs/1000),formatClipTime(result.actualEndUs/1000),formatClipTime((result.actualEndUs-result.actualStartUs)/1000))
+                message=context.getString(R.string.ui_clip_saved,formatClipTime(result.actualStartUs/1000),formatClipTime(result.actualEndUs/1000),formatClipTime(result.outputDurationUs/1000))
             }catch(e:CancellationException){message=context.getString(R.string.ui_download_cancelled);throw e}
             catch(e:Exception){message=when((e as? LibraryFailure)?.code ?: e.message?.substringBefore(' ')){"clip_space"->context.getString(R.string.ui_storage_full);"clip_verify"->context.getString(R.string.ui_clip_verify);"clip_unsupported"->context.getString(R.string.ui_clip_unsupported);else->libraryError(context,e)}}
-            finally{withContext(NonCancellable+Dispatchers.IO){folder.deleteRecursively()};busy=false}
+            finally{withContext(NonCancellable+Dispatchers.IO){folder.deleteRecursively()};withContext(NonCancellable+Dispatchers.Main.immediate){finished();busy=false}}
         }
     }
     return {

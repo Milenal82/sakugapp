@@ -48,9 +48,12 @@ class PublicBrowseTest {
         ui.onNodeWithTag("toggle-fullscreen").performScrollTo().performClick();ui.waitForIdle();ui.onNodeWithTag("video-gestures").performTouchInput{click(androidx.compose.ui.geometry.Offset(width*.25f,height*.3f))};Thread.sleep(400);ui.waitForIdle();ui.onNodeWithTag("toggle-fullscreen").assertExists()
         ui.onNodeWithTag("toggle-fullscreen").performClick()
         ui.onNodeWithTag("step--3").performScrollTo().performClick()
-        ui.waitUntil(120000){ui.onAllNodesWithText("Decoded frame index · verified timestamps").fetchSemanticsNodes().isNotEmpty()}
+        ui.waitUntil(120000){ui.onAllNodesWithText("Locating frame…").fetchSemanticsNodes().isEmpty() && ui.onNodeWithTag("frame-counter").fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].any{it.text.contains('/')}}
+        val precision=ui.onNodeWithTag("frame-precision").fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].joinToString{it.text}
+        println("Live-site frame precision: $precision")
+        val selected=ui.onNodeWithTag("frame-counter").fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].toString()
         ui.onNodeWithTag("step-1").performClick()
-        ui.waitUntil(60000){ui.onAllNodesWithText("Locating frame…").fetchSemanticsNodes().isEmpty()}
+        ui.waitUntil(60000){ui.onAllNodesWithText("Locating frame…").fetchSemanticsNodes().isEmpty() && ui.onNodeWithTag("frame-counter").fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].toString()!=selected}
         ui.onNodeWithTag("frame-counter").assertExists()
         ui.onNodeWithTag("detail-tag-mokmok").performScrollTo().assertIsDisplayed()
         ui.onNodeWithTag("artist-wiki-mokmok").performClick()

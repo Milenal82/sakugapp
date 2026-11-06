@@ -18,6 +18,7 @@ app/src/androidTest/java/com/sakugapp/PublicBrowseTest.kt
 app/src/main/assets/licenses/THIRD-PARTY-NOTICES.md
 app/src/main/java/com/sakugapp/MainActivity.kt
 app/src/main/java/com/sakugapp/data/ClipExporter.kt
+app/src/main/java/com/sakugapp/data/ClipFrameGate.kt
 app/src/main/java/com/sakugapp/data/DownloadStorage.kt
 app/src/main/java/com/sakugapp/data/FramePosition.kt
 app/src/main/java/com/sakugapp/data/MediaFileNames.kt

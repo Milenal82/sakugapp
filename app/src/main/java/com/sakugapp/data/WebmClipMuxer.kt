@@ -14,8 +14,17 @@ import java.nio.ByteBuffer
 internal class WebmClipMuxer(path:String):Muxer{
     private val muxer=MediaMuxer(path,MediaMuxer.OutputFormat.MUXER_OUTPUT_WEBM)
     private var started=false
-    override fun addTrack(format:Format):Int=muxer.addTrack(MediaFormatUtil.createMediaFormatFromFormat(format))
-    override fun writeSampleData(trackId:Int,data:ByteBuffer,info:MediaCodec.BufferInfo){if(!started){muxer.start();started=true};muxer.writeSampleData(trackId,data,info)}
+    private val mimes=mutableMapOf<Int,String?>()
+    override fun addTrack(format:Format):Int=muxer.addTrack(MediaFormatUtil.createMediaFormatFromFormat(format)).also{mimes[it]=format.sampleMimeType}
+    override fun writeSampleData(trackId:Int,data:ByteBuffer,info:MediaCodec.BufferInfo){
+        // WebM cannot represent negative preroll packet timestamps. Keep only complete nonnegative packets.
+        if(info.presentationTimeUs<0 || info.size==0)return
+        val size=info.size-(if(mimes[trackId]==MimeTypes.AUDIO_VORBIS)4 else 0)
+        require(size>0 && info.offset>=0 && info.offset+size<=data.limit())
+        val slice=data.duplicate().apply{position(info.offset);limit(info.offset+size)}.slice()
+        val normalized=MediaCodec.BufferInfo().apply{set(0,size,info.presentationTimeUs,info.flags)}
+        if(!started){muxer.start();started=true};muxer.writeSampleData(trackId,slice,normalized)
+    }
     override fun addMetadataEntry(entry:Metadata.Entry){}
     override fun close(){try{if(started)muxer.stop()}finally{muxer.release()}}
     class Factory:Muxer.Factory{

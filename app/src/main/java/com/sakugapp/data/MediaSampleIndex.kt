@@ -21,11 +21,11 @@ internal object MediaSampleIndex {
         val extractor=candidates.firstOrNull{e->try{input.p=0;input.resetPeekPosition();e.sniff(input)}catch(_:EOFException){false}}
         candidates.filter{it!==extractor}.forEach{it.release()}
         checkNotNull(extractor){"clip_unsupported"}
-        val tracks=linkedMapOf<Int,Track>();var duration=C.TIME_UNSET
+        val tracks=linkedMapOf<Int,Track>();var duration=C.TIME_UNSET;var metadataReady=false
         try{
             input.p=0;input.resetPeekPosition()
             extractor.init(object:ExtractorOutput{
-                override fun endTracks(){}
+                override fun endTracks(){metadataReady=true}
                 override fun seekMap(map:SeekMap){duration=map.durationUs}
                 override fun track(id:Int,type:Int):TrackOutput{
                     val track=tracks.getOrPut(id){Track(type)}
@@ -43,7 +43,17 @@ internal object MediaSampleIndex {
                 }
             })
             val position=PositionHolder()
-            while(true){checkActive();if(Thread.currentThread().isInterrupted)throw java.io.InterruptedIOException();when(extractor.read(input,position)){Extractor.RESULT_END_OF_INPUT->break;Extractor.RESULT_SEEK->{input.p=position.position;input.resetPeekPosition()}}}
+            while(true){checkActive();if(Thread.currentThread().isInterrupted)throw java.io.InterruptedIOException();when(extractor.read(input,position)){Extractor.RESULT_END_OF_INPUT->break;Extractor.RESULT_SEEK->{input.p=position.position;input.resetPeekPosition()}}
+                if(metadataReady && extractor is androidx.media3.extractor.mp4.Mp4Extractor){
+                    for((id,track)in tracks){
+                        if(track.type !in listOf(C.TRACK_TYPE_VIDEO,C.TRACK_TYPE_AUDIO))continue
+                        val timestamps=extractor.getSampleTimestampsUs(id);check(timestamps.size<=400000){"clip_unsupported"}
+                        track.samples.clear()
+                        for(time in timestamps)track.samples+=Sample(time,track.type==C.TRACK_TYPE_AUDIO || extractor.getSeekPoints(time,id).first.timeUs==time)
+                    }
+                    break
+                }
+            }
             val list=tracks.values.filter{it.type in listOf(C.TRACK_TYPE_VIDEO,C.TRACK_TYPE_AUDIO)}
             check(list.count{it.type==C.TRACK_TYPE_VIDEO}==1){"clip_unsupported"}
             return Index(list,duration)

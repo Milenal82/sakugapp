@@ -168,7 +168,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
             android.widget.Toast.makeText(context,R.string.ui_post_boundary,android.widget.Toast.LENGTH_SHORT).show()
         }
     }
-    val clipControls=downloadPost?.let{post->key(mediaKey){rememberClipExport(post,url,ab,stepper.pending>0)}}
+    val clipControls=downloadPost?.let{post->key(mediaKey){rememberClipExport(post,url,ab,stepper.pending>0,prepare={stepper.beginExport()},finished={stepper.endExport()})}}
     val primaryControls:@Composable ()->Unit={
             Surface(shape=RoundedCornerShape(12.dp),color=MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha=if(fullscreen).94f else 1f)){
             Row(Modifier.padding(4.dp),horizontalArrangement=Arrangement.spacedBy(4.dp)){
@@ -259,7 +259,7 @@ AndroidView(factory={VideoGestureHost(it)},modifier=videoModifier.testTag("video
     }
     val ratio=if(mediaWidth>0 && mediaHeight>0)mediaWidth.toFloat()/mediaHeight else 16f/9f
     val toolbar:@Composable ()->Unit={
-        FrameControlBar(stepper.confirmed,position,stepper.pending,duration>0,{delta->abEnabled=false;resumeRequested=false;stepper.step(delta)},primaryControls)
+        FrameControlBar(stepper.confirmed,position,stepper.pending,duration>0 && !stepper.exporting,{delta->abEnabled=false;resumeRequested=false;stepper.step(delta)},primaryControls)
         stepper.failure?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error)}
     }
     if(fullscreen){
