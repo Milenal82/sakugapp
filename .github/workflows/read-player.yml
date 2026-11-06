@@ -42,7 +42,7 @@ jobs:
                   for p in z.infolist():
                       name=pathlib.PurePosixPath(p.filename).name
                       if p.file_size>4*1024*1024:continue
-                      if name.startswith(('extension-','v130-')) and name.endswith('.png'):
+                      if name.startswith(('extension-','v130-','search-ime-','stability-')) and name.endswith('.png'):
                           dest=pathlib.Path('/tmp/extension-captures')/(item['name']+'-'+name);dest.parent.mkdir(exist_ok=True);dest.write_bytes(z.read(p))
                       if name.startswith('lint-results-') and name.endswith('.xml'):
                           lint=ET.fromstring(z.read(p));result['lint']={'errors':sum(i.get('severity') in ['Error','Fatal'] for i in lint.findall('issue')),'warnings':sum(i.get('severity')=='Warning' for i in lint.findall('issue'))}
