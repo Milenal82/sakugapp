@@ -27,11 +27,11 @@ object QuizGenerator {
 /** Bounded metadata fetching only; no videos are preloaded in bulk. */
 class QuizRepository(private val posts:PostRepository=SakugaRepository(pageSize=100),private val catalog:suspend()->Map<String,TagCategory> = {(posts as SakugaRepository).classifications()},private val random:Random=Random.Default){
     private var candidates=emptyList<String>();private val buffer=ArrayDeque<Post>();private var attempts=0;private var settings=QuizSettings()
-    suspend fun start(value:QuizSettings){
+    suspend fun start(value:QuizSettings)=withContext(Dispatchers.Default){
         require(value.count in QuizSettings.counts && value.works.size<=20)
         val types=catalog()
         if(value.custom && (value.works.isEmpty() || value.works.any{types[it]!=TagCategory.COPYRIGHT}))throw DataFailure("quiz_pool")
-        val artists=types.filterValues{it==TagCategory.ARTIST}.keys.take(4096).toList()
+        val artists=types.asSequence().filter{it.value==TagCategory.ARTIST && it.key!="artist_unknown"}.map{it.key}.take(4096).toList()
         if(artists.size<4)throw DataFailure("quiz_insufficient")
         candidates=artists;settings=value;buffer.clear();attempts=0
     }
