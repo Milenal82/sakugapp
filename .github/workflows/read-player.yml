@@ -15,7 +15,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           python3 - <<'PY'
-          import subprocess,json,zipfile,io,xml.etree.ElementTree as ET,pathlib,time
+          import subprocess,json,zipfile,io,xml.etree.ElementTree as ET,pathlib,time,re
           repo='Milenal82/sakugapp';output=[]
           def api(path):return subprocess.check_output(['gh','api',f'repos/{repo}/'+path])
           for run in ['42212715519']:
@@ -26,6 +26,15 @@ jobs:
                   if meta['status']=='completed' or {'extension-device-reports-28','extension-device-reports-35','extension-build-reports'}.issubset({i['name'] for i in items}):break
                   time.sleep(20)
               result['status']=meta['status'];result['conclusion']=meta['conclusion']
+              result['jobs']=[]
+              for job in json.loads(api(f'actions/runs/{run}/jobs?per_page=100'))['jobs']:
+                  detail={'name':job['name'],'conclusion':job['conclusion']}
+                  if job['conclusion']=='failure':
+                      try:
+                          log=api(f'actions/jobs/{job["id"]}/logs').decode(errors='replace')
+                          detail['errors']='\n'.join(line for line in log.splitlines() if any(k in line for k in ['e: file:','FAILED','What went wrong','Caused by:','##[error]','Could not','Lint found','> Task :app:']))[-14000:]
+                      except Exception:detail['errors']='See failed job logs'
+                  result['jobs'].append(detail)
               result['artifacts']=[{'name':i['name'],'url':f'https://github.com/{repo}/actions/runs/{run}/artifacts/{i["id"]}'} for i in items]
               for item in items:
                   if not item['name'].startswith('extension-') or item['name']=='extension-debug-apk' or item['size_in_bytes']>64*1024*1024:continue
@@ -53,6 +62,7 @@ jobs:
           if [ -d /tmp/extension-captures ]; then cp -r /tmp/extension-captures screenshots-extension; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add report.json screenshots-extension
+          git add report.json
+          if [ -d screenshots-extension ]; then git add screenshots-extension; fi
           git commit -m 'Read existing player reports' || true
           git push origin HEAD:refs/heads/evidence/player-diagnostics
