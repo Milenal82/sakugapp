@@ -12,7 +12,7 @@ Development branch: `dev/player-lock-community-batch`. Package/version/signing s
 
 ## Confirmed playback work
 
-Before this change, every 250 ms playback-position update reconfigured the native view and reapplied GPU layers/color matrices and the same frame drawable. Native view updates now skip unchanged transforms, effects and bitmaps; neutral colors use no extra hardware layer. This removes confirmed redundant work, but is not a measured claim about every device's dropped frames or long-session stability.
+Before this change, every 250 ms playback-position update reconfigured the native view and reapplied GPU layers/color matrices and the same frame drawable. Native view updates now skip unchanged transforms, effects and bitmaps; neutral colors skip explicit effect paints. This removes confirmed redundant work, but is not a measured claim about every device's dropped frames or long-session stability.
 
 ## Batch downloads
 
@@ -31,3 +31,5 @@ Reference inspected: [weekanya/Booru](https://github.com/weekanya/Booru/tree/077
 ## Verification
 
 See the branch workflow **Player community and batch queue checks** and its XML reports/screenshots. Binaries are built only within the workspace/runner and are not uploaded. Local and device results are recorded after execution; compilation alone does not verify touch behavior, actual tablet layout, background survival or playback smoothness. Physical-device testing, real authenticated website votes/comments and prolonged real-network playback remain separate checks.
+
+The queue transfer test selects an actual SAF subfolder with the system picker on every profile. A diagnostic attempt without a selected folder on API 28 correctly produced `directory_access` before any HTTP request; it is not counted as a successful transfer. The actual UI already requires directory selection before enqueueing. Existing directory tests separately cover revoked grants and full-storage failures.

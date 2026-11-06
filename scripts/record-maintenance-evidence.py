@@ -191,10 +191,16 @@ def main():
         found = list(ROOT.rglob(name))
         if len(found) == 1:
             shutil.copyfile(found[0], images / name)
+        elif os.environ.get('GITHUB_REF_NAME') == 'dev/player-lock-community-batch':
+            for capture in found[:3]:
+                profile=re.sub(r'[^a-zA-Z0-9-]+','-',capture.relative_to(ROOT).parts[0])
+                shutil.copyfile(capture,images / (profile+'-'+name))
     try:
         report['main_automatic_checks'] = same_commit_main_checks()
     except (RuntimeError, ValueError, KeyError, zipfile.BadZipFile) as error:
         report['main_automatic_checks'] = {'status': 'unavailable', 'message': str(error)}
+    if os.environ.get('GITHUB_REF_NAME') == 'dev/player-lock-community-batch':
+        report['scope']='Compact frame/lock controls, window/aspect detail sizing, community state and persistent SAF batch queue; emulator checks only.'
     report['captured_utc'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
     (OUTPUT / 'report.json').write_text(json.dumps(report, indent=2, ensure_ascii=False) + '\n')
     (OUTPUT / 'README.md').write_text(

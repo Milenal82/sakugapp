@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0-only
 package com.sakugapp
 
-import android.os.Build
+import android.provider.DocumentsContract as Docs
+import androidx.compose.ui.test.*
 import android.provider.MediaStore
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.*
 import com.sakugapp.data.*
 import kotlinx.coroutines.*
 import okhttp3.*
@@ -22,12 +23,29 @@ class BatchQueueDeviceTest {
     private val context get()=ui.activity.applicationContext
     @Test fun twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal()=runBlocking{
         val instrumentation=InstrumentationRegistry.getInstrumentation()
-        if(Build.VERSION.SDK_INT<29)UiDevice.getInstance(instrumentation).executeShellCommand("pm grant com.sakugapp android.permission.WRITE_EXTERNAL_STORAGE")
         val cert=HeldCertificate.Builder().addSubjectAlternativeName("localhost").build()
         val trust=HandshakeCertificates.Builder().addTrustedCertificate(cert.certificate).build()
         val client=OkHttpClient.Builder().sslSocketFactory(trust.sslSocketFactory(),trust.trustManager).retryOnConnectionFailure(false).build()
         val server=MockWebServer().apply{useHttps(HandshakeCertificates.Builder().heldCertificate(cert).build().sslSocketFactory(),false);start()}
         val storage=DownloadStorage(context,VideoDownloader(client));storage.reset(DownloadStorage.Kind.BATCH)
+        val device=UiDevice.getInstance(instrumentation)
+        val directory="SakugappBatchQueueTest"
+        device.executeShellCommand("mkdir -p /sdcard/Download/$directory")
+        ui.onNodeWithText("Menu").performClick();ui.onNodeWithText("Settings").performClick()
+        ui.onAllNodesWithText(ui.activity.getString(R.string.ui_change_directory))[DownloadStorage.Kind.BATCH.ordinal].performScrollTo().performClick()
+        device.wait(Until.findObject(By.desc("Show roots")),3000)?.click()
+        device.wait(Until.findObject(By.text("Downloads")),3000)?.click()
+        if(device.wait(Until.findObject(By.text(directory)),3000)==null){
+            val root=By.text(java.util.regex.Pattern.compile("(?i)(internal storage|.*sdk.*|.*emulator.*|.*phone.*)"))
+            if(device.findObject(root)==null)device.findObject(By.desc("Show roots"))?.click()
+            checkNotNull(device.wait(Until.findObject(root),10000)).click()
+            device.wait(Until.findObject(By.text("Download")),3000)?.click()
+        }
+        checkNotNull(device.wait(Until.findObject(By.text(directory)),10000)).click()
+        val choose=device.wait(Until.findObject(By.res("com.android.documentsui:id/action_menu_select")),3000)
+            ?: device.wait(Until.findObject(By.text(java.util.regex.Pattern.compile("(?i)(use this folder|select|select folder)"))),10000)
+        checkNotNull(choose).click();device.wait(Until.findObject(By.text(java.util.regex.Pattern.compile("(?i)allow"))),2000)?.click()
+        ui.waitUntil(15000){storage.directory(DownloadStorage.Kind.BATCH)?.toString()?.contains(directory)==true}
         val snapshot=PostParser.posts(instrumentation.context.assets.open("library-real-posts.json").bufferedReader().use{it.readText()}).first()
         val bytes=ByteArray(128*1024){(it%255).toByte()}
         val baseUrl=server.url("/").toString()
@@ -77,8 +95,8 @@ class BatchQueueDeviceTest {
             assertNull(storage.existing(post(904),DownloadStorage.Kind.BATCH))
         }finally{
             runner?.cancelAndJoin();withContext(Dispatchers.Main){runCatching{queue.close()}};serviceScope.cancel()
-            for(id in 901L..904L)storage.existing(post(id),DownloadStorage.Kind.BATCH)?.let{context.contentResolver.delete(it,null,null)}
-            File(context.filesDir,journal).delete();server.shutdown();client.connectionPool.evictAll();client.dispatcher.executorService.shutdown()
+            for(id in 901L..904L)storage.existing(post(id),DownloadStorage.Kind.BATCH)?.let{Docs.deleteDocument(context.contentResolver,it)}
+            storage.reset(DownloadStorage.Kind.BATCH);File(context.filesDir,journal).delete();server.shutdown();client.connectionPool.evictAll();client.dispatcher.executorService.shutdown()
         }
     }
 }
