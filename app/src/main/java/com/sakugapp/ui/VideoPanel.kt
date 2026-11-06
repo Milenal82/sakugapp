@@ -19,6 +19,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.*
@@ -253,7 +254,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
         }
     }
     val videoSurface:@Composable (Modifier)->Unit={videoModifier->
-AndroidView(factory={VideoGestureHost(it)},modifier=videoModifier.testTag("video-gestures").semantics{
+AndroidView(factory={VideoGestureHost(it)},modifier=videoModifier.clipToBounds().testTag("video-gestures").semantics{
                 contentDescription=context.getString(if(rendered)R.string.ui_video_frame_rendered else R.string.ui_video_loading)
                 stateDescription=context.getString(if(playing)R.string.ui_playing else R.string.ui_paused)
             },onRelease={host->if(view===host.playerView)view=null;host.playerView.player=null;host.onPostSwipe={};host.onPlaybackRequest={};host.playbackRequested={false};host.onTransform={};host.onConfirmedTap={};host.showFrame(null);host.onControlsVisibility={};if(hostView===host)hostView=null},update={host->

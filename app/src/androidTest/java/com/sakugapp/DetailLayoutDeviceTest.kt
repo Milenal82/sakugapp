@@ -4,6 +4,9 @@ package com.sakugapp
 import android.content.pm.ActivityInfo
 import androidx.activity.compose.setContent
 import androidx.compose.ui.test.*
+import androidx.compose.material3.Surface
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.lifecycle.ViewModelProvider
@@ -27,7 +30,7 @@ class DetailLayoutDeviceTest {
                 for((asset,w,h)in listOf(Triple("layout-wide.mp4",160,90),Triple("portrait-pattern.mp4",64,96),Triple("layout-four-three.mp4",160,120))){
                     val file=File(ui.activity.cacheDir,"layout-$asset").apply{writeBytes(InstrumentationRegistry.getInstrumentation().context.assets.open(asset).use{it.readBytes()})};files+=file
                     val post=original.copy(id=original.id+files.size,fileUrl=file.toURI().toString(),fileExt="mp4",width=w,height=h)
-                    ui.runOnUiThread{val app=ViewModelProvider(ui.activity)[AppViewModel::class.java];ui.activity.setContent{SakugappTheme(false){PostDetail(post,AppSettings(),false,app,false,{},{},{},{},{},false,false,{false})}}}
+                    ui.runOnUiThread{val app=ViewModelProvider(ui.activity)[AppViewModel::class.java];ui.activity.setContent{SakugappTheme(false){Surface(Modifier.fillMaxSize()){PostDetail(post,AppSettings(),false,app,false,{},{},{},{},{},false,false,{false})}}}}
                     ui.waitUntil(20000){ui.onAllNodesWithContentDescription("Video frame rendered").fetchSemanticsNodes().isNotEmpty()}
                     ui.onNodeWithTag("video-gestures").performScrollTo()
                     val video=ui.onNodeWithTag("video-gestures").fetchSemanticsNode().boundsInRoot

@@ -55,7 +55,7 @@ class VideoGestureHost(context:Context):FrameLayout(context){
             change(transform.copy(scale=transform.scale*detector.scaleFactor));return true
         }
     })
-    init{playerView.setControllerVisibilityListener(PlayerView.ControllerVisibilityListener{onControlsVisibility(it==View.VISIBLE)});scales.isQuickScaleEnabled=false;scales.isStylusScaleEnabled=false;addView(playerView,LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));clipChildren=true;(playerView.findViewById<View>(androidx.media3.ui.R.id.exo_content_frame) as android.view.ViewGroup).addView(frameView,LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT))}
+    init{playerView.setControllerVisibilityListener(PlayerView.ControllerVisibilityListener{onControlsVisibility(it==View.VISIBLE)});scales.isQuickScaleEnabled=false;scales.isStylusScaleEnabled=false;addView(playerView,LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));clipChildren=true;clipToPadding=true;clipToOutline=true;outlineProvider=ViewOutlineProvider.BOUNDS;(playerView.findViewById<View>(androidx.media3.ui.R.id.exo_content_frame) as android.view.ViewGroup).addView(frameView,LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT))}
     fun configure(value:AppSettings,requested:VideoTransform){
         fun resizeText(view:View){
             if(view is android.widget.TextView){
