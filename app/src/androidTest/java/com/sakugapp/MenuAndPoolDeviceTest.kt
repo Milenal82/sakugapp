@@ -88,7 +88,7 @@ class MenuAndPoolDeviceTest {
   ui.waitUntil(10000){ui.onAllNodesWithTag("pool-save-error").fetchSemanticsNodes().isNotEmpty()};ui.onNodeWithTag("pool-save-error").assertTextEquals(ui.activity.getString(R.string.ui_pool_limit));assertEquals(old,PreferencesStore(ui.activity).quiz.first().works)
   for(light in listOf(false,true)){
    app.preferences.theme(if(light)"light"else"dark");app.preferences.accent("amber");app.preferences.number("fontScale",1.25f)
-   ui.waitUntil(10000){app.settings.value.fontScale==1.25f};UiEvidence.capture("extension-pool-$light.png")
+   ui.waitUntil(10000){app.settings.value.fontScale==1.25f && app.settings.value.accent=="amber" && app.settings.value.themeMode==if(light)"light"else"dark"};ui.waitForIdle();UiEvidence.capture("extension-pool-$light.png")
   }
   app.preferences.quiz(QuizSettings());app.preferences.number("fontScale",1f);app.preferences.theme("system");app.preferences.accent("default")
  }

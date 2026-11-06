@@ -26,10 +26,11 @@ import kotlinx.coroutines.*
     var retry by remember{mutableIntStateOf(0)};var clear by rememberSaveable{mutableStateOf(false)}
     val scope=rememberCoroutineScope()
     fun save(action:suspend()->Unit){scope.launch{try{action();saveError=null}catch(e:CancellationException){throw e}catch(e:Exception){saveError=if(e.message=="quiz_pool_limit")"quiz_pool_limit"else"quiz_pool_save"}}}
-    LaunchedEffect(query.text,query.composition,config.custom,retry){
+    // Candidates never replace the editor text, so an IME composing span need not block lookup.
+    LaunchedEffect(query.text,config.custom,retry){
         candidates=emptyList();searchError=null;loading=false
         val value=query.text.trim().replace(Regex("\\s+"),"_")
-        if(config.custom && query.composition==null && value.length>=2){
+        if(config.custom && value.length>=2){
             loading=true
             try{delay(350);candidates=app.suggestions.suggestions(value).filter{it.category==TagCategory.COPYRIGHT && LibraryCodec.tagName(it.name)}.distinctBy{it.name}.take(8)}
             catch(e:CancellationException){throw e}catch(e:Exception){searchError=e.message ?: "Network connection failed. Check the connection and retry."}finally{loading=false}
@@ -55,7 +56,7 @@ import kotlinx.coroutines.*
                     if(loading)LinearProgressIndicator(Modifier.fillMaxWidth())
                     if(query.text.trim().length==1)Text(text(R.string.ui_pool_min_chars),style=MaterialTheme.typography.bodySmall)
                     searchError?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error);TextButton(onClick={retry++}){Text(text(R.string.ui_retry))}}
-                    if(query.text.trim().length>=2 && query.composition==null && !loading && searchError==null && candidates.isEmpty())Text(text(R.string.ui_no_matching_verified_tags))
+                    if(query.text.trim().length>=2 && !loading && searchError==null && candidates.isEmpty())Text(text(R.string.ui_no_matching_verified_tags))
                 }
                 items(candidates,key={"candidate:"+it.name}){tag->
                     val selected=tag.name in config.works

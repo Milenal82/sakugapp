@@ -105,6 +105,8 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
         if(route=="posts")model.restoreBrowse()
         if(nav.currentDestination?.route==route)return
         nav.navigate(route){popUpTo(nav.graph.startDestinationId){saveState=true};launchSingleTop=true;restoreState=true}
+        // A saved tab can include child pages. Explicit main navigation must land on its root.
+        if(nav.currentDestination?.route!=route)nav.popBackStack(route,false)
     }
     fun go(route:String){nav.navigate(route){launchSingleTop=true}}
     fun search(value:String){
