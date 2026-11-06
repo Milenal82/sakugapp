@@ -72,12 +72,13 @@ import kotlinx.coroutines.*
 }
 @Composable internal fun ProfileHomeScreen(app:AppViewModel,route:(String)->Unit,site:(String)->Unit){
     val profile by app.localProfile.collectAsStateWithLifecycle();val account by app.account.collectAsStateWithLifecycle();val scope=rememberCoroutineScope()
+    val displayedName=profile.nickname ?: text(R.string.ui_local_user)
     var edit by rememberSaveable{mutableStateOf(false)};var name by rememberSaveable{mutableStateOf("")};var error by remember{mutableStateOf(false)};var busy by remember{mutableStateOf(false)}
     val choose=rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()){uri->if(uri!=null)scope.launch{busy=true;error=false;try{app.localProfileStore.avatar(uri)}catch(e:CancellationException){throw e}catch(_:Exception){error=true}finally{busy=false}}}
     Box(Modifier.fillMaxSize(),contentAlignment=Alignment.TopCenter){Column(Modifier.widthIn(max=600.dp).fillMaxWidth().verticalScroll(rememberScrollState()).padding(16.dp).testTag("profile-home"),verticalArrangement=Arrangement.spacedBy(12.dp)){
         Surface(shape=RoundedCornerShape(16.dp),color=MaterialTheme.colorScheme.surfaceContainerHigh){Column(Modifier.fillMaxWidth().padding(16.dp),horizontalAlignment=Alignment.CenterHorizontally,verticalArrangement=Arrangement.spacedBy(8.dp)){
             LocalAvatar(profile,80);Text(profile.nickname ?: text(R.string.ui_local_user),style=MaterialTheme.typography.titleLarge)
-            Row{TextButton(enabled=!busy,onClick={choose.launch(androidx.activity.result.PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))}){Text(text(R.string.ui_change_avatar))};TextButton(onClick={name=profile.nickname.orEmpty();edit=true}){Text(text(R.string.ui_edit_nickname))}}
+            Row{TextButton(enabled=!busy,onClick={choose.launch(androidx.activity.result.PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))}){Text(text(R.string.ui_change_avatar))};TextButton(onClick={name=displayedName;edit=true}){Text(text(R.string.ui_edit_nickname))}}
             Row{TextButton(onClick={scope.launch{try{app.localProfileStore.resetAvatar();error=false}catch(e:CancellationException){throw e}catch(_:Exception){error=true}}}){Text(text(R.string.ui_default_avatar))};TextButton(onClick={scope.launch{try{app.localProfileStore.nickname(null);error=false}catch(e:CancellationException){throw e}catch(_:Exception){error=true}}}){Text(text(R.string.ui_default_nickname))}}
             if(busy)LinearProgressIndicator(Modifier.fillMaxWidth())
             if(error)Text(text(R.string.ui_profile_error),color=MaterialTheme.colorScheme.error)
