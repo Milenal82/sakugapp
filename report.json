@@ -1,64 +1,58 @@
 {
-  "source_commit": "8ecc4270ea5d3b48a6bd675ff18a8ea9b6a18d1f",
-  "run_id": "42194895044",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42194895044",
-  "captured_utc": "2026-11-06T09:28:07.521213+00:00",
+  "source_commit": "717b42d13ec044b61d88891b763a425d11892e69",
+  "run_id": "42195156901",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42195156901",
+  "captured_utc": "2026-11-06T09:29:53.529821+00:00",
   "validation_result": "cancelled",
   "scope": "Search/Posts/Profile navigation, real consumed scroll, fullscreen isolation, local profile images, bounded discovery fixtures, backup restore and native frame controls on API 28/35.",
   "jobs": [
     {
-      "name": "build",
+      "name": "devices (35, pixel_c)",
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42194895044/job/127815561818",
-      "id": 127815561818
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42195156901/job/127816880825",
+      "id": 127816880825
     },
     {
       "name": "devices (28, Nexus S)",
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42194895044/job/127815562220",
-      "id": 127815562220
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42195156901/job/127816881241",
+      "id": 127816881241
     },
     {
-      "name": "devices (35, pixel_c)",
+      "name": "build",
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42194895044/job/127815562265",
-      "id": 127815562265
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42195156901/job/127816881298",
+      "id": 127816881298
     },
     {
       "name": "evidence",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42194895044/job/127816781109",
-      "id": 127816781109
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42195156901/job/127817552107",
+      "id": 127817552107
     }
   ],
-  "artifacts": [
-    {
-      "name": "discovery-build-reports",
-      "bytes": 212,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42194895044/artifacts/13491258745"
-    }
-  ],
+  "artifacts": [],
   "test_counts": {},
   "lint": {},
   "failures": [
     {
-      "job": "build",
+      "job": "devices (35, pixel_c)",
       "conclusion": "cancelled",
-      "message": "2026-11-06T09:27:53.2265176Z ##[error]The operation was canceled."
+      "message": "2026-11-06T09:29:29.1585165Z ##[error]The operation was canceled."
     },
     {
       "job": "devices (28, Nexus S)",
       "conclusion": "cancelled",
-      "message": "2026-11-06T09:27:40.0868877Z ##[error]The operation was canceled."
+      "message": "2026-11-06T09:29:29.8770068Z ##[error]The operation was canceled."
     },
     {
-      "job": "devices (35, pixel_c)",
+      "job": "build",
       "conclusion": "cancelled",
-      "message": "2026-11-06T09:27:40.6942005Z ##[error]The operation was canceled."
+      "message": "2026-11-06T09:29:42.3920915Z ##[error]The operation was canceled."
     }
   ],
   "device_diagnostics": [],
