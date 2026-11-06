@@ -16,6 +16,7 @@ import java.io.File
 
 class ExtensionUiDeviceTest {
  @get:Rule val ui=createAndroidComposeRule<MainActivity>()
+ private val lookup=java.util.concurrent.atomic.AtomicReference<String?>(null)
  private fun scene():Pair<FeedViewModel,AppViewModel>{
   val context=InstrumentationRegistry.getInstrumentation().context
   val video=File(ui.activity.cacheDir,"quiz-fixture.mp4");context.assets.open("clip-gop.mp4").use{input->video.outputStream().use{input.copyTo(it)}}
@@ -25,7 +26,7 @@ class ExtensionUiDeviceTest {
   val types=listOf("artist_a","artist_b","artist_c","artist_d").associateWith{TagCategory.ARTIST}+mapOf("test_show" to TagCategory.COPYRIGHT)
   val discovery=DiscoveryRepository(repo,{types});val quiz=QuizRepository(repo,{types})
   lateinit var model:FeedViewModel;lateinit var app:AppViewModel
-  ui.runOnUiThread{model=FeedViewModel(SavedStateHandle(),repo);app=AppViewModel(ui.activity.application,discovery,quiz,suggestionsOverride=object:SuggestionSource{override suspend fun suggestions(prefix:String)=listOf(TagSuggestion("artist_a",TagCategory.ARTIST,null),TagSuggestion("test_show",TagCategory.COPYRIGHT,6)).filter{it.name.contains(prefix)}});ui.activity.setContent{Sakugapp(model,app)}}
+  ui.runOnUiThread{model=FeedViewModel(SavedStateHandle(),repo);app=AppViewModel(ui.activity.application,discovery,quiz,suggestionsOverride=object:SuggestionSource{override suspend fun suggestions(prefix:String):List<TagSuggestion>{lookup.set(prefix);return listOf(TagSuggestion("artist_a",TagCategory.ARTIST,null),TagSuggestion("test_show",TagCategory.COPYRIGHT,6)).filter{it.name.contains(prefix)}}});ui.activity.setContent{Sakugapp(model,app)}}
   return model to app
  }
  @Test fun exploreRoutesToResultAndBottomPostsReturnsToOrdinaryBrowse(){
@@ -61,10 +62,14 @@ class ExtensionUiDeviceTest {
  @Test fun quizPoolRejectsArtistAndPersistsVerifiedCopyright()=runBlocking<Unit>{
   val(_,app)=scene();app.preferences.quiz(QuizSettings(custom=true));ui.waitUntil(10000){app.quizSettings.value.custom}
   ui.onNodeWithTag("home-quiz").performScrollTo().performClick();ui.onNodeWithTag("quiz-pool-open").performScrollTo().performClick()
-  ui.onNodeWithTag("pool-query").performClick().performTextInput("artist_a");ui.onNodeWithTag("pool-list").performScrollToIndex(6)
-  ui.mainClock.advanceTimeBy(600);ui.waitForIdle();ui.onNodeWithTag("pool-add-artist_a").assertDoesNotExist();assertTrue(app.quizSettings.value.works.isEmpty())
-  ui.onNodeWithTag("pool-list").performScrollToIndex(3);ui.onNodeWithTag("pool-query").performScrollTo().performTextReplacement("test_show")
-  ui.onNodeWithTag("pool-list").performScrollToIndex(6);ui.waitUntil(10000){ui.onAllNodesWithTag("pool-add-test_show").fetchSemanticsNodes().isNotEmpty()};ui.onNodeWithTag("pool-add-test_show").performClick()
+  fun query(value:String){
+   ui.onNodeWithTag("pool-list").performScrollToIndex(3)
+   ui.onNodeWithTag("pool-query").performScrollTo().performTextReplacement(value)
+   ui.runOnUiThread{(ui.activity.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager).hideSoftInputFromWindow(ui.activity.window.decorView.windowToken,0)}
+   ui.mainClock.advanceTimeBy(600);ui.waitUntil(10000){lookup.get()==value};ui.waitForIdle()
+  }
+  query("artist_a");ui.onNodeWithTag("pool-add-artist_a").assertDoesNotExist();assertTrue(app.quizSettings.value.works.isEmpty())
+  query("test_show");ui.onNodeWithTag("pool-list").performScrollToNode(hasTestTag("pool-add-test_show"));ui.onNodeWithTag("pool-add-test_show").performClick()
   ui.waitUntil(10000){app.quizSettings.value.works==listOf("test_show")};assertTrue(PreferencesStore(ui.activity).quiz.first().works.contains("test_show"))
   app.preferences.quiz(QuizSettings())
  }

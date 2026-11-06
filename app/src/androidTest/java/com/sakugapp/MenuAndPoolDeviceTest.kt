@@ -35,7 +35,15 @@ class MenuAndPoolDeviceTest {
  }
  private fun menu(route:String){ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithTag("menu-$route").performClick()}
  private fun openPool(){ui.onNodeWithTag("home-quiz").performScrollTo().performClick();ui.onNodeWithTag("quiz-pool-open").performScrollTo().performClick()}
- private fun query(value:String){ui.onNodeWithTag("pool-list").performScrollToIndex(3);val before=lookups.get();ui.onNodeWithTag("pool-query").performScrollTo().performClick().performTextReplacement(value);ui.waitUntil(10000){lookups.get()>before};ui.waitForIdle()}
+ private fun query(value:String){
+  ui.onNodeWithTag("pool-list").performScrollToIndex(3);val before=lookups.get()
+  // Semantics editing avoids racing an IME composing update against a second touch event.
+  ui.onNodeWithTag("pool-query").performScrollTo().performTextReplacement(value)
+  ui.runOnUiThread{(ui.activity.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager).hideSoftInputFromWindow(ui.activity.window.decorView.windowToken,0)}
+  ui.mainClock.advanceTimeBy(600);ui.waitForIdle()
+  ui.onNodeWithTag("pool-query").assertTextContains(value)
+  ui.waitUntil(10000){lookups.get()>before};ui.waitForIdle()
+ }
  private fun poolNode(tag:String):SemanticsNodeInteraction {ui.onNodeWithTag("pool-list").performScrollToNode(hasTestTag(tag));return ui.onNodeWithTag(tag)}
  @Test fun sixOrderedMenuRoutesAndOrdinaryBrowseCacheArePreserved(){
   val(model,_)=scene();ui.onNodeWithTag("nav-posts").performClick();ui.waitUntil(10000){model.state.value.posts.size==60 && !model.state.value.loading}
@@ -54,7 +62,7 @@ class MenuAndPoolDeviceTest {
   menu("library");ui.waitUntil(10000){ui.onAllNodesWithTag("folder-entry-0").fetchSemanticsNodes().isNotEmpty()};ui.onNodeWithTag("website-favorites").assertDoesNotExist();ui.onNodeWithTag("tag-favorites-entry").assertExists()
   menu("settings");ui.onNodeWithText(ui.activity.getString(R.string.ui_app_language)).performScrollTo().assertExists()
   menu("legal");ui.onNodeWithText(ui.activity.getString(R.string.ui_gpl_license)).assertExists();ui.onNodeWithText(ui.activity.getString(R.string.ui_notices)).assertExists();device.pressBack()
-  menu("search_home");ui.onNodeWithTag("nav-profile").performClick();ui.onNodeWithText(ui.activity.getString(R.string.ui_blog)).performScrollTo().assertExists();ui.onNodeWithText(ui.activity.getString(R.string.ui_forum)).performScrollTo().assertExists();assertFalse(ui.activity.isFinishing)
+  menu("search_home");ui.waitUntil(10000){ui.onAllNodesWithTag("nav-profile").fetchSemanticsNodes().isNotEmpty()};ui.onNodeWithTag("nav-profile").performClick();ui.onNodeWithText(ui.activity.getString(R.string.ui_blog)).performScrollTo().assertExists();ui.onNodeWithText(ui.activity.getString(R.string.ui_forum)).performScrollTo().assertExists();assertFalse(ui.activity.isFinishing)
  }
  @Test fun poolAutoSavesAddsDeduplicatesSwitchesAndConfirmsClear()=runBlocking<Unit>{
   val(_,app)=scene();app.preferences.quiz(QuizSettings(5));ui.waitUntil(10000){app.quizSettings.value.count==5};openPool();assertEquals(0,lookups.get())
