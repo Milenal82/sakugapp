@@ -17,7 +17,15 @@ class UiSmokeTest {
         for(y in 8 until pixels.height step 24)for(x in 8 until pixels.width step 24){sum+=pixels[x,y].luminance();count++}
         return sum/count
     }
-    @org.junit.Before fun selectPostsEntry(){enterPostsForLegacyTest(ui)}
+    @org.junit.Before fun selectPostsEntry(){
+        kotlinx.coroutines.runBlocking{com.sakugapp.ui.LocaleCoordinator.choose(ui.activity.application,"en")}
+        ui.waitUntil(20000){ui.activity.resources.configuration.locales[0].language=="en"}
+        enterPostsForLegacyTest(ui)
+    }
+    @org.junit.After fun restoreEnglishEvenWhenAnAssertionFails(){
+        kotlinx.coroutines.runBlocking{com.sakugapp.ui.LocaleCoordinator.choose(ui.activity.application,"en")}
+        ui.waitUntil(20000){ui.activity.resources.configuration.locales[0].language=="en"};ui.waitForIdle()
+    }
     @Test fun launchSettingsLanguageAndAccountAreNativeAndUsable(){
         fun settings(){ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithTag("menu-settings").performClick()}
         fun language(){settings();ui.onNodeWithText(ui.activity.getString(R.string.ui_app_language)).performScrollTo().performClick()}
@@ -28,7 +36,7 @@ class UiSmokeTest {
         for((choice,description)in listOf("日本語" to "メニュー","繁體中文" to "選單","简体中文" to "菜单","English" to "Menu")){
             language();ui.onNodeWithText(choice).performClick()
             ui.waitUntil(10000){ui.onAllNodesWithContentDescription(description).fetchSemanticsNodes().isNotEmpty()}
-            settings();ui.onNodeWithText(ui.activity.getString(R.string.ui_appearance_display)).assertIsDisplayed()
+            settings();ui.onNodeWithText(ui.activity.getString(R.string.ui_appearance_display)).performScrollTo().assertIsDisplayed()
         }
         ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithTag("menu-account").performClick()
         ui.onNodeWithText("Username").assertIsDisplayed();ui.onNodeWithText("Password").assertIsDisplayed();ui.onNodeWithText("Log in").assertIsNotEnabled()

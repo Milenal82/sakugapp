@@ -2,7 +2,7 @@
     <string name="ui_tag_conditions">Tag conditions</string>
     <string name="ui_sort_rating">Sorting and rating</string>
     <string name="ui_apply_search">Apply search</string>
-    <string name="ui_quiz_scope_custom">Custom pool · %1$d works</string>
+    <string name="ui_quiz_scope_custom">Custom pool · %1$d selected</string>
     <string name="ui_quiz_accuracy">Accuracy</string>
     <string name="ui_quiz_counts">Correct %1$d · Wrong %2$d · Completed %3$d</string>
 </resources>

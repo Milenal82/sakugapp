@@ -21,7 +21,10 @@ import org.junit.runner.RunWith
 class PersonalFeatureUiDeviceTest {
     @get:Rule val ui=createAndroidComposeRule<MainActivity>()
     private fun app():AppViewModel {lateinit var result:AppViewModel;ui.runOnUiThread{result=ViewModelProvider(ui.activity)[AppViewModel::class.java]};return result}
-    private fun menu(label:String){openLegacyDestination(ui,label)}
+    private fun menu(label:String){
+        if(label=="Language"){openLegacyDestination(ui,"Settings");ui.onNodeWithText(ui.activity.getString(R.string.ui_app_language)).performScrollTo().performClick()}
+        else openLegacyDestination(ui,label)
+    }
     @org.junit.Before fun selectPostsEntry(){enterPostsForLegacyTest(ui)}
     @Test fun detailVisitsTagNotesFavoritesSearchAndHistoryUseIndependentNativePages(){
         val app=app();val instrumentation=InstrumentationRegistry.getInstrumentation();val device=UiDevice.getInstance(instrumentation)
@@ -101,7 +104,7 @@ class PersonalFeatureUiDeviceTest {
             for((code,label)in choices){
                 ui.onNodeWithText(label,substring=false).performScrollTo().performClick()
                 ui.waitUntil(20000){ui.activity.resources.configuration.locales[0].language==code}
-                ui.onNodeWithText(ui.activity.getString(R.string.ui_app_language),substring=false).assertIsDisplayed()
+                ui.onNodeWithText(ui.activity.getString(R.string.ui_app_language),substring=false).performScrollTo().assertIsDisplayed()
                 assertEquals("en",PreferenceRules.siteLanguage(code));assertEquals(code,app.settings.value.language)
                 UiEvidence.capture("language-$code.png")
                 ui.activityRule.scenario.recreate()

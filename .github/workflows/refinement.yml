@@ -109,7 +109,7 @@ jobs:
       - name: Keep original captures and bounded reports independently of app source
         run: |
           git fetch origin evidence/v130:refs/remotes/origin/evidence/v130 || true
-          if git show-ref --verify --quiet refs/remotes/origin/evidence/v130; then git switch -c evidence origin/evidence/v130; else git switch --orphan evidence; git rm -rf .; fi
+          if git show-ref --verify --quiet refs/remotes/origin/evidence/v130; then git switch -c evidence origin/evidence/v130; else git switch --orphan evidence; git rm -rf --ignore-unmatch .; fi
           cp "$RUNNER_TEMP/evidence/report.json" report.json
           mkdir -p screenshots
           cp "$RUNNER_TEMP/evidence/screenshots/"*.png screenshots/ 2>/dev/null || true
