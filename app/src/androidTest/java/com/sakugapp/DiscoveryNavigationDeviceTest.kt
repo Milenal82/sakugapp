@@ -54,6 +54,12 @@ class DiscoveryNavigationDeviceTest {
   ui.runOnUiThread{ui.activity.onBackPressedDispatcher.onBackPressed()};ui.mainClock.advanceTimeBy(500);ui.waitForIdle();ui.runOnUiThread{ui.activity.onBackPressedDispatcher.onBackPressed()}
   ui.onNodeWithTag("post-grid").assertIsDisplayed();assertEquals("",model.state.value.query)
  }
+ @Test fun clearingDiscoveryInputCancelsPendingSuggestions(){
+  scene();ui.onNodeWithTag("home-shows").performScrollTo().performClick()
+  ui.onNodeWithTag("discovery-query").performTextInput("test_show");ui.onNodeWithTag("discovery-query").performTextClearance()
+  ui.mainClock.advanceTimeBy(500);ui.waitForIdle();ui.onNodeWithTag("discovery-tag-loading").assertDoesNotExist()
+  ui.onNodeWithTag("candidate-test_show").assertDoesNotExist()
+ }
  @Test fun nicknameUpdatesHeaderAndPersistsWithoutWebsiteLogin()=runBlocking{
   val(_,app)=scene();ui.onNodeWithTag("nav-profile").performClick();ui.onNodeWithText(ui.activity.getString(R.string.ui_edit_nickname)).performClick()
   ui.onNodeWithTag("nickname-input").performTextClearance();ui.onNodeWithTag("nickname-input").performTextInput("原画師🙂");ui.onNodeWithTag("save-nickname").performClick()

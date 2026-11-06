@@ -21,10 +21,10 @@ import kotlinx.coroutines.*
 
 @Composable internal fun TagLookup(repository:DiscoveryRepository,type:TagCategory,select:(String)->Unit){
     var query by rememberSaveable{mutableStateOf("")};var suggestions by remember{mutableStateOf(emptyList<TagSuggestion>())};var error by remember{mutableStateOf<String?>(null)};var retry by remember{mutableIntStateOf(0)};var loading by remember{mutableStateOf(false)}
-    LaunchedEffect(query,type,retry){suggestions=emptyList();error=null;if(query.trim().length>=2){loading=true;delay(350);try{suggestions=repository.tags(query,type)}catch(e:CancellationException){throw e}catch(e:Exception){error=e.message}finally{loading=false}}}
+    LaunchedEffect(query,type,retry){suggestions=emptyList();error=null;loading=false;if(query.trim().length>=2){loading=true;try{delay(350);suggestions=repository.tags(query,type)}catch(e:CancellationException){throw e}catch(e:Exception){error=e.message}finally{loading=false}}}
     OutlinedTextField(query,{query=it},singleLine=true,label={Text(text(if(type==TagCategory.ARTIST)R.string.ui_artist else R.string.ui_copyright))},modifier=Modifier.fillMaxWidth().testTag("discovery-query"))
     Text(text(R.string.ui_catalog_limit),style=MaterialTheme.typography.bodySmall)
-    if(loading)LinearProgressIndicator(Modifier.fillMaxWidth())
+    if(loading)LinearProgressIndicator(Modifier.fillMaxWidth().testTag("discovery-tag-loading"))
     error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error);TextButton(onClick={retry++}){Text(text(R.string.ui_retry))}}
     if(query.length>=2 && !loading && error==null && suggestions.isEmpty())Text(text(R.string.ui_no_matching_verified_tags))
     suggestions.forEach{tag->OutlinedButton(onClick={select(tag.name)},modifier=Modifier.fillMaxWidth().testTag("candidate-${tag.name}")){Text(tag.name)}}
