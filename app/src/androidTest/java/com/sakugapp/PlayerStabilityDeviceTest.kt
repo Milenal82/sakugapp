@@ -38,9 +38,17 @@ class PlayerStabilityDeviceTest {
     private fun tapVideo(shown:Boolean){
         // GestureDetector uses real event timestamps. Separate singles must not become a
         // synthetic double tap when Compose's animation clock is idle between actions.
-        val bounds=ui.onNodeWithTag("video-gestures").fetchSemanticsNode().boundsInWindow
-        androidx.test.uiautomator.UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-            .click((bounds.left+bounds.width*.25f).toInt(),(bounds.top+bounds.height*.3f).toInt())
+        androidx.test.espresso.Espresso.onView(
+            androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom(VideoGestureHost::class.java)
+        ).inRoot(androidx.test.espresso.matcher.RootMatchers.isDialog()).perform(
+            androidx.test.espresso.action.GeneralClickAction(
+                androidx.test.espresso.action.Tap.SINGLE,
+                androidx.test.espresso.action.CoordinatesProvider{view->
+                    val location=IntArray(2);view.getLocationOnScreen(location)
+                    floatArrayOf(location[0]+view.width*.25f,location[1]+view.height*.3f)
+                },androidx.test.espresso.action.Press.FINGER
+            )
+        )
         // Allow native controller visibility animations to complete, well before its
         // five-second automatic timeout; this verifies the tap itself changed visibility.
         ui.waitUntil(2000){runCatching{ui.onNodeWithTag("more-controls").assertIsDisplayed()}.isSuccess==shown}
@@ -115,7 +123,10 @@ class PlayerStabilityDeviceTest {
             repeat(4){index->ui.runOnUiThread{url=if(index%2==0)tall.toURI().toString()else wide.toURI().toString()};ui.waitUntil(10000){creations==index+2};ready()}
             ui.runOnUiThread{url=tall.toURI().toString()};ui.waitUntil(10000){creations==6};ready()
             ui.onNodeWithTag("toggle-fullscreen").scrollIntoViewIfNeeded().performClick()
-            ui.waitUntil(15000){context.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT}
+            ui.waitUntil(15000){
+                val bounds=ui.onNodeWithTag("video-gestures").fetchSemanticsNode().boundsInWindow
+                context.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT && bounds.height>bounds.width
+            }
             ui.onNodeWithTag("more-controls").assertIsNotDisplayed()
             tapVideo(true);ui.onNodeWithTag("toggle-fullscreen").scrollIntoViewIfNeeded().performClick()
             ui.runOnUiThread{shown=false};ui.waitForIdle()
