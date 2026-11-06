@@ -4,6 +4,11 @@ package com.sakugapp.ui
 import com.sakugapp.R
 
 import androidx.activity.compose.LocalActivity
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import android.view.WindowManager
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -49,83 +54,65 @@ fun AccountScreen(model:AppViewModel,openSite:(String)->Unit) {
     }
 }
 
+@Composable
+fun VoteControl(post:Post,model:AppViewModel,onScore:(Int?)->Unit,onLogin:()->Unit){
+    val account by model.account.collectAsStateWithLifecycle()
+    val vote=remember(post.id){model.postVote(post.id)}
+    LaunchedEffect(post.id,account?.id){vote.identify(account)}
+    var expanded by remember(post.id,account?.id){mutableStateOf(false)}
+    Column{
+        Box{
+            ActionIcon(if((vote.value ?: 0)>0)R.drawable.ic_star else R.drawable.ic_star_outline,text(R.string.ui_vote),{if(account==null)onLogin()else expanded=true},Modifier.testTag("vote-icon"),touchSize=40.dp,enabled=!vote.busy,selected=(vote.value ?: 0)>0)
+            TileMenu(expanded,{expanded=false}){
+                for(value in 0..3)AppMenuItem(icon=null,selected=vote.value==value,text={
+                    if(value==0)Text("0")else Row(horizontalArrangement=Arrangement.spacedBy(2.dp)){repeat(value){Icon(painterResource(R.drawable.ic_star),contentDescription=null,modifier=Modifier.size(18.dp))}}
+                },modifier=Modifier.testTag("vote-$value"),onClick={expanded=false;vote.choose(value,onScore)})
+            }
+        }
+        if(vote.busy)LinearProgressIndicator(Modifier.width(48.dp))
+        vote.error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error);TextButton(onClick=vote::refresh){Text(text(R.string.ui_reload_vote))}}
+        if(vote.confirmed)Text(text(R.string.ui_vote_confirmed_by_the_server),style=MaterialTheme.typography.bodySmall)
+    }
+}
+
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun CommunityPanel(post:Post,model:AppViewModel,onScore:(Int?)->Unit,onLogin:()->Unit,seek:(Long)->Unit) {
-    val context=LocalContext.current
+fun CommentsPanel(post:Post,model:AppViewModel,onLogin:()->Unit,seek:(Long)->Unit){
     val account by model.account.collectAsStateWithLifecycle()
-    var vote by remember(post.id,account?.id){mutableStateOf<Int?>(null)}
-    var voteBusy by remember{mutableStateOf(false)}
-    var voteError by remember(post.id){mutableStateOf<String?>(null)}
-    var comments by remember(post.id){mutableStateOf<List<Comment>>(emptyList())}
-    var page by remember(post.id){mutableIntStateOf(1)}
-    var end by remember(post.id){mutableStateOf(false)}
-    var loading by remember{mutableStateOf(false)}
-    var commentError by remember(post.id){mutableStateOf<String?>(null)}
-    var draft by rememberSaveable(post.id){mutableStateOf("")}
-    var editing by remember{mutableStateOf<Long?>(null)}
-    var deleting by remember{mutableStateOf<Comment?>(null)}
-    var sending by remember{mutableStateOf(false)}
-    var notice by remember{mutableStateOf<String?>(null)}
-    var retryReset by remember{mutableStateOf(false)}
-    val scope=rememberCoroutineScope()
-    suspend fun load(reset:Boolean=false){
-        if(loading)return
-        loading=true;commentError=null
-        try{
-            retryReset=reset
-            val requested=if(reset)1 else page
-            val result=model.community.comments(post.id,requested)
-            comments=((if(reset)emptyList()else comments)+result).distinctBy{it.id}
-            page=requested+1;end=result.size<25
-        }catch(e:CancellationException){throw e}catch(e:Exception){commentError=e.message}finally{loading=false}
-    }
-    suspend fun refreshVote(){voteError=null;try{vote=model.community.currentVote(post.id)}catch(e:CancellationException){throw e}catch(e:Exception){voteError=e.message}}
-    LaunchedEffect(post.id){load(true)}
-    LaunchedEffect(post.id,account?.id){if(account!=null)refreshVote()}
-    HorizontalDivider();Text(text(R.string.ui_vote),style=MaterialTheme.typography.titleLarge)
-    if(account==null)TextButton(onClick=onLogin){Text(text(R.string.ui_log_in_to_vote_or_comment))}
-    else {
-        Text(text(R.string.ui_0_clears_your_vote_3_is_the_site_s_favorite_level),style=MaterialTheme.typography.bodySmall)
-        Row{for(score in 0..3)TextButton(enabled=!voteBusy,onClick={scope.launch{
-            voteBusy=true;voteError=null
-            try{val result=model.community.vote(post.id,score);onScore(result.score);refreshVote();notice=context.getString(R.string.ui_vote_confirmed_by_the_server)}
-            catch(e:CancellationException){throw e}catch(e:Exception){voteError=e.message}finally{voteBusy=false}
-        }}){Text(if(vote==score)"[$score]"else"$score")}}
-        voteError?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error);TextButton(onClick={scope.launch{refreshVote()}}){Text(text(R.string.ui_reload_vote))}}
-    }
-    HorizontalDivider();Text(text(R.string.ui_comments),style=MaterialTheme.typography.titleLarge)
-    if(account!=null){
-        OutlinedTextField(draft,{if(it.length<=20000)draft=it},label={Text(if(editing==null)text(R.string.ui_comment)else text(R.string.ui_edit_your_comment))},modifier=Modifier.fillMaxWidth(),minLines=2,enabled=!sending)
-        Row{
-            Button(enabled=draft.isNotBlank() && !sending && !loading,onClick={scope.launch{
-                sending=true;commentError=null
-                try{model.community.comment(post.id,draft,editing);draft="";editing=null;notice=context.getString(R.string.ui_comment_accepted_by_the_server);load(true)}
-                catch(e:CancellationException){throw e}catch(e:Exception){commentError=e.message}finally{sending=false}
-            }}){Text(if(editing==null)text(R.string.ui_post_comment)else text(R.string.ui_save_edit))}
-            if(editing!=null)TextButton(onClick={editing=null;draft=""}){Text(text(R.string.ui_cancel_edit))}
+    val thread=remember(post.id){model.commentThread(post.id)}
+    var expanded by remember(post.id){mutableStateOf(false)}
+    var deleting by remember(post.id){mutableStateOf<Comment?>(null)}
+    Column(Modifier.fillMaxWidth()){
+        Surface(onClick={expanded=!expanded;if(expanded)thread.expand()},color=MaterialTheme.colorScheme.surfaceContainer,shape=MaterialTheme.shapes.medium,modifier=Modifier.fillMaxWidth().testTag("comments-toggle")){
+            Row(Modifier.padding(horizontal=12.dp,vertical=8.dp),verticalAlignment=Alignment.CenterVertically){
+                Text(text(R.string.ui_comments_section),style=MaterialTheme.typography.titleSmall,modifier=Modifier.weight(1f))
+                Icon(painterResource(if(expanded)R.drawable.ic_up else R.drawable.ic_down),contentDescription=null,modifier=Modifier.size(20.dp))
+            }
         }
-    }
-    if(loading || sending || voteBusy)LinearProgressIndicator(Modifier.fillMaxWidth())
-    if(comments.isEmpty() && !loading && commentError==null)Text(text(R.string.ui_no_comments_on_this_post))
-    comments.forEach{comment->
-        Surface(color=MaterialTheme.colorScheme.surfaceVariant,shape=MaterialTheme.shapes.medium){
-            Column(Modifier.padding(12.dp),verticalArrangement=Arrangement.spacedBy(6.dp)){
+        AnimatedVisibility(expanded,enter=expandVertically(tween(Motion.controls)),exit=shrinkVertically(tween(Motion.controls))){Column(Modifier.fillMaxWidth().testTag("comments-content"),verticalArrangement=Arrangement.spacedBy(8.dp)){
+            if(account==null)TextButton(onClick=onLogin){Text(text(R.string.ui_log_in_to_vote_or_comment))}
+            else{
+                OutlinedTextField(thread.draft,thread::draft,label={Text(text(if(thread.editing==null)R.string.ui_comment else R.string.ui_edit_your_comment))},modifier=Modifier.fillMaxWidth().testTag("comment-draft"),minLines=2,enabled=!thread.sending)
+                Row{
+                    Button(enabled=thread.draft.isNotBlank() && !thread.sending && !thread.loading,onClick=thread::submit){Text(text(if(thread.editing==null)R.string.ui_post_comment else R.string.ui_save_edit))}
+                    if(thread.editing!=null)TextButton(onClick=thread::cancelEdit){Text(text(R.string.ui_cancel_edit))}
+                }
+            }
+            if(thread.loading || thread.sending)LinearProgressIndicator(Modifier.fillMaxWidth())
+            if(thread.loaded && thread.comments.isEmpty() && !thread.loading && thread.error==null)Text(text(R.string.ui_no_comments_on_this_post))
+            thread.comments.forEach{comment->Surface(color=MaterialTheme.colorScheme.surfaceVariant,shape=MaterialTheme.shapes.medium){Column(Modifier.padding(12.dp),verticalArrangement=Arrangement.spacedBy(6.dp)){
                 Text("${comment.author ?: text(R.string.ui_unknown)} · ${comment.createdAt.orEmpty()}",style=MaterialTheme.typography.labelMedium)
-                // Raw DText is displayed as text. Never evaluate scripts or render untrusted HTML.
                 Text(comment.body)
                 FlowRow{CommunityParser.timecodes(comment.body).forEach{(label,ms)->TextButton(onClick={seek(ms)}){Text(label)}}}
                 if(account!=null && comment.authorId==account?.id)Row{
-                    TextButton(enabled=!sending,onClick={editing=comment.id;draft=comment.body}){Text(text(R.string.ui_edit))}
-                    TextButton(enabled=!sending && !loading,onClick={deleting=comment}){Text(text(R.string.ui_delete))}
+                    TextButton(enabled=!thread.sending,onClick={thread.edit(comment)}){Text(text(R.string.ui_edit))}
+                    TextButton(enabled=!thread.sending && !thread.loading,onClick={deleting=comment}){Text(text(R.string.ui_delete))}
                 }
-            }
-        }
+            }}}
+            thread.error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error);TextButton(enabled=!thread.loading,onClick=thread::retry){Text(text(R.string.ui_retry_comments))}}
+            if(thread.loaded && !thread.loading && !thread.end && thread.error==null)TextButton(onClick=thread::more){Text(text(R.string.ui_more_comments))}
+            thread.notice?.let{Text(text(it),style=MaterialTheme.typography.bodySmall)}
+        }}
     }
-    commentError?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error);TextButton(enabled=!loading,onClick={scope.launch{load(retryReset)}}){Text(text(R.string.ui_retry_comments))}}
-    if(!loading && !end && commentError==null)TextButton(onClick={scope.launch{load()}}){Text(text(R.string.ui_more_comments))}
-    notice?.let{Text(translateMessage(it),style=MaterialTheme.typography.bodySmall)}
-    deleting?.let{target->AlertDialog(onDismissRequest={deleting=null},title={Text(text(R.string.ui_delete_this_comment))},text={Text(target.body.take(300))},confirmButton={TextButton(onClick={deleting=null;scope.launch{
-        sending=true;try{model.community.deleteComment(post.id,target.id);notice=context.getString(R.string.ui_deletion_confirmed_by_the_server);load(true)}catch(e:CancellationException){throw e}catch(e:Exception){commentError=e.message}finally{sending=false}
-    }}){Text(text(R.string.ui_delete))}},dismissButton={TextButton(onClick={deleting=null}){Text(text(R.string.ui_cancel))}})}
+    deleting?.let{target->AlertDialog(onDismissRequest={deleting=null},title={Text(text(R.string.ui_delete_this_comment))},text={Text(target.body.take(300))},confirmButton={TextButton(onClick={deleting=null;thread.delete(target)}){Text(text(R.string.ui_delete))}},dismissButton={TextButton(onClick={deleting=null}){Text(text(R.string.ui_cancel))}})}
 }

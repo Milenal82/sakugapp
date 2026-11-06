@@ -26,6 +26,7 @@ CAPTURES = [f'maintenance-{screen}-{theme}.png'
             for screen in ['search', 'history', 'settings', 'settings-backup']
             for theme in ['dark', 'light']] + ['appearance-settings.png', 'appearance-player-75.png', 'appearance-player-125.png', 'appearance-search-75.png', 'appearance-search-125.png', 'stability-full-hidden.png', 'stability-full-controls.png', 'stability-tags-zero.png', 'stability-tags-twenty.png', 'stability-favorite-dark.png', 'stability-favorite-light.png']
 CAPTURES += ['frames-inline-confirmed.png','frames-layout-dark.png','frames-layout-light.png']
+CAPTURES += ["player-lock-inline.png","detail-portrait.png","detail-landscape.png"]
 COUNT_KEYS = ['tests', 'failures', 'errors', 'skipped']
 CAPTURES += ['v121-folder-order.png','v121-subfolders.png','v121-blue-dark.png','v121-pink-light.png','v121-favorites-primary.png']
 CAPTURES += [f'v122-settings-{palette}-{mode}.png' for palette in ['pink','mint'] for mode in ['light','dark']] + ['v122-main-menu.png','v122-folder-menu.png']
@@ -205,6 +206,11 @@ def main():
         'The existing main workflow is unchanged; its same-commit automatic checks are read '
         'in report.json when available. Full reports and the installable Debug APK remain '
         'Actions artifacts. This branch contains no APK, signing material, credentials or media.\n')
+    if os.environ.get('GITHUB_REF_NAME') == 'dev/player-lock-community-batch':
+        (OUTPUT / 'README.md').write_text(
+            f'# Player, community and batch queue checks\n\nSource: `{SHA}`\n\nRun: {report["run_url"]}\n\n'
+            'This branch publishes reports and original fixture screenshots only; no APK, release or tag. '
+            'Device results are scoped emulator checks, not physical-device or long-session performance claims.\n')
     if os.environ.get('GITHUB_REF_NAME') == 'dev/player-stability-controls':
         (OUTPUT / 'README.md').write_text(
             f'# Playback stability verification\n\nSource: `{SHA}`\n\nRun: {report["run_url"]}\n\n'

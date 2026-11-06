@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased — player controls, community and batch queue
+
+- Compact one-row frame controls, player touch lock and explicit controller visibility.
+- Window/aspect-based single-column detail sizing; skip unchanged native video effects.
+- Star-menu Vote and collapsed, first-expand-only comments.
+- Persistent background batch queue, true bounded concurrency, individual retry and conservative rate-limit backoff.
+- Existing version, signatures, favorites and download destinations retained. No Release/APK publication.
+- Scope and limitations: [verification notes](docs/player-community-batch.md).
+
+
 ## Unreleased — inline frame controls and clip export
 
 - Add permanent ±1/2/3 frame controls, confirmed frame timestamps for A/B, and right-aligned fullscreen/More actions. Remove the duplicate analysis dialog.

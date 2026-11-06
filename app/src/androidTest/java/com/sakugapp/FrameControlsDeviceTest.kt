@@ -29,7 +29,7 @@ class FrameControlsDeviceTest {
     private fun fixture()=File(ui.activity.cacheDir,"frame-controls.mp4").apply{
         InstrumentationRegistry.getInstrumentation().context.assets.open("frame-index-vfr.mp4").use{input->outputStream().use{input.copyTo(it)}}
     }
-    private fun counter()=ui.onNodeWithTag("frame-counter").fetchSemanticsNode().config[SemanticsProperties.Text].joinToString(""){it.text}.replace("\n","")
+    private fun counter()=ui.onNodeWithTag("frame-counter").fetchSemanticsNode().config[SemanticsProperties.Text].joinToString(""){it.text}.substringBefore("·").substringBefore("/").trim()
     @Test fun rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop(){
         val file=fixture();var player:Player?=null;var instances=0
         fun matches(check:(Player)->Boolean):Boolean{var answer=false;ui.runOnUiThread{player?.let{answer=check(it)}};return answer}
@@ -40,18 +40,19 @@ class FrameControlsDeviceTest {
             ui.waitUntil(20000){matches{it.playbackState==Player.STATE_READY}}
             ui.runOnUiThread{player!!.pause();player!!.seekTo(400)}
             ui.onNodeWithTag("step-1").performScrollTo().performClick()
-            ui.waitUntil(20000){counter()=="2/12"}
-            ui.onNodeWithText("Decoded frame index · verified timestamps").assertExists()
+            ui.waitUntil(20000){counter()=="2"}
             assertTrue(matches{!it.playWhenReady})
             val before=ui.onNodeWithTag("video-gestures").fetchSemanticsNode().boundsInRoot
             ui.onNodeWithTag("more-controls").performClick()
+            ui.onNodeWithTag("frame-precision").performScrollTo().assertTextEquals("Decoded frame index · verified timestamps")
+            ui.onNodeWithTag("more-controls").performScrollTo()
             val after=ui.onNodeWithTag("video-gestures").fetchSemanticsNode().boundsInRoot
             assertEquals(before.width,after.width,0.1f);assertEquals(before.height,after.height,0.1f)
             ui.onNodeWithTag("set-a").performScrollTo().performClick()
             ui.onNodeWithTag("set-b").performScrollTo().performClick()
             ui.onNodeWithTag("ab-toggle").assertIsNotEnabled()
             for(delta in listOf(1,2,3))ui.onNodeWithTag("step-$delta").performScrollTo().performClick()
-            ui.waitUntil(20000){counter()=="8/12"}
+            ui.waitUntil(20000){counter()=="8"}
             assertTrue(matches{!it.playWhenReady})
             ui.onNodeWithTag("set-b").performScrollTo().performClick()
             ui.onNodeWithTag("ab-interval").assertTextContains("0:00.600",substring=true).assertTextContains("0:01.700",substring=true)
@@ -111,7 +112,7 @@ class FrameControlsDeviceTest {
                 ui.waitUntil(20000){var ready=false;ui.runOnUiThread{ready=player?.playbackState==Player.STATE_READY};ready}
                 val identity=player
                 ui.onNodeWithTag("step-1").performScrollTo().performClick()
-                ui.waitUntil(20000){counter()=="2/12"}
+                ui.waitUntil(20000){counter()=="2"}
                 val surface=ui.onNodeWithTag("video-gestures").fetchSemanticsNode().boundsInRoot
                 val toolbar=ui.onNodeWithTag("frame-toolbar").fetchSemanticsNode().boundsInRoot
                 val full=ui.onNodeWithTag("toggle-fullscreen").fetchSemanticsNode().boundsInRoot
@@ -124,7 +125,7 @@ class FrameControlsDeviceTest {
                 ui.onNodeWithTag("more-controls").performClick()
                 val expanded=ui.onNodeWithTag("video-gestures").fetchSemanticsNode().boundsInRoot
                 assertEquals(surface.height,expanded.height,0.1f);assertEquals(surface.width,expanded.width,0.1f)
-                assertSame(identity,player);assertEquals("2/12",counter())
+                assertSame(identity,player);assertEquals("2",counter())
                 UiEvidence.capture(if(light)"frames-layout-light.png"else"frames-layout-dark.png")
                 ui.onNodeWithTag("set-a").performScrollTo().performClick()
                 ui.runOnUiThread{selectedPost++}

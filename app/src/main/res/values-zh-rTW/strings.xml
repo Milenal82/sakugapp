@@ -471,4 +471,22 @@
     <string name="ui_frame_exact">實際解碼幀索引 · 已核實時間戳</string>
     <string name="ui_frame_index_estimated_time">實際解碼索引 · 時間估算</string>
     <string name="ui_frame_estimate">估算時間定位 · 使用媒體幀率，缺失時採用 24 FPS</string>
+    <string name="ui_comments_section">評論區</string>
+    <string name="ui_lock_player">鎖定影片</string>
+    <string name="ui_unlock_player">解鎖影片</string>
+    <string name="ui_pause_playback">暫停</string>
+    <string name="ui_resume_playback">播放</string>
+    <string name="ui_download_queue">下載佇列</string>
+    <string name="ui_queue_waiting">等待下載</string>
+    <string name="ui_queue_active">下載中</string>
+    <string name="ui_queue_done">完成</string>
+    <string name="ui_queue_failed">失敗</string>
+    <string name="ui_queue_cancelled">已取消</string>
+    <string name="ui_queue_paused">已暫停</string>
+    <string name="ui_pause_batch">暫停批次</string>
+    <string name="ui_resume_batch">繼續批次</string>
+    <string name="ui_batch_parallelism">同時下載：%1$d</string>
+    <string name="ui_queue_progress">%1$d / %2$d · %3$s</string>
+    <string name="ui_queue_empty">暫無下載任務</string>
+    <string name="ui_queue_start_error">無法啟動背景下載，請重新開啟應用程式再試。</string>
 </resources>

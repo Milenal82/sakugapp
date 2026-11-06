@@ -39,6 +39,7 @@ class PublicBrowseTest {
             device.findObject(By.text("Close app"))?.click()
             device.wait(Until.gone(By.text("System UI isn't responding")),15000)
         }
+        ui.onNodeWithTag("video-gestures").performTouchInput{click()}
         val play=device.wait(Until.findObject(By.desc("Play")),10000)
         assertNotNull("Native player Play control",play);play.click()
         ui.waitUntil(15000){ui.onAllNodes(SemanticsMatcher.expectValue(androidx.compose.ui.semantics.SemanticsProperties.StateDescription,"Playing")).fetchSemanticsNodes().isNotEmpty()}
@@ -48,8 +49,8 @@ class PublicBrowseTest {
         ui.onNodeWithTag("toggle-fullscreen").performScrollTo().performClick();ui.waitForIdle();ui.onNodeWithTag("video-gestures").performTouchInput{click(androidx.compose.ui.geometry.Offset(width*.25f,height*.3f))};Thread.sleep(400);ui.waitForIdle();ui.onNodeWithTag("toggle-fullscreen").assertExists()
         ui.onNodeWithTag("toggle-fullscreen").performClick()
         ui.onNodeWithTag("step--3").performScrollTo().performClick()
-        ui.waitUntil(120000){ui.onAllNodesWithText("Locating frame…").fetchSemanticsNodes().isEmpty() && ui.onNodeWithTag("frame-counter").fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].any{it.text.contains('/')}}
-        val precision=ui.onNodeWithTag("frame-precision").fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].joinToString{it.text}
+        ui.waitUntil(120000){ui.onAllNodesWithText("Locating frame…").fetchSemanticsNodes().isEmpty() && ui.onNodeWithTag("frame-counter").fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].any{(it.text.contains('/') || it.text.contains('·'))}}
+        val precision=ui.onNodeWithTag("frame-precision").performScrollTo().fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].joinToString{it.text}
         println("Live-site frame precision: $precision")
         val selected=ui.onNodeWithTag("frame-counter").fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].toString()
         ui.onNodeWithTag("step-1").performClick()

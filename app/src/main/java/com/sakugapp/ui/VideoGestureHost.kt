@@ -16,7 +16,11 @@ import kotlin.math.abs
 class VideoGestureHost(context:Context):FrameLayout(context){
     val playerView=LayoutInflater.from(context).inflate(R.layout.native_player,this,false) as PlayerView
     private val frameView=android.widget.ImageView(context).apply{scaleType=android.widget.ImageView.ScaleType.FIT_CENTER;visibility=View.GONE;isClickable=false;importantForAccessibility=View.IMPORTANT_FOR_ACCESSIBILITY_NO}
-    fun showFrame(bitmap:Bitmap?){frameView.setImageBitmap(bitmap);frameView.visibility=if(bitmap==null)View.GONE else View.VISIBLE}
+    private var shownFrame:Bitmap?=null
+    fun showFrame(bitmap:Bitmap?){if(shownFrame===bitmap)return;shownFrame=bitmap;frameView.setImageBitmap(bitmap);frameView.visibility=if(bitmap==null)View.GONE else View.VISIBLE}
+    var isPlayerLocked=false
+    var onControlsVisibility:(Boolean)->Unit={}
+    fun cancelPendingTouches(){val event=MotionEvent.obtain(0,0,MotionEvent.ACTION_CANCEL,0f,0f,0);taps.onTouchEvent(event);scales.onTouchEvent(event);event.recycle();intercepting=false;multitouch=false;doubled=false;suppressSingleTap=true}
     var lastGestureSummary="";private set
     var gesturesEnabled=true
     var onPostSwipe:(Int)->Unit={}
@@ -41,7 +45,7 @@ class VideoGestureHost(context:Context):FrameLayout(context){
             doubled=true;return true
         }
         override fun onSingleTapConfirmed(event:MotionEvent):Boolean{
-            if(immersiveTapControl && !suppressSingleTap){onConfirmedTap();return true}
+            if(!isPlayerLocked && immersiveTapControl && !suppressSingleTap){onConfirmedTap();return true}
             return false
         }
     })
@@ -51,7 +55,7 @@ class VideoGestureHost(context:Context):FrameLayout(context){
             change(transform.copy(scale=transform.scale*detector.scaleFactor));return true
         }
     })
-    init{scales.isQuickScaleEnabled=false;scales.isStylusScaleEnabled=false;addView(playerView,LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));clipChildren=true;(playerView.findViewById<View>(androidx.media3.ui.R.id.exo_content_frame) as android.view.ViewGroup).addView(frameView,LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT))}
+    init{playerView.setControllerVisibilityListener(PlayerView.ControllerVisibilityListener{onControlsVisibility(it==View.VISIBLE)});scales.isQuickScaleEnabled=false;scales.isStylusScaleEnabled=false;addView(playerView,LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));clipChildren=true;(playerView.findViewById<View>(androidx.media3.ui.R.id.exo_content_frame) as android.view.ViewGroup).addView(frameView,LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT))}
     fun configure(value:AppSettings,requested:VideoTransform){
         fun resizeText(view:View){
             if(view is android.widget.TextView){
@@ -62,8 +66,8 @@ class VideoGestureHost(context:Context):FrameLayout(context){
         }
         if(settings?.fontScale!=value.fontScale)resizeText(playerView)
         gesturesEnabled=true
-        val changed=settings?.let{listOf(it.mirror,it.saturation,it.contrast,it.brightness)!=listOf(value.mirror,value.saturation,value.contrast,value.brightness)} ?: true
-        settings=value;transform=requested.bounded();applySurface(changed)
+        val changed=settings?.let{it.mirror!=value.mirror || it.saturation!=value.saturation || it.contrast!=value.contrast || it.brightness!=value.brightness} ?: true
+        val next=requested.bounded();val moved=next!=transform;settings=value;transform=next;if(changed || moved)applySurface(changed)
     }
     private fun change(value:VideoTransform){transform=value.bounded();applySurface(false);onTransform(transform)}
     private fun applySurface(effects:Boolean){
@@ -72,6 +76,7 @@ class VideoGestureHost(context:Context):FrameLayout(context){
             translationX=transform.panX*width;translationY=transform.panY*height
             if(effects){
                 val s=settings ?: return@apply
+                if(s.saturation==1f && s.contrast==1f && s.brightness==1f){setLayerType(View.LAYER_TYPE_NONE,null);return@apply}
                 val matrix=ColorMatrix().apply{setSaturation(s.saturation)}
                 val c=s.contrast;val offset=(1-c)*128+(s.brightness-1)*255
                 matrix.postConcat(ColorMatrix(floatArrayOf(c,0f,0f,0f,offset,0f,c,0f,0f,offset,0f,0f,c,0f,offset,0f,0f,0f,1f,0f)))
@@ -79,7 +84,7 @@ class VideoGestureHost(context:Context):FrameLayout(context){
             }
         }}
     }
-    override fun onLayout(changed:Boolean,l:Int,t:Int,r:Int,b:Int){super.onLayout(changed,l,t,r,b);applySurface(false)}
+    override fun onLayout(changed:Boolean,l:Int,t:Int,r:Int,b:Int){super.onLayout(changed,l,t,r,b);if(changed)applySurface(false)}
     private fun touchesProgress(event:MotionEvent):Boolean{
         val bar=playerView.findViewById<View>(androidx.media3.ui.R.id.exo_progress) ?: return false
         val rect=Rect();if(!bar.getGlobalVisibleRect(rect))return false
@@ -87,6 +92,7 @@ class VideoGestureHost(context:Context):FrameLayout(context){
         return rect.contains(event.rawX.toInt(),event.rawY.toInt())
     }
     override fun dispatchTouchEvent(event:MotionEvent):Boolean{
+        if(isPlayerLocked)return true
         if(!gesturesEnabled && !immersiveTapControl)return super.dispatchTouchEvent(event)
         if(event.actionMasked==MotionEvent.ACTION_DOWN){
             downX=event.x;downY=event.y;lastX=event.x;lastY=event.y

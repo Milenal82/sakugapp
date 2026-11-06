@@ -477,4 +477,22 @@
     <string name="ui_frame_exact">Índice decodificado · tiempos verificados</string>
     <string name="ui_frame_index_estimated_time">Índice decodificado · tiempo estimado</string>
     <string name="ui_frame_estimate">Posición estimada · FPS del medio, o 24 FPS</string>
+    <string name="ui_comments_section">Comentarios</string>
+    <string name="ui_lock_player">Bloquear vídeo</string>
+    <string name="ui_unlock_player">Desbloquear vídeo</string>
+    <string name="ui_pause_playback">Pausar</string>
+    <string name="ui_resume_playback">Reproducir</string>
+    <string name="ui_download_queue">Cola de descargas</string>
+    <string name="ui_queue_waiting">Pendiente</string>
+    <string name="ui_queue_active">Descargando</string>
+    <string name="ui_queue_done">Completado</string>
+    <string name="ui_queue_failed">Error</string>
+    <string name="ui_queue_cancelled">Cancelado</string>
+    <string name="ui_queue_paused">En pausa</string>
+    <string name="ui_pause_batch">Pausar lote</string>
+    <string name="ui_resume_batch">Reanudar lote</string>
+    <string name="ui_batch_parallelism">Descargas simultáneas: %1$d</string>
+    <string name="ui_queue_progress">%1$d / %2$d · %3$s</string>
+    <string name="ui_queue_empty">No hay descargas</string>
+    <string name="ui_queue_start_error">No se puede iniciar. Abre la aplicación e inténtalo de nuevo.</string>
 </resources>

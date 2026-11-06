@@ -18,7 +18,11 @@ class DownloadStorage(private val context:Context,private val downloader:VideoDo
     enum class Kind(val path:String){SINGLE("Movies/Sakugapp/"),CLIP("Movies/Sakugapp/Clips/"),BATCH("Movies/Sakugapp/Batch/")}
     private val prefs=context.getSharedPreferences("download_destinations_v1",Context.MODE_PRIVATE)
     private val resolver=context.contentResolver
-    companion object {private val lock=Mutex()}
+    companion object {
+        private val lock=Mutex()
+        private val active=mutableMapOf<String,CompletableDeferred<Uri>>()
+        private val reservations=mutableMapOf<String,Long>()
+    }
     fun directory(kind:Kind):Uri?=prefs.getString("tree_${kind.name}",null)?.let(Uri::parse)
     fun choose(kind:Kind,uri:Uri){
         require(Docs.isTreeUri(uri));val flags=Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
@@ -58,32 +62,50 @@ class DownloadStorage(private val context:Context,private val downloader:VideoDo
             return Target(resolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,values) ?: throw IOException(),Build.VERSION.SDK_INT>=29)
         }catch(e:Exception){val failure=storageFailure(e);throw if((failure as? LibraryFailure)?.code=="storage_full")failure else LibraryFailure("directory_access").also{it.initCause(e)}}
     }
+    suspend fun cleanAbandoned()=lock.withLock{withContext(Dispatchers.IO){prefs.all.filter{it.key.startsWith("partial_") && it.key.removePrefix("partial_") !in active}.forEach{(key,value)->runCatching{delete(Target(Uri.parse(value as String),false))};prefs.edit().remove(key).commit()}}}
     private fun delete(target:Target){runCatching{if(Docs.isDocumentUri(context,target.uri))Docs.deleteDocument(resolver,target.uri)else resolver.delete(target.uri,null,null)}}
     private fun commit(target:Target,post:Post,kind:Kind,bytes:Long){
         if(target.pending && resolver.update(target.uri,ContentValues().apply{put(MediaStore.Video.Media.IS_PENDING,0)},null,null)!=1)throw IOException()
-        if(!prefs.edit().putString(key(post,kind),target.uri.toString()).putLong("bytes_"+key(post,kind),bytes).commit())throw IOException()
+        if(!prefs.edit().putString(key(post,kind),target.uri.toString()).putLong("bytes_"+key(post,kind),bytes).remove("partial_"+key(post,kind)).commit())throw IOException()
     }
-    suspend fun download(post:Post,kind:Kind,progress:(Long,Long)->Unit={_,_->}):Uri=lock.withLock{withContext(Dispatchers.IO){
-        existing(post,kind)?.let{return@withContext it}
-        if(kind==Kind.BATCH && post.fileSize?.let{it>OfflineLibraryMedia.MAX_FILE}==true)throw LibraryFailure("media_limit")
-        val used=if(kind==Kind.BATCH)prefs.all.filter{it.key.startsWith("bytes_BATCH_")}.entries.sumOf{(name,value)->
-            val receipt=name.removePrefix("bytes_");val uri=prefs.getString(receipt,null)
-            val valid=uri!=null && readable(Uri.parse(uri))
-            if(valid)(value as? Long) ?: 0L else{prefs.edit().remove(name).remove(receipt).commit();0L}
-        }else 0L
-        val available=if(kind==Kind.BATCH)(OfflineLibraryMedia.MAX_TOTAL-used).coerceAtLeast(0)else Long.MAX_VALUE
-        val max=if(kind==Kind.BATCH)minOf(OfflineLibraryMedia.MAX_FILE,available)else Long.MAX_VALUE
-        if(max<=0 || (post.fileSize ?: 0)>max)throw LibraryFailure("media_limit")
-        val target=VideoDownloadPlan.from(post).let{create(it.filename,it.mime,kind)};var received=0L
+    suspend fun download(post:Post,kind:Kind,progress:(Long,Long)->Unit={_,_->}):Uri=withContext(Dispatchers.IO){
+        val identity=key(post,kind);var owner=false
+        val transfer=lock.withLock{
+            existing(post,kind)?.let{return@withContext it}
+            active[identity] ?: CompletableDeferred<Uri>().also{active[identity]=it;owner=true}
+        }
+        if(!owner)return@withContext transfer.await()
+        var target:Target?=null;var max=Long.MAX_VALUE;var received=0L
         try{
-            PublicReadThrottle.awaitTurn()
-            downloader.download(VideoDownloadPlan.from(post),open={object:FilterOutputStream((output?.invoke(target.uri) ?: resolver.openOutputStream(target.uri,"w")) ?: throw IOException()){
-                override fun write(buffer:ByteArray,offset:Int,count:Int){if(received+count>max)throw LibraryFailure("media_limit");out.write(buffer,offset,count);received+=count}
-                override fun write(value:Int){if(++received>max)throw LibraryFailure("media_limit");out.write(value)}
-            }},discard={delete(target)},progress=progress)
-            ensureActive();commit(target,post,kind,received);target.uri
-        }catch(e:CancellationException){delete(target);throw e}catch(e:Exception){delete(target);throw storageFailure(e)}
-    }}
+            lock.withLock{
+                if(kind==Kind.BATCH){
+                    val used=prefs.all.filter{it.key.startsWith("bytes_BATCH_")}.entries.sumOf{(name,value)->
+                        val receipt=name.removePrefix("bytes_");val uri=prefs.getString(receipt,null)
+                        if(uri!=null && readable(Uri.parse(uri)))(value as? Long) ?: 0L else{prefs.edit().remove(name).remove(receipt).commit();0L}
+                    }
+                    val legacy=File(context.filesDir,"favorites-media").listFiles().orEmpty().filter{it.extension.lowercase() in setOf("mp4","webm","mkv")}.sumOf{it.length()}
+                    val available=(OfflineLibraryMedia.MAX_TOTAL-used-legacy-reservations.values.sum()).coerceAtLeast(0)
+                    max=minOf(OfflineLibraryMedia.MAX_FILE,available)
+                    val declared=post.fileSize?.takeIf{it>0}
+                    if(max<=0 || (declared ?: 0)>max)throw LibraryFailure("media_limit")
+                    max=declared ?: max;reservations[identity]=max
+                }
+                target=VideoDownloadPlan.from(post).let{create(it.filename,it.mime,kind)}
+                if(!prefs.edit().putString("partial_"+identity,target!!.uri.toString()).commit())throw IOException()
+            }
+            val own=checkNotNull(target);val plan=VideoDownloadPlan.from(post)
+            DownloadBackoff.await(plan.url.host);PublicReadThrottle.awaitTurn()
+            downloader.download(plan,open={object:FilterOutputStream((output?.invoke(own.uri) ?: resolver.openOutputStream(own.uri,"w")) ?: throw IOException()){
+                override fun write(buffer:ByteArray,offset:Int,count:Int){if(count.toLong()>max-received)throw LibraryFailure("media_limit");out.write(buffer,offset,count);received+=count}
+                override fun write(value:Int){if(received>=max)throw LibraryFailure("media_limit");out.write(value);received++}
+            }},discard={delete(own)},progress=progress)
+            ensureActive()
+            lock.withLock{commit(own,post,kind,received);transfer.complete(own.uri)}
+            own.uri
+        }catch(e:CancellationException){target?.let(::delete);transfer.completeExceptionally(e);throw e}
+        catch(e:Exception){target?.let(::delete);val failure=storageFailure(e);transfer.completeExceptionally(failure);throw failure}
+        finally{withContext(NonCancellable){lock.withLock{active.remove(identity);reservations.remove(identity);prefs.edit().remove("partial_"+identity).commit()}}}
+    }
     suspend fun exportLegacy(file:File):Boolean=lock.withLock{withContext(Dispatchers.IO){
         val receipt="legacy_"+file.name+"_"+file.length()
         val previous=prefs.getString(receipt,null)
@@ -110,7 +132,7 @@ class DownloadStorage(private val context:Context,private val downloader:VideoDo
         }catch(e:CancellationException){delete(target);throw e}catch(e:Exception){delete(target);throw storageFailure(e)}
     }}
     private fun storageFailure(e:Exception):Exception{
-        if(e is DataFailure && e.cause==null)return e
+        if(e is DataFailure && (e.cause==null || e.cause is MediaHttpFailure))return e
         if(e is LibraryFailure)return e
         if(e is DataFailure && e.cause is LibraryFailure)return e.cause as LibraryFailure
         var cause:Throwable?=e

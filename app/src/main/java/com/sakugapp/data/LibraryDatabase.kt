@@ -45,6 +45,7 @@ data class MediaFact(@PrimaryKey val url:String,val durationMs:Long,val touchedA
     @Insert(onConflict=OnConflictStrategy.IGNORE) suspend fun post(value:FavoritePost):Long
     @Insert(onConflict=OnConflictStrategy.IGNORE) suspend fun link(value:FavoriteLink)
     @Insert(onConflict=OnConflictStrategy.REPLACE) suspend fun fact(value:MediaFact)
+    @Query("UPDATE favorite_posts SET snapshot=:snapshot WHERE id=:id") suspend fun snapshot(id:Long,snapshot:String)
     @Query("UPDATE favorite_folders SET name=:name WHERE id=:id") suspend fun rename(id:Long,name:String)
     @Query("UPDATE favorite_folders SET position=:position WHERE id=:id") suspend fun position(id:Long,position:Int)
     @Query("UPDATE favorite_folders SET coverPostId=:postId WHERE id=:id") suspend fun cover(id:Long,postId:Long?)

@@ -24,12 +24,17 @@ class AppViewModel(application:Application):AndroidViewModel(application) {
     val recordHistory=personal.recording.catch{if(it is Exception)_personalError.value=it;emit(false)}.stateIn(viewModelScope,SharingStarted.Eagerly,true)
     fun visited(post:Post){viewModelScope.launch{try{personal.learn(post.tags);personal.record(post);_personalError.value=null}catch(e:CancellationException){throw e}catch(e:Exception){_personalError.value=e}}}
     val offlineMedia=OfflineLibraryMedia(application)
-    val downloadStorage=DownloadStorage(application)
+    val batchDownloads=(application as com.sakugapp.SakugappApplication).batchDownloads
+    val downloadStorage=batchDownloads.storage
     fun offlineUri(post:Post)=offlineMedia.existing(post)?.let(android.net.Uri::fromFile) ?: downloadStorage.existing(post,DownloadStorage.Kind.BATCH)
     val session=SecureSession(application)
     val suggestions:SuggestionSource=TagSuggestionRepository()
     val community=CommunityRepository(client=OkHttpClient.Builder().cookieJar(session).callTimeout(30,TimeUnit.SECONDS)
         .followRedirects(false).retryOnConnectionFailure(false).build())
+    private val threads=linkedMapOf<Long,CommentThread>()
+    private val votes=linkedMapOf<Long,PostVote>()
+    fun commentThread(id:Long):CommentThread{if(id !in threads && threads.size>=8)threads.entries.firstOrNull{!it.value.loading && !it.value.sending && it.key!=id}?.let{threads.remove(it.key)};return threads.getOrPut(id){CommentThread(id,community,viewModelScope)}}
+    fun postVote(id:Long):PostVote{if(id !in votes && votes.size>=32)votes.entries.firstOrNull{!it.value.busy && it.key!=id}?.let{votes.remove(it.key)};return votes.getOrPut(id){PostVote(id,community,viewModelScope)}}
     private val _account=MutableStateFlow<Account?>(null);val account=_account.asStateFlow()
     private val _authBusy=MutableStateFlow(false);val authBusy=_authBusy.asStateFlow()
     private val _authError=MutableStateFlow<String?>(null);val authError=_authError.asStateFlow()
@@ -41,6 +46,7 @@ class AppViewModel(application:Application):AndroidViewModel(application) {
         viewModelScope.launch { settings.collect { community.language=it.language } }
     }
     fun duration(url:String,value:Long){if(library.value.durations[url]!=value)viewModelScope.launch{runCatching{localLibrary.duration(url,value)}}}
+    fun score(id:Long,value:Int?){if(value!=null)viewModelScope.launch{try{localLibrary.score(id,value)}catch(e:CancellationException){throw e}catch(e:Exception){_personalError.value=e}}}
     fun search(query:String) { viewModelScope.launch { preferences.remember(query) } }
     fun flag(name:String,value:Boolean) { viewModelScope.launch { preferences.flag(name,value) } }
     fun number(name:String,value:Float) { viewModelScope.launch { preferences.number(name,value) } }

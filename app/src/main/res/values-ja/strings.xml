@@ -471,4 +471,22 @@
     <string name="ui_frame_exact">実デコード番号・確認済み時刻</string>
     <string name="ui_frame_index_estimated_time">実デコード番号・推定時刻</string>
     <string name="ui_frame_estimate">推定シーク・メディア FPS、取得不可なら 24 FPS</string>
+    <string name="ui_comments_section">コメント</string>
+    <string name="ui_lock_player">動画をロック</string>
+    <string name="ui_unlock_player">動画のロック解除</string>
+    <string name="ui_pause_playback">一時停止</string>
+    <string name="ui_resume_playback">再生</string>
+    <string name="ui_download_queue">ダウンロード一覧</string>
+    <string name="ui_queue_waiting">待機中</string>
+    <string name="ui_queue_active">ダウンロード中</string>
+    <string name="ui_queue_done">完了</string>
+    <string name="ui_queue_failed">失敗</string>
+    <string name="ui_queue_cancelled">キャンセル済み</string>
+    <string name="ui_queue_paused">一時停止中</string>
+    <string name="ui_pause_batch">一括処理を一時停止</string>
+    <string name="ui_resume_batch">一括処理を再開</string>
+    <string name="ui_batch_parallelism">同時ダウンロード：%1$d</string>
+    <string name="ui_queue_progress">%1$d / %2$d · %3$s</string>
+    <string name="ui_queue_empty">ダウンロードはありません</string>
+    <string name="ui_queue_start_error">バックグラウンド処理を開始できません。アプリを開き直してください。</string>
 </resources>

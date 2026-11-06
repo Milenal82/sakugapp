@@ -471,4 +471,22 @@
     <string name="ui_frame_exact">실제 디코딩 인덱스 · 검증된 시간</string>
     <string name="ui_frame_index_estimated_time">실제 디코딩 인덱스 · 추정 시간</string>
     <string name="ui_frame_estimate">추정 위치 · 미디어 FPS 또는 기본 24 FPS</string>
+    <string name="ui_comments_section">댓글</string>
+    <string name="ui_lock_player">동영상 잠금</string>
+    <string name="ui_unlock_player">동영상 잠금 해제</string>
+    <string name="ui_pause_playback">일시정지</string>
+    <string name="ui_resume_playback">재생</string>
+    <string name="ui_download_queue">다운로드 대기열</string>
+    <string name="ui_queue_waiting">대기 중</string>
+    <string name="ui_queue_active">다운로드 중</string>
+    <string name="ui_queue_done">완료</string>
+    <string name="ui_queue_failed">실패</string>
+    <string name="ui_queue_cancelled">취소됨</string>
+    <string name="ui_queue_paused">일시정지됨</string>
+    <string name="ui_pause_batch">일괄 다운로드 일시정지</string>
+    <string name="ui_resume_batch">일괄 다운로드 재개</string>
+    <string name="ui_batch_parallelism">동시 다운로드: %1$d</string>
+    <string name="ui_queue_progress">%1$d / %2$d · %3$s</string>
+    <string name="ui_queue_empty">다운로드 작업 없음</string>
+    <string name="ui_queue_start_error">백그라운드 다운로드를 시작할 수 없습니다. 앱을 다시 열어 재시도하세요.</string>
 </resources>

@@ -39,12 +39,15 @@ import kotlinx.coroutines.*
     var folderDialog by remember{mutableStateOf(false)};var rename by remember{mutableStateOf(false)};var name by remember{mutableStateOf("")}
     var deleting by remember{mutableStateOf(false)};var removing by remember{mutableStateOf(false)};var moving by remember{mutableStateOf(false)}
     var message by remember{mutableStateOf<String?>(null)}
-    var busy by remember{mutableStateOf(false)};var downloadConfirm by remember{mutableStateOf(false)}
-    var job by remember{mutableStateOf<Job?>(null)};var done by remember{mutableIntStateOf(0)};var total by remember{mutableIntStateOf(0)};var currentBytes by remember{mutableLongStateOf(0)};var currentSize by remember{mutableLongStateOf(-1L)}
+    var downloadConfirm by remember{mutableStateOf(false)}
+    var queueOpen by remember{mutableStateOf(false)}
+    val queue by app.batchDownloads.state.collectAsStateWithLifecycle()
+    val busy=queue.tasks.any{it.status==BatchStatus.DOWNLOADING}
+    val notifications=androidx.activity.compose.rememberLauncherForActivityResult(androidx.activity.result.contract.ActivityResultContracts.RequestPermission()){}
     val downloadAccess=rememberDirectoryAccess(app.downloadStorage,DownloadStorage.Kind.BATCH){message=context.getString(R.string.ui_directory_error)}
     var mediaRevision by remember{mutableIntStateOf(0)}
     androidx.lifecycle.compose.LifecycleEventEffect(androidx.lifecycle.Lifecycle.Event.ON_RESUME){mediaRevision++}
-    val offlineIds by produceState(emptySet<Long>(),state.decoded,mediaRevision){value=withContext(Dispatchers.IO){state.decoded.values.filter{it.isVideo && app.offlineUri(it)!=null}.map{it.id}.toSet()}}
+    val offlineIds by produceState(emptySet<Long>(),state.decoded,mediaRevision,queue.tasks.count{it.status==BatchStatus.COMPLETE}){value=withContext(Dispatchers.IO){state.decoded.values.filter{it.isVideo && app.offlineUri(it)!=null}.map{it.id}.toSet()}}
     var usage by remember{mutableLongStateOf(app.offlineMedia.bytes())};var clearMedia by remember{mutableStateOf(false)}
     val folder=state.folders.firstOrNull{it.id==folderId}
     val inside=folderId!=null
@@ -109,7 +112,7 @@ import kotlinx.coroutines.*
                                         AppMenuItem(icon=R.drawable.ic_up,toned=true,text={Text(text(R.string.ui_move_up))},onClick={more=false;operation{app.localLibrary.reorder(folder.id,-1)}})
                                         AppMenuItem(icon=R.drawable.ic_down,toned=true,text={Text(text(R.string.ui_move_down))},onClick={more=false;operation{app.localLibrary.reorder(folder.id,1)}})
                                     }
-                                    AppMenuItem(icon=R.drawable.ic_download,toned=true,text={Text(text(R.string.ui_batch_download))},enabled=!busy && candidates.any{state.decoded[it.id]?.let{p->p.isVideo && p.id !in offlineIds}==true},onClick={more=false;downloadConfirm=true})
+                                    AppMenuItem(icon=R.drawable.ic_download,toned=true,text={Text(text(R.string.ui_batch_download))},enabled=candidates.any{state.decoded[it.id]?.let{p->p.isVideo && p.id !in offlineIds}==true},onClick={more=false;downloadConfirm=true})
                                 }
                             }
                         }
@@ -143,11 +146,8 @@ import kotlinx.coroutines.*
                 }
                 if(state.error)Text(text(R.string.ui_library_failed),color=MaterialTheme.colorScheme.error)
                 message?.let{Text(it,style=MaterialTheme.typography.bodySmall)}
-                if(busy){
-                    if(currentSize>0)LinearProgressIndicator(progress={(currentBytes.toDouble()/currentSize).toFloat().coerceIn(0f,1f)},modifier=Modifier.fillMaxWidth())else LinearProgressIndicator(Modifier.fillMaxWidth())
-                    Text(text(R.string.ui_download_batch_progress,done,total),style=MaterialTheme.typography.bodySmall)
-                    TextButton(onClick={job?.cancel()}){Text(text(R.string.ui_cancel_download))}
-                }
+                LibraryButton(R.drawable.ic_download,text(R.string.ui_download_queue),Modifier.testTag("open-batch-queue")){queueOpen=true}
+
             }
         }
         if(!inside){
@@ -182,6 +182,7 @@ import kotlinx.coroutines.*
             }}
         }
     }
+    if(queueOpen)BatchQueuePanel(app.batchDownloads){queueOpen=false}
     if(rootOrder)FolderOrdering(state.folders.map{it.id to folderName(it,context)},{ids->operation{app.localLibrary.orderFolders(ids)}},{rootOrder=false})
     if(childOrder && actualId!=null)FolderOrdering(children.map{it.id to it.name},{ids->operation{app.localLibrary.orderSubfolders(actualId,ids)}},{childOrder=false})
     if(childDialog && actualId!=null)AlertDialog(onDismissRequest={childDialog=false},title={Text(text(if(childEditing==null)R.string.ui_new_subfolder else R.string.ui_rename))},text={
@@ -206,8 +207,9 @@ import kotlinx.coroutines.*
     if(clearMedia)AlertDialog(onDismissRequest={clearMedia=false},title={Text(text(R.string.ui_clear_offline_media))},text={Text(text(R.string.ui_clear_offline_warning))},confirmButton={TextButton(onClick={operation{app.offlineMedia.clear();usage=0;mediaRevision++;clearMedia=false}}){Text(text(R.string.ui_delete))}},dismissButton={TextButton(onClick={clearMedia=false}){Text(text(R.string.ui_cancel))}})
     if(downloadConfirm)AlertDialog(onDismissRequest={downloadConfirm=false},title={Text(text(R.string.ui_batch_download))},text={Text(text(R.string.ui_batch_download_hint))},confirmButton={TextButton(onClick={
         downloadConfirm=false;downloadAccess{val pending=candidates.mapNotNull{state.decoded[it.id]}.filter{it.isVideo && it.id !in offlineIds}.take(OfflineLibraryMedia.BATCH_SIZE)
-        busy=true;done=0;total=pending.size
-        job=scope.launch{var failures=0;var lastFailure:String?=null;try{for(post in pending){currentBytes=0;currentSize=-1;var updated=0L;try{app.downloadStorage.download(post,DownloadStorage.Kind.BATCH){received,length->val now=System.nanoTime();if(now-updated>100000000L || received==length){updated=now;scope.launch{currentBytes=received;currentSize=length}}};done++}catch(e:CancellationException){throw e}catch(e:Exception){failures++;lastFailure=libraryError(context,e);message=lastFailure}};message=context.getString(R.string.ui_batch_result,done,failures)+(lastFailure?.let{"\n$it"} ?: "")}catch(e:CancellationException){message=context.getString(R.string.ui_download_cancelled);throw e}catch(e:Exception){message=libraryError(context,e)}finally{busy=false;mediaRevision++;usage=app.offlineMedia.bytes()}}}
+        if(android.os.Build.VERSION.SDK_INT>=33 && androidx.core.content.ContextCompat.checkSelfPermission(context,android.Manifest.permission.POST_NOTIFICATIONS)!=android.content.pm.PackageManager.PERMISSION_GRANTED)notifications.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+        app.batchDownloads.enqueue(pending);queueOpen=true}
+
     }){Text(text(R.string.ui_download_video))}},dismissButton={TextButton(onClick={downloadConfirm=false}){Text(text(R.string.ui_cancel))}})
 }
 

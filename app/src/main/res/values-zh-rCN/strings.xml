@@ -471,4 +471,22 @@
     <string name="ui_frame_exact">实际解码帧索引 · 已核实时间戳</string>
     <string name="ui_frame_index_estimated_time">实际解码索引 · 时间估算</string>
     <string name="ui_frame_estimate">估算时间定位 · 使用媒体帧率，缺失时采用 24 FPS</string>
+    <string name="ui_comments_section">评论区</string>
+    <string name="ui_lock_player">锁定视频</string>
+    <string name="ui_unlock_player">解锁视频</string>
+    <string name="ui_pause_playback">暂停</string>
+    <string name="ui_resume_playback">播放</string>
+    <string name="ui_download_queue">下载队列</string>
+    <string name="ui_queue_waiting">待下载</string>
+    <string name="ui_queue_active">下载中</string>
+    <string name="ui_queue_done">完成</string>
+    <string name="ui_queue_failed">失败</string>
+    <string name="ui_queue_cancelled">已取消</string>
+    <string name="ui_queue_paused">已暂停</string>
+    <string name="ui_pause_batch">暂停批次</string>
+    <string name="ui_resume_batch">继续批次</string>
+    <string name="ui_batch_parallelism">同时下载：%1$d</string>
+    <string name="ui_queue_progress">%1$d / %2$d · %3$s</string>
+    <string name="ui_queue_empty">暂无下载任务</string>
+    <string name="ui_queue_start_error">无法启动后台下载，请重新打开应用重试。</string>
 </resources>

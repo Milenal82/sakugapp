@@ -63,7 +63,8 @@ class MainActivity:AppCompatActivity(),VideoOrientationHost{
     override var hasFullscreenPlayer=false
     override var fullscreenOwner:Any?=null
     override var fullscreenHandoff:FullscreenHandoff?=null
-    private fun browseOrientation(){requestedOrientation=if(resources.configuration.smallestScreenWidthDp>=600)android.content.pm.ActivityInfo.SCREEN_ORIENTATION_USER else android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT}
+    var detailRotatable=false
+    fun browseOrientation(){requestedOrientation=if(detailRotatable || resources.configuration.smallestScreenWidthDp>=600)android.content.pm.ActivityInfo.SCREEN_ORIENTATION_USER else android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT}
     override fun onConfigurationChanged(newConfig:android.content.res.Configuration){super.onConfigurationChanged(newConfig);if(!hasFullscreenPlayer)browseOrientation()}
 
     override fun onCreate(savedInstanceState:Bundle?){
@@ -71,6 +72,7 @@ class MainActivity:AppCompatActivity(),VideoOrientationHost{
     }
     override fun onResume(){
         super.onResume()
+        (application as SakugappApplication).batchDownloads.foreground()
         lifecycleScope.launch{LocaleCoordinator.reconcile(this@MainActivity)}
     }
 }
@@ -149,7 +151,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                         val requests=neighboringUrls.map{url->coil.Coil.imageLoader(context).enqueue(coil.request.ImageRequest.Builder(context.applicationContext).data(url).size(320).build())}
                         onDispose{requests.forEach{it.dispose()}}
                     }
-                    PostDetail(post,settings,metered,app,model.usesLocalSnapshot(),::search,openSite,{nav.navigate("account")},{score->model.updateScore(post.id,score)},{duration->model.updateDuration(post.id,post.fileUrl.orEmpty(),duration);app.duration(post.fileUrl.orEmpty(),duration)},model.adjacent(-1)!=null,model.adjacent(1)!=null,{delta->
+                    PostDetail(post,settings,metered,app,model.usesLocalSnapshot(),::search,openSite,{nav.navigate("account")},{score->model.updateScore(post.id,score);app.score(post.id,score)},{duration->model.updateDuration(post.id,post.fileUrl.orEmpty(),duration);app.duration(post.fileUrl.orEmpty(),duration)},model.adjacent(-1)!=null,model.adjacent(1)!=null,{delta->
                         val next=model.adjacent(delta)
                         if(next==null){model.prefetchNeighbors();false}else{
                             model.selectAdjacent(next)
@@ -404,10 +406,14 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
     val uri=LocalUriHandler.current;var linkError by remember{mutableStateOf(false)}
     val playback by produceState<Pair<Boolean,String?>>(false to null,post.id){value=true to withContext(Dispatchers.IO){app.offlineUri(post)?.toString() ?: post.fileUrl}}
     val playbackUrl=playback.second
-    var seek by remember{mutableStateOf<Pair<Long,Int>?>(null)}
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(12.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
+    var seek by remember(post.id){mutableStateOf<Pair<Long,Int>?>(null)}
+    val activity=androidx.activity.compose.LocalActivity.current as? MainActivity
+    DisposableEffect(activity){activity?.detailRotatable=true;activity?.browseOrientation();onDispose{activity?.detailRotatable=false;activity?.browseOrientation()}}
+    BoxWithConstraints(Modifier.fillMaxSize(),contentAlignment=Alignment.TopCenter){
+    val availableVideoHeight=(maxHeight-88.dp).coerceAtLeast(120.dp)
+    Column(Modifier.widthIn(max=900.dp).fillMaxWidth().verticalScroll(rememberScrollState()).padding(12.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
         if(localSnapshot)Text(text(R.string.ui_library_snapshot_hint),style=MaterialTheme.typography.bodySmall)
-        if(post.isVideo){if(playbackUrl!=null)VideoPanel(playbackUrl,settings,seekRequest=seek,onDurationChanged=onDuration,onNavigate=onNavigate,videoDimensions=if(post.width!=null && post.height!=null)post.width to post.height else null,downloadPost=post)else if(!playback.first)Box(Modifier.fillMaxWidth().height(300.dp),contentAlignment=Alignment.Center){CircularProgressIndicator()}else Text(text(R.string.ui_media_unavailable))}
+        if(post.isVideo){if(playbackUrl!=null)VideoPanel(playbackUrl,settings,seekRequest=seek,onDurationChanged=onDuration,onNavigate=onNavigate,videoDimensions=if(post.width!=null && post.height!=null)post.width to post.height else null,downloadPost=post,maxInlineHeight=availableVideoHeight)else if(!playback.first)Box(Modifier.fillMaxWidth().aspectRatio(if((post.width ?: 0)>0 && (post.height ?: 0)>0)post.width!!.toFloat()/post.height!! else 16f/9f),contentAlignment=Alignment.Center){CircularProgressIndicator()}else Text(text(R.string.ui_media_unavailable))}
         else PostImage(post,Modifier.fillMaxWidth().height(320.dp),settings,metered,true)
         Row(Modifier.widthIn(max=360.dp).fillMaxWidth().testTag("detail-actions"),horizontalArrangement=Arrangement.SpaceEvenly,verticalAlignment=Alignment.CenterVertically){
             ActionIcon(R.drawable.ic_previous,text(R.string.ui_previous_post),{onNavigate(-1)},Modifier.testTag("previous-post"),enabled=hasPrevious)
@@ -416,11 +422,12 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
             ActionIcon(R.drawable.ic_open,text(R.string.ui_open_original_post),{linkError=runCatching{uri.openUri(post.pageUrl)}.isFailure},Modifier.testTag("original-post"))
             FavoriteControl(post,app)
         }
+        VoteControl(post,app,onScore,login)
         PostMetadata(post,settings.lightTheme){url->linkError=runCatching{uri.openUri(url)}.isFailure}
         if(linkError)Text(text(R.string.ui_no_browser_available))
         DetailTags(post.tags,settings.lightTheme,search,wiki)
-        CommunityPanel(post,app,onScore,login){time->seek=time to ((seek?.second ?: 0)+1)}
-    }
+        CommentsPanel(post,app,login){time->seek=time to ((seek?.second ?: 0)+1)}
+    }}
 }
 
 @OptIn(ExperimentalLayoutApi::class)

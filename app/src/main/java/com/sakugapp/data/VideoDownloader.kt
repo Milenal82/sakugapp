@@ -40,7 +40,7 @@ class VideoDownloader(private val client:OkHttpClient=OkHttpClient.Builder()
                 try {
                     var bytes=0L
                     response.use {
-                        if(!it.isSuccessful)throw DataFailure(httpError(it.code))
+                        if(!it.isSuccessful)throw DataFailure(httpError(it.code),MediaHttpFailure(it.code,DownloadBackoff.retryDelay(it.code,1,it.header("Retry-After"))))
                         val body=it.body ?: throw DataFailure("Empty media response.")
                         val type=body.contentType()?.let{t->"${t.type}/${t.subtype}"}
                         if(type!=null && !type.startsWith("video/") && type!="application/octet-stream")throw DataFailure("The website did not return a video file.")

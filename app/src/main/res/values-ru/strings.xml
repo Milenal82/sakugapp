@@ -480,4 +480,22 @@
     <string name="ui_frame_exact">Индекс декодирования · проверенные метки</string>
     <string name="ui_frame_index_estimated_time">Индекс декодирования · время оценено</string>
     <string name="ui_frame_estimate">Оценка позиции · FPS видео или 24 FPS</string>
+    <string name="ui_comments_section">Комментарии</string>
+    <string name="ui_lock_player">Заблокировать видео</string>
+    <string name="ui_unlock_player">Разблокировать видео</string>
+    <string name="ui_pause_playback">Пауза</string>
+    <string name="ui_resume_playback">Воспроизвести</string>
+    <string name="ui_download_queue">Очередь загрузок</string>
+    <string name="ui_queue_waiting">Ожидание</string>
+    <string name="ui_queue_active">Загрузка</string>
+    <string name="ui_queue_done">Готово</string>
+    <string name="ui_queue_failed">Ошибка</string>
+    <string name="ui_queue_cancelled">Отменено</string>
+    <string name="ui_queue_paused">Приостановлено</string>
+    <string name="ui_pause_batch">Приостановить пакет</string>
+    <string name="ui_resume_batch">Продолжить пакет</string>
+    <string name="ui_batch_parallelism">Одновременных загрузок: %1$d</string>
+    <string name="ui_queue_progress">%1$d / %2$d · %3$s</string>
+    <string name="ui_queue_empty">Нет загрузок</string>
+    <string name="ui_queue_start_error">Не удалось запустить загрузку. Откройте приложение и повторите.</string>
 </resources>

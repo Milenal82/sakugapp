@@ -74,9 +74,9 @@ class ProfessionalPlayerDeviceTest {
             ui.waitUntil(10000){matches{it.playbackState==Player.STATE_READY && it.currentPosition==500L}}
             ui.runOnUiThread{player!!.seekTo(0)}
             ui.onNodeWithTag("step-1").performScrollTo().performClick()
-            ui.waitUntil(20000){ui.onAllNodesWithText("2\n/12",substring=false).fetchSemanticsNodes().isNotEmpty()}
+            ui.waitUntil(20000){ui.onNodeWithTag("frame-counter").fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].any{it.text.startsWith("2·") || it.text.startsWith("2/")}}
             ui.onNodeWithTag("step--1").performScrollTo().performClick()
-            ui.waitUntil(10000){ui.onAllNodesWithText("1\n/12",substring=false).fetchSemanticsNodes().isNotEmpty()}
+            ui.waitUntil(10000){ui.onNodeWithTag("frame-counter").fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].any{it.text.startsWith("1·") || it.text.startsWith("1/")}}
             assertTrue(matches{!it.playWhenReady})
             ui.onNodeWithTag("more-controls").scrollIntoViewIfNeeded().performClick()
             val beforeDouble=seeks.get()

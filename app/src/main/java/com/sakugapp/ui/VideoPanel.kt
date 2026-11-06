@@ -45,16 +45,18 @@ import java.util.Locale
 interface VideoOrientationHost { var hasFullscreenPlayer:Boolean;var fullscreenOwner:Any?;var fullscreenHandoff:FullscreenHandoff? }
 
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class,ExperimentalMaterial3Api::class)
 @Composable
 fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=false,seekRequest:Pair<Long,Int>?=null,
-    onPlayerReady:((Player)->Unit)?=null,onDurationChanged:(Long)->Unit={},onNavigate:(Int)->Boolean={false},videoDimensions:Pair<Int,Int>?=null,downloadPost:Post?=null) {
+    onPlayerReady:((Player)->Unit)?=null,onDurationChanged:(Long)->Unit={},onNavigate:(Int)->Boolean={false},videoDimensions:Pair<Int,Int>?=null,downloadPost:Post?=null,maxInlineHeight:androidx.compose.ui.unit.Dp?=null) {
     val mediaKey=url+":"+downloadPost?.id
     val pageCache=LocalPageVideoCache.current
     val context=LocalContext.current;val owner=LocalLifecycleOwner.current;val scope=rememberCoroutineScope()
     val shareTitle=text(R.string.ui_share_frame)
     val activity=LocalActivity.current;val orientationHost=activity as? VideoOrientationHost
     val handoff=remember(mediaKey){if(preview)null else orientationHost?.fullscreenHandoff}
+    var isPlayerLocked by rememberSaveable(mediaKey){mutableStateOf(false)}
+    var hostView by remember{mutableStateOf<VideoGestureHost?>(null)}
     var controlsVisible by remember(mediaKey){mutableStateOf(false)}
     var manualRotation by remember(mediaKey){mutableStateOf(false)}
     var mediaWidth by remember(mediaKey){mutableIntStateOf(videoDimensions?.first ?: 0)}
@@ -177,12 +179,13 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
     }
     val clipControls=downloadPost?.let{post->key(mediaKey){rememberClipExport(post,url,ab,stepper.pending>0,prepare={stepper.beginExport()},finished={stepper.endExport()})}}
     val primaryControls:@Composable ()->Unit={
-            Surface(shape=RoundedCornerShape(12.dp),color=MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha=if(fullscreen).94f else 1f)){
-            Row(Modifier.padding(4.dp),horizontalArrangement=Arrangement.spacedBy(4.dp)){
-                ActionIcon(if(fullscreen)R.drawable.ic_fullscreen_exit else R.drawable.ic_fullscreen,
-                    text(if(fullscreen)R.string.ui_exit_full_screen else R.string.ui_full_screen),
-                    {if(fullscreen)exitFullscreen()else enterFullscreen()},Modifier.testTag("toggle-fullscreen"))
-                ActionIcon(R.drawable.ic_more,text(if(more)R.string.ui_fewer_controls else R.string.ui_more_controls),{more=!more},Modifier.testTag("more-controls").semantics{selected=more},selected=more)
+        CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides androidx.compose.ui.unit.Dp.Unspecified){
+            Row{
+                ActionIcon(if(isPlayerLocked)R.drawable.ic_lock else R.drawable.ic_unlock,text(if(isPlayerLocked)R.string.ui_unlock_player else R.string.ui_lock_player),{
+                    isPlayerLocked=!isPlayerLocked;hostView?.cancelPendingTouches();controlsVisible=false;view?.hideController();if(isPlayerLocked)more=false
+                },Modifier.testTag("lock-player"),selected=isPlayerLocked,touchSize=36.dp)
+                ActionIcon(if(fullscreen)R.drawable.ic_fullscreen_exit else R.drawable.ic_fullscreen,text(if(fullscreen)R.string.ui_exit_full_screen else R.string.ui_full_screen),{if(fullscreen)exitFullscreen()else enterFullscreen()},Modifier.testTag("toggle-fullscreen"),touchSize=36.dp)
+                ActionIcon(R.drawable.ic_more,text(if(more)R.string.ui_fewer_controls else R.string.ui_more_controls),{more=!more},Modifier.testTag("more-controls").semantics{selected=more},selected=more,touchSize=36.dp)
             }
         }
     }
@@ -195,6 +198,11 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                     },Modifier.testTag("rotate-video"))}
                     if(fullscreen)TextButton(contentPadding=textButtonPadding(),onClick={manualRotation=true;activity?.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_FULL_USER}){Text(text(R.string.ui_follow_rotation_lock))}
                     ControlGroup(text(R.string.ui_playback_speed),"speed-controls","$speed×"){
+                        Row(verticalAlignment=Alignment.CenterVertically){
+                            ActionIcon(if(playing)R.drawable.ic_pause else R.drawable.ic_play,text(if(playing)R.string.ui_pause_playback else R.string.ui_resume_playback),{if(player.playWhenReady)player.pause()else resumePlayback()},Modifier.testTag("dedicated-play"))
+                            Text(text(R.string.ui_playback_time_value,formatClipTime(position),formatClipTime(duration)),style=MaterialTheme.typography.labelSmall)
+                        }
+                        if(duration>0)Slider(value=position.toFloat().coerceIn(0f,duration.toFloat()),onValueChange={stepper.reset();player.seekTo(it.toLong());if(player.playbackState==Player.STATE_IDLE)player.prepare()},valueRange=0f..duration.toFloat(),modifier=Modifier.testTag("dedicated-seek"))
                         FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
                             for(value in PreferenceRules.speeds)FilterChip(selected=speed==value,onClick={speed=value},label={Text("$value×")},modifier=Modifier.heightIn(min=40.dp).testTag("speed-$value"))
                         }
@@ -213,6 +221,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                     if(invalidAB)Text(text(R.string.ui_ab_invalid),color=MaterialTheme.colorScheme.error)
                     Text(text(R.string.ui_ab_precision),style=MaterialTheme.typography.labelSmall)
                     clipControls?.invoke()
+                    stepper.confirmed?.let{frame->Text(text(when{frame.decoded && frame.exactTime->R.string.ui_frame_exact;frame.decoded->R.string.ui_frame_index_estimated_time;else->R.string.ui_frame_estimate}),style=MaterialTheme.typography.labelSmall,modifier=Modifier.testTag("frame-precision"))}
                     }
                     ControlGroup(text(R.string.ui_audio_display),"audio-controls"){
                     FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
@@ -247,17 +256,19 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
 AndroidView(factory={VideoGestureHost(it)},modifier=videoModifier.testTag("video-gestures").semantics{
                 contentDescription=context.getString(if(rendered)R.string.ui_video_frame_rendered else R.string.ui_video_loading)
                 stateDescription=context.getString(if(playing)R.string.ui_playing else R.string.ui_paused)
-            },onRelease={host->if(view===host.playerView)view=null;host.playerView.player=null;host.onPostSwipe={};host.onPlaybackRequest={};host.playbackRequested={false};host.onTransform={};host.onConfirmedTap={};host.showFrame(null)},update={host->
+            },onRelease={host->if(view===host.playerView)view=null;host.playerView.player=null;host.onPostSwipe={};host.onPlaybackRequest={};host.playbackRequested={false};host.onTransform={};host.onConfirmedTap={};host.showFrame(null);host.onControlsVisibility={};if(hostView===host)hostView=null},update={host->
+                hostView=host
+                host.isPlayerLocked=isPlayerLocked
+                host.onControlsVisibility={visible->if(!isPlayerLocked)controlsVisible=visible}
                 host.showFrame(stepper.confirmed?.bitmap)
                 val v=host.playerView
-                if(view!==v){PlayerView.switchTargetView(player,view,v);view=v}
-                else if(v.player!==player)v.player=player
-                v.useController=!preview
-                v.setControllerAutoShow(!fullscreen);v.setControllerHideOnTouch(!fullscreen)
-                v.controllerShowTimeoutMs=if(fullscreen)0 else 5000
-                if(fullscreen){if(controlsVisible)v.showController()else v.hideController()}
+                v.setControllerAutoShow(false);v.setControllerHideOnTouch(false)
+                v.useController=!preview && !isPlayerLocked;v.controllerShowTimeoutMs=5000
+                val rebound=view!==v || v.player!==player
+                if(view!==v){PlayerView.switchTargetView(player,view,v);view=v}else if(v.player!==player)v.player=player
+                if(rebound || isPlayerLocked || preview){v.hideController();controlsVisible=false}
                 v.resizeMode=androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT
-                host.immersiveTapControl=fullscreen;host.onConfirmedTap={controlsVisible=!controlsVisible}
+                host.immersiveTapControl=!preview;host.onConfirmedTap={if(!isPlayerLocked){if(v.isControllerFullyVisible){v.hideController();controlsVisible=false}else{v.showController();controlsVisible=true}}}
                 v.setShowNextButton(false);v.setShowPreviousButton(false);v.setShowFastForwardButton(false);v.setShowRewindButton(false)
                 host.configure(settings,VideoTransform(zoom,panX,panY));host.gesturesEnabled=!preview
                 host.playbackRequested={player.playWhenReady};host.onPlaybackRequest={if(it)resumePlayback()else player.pause()}
@@ -266,7 +277,7 @@ AndroidView(factory={VideoGestureHost(it)},modifier=videoModifier.testTag("video
     }
     val ratio=if(mediaWidth>0 && mediaHeight>0)mediaWidth.toFloat()/mediaHeight else 16f/9f
     val toolbar:@Composable ()->Unit={
-        FrameControlBar(stepper.confirmed,position,stepper.pending,duration>0 && !stepper.exporting,{delta->abEnabled=false;resumeRequested=false;stepper.step(delta)},primaryControls)
+        FrameControlBar(stepper.confirmed,position,stepper.pending,duration>0 && !stepper.exporting,{delta->controlsVisible=false;hostView?.cancelPendingTouches();view?.hideController();abEnabled=false;resumeRequested=false;stepper.step(delta)},primaryControls)
         stepper.failure?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error)}
     }
     if(fullscreen){
@@ -284,16 +295,21 @@ AndroidView(factory={VideoGestureHost(it)},modifier=videoModifier.testTag("video
             }
             BoxWithConstraints(Modifier.fillMaxSize().background(Color.Black).displayCutoutPadding()){
                 val maxPanelHeight=maxHeight*.45f
-                videoSurface(Modifier.fillMaxSize())
-                if(controlsVisible)Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth().background(MaterialTheme.colorScheme.surface.copy(alpha=.96f))){
-                    toolbar();advancedControls(maxPanelHeight);feedback()
+                videoSurface(if(isPlayerLocked)Modifier.fillMaxWidth().height((maxHeight-48.dp).coerceAtLeast(1.dp))else Modifier.fillMaxSize())
+                if(isPlayerLocked || controlsVisible){
+                    Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth().background(MaterialTheme.colorScheme.surface)){toolbar()}
+                    Column(Modifier.align(Alignment.BottomCenter).padding(bottom=48.dp).fillMaxWidth().background(MaterialTheme.colorScheme.surface)){advancedControls(maxPanelHeight);feedback()}
                 }
             }
         }
     }else{
         val density=LocalDensity.current
         Column(Modifier.fillMaxWidth().onSizeChanged{inlineHeight=with(density){it.height.toDp()}}){
-            videoSurface(Modifier.fillMaxWidth().aspectRatio(if(preview)16f/9f else ratio).background(Color.Black))
+            BoxWithConstraints(Modifier.fillMaxWidth(),contentAlignment=Alignment.Center){
+                val fittedRatio=if(preview)16f/9f else ratio
+                val width=if(!preview && maxInlineHeight!=null)minOf(maxWidth,maxInlineHeight*fittedRatio)else maxWidth
+                videoSurface(Modifier.width(width).aspectRatio(fittedRatio).background(Color.Black))
+            }
             if(!preview){toolbar();advancedControls(null)}
             feedback()
         }

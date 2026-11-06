@@ -23,11 +23,11 @@ import com.sakugapp.R
 }
 
 @Composable internal fun AppMenuItem(text:@Composable ()->Unit,onClick:()->Unit,modifier:Modifier=Modifier,enabled:Boolean=true,
-    @DrawableRes icon:Int=R.drawable.ic_tune,selected:Boolean=false,destructive:Boolean=false,toned:Boolean=false){
+    @DrawableRes icon:Int?=R.drawable.ic_tune,selected:Boolean=false,destructive:Boolean=false,toned:Boolean=false){
     val colors=MaterialTheme.colorScheme;val checked=selected
     val foreground=if(destructive)colors.error else colors.onSurface
     DropdownMenuItem(text={ProvideTextStyle(MaterialTheme.typography.bodyMedium,text)},onClick=onClick,enabled=enabled,
-        leadingIcon={Icon(painterResource(icon),null,Modifier.size(20.dp))},
+        leadingIcon=icon?.let{value->{Icon(painterResource(value),null,Modifier.size(20.dp))}},
         trailingIcon=if(selected)({Icon(painterResource(R.drawable.ic_check),null,Modifier.size(18.dp))})else null,
         modifier=modifier.padding(horizontal=4.dp,vertical=1.dp).clip(RoundedCornerShape(10.dp))
             .background(when{selected->colors.secondaryContainer;toned->colors.surfaceContainerHigh;else->Color.Transparent})

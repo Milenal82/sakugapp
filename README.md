@@ -134,3 +134,13 @@ Actual Android emulator captures. These earlier captures do not show every chang
 ## License / 许可证 / ライセンス
 
 [GPL-3.0-only](LICENSE). Corresponding source ZIPs accompany build artifacts and releases. Media remains the property of its rights holders. [Third-party notices](docs/third-party-notices.md) · [Data source](docs/data-source.md) · [Sakuga Extended feature review](docs/feature-matrix.md).
+
+## Development / 开发 / 開発
+
+当前开发分支调整了逐帧控制与播放器锁定、详情页尺寸、Vote 和评论按需加载，并加入可恢复的后台批量队列。版本号未改变，尚未发布。
+
+The development branch adds compact frame controls and player locking, window-sized details, a Vote menu, on-demand comments and a recoverable background batch queue. No new release or APK is published.
+
+開発ブランチではコマ送り・操作ロック、詳細画面のサイズ調整、評価メニュー、コメントの遅延読込、再開可能な一括ダウンロードを更新しています。バージョン変更・公開は行いません。
+
+[Implementation and verification / 实现与验证 / 実装と検証](docs/player-community-batch.md)

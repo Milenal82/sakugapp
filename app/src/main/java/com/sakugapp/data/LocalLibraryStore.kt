@@ -26,6 +26,7 @@ class LocalLibraryStore(private val db:LibraryDatabase){
         }
     }
     val state=combine(libraryData,dao.facts()){data,facts->data.copy(durations=facts.associate{it.url to it.durationMs})}.flowOn(Dispatchers.Default)
+    suspend fun score(id:Long,value:Int)=db.withTransaction{dao.postsOnce().firstOrNull{it.id==id}?.let{val post=LibraryCodec.decodePost(it.snapshot);dao.snapshot(id,LibraryCodec.encodePost(post.copy(score=value)))}}
     suspend fun ready(){dao.folder(FavoriteFolder(1,"",0))}
     private fun validateName(name:String):String=name.trim().also{if(it.isBlank()||it.length>80||it.any(Char::isISOControl))throw LibraryFailure("folder_name")}
     suspend fun createFolder(name:String):Long=db.withTransaction{

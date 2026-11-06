@@ -1,0 +1,114 @@
+name: Player community and batch queue checks
+on:
+  push:
+    branches: [dev/player-lock-community-batch]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: player-community-${{ github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: ./scripts/ci-android-sdk.sh
+      - uses: gradle/actions/setup-gradle@v5
+      - run: python3 scripts/check-localization.py
+      - run: ./gradlew --no-daemon testDebugUnitTest lintDebug assembleDebug assembleRelease -PreleaseUnsignedCheck=true
+      # Binaries remain ephemeral. The user requested no automatic APK publication.
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: player-community-build-reports
+          path: |
+            app/build/test-results/
+            app/build/reports/lint-results-debug.*
+  devices:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - api: 28
+            profile: Nexus S
+          - api: 35
+            profile: Nexus 6
+          - api: 28
+            profile: pixel_c
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: ./scripts/ci-android-sdk.sh
+      - uses: gradle/actions/setup-gradle@v5
+      - run: sudo chmod a+rw /dev/kvm
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api }}
+          arch: x86_64
+          target: default
+          profile: ${{ matrix.profile }}
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
+          script: ./gradlew --no-daemon connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.sakugapp.PlayerLockDeviceTest,com.sakugapp.DetailLayoutDeviceTest,com.sakugapp.FrameControlsDeviceTest,com.sakugapp.BatchQueueDeviceTest,com.sakugapp.DownloadFoldersDeviceTest,com.sakugapp.PlayerRotationDeviceTest
+      - name: Collect actual UI captures
+        if: always()
+        run: |
+          mkdir -p app/build/reports/ui-evidence
+          adb pull /sdcard/Download/sakugapp-ui-evidence/. app/build/reports/ui-evidence/ || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: player-community-device-${{ matrix.api }}-${{ matrix.profile }}
+          path: |
+            app/build/outputs/androidTest-results/
+            app/build/reports/androidTests/
+            app/build/reports/ui-evidence/
+  evidence:
+    if: always()
+    needs: [build, devices]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: player-community-*
+          path: ${{ runner.temp }}/page-reports
+      - name: Record bounded results
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVIDENCE_DOWNLOADS: ${{ runner.temp }}/page-reports
+          EVIDENCE_OUTPUT: ${{ runner.temp }}/page-evidence
+          MAINTENANCE_VALIDATION_RESULT: ${{ needs.devices.result }}
+        run: python3 scripts/record-maintenance-evidence.py
+      - name: Save reports without binaries
+        run: |
+          set -euo pipefail
+          branch=evidence/player-community
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null; then
+            git fetch origin "refs/heads/$branch:refs/remotes/origin/$branch"
+            git switch -c results "origin/$branch"
+          else
+            git switch --orphan results
+          fi
+          cp "$RUNNER_TEMP/page-evidence/report.json" report.json
+          cp "$RUNNER_TEMP/page-evidence/README.md" README.md
+          mkdir -p screenshots
+          cp "$RUNNER_TEMP/page-evidence/screenshots/"*.png screenshots/ 2>/dev/null || true
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add report.json README.md screenshots
+          git commit -m "Player and batch verification for $GITHUB_SHA"
+          git push origin "HEAD:refs/heads/$branch"

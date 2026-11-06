@@ -483,4 +483,22 @@
     <string name="ui_frame_exact">Decoded frame index · verified timestamps</string>
     <string name="ui_frame_index_estimated_time">Decoded index · estimated time</string>
     <string name="ui_frame_estimate">Estimated time seek · reported FPS or 24 FPS fallback</string>
+    <string name="ui_comments_section">Comments</string>
+    <string name="ui_lock_player">Lock video</string>
+    <string name="ui_unlock_player">Unlock video</string>
+    <string name="ui_pause_playback">Pause</string>
+    <string name="ui_resume_playback">Play</string>
+    <string name="ui_download_queue">Download queue</string>
+    <string name="ui_queue_waiting">Waiting</string>
+    <string name="ui_queue_active">Downloading</string>
+    <string name="ui_queue_done">Complete</string>
+    <string name="ui_queue_failed">Failed</string>
+    <string name="ui_queue_cancelled">Cancelled</string>
+    <string name="ui_queue_paused">Paused</string>
+    <string name="ui_pause_batch">Pause batch</string>
+    <string name="ui_resume_batch">Resume batch</string>
+    <string name="ui_batch_parallelism">Concurrent downloads: %1$d</string>
+    <string name="ui_queue_progress">%1$d / %2$d · %3$s</string>
+    <string name="ui_queue_empty">No download tasks</string>
+    <string name="ui_queue_start_error">Cannot start background downloads. Reopen the app and retry.</string>
 </resources>

@@ -84,6 +84,7 @@ class FeedViewModel @JvmOverloads constructor(
         localSequence=localSequence?.map{it.update()}
     }
     fun updateScore(id: Long, score: Int?) {
+        localSequence=localSequence?.map{if(it.id==id)it.copy(score=score)else it}
         _state.value=_state.value.copy(posts=_state.value.posts.map{if(it.id==id)it.copy(score=score)else it})
         browseSnapshot=browseSnapshot?.let{it.copy(posts=it.posts.map{post->if(post.id==id)post.copy(score=score)else post})}
         _selected.value=_selected.value?.let{if(it.id==id)it.copy(score=score)else it}
