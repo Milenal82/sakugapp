@@ -1,7 +1,7 @@
-# Maintenance verification
+# Search, profile and discovery checks
 
-Source: `fe80b21eab5d54ee459414ef075ce86a64c74fa2`
+Source: `8ecc4270ea5d3b48a6bd675ff18a8ea9b6a18d1f`
 
-Run: https://github.com/Milenal82/sakugapp/actions/runs/42193832178
+Run: https://github.com/Milenal82/sakugapp/actions/runs/42194895044
 
-Focused JVM backup tests, Android Lint, Debug compilation, fresh-install Room restore and API 28 Nexus S native search/history/settings checks. Original screenshots use a physical narrow emulator profile and 1.3 font scale, in dark and light themes. Collection/history tests use legal public-response fixtures, not account data. The existing main workflow is unchanged; its same-commit automatic checks are read in report.json when available. Full reports and the installable Debug APK remain Actions artifacts. This branch contains no APK, signing material, credentials or media.
+JVM tests, localization, Lint and Debug build; API 28 phone and API 35 tablet navigation, profile, backup and frame-control checks. Screenshots are original app renders with injected response fixtures; they are not evidence of live site access. Live site probes were blocked by the cloud proxy. Episode lookup is bounded to the sampled work posts. Physical devices, full production-account flows and process-death restoration of in-memory discovery samples are not verified. The installable Debug APK and full reports remain in the linked Actions artifacts. No Release, tag or formal version change.

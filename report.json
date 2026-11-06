@@ -1,83 +1,66 @@
 {
-  "source_commit": "fe80b21eab5d54ee459414ef075ce86a64c74fa2",
-  "run_id": "42193832178",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42193832178",
-  "captured_utc": "2026-11-06T09:21:42.975047+00:00",
-  "validation_result": "success",
-  "scope": "Backup restore, native screens, app font size and tag spacing; no full player suite.",
+  "source_commit": "8ecc4270ea5d3b48a6bd675ff18a8ea9b6a18d1f",
+  "run_id": "42194895044",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42194895044",
+  "captured_utc": "2026-11-06T09:28:07.521213+00:00",
+  "validation_result": "cancelled",
+  "scope": "Search/Posts/Profile navigation, real consumed scroll, fullscreen isolation, local profile images, bounded discovery fixtures, backup restore and native frame controls on API 28/35.",
   "jobs": [
     {
-      "name": "devices (35, pixel_c)",
+      "name": "build",
       "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42193832178/job/127812029579",
-      "id": 127812029579
+      "conclusion": "cancelled",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42194895044/job/127815561818",
+      "id": 127815561818
     },
     {
       "name": "devices (28, Nexus S)",
       "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42193832178/job/127812029928",
-      "id": 127812029928
+      "conclusion": "cancelled",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42194895044/job/127815562220",
+      "id": 127815562220
     },
     {
-      "name": "build",
+      "name": "devices (35, pixel_c)",
       "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42193832178/job/127812030008",
-      "id": 127812030008
+      "conclusion": "cancelled",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42194895044/job/127815562265",
+      "id": 127815562265
     },
     {
       "name": "evidence",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42193832178/job/127814065508",
-      "id": 127814065508
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42194895044/job/127816781109",
+      "id": 127816781109
     }
   ],
   "artifacts": [
     {
-      "name": "discovery-device-reports-35",
-      "bytes": 446200,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42193832178/artifacts/13492015069"
-    },
-    {
       "name": "discovery-build-reports",
-      "bytes": 77497,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42193832178/artifacts/13491681170"
-    },
-    {
-      "name": "discovery-debug-apk",
-      "bytes": 18671871,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42193832178/artifacts/13491546447"
-    },
-    {
-      "name": "discovery-device-reports-28",
-      "bytes": 211357,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42193832178/artifacts/13490773657"
+      "bytes": 212,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42194895044/artifacts/13491258745"
     }
   ],
-  "test_counts": {
-    "device": {
-      "tests": 28,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0
+  "test_counts": {},
+  "lint": {},
+  "failures": [
+    {
+      "job": "build",
+      "conclusion": "cancelled",
+      "message": "2026-11-06T09:27:53.2265176Z ##[error]The operation was canceled."
     },
-    "debug_unit": {
-      "tests": 157,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0
+    {
+      "job": "devices (28, Nexus S)",
+      "conclusion": "cancelled",
+      "message": "2026-11-06T09:27:40.0868877Z ##[error]The operation was canceled."
+    },
+    {
+      "job": "devices (35, pixel_c)",
+      "conclusion": "cancelled",
+      "message": "2026-11-06T09:27:40.6942005Z ##[error]The operation was canceled."
     }
-  },
-  "lint": {
-    "discovery-build-reports/reports/lint-results-debug.xml": {
-      "errors": 0,
-      "warnings": 66
-    }
-  },
-  "failures": [],
+  ],
   "device_diagnostics": [],
   "scroll_profile": {},
   "main_automatic_checks": {
