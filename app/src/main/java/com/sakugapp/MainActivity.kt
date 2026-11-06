@@ -79,7 +79,7 @@ class MainActivity:AppCompatActivity(),VideoOrientationHost{
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel()) {
+internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel()) {
     val savedSettings by app.settings.collectAsStateWithLifecycle()
     val settings=savedSettings.copy(lightTheme=themeIsLight(savedSettings.themeMode,isSystemInDarkTheme()),columns=GridPolicy.effective(savedSettings.columns,LocalConfiguration.current.smallestScreenWidthDp))
     val context=LocalContext.current
@@ -92,15 +92,23 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
     val feed=remember(rawFeed,library.durations){rawFeed.copy(posts=rawFeed.posts.map{p->library.durations[p.fileUrl]?.takeIf{it!=p.durationMs}?.let{p.copy(durationMs=it)} ?: p})}
     val history by app.history.collectAsStateWithLifecycle()
     val grid=rememberLazyGridState()
+    val searchGrid=rememberLazyGridState()
+    val searchMode by model.searchMode.collectAsStateWithLifecycle()
+    val localProfile by app.localProfile.collectAsStateWithLifecycle()
+    var bottomVisible by remember{mutableStateOf(true)}
     val systemTag=android.content.res.Resources.getSystem().configuration.locales[0].toLanguageTag()
     val language=PreferenceRules.resolveLanguage(settings.language,systemTag)
     var menu by remember{mutableStateOf(false)};var about by remember{mutableStateOf(false)}
-    LaunchedEffect(entry?.destination?.route){if(entry?.destination?.route=="posts")model.restoreBrowse();if(entry?.destination?.route!="post/{id}")model.close()}
+    LaunchedEffect(entry?.destination?.route){bottomVisible=true;if(entry?.destination?.route!="post/{id}")model.close()}
+    fun primary(route:String){
+        bottomVisible=true
+        if(nav.currentDestination?.route==route)return
+        nav.navigate(route){popUpTo(nav.graph.startDestinationId){saveState=true};launchSingleTop=true;restoreState=true}
+    }
+    fun go(route:String){nav.navigate(route){launchSingleTop=true}}
     fun search(value:String){
-        app.search(value);model.beginSearch(value)
-        if(nav.currentDestination?.route!="search" && !nav.popBackStack("search",false)){
-            nav.popBackStack("posts",false);nav.navigate("search")
-        }
+        app.search(value);model.beginSearch(value);searchGrid.requestScrollToItem(0);bottomVisible=true
+        if(nav.currentDestination?.route!="posts")nav.navigate("posts"){launchSingleTop=true}
     }
     val browser=rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()){result->
         if(result.resultCode==android.app.Activity.RESULT_OK)app.syncBrowserSession()
@@ -111,12 +119,12 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
     val openSite:(String)->Unit={url->browser.launch(Intent(context,BrowserActivity::class.java).putExtra("url",url))}
     SakugappTheme(settings.lightTheme,settings.fontScale,settings.accent){CompositionLocalProvider(LocalLanguage provides language,LocalTagActions provides app){
         if(about)AboutDialog{about=false}
-        Scaffold(topBar={Column(Modifier.statusBarsPadding()){
+        Scaffold(bottomBar={AnimatedVisibility(entry?.destination?.route in AppRoutes.main && (entry?.destination?.route!="posts" || bottomVisible),enter=expandVertically(tween(Motion.search)),exit=shrinkVertically(tween(Motion.search))){MainBottomBar(entry?.destination?.route ?: AppRoutes.SEARCH,::primary)}},topBar={Column(Modifier.statusBarsPadding()){
             Row(Modifier.fillMaxWidth().padding(horizontal=8.dp),verticalAlignment=Alignment.CenterVertically){
-                if(entry?.destination?.route !in setOf("posts","library"))TextButton(onClick={nav.popBackStack()},modifier=Modifier.semantics{contentDescription=context.getString(R.string.ui_back_to_app)}){Text("‹")}
-                Text(text(R.string.app_name),style=MaterialTheme.typography.titleLarge,maxLines=1,overflow=TextOverflow.Ellipsis,modifier=Modifier.weight(1f))
+                if(entry?.destination?.route !in AppRoutes.main)TextButton(onClick={nav.popBackStack()},modifier=Modifier.semantics{contentDescription=context.getString(R.string.ui_back_to_app)}){Text("‹")}
+                BrandAndProfile(localProfile,entry?.destination?.route!="profile"){primary("profile")}
                 Box{TextButton(onClick={menu=true},modifier=Modifier.clip(RoundedCornerShape(10.dp)).background(MaterialTheme.colorScheme.surfaceContainerHigh).testTag("main-menu")){Text(text(R.string.ui_menu))};TileMenu(expanded=menu,onDismissRequest={menu=false}){
-                    AppMenuItem(icon=R.drawable.ic_book,selected=entry?.destination?.route in setOf("posts","search","post/{id}"),text={Text(text(R.string.ui_posts))},onClick={menu=false;nav.popBackStack("posts",false)})
+                    AppMenuItem(icon=R.drawable.ic_book,selected=entry?.destination?.route in setOf("posts","search","post/{id}"),text={Text(text(R.string.ui_posts))},onClick={menu=false;primary("posts")})
                     AppMenuItem(icon=R.drawable.ic_folder,selected=entry?.destination?.route=="library",text={Text(text(R.string.ui_local_library))},onClick={menu=false;nav.navigate("library")})
                     AppMenuItem(icon=R.drawable.ic_history,selected=entry?.destination?.route=="history",text={Text(text(R.string.ui_browsing_history))},onClick={menu=false;nav.navigate("history")})
                     AppMenuItem(icon=R.drawable.ic_favorite,selected=entry?.destination?.route=="account",text={Text(text(R.string.ui_my_account))},onClick={menu=false;nav.navigate("account")})
@@ -127,15 +135,39 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
                     AppMenuItem(icon=R.drawable.ic_book,text={Text(text(R.string.ui_about_and_licenses))},onClick={menu=false;about=true})
                 }}
             }
-        }}){insets->NavHost(navController=nav,startDestination="posts",modifier=Modifier.padding(insets).semantics{testTagsAsResourceId=true}){
+        }}){insets->NavHost(navController=nav,startDestination="search_home",modifier=Modifier.padding(insets).semantics{testTagsAsResourceId=true}){
+            composable("search_home"){SearchHomeScreen(app,settings,::search,::go)}
+            composable("profile"){ProfileHomeScreen(app,::go,openSite)}
+            composable("search_history"){SearchHistoryScreen(app,::search)}
             composable("posts"){PageMediaScope{
-                val browse=model.browsingState
-                val home=remember(browse,library.durations){browse.copy(posts=browse.posts.map{post->library.durations[post.fileUrl]?.takeIf{it!=post.durationMs}?.let{post.copy(durationMs=it)} ?: post})}
-                PostsScreen(home,grid,settings,history,metered,app,::search,{post->model.open(post);nav.navigate("post/${post.id}")},model::loadMore,model::refresh,isActive=entry?.destination?.route=="posts")
+                Column(Modifier.fillMaxSize()){
+                    Row(Modifier.fillMaxWidth().padding(horizontal=10.dp)){
+                        FilterChip(selected=!searchMode,onClick={model.restoreBrowse();bottomVisible=true},label={Text(text(R.string.ui_browse_mode))},modifier=Modifier.testTag("browse-mode"))
+                        Spacer(Modifier.width(8.dp))
+                        FilterChip(selected=searchMode,onClick={model.resumeSearch();bottomVisible=true},label={Text(text(R.string.ui_results_mode))},modifier=Modifier.testTag("results-mode"))
+                    }
+                    key(searchMode){PostsScreen(feed,if(searchMode)searchGrid else grid,settings,history,metered,app,::search,{post->model.open(post);nav.navigate("post/${post.id}")},model::loadMore,model::refresh,isActive=entry?.destination?.route=="posts",onChromeVisibility={bottomVisible=it})}
+                }
             }}
-            composable("search"){PageMediaScope{PostsScreen(feed,rememberLazyGridState(),settings,history,metered,app,::search,{post->model.open(post);nav.navigate("post/${post.id}")},model::loadMore,model::refresh,isActive=entry?.destination?.route=="search")}}
+            composable("search"){LaunchedEffect(Unit){primary("posts")}}
+            composable("artist_stats"){
+                val stats:DiscoveryViewModel=viewModel(factory=object:androidx.lifecycle.ViewModelProvider.Factory{override fun <T:androidx.lifecycle.ViewModel> create(cls:Class<T>):T { @Suppress("UNCHECKED_CAST") return DiscoveryViewModel(app.discovery) as T }})
+                ArtistStatsScreen(app.discovery,stats,::search)
+            }
+            composable("show_browser"){ShowBrowserScreen(app.discovery){go("show_detail/"+android.net.Uri.encode(it))}}
+            composable("show_detail/{showTag}"){back->
+                val tag=back.arguments?.getString("showTag").orEmpty()
+                val show:DiscoveryViewModel=viewModel(factory=object:androidx.lifecycle.ViewModelProvider.Factory{override fun <T:androidx.lifecycle.ViewModel> create(cls:Class<T>):T { @Suppress("UNCHECKED_CAST") return DiscoveryViewModel(app.discovery) as T }})
+                ShowDetailScreen(tag,show,::search){ep->go("episode_posts/"+android.net.Uri.encode(tag)+"/"+android.net.Uri.encode(ep.key))}
+            }
+            composable("episode_posts/{showTag}/{group}"){back->PageMediaScope{
+                val tag=back.arguments?.getString("showTag").orEmpty();val raw=back.arguments?.getString("group").orEmpty().split(":")
+                val group=EpisodeKey(EpisodeKind.entries.firstOrNull{it.name.equals(raw.firstOrNull(),true)} ?: EpisodeKind.OTHER,raw.getOrNull(1)?.toIntOrNull())
+                val episodes:DiscoveryViewModel=viewModel(factory=object:androidx.lifecycle.ViewModelProvider.Factory{override fun <T:androidx.lifecycle.ViewModel> create(cls:Class<T>):T { @Suppress("UNCHECKED_CAST") return DiscoveryViewModel(app.discovery) as T }})
+                EpisodePostsScreen(tag,group,episodes,settings,app,::search,{post,order->model.openLocal(post,order);go("post/${post.id}")},entry?.destination?.route=="episode_posts/{showTag}/{group}")
+            }}
             composable("library"){PageMediaScope{LibraryScreen(app,::search,{nav.navigate("tags")}){post,order->model.openLocal(post,order);nav.navigate("post/${post.id}")}}}
-            composable("tags"){TagFavoritesScreen(app,{nav.popBackStack()}){value->nav.popBackStack("posts",false);search(value)}}
+            composable("tags"){TagFavoritesScreen(app,{nav.popBackStack()}){value->search(value)}}
             composable("history"){PageMediaScope{BrowsingHistoryScreen(app,{nav.popBackStack()}){post,order->model.openLocal(post,order);nav.navigate("post/${post.id}")}}}
             composable("account"){AccountScreen(app,openSite)}
             composable("language"){LanguageScreen(settings.language,app::language)}
@@ -169,7 +201,7 @@ private fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel(
 
 @OptIn(ExperimentalLayoutApi::class,ExperimentalMaterial3Api::class)
 @Composable
-internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,history:List<String>,metered:Boolean,app:AppViewModel,search:(String)->Unit,open:(Post)->Unit,loadMore:()->Unit,refresh:()->Unit,isActive:Boolean=true) {
+internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,history:List<String>,metered:Boolean,app:AppViewModel,search:(String)->Unit,open:(Post)->Unit,loadMore:()->Unit,refresh:()->Unit,isActive:Boolean=true,onChromeVisibility:(Boolean)->Unit={}) {
     var query by rememberSaveable(state.query,stateSaver=TextFieldValue.Saver){mutableStateOf(TextFieldValue(state.query,TextRange(state.query.length)))}
     var active by rememberSaveable{mutableStateOf<Long?>(null)}
     var advanced by remember{mutableStateOf(false)}
@@ -197,10 +229,12 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
     val chrome=remember(density){ScrollChrome(with(density){64.dp.toPx()},with(density){28.dp.toPx()})}
     val connection=remember(chrome){object:NestedScrollConnection{
         override fun onPostScroll(consumed:Offset,available:Offset,source:NestedScrollSource):Offset {
-            if(!pinnedNow)chromeVisible=chrome.consume(consumed.y,chromeVisible)
+            if(!pinnedNow && source==NestedScrollSource.UserInput)chromeVisible=chrome.consume(consumed.y,chromeVisible)
             return Offset.Zero
         }
     }}
+    LaunchedEffect(chromeVisible,pinned,isActive){if(isActive)onChromeVisibility(chromeVisible || pinned)}
+    LaunchedEffect(isActive){if(isActive){chromeVisible=true;chrome.reset();onChromeVisibility(true)}}
     val offset by animateFloatAsState(if(chromeVisible || pinned)0f else -fullHeight.toFloat(),tween(Motion.search,easing=FastOutSlowInEasing),label="search-chrome")
     LaunchedEffect(pinned){if(pinned){chromeVisible=true;chrome.reset()}}
     LaunchedEffect(grid,state.query){snapshotFlow{!grid.canScrollBackward}.collect{if(it){chromeVisible=true;chrome.reset()}}}

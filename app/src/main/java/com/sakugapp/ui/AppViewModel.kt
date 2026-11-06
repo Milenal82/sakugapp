@@ -10,7 +10,10 @@ import kotlinx.coroutines.flow.*
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
-class AppViewModel(application:Application):AndroidViewModel(application) {
+class AppViewModel @JvmOverloads constructor(application:Application,discoveryOverride:DiscoveryRepository?=null):AndroidViewModel(application) {
+    val localProfileStore=LocalProfileStore(application)
+    val localProfile=localProfileStore.profile.catch{emit(LocalProfile())}.stateIn(viewModelScope,SharingStarted.Eagerly,LocalProfile())
+    val discovery=discoveryOverride ?: DiscoveryRepository()
     val preferences=PreferencesStore(application)
     val settings=preferences.settings.stateIn(viewModelScope,SharingStarted.Eagerly,AppSettings())
     val history=preferences.history.stateIn(viewModelScope,SharingStarted.Eagerly,emptyList())
@@ -46,7 +49,8 @@ class AppViewModel(application:Application):AndroidViewModel(application) {
         viewModelScope.launch { settings.collect { community.language=it.language } }
     }
     fun duration(url:String,value:Long){if(library.value.durations[url]!=value)viewModelScope.launch{runCatching{localLibrary.duration(url,value)}}}
-    fun score(id:Long,value:Int?){if(value!=null)viewModelScope.launch{try{localLibrary.score(id,value)}catch(e:CancellationException){throw e}catch(e:Exception){_personalError.value=e}}}
+    private val _scoreChanges=MutableStateFlow<Map<Long,Int>>(emptyMap());val scoreChanges=_scoreChanges.asStateFlow()
+    fun score(id:Long,value:Int?){if(value!=null){_scoreChanges.value=(_scoreChanges.value+(id to value)).entries.toList().takeLast(256).associate{it.toPair()}};if(value!=null)viewModelScope.launch{try{localLibrary.score(id,value)}catch(e:CancellationException){throw e}catch(e:Exception){_personalError.value=e}}}
     fun search(query:String) { viewModelScope.launch { preferences.remember(query) } }
     fun flag(name:String,value:Boolean) { viewModelScope.launch { preferences.flag(name,value) } }
     fun number(name:String,value:Float) { viewModelScope.launch { preferences.number(name,value) } }

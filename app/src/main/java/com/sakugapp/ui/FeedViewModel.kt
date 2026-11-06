@@ -28,17 +28,22 @@ class FeedViewModel @JvmOverloads constructor(
     private var detailRequest: Job? = null
     private var request: Job? = null
     private var generation = 0
+    private val _searchMode=MutableStateFlow(false);val searchMode=_searchMode.asStateFlow()
+    private var searchSnapshot:FeedState?=null
+    fun resumeSearch(){val result=searchSnapshot ?: return;if(_searchMode.value)return;browseSnapshot=_state.value;_searchMode.value=true;request?.cancel();generation++;_state.value=result.copy(loading=false,refreshing=false);if(result.loading)loadMore()}
     private var browseSnapshot:FeedState?=null
     val browsingState:FeedState get()=browseSnapshot ?: _state.value
     init { loadMore() }
 
     fun beginSearch(query:String){
         if(browseSnapshot==null)browseSnapshot=_state.value
+        _searchMode.value=true
         search(query)
     }
     /** Called only after navigation commits back to Posts, not during a cancelled back gesture. */
     fun restoreBrowse(){
         val original=browseSnapshot ?: return
+        searchSnapshot=_state.value;_searchMode.value=false
         browseSnapshot=null;request?.cancel();generation++;close()
         savedState["query"]=original.query
         _state.value=original.copy(loading=false,refreshing=false)
@@ -82,8 +87,10 @@ class FeedViewModel @JvmOverloads constructor(
         browseSnapshot=browseSnapshot?.let{it.copy(posts=it.posts.map{post->post.update()})}
         _selected.value=_selected.value?.update()
         localSequence=localSequence?.map{it.update()}
+        searchSnapshot=searchSnapshot?.let{it.copy(posts=it.posts.map{post->post.update()})}
     }
     fun updateScore(id: Long, score: Int?) {
+        searchSnapshot=searchSnapshot?.let{it.copy(posts=it.posts.map{post->if(post.id==id)post.copy(score=score)else post})}
         localSequence=localSequence?.map{if(it.id==id)it.copy(score=score)else it}
         _state.value=_state.value.copy(posts=_state.value.posts.map{if(it.id==id)it.copy(score=score)else it})
         browseSnapshot=browseSnapshot?.let{it.copy(posts=it.posts.map{post->if(post.id==id)post.copy(score=score)else post})}

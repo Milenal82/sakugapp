@@ -144,3 +144,13 @@ The development branch adds compact frame controls and player locking, window-si
 開発ブランチではコマ送り・操作ロック、詳細画面のサイズ調整、評価メニュー、コメントの遅延読込、再開可能な一括ダウンロードを更新しています。バージョン変更・公開は行いません。
 
 [Implementation and verification / 实现与验证 / 実装と検証](docs/player-community-batch.md)
+
+## Search · 搜索 · 検索
+
+开发分支默认打开搜索首页，底部提供搜索、Posts、个人资料。搜索结果与普通浏览分别保留；本地头像昵称不关联网站账户。原画师统计和作品集数浏览使用真实投稿的有限采样，点击标签可转入 Posts。集数只依据 Source 中明确的文字标记，不代表完整播出目录。
+
+The development branch starts with Search and offers Search / Posts / Profile tabs, a local avatar and nickname, sampled artist statistics and work/episode browsing. Ordinary browsing and search results stay separate. Episode lookup covers the loaded sample, not a complete episode database.
+
+開発ブランチは検索から開始し、検索・Posts・プロフィールを切り替えられます。ローカル画像と名前、取得済み投稿による原画師統計・作品別話数閲覧に対応します。通常閲覧と検索結果は別に保持し、話数は取得範囲内のみです。
+
+[Scope, sources and limits / 实现范围与限制 / 実装と制限](docs/search-profile-discovery.md)

@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — Search, Profile and discovery
+
+- Three main tabs, a styled SAKUGAPP header, independent search home and preserved browse/result states.
+- Private local avatar/nickname, with existing account/favorites/site/settings entry points.
+- Read-only sampled artist statistics and conservatively parsed work/episode browsing.
+- Debug-only delivery; no formal version, tag, signing or Release changes.
+
+
 ## Unreleased — player controls, community and batch queue
 
 - Compact one-row frame controls, player touch lock and explicit controller visibility.

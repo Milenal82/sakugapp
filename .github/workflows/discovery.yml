@@ -1,0 +1,103 @@
+name: Search profile and discovery Debug
+on:
+  push:
+    branches: [dev/search-profile-discovery]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: discovery-${{ github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: ./scripts/ci-android-sdk.sh
+      - uses: gradle/actions/setup-gradle@v5
+      - run: python3 scripts/check-localization.py
+      - run: ./gradlew --no-daemon testDebugUnitTest lintDebug assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: discovery-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: discovery-build-reports
+          path: |
+            app/build/test-results/
+            app/build/reports/lint-results-debug.*
+  devices:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - api: 28
+            profile: Nexus S
+          - api: 35
+            profile: pixel_c
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: ./scripts/ci-android-sdk.sh
+      - uses: gradle/actions/setup-gradle@v5
+      - run: sudo chmod a+rw /dev/kvm
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api }}
+          arch: x86_64
+          target: default
+          profile: ${{ matrix.profile }}
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
+          script: bash scripts/run-discovery-checks.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: discovery-device-reports-${{ matrix.api }}
+          path: |
+            app/build/outputs/androidTest-results/
+            app/build/reports/androidTests/
+            app/build/reports/ui-evidence/
+  evidence:
+    if: always()
+    needs: [build, devices]
+    runs-on: ubuntu-24.04
+    permissions:
+      actions: read
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: discovery-*-reports*
+          path: ${{ runner.temp }}/reports
+      - name: Collect bounded reports
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVIDENCE_DOWNLOADS: ${{ runner.temp }}/reports
+          EVIDENCE_OUTPUT: ${{ runner.temp }}/evidence
+          MAINTENANCE_VALIDATION_RESULT: ${{ needs.devices.result }}
+        run: python3 scripts/record-maintenance-evidence.py
+      - name: Save reports independently
+        run: |
+          branch=evidence/discovery
+          git fetch origin "$branch:refs/remotes/origin/$branch" || true
+          if git show-ref --verify --quiet "refs/remotes/origin/$branch"; then git switch -c evidence "origin/$branch"; else git switch --orphan evidence; fi
+          cp "$RUNNER_TEMP/evidence/report.json" report.json
+          cp "$RUNNER_TEMP/evidence/README.md" README.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add report.json README.md
+          git commit -m "Discovery checks for $GITHUB_SHA"
+          git push origin "HEAD:refs/heads/$branch"

@@ -34,6 +34,9 @@ class SakugaRepository(
     private var categories: Map<String, TagCategory>? = null
     private val categoryMutex = Mutex()
 
+    suspend fun classifications():Map<String,TagCategory> = categoryMutex.withLock {
+        categories ?: PostParser.tagSummary(get(baseUrl.resolve("tag/summary.json")!!)).also{categories=it}
+    }
     override suspend fun page(query: String, page: Int): PostPage {
         require(page > 0)
         val url = baseUrl.newBuilder().addPathSegment("post.json")
@@ -44,10 +47,7 @@ class SakugaRepository(
         if (posts.isEmpty()) return PostPage(emptyList(), 0)
         var warning: String? = null
         val types = try {
-            categoryMutex.withLock {
-                categories ?: PostParser.tagSummary(get(baseUrl.resolve("tag/summary.json")!!))
-                    .also { categories = it }
-            }
+            classifications()
         } catch (e: CancellationException) { throw e }
         catch (e: Exception) {
             warning = "Tag categories could not be loaded. Unverified categories are not shown on post cards. ${e.message.orEmpty()}"
