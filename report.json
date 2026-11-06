@@ -1,33 +1,44 @@
 [
   {
-    "run": "42225875112",
-    "commit": "eccfbad5c843a9096a1a46539b9e504793a311d7",
-    "status": "in_progress",
+    "run": "42227170211",
+    "commit": "9e815521d3623b12631f73171adf3db26a000c96",
+    "status": "completed",
     "reports": [
+      {
+        "artifact": "extension-device-reports-28",
+        "counts": {
+          "name": "com.sakugapp.MenuAndPoolDeviceTest",
+          "tests": "25",
+          "failures": "1",
+          "errors": "0",
+          "skipped": "0",
+          "time": "88.521",
+          "timestamp": "2026-11-06T13:44:40",
+          "hostname": "localhost"
+        },
+        "failures": [
+          {
+            "test": "com.sakugapp.MenuAndPoolDeviceTest.sixOrderedMenuRoutesAndOrdinaryBrowseCacheArePreserved",
+            "message": "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 10000 ms\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:504)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:339)\nat com.sakugapp.MenuAndPoolDeviceTest.sixOrderedMenuRoutesAndOrdinaryBrowseCacheArePreserved(MenuAndPoolDeviceTest.kt:65)\n"
+          }
+        ]
+      },
       {
         "artifact": "extension-device-reports-35",
         "counts": {
           "name": "com.sakugapp.MenuAndPoolDeviceTest",
           "tests": "25",
-          "failures": "3",
+          "failures": "1",
           "errors": "0",
           "skipped": "0",
-          "time": "165.263",
-          "timestamp": "2026-11-06T13:36:14",
+          "time": "158.745",
+          "timestamp": "2026-11-06T13:45:44",
           "hostname": "localhost"
         },
         "failures": [
           {
-            "test": "com.sakugapp.MenuAndPoolDeviceTest.poolRejectsNonCopyrightAndEnforcesThirtyWithoutDroppingOldSelections",
-            "message": "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 10000 ms\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:504)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:339)\nat com.sakugapp.MenuAndPoolDeviceTest.query(MenuAndPoolDeviceTest.kt:38)\nat com.sakugapp.MenuAndPoolDeviceTest.access$query(MenuAndPoolDeviceTest.kt:19)\nat com.sakugapp.MenuAndPoolDeviceTest$poolRejectsNonCopyrightAndEnforcesThirtyWithoutDroppingOldSelections$1.invokeSuspend(MenuAndPoolDeviceTest.kt:78)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.UndispatchedCoroutine.afterResume(CoroutineContext.kt:266)\nat kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.MenuAndPoolDeviceTest.poolRejectsNonCopyrightAndEnforcesThirtyWithoutDroppingOldSelections(MenuAndPoolDeviceTest.kt:75)\n"
-          },
-          {
             "test": "com.sakugapp.MenuAndPoolDeviceTest.sixOrderedMenuRoutesAndOrdinaryBrowseCacheArePreserved",
-            "message": "java.lang.AssertionError: Failed to inject touch input.\nReason: Expected exactly '1' node but could not find any node that satisfies: (TestTag = 'nav-profile')\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.ActionsKt.performTouchInput(Actions.kt:389)\nat androidx.compose.ui.test.AndroidActions.performClickImpl(Actions.android.kt:23)\nat androidx.compose.ui.test.ActionsKt.performClick(Actions.kt:60)\nat com.sakugapp.MenuAndPoolDeviceTest.sixOrderedMenuRoutesAndOrdinaryBrowseCacheArePreserved(MenuAndPoolDeviceTest.kt:57)\n"
-          },
-          {
-            "test": "com.sakugapp.ExtensionUiDeviceTest.quizPoolRejectsArtistAndPersistsVerifiedCopyright",
-            "message": "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 10000 ms\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:504)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:339)\nat com.sakugapp.ExtensionUiDeviceTest$quizPoolRejectsArtistAndPersistsVerifiedCopyright$1.invokeSuspend(ExtensionUiDeviceTest.kt:67)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.UndispatchedCoroutine.afterResume(CoroutineContext.kt:266)\nat kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.ExtensionUiDeviceTest.quizPoolRejectsArtistAndPersistsVerifiedCopyright(ExtensionUiDeviceTest.kt:61)\n"
+            "message": "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 10000 ms\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:504)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:339)\nat com.sakugapp.MenuAndPoolDeviceTest.sixOrderedMenuRoutesAndOrdinaryBrowseCacheArePreserved(MenuAndPoolDeviceTest.kt:65)\n"
           }
         ]
       },
@@ -39,9 +50,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:31:51.220Z",
+          "timestamp": "2026-11-06T13:41:11.758Z",
           "hostname": "runnervm7aw5e",
-          "time": "2.954"
+          "time": "3.347"
         },
         "failures": []
       },
@@ -53,9 +64,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:31:54.181Z",
+          "timestamp": "2026-11-06T13:41:15.110Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.267"
+          "time": "0.247"
         },
         "failures": []
       },
@@ -67,9 +78,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:31:54.455Z",
+          "timestamp": "2026-11-06T13:41:15.361Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.069"
+          "time": "0.076"
         },
         "failures": []
       },
@@ -81,9 +92,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:31:54.527Z",
+          "timestamp": "2026-11-06T13:41:15.442Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.153"
+          "time": "0.28"
         },
         "failures": []
       },
@@ -95,23 +106,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:31:54.682Z",
+          "timestamp": "2026-11-06T13:41:15.726Z",
           "hostname": "runnervm7aw5e",
-          "time": "14.456"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "extension-build-reports",
-        "counts": {
-          "name": "com.sakugapp.DataTest",
-          "tests": "15",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-06T13:32:18.277Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.02"
+          "time": "14.5"
         },
         "failures": []
       },
@@ -123,9 +120,23 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:32:09.145Z",
+          "timestamp": "2026-11-06T13:41:30.232Z",
           "hostname": "runnervm7aw5e",
-          "time": "9.129"
+          "time": "9.12"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.DataTest",
+          "tests": "15",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T13:41:39.359Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.013"
         },
         "failures": []
       },
@@ -137,9 +148,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:32:18.299Z",
+          "timestamp": "2026-11-06T13:41:39.377Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.023"
+          "time": "0.017"
         },
         "failures": []
       },
@@ -151,9 +162,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:32:18.329Z",
+          "timestamp": "2026-11-06T13:41:39.401Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.118"
+          "time": "0.114"
         },
         "failures": []
       },
@@ -165,9 +176,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:32:18.449Z",
+          "timestamp": "2026-11-06T13:41:39.517Z",
           "hostname": "runnervm7aw5e",
-          "time": "1.748"
+          "time": "1.764"
         },
         "failures": []
       },
@@ -179,9 +190,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:32:20.199Z",
+          "timestamp": "2026-11-06T13:41:41.283Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.081"
+          "time": "0.083"
         },
         "failures": []
       },
@@ -193,9 +204,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:32:20.286Z",
+          "timestamp": "2026-11-06T13:41:41.369Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.018"
+          "time": "0.032"
         },
         "failures": []
       },
@@ -207,9 +218,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:32:20.310Z",
+          "timestamp": "2026-11-06T13:41:41.402Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.014"
+          "time": "0.007"
         },
         "failures": []
       },
@@ -221,9 +232,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:32:20.330Z",
+          "timestamp": "2026-11-06T13:41:41.411Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.034"
+          "time": "0.02"
         },
         "failures": []
       },
@@ -235,9 +246,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:32:20.370Z",
+          "timestamp": "2026-11-06T13:41:41.432Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.054"
+          "time": "0.037"
         },
         "failures": []
       },
@@ -249,23 +260,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:32:20.431Z",
+          "timestamp": "2026-11-06T13:41:41.473Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.001"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "extension-build-reports",
-        "counts": {
-          "name": "com.sakugapp.PersonalizationTest",
-          "tests": "4",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-06T13:32:20.608Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.027"
+          "time": "0.005"
         },
         "failures": []
       },
@@ -277,9 +274,23 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:32:20.439Z",
+          "timestamp": "2026-11-06T13:41:41.480Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.165"
+          "time": "0.119"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.PersonalizationTest",
+          "tests": "4",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T13:41:41.600Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.015"
         },
         "failures": []
       },
@@ -291,9 +302,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:32:20.637Z",
+          "timestamp": "2026-11-06T13:41:41.616Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.005"
+          "time": "0.002"
         },
         "failures": []
       },
@@ -305,9 +316,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:32:20.646Z",
+          "timestamp": "2026-11-06T13:41:41.619Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.01"
+          "time": "0.004"
         },
         "failures": []
       },
@@ -319,9 +330,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:32:20.659Z",
+          "timestamp": "2026-11-06T13:41:41.625Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.171"
+          "time": "0.201"
         },
         "failures": []
       },
@@ -333,9 +344,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:32:20.833Z",
+          "timestamp": "2026-11-06T13:41:41.830Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.025"
+          "time": "0.048"
         },
         "failures": []
       },
@@ -347,9 +358,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:32:20.861Z",
+          "timestamp": "2026-11-06T13:41:41.882Z",
           "hostname": "runnervm7aw5e",
-          "time": "6.517"
+          "time": "6.561"
         },
         "failures": []
       },
@@ -361,9 +372,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:32:27.380Z",
+          "timestamp": "2026-11-06T13:41:48.446Z",
           "hostname": "runnervm7aw5e",
-          "time": "25.382"
+          "time": "25.365"
         },
         "failures": []
       },
@@ -375,9 +386,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:32:52.766Z",
+          "timestamp": "2026-11-06T13:42:13.812Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.037"
+          "time": "0.046"
         },
         "failures": []
       },
@@ -389,72 +400,46 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:32:52.804Z",
+          "timestamp": "2026-11-06T13:42:13.859Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.118"
+          "time": "0.119"
         },
         "failures": []
-      },
-      {
-        "artifact": "extension-device-reports-28",
-        "counts": {
-          "name": "com.sakugapp.MenuAndPoolDeviceTest",
-          "tests": "25",
-          "failures": "3",
-          "errors": "0",
-          "skipped": "0",
-          "time": "83.346",
-          "timestamp": "2026-11-06T13:34:09",
-          "hostname": "localhost"
-        },
-        "failures": [
-          {
-            "test": "com.sakugapp.MenuAndPoolDeviceTest.poolRejectsNonCopyrightAndEnforcesThirtyWithoutDroppingOldSelections",
-            "message": "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 10000 ms\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:504)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:339)\nat com.sakugapp.MenuAndPoolDeviceTest.query(MenuAndPoolDeviceTest.kt:38)\nat com.sakugapp.MenuAndPoolDeviceTest.access$query(MenuAndPoolDeviceTest.kt:19)\nat com.sakugapp.MenuAndPoolDeviceTest$poolRejectsNonCopyrightAndEnforcesThirtyWithoutDroppingOldSelections$1.invokeSuspend(MenuAndPoolDeviceTest.kt:78)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.UndispatchedCoroutine.afterResume(CoroutineContext.kt:266)\nat kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.MenuAndPoolDeviceTest.poolRejectsNonCopyrightAndEnforcesThirtyWithoutDroppingOldSelections(MenuAndPoolDeviceTest.kt:75)\n"
-          },
-          {
-            "test": "com.sakugapp.MenuAndPoolDeviceTest.sixOrderedMenuRoutesAndOrdinaryBrowseCacheArePreserved",
-            "message": "java.lang.AssertionError: Failed to inject touch input.\nReason: Expected exactly '1' node but could not find any node that satisfies: (TestTag = 'nav-profile')\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.ActionsKt.performTouchInput(Actions.kt:389)\nat androidx.compose.ui.test.AndroidActions.performClickImpl(Actions.android.kt:23)\nat androidx.compose.ui.test.ActionsKt.performClick(Actions.kt:60)\nat com.sakugapp.MenuAndPoolDeviceTest.sixOrderedMenuRoutesAndOrdinaryBrowseCacheArePreserved(MenuAndPoolDeviceTest.kt:57)\n"
-          },
-          {
-            "test": "com.sakugapp.ExtensionUiDeviceTest.quizPoolRejectsArtistAndPersistsVerifiedCopyright",
-            "message": "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 10000 ms\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:504)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:339)\nat com.sakugapp.ExtensionUiDeviceTest$quizPoolRejectsArtistAndPersistsVerifiedCopyright$1.invokeSuspend(ExtensionUiDeviceTest.kt:67)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.UndispatchedCoroutine.afterResume(CoroutineContext.kt:266)\nat kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.ExtensionUiDeviceTest.quizPoolRejectsArtistAndPersistsVerifiedCopyright(ExtensionUiDeviceTest.kt:61)\n"
-          }
-        ]
       }
     ],
-    "conclusion": null,
+    "conclusion": "failure",
     "jobs": [
-      {
-        "name": "devices (28, Nexus S)",
-        "conclusion": "failure",
-        "errors": "2026-11-06T13:30:18.7457691Z WARNING      | Could not open libX11.so, try libX11.so.6\n2026-11-06T13:30:18.7458435Z WARNING      | Could not open libX11-xcb.so, try libX11-xcb.so.1\n2026-11-06T13:31:07.5872117Z > Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED\n2026-11-06T13:31:07.5892016Z > Task :app:preBuild UP-TO-DATE\n2026-11-06T13:31:07.5921833Z > Task :app:preDebugBuild UP-TO-DATE\n2026-11-06T13:31:07.6863892Z > Task :app:generateDebugBuildConfig\n2026-11-06T13:31:08.7902200Z > Task :app:generateDebugResValues\n2026-11-06T13:31:08.8873341Z > Task :app:checkDebugAarMetadata\n2026-11-06T13:31:08.8892277Z > Task :app:mapDebugSourceSetPaths\n2026-11-06T13:31:08.9872580Z > Task :app:generateDebugResources\n2026-11-06T13:31:10.9882141Z > Task :app:mergeDebugResources\n2026-11-06T13:31:10.9894740Z > Task :app:packageDebugResources\n2026-11-06T13:31:11.0889673Z > Task :app:createDebugCompatibleScreenManifests\n2026-11-06T13:31:11.0892023Z > Task :app:extractDeepLinksDebug\n2026-11-06T13:31:11.1858499Z > Task :app:parseDebugLocalResources\n2026-11-06T13:31:11.3864068Z > Task :app:processDebugMainManifest\n2026-11-06T13:31:11.3864752Z > Task :app:processDebugManifest\n2026-11-06T13:31:11.4871993Z > Task :app:processDebugManifestForPackage\n2026-11-06T13:31:11.4872974Z > Task :app:javaPreCompileDebug\n2026-11-06T13:31:11.6882285Z > Task :app:preDebugAndroidTestBuild SKIPPED\n2026-11-06T13:31:12.0892149Z > Task :app:processDebugAndroidTestManifest\n2026-11-06T13:31:12.0903591Z > Task :app:generateDebugAndroidTestBuildConfig\n2026-11-06T13:31:12.1888202Z > Task :app:checkDebugAndroidTestAarMetadata\n2026-11-06T13:31:12.1911665Z > Task :app:generateDebugAndroidTestResValues\n2026-11-06T13:31:12.1932201Z > Task :app:mapDebugAndroidTestSourceSetPaths\n2026-11-06T13:31:12.1951967Z > Task :app:generateDebugAndroidTestResources\n2026-11-06T13:31:12.2865983Z > Task :app:processDebugResources\n2026-11-06T13:31:12.4871520Z > Task :app:mergeDebugAndroidTestResources\n2026-11-06T13:31:13.1859406Z > Task :app:processDebugAndroidTestResources\n2026-11-06T13:31:13.2855584Z > Task :app:javaPreCompileDebugAndroidTest\n2026-11-06T13:31:13.2859318Z > Task :app:mergeDebugShaders\n2026-11-06T13:31:13.2859866Z > Task :app:compileDebugShaders NO-SOURCE\n2026-11-06T13:31:13.2864552Z > Task :app:generateDebugAssets UP-TO-DATE\n2026-11-06T13:31:13.3863239Z > Task :app:mergeDebugAssets\n2026-11-06T13:31:13.4875967Z > Task :app:compressDebugAssets\n2026-11-06T13:31:13.4906754Z > Task :app:desugarDebugFileDependencies\n2026-11-06T13:31:13.8896053Z > Task :app:checkDebugDuplicateClasses\n2026-11-06T13:31:34.1889246Z > Task :app:mergeExtDexDebug\n2026-11-06T13:31:34.1920539Z > Task :app:mergeLibDexDebug\n2026-11-06T13:31:34.2868053Z > Task :app:mergeDebugJniLibFolders\n2026-11-06T13:31:34.4892779Z > Task :app:mergeDebugNativeLibs\n2026-11-06T13:31:34.7021773Z > Task :app:stripDebugDebugSymbols\n2026-11-06T13:31:35.7937630Z > Task :app:validateSigningDebug\n2026-11-06T13:31:35.7961765Z > Task :app:writeDebugAppMetadata\n2026-11-06T13:31:35.8882581Z > Task :app:writeDebugSigningConfigVersions\n2026-11-06T13:31:35.8899324Z > Task :app:mergeDebugAndroidTestShaders\n2026-11-06T13:31:35.8913670Z > Task :app:compileDebugAndroidTestShaders NO-SOURCE\n2026-11-06T13:31:35.8942056Z > Task :app:generateDebugAndroidTestAssets UP-TO-DATE\n2026-11-06T13:31:36.0908178Z > Task :app:mergeDebugAndroidTestAssets\n2026-11-06T13:31:36.0931943Z > Task :app:compressDebugAndroidTestAssets\n2026-11-06T13:31:36.0992960Z > Task :app:desugarDebugAndroidTestFileDependencies\n2026-11-06T13:31:36.2872285Z > Task :app:checkDebugAndroidTestDuplicateClasses\n2026-11-06T13:31:37.5862014Z > Task :app:mergeExtDexDebugAndroidTest\n2026-11-06T13:31:37.5942126Z > Task :app:mergeLibDexDebugAndroidTest\n2026-11-06T13:31:37.5986845Z > Task :app:mergeDebugAndroidTestJniLibFolders\n2026-11-06T13:31:37.6882454Z > Task :app:mergeDebugAndroidTestNativeLibs NO-SOURCE\n2026-11-06T13:31:37.6909398Z > Task :app:stripDebugAndroidTestDebugSymbols NO-SOURCE\n2026-11-06T13:31:37.6939440Z > Task :app:validateSigningDebugAndroidTest\n2026-11-06T13:31:37.6972019Z > Task :app:writeDebugAndroidTestSigningConfigVersions\n2026-11-06T13:31:42.2874156Z > Task :app:kaptGenerateStubsDebugKotlin\n2026-11-06T13:31:51.1858270Z > Task :app:kaptDebugKotlin\n2026-11-06T13:32:14.2879614Z > Task :app:compileDebugKotlin\n2026-11-06T13:32:16.5873549Z > Task :app:compileDebugJavaWithJavac\n2026-11-06T13:32:22.5872231Z > Task :app:bundleDebugClassesToCompileJar\n2026-11-06T13:32:22.8854894Z > Task :app:dexBuilderDebug\n2026-11-06T13:32:23.4861930Z > Task :app:mergeDebugGlobalSynthetics\n2026-11-06T13:32:23.5861863Z > Task :app:processDebugJavaRes\n2026-11-06T13:32:25.4856659Z > Task :app:mergeDebugJavaResource\n2026-11-06T13:32:26.4872435Z > Task :app:mergeProjectDexDebug\n2026-11-06T13:32:27.3862671Z > Task :app:packageDebug\n2026-11-06T13:32:27.3892172Z > Task :app:createDebugApkListingFileRedirect\n2026-11-06T13:32:28.7867861Z > Task :app:kaptGenerateStubsDebugAndroidTestKotlin\n2026-11-06T13:32:29.3869104Z > Task :app:kaptDebugAndroidTestKotlin\n2026-11-06T13:32:36.1912038Z > Task :app:compileDebugAndroidTestKotlin\n2026-11-06T13:32:36.6882217Z > Task :app:compileDebugAndroidTestJavaWithJavac\n2026-11-06T13:32:39.0860120Z > Task :app:dexBuilderDebugAndroidTest\n2026-11-06T13:32:39.0872346Z > Task :app:mergeDebugAndroidTestGlobalSynthetics\n2026-11-06T13:32:39.1872068Z > Task :app:processDebugAndroidTestJavaRes\n2026-11-06T13:32:39.1876286Z > Task :app:mergeDebugAndroidTestJavaResource\n2026-11-06T13:32:39.3871719Z > Task :app:mergeProjectDexDebugAndroidTest\n2026-11-06T13:32:39.3908929Z > Task :app:packageDebugAndroidTest\n2026-11-06T13:32:39.4889825Z > Task :app:createDebugAndroidTestApkListingFileRedirect\n2026-11-06T13:32:42.1884471Z > Task :app:connectedDebugAndroidTest\n2026-11-06T13:33:00.0861114Z > Task :app:connectedDebugAndroidTest\n2026-11-06T13:33:00.0862663Z com.sakugapp.MenuAndPoolDeviceTest > poolRejectsNonCopyrightAndEnforcesThirtyWithoutDroppingOldSelections[emulator-5554 - 9] \u001b[31mFAILED \u001b[0m\n2026-11-06T13:33:08.0855427Z > Task :app:connectedDebugAndroidTest\n2026-11-06T13:33:08.0856965Z com.sakugapp.MenuAndPoolDeviceTest > sixOrderedMenuRoutesAndOrdinaryBrowseCacheArePreserved[emulator-5554 - 9] \u001b[31mFAILED \u001b[0m\n2026-11-06T13:33:31.4856570Z > Task :app:connectedDebugAndroidTest\n2026-11-06T13:33:31.4857791Z com.sakugapp.ExtensionUiDeviceTest > quizPoolRejectsArtistAndPersistsVerifiedCopyright[emulator-5554 - 9] \u001b[31mFAILED \u001b[0m\n2026-11-06T13:34:09.0922751Z > Task :app:connectedDebugAndroidTest\n2026-11-06T13:34:09.7911789Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-06T13:34:09.7962033Z * What went wrong:\n2026-11-06T13:34:09.7967336Z BUILD FAILED in 3m 18s\n2026-11-06T13:34:10.3235229Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
-      },
       {
         "name": "build",
         "conclusion": "success"
       },
       {
+        "name": "devices (28, Nexus S)",
+        "conclusion": "failure",
+        "errors": "2026-11-06T13:39:49.9608987Z WARNING      | Could not open libX11.so, try libX11.so.6\n2026-11-06T13:39:49.9610234Z WARNING      | Could not open libX11-xcb.so, try libX11-xcb.so.1\n2026-11-06T13:40:51.6950257Z > Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED\n2026-11-06T13:40:51.6968276Z > Task :app:preBuild UP-TO-DATE\n2026-11-06T13:40:51.6968930Z > Task :app:preDebugBuild UP-TO-DATE\n2026-11-06T13:40:51.7934539Z > Task :app:generateDebugBuildConfig\n2026-11-06T13:40:52.8936591Z > Task :app:generateDebugResValues\n2026-11-06T13:40:52.9937557Z > Task :app:checkDebugAarMetadata\n2026-11-06T13:40:52.9939599Z > Task :app:mapDebugSourceSetPaths\n2026-11-06T13:40:52.9940733Z > Task :app:generateDebugResources\n2026-11-06T13:40:54.8931710Z > Task :app:packageDebugResources\n2026-11-06T13:40:56.0958717Z > Task :app:parseDebugLocalResources\n2026-11-06T13:40:56.0959795Z > Task :app:createDebugCompatibleScreenManifests\n2026-11-06T13:40:56.0988148Z > Task :app:extractDeepLinksDebug\n2026-11-06T13:40:56.1936942Z > Task :app:mergeDebugResources\n2026-11-06T13:40:56.3959656Z > Task :app:processDebugMainManifest\n2026-11-06T13:40:56.5949281Z > Task :app:processDebugManifest\n2026-11-06T13:40:56.5968545Z > Task :app:processDebugManifestForPackage\n2026-11-06T13:40:56.6940946Z > Task :app:javaPreCompileDebug\n2026-11-06T13:40:56.8975974Z > Task :app:preDebugAndroidTestBuild SKIPPED\n2026-11-06T13:40:57.3931299Z > Task :app:processDebugAndroidTestManifest\n2026-11-06T13:40:57.3938390Z > Task :app:generateDebugAndroidTestBuildConfig\n2026-11-06T13:40:57.3968656Z > Task :app:checkDebugAndroidTestAarMetadata\n2026-11-06T13:40:57.3969516Z > Task :app:generateDebugAndroidTestResValues\n2026-11-06T13:40:57.3970391Z > Task :app:mapDebugAndroidTestSourceSetPaths\n2026-11-06T13:40:57.4938965Z > Task :app:generateDebugAndroidTestResources\n2026-11-06T13:40:57.6940324Z > Task :app:processDebugResources\n2026-11-06T13:40:57.8939803Z > Task :app:mergeDebugAndroidTestResources\n2026-11-06T13:40:59.1959471Z > Task :app:processDebugAndroidTestResources\n2026-11-06T13:40:59.2944788Z > Task :app:javaPreCompileDebugAndroidTest\n2026-11-06T13:40:59.2967729Z > Task :app:mergeDebugShaders\n2026-11-06T13:40:59.3000337Z > Task :app:compileDebugShaders NO-SOURCE\n2026-11-06T13:40:59.3039096Z > Task :app:generateDebugAssets UP-TO-DATE\n2026-11-06T13:40:59.4937721Z > Task :app:mergeDebugAssets\n2026-11-06T13:40:59.4969188Z > Task :app:compressDebugAssets\n2026-11-06T13:40:59.5931102Z > Task :app:desugarDebugFileDependencies\n2026-11-06T13:41:00.0948758Z > Task :app:checkDebugDuplicateClasses\n2026-11-06T13:41:25.4954514Z > Task :app:mergeExtDexDebug\n2026-11-06T13:41:25.5008960Z > Task :app:mergeLibDexDebug\n2026-11-06T13:41:25.5038346Z > Task :app:mergeDebugJniLibFolders\n2026-11-06T13:41:25.8999744Z > Task :app:mergeDebugNativeLibs\n2026-11-06T13:41:26.0081250Z > Task :app:stripDebugDebugSymbols\n2026-11-06T13:41:27.6988602Z > Task :app:validateSigningDebug\n2026-11-06T13:41:27.7048489Z > Task :app:writeDebugAppMetadata\n2026-11-06T13:41:27.7078430Z > Task :app:writeDebugSigningConfigVersions\n2026-11-06T13:41:27.7949055Z > Task :app:mergeDebugAndroidTestShaders\n2026-11-06T13:41:27.7973248Z > Task :app:compileDebugAndroidTestShaders NO-SOURCE\n2026-11-06T13:41:27.8038362Z > Task :app:generateDebugAndroidTestAssets UP-TO-DATE\n2026-11-06T13:41:27.8118388Z > Task :app:mergeDebugAndroidTestAssets\n2026-11-06T13:41:27.8148258Z > Task :app:kaptGenerateStubsDebugKotlin\n2026-11-06T13:41:27.8968680Z > Task :app:compressDebugAndroidTestAssets\n2026-11-06T13:41:27.8971532Z > Task :app:desugarDebugAndroidTestFileDependencies\n2026-11-06T13:41:28.0936997Z > Task :app:checkDebugAndroidTestDuplicateClasses\n2026-11-06T13:41:29.4959360Z > Task :app:mergeExtDexDebugAndroidTest\n2026-11-06T13:41:29.4998362Z > Task :app:mergeLibDexDebugAndroidTest\n2026-11-06T13:41:29.5028281Z > Task :app:mergeDebugAndroidTestJniLibFolders\n2026-11-06T13:41:29.5945506Z > Task :app:mergeDebugAndroidTestNativeLibs NO-SOURCE\n2026-11-06T13:41:29.5968333Z > Task :app:stripDebugAndroidTestDebugSymbols NO-SOURCE\n2026-11-06T13:41:29.5998166Z > Task :app:validateSigningDebugAndroidTest\n2026-11-06T13:41:29.6008388Z > Task :app:writeDebugAndroidTestSigningConfigVersions\n2026-11-06T13:41:50.8950405Z > Task :app:kaptDebugKotlin\n2026-11-06T13:42:20.8948758Z > Task :app:compileDebugKotlin\n2026-11-06T13:42:28.4958734Z > Task :app:compileDebugJavaWithJavac\n2026-11-06T13:42:37.9939020Z > Task :app:bundleDebugClassesToCompileJar\n2026-11-06T13:42:38.6933183Z > Task :app:dexBuilderDebug\n2026-11-06T13:42:39.7939231Z > Task :app:mergeDebugGlobalSynthetics\n2026-11-06T13:42:39.8950761Z > Task :app:processDebugJavaRes\n2026-11-06T13:42:41.8958609Z > Task :app:mergeDebugJavaResource\n2026-11-06T13:42:43.6938667Z > Task :app:mergeProjectDexDebug\n2026-11-06T13:42:44.7936856Z > Task :app:packageDebug\n2026-11-06T13:42:44.7938390Z > Task :app:createDebugApkListingFileRedirect\n2026-11-06T13:42:46.6935545Z > Task :app:kaptGenerateStubsDebugAndroidTestKotlin\n2026-11-06T13:42:47.5968781Z > Task :app:kaptDebugAndroidTestKotlin\n2026-11-06T13:42:57.6958676Z > Task :app:compileDebugAndroidTestKotlin\n2026-11-06T13:42:58.2960967Z > Task :app:compileDebugAndroidTestJavaWithJavac\n2026-11-06T13:43:01.8931146Z > Task :app:dexBuilderDebugAndroidTest\n2026-11-06T13:43:01.8933949Z > Task :app:mergeDebugAndroidTestGlobalSynthetics\n2026-11-06T13:43:01.8935348Z > Task :app:processDebugAndroidTestJavaRes\n2026-11-06T13:43:02.0931330Z > Task :app:mergeDebugAndroidTestJavaResource\n2026-11-06T13:43:02.1941608Z > Task :app:mergeProjectDexDebugAndroidTest\n2026-11-06T13:43:02.3930920Z > Task :app:packageDebugAndroidTest\n2026-11-06T13:43:02.3936814Z > Task :app:createDebugAndroidTestApkListingFileRedirect\n2026-11-06T13:43:07.5945393Z > Task :app:connectedDebugAndroidTest\n2026-11-06T13:43:38.0933810Z > Task :app:connectedDebugAndroidTest\n2026-11-06T13:43:38.0935691Z com.sakugapp.MenuAndPoolDeviceTest > sixOrderedMenuRoutesAndOrdinaryBrowseCacheArePreserved[emulator-5554 - 9] \u001b[31mFAILED \u001b[0m\n2026-11-06T13:44:40.8948795Z > Task :app:connectedDebugAndroidTest\n2026-11-06T13:44:42.0957736Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-06T13:44:42.0970121Z * What went wrong:\n2026-11-06T13:44:42.1012910Z BUILD FAILED in 4m 14s\n2026-11-06T13:44:42.6482650Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
+      },
+      {
         "name": "devices (35, pixel_c)",
-        "conclusion": null
+        "conclusion": "failure",
+        "errors": "2026-11-06T13:39:51.3052774Z WARNING      | Could not open libX11.so, try libX11.so.6\n2026-11-06T13:39:51.3055888Z WARNING      | Could not open libX11-xcb.so, try libX11-xcb.so.1\n2026-11-06T13:40:51.6690210Z > Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED\n2026-11-06T13:40:51.6691393Z > Task :app:preBuild UP-TO-DATE\n2026-11-06T13:40:51.6692220Z > Task :app:preDebugBuild UP-TO-DATE\n2026-11-06T13:40:51.7679244Z > Task :app:generateDebugBuildConfig\n2026-11-06T13:40:53.2700178Z > Task :app:generateDebugResValues\n2026-11-06T13:40:53.3699719Z > Task :app:checkDebugAarMetadata\n2026-11-06T13:40:53.4680298Z > Task :app:mapDebugSourceSetPaths\n2026-11-06T13:40:53.4686200Z > Task :app:generateDebugResources\n2026-11-06T13:40:55.6696734Z > Task :app:packageDebugResources\n2026-11-06T13:40:56.7696848Z > Task :app:mergeDebugResources\n2026-11-06T13:40:56.8694380Z > Task :app:createDebugCompatibleScreenManifests\n2026-11-06T13:40:56.8699197Z > Task :app:extractDeepLinksDebug\n2026-11-06T13:40:56.9686845Z > Task :app:parseDebugLocalResources\n2026-11-06T13:40:57.1685247Z > Task :app:processDebugMainManifest\n2026-11-06T13:40:57.2681304Z > Task :app:processDebugManifest\n2026-11-06T13:40:57.3683210Z > Task :app:processDebugManifestForPackage\n2026-11-06T13:40:57.3685317Z > Task :app:javaPreCompileDebug\n2026-11-06T13:40:57.6701462Z > Task :app:preDebugAndroidTestBuild SKIPPED\n2026-11-06T13:40:58.1716838Z > Task :app:processDebugAndroidTestManifest\n2026-11-06T13:40:58.1766628Z > Task :app:generateDebugAndroidTestBuildConfig\n2026-11-06T13:40:58.2684584Z > Task :app:checkDebugAndroidTestAarMetadata\n2026-11-06T13:40:58.2692400Z > Task :app:generateDebugAndroidTestResValues\n2026-11-06T13:40:58.2729236Z > Task :app:mapDebugAndroidTestSourceSetPaths\n2026-11-06T13:40:58.2730168Z > Task :app:generateDebugAndroidTestResources\n2026-11-06T13:40:58.4706852Z > Task :app:processDebugResources\n2026-11-06T13:40:58.8686327Z > Task :app:mergeDebugAndroidTestResources\n2026-11-06T13:40:59.9736863Z > Task :app:processDebugAndroidTestResources\n2026-11-06T13:40:59.9738035Z > Task :app:javaPreCompileDebugAndroidTest\n2026-11-06T13:41:00.0686817Z > Task :app:mergeDebugShaders\n2026-11-06T13:41:00.0687587Z > Task :app:compileDebugShaders NO-SOURCE\n2026-11-06T13:41:00.0725322Z > Task :app:generateDebugAssets UP-TO-DATE\n2026-11-06T13:41:00.1702372Z > Task :app:mergeDebugAssets\n2026-11-06T13:41:00.2739938Z > Task :app:compressDebugAssets\n2026-11-06T13:41:00.2807181Z > Task :app:desugarDebugFileDependencies\n2026-11-06T13:41:00.9686020Z > Task :app:checkDebugDuplicateClasses\n2026-11-06T13:41:26.4698131Z > Task :app:mergeExtDexDebug\n2026-11-06T13:41:26.4716487Z > Task :app:mergeLibDexDebug\n2026-11-06T13:41:26.4746460Z > Task :app:mergeDebugJniLibFolders\n2026-11-06T13:41:26.8705046Z > Task :app:mergeDebugNativeLibs\n2026-11-06T13:41:26.9726856Z > Task :app:stripDebugDebugSymbols\n2026-11-06T13:41:28.3746632Z > Task :app:validateSigningDebug\n2026-11-06T13:41:28.3760112Z > Task :app:writeDebugAppMetadata\n2026-11-06T13:41:28.4686739Z > Task :app:writeDebugSigningConfigVersions\n2026-11-06T13:41:28.4766695Z > Task :app:mergeDebugAndroidTestShaders\n2026-11-06T13:41:28.4794209Z > Task :app:compileDebugAndroidTestShaders NO-SOURCE\n2026-11-06T13:41:28.4806273Z > Task :app:generateDebugAndroidTestAssets UP-TO-DATE\n2026-11-06T13:41:28.5686702Z > Task :app:mergeDebugAndroidTestAssets\n2026-11-06T13:41:28.6682276Z > Task :app:compressDebugAndroidTestAssets\n2026-11-06T13:41:28.6716504Z > Task :app:desugarDebugAndroidTestFileDependencies\n2026-11-06T13:41:28.6759324Z > Task :app:kaptGenerateStubsDebugKotlin\n2026-11-06T13:41:28.9696705Z > Task :app:checkDebugAndroidTestDuplicateClasses\n2026-11-06T13:41:30.0696803Z > Task :app:mergeExtDexDebugAndroidTest\n2026-11-06T13:41:30.0726300Z > Task :app:mergeLibDexDebugAndroidTest\n2026-11-06T13:41:30.1686774Z > Task :app:mergeDebugAndroidTestJniLibFolders\n2026-11-06T13:41:30.1716823Z > Task :app:mergeDebugAndroidTestNativeLibs NO-SOURCE\n2026-11-06T13:41:30.1746678Z > Task :app:stripDebugAndroidTestDebugSymbols NO-SOURCE\n2026-11-06T13:41:30.1762529Z > Task :app:validateSigningDebugAndroidTest\n2026-11-06T13:41:30.1776240Z > Task :app:writeDebugAndroidTestSigningConfigVersions\n2026-11-06T13:41:50.0687113Z > Task :app:kaptDebugKotlin\n2026-11-06T13:42:20.0685167Z > Task :app:compileDebugKotlin\n2026-11-06T13:42:25.6716661Z > Task :app:compileDebugJavaWithJavac\n2026-11-06T13:42:33.9678491Z > Task :app:bundleDebugClassesToCompileJar\n2026-11-06T13:42:34.8681680Z > Task :app:dexBuilderDebug\n2026-11-06T13:42:35.8706787Z > Task :app:mergeDebugGlobalSynthetics\n2026-11-06T13:42:35.9706636Z > Task :app:processDebugJavaRes\n2026-11-06T13:42:38.5686994Z > Task :app:mergeDebugJavaResource\n2026-11-06T13:42:40.0686701Z > Task :app:mergeProjectDexDebug\n2026-11-06T13:42:41.3706372Z > Task :app:packageDebug\n2026-11-06T13:42:41.3736299Z > Task :app:createDebugApkListingFileRedirect\n2026-11-06T13:42:43.1694680Z > Task :app:kaptGenerateStubsDebugAndroidTestKotlin\n2026-11-06T13:42:43.8679175Z > Task :app:kaptDebugAndroidTestKotlin\n2026-11-06T13:42:53.6726468Z > Task :app:compileDebugAndroidTestKotlin\n2026-11-06T13:42:54.2688445Z > Task :app:compileDebugAndroidTestJavaWithJavac\n2026-11-06T13:42:57.7677866Z > Task :app:dexBuilderDebugAndroidTest\n2026-11-06T13:42:57.7679978Z > Task :app:mergeDebugAndroidTestGlobalSynthetics\n2026-11-06T13:42:57.7680969Z > Task :app:processDebugAndroidTestJavaRes\n2026-11-06T13:42:57.8678872Z > Task :app:mergeDebugAndroidTestJavaResource\n2026-11-06T13:42:58.0690358Z > Task :app:mergeProjectDexDebugAndroidTest\n2026-11-06T13:42:58.1682729Z > Task :app:packageDebugAndroidTest\n2026-11-06T13:42:58.1686851Z > Task :app:createDebugAndroidTestApkListingFileRedirect\n2026-11-06T13:43:06.2767242Z > Task :app:connectedDebugAndroidTest\n2026-11-06T13:43:40.6726366Z > Task :app:connectedDebugAndroidTest\n2026-11-06T13:43:40.6786986Z com.sakugapp.MenuAndPoolDeviceTest > sixOrderedMenuRoutesAndOrdinaryBrowseCacheArePreserved[emulator-5554 - 15] \u001b[31mFAILED \u001b[0m\n2026-11-06T13:45:44.9681671Z > Task :app:connectedDebugAndroidTest\n2026-11-06T13:45:45.9699143Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-06T13:45:45.9756449Z * What went wrong:\n2026-11-06T13:45:45.9775063Z BUILD FAILED in 5m 17s\n2026-11-06T13:45:46.6007275Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
       }
     ],
     "artifacts": [
       {
-        "name": "extension-device-reports-35",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42225875112/artifacts/13506326400"
-      },
-      {
         "name": "extension-debug-apk",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42225875112/artifacts/13505582264"
-      },
-      {
-        "name": "extension-build-reports",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42225875112/artifacts/13505577198"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42227170211/artifacts/13506348234"
       },
       {
         "name": "extension-device-reports-28",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42225875112/artifacts/13505323894"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42227170211/artifacts/13506303799"
+      },
+      {
+        "name": "extension-device-reports-35",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42227170211/artifacts/13505754816"
+      },
+      {
+        "name": "extension-build-reports",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42227170211/artifacts/13505744838"
       }
     ],
     "lint": {
