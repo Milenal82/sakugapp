@@ -1,354 +1,441 @@
 [
   {
-    "run": "42157340261",
-    "commit": "6f1d0aac9140fad15950002b24673dfdeedf7c9a",
+    "run": "42212715519",
+    "commit": "3474e2e07cfe8b647a57eba845721ac1be48afce",
     "status": "completed",
     "reports": [
       {
-        "artifact": "player-community-device-28-pixel_c",
+        "artifact": "extension-device-reports-28",
         "counts": {
-          "name": "com.sakugapp.CommunityUiDeviceTest",
-          "tests": "13",
-          "failures": "1",
+          "name": "com.sakugapp.ExtensionUiDeviceTest",
+          "tests": "18",
+          "failures": "2",
           "errors": "0",
           "skipped": "0",
-          "time": "138.143",
-          "timestamp": "2026-11-06T03:40:26",
+          "time": "34.693",
+          "timestamp": "2026-11-06T11:51:51",
           "hostname": "localhost"
         },
         "failures": [
           {
-            "test": "com.sakugapp.BatchQueueDeviceTest.twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal",
-            "message": "java.lang.AssertionError: two simultaneous requests: requests=0; error=null; tasks=901:FAILED:0:directory_access, 902:FAILED:0:directory_access; journal=2\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.invokeSuspend$stage(BatchQueueDeviceTest.kt:41)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.access$invokeSuspend$stage(Unknown Source:0)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1$stage$1.invokeSuspend(Unknown Source:19)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.internal.ScopeCoroutine.afterResume(Scopes.kt:35)\nat kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:98)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.BatchQueueDeviceTest.twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal(BatchQueueDeviceTest.kt:23)\n... 52 trimmed\nCaused by: kotlinx.coroutines.TimeoutCancellationException: Timed out waiting for 30000 ms\nat kotlinx.coroutines.TimeoutKt.TimeoutCancellationException(Timeout.kt:189)\nat kotlinx.coroutines.TimeoutCoroutine.run(Timeout.kt:157)\nat kotlinx.coroutines.EventLoopImplBase$DelayedRunnableTask.run(EventLoop.common.kt:505)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.DefaultExecutor.run(DefaultExecutor.kt:105)\nat java.lang.Thread.run(Thread.java:764)\n"
+            "test": "com.sakugapp.ExtensionUiDeviceTest.initializationError",
+            "message": "org.junit.runners.model.InvalidTestClassError: Invalid test class 'com.sakugapp.ExtensionUiDeviceTest':\n1. Method nativeQuizPlaysAndCountsFiveDistinctQuestionsOnce() should be void\nat org.junit.runners.ParentRunner.validate(ParentRunner.java:525)\nat org.junit.runners.ParentRunner.<init>(ParentRunner.java:92)\nat org.junit.runners.BlockJUnit4ClassRunner.<init>(BlockJUnit4ClassRunner.java:74)\nat androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner.<init>(AndroidJUnit4ClassRunner.java:50)\nat androidx.test.internal.runner.junit4.AndroidJUnit4Builder.runnerForClass(AndroidJUnit4Builder.java:81)\nat org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:70)\nat org.junit.internal.builders.AllDefaultPossibilitiesBuilder.runnerForClass(AllDefaultPossibilitiesBuilder.java:37)\nat androidx.test.internal.runner.AndroidRunnerBuilder.runnerForClass(AndroidRunnerBuilder.java:152)\nat org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:70)\nat androidx.test.internal.runner.DirectTestLoader.doCreateRunner(DirectTestLoader.java:45)\nat androidx.test.internal.runner.TestLoader.getRunnersFor(TestLoader.java:64)\nat androidx.test.internal.runner.TestRequestBuilder.build(TestRequestBuilder.java:842)\nat androidx.test.runner.AndroidJUnitRunner.buildRequest(AndroidJUnitRunner.java:663)\nat androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:437)\nat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2145)\n"
+          },
+          {
+            "test": "com.sakugapp.FrameControlsDeviceTest.rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop",
+            "message": "java.lang.AssertionError: Failed to assert the following: (Text + InputText + EditableText contains '0:00.600' (ignoreCase: false) as substring)\nSemantics of the node:\nNode #4216 at (l=24.0, t=839.0, r=105.0, b=863.0)px, Tag: 'ab-interval'\nText = '[A: \u2014 B: \u2014]'\nActions = [ClearTextSubstitution, GetTextLayoutResult, SetTextSubstitution, ShowTextSubstitution]\nHas 7 siblings\nSelector used: (TestTag = 'ab-interval')\n\nat androidx.compose.ui.test.AssertionsKt.assert(Assertions.kt:260)\nat androidx.compose.ui.test.AssertionsKt.assert$default(Assertions.kt:250)\nat androidx.compose.ui.test.AssertionsKt.assertTextContains(Assertions.kt:204)\nat androidx.compose.ui.test.AssertionsKt.assertTextContains$default(Assertions.kt:200)\nat com.sakugapp.FrameControlsDeviceTest.rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop(FrameControlsDeviceTest.kt:59)\n"
           }
         ]
       },
       {
-        "artifact": "player-community-device-35-Nexus 6",
+        "artifact": "extension-device-reports-35",
         "counts": {
-          "name": "com.sakugapp.CommunityUiDeviceTest",
-          "tests": "13",
-          "failures": "0",
+          "name": "com.sakugapp.ExtensionUiDeviceTest",
+          "tests": "18",
+          "failures": "2",
           "errors": "0",
           "skipped": "0",
-          "time": "137.086",
-          "timestamp": "2026-11-06T03:40:18",
-          "hostname": "localhost"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "player-community-device-28-Nexus S",
-        "counts": {
-          "name": "com.sakugapp.CommunityUiDeviceTest",
-          "tests": "13",
-          "failures": "1",
-          "errors": "0",
-          "skipped": "0",
-          "time": "92.07",
-          "timestamp": "2026-11-06T03:39:54",
+          "time": "64.64",
+          "timestamp": "2026-11-06T11:51:56",
           "hostname": "localhost"
         },
         "failures": [
           {
-            "test": "com.sakugapp.BatchQueueDeviceTest.twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal",
-            "message": "java.lang.AssertionError: two simultaneous requests: requests=0; error=null; tasks=901:FAILED:0:directory_access, 902:FAILED:0:directory_access; journal=2\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.invokeSuspend$stage(BatchQueueDeviceTest.kt:41)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.access$invokeSuspend$stage(Unknown Source:0)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1$stage$1.invokeSuspend(Unknown Source:19)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.internal.ScopeCoroutine.afterResume(Scopes.kt:35)\nat kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:98)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.BatchQueueDeviceTest.twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal(BatchQueueDeviceTest.kt:23)\n... 52 trimmed\nCaused by: kotlinx.coroutines.TimeoutCancellationException: Timed out waiting for 30000 ms\nat kotlinx.coroutines.TimeoutKt.TimeoutCancellationException(Timeout.kt:189)\nat kotlinx.coroutines.TimeoutCoroutine.run(Timeout.kt:157)\nat kotlinx.coroutines.EventLoopImplBase$DelayedRunnableTask.run(EventLoop.common.kt:505)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.DefaultExecutor.run(DefaultExecutor.kt:105)\nat java.lang.Thread.run(Thread.java:764)\n"
+            "test": "com.sakugapp.ExtensionUiDeviceTest.initializationError",
+            "message": "org.junit.runners.model.InvalidTestClassError: Invalid test class 'com.sakugapp.ExtensionUiDeviceTest':\n1. Method nativeQuizPlaysAndCountsFiveDistinctQuestionsOnce() should be void\nat org.junit.runners.ParentRunner.validate(ParentRunner.java:525)\nat org.junit.runners.ParentRunner.<init>(ParentRunner.java:92)\nat org.junit.runners.BlockJUnit4ClassRunner.<init>(BlockJUnit4ClassRunner.java:74)\nat androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner.<init>(AndroidJUnit4ClassRunner.java:50)\nat androidx.test.internal.runner.junit4.AndroidJUnit4Builder.runnerForClass(AndroidJUnit4Builder.java:81)\nat org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:70)\nat org.junit.internal.builders.AllDefaultPossibilitiesBuilder.runnerForClass(AllDefaultPossibilitiesBuilder.java:37)\nat androidx.test.internal.runner.AndroidRunnerBuilder.runnerForClass(AndroidRunnerBuilder.java:152)\nat org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:70)\nat androidx.test.internal.runner.DirectTestLoader.doCreateRunner(DirectTestLoader.java:45)\nat androidx.test.internal.runner.TestLoader.getRunnersFor(TestLoader.java:64)\nat androidx.test.internal.runner.TestRequestBuilder.build(TestRequestBuilder.java:842)\nat androidx.test.runner.AndroidJUnitRunner.buildRequest(AndroidJUnitRunner.java:663)\nat androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:437)\nat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2594)\n"
+          },
+          {
+            "test": "com.sakugapp.FrameControlsDeviceTest.rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop",
+            "message": "java.lang.AssertionError: Failed to assert the following: (Text + InputText + EditableText contains '0:00.600' (ignoreCase: false) as substring)\nSemantics of the node:\nNode #3916 at (l=32.0, t=2116.0, r=139.0, b=2148.0)px, Tag: 'ab-interval'\nText = '[A: \u2014 B: \u2014]'\nActions = [ClearTextSubstitution, GetTextLayoutResult, SetTextSubstitution, ShowTextSubstitution]\nHas 7 siblings\nSelector used: (TestTag = 'ab-interval')\n\nat androidx.compose.ui.test.AssertionsKt.assert(Assertions.kt:260)\nat androidx.compose.ui.test.AssertionsKt.assert$default(Assertions.kt:250)\nat androidx.compose.ui.test.AssertionsKt.assertTextContains(Assertions.kt:204)\nat androidx.compose.ui.test.AssertionsKt.assertTextContains$default(Assertions.kt:200)\nat com.sakugapp.FrameControlsDeviceTest.rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop(FrameControlsDeviceTest.kt:59)\n"
           }
         ]
       },
       {
-        "artifact": "player-community-build-reports",
+        "artifact": "extension-build-reports",
         "counts": {
           "name": "com.sakugapp.BackupImportTest",
           "tests": "8",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:36:16.582Z",
+          "timestamp": "2026-11-06T11:49:20.554Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.197"
+          "time": "0.282"
         },
         "failures": []
       },
       {
-        "artifact": "player-community-build-reports",
+        "artifact": "extension-build-reports",
         "counts": {
           "name": "com.sakugapp.BatchQueueTest",
-          "tests": "3",
+          "tests": "4",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:36:16.781Z",
+          "timestamp": "2026-11-06T11:49:20.839Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.031"
+          "time": "0.025"
         },
         "failures": []
       },
       {
-        "artifact": "player-community-build-reports",
+        "artifact": "extension-build-reports",
         "counts": {
           "name": "com.sakugapp.AppearanceAndDownloadTest",
           "tests": "11",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:36:13.381Z",
+          "timestamp": "2026-11-06T11:49:17.631Z",
           "hostname": "runnervm7aw5e",
-          "time": "3.198"
+          "time": "2.916"
         },
         "failures": []
       },
       {
-        "artifact": "player-community-build-reports",
+        "artifact": "extension-build-reports",
         "counts": {
           "name": "com.sakugapp.BrowsingUpgradeTest",
           "tests": "7",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:36:16.813Z",
+          "timestamp": "2026-11-06T11:49:20.866Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.102"
+          "time": "0.123"
         },
         "failures": []
       },
       {
-        "artifact": "player-community-build-reports",
+        "artifact": "extension-build-reports",
         "counts": {
           "name": "com.sakugapp.CommunityStateTest",
           "tests": "3",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:36:16.918Z",
+          "timestamp": "2026-11-06T11:49:20.992Z",
           "hostname": "runnervm7aw5e",
-          "time": "1.148"
+          "time": "14.481"
         },
         "failures": []
       },
       {
-        "artifact": "player-community-build-reports",
+        "artifact": "extension-build-reports",
         "counts": {
           "name": "com.sakugapp.CommunityTest",
           "tests": "16",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:36:18.071Z",
+          "timestamp": "2026-11-06T11:49:35.480Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.488"
+          "time": "9.109"
         },
         "failures": []
       },
       {
-        "artifact": "player-community-build-reports",
+        "artifact": "extension-build-reports",
         "counts": {
           "name": "com.sakugapp.DataTest",
           "tests": "15",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:36:18.564Z",
+          "timestamp": "2026-11-06T11:49:44.594Z",
           "hostname": "runnervm7aw5e",
           "time": "0.01"
         },
         "failures": []
       },
       {
-        "artifact": "player-community-build-reports",
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.DateAndTopicsTest",
+          "tests": "4",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T11:49:44.610Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.025"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.DiscoveryTest",
+          "tests": "18",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T11:49:44.637Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.095"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.ExtensionHttpTest",
+          "tests": "2",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T11:49:44.733Z",
+          "hostname": "runnervm7aw5e",
+          "time": "1.78"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
         "counts": {
           "name": "com.sakugapp.FeedViewModelTest",
           "tests": "13",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:36:18.578Z",
+          "timestamp": "2026-11-06T11:49:46.516Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.05"
+          "time": "0.078"
         },
         "failures": []
       },
       {
-        "artifact": "player-community-build-reports",
+        "artifact": "extension-build-reports",
         "counts": {
           "name": "com.sakugapp.FramePositionTest",
           "tests": "2",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:36:18.630Z",
+          "timestamp": "2026-11-06T11:49:46.599Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.018"
+          "time": "0.021"
         },
         "failures": []
       },
       {
-        "artifact": "player-community-build-reports",
+        "artifact": "extension-build-reports",
         "counts": {
           "name": "com.sakugapp.FullThemeTest",
           "tests": "2",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:36:18.651Z",
+          "timestamp": "2026-11-06T11:49:46.621Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.01"
+          "time": "0.012"
         },
         "failures": []
       },
       {
-        "artifact": "player-community-build-reports",
+        "artifact": "extension-build-reports",
         "counts": {
           "name": "com.sakugapp.HierarchyBackupTest",
           "tests": "5",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:36:18.662Z",
+          "timestamp": "2026-11-06T11:49:46.634Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.024"
+          "time": "0.023"
         },
         "failures": []
       },
       {
-        "artifact": "player-community-build-reports",
+        "artifact": "extension-build-reports",
         "counts": {
           "name": "com.sakugapp.LibraryCodecTest",
           "tests": "5",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:36:18.687Z",
+          "timestamp": "2026-11-06T11:49:46.658Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.024"
+          "time": "0.029"
         },
         "failures": []
       },
       {
-        "artifact": "player-community-build-reports",
+        "artifact": "extension-build-reports",
         "counts": {
           "name": "com.sakugapp.LiveFixtureTest",
           "tests": "2",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:36:18.714Z",
+          "timestamp": "2026-11-06T11:49:46.693Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.004"
+          "time": "0.002"
         },
         "failures": []
       },
       {
-        "artifact": "player-community-build-reports",
+        "artifact": "extension-build-reports",
         "counts": {
           "name": "com.sakugapp.PersonalDataTest",
           "tests": "9",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:36:18.720Z",
+          "timestamp": "2026-11-06T11:49:46.700Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.119"
+          "time": "0.203"
         },
         "failures": []
       },
       {
-        "artifact": "player-community-build-reports",
+        "artifact": "extension-build-reports",
         "counts": {
           "name": "com.sakugapp.PersonalizationTest",
           "tests": "4",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:36:18.843Z",
+          "timestamp": "2026-11-06T11:49:46.904Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.017"
+          "time": "0.03"
         },
         "failures": []
       },
       {
-        "artifact": "player-community-build-reports",
+        "artifact": "extension-build-reports",
         "counts": {
           "name": "com.sakugapp.PlayerToolsTest",
           "tests": "3",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:36:18.863Z",
+          "timestamp": "2026-11-06T11:49:46.935Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.004"
+          "time": "0.005"
         },
         "failures": []
       },
       {
-        "artifact": "player-community-build-reports",
-        "counts": {
-          "name": "com.sakugapp.RepositoryTest",
-          "tests": "7",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-06T03:36:18.875Z",
-          "hostname": "runnervm7aw5e",
-          "time": "6.523"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "player-community-build-reports",
+        "artifact": "extension-build-reports",
         "counts": {
           "name": "com.sakugapp.PreferencesAndFramesTest",
           "tests": "9",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:36:18.868Z",
+          "timestamp": "2026-11-06T11:49:46.945Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.006"
+          "time": "0.009"
         },
         "failures": []
       },
       {
-        "artifact": "player-community-build-reports",
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.QuizAndFavoritesTest",
+          "tests": "8",
+          "skipped": "0",
+          "failures": "1",
+          "errors": "0",
+          "timestamp": "2026-11-06T11:49:46.956Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.09"
+        },
+        "failures": [
+          {
+            "test": "com.sakugapp.QuizAndFavoritesTest.answerIsLockedAndAccuracyUsesActualCompletedCount",
+            "message": "java.lang.AssertionError: expected:<50.0> but was:<100.0>\n\tat org.junit.Assert.fail(Assert.java:89)\n\tat org.junit.Assert.failNotEquals(Assert.java:835)\n\tat org.junit.Assert.assertEquals(Assert.java:555)\n\tat org.junit.Assert.assertEquals(Assert.java:685)\n\tat com.sakugapp.QuizAndFavoritesTest.answerIsLockedAndAccuracyUsesActualCompletedCount(QuizAndFavoritesTest.kt:32)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:569)\n\tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)\n\tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\n\tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)\n\tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\n\tat org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)\n\tat org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)\n\tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)\n\tat org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)\n\tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)\n\tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)\n\tat org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)\n\tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)\n\tat org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)\n\tat org.junit.runners.ParentRunner.run(ParentRunner.java:413)\n\tat org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.runTestClass(JUnitTestClassExecutor.java:112)\n\tat org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:58)\n\tat org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:40)\n\tat org.gradle.api.internal.tasks.testing.junit.AbstractJUnitTestClassProcessor.processTestClass(AbstractJUnitTestClassProcessor.java:54)\n\tat org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:53)\n\tat jdk.internal.reflect.GeneratedMethodAccessor8.invoke(Unknown Source)\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:569)\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\n\tat org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)\n\tat org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:92)\n\tat jdk.proxy1/jdk.proxy1.$Proxy4.processTestClass(Unknown Source)\n\tat org.gradle.api.internal.tasks.testing.worker.TestWorker$2.run(TestWorker.java:183)\n\tat org.gradle.api.internal.tasks.testing.worker.TestWorker.executeAndMaintainThreadName(TestWorker.java:132)\n\tat org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:103)\n\tat org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:63)\n\tat org.gradle.process.internal.worker.child.ActionExecutionWorker.execute(ActionExecutionWorker.java:56)\n\tat org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:121)\n\tat org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:71)\n\tat worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)\n\tat worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)\n"
+          }
+        ]
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.RepositoryTest",
+          "tests": "7",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T11:49:47.049Z",
+          "hostname": "runnervm7aw5e",
+          "time": "6.622"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
         "counts": {
           "name": "com.sakugapp.SearchAndCaptionTest",
           "tests": "10",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:36:25.403Z",
+          "timestamp": "2026-11-06T11:49:53.677Z",
           "hostname": "runnervm7aw5e",
-          "time": "25.38"
+          "time": "25.355"
         },
         "failures": []
       },
       {
-        "artifact": "player-community-build-reports",
+        "artifact": "extension-build-reports",
         "counts": {
           "name": "com.sakugapp.StabilityRegressionTest",
           "tests": "1",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:36:50.784Z",
+          "timestamp": "2026-11-06T11:50:19.033Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.069"
+          "time": "0.015"
         },
         "failures": []
       },
       {
-        "artifact": "player-community-build-reports",
+        "artifact": "extension-build-reports",
         "counts": {
           "name": "com.sakugapp.TagSuggestionsTest",
           "tests": "3",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:36:50.856Z",
+          "timestamp": "2026-11-06T11:50:19.049Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.133"
+          "time": "0.093"
         },
         "failures": []
+      }
+    ],
+    "conclusion": "failure",
+    "jobs": [
+      {
+        "name": "build",
+        "conclusion": "failure",
+        "errors": "See failed job logs"
+      },
+      {
+        "name": "devices (35, pixel_c)",
+        "conclusion": "failure",
+        "errors": "See failed job logs"
+      },
+      {
+        "name": "devices (28, Nexus S)",
+        "conclusion": "failure",
+        "errors": "See failed job logs"
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "extension-device-reports-28",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42212715519/artifacts/13500535763"
+      },
+      {
+        "name": "extension-device-reports-35",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42212715519/artifacts/13500312162"
+      },
+      {
+        "name": "extension-build-reports",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42212715519/artifacts/13500211727"
       }
     ]
   }
