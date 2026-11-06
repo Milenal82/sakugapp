@@ -1,22 +1,60 @@
 [
   {
-    "run": "42156199053",
-    "commit": "8f858a3a273d328e1da2e112bc4335ee8a2b7e71",
-    "status": "in_progress",
+    "run": "42157340261",
+    "commit": "6f1d0aac9140fad15950002b24673dfdeedf7c9a",
+    "status": "completed",
     "reports": [
       {
-        "artifact": "player-community-build-reports",
+        "artifact": "player-community-device-28-pixel_c",
         "counts": {
-          "name": "com.sakugapp.AppearanceAndDownloadTest",
-          "tests": "11",
+          "name": "com.sakugapp.CommunityUiDeviceTest",
+          "tests": "13",
+          "failures": "1",
+          "errors": "0",
           "skipped": "0",
+          "time": "138.143",
+          "timestamp": "2026-11-06T03:40:26",
+          "hostname": "localhost"
+        },
+        "failures": [
+          {
+            "test": "com.sakugapp.BatchQueueDeviceTest.twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal",
+            "message": "java.lang.AssertionError: two simultaneous requests: requests=0; error=null; tasks=901:FAILED:0:directory_access, 902:FAILED:0:directory_access; journal=2\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.invokeSuspend$stage(BatchQueueDeviceTest.kt:41)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.access$invokeSuspend$stage(Unknown Source:0)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1$stage$1.invokeSuspend(Unknown Source:19)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.internal.ScopeCoroutine.afterResume(Scopes.kt:35)\nat kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:98)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.BatchQueueDeviceTest.twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal(BatchQueueDeviceTest.kt:23)\n... 52 trimmed\nCaused by: kotlinx.coroutines.TimeoutCancellationException: Timed out waiting for 30000 ms\nat kotlinx.coroutines.TimeoutKt.TimeoutCancellationException(Timeout.kt:189)\nat kotlinx.coroutines.TimeoutCoroutine.run(Timeout.kt:157)\nat kotlinx.coroutines.EventLoopImplBase$DelayedRunnableTask.run(EventLoop.common.kt:505)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.DefaultExecutor.run(DefaultExecutor.kt:105)\nat java.lang.Thread.run(Thread.java:764)\n"
+          }
+        ]
+      },
+      {
+        "artifact": "player-community-device-35-Nexus 6",
+        "counts": {
+          "name": "com.sakugapp.CommunityUiDeviceTest",
+          "tests": "13",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:25:40.639Z",
-          "hostname": "runnervm7aw5e",
-          "time": "3.58"
+          "skipped": "0",
+          "time": "137.086",
+          "timestamp": "2026-11-06T03:40:18",
+          "hostname": "localhost"
         },
         "failures": []
+      },
+      {
+        "artifact": "player-community-device-28-Nexus S",
+        "counts": {
+          "name": "com.sakugapp.CommunityUiDeviceTest",
+          "tests": "13",
+          "failures": "1",
+          "errors": "0",
+          "skipped": "0",
+          "time": "92.07",
+          "timestamp": "2026-11-06T03:39:54",
+          "hostname": "localhost"
+        },
+        "failures": [
+          {
+            "test": "com.sakugapp.BatchQueueDeviceTest.twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal",
+            "message": "java.lang.AssertionError: two simultaneous requests: requests=0; error=null; tasks=901:FAILED:0:directory_access, 902:FAILED:0:directory_access; journal=2\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.invokeSuspend$stage(BatchQueueDeviceTest.kt:41)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.access$invokeSuspend$stage(Unknown Source:0)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1$stage$1.invokeSuspend(Unknown Source:19)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.internal.ScopeCoroutine.afterResume(Scopes.kt:35)\nat kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:98)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.BatchQueueDeviceTest.twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal(BatchQueueDeviceTest.kt:23)\n... 52 trimmed\nCaused by: kotlinx.coroutines.TimeoutCancellationException: Timed out waiting for 30000 ms\nat kotlinx.coroutines.TimeoutKt.TimeoutCancellationException(Timeout.kt:189)\nat kotlinx.coroutines.TimeoutCoroutine.run(Timeout.kt:157)\nat kotlinx.coroutines.EventLoopImplBase$DelayedRunnableTask.run(EventLoop.common.kt:505)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.DefaultExecutor.run(DefaultExecutor.kt:105)\nat java.lang.Thread.run(Thread.java:764)\n"
+          }
+        ]
       },
       {
         "artifact": "player-community-build-reports",
@@ -26,9 +64,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:25:44.224Z",
+          "timestamp": "2026-11-06T03:36:16.582Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.186"
+          "time": "0.197"
         },
         "failures": []
       },
@@ -40,9 +78,23 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:25:44.413Z",
+          "timestamp": "2026-11-06T03:36:16.781Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.032"
+          "time": "0.031"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "player-community-build-reports",
+        "counts": {
+          "name": "com.sakugapp.AppearanceAndDownloadTest",
+          "tests": "11",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T03:36:13.381Z",
+          "hostname": "runnervm7aw5e",
+          "time": "3.198"
         },
         "failures": []
       },
@@ -54,9 +106,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:25:44.447Z",
+          "timestamp": "2026-11-06T03:36:16.813Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.12"
+          "time": "0.102"
         },
         "failures": []
       },
@@ -68,9 +120,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:25:44.571Z",
+          "timestamp": "2026-11-06T03:36:16.918Z",
           "hostname": "runnervm7aw5e",
-          "time": "1.195"
+          "time": "1.148"
         },
         "failures": []
       },
@@ -82,9 +134,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:25:45.769Z",
+          "timestamp": "2026-11-06T03:36:18.071Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.499"
+          "time": "0.488"
         },
         "failures": []
       },
@@ -96,9 +148,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:25:46.271Z",
+          "timestamp": "2026-11-06T03:36:18.564Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.017"
+          "time": "0.01"
         },
         "failures": []
       },
@@ -110,9 +162,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:25:46.295Z",
+          "timestamp": "2026-11-06T03:36:18.578Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.069"
+          "time": "0.05"
         },
         "failures": []
       },
@@ -124,9 +176,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:25:46.369Z",
+          "timestamp": "2026-11-06T03:36:18.630Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.022"
+          "time": "0.018"
         },
         "failures": []
       },
@@ -138,7 +190,7 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:25:46.398Z",
+          "timestamp": "2026-11-06T03:36:18.651Z",
           "hostname": "runnervm7aw5e",
           "time": "0.01"
         },
@@ -152,9 +204,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:25:46.413Z",
+          "timestamp": "2026-11-06T03:36:18.662Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.031"
+          "time": "0.024"
         },
         "failures": []
       },
@@ -166,9 +218,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:25:46.447Z",
+          "timestamp": "2026-11-06T03:36:18.687Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.027"
+          "time": "0.024"
         },
         "failures": []
       },
@@ -180,9 +232,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:25:46.476Z",
+          "timestamp": "2026-11-06T03:36:18.714Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.001"
+          "time": "0.004"
         },
         "failures": []
       },
@@ -194,9 +246,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:25:46.479Z",
+          "timestamp": "2026-11-06T03:36:18.720Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.145"
+          "time": "0.119"
         },
         "failures": []
       },
@@ -208,9 +260,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:25:46.626Z",
+          "timestamp": "2026-11-06T03:36:18.843Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.027"
+          "time": "0.017"
         },
         "failures": []
       },
@@ -222,23 +274,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:25:46.660Z",
+          "timestamp": "2026-11-06T03:36:18.863Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.006"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "player-community-build-reports",
-        "counts": {
-          "name": "com.sakugapp.PreferencesAndFramesTest",
-          "tests": "9",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-06T03:25:46.668Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.018"
+          "time": "0.004"
         },
         "failures": []
       },
@@ -250,9 +288,23 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:25:46.694Z",
+          "timestamp": "2026-11-06T03:36:18.875Z",
           "hostname": "runnervm7aw5e",
-          "time": "6.519"
+          "time": "6.523"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "player-community-build-reports",
+        "counts": {
+          "name": "com.sakugapp.PreferencesAndFramesTest",
+          "tests": "9",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T03:36:18.868Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.006"
         },
         "failures": []
       },
@@ -264,9 +316,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:25:53.216Z",
+          "timestamp": "2026-11-06T03:36:25.403Z",
           "hostname": "runnervm7aw5e",
-          "time": "25.388"
+          "time": "25.38"
         },
         "failures": []
       },
@@ -278,9 +330,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:26:18.611Z",
+          "timestamp": "2026-11-06T03:36:50.784Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.075"
+          "time": "0.069"
         },
         "failures": []
       },
@@ -292,49 +344,11 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:26:18.693Z",
+          "timestamp": "2026-11-06T03:36:50.856Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.131"
+          "time": "0.133"
         },
         "failures": []
-      },
-      {
-        "artifact": "player-community-device-28-pixel_c",
-        "counts": {
-          "name": "com.sakugapp.CommunityUiDeviceTest",
-          "tests": "13",
-          "failures": "1",
-          "errors": "0",
-          "skipped": "0",
-          "time": "125.922",
-          "timestamp": "2026-11-06T03:28:15",
-          "hostname": "localhost"
-        },
-        "failures": [
-          {
-            "test": "com.sakugapp.BatchQueueDeviceTest.twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal",
-            "message": "kotlinx.coroutines.TimeoutCancellationException: Timed out waiting for 30000 ms\nat kotlinx.coroutines.TimeoutKt.TimeoutCancellationException(Timeout.kt:189)\nat kotlinx.coroutines.TimeoutCoroutine.run(Timeout.kt:157)\nat kotlinx.coroutines.EventLoopImplBase$DelayedRunnableTask.run(EventLoop.common.kt:505)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.DefaultExecutor.run(DefaultExecutor.kt:105)\nat java.lang.Thread.run(Thread.java:764)\n"
-          }
-        ]
-      },
-      {
-        "artifact": "player-community-device-28-Nexus S",
-        "counts": {
-          "name": "com.sakugapp.CommunityUiDeviceTest",
-          "tests": "13",
-          "failures": "1",
-          "errors": "0",
-          "skipped": "0",
-          "time": "97.32",
-          "timestamp": "2026-11-06T03:28:45",
-          "hostname": "localhost"
-        },
-        "failures": [
-          {
-            "test": "com.sakugapp.BatchQueueDeviceTest.twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal",
-            "message": "kotlinx.coroutines.TimeoutCancellationException: Timed out waiting for 30000 ms\nat kotlinx.coroutines.TimeoutKt.TimeoutCancellationException(Timeout.kt:189)\nat kotlinx.coroutines.TimeoutCoroutine.run(Timeout.kt:157)\nat kotlinx.coroutines.EventLoopImplBase$DelayedRunnableTask.run(EventLoop.common.kt:505)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.DefaultExecutor.run(DefaultExecutor.kt:105)\nat java.lang.Thread.run(Thread.java:764)\n"
-          }
-        ]
       }
     ]
   }
