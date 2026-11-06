@@ -1,60 +1,83 @@
 {
-  "source_commit": "717b42d13ec044b61d88891b763a425d11892e69",
-  "run_id": "42195156901",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42195156901",
-  "captured_utc": "2026-11-06T09:29:53.529821+00:00",
-  "validation_result": "cancelled",
+  "source_commit": "999b7ad0308216fca8ba1c3342f9f002726ef813",
+  "run_id": "42195285384",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42195285384",
+  "captured_utc": "2026-11-06T09:35:22.244435+00:00",
+  "validation_result": "success",
   "scope": "Search/Posts/Profile navigation, real consumed scroll, fullscreen isolation, local profile images, bounded discovery fixtures, backup restore and native frame controls on API 28/35.",
   "jobs": [
     {
+      "name": "build",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42195285384/job/127817620635",
+      "id": 127817620635
+    },
+    {
       "name": "devices (35, pixel_c)",
       "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42195156901/job/127816880825",
-      "id": 127816880825
+      "conclusion": "success",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42195285384/job/127817620899",
+      "id": 127817620899
     },
     {
       "name": "devices (28, Nexus S)",
       "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42195156901/job/127816881241",
-      "id": 127816881241
-    },
-    {
-      "name": "build",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42195156901/job/127816881298",
-      "id": 127816881298
+      "conclusion": "success",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42195285384/job/127817621322",
+      "id": 127817621322
     },
     {
       "name": "evidence",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42195156901/job/127817552107",
-      "id": 127817552107
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42195285384/job/127819872627",
+      "id": 127819872627
     }
   ],
-  "artifacts": [],
-  "test_counts": {},
-  "lint": {},
-  "failures": [
+  "artifacts": [
     {
-      "job": "devices (35, pixel_c)",
-      "conclusion": "cancelled",
-      "message": "2026-11-06T09:29:29.1585165Z ##[error]The operation was canceled."
+      "name": "discovery-build-reports",
+      "bytes": 77544,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42195285384/artifacts/13492440473"
     },
     {
-      "job": "devices (28, Nexus S)",
-      "conclusion": "cancelled",
-      "message": "2026-11-06T09:29:29.8770068Z ##[error]The operation was canceled."
+      "name": "discovery-device-reports-35",
+      "bytes": 439830,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42195285384/artifacts/13492226192"
     },
     {
-      "job": "build",
-      "conclusion": "cancelled",
-      "message": "2026-11-06T09:29:42.3920915Z ##[error]The operation was canceled."
+      "name": "discovery-device-reports-28",
+      "bytes": 209545,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42195285384/artifacts/13491632721"
+    },
+    {
+      "name": "discovery-debug-apk",
+      "bytes": 18671934,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42195285384/artifacts/13491309301"
     }
   ],
+  "test_counts": {
+    "device": {
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "debug_unit": {
+      "tests": 157,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "lint": {
+    "discovery-build-reports/reports/lint-results-debug.xml": {
+      "errors": 0,
+      "warnings": 66
+    }
+  },
+  "failures": [],
   "device_diagnostics": [],
   "scroll_profile": {},
   "main_automatic_checks": {
