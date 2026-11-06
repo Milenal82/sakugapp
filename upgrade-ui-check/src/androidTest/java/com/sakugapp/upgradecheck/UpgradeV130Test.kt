@@ -16,7 +16,7 @@ class UpgradeV130Test {
  private val args get()=InstrumentationRegistry.getArguments()
  private val legacy get()=args.getString("stage")=="seed"
  private fun find(selector:BySelector)=checkNotNull(device.wait(Until.findObject(selector),20000)){"Missing native control: $selector"}
- private fun click(selector:BySelector){find(selector).click(100)}
+ private fun click(selector:BySelector){repeat(3){attempt->try{find(selector).click(100);return}catch(e:StaleObjectException){if(attempt==2)throw e;device.waitForIdle()}}}
  private fun visible(selector:BySelector):UiObject2{
   repeat(18){device.findObject(selector)?.takeIf{it.visibleBounds.height()>0}?.let{return it};device.swipe(device.displayWidth/2,(device.displayHeight*.8).toInt(),device.displayWidth/2,(device.displayHeight*.3).toInt(),22)}
   error("Cannot scroll to $selector")

@@ -70,6 +70,11 @@ class ReleaseUiDeviceTest {
   ui.onNodeWithTag("apply-combined-search").assertIsDisplayed();assertEquals("",feed.state.value.query)
   ui.onNodeWithTag("clear-date").performScrollTo().performClick()
   ui.onNodeWithTag("query-expression").performScrollTo().assertTextContains("~tag1 ~tag2 -excluded score:>=3 order:score rating:safe")
+  ui.onNodeWithTag("query-expression").performClick()
+  fun ime():Int {var pixels=0;ui.runOnUiThread{pixels=androidx.core.view.ViewCompat.getRootWindowInsets(ui.activity.window.decorView)?.getInsets(androidx.core.view.WindowInsetsCompat.Type.ime())?.bottom ?: 0};return pixels}
+  ui.waitUntil(15000){ime()>0};ui.waitForIdle()
+  val bottom=ui.onNodeWithTag("apply-combined-search").assertIsDisplayed().fetchSemanticsNode().boundsInRoot.bottom
+  assertTrue("Apply stays above the real IME",bottom<=UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).displayHeight-ime()+2)
   UiEvidence.capture("v130-search-groups.png")
   ui.onNodeWithTag("apply-combined-search").performClick()
   ui.waitUntil(10000){feed.searchMode.value && !feed.state.value.loading}

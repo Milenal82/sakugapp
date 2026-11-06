@@ -36,7 +36,7 @@ import kotlinx.coroutines.*
     val suggestions=rememberSuggestions(query,focused,app.suggestions)
     fun submit(value:String){keyboard?.hide();search(value)}
     Box(Modifier.fillMaxSize(),contentAlignment=Alignment.TopCenter){Column(Modifier.widthIn(max=600.dp).fillMaxWidth().verticalScroll(rememberScrollState()).imePadding().padding(16.dp).testTag("search-home"),verticalArrangement=Arrangement.spacedBy(FeatureStyle.gap)){
-        OutlinedTextField(query,{query=it},modifier=Modifier.fillMaxWidth().onFocusChanged{focused=it.isFocused}.testTag("home-search-input"),placeholder={Text(text(R.string.ui_home_search_hint))},singleLine=true,
+        OutlinedTextField(query,{query=it},modifier=Modifier.fillMaxWidth().onFocusChanged{focused=it.isFocused}.testTag("home-search-input"),placeholder={Text(text(R.string.ui_home_search_hint),maxLines=1,overflow=TextOverflow.Ellipsis)},singleLine=true,
             leadingIcon={Icon(painterResource(R.drawable.ic_search),null)},trailingIcon={Row{if(query.text.isNotEmpty())ActionIcon(R.drawable.ic_close,text(R.string.ui_clear_search),{query=TextFieldValue("")});ActionIcon(R.drawable.ic_search,text(R.string.ui_search),{submit(query.text)},Modifier.testTag("home-submit"))}},keyboardOptions=KeyboardOptions(imeAction=ImeAction.Search),keyboardActions=KeyboardActions(onSearch={submit(query.text)}))
         SearchSyntax.warnings(query.text).forEach{Text(translateMessage(it),style=MaterialTheme.typography.labelSmall)}
         TagSuggestionsMenu(suggestions,settings.lightTheme){tag->if(query.composition==null && query.selection.collapsed){val edit=SearchEditing.complete(query.text,query.selection.start,tag);query=TextFieldValue(edit.text,TextRange(edit.cursor))}}
@@ -78,12 +78,13 @@ import kotlinx.coroutines.*
                 LocalAvatar(profile,68)
                 Column(Modifier.weight(1f)){
                     Text(displayedName,style=MaterialTheme.typography.titleMedium)
-                    FlowRow(horizontalArrangement=Arrangement.spacedBy(0.dp)){
+                    BoxWithConstraints(Modifier.fillMaxWidth()){
+                    FlowRow(maxItemsInEachRow=if(maxWidth<192.dp)2 else 4,horizontalArrangement=Arrangement.End){
                         ActionIcon(R.drawable.ic_profile,text(R.string.ui_change_avatar),{choose.launch(androidx.activity.result.PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))},Modifier.testTag("change-avatar"),enabled=!busy,iconSize=22.dp)
                         ActionIcon(R.drawable.ic_edit,text(R.string.ui_edit_nickname),{name=displayedName;edit=true},Modifier.testTag("edit-nickname"),iconSize=22.dp)
                         ActionIcon(R.drawable.ic_rotate,text(R.string.ui_default_avatar),{scope.launch{try{app.localProfileStore.resetAvatar();error=false}catch(e:CancellationException){throw e}catch(_:Exception){error=true}}},Modifier.testTag("reset-avatar"),enabled=!busy,iconSize=20.dp)
                         ActionIcon(R.drawable.ic_close,text(R.string.ui_default_nickname),{scope.launch{try{app.localProfileStore.nickname(null);error=false}catch(e:CancellationException){throw e}catch(_:Exception){error=true}}},Modifier.testTag("reset-nickname"),iconSize=20.dp)
-                    }
+                    }}
                 }
             }
             if(busy)LinearProgressIndicator(Modifier.fillMaxWidth())

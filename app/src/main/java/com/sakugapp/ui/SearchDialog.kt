@@ -21,6 +21,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.sakugapp.data.*
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -48,8 +50,12 @@ import com.sakugapp.data.*
         val edit=SearchEditing.complete(value.text,value.selection.start,tag);return TextFieldValue(edit.text,TextRange(edit.cursor))
     }
     val finalQuery=SearchSyntax.filters(expression.text,order,rating)
-    AlertDialog(onDismissRequest=close,title={Text(text(R.string.ui_search_tools))},text={
-        Column(Modifier.heightIn(max=500.dp).verticalScroll(rememberScrollState()),verticalArrangement=Arrangement.spacedBy(8.dp)) {
+    Dialog(onDismissRequest=close,properties=DialogProperties(usePlatformDefaultWidth=false,decorFitsSystemWindows=false)){
+        BoxWithConstraints(Modifier.fillMaxSize().systemBarsPadding().imePadding().padding(12.dp),contentAlignment=Alignment.Center){
+            Surface(Modifier.widthIn(max=640.dp).fillMaxWidth().heightIn(max=maxHeight),shape=FeatureStyle.shape,color=MaterialTheme.colorScheme.surfaceContainerLow){
+                Column{
+                    Text(text(R.string.ui_search_tools),style=MaterialTheme.typography.titleLarge,modifier=Modifier.padding(horizontal=16.dp,vertical=12.dp))
+                    Column(Modifier.weight(1f,false).verticalScroll(rememberScrollState()).padding(horizontal=12.dp),verticalArrangement=Arrangement.spacedBy(8.dp)) {
             FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp),verticalArrangement=Arrangement.spacedBy(8.dp)) {
                 SearchToolTile(R.drawable.ic_edit,text(R.string.ui_compose_query),onClick={guide=false},selected=!guide,modifier=Modifier.testTag("edit-query-tool"))
                 SearchToolTile(R.drawable.ic_book,text(R.string.ui_search_reference_language),onClick={guide=true},selected=guide,modifier=Modifier.testTag("search-reference-tool"))
@@ -104,8 +110,16 @@ import com.sakugapp.data.*
                 Text(finalQuery,style=MaterialTheme.typography.bodySmall)
                 SearchSyntax.warnings(finalQuery).forEach { Text(translateMessage(it),color=MaterialTheme.colorScheme.tertiary,style=MaterialTheme.typography.bodySmall) }
             }
+                    }
+                    HorizontalDivider(color=MaterialTheme.colorScheme.outlineVariant)
+                    Row(Modifier.fillMaxWidth().padding(horizontal=8.dp,vertical=4.dp),horizontalArrangement=Arrangement.End){
+                        TextButton(contentPadding=textButtonPadding(),onClick=close){Text(text(R.string.ui_cancel))}
+                        TextButton(contentPadding=textButtonPadding(),onClick={apply(finalQuery)},modifier=Modifier.testTag("apply-combined-search")){Text(text(R.string.ui_apply_search))}
+                    }
+                }
+            }
         }
-    },confirmButton={TextButton(contentPadding=textButtonPadding(),onClick={apply(finalQuery)},modifier=Modifier.testTag("apply-combined-search")){Text(text(R.string.ui_apply_search))}},dismissButton={TextButton(contentPadding=textButtonPadding(),onClick=close){Text(text(R.string.ui_cancel))}})
+    }
 }
 
 @Composable private fun SearchFilterSection(title:String,content:@Composable ColumnScope.()->Unit){

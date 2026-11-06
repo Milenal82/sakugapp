@@ -27,18 +27,19 @@ class BatchQueueDeviceTest {
         device.executeShellCommand("mkdir -p /sdcard/Download/$directory")
         ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithText("Settings").performClick()
         ui.onAllNodesWithText(ui.activity.getString(R.string.ui_change_directory))[DownloadStorage.Kind.BATCH.ordinal].performScrollTo().performClick()
-        device.wait(Until.findObject(By.desc("Show roots")),3000)?.click()
-        device.wait(Until.findObject(By.text("Downloads")),3000)?.click()
+        fun clickNative(selector:BySelector,timeout:Long=3000):Boolean{
+            repeat(3){attempt->try{val node=device.wait(Until.findObject(selector),timeout) ?: return false;node.click();return true}catch(e:StaleObjectException){if(attempt==2)throw e;device.waitForIdle()}}
+            return false
+        }
+        device.waitForIdle();clickNative(By.desc("Show roots"));clickNative(By.text("Downloads"))
         if(device.wait(Until.findObject(By.text(directory)),3000)==null){
             val root=By.text(java.util.regex.Pattern.compile("(?i)(internal storage|.*sdk.*|.*emulator.*|.*phone.*)"))
-            if(device.findObject(root)==null)device.findObject(By.desc("Show roots"))?.click()
-            checkNotNull(device.wait(Until.findObject(root),10000)).click()
-            device.wait(Until.findObject(By.text("Download")),3000)?.click()
+            if(device.findObject(root)==null)clickNative(By.desc("Show roots"))
+            check(clickNative(root,10000));clickNative(By.text("Download"))
         }
-        checkNotNull(device.wait(Until.findObject(By.text(directory)),10000)).click()
-        val choose=device.wait(Until.findObject(By.res("com.android.documentsui:id/action_menu_select")),3000)
-            ?: device.wait(Until.findObject(By.text(java.util.regex.Pattern.compile("(?i)(use this folder|select|select folder)"))),10000)
-        checkNotNull(choose).click();device.wait(Until.findObject(By.text(java.util.regex.Pattern.compile("(?i)allow"))),2000)?.click()
+        check(clickNative(By.text(directory),10000))
+        check(clickNative(By.res("com.android.documentsui:id/action_menu_select")) || clickNative(By.text(java.util.regex.Pattern.compile("(?i)(use this folder|select|select folder)")),10000))
+        clickNative(By.text(java.util.regex.Pattern.compile("(?i)allow")),2000)
         ui.waitUntil(15000){storage.directory(DownloadStorage.Kind.BATCH)?.toString()?.contains(directory)==true}
     }
     @Test fun productionForegroundServiceKeepsDownloadingAfterActivityGoesToBackground()=runBlocking{

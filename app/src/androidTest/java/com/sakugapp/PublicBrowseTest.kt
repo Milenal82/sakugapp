@@ -19,6 +19,17 @@ class PublicBrowseTest {
         node.config.getOrNull(androidx.compose.ui.semantics.SemanticsProperties.Text)?.any{Regex("$index / [0-9]+").matches(it.text)}==true
     }
     @org.junit.Before fun selectPostsEntry(){enterPostsForLegacyTest(ui)}
+    @Test fun deployedDateRangesAndRandomQueryRespectActualPublicFilters()=kotlinx.coroutines.runBlocking<Unit>{
+        val repo=com.sakugapp.data.SakugaRepository(pageSize=3)
+        val original=repo.page("",1).posts.first{it.createdAt!=null}
+        val day=java.time.Instant.ofEpochSecond(original.createdAt!!).atZone(java.time.ZoneOffset.UTC).toLocalDate()
+        val range=com.sakugapp.data.CalendarRange(day.minusDays(1),day.plusDays(1)).token
+        assertEquals(listOf(original.id),repo.page("id:${original.id} $range",1).posts.map{it.id})
+        assertTrue(repo.page("id:${original.id} date:1970-01-01...1970-01-02",1).posts.isEmpty())
+        val random=repo.page("-production_materials -presumed -artist_unknown order:random",1).posts
+        assertTrue("Random query returns actual public posts",random.isNotEmpty())
+        assertTrue(random.all{post->post.tags.none{it.name in setOf("production_materials","presumed","artist_unknown")}})
+    }
     @Test fun actualPostSearchDetailsPlaybackAndFrameAnalysis(){
         ui.onNodeWithTag("search-entry").performClick()
         ui.onNode(hasSetTextAction()).performTextReplacement("id:319947")
@@ -50,12 +61,12 @@ class PublicBrowseTest {
         ui.onNodeWithTag("toggle-fullscreen").performScrollTo().performClick();ui.waitForIdle();ui.onNodeWithTag("video-gestures").performTouchInput{click(androidx.compose.ui.geometry.Offset(width*.25f,height*.3f))};Thread.sleep(400);ui.waitForIdle();ui.onNodeWithTag("toggle-fullscreen").assertExists()
         ui.onNodeWithTag("toggle-fullscreen").performClick()
         ui.onNodeWithTag("step--3").performScrollTo().performClick()
-        ui.waitUntil(120000){ui.onAllNodesWithText("Locating frame…").fetchSemanticsNodes().isEmpty() && ui.onNodeWithTag("frame-counter").fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].any{(it.text.contains('/') || it.text.contains('·'))}}
+        ui.waitUntil(120000){ui.onAllNodesWithTag("frame-precision").fetchSemanticsNodes().isNotEmpty()}
         val precision=ui.onNodeWithTag("frame-precision").performScrollTo().fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].joinToString{it.text}
         println("Live-site frame precision: $precision")
         val selected=ui.onNodeWithTag("frame-counter").fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].toString()
-        ui.onNodeWithTag("step-1").performClick()
-        ui.waitUntil(60000){ui.onAllNodesWithText("Locating frame…").fetchSemanticsNodes().isEmpty() && ui.onNodeWithTag("frame-counter").fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].toString()!=selected}
+        ui.onNodeWithTag("step-1").performScrollTo().performClick()
+        ui.waitUntil(60000){ui.onAllNodesWithText("Locating frame…").fetchSemanticsNodes().isEmpty() && ui.onNodeWithTag("frame-counter").fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].toString()!=selected && ui.onAllNodesWithTag("frame-precision").fetchSemanticsNodes().isNotEmpty()}
         ui.onNodeWithTag("frame-counter").assertExists()
         ui.onNodeWithTag("detail-tag-mokmok").performScrollTo().assertIsDisplayed()
         ui.onNodeWithTag("artist-wiki-mokmok").performClick()

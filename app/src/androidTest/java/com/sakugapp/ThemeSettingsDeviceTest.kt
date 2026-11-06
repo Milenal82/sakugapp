@@ -60,9 +60,9 @@ class ThemeSettingsDeviceTest {
     @Test fun compactSettingsPaletteMenusAndFolderActionsKeepTheirBehavior(){
         lateinit var app:AppViewModel;ui.runOnUiThread{app=ViewModelProvider(ui.activity)[AppViewModel::class.java]}
         val before=app.settings.value
-        ui.onNodeWithText(ui.activity.getString(R.string.ui_menu)).performClick()
-        ui.onNode(hasText(ui.activity.getString(R.string.ui_posts)) and isSelected()).assertExists()
-        ui.onNodeWithText(ui.activity.getString(R.string.ui_settings)).performClick()
+        ui.onNodeWithTag("main-menu").performClick()
+        ui.onNodeWithTag("menu-search_home").assertIsSelected()
+        ui.onNodeWithTag("menu-settings").performClick()
         for(id in listOf(R.string.ui_gestures_enabled,R.string.ui_enable_snapshot_sharing,R.string.ui_default_loop,R.string.ui_default_mute,R.string.ui_allow_previews_on_metered_networks,R.string.ui_load_images_only_on_unmetered_networks,R.string.ui_record_browsing_history))
             ui.onAllNodesWithText(ui.activity.getString(id),substring=false).assertCountEquals(0)
         try{
@@ -74,8 +74,8 @@ class ThemeSettingsDeviceTest {
                 ui.waitForIdle()
                 UiEvidence.capture("v122-settings-$palette-$mode.png")
             }
-            ui.onNodeWithText(ui.activity.getString(R.string.ui_menu)).performClick()
-            ui.onNodeWithText(ui.activity.getString(R.string.ui_settings)).assertIsSelected()
+            ui.onNodeWithTag("main-menu").performClick()
+            ui.onNodeWithTag("menu-settings").assertIsSelected()
             UiEvidence.capture("v122-main-menu.png")
             ui.onNodeWithTag("menu-library").performClick()
             val folder=runBlocking{app.localLibrary.createFolder("Theme folder")}

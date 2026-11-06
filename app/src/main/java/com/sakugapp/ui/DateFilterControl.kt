@@ -14,9 +14,11 @@ import java.time.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable internal fun DateFilterControl(query:String,edit:(String)->Unit){
     var open by remember{mutableStateOf(false)}
+    val focus=androidx.compose.ui.platform.LocalFocusManager.current
+    val keyboard=androidx.compose.ui.platform.LocalSoftwareKeyboardController.current
     val range=DateRangeFilter.read(query);val unsupported=DateRangeFilter.unsupported(query)
     Row(Modifier.fillMaxWidth(),verticalAlignment=androidx.compose.ui.Alignment.CenterVertically) {
-        TextButton(enabled=!unsupported,onClick={open=true},modifier=Modifier.weight(1f).testTag("date-range")){Text(range?.let{"${it.start} – ${it.end}"} ?: text(R.string.ui_date_range))}
+        TextButton(enabled=!unsupported,onClick={focus.clearFocus();keyboard?.hide();open=true},modifier=Modifier.weight(1f).testTag("date-range")){Text(range?.let{"${it.start} – ${it.end}"} ?: text(R.string.ui_date_range))}
         TextButton(enabled=range!=null,onClick={edit(DateRangeFilter.set(query,null))},modifier=Modifier.testTag("clear-date")){Text(text(R.string.ui_clear_date))}
     }
     if(unsupported)Text(text(R.string.ui_date_raw),style=MaterialTheme.typography.bodySmall,color=MaterialTheme.colorScheme.error)
