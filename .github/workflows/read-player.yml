@@ -15,16 +15,29 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           python3 - <<'PY'
-          import subprocess,json,zipfile,io,xml.etree.ElementTree as ET,pathlib
+          import subprocess,json,zipfile,io,xml.etree.ElementTree as ET,pathlib,time
           repo='Milenal82/sakugapp';output=[]
           def api(path):return subprocess.check_output(['gh','api',f'repos/{repo}/'+path])
-          for run in ['42157340261']:
+          for run in ['42212715519']:
               meta=json.loads(api('actions/runs/'+run));result={'run':run,'commit':meta['head_sha'],'status':meta['status'],'reports':[]}
-              for item in json.loads(api(f'actions/runs/{run}/artifacts?per_page=100'))['artifacts']:
-                  if not item['name'].startswith('player-community-') or item['size_in_bytes']>64*1024*1024:continue
+              for attempt in range(30):
+                  items=json.loads(api(f'actions/runs/{run}/artifacts?per_page=100'))['artifacts']
+                  meta=json.loads(api('actions/runs/'+run))
+                  if meta['status']=='completed' or {'extension-device-reports-28','extension-device-reports-35','extension-build-reports'}.issubset({i['name'] for i in items}):break
+                  time.sleep(20)
+              result['status']=meta['status'];result['conclusion']=meta['conclusion']
+              result['artifacts']=[{'name':i['name'],'url':f'https://github.com/{repo}/actions/runs/{run}/artifacts/{i["id"]}'} for i in items]
+              for item in items:
+                  if not item['name'].startswith('extension-') or item['name']=='extension-debug-apk' or item['size_in_bytes']>64*1024*1024:continue
                   z=zipfile.ZipFile(io.BytesIO(api(f'actions/artifacts/{item["id"]}/zip')))
                   for p in z.infolist():
-                      if p.file_size>4*1024*1024 or not pathlib.PurePosixPath(p.filename).name.startswith('TEST-') or not p.filename.endswith('.xml'):continue
+                      name=pathlib.PurePosixPath(p.filename).name
+                      if p.file_size>4*1024*1024:continue
+                      if name.startswith('extension-') and name.endswith('.png'):
+                          dest=pathlib.Path('/tmp/extension-captures')/(item['name']+'-'+name);dest.parent.mkdir(exist_ok=True);dest.write_bytes(z.read(p))
+                      if name.startswith('lint-results-') and name.endswith('.xml'):
+                          lint=ET.fromstring(z.read(p));result['lint']={'errors':sum(i.get('severity') in ['Error','Fatal'] for i in lint.findall('issue')),'warnings':sum(i.get('severity')=='Warning' for i in lint.findall('issue'))}
+                      if not name.startswith('TEST-') or not name.endswith('.xml'):continue
                       root=ET.fromstring(z.read(p));f=[]
                       for c in root.iter('testcase'):
                           for e in list(c.findall('failure'))+list(c.findall('error')):f.append({'test':c.get('classname')+'.'+c.get('name'),'message':(e.text or '')[:10000]})
@@ -37,8 +50,9 @@ jobs:
           git fetch origin evidence/player-diagnostics:refs/remotes/origin/evidence/player-diagnostics || true
           if git show-ref --verify --quiet refs/remotes/origin/evidence/player-diagnostics; then git switch -c diagnostics origin/evidence/player-diagnostics; else git switch --orphan diagnostics; fi
           cp /tmp/player-diagnostics.json report.json
+          if [ -d /tmp/extension-captures ]; then cp -r /tmp/extension-captures screenshots-extension; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add report.json
+          git add report.json screenshots-extension
           git commit -m 'Read existing player reports' || true
           git push origin HEAD:refs/heads/evidence/player-diagnostics
