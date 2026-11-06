@@ -43,6 +43,12 @@ class QuizAndFavoritesTest {
         val repo=QuizRepository(object:PostRepository{override suspend fun page(query:String,page:Int)=PostPage(listOf(post()),1)},{mapOf("a" to TagCategory.ARTIST)},Random(2),{page->calls+=page;if(page==1)listOf(DirectoryTag(2,"b",TagCategory.ARTIST,1),DirectoryTag(5,"not_an_artist",TagCategory.COPYRIGHT,1))else listOf(DirectoryTag(3,"c",TagCategory.ARTIST,1),DirectoryTag(4,"d",TagCategory.ARTIST,1))})
         repo.start(QuizSettings());assertEquals(listOf(1,2),calls);assertEquals(setOf("a","b","c","d"),repo.next(emptySet()).options.toSet())
     }
+    @Test fun duplicateSupplementPagesFailBeforeFetchingQuizPosts()=runBlocking{
+        var calls=0;var pages=0
+        val repo=QuizRepository(object:PostRepository{override suspend fun page(query:String,page:Int):PostPage{calls++;return PostPage(emptyList(),0)}},{mapOf("a" to TagCategory.ARTIST)},Random(1),{pages++;listOf(DirectoryTag(1,"a",TagCategory.ARTIST,1))})
+        try{repo.start(QuizSettings());fail()}catch(e:DataFailure){assertEquals("quiz_insufficient",e.message)}
+        assertEquals(2,pages);assertEquals(0,calls)
+    }
     @Test fun customPoolAndUsedIdsAreCheckedLocally()=runBlocking{
         val repo=QuizRepository(object:PostRepository{override suspend fun page(query:String,page:Int)=PostPage(listOf(post(1),post(2),post(3).copy(tags=listOf(Tag("a",TagCategory.ARTIST),Tag("other",TagCategory.COPYRIGHT)))),3)},{catalog})
         repo.start(QuizSettings(custom=true,works=listOf("show")));assertEquals(2L,repo.next(setOf(1)).post.id)

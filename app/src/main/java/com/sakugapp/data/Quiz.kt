@@ -37,7 +37,7 @@ class QuizRepository(private val posts:PostRepository=SakugaRepository(pageSize=
             currentCoroutineContext().ensureActive()
             artists+=supplement(page).filter{it.category==TagCategory.ARTIST && it.name!="artist_unknown" && LibraryCodec.tagName(it.name)}.map{it.name}
         }
-        if(artists.size<4)throw DataFailure("quiz_insufficient")
+        if(artists.distinct().size<4)throw DataFailure("quiz_insufficient")
         candidates=artists.distinct().take(4096);settings=value;buffer.clear();attempts=0
     }
     suspend fun next(used:Set<Long>):QuizQuestion=withContext(Dispatchers.Default){
