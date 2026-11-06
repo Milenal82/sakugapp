@@ -193,7 +193,9 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
     val advancedControls:@Composable (androidx.compose.ui.unit.Dp?)->Unit={controlsHeight->
                 AnimatedVisibility(more,enter=expandVertically(tween(Motion.controls)),exit=shrinkVertically(tween(Motion.controls))){
                 val panelScroll=rememberScrollState()
-                Column(Modifier.fillMaxWidth().then(if(controlsHeight!=null)Modifier.heightIn(max=controlsHeight).verticalScroll(panelScroll)else Modifier).padding(horizontal=8.dp).testTag("advanced-controls"),verticalArrangement=Arrangement.spacedBy(8.dp)){
+                val compact=MaterialTheme.typography.copy(titleSmall=MaterialTheme.typography.labelLarge,bodyLarge=MaterialTheme.typography.bodySmall,bodyMedium=MaterialTheme.typography.bodySmall,labelLarge=MaterialTheme.typography.labelMedium)
+                MaterialTheme(typography=compact){
+                Column(Modifier.fillMaxWidth().heightIn(max=controlsHeight ?: 440.dp).verticalScroll(panelScroll).padding(horizontal=8.dp).testTag("advanced-controls"),verticalArrangement=Arrangement.spacedBy(4.dp)){
                     if(fullscreen){ActionIcon(R.drawable.ic_rotate,text(R.string.ui_rotate_screen),{
                     manualRotation=true;activity?.requestedOrientation=if(orientation==Configuration.ORIENTATION_LANDSCAPE)ActivityInfo.SCREEN_ORIENTATION_PORTRAIT else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
                     },Modifier.testTag("rotate-video"))}
@@ -205,7 +207,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                         }
                         if(duration>0)Slider(value=position.toFloat().coerceIn(0f,duration.toFloat()),onValueChange={stepper.reset();player.seekTo(it.toLong());if(player.playbackState==Player.STATE_IDLE)player.prepare()},valueRange=0f..duration.toFloat(),modifier=Modifier.testTag("dedicated-seek"))
                         FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
-                            for(value in PreferenceRules.speeds)FilterChip(selected=speed==value,onClick={speed=value},label={Text("$value×")},modifier=Modifier.heightIn(min=40.dp).testTag("speed-$value"))
+                            for(value in PreferenceRules.speeds)FilterChip(selected=speed==value,onClick={speed=value},label={Text("$value×")},modifier=Modifier.testTag("speed-$value"))
                         }
                     }
                     ControlGroup(text(R.string.ui_ab_loop),"ab-controls"){
@@ -213,7 +215,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                     FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
                         TextButton(enabled=stepper.pending==0 && stepper.failure==null,contentPadding=textButtonPadding(),onClick={val updated=ab.withA((stepper.confirmed?.timeMs ?: player.currentPosition).coerceAtLeast(0));a=updated.aMs;b=updated.bMs;abEnabled=false;invalidAB=false},modifier=Modifier.testTag("set-a")){Text(text(R.string.ui_set_a))}
                         TextButton(enabled=stepper.pending==0 && stepper.failure==null,contentPadding=textButtonPadding(),onClick={try{val updated=ab.withB((stepper.confirmed?.timeMs ?: player.currentPosition).coerceAtLeast(0));b=updated.bMs;abEnabled=false;invalidAB=false}catch(_:IllegalArgumentException){b=null;abEnabled=false;invalidAB=true}},modifier=Modifier.testTag("set-b")){Text(text(R.string.ui_set_b))}
-                        FilterChip(selected=abEnabled,enabled=ab.valid,onClick={if(!abEnabled){stepper.reset();if(player.playbackState==Player.STATE_IDLE)player.prepare();player.seekTo(a!!)};abEnabled=!abEnabled},modifier=Modifier.heightIn(min=40.dp).testTag("ab-toggle"),label={Text(text(if(abEnabled)R.string.ui_disable_ab else R.string.ui_enable_ab))})
+                        FilterChip(selected=abEnabled,enabled=ab.valid,onClick={if(!abEnabled){stepper.reset();if(player.playbackState==Player.STATE_IDLE)player.prepare();player.seekTo(a!!)};abEnabled=!abEnabled},modifier=Modifier.testTag("ab-toggle"),label={Text(text(if(abEnabled)R.string.ui_disable_ab else R.string.ui_enable_ab))})
                         TextButton(contentPadding=textButtonPadding(),onClick={a=null;b=null;abEnabled=false;invalidAB=false}){Text(text(R.string.ui_clear_ab))}
                     }
                     if(duration>0 && ab.valid){
@@ -243,7 +245,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                     }
                     Row{Text(text(R.string.ui_volume));Slider(value=volume,onValueChange={volume=it;muted=it==0f},modifier=Modifier.weight(1f))}
                     }
-                }}
+                }}}
     }
     val feedback:@Composable ()->Unit={
         error?.let{message->
@@ -321,7 +323,7 @@ AndroidView(factory={VideoGestureHost(it)},modifier=videoModifier.clipToBounds()
 
 @Composable private fun ControlGroup(title:String,tag:String,value:String?=null,content:@Composable ColumnScope.()->Unit){
     Surface(modifier=Modifier.fillMaxWidth().testTag(tag),shape=RoundedCornerShape(12.dp),color=MaterialTheme.colorScheme.surfaceContainerHigh){
-        Column(Modifier.padding(textInset(10.dp)),verticalArrangement=Arrangement.spacedBy(4.dp)){
+        Column(Modifier.padding(horizontal=textInset(8.dp),vertical=textInset(4.dp)),verticalArrangement=Arrangement.spacedBy(2.dp)){
             Row(verticalAlignment=Alignment.CenterVertically){
                 Text(title,style=MaterialTheme.typography.titleSmall,modifier=Modifier.weight(1f))
                 value?.let{Text(it,style=MaterialTheme.typography.labelLarge,color=MaterialTheme.colorScheme.primary)}

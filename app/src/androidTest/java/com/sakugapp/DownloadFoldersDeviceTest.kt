@@ -78,7 +78,7 @@ class DownloadFoldersDeviceTest {
             server.enqueue(response());val collision=storage.download(variant("/collision.mp4"),DownloadStorage.Kind.SINGLE);created+=collision
             assertNotEquals(created.first(),collision);assertArrayEquals(bytes,resolver.openInputStream(created.first())!!.use{it.readBytes()})
             val clipFile=File(context.cacheDir,"save-clip.mp4").apply{writeBytes(bytes)}
-            try{val name=MediaFileNames.forClip(post,"mp4",ClipRange(400,800),ClipMode.COPY)
+            try{val name=MediaFileNames.forClip(post,"mp4",ClipRange(400,800),ClipMode.PRECISE)
                 val one=storage.saveClip(clipFile,name,"video/mp4");val two=storage.saveClip(clipFile,name,"video/mp4");created+=one;created+=two
                 assertTrue(one.toString().contains(clips));assertNotEquals(one,two);assertArrayEquals(bytes,resolver.openInputStream(one)!!.use{it.readBytes()})
                 val beforeClips=contents(storedClip)

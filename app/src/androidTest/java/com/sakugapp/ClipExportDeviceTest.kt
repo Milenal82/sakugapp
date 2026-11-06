@@ -25,24 +25,6 @@ class ClipExportDeviceTest {
             while(e.sampleTime>=0){val n=e.readSampleData(buffer,0);if(n<0)break;val bytes=ByteArray(n);buffer.position(0);buffer.get(bytes);values[timeline[ordinal++].timeUs]=MessageDigest.getInstance("SHA-256").digest(bytes).toList();if(!e.advance())break};return mime to values
         }finally{e.release()}
     }
-    @Test fun streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv()=runBlocking{
-        val folder=File(context.cacheDir,"clip-copy-test").apply{mkdirs()};val exporter=ClipExporter(context)
-        try{for(name in listOf("clip-gop.mp4","clip-gop.webm","clip-gop.mkv")){
-            val source=fixture(name,folder);val digest=hash(source);val input=samples(source)
-            for(range in listOf(ClipRange(1250,2750),ClipRange(250,1700))){
-                val result=exporter.export(source,folder,range,ClipMode.COPY);val output=samples(result.file)
-                assertEquals(ClipMode.COPY,result.mode);assertEquals(input.first,output.first);assertTrue("$name $range actual=${result.actualStartUs}..${result.actualEndUs} outputPTS=${output.second.keys}",result.actualStartUs<=range.startMs*1000);assertTrue("$name $range actual=${result.actualStartUs}..${result.actualEndUs} outputPTS=${output.second.keys}",result.actualEndUs>=range.endMs*1000)
-                assertTrue(output.second.isNotEmpty());assertEquals(result.videoSamples,output.second.size)
-                for((time,bytes)in output.second){val sourceSample=input.second.entries.firstOrNull{it.value==bytes};assertNotNull("Encoded bytes changed: $name PTS=$time",sourceSample)
-                    assertTrue("Muxer timestamp quantization: $name PTS=$time source=${sourceSample!!.key}",kotlin.math.abs(sourceSample.key-time-result.actualStartUs)<=1000)
-                }
-                assertEquals(digest,hash(source));assertTrue(exporter.scan(result.file).durationUs>0)
-                val decoder=MediaMetadataRetriever();try{decoder.setDataSource(result.file.path);assertNotNull(decoder.getFrameAtTime(0,MediaMetadataRetriever.OPTION_CLOSEST))}finally{decoder.release()}
-                println("COPY $name selected=$range actual=${result.actualStartUs}..${result.actualEndUs} samples=${result.videoSamples} mime=${result.mime}")
-                result.file.delete()
-            }
-        }}finally{folder.deleteRecursively()}
-    }
     @Test fun preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource()=runBlocking{
         val folder=File(context.cacheDir,"clip-precise-test").apply{mkdirs()};val exporter=ClipExporter(context)
         try{val source=fixture("clip-gop.mp4",folder);val original=hash(source)
@@ -89,7 +71,7 @@ class ClipExportDeviceTest {
         try{val source=fixture("clip-gop.mp4",folder);val digest=hash(source)
             val cancelled=launch(start=CoroutineStart.LAZY){exporter.stage(source.toURI().toString(),null,File(folder,"cancel"))};cancelled.cancelAndJoin();assertFalse(File(folder,"cancel/source.media").exists())
             val bad=File(folder,"broken.mp4").apply{writeText("not video")}
-            try{exporter.export(bad,folder,ClipRange(100,500),ClipMode.COPY);fail("Damaged source must fail")}catch(_:Exception){}
+            try{exporter.export(bad,folder,ClipRange(100,500),ClipMode.PRECISE);fail("Damaged source must fail")}catch(_:Exception){}
             assertEquals(digest,hash(source))
         }finally{folder.deleteRecursively()}
     }

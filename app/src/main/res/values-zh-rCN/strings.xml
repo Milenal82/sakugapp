@@ -459,9 +459,7 @@
     <string name="ui_clip_directory">指定片段下载目录</string>
     <string name="ui_choose_directory">请选择目录</string>
     <string name="ui_export_clip">下载指定片段</string>
-    <string name="ui_clip_copy">无损快速裁剪</string>
     <string name="ui_clip_precise">精确裁剪 · 重编码</string>
-    <string name="ui_clip_copy_warning">复制前后关键帧间的编码数据，实际边界可能偏离选点；按编码保存为 MP4 或 WebM，原片不变。</string>
     <string name="ui_clip_precise_warning">重编码为 MP4（H.264/AAC）。精度受帧间隔和设备编码器限制，验证输出后才保存。</string>
     <string name="ui_clip_selection">A %1$s · B %2$s · 预计时长 %3$s</string>
     <string name="ui_clip_saved">已保存 · 实际范围 %1$s–%2$s · 时长 %3$s</string>

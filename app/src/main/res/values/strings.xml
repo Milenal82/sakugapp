@@ -471,9 +471,7 @@
     <string name="ui_clip_directory">Clip download folder</string>
     <string name="ui_choose_directory">Select a folder</string>
     <string name="ui_export_clip">Download A–B clip</string>
-    <string name="ui_clip_copy">Lossless copy</string>
     <string name="ui_clip_precise">Precise · re-encode</string>
-    <string name="ui_clip_copy_warning">Copies encoded samples between adjacent keyframes. Boundaries may differ; output is MP4 or WebM according to codecs. Original unchanged.</string>
     <string name="ui_clip_precise_warning">Re-encodes to MP4 (H.264/AAC). Codec/frame intervals limit precision; output is verified before saving.</string>
     <string name="ui_clip_selection">A %1$s · B %2$s · Duration %3$s</string>
     <string name="ui_clip_saved">Saved · actual range %1$s–%2$s · duration %3$s</string>

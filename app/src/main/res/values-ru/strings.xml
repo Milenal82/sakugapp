@@ -468,9 +468,7 @@
     <string name="ui_clip_directory">Папка фрагментов</string>
     <string name="ui_choose_directory">Выбрать папку</string>
     <string name="ui_export_clip">Скачать фрагмент A–B</string>
-    <string name="ui_clip_copy">Копия без потерь</string>
     <string name="ui_clip_precise">Точно · перекодирование</string>
-    <string name="ui_clip_copy_warning">Копирует между соседними ключевыми кадрами. Границы могут отличаться; MP4 или WebM зависит от кодеков. Оригинал не меняется.</string>
     <string name="ui_clip_precise_warning">Перекодирует в MP4 (H.264/AAC). Точность зависит от кадров и кодека. Перед сохранением результат проверяется.</string>
     <string name="ui_clip_selection">A %1$s · B %2$s · Длительность %3$s</string>
     <string name="ui_clip_saved">Сохранено · границы %1$s–%2$s · длительность %3$s</string>

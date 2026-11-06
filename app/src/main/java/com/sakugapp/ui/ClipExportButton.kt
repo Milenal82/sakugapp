@@ -16,10 +16,10 @@ import java.io.File
 @Composable internal fun rememberClipExport(post:Post,url:String,range:ABLoop,selecting:Boolean,prepare:suspend ()->Unit={},finished:()->Unit={}):@Composable ()->Unit{
     val context=LocalContext.current;val cache=LocalPageVideoCache.current;val scope=rememberCoroutineScope()
     val storage=remember{DownloadStorage(context.applicationContext)}
-    var confirm by remember{mutableStateOf<ClipRange?>(null)};var mode by remember{mutableStateOf(ClipMode.COPY)}
+    var confirm by remember{mutableStateOf<ClipRange?>(null)}
     var busy by remember{mutableStateOf(false)};var job by remember{mutableStateOf<Job?>(null)};var message by remember{mutableStateOf<String?>(null)}
     val directory=rememberDirectoryAccess(storage,DownloadStorage.Kind.CLIP){message=context.getString(R.string.ui_directory_error)}
-    fun start(selected:ClipRange,selectedMode:ClipMode){
+    fun start(selected:ClipRange,selectedMode:ClipMode=ClipMode.PRECISE){
         if(busy)return
         busy=true;confirm=null;message=null
         job=scope.launch{
@@ -37,14 +37,13 @@ import java.io.File
         }
     }
     return {
-    TextButton(enabled=range.valid && !selecting && !busy,onClick={confirm=ClipRange(range.aMs!!,range.bMs!!)},modifier=Modifier.testTag("export-clip")){Text(text(R.string.ui_export_clip))}
+    TextButton(enabled=range.valid && !selecting && !busy,onClick={confirm=ClipRange(range.aMs!!,range.bMs!!)},modifier=Modifier.testTag("export-clip")){Text(text(R.string.ui_clip_precise))}
     if(busy){LinearProgressIndicator(Modifier.fillMaxWidth());TextButton(onClick={job?.cancel()}){Text(text(R.string.ui_cancel_download))}}
     message?.let{Text(it,style=MaterialTheme.typography.bodySmall)}
-    confirm?.let{selected->AlertDialog(onDismissRequest={confirm=null},title={Text(text(R.string.ui_export_clip))},text={Column{
+    confirm?.let{selected->AlertDialog(onDismissRequest={confirm=null},title={Text(text(R.string.ui_clip_precise))},text={Column{
         Text(text(R.string.ui_clip_selection,formatClipTime(selected.startMs),formatClipTime(selected.endMs),formatClipTime(selected.durationMs)))
-        FlowRow{for(value in ClipMode.entries)FilterChip(selected=mode==value,onClick={mode=value},label={Text(text(if(value==ClipMode.COPY)R.string.ui_clip_copy else R.string.ui_clip_precise))})}
-        Text(text(if(mode==ClipMode.COPY)R.string.ui_clip_copy_warning else R.string.ui_clip_precise_warning),style=MaterialTheme.typography.bodySmall)
-    }},confirmButton={TextButton(onClick={val chosen=mode;confirm=null;directory{start(selected,chosen)}},modifier=Modifier.testTag("confirm-clip")){Text(text(R.string.ui_download_video))}},dismissButton={TextButton(onClick={confirm=null}){Text(text(R.string.ui_cancel))}})}
+        Text(text(R.string.ui_clip_precise_warning),style=MaterialTheme.typography.bodySmall)
+    }},confirmButton={TextButton(onClick={confirm=null;directory{start(selected)}},modifier=Modifier.testTag("confirm-clip")){Text(text(R.string.ui_download_video))}},dismissButton={TextButton(onClick={confirm=null}){Text(text(R.string.ui_cancel))}})}
     }
 }
 internal fun formatClipTime(ms:Long)="%d:%02d.%03d".format(java.util.Locale.ROOT,ms/60000,ms/1000%60,ms%1000)

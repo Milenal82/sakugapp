@@ -102,12 +102,13 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
     LaunchedEffect(entry?.destination?.route){bottomVisible=true}
     fun primary(route:String){
         bottomVisible=true
+        if(route=="posts")model.restoreBrowse()
         if(nav.currentDestination?.route==route)return
         nav.navigate(route){popUpTo(nav.graph.startDestinationId){saveState=true};launchSingleTop=true;restoreState=true}
     }
     fun go(route:String){nav.navigate(route){launchSingleTop=true}}
     fun search(value:String){
-        app.search(value);model.beginSearch(value);searchGrid.requestScrollToItem(0);bottomVisible=true
+        if(value.isBlank())model.restoreBrowse()else{app.search(value);model.beginSearch(value);searchGrid.requestScrollToItem(0)};bottomVisible=true
         if(nav.currentDestination?.route!="posts")nav.navigate("posts"){launchSingleTop=true}
     }
     val browser=rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()){result->
@@ -141,11 +142,6 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
             composable("search_history"){SearchHistoryScreen(app,::search)}
             composable("posts"){PageMediaScope{
                 Column(Modifier.fillMaxSize()){
-                    Row(Modifier.fillMaxWidth().padding(horizontal=10.dp)){
-                        FilterChip(selected=!searchMode,onClick={model.restoreBrowse();bottomVisible=true},label={Text(text(R.string.ui_browse_mode))},modifier=Modifier.testTag("browse-mode"))
-                        Spacer(Modifier.width(8.dp))
-                        FilterChip(selected=searchMode,onClick={model.resumeSearch();bottomVisible=true},label={Text(text(R.string.ui_results_mode))},modifier=Modifier.testTag("results-mode"))
-                    }
                     key(searchMode){PostsScreen(feed,if(searchMode)searchGrid else grid,settings,history,metered,app,::search,{post->model.open(post);nav.navigate("post/${post.id}")},model::loadMore,model::refresh,isActive=entry?.destination?.route=="posts",onChromeVisibility={bottomVisible=it})}
                 }
             }}
