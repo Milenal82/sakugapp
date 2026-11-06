@@ -18,10 +18,10 @@ jobs:
           import subprocess,json,zipfile,io,xml.etree.ElementTree as ET,pathlib
           repo='Milenal82/sakugapp';output=[]
           def api(path):return subprocess.check_output(['gh','api',f'repos/{repo}/'+path])
-          for run in ['42142624580','42142624734']:
+          for run in ['42155150105']:
               meta=json.loads(api('actions/runs/'+run));result={'run':run,'commit':meta['head_sha'],'status':meta['status'],'reports':[]}
               for item in json.loads(api(f'actions/runs/{run}/artifacts?per_page=100'))['artifacts']:
-                  if 'reports' not in item['name'] or item['size_in_bytes']>64*1024*1024:continue
+                  if not item['name'].startswith('player-community-') or item['size_in_bytes']>64*1024*1024:continue
                   z=zipfile.ZipFile(io.BytesIO(api(f'actions/artifacts/{item["id"]}/zip')))
                   for p in z.infolist():
                       if p.file_size>4*1024*1024 or not pathlib.PurePosixPath(p.filename).name.startswith('TEST-') or not p.filename.endswith('.xml'):continue
