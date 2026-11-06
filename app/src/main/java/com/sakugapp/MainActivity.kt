@@ -99,7 +99,7 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
     val systemTag=android.content.res.Resources.getSystem().configuration.locales[0].toLanguageTag()
     val language=PreferenceRules.resolveLanguage(settings.language,systemTag)
     var menu by remember{mutableStateOf(false)};var about by remember{mutableStateOf(false)}
-    LaunchedEffect(entry?.destination?.route){bottomVisible=true;if(entry?.destination?.route!="post/{id}")model.close()}
+    LaunchedEffect(entry?.destination?.route){bottomVisible=true}
     fun primary(route:String){
         bottomVisible=true
         if(nav.currentDestination?.route==route)return
@@ -122,16 +122,16 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
         Scaffold(bottomBar={AnimatedVisibility(entry?.destination?.route in AppRoutes.main && (entry?.destination?.route!="posts" || bottomVisible),enter=expandVertically(tween(Motion.search)),exit=shrinkVertically(tween(Motion.search))){MainBottomBar(entry?.destination?.route ?: AppRoutes.SEARCH,::primary)}},topBar={Column(Modifier.statusBarsPadding()){
             Row(Modifier.fillMaxWidth().padding(horizontal=8.dp),verticalAlignment=Alignment.CenterVertically){
                 if(entry?.destination?.route !in AppRoutes.main)TextButton(onClick={nav.popBackStack()},modifier=Modifier.semantics{contentDescription=context.getString(R.string.ui_back_to_app)}){Text("‹")}
-                BrandAndProfile(localProfile,entry?.destination?.route!="profile"){primary("profile")}
+                BrandAndProfile(localProfile,entry?.destination?.route!="profile"){go("profile")}
                 Box{TextButton(onClick={menu=true},modifier=Modifier.clip(RoundedCornerShape(10.dp)).background(MaterialTheme.colorScheme.surfaceContainerHigh).testTag("main-menu")){Text(text(R.string.ui_menu))};TileMenu(expanded=menu,onDismissRequest={menu=false}){
                     AppMenuItem(icon=R.drawable.ic_book,selected=entry?.destination?.route in setOf("posts","search","post/{id}"),text={Text(text(R.string.ui_posts))},onClick={menu=false;primary("posts")})
-                    AppMenuItem(icon=R.drawable.ic_folder,selected=entry?.destination?.route=="library",text={Text(text(R.string.ui_local_library))},onClick={menu=false;nav.navigate("library")})
-                    AppMenuItem(icon=R.drawable.ic_history,selected=entry?.destination?.route=="history",text={Text(text(R.string.ui_browsing_history))},onClick={menu=false;nav.navigate("history")})
-                    AppMenuItem(icon=R.drawable.ic_favorite,selected=entry?.destination?.route=="account",text={Text(text(R.string.ui_my_account))},onClick={menu=false;nav.navigate("account")})
+                    AppMenuItem(icon=R.drawable.ic_folder,selected=entry?.destination?.route=="library",text={Text(text(R.string.ui_local_library))},onClick={menu=false;go("library")})
+                    AppMenuItem(icon=R.drawable.ic_history,selected=entry?.destination?.route=="history",text={Text(text(R.string.ui_browsing_history))},onClick={menu=false;go("history")})
+                    AppMenuItem(icon=R.drawable.ic_favorite,selected=entry?.destination?.route=="account",text={Text(text(R.string.ui_my_account))},onClick={menu=false;go("account")})
                     AppMenuItem(icon=R.drawable.ic_book,text={Text(text(R.string.ui_blog))},onClick={menu=false;openSite("https://blog.sakugabooru.com/")})
                     AppMenuItem(icon=R.drawable.ic_book,text={Text(text(R.string.ui_forum))},onClick={menu=false;openSite("https://www.sakugabooru.com/forum")})
-                    AppMenuItem(icon=R.drawable.ic_book,selected=entry?.destination?.route=="language",text={Text(text(R.string.ui_language))},onClick={menu=false;nav.navigate("language")})
-                    AppMenuItem(icon=R.drawable.ic_tune,selected=entry?.destination?.route=="settings",text={Text(text(R.string.ui_settings))},onClick={menu=false;nav.navigate("settings")})
+                    AppMenuItem(icon=R.drawable.ic_book,selected=entry?.destination?.route=="language",text={Text(text(R.string.ui_language))},onClick={menu=false;go("language")})
+                    AppMenuItem(icon=R.drawable.ic_tune,selected=entry?.destination?.route=="settings",text={Text(text(R.string.ui_settings))},onClick={menu=false;go("settings")})
                     AppMenuItem(icon=R.drawable.ic_book,text={Text(text(R.string.ui_about_and_licenses))},onClick={menu=false;about=true})
                 }}
             }
@@ -171,7 +171,7 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
             composable("history"){PageMediaScope{BrowsingHistoryScreen(app,{nav.popBackStack()}){post,order->model.openLocal(post,order);nav.navigate("post/${post.id}")}}}
             composable("account"){AccountScreen(app,openSite)}
             composable("language"){LanguageScreen(settings.language,app::language)}
-            composable("settings"){SettingsScreen(settings,app,{nav.navigate("language")},{about=true})}
+            composable("settings"){SettingsScreen(settings,app,{go("language")},{about=true})}
             composable("post/{id}"){backStack->PageMediaScope{
                 val id=backStack.arguments?.getString("id")?.toLongOrNull()
                 LaunchedEffect(id){if(id!=null && selected?.id!=id)model.openId(id)}
@@ -183,7 +183,7 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
                         val requests=neighboringUrls.map{url->coil.Coil.imageLoader(context).enqueue(coil.request.ImageRequest.Builder(context.applicationContext).data(url).size(320).build())}
                         onDispose{requests.forEach{it.dispose()}}
                     }
-                    PostDetail(post,settings,metered,app,model.usesLocalSnapshot(),::search,openSite,{nav.navigate("account")},{score->model.updateScore(post.id,score);app.score(post.id,score)},{duration->model.updateDuration(post.id,post.fileUrl.orEmpty(),duration);app.duration(post.fileUrl.orEmpty(),duration)},model.adjacent(-1)!=null,model.adjacent(1)!=null,{delta->
+                    PostDetail(post,settings,metered,app,model.usesLocalSnapshot(),::search,openSite,{go("account")},{score->model.updateScore(post.id,score);app.score(post.id,score)},{duration->model.updateDuration(post.id,post.fileUrl.orEmpty(),duration);app.duration(post.fileUrl.orEmpty(),duration)},model.adjacent(-1)!=null,model.adjacent(1)!=null,{delta->
                         val next=model.adjacent(delta)
                         if(next==null){model.prefetchNeighbors();false}else{
                             model.selectAdjacent(next)

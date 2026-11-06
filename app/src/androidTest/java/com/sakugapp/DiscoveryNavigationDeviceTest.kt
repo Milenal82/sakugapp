@@ -24,10 +24,10 @@ class DiscoveryNavigationDeviceTest {
   return model to app
  }
  @Test fun defaultHomeTabsProfileAndSearchStayDistinct(){
-  val(model,_)=scene();ui.onNodeWithTag("search-home").assertIsDisplayed();ui.onNodeWithTag("nav-search_home").assertIsSelected()
+  val(model,_)=scene();ui.onNodeWithTag("search-home").assertIsDisplayed();ui.mainClock.advanceTimeBy(500);ui.waitForIdle();UiEvidence.capture("discovery-home.png");ui.onNodeWithTag("nav-search_home").assertIsSelected()
   ui.onNodeWithTag("home-search-input").performTextInput("test_artist");ui.onNodeWithTag("home-submit").performClick();ui.onNodeWithTag("nav-posts").assertIsSelected()
   ui.waitUntil(10000){model.state.value.query=="test_artist" && !model.state.value.loading};ui.onNodeWithTag("results-mode").assertIsSelected()
-  ui.onNodeWithTag("nav-profile").performClick();ui.onNodeWithTag("profile-home").assertIsDisplayed();ui.onNodeWithTag("top-profile").assertDoesNotExist()
+  ui.onNodeWithTag("nav-profile").performClick();ui.onNodeWithTag("profile-home").assertIsDisplayed();ui.mainClock.advanceTimeBy(500);ui.waitForIdle();UiEvidence.capture("discovery-profile.png");ui.onNodeWithTag("top-profile").assertDoesNotExist()
   ui.onNodeWithTag("nav-posts").performClick();assertEquals("test_artist",model.state.value.query)
   ui.onNodeWithTag("browse-mode").performClick();assertEquals("",model.state.value.query);ui.onNodeWithTag("results-mode").performClick();assertEquals("test_artist",model.state.value.query)
  }

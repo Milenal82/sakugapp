@@ -20,20 +20,20 @@ import com.sakugapp.data.*
 import kotlinx.coroutines.*
 
 @Composable internal fun TagLookup(repository:DiscoveryRepository,type:TagCategory,select:(String)->Unit){
-    var query by rememberSaveable{mutableStateOf("")};var suggestions by remember{mutableStateOf(emptyList<TagSuggestion>())};var error by remember{mutableStateOf(false)};var loading by remember{mutableStateOf(false)}
-    LaunchedEffect(query,type){suggestions=emptyList();error=false;if(query.trim().length>=2){loading=true;delay(350);try{suggestions=repository.tags(query,type)}catch(e:CancellationException){throw e}catch(_:Exception){error=true}finally{loading=false}}}
+    var query by rememberSaveable{mutableStateOf("")};var suggestions by remember{mutableStateOf(emptyList<TagSuggestion>())};var error by remember{mutableStateOf<String?>(null)};var retry by remember{mutableIntStateOf(0)};var loading by remember{mutableStateOf(false)}
+    LaunchedEffect(query,type,retry){suggestions=emptyList();error=null;if(query.trim().length>=2){loading=true;delay(350);try{suggestions=repository.tags(query,type)}catch(e:CancellationException){throw e}catch(e:Exception){error=e.message}finally{loading=false}}}
     OutlinedTextField(query,{query=it},singleLine=true,label={Text(text(if(type==TagCategory.ARTIST)R.string.ui_artist else R.string.ui_copyright))},modifier=Modifier.fillMaxWidth().testTag("discovery-query"))
     Text(text(R.string.ui_catalog_limit),style=MaterialTheme.typography.bodySmall)
     if(loading)LinearProgressIndicator(Modifier.fillMaxWidth())
-    if(error)Text(text(R.string.ui_discovery_error),color=MaterialTheme.colorScheme.error)
-    if(query.length>=2 && !loading && !error && suggestions.isEmpty())Text(text(R.string.ui_no_matching_verified_tags))
+    error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error);TextButton(onClick={retry++}){Text(text(R.string.ui_retry))}}
+    if(query.length>=2 && !loading && error==null && suggestions.isEmpty())Text(text(R.string.ui_no_matching_verified_tags))
     suggestions.forEach{tag->OutlinedButton(onClick={select(tag.name)},modifier=Modifier.fillMaxWidth().testTag("candidate-${tag.name}")){Text(tag.name)}}
     if(query.isNotBlank())TextButton(onClick={select(query.trim())}){Text(text(R.string.ui_verify_tag))}
 }
 @Composable internal fun SampleFooter(state:DiscoveryState,model:DiscoveryViewModel,tag:String,type:TagCategory){
     state.sample?.let{Text(text(R.string.ui_sample_count,it.posts.size,it.pages),style=MaterialTheme.typography.bodySmall);if(it.capped)Text(text(R.string.ui_sample_cap),style=MaterialTheme.typography.bodySmall);if(it.ended)Text(text(R.string.ui_sample_end),style=MaterialTheme.typography.bodySmall);it.warning?.let{Text(text(R.string.ui_tag_categories_unavailable_unknown_categories_are_not_guessed),style=MaterialTheme.typography.bodySmall)}}
     if(state.loading){LinearProgressIndicator(Modifier.fillMaxWidth());TextButton(onClick=model::cancel){Text(text(R.string.ui_cancel))}}
-    state.error?.let{Text(text(if(it.contains("classification"))R.string.ui_classification_unknown else R.string.ui_discovery_error),color=MaterialTheme.colorScheme.error);TextButton(onClick={model.retry(tag,type)}){Text(text(R.string.ui_retry))}}
+    state.error?.let{Text(text(if(it.contains("classification"))R.string.ui_classification_unknown else R.string.ui_discovery_error),color=MaterialTheme.colorScheme.error);if(!it.contains("classification"))Text(translateMessage(it),style=MaterialTheme.typography.bodySmall);TextButton(onClick={model.retry(tag,type)}){Text(text(R.string.ui_retry))}}
     if(!state.loading){Row{OutlinedButton(enabled=state.sample?.let{!it.ended && !it.capped}==true,onClick=model::more){Text(text(R.string.ui_continue_sampling))};TextButton(onClick={model.select(tag,type,true)}){Text(text(R.string.ui_sample_refresh))}}}
 }
 @Composable internal fun ArtistStatsScreen(repository:DiscoveryRepository,model:DiscoveryViewModel,search:(String)->Unit){

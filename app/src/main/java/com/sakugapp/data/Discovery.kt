@@ -12,7 +12,7 @@ data class EpisodeKey(val kind:EpisodeKind,val number:Int?=null){val key get()=k
 data class ParsedEpisode(val group:EpisodeKey,val source:String,val reliable:Boolean)
 object SourceEpisodeParser {
     private val urls=Regex("(?:https?://|www\\.)\\S+",RegexOption.IGNORE_CASE)
-    private val episode=Regex("(?i)(?:#\\s*|\\bep(?:isode)?\\.?\\s*)(0*\\d{1,4})(?![\\dpx]|\\s*[x×])")
+    private val episode=Regex("(?i)(?:#\\s*|\\bep(?:isode)?\\.?\\s*)(0*\\d{1,4})(?![\\d\\p{L}]|\\.[0-9]|\\s*[x×])")
     private val special=Regex("(?i)\\b(opening|op|ending|ed|ova)(?:\\s*([0-9]{1,2}))?\\b")
     fun parse(source:String?):ParsedEpisode {
         val raw=source.orEmpty();if(raw.isBlank())return ParsedEpisode(EpisodeKey(EpisodeKind.MISSING),raw,false)
@@ -47,7 +47,7 @@ class DiscoveryRepository(private val repository:PostRepository=SakugaRepository
     private val mutex=Mutex()
     suspend fun tags(query:String,type:TagCategory):List<TagSuggestion> = withContext(Dispatchers.Default){
         if(query.trim().length<2)return@withContext emptyList()
-        val types=catalog();types.entries.asSequence().filter{it.value==type && it.key.contains(query.trim(),true)}.sortedWith(compareBy<Map.Entry<String,TagCategory>>{!it.key.startsWith(query.trim(),true)}.thenBy{it.key}).take(30).map{TagSuggestion(it.key,it.value,null)}.toList()
+        val normalized=query.trim().replace(Regex("\\s+"),"_");val types=catalog();types.entries.asSequence().filter{it.value==type && it.key.contains(normalized,true)}.sortedWith(compareBy<Map.Entry<String,TagCategory>>{!it.key.startsWith(normalized,true)}.thenBy{it.key}).take(30).map{TagSuggestion(it.key,it.value,null)}.toList()
     }
     suspend fun validate(tag:String,type:TagCategory){if(!LibraryCodec.tagName(tag) || catalog()[tag]!=type)throw DataFailure("Tag classification is not verified.")}
     fun cached(tag:String,type:TagCategory):Sample?=synchronized(samples){samples["$type:$tag"]?.takeIf{clock()-it.savedAt<600000}}
@@ -61,9 +61,10 @@ class DiscoveryRepository(private val repository:PostRepository=SakugaRepository
             currentCoroutineContext().ensureActive()
             if(!sample!!.ended && sample!!.pages<limit){
                 val page=repository.page(tag,sample!!.pages+1)
+                currentCoroutineContext().ensureActive()
                 if(page.posts.any{post->post.tags.none{t->t.name==tag}})throw DataFailure("The server returned posts for a different tag.")
                 val old=sample!!;val merged=(old.posts+page.posts).distinctBy{it.id}.take(limit*repository.pageSize)
-                sample=Sample(tag,type,merged,old.pages+1,page.rawCount<repository.pageSize,old.pages+1>=limit,page.categoryWarning,clock())
+                sample=Sample(tag,type,merged,old.pages+1,page.rawCount==0,old.pages+1>=limit,page.categoryWarning,clock())
                 synchronized(samples){samples["$type:$tag"]=sample!!;while(samples.size>8)samples.remove(samples.keys.first())}
                 update(sample!!)
             }

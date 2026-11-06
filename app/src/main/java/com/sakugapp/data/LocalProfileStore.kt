@@ -29,13 +29,14 @@ class LocalProfileStore(private val context:Context){
     suspend fun resetAvatar()=lock.withLock{val old=context.profilePreferences.data.first()[avatar];context.profilePreferences.edit{it.remove(avatar)};old?.let{File(context.filesDir,it).delete()}}
     suspend fun avatar(uri:Uri)=lock.withLock{withContext(Dispatchers.IO){
         val staged=File(context.cacheDir,"profile-${UUID.randomUUID()}.image");val dest=File(context.filesDir,"avatar-${UUID.randomUUID()}.jpg")
+        var committed=false
         try{
             val type=context.contentResolver.getType(uri);require(type in setOf("image/jpeg","image/png","image/webp","image/heic","image/heif"))
             context.contentResolver.openInputStream(uri)!!.use{input->staged.outputStream().use{out->val b=ByteArray(32768);var total=0;while(true){ensureActive();val n=input.read(b);if(n<0)break;total+=n;require(total<=20*1024*1024);out.write(b,0,n)}}}
             val result=coil.Coil.imageLoader(context).execute(ImageRequest.Builder(context).data(staged).size(512).allowHardware(false).memoryCachePolicy(CachePolicy.DISABLED).diskCachePolicy(CachePolicy.DISABLED).build())
             check(result is SuccessResult)
             val w=result.drawable.intrinsicWidth.coerceAtLeast(1);val h=result.drawable.intrinsicHeight.coerceAtLeast(1);val scale=minOf(1.0,512.0/maxOf(w,h));val bitmap=result.drawable.toBitmap((w*scale).toInt().coerceAtLeast(1),(h*scale).toInt().coerceAtLeast(1));try{dest.outputStream().use{check(bitmap.compress(android.graphics.Bitmap.CompressFormat.JPEG,90,it))}}finally{bitmap.recycle()}
-            val old=context.profilePreferences.data.first()[avatar];context.profilePreferences.edit{it[avatar]=dest.name};old?.let{File(context.filesDir,it).delete()}
-        }catch(e:Throwable){dest.delete();throw e}finally{staged.delete()}
+            ensureActive();withContext(NonCancellable){val old=context.profilePreferences.data.first()[avatar];context.profilePreferences.edit{it[avatar]=dest.name};committed=true;old?.let{File(context.filesDir,it).delete()}}
+        }catch(e:Throwable){if(!committed)dest.delete();throw e}finally{staged.delete()}
     }}
 }
