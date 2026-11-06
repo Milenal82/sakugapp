@@ -124,25 +124,20 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
             Row(Modifier.fillMaxWidth().padding(horizontal=8.dp),verticalAlignment=Alignment.CenterVertically){
                 if(entry?.destination?.route !in AppRoutes.main)ActionIcon(R.drawable.ic_back,text(R.string.ui_back_to_app),{nav.popBackStack()},touchSize=40.dp)
                 BrandAndProfile(localProfile,entry?.destination?.route!="profile"){go("profile")}
-                Box{ActionIcon(R.drawable.ic_more,text(R.string.ui_menu),{menu=true},Modifier.testTag("main-menu"),touchSize=40.dp);TileMenu(expanded=menu,onDismissRequest={menu=false}){
-                    AppMenuItem(icon=R.drawable.ic_book,selected=entry?.destination?.route in setOf("posts","search","post/{id}"),text={Text(text(R.string.ui_posts))},onClick={menu=false;primary("posts")})
-                    AppMenuItem(icon=R.drawable.ic_folder,selected=entry?.destination?.route=="library",text={Text(text(R.string.ui_local_library))},onClick={menu=false;go("library")})
-                    AppMenuItem(icon=R.drawable.ic_history,selected=entry?.destination?.route=="history",text={Text(text(R.string.ui_browsing_history))},onClick={menu=false;go("history")})
-                    AppMenuItem(icon=R.drawable.ic_favorite,selected=entry?.destination?.route=="account",text={Text(text(R.string.ui_my_account))},onClick={menu=false;go("account")})
-                    AppMenuItem(icon=R.drawable.ic_book,text={Text(text(R.string.ui_blog))},onClick={menu=false;openSite("https://blog.sakugabooru.com/")})
-                    AppMenuItem(icon=R.drawable.ic_book,text={Text(text(R.string.ui_forum))},onClick={menu=false;openSite("https://www.sakugabooru.com/forum")})
-                    AppMenuItem(icon=R.drawable.ic_book,selected=entry?.destination?.route=="language",text={Text(text(R.string.ui_language))},onClick={menu=false;go("language")})
-                    AppMenuItem(icon=R.drawable.ic_tune,selected=entry?.destination?.route=="settings",text={Text(text(R.string.ui_settings))},onClick={menu=false;go("settings")})
-                    AppMenuItem(icon=R.drawable.ic_book,text={Text(text(R.string.ui_about_and_licenses))},onClick={menu=false;about=true})
-                }}
+                Box{ActionIcon(R.drawable.ic_more,text(R.string.ui_menu),{menu=true},Modifier.testTag("main-menu"),touchSize=40.dp);MainOverflowMenu(menu,entry?.destination?.route,{menu=false},{route->
+                    if(route in AppRoutes.main)primary(route)
+                    else if(nav.currentDestination?.route!=route && !nav.popBackStack(route,false))go(route)
+                },{about=true})
+                }
             }
         }}){insets->NavHost(navController=nav,startDestination="search_home",modifier=Modifier.padding(insets).semantics{testTagsAsResourceId=true}){
             composable("search_home"){SearchHomeScreen(app,settings,::search,::go)}
             composable("profile"){ProfileHomeScreen(app,::go,openSite)}
             composable("quiz"){PageMediaScope{
                 val quiz:QuizViewModel=viewModel(factory=object:androidx.lifecycle.ViewModelProvider.Factory{override fun <T:androidx.lifecycle.ViewModel> create(cls:Class<T>):T { @Suppress("UNCHECKED_CAST") return QuizViewModel(app.quizRepository) as T }})
-                QuizRoute(app,quiz)
+                QuizRoute(app,quiz){go("quiz_pool")}
             }}
+            composable("quiz_pool"){QuizPoolScreen(app)}
             composable("website_favorites"){PageMediaScope{
                 val favorites:WebsiteFavoritesViewModel=viewModel(factory=object:androidx.lifecycle.ViewModelProvider.Factory{override fun <T:androidx.lifecycle.ViewModel> create(cls:Class<T>):T { @Suppress("UNCHECKED_CAST") return WebsiteFavoritesViewModel(app.websiteFavorites,app.account,app.voteRevision) as T }})
                 WebsiteFavoritesScreen(favorites,app,settings,{go("account")},::search){post,order->model.openLocal(post,order);go("post/${post.id}")}

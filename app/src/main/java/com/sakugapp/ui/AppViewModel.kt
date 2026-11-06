@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.*
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
-class AppViewModel @JvmOverloads constructor(application:Application,discoveryOverride:DiscoveryRepository?=null,quizOverride:QuizRepository?=null,favoritesOverride:WebsiteFavoritesSource?=null):AndroidViewModel(application) {
+class AppViewModel @JvmOverloads constructor(application:Application,discoveryOverride:DiscoveryRepository?=null,quizOverride:QuizRepository?=null,favoritesOverride:WebsiteFavoritesSource?=null,suggestionsOverride:SuggestionSource?=null):AndroidViewModel(application) {
     val localProfileStore=LocalProfileStore(application)
     val localProfile=localProfileStore.profile.catch{emit(LocalProfile())}.stateIn(viewModelScope,SharingStarted.Eagerly,LocalProfile())
     val topics=TopicRepository()
@@ -35,7 +35,7 @@ class AppViewModel @JvmOverloads constructor(application:Application,discoveryOv
     val downloadStorage=batchDownloads.storage
     fun offlineUri(post:Post)=offlineMedia.existing(post)?.let(android.net.Uri::fromFile) ?: downloadStorage.existing(post,DownloadStorage.Kind.BATCH)
     val session=SecureSession(application)
-    val suggestions:SuggestionSource=TagSuggestionRepository()
+    val suggestions:SuggestionSource=suggestionsOverride ?: TagSuggestionRepository()
     val community=CommunityRepository(client=OkHttpClient.Builder().cookieJar(session).callTimeout(30,TimeUnit.SECONDS)
         .followRedirects(false).retryOnConnectionFailure(false).build())
     val websiteFavorites=favoritesOverride ?: WebsiteFavoritesRepository(SakugaRepository(client=OkHttpClient.Builder().cookieJar(session).callTimeout(30,TimeUnit.SECONDS).followRedirects(false).retryOnConnectionFailure(false).build(),pageSize=20),community::identity,community::currentVote)

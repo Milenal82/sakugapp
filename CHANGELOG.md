@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — six-item menu and managed quiz work pool
+
+- Limit the overflow menu to Posts, Search home, website account, local folders, settings and licenses/terms. Existing secondary pages stay available from their normal entry points.
+- Move quiz work selection to a separate auto-saving screen with verified autocomplete, counts, selected state, a 30-work limit and confirmed clearing.
+- Keep custom selections when switching to all works; update settings atomically without resetting other quiz preferences.
+- Rotate custom works with separate bounded buffers, global Post ID deduplication, empty-work fallthrough and explicit network errors.
+
+
 ## Unreleased — compact controls, topics and quiz
 
 - Compact advanced player controls and local profile card; precise-only clip export.

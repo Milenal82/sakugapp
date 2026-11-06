@@ -77,7 +77,7 @@ class ThemeSettingsDeviceTest {
             ui.onNodeWithText(ui.activity.getString(R.string.ui_menu)).performClick()
             ui.onNodeWithText(ui.activity.getString(R.string.ui_settings)).assertIsSelected()
             UiEvidence.capture("v122-main-menu.png")
-            ui.onNodeWithText(ui.activity.getString(R.string.ui_local_library)).performClick()
+            ui.onNodeWithTag("menu-library").performClick()
             val folder=runBlocking{app.localLibrary.createFolder("Theme folder")}
             try{
                 ui.waitUntil(10000){app.library.value.folders.any{it.id==folder}}

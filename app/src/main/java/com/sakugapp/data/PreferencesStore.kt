@@ -79,9 +79,13 @@ class PreferencesStore(context: Context,private val store:DataStore<Preferences>
             tagVerticalSpacing=p[floatPreferencesKey("tagVerticalSpacing")]?.takeIf{it.isFinite() && it in 0f..20f} ?: 16f,
             accent=PreferenceRules.palette(p[stringPreferencesKey("accent")]))
     }
-    val quiz:Flow<QuizSettings> = data.map{p->QuizSettings((p[intPreferencesKey("quiz_count")] ?: 20).takeIf{it in QuizSettings.counts} ?: 20,p[booleanPreferencesKey("quiz_custom")] ?: false,p[stringPreferencesKey("quiz_pool")]?.split('\n').orEmpty().filter{LibraryCodec.tagName(it)}.distinct().take(20))}
-    suspend fun quizWork(value:String){require(LibraryCodec.tagName(value));store.edit{p->val previous=p[stringPreferencesKey("quiz_pool")]?.split('\n').orEmpty().filter{LibraryCodec.tagName(it)};p[stringPreferencesKey("quiz_pool")]=(previous+value).distinct().take(20).joinToString("\n")}}
-    suspend fun quiz(value:QuizSettings){require(value.count in QuizSettings.counts && value.works.size<=20 && value.works.all{LibraryCodec.tagName(it)});store.edit{it[intPreferencesKey("quiz_count")]=value.count;it[booleanPreferencesKey("quiz_custom")]=value.custom;it[stringPreferencesKey("quiz_pool")]=value.works.distinct().joinToString("\n")}}
+    val quiz:Flow<QuizSettings> = data.map{p->QuizSettings((p[intPreferencesKey("quiz_count")] ?: 20).takeIf{it in QuizSettings.counts} ?: 20,p[booleanPreferencesKey("quiz_custom")] ?: false,p[stringPreferencesKey("quiz_pool")]?.split('\n').orEmpty().filter{LibraryCodec.tagName(it)}.distinct().take(QuizSettings.MAX_WORKS))}
+    suspend fun quizWork(value:String){require(LibraryCodec.tagName(value));store.edit{p->val previous=p[stringPreferencesKey("quiz_pool")]?.split('\n').orEmpty().filter{LibraryCodec.tagName(it)};p[stringPreferencesKey("quiz_pool")]=QuizPoolRules.add(previous,value).joinToString("\n")}}
+    suspend fun quizMode(custom:Boolean){store.edit{it[booleanPreferencesKey("quiz_custom")]=custom}}
+    suspend fun quizCount(count:Int){require(count in QuizSettings.counts);store.edit{it[intPreferencesKey("quiz_count")]=count}}
+    suspend fun quizRemoveWork(value:String){store.edit{p->p[stringPreferencesKey("quiz_pool")]=p[stringPreferencesKey("quiz_pool")]?.split('\n').orEmpty().filterNot{it==value}.joinToString("\n")}}
+    suspend fun quizClearWorks(){store.edit{it.remove(stringPreferencesKey("quiz_pool"))}}
+    suspend fun quiz(value:QuizSettings){require(value.count in QuizSettings.counts && value.works.size<=QuizSettings.MAX_WORKS && value.works.all{LibraryCodec.tagName(it)});store.edit{it[intPreferencesKey("quiz_count")]=value.count;it[booleanPreferencesKey("quiz_custom")]=value.custom;it[stringPreferencesKey("quiz_pool")]=value.works.distinct().joinToString("\n")}}
     val history: Flow<List<String>> = data.map { PreferenceRules.history(it[stringPreferencesKey("history")]?.split('\n').orEmpty(), "") }
     val localeState:Flow<Pair<String,String?>> = data.map { p ->
         (p[stringPreferencesKey("language")]?.takeIf{it in PreferenceRules.languages} ?: "system") to p[stringPreferencesKey("locale_last_applied")]

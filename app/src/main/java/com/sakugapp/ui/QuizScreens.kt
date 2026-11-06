@@ -24,9 +24,9 @@ import com.sakugapp.data.*
 import kotlinx.coroutines.*
 
 @OptIn(ExperimentalLayoutApi::class)
-@Composable internal fun QuizRoute(app:AppViewModel,model:QuizViewModel){
+@Composable internal fun QuizRoute(app:AppViewModel,model:QuizViewModel,managePool:()->Unit={}){
     val s by model.state.collectAsStateWithLifecycle();val config by app.quizSettings.collectAsStateWithLifecycle()
-    val scope=rememberCoroutineScope();var poolError by remember{mutableStateOf<String?>(null)}
+    val scope=rememberCoroutineScope()
     LaunchedEffect(model){model.resume()}
     LifecycleEventEffect(Lifecycle.Event.ON_START){model.resume()}
     BackHandler(s.started){model.home()}
@@ -34,15 +34,11 @@ import kotlinx.coroutines.*
     Box(Modifier.fillMaxSize(),contentAlignment=Alignment.TopCenter){Column(Modifier.widthIn(max=700.dp).fillMaxWidth().verticalScroll(rememberScrollState()).padding(16.dp).testTag("quiz-page"),verticalArrangement=Arrangement.spacedBy(8.dp)){
         Text(text(R.string.ui_quiz_title),style=MaterialTheme.typography.titleLarge)
         if(!s.started){
-            Text(text(R.string.ui_quiz_intro));Text(text(R.string.ui_question_count))
-            FlowRow{QuizSettings.counts.forEach{count->FilterChip(selected=config.count==count,onClick={app.quizSettings(config.copy(count=count))},label={Text(count.toString())})}}
-            FlowRow{FilterChip(selected=!config.custom,onClick={app.quizSettings(config.copy(custom=false))},label={Text(text(R.string.ui_all_works))});FilterChip(selected=config.custom,onClick={app.quizSettings(config.copy(custom=true))},label={Text(text(R.string.ui_custom_pool))})}
-            if(config.custom){
-                TagLookup(app.discovery,TagCategory.COPYRIGHT){tag->scope.launch{try{withContext(Dispatchers.Default){app.discovery.validate(tag,TagCategory.COPYRIGHT)};app.preferences.quizWork(tag);poolError=null}catch(e:CancellationException){throw e}catch(e:Exception){poolError=if(e.message?.contains("classification")==true)"quiz_pool"else e.message}}}
-                poolError?.let{Text(extensionError(it),color=MaterialTheme.colorScheme.error,modifier=Modifier.testTag("quiz-pool-error"))}
-                config.works.forEach{tag->Row(verticalAlignment=Alignment.CenterVertically){Text(tag,Modifier.weight(1f));ActionIcon(R.drawable.ic_close,text(R.string.ui_delete),{app.quizSettings(config.copy(works=config.works-tag))})}}
-                TextButton(onClick={app.quizSettings(config.copy(works=emptyList()))}){Text(text(R.string.ui_clear_pool))}
-            }
+            Text(text(R.string.ui_question_count))
+            FlowRow{QuizSettings.counts.forEach{count->FilterChip(selected=config.count==count,onClick={scope.launch{app.preferences.quizCount(count)}},label={Text(count.toString())})}}
+            SearchToolTile(R.drawable.ic_book,text(R.string.ui_quiz_work_range),managePool,Modifier.testTag("quiz-pool-open"))
+            Text(if(config.custom)text(R.string.ui_pool_selected,config.works.size,QuizSettings.MAX_WORKS)else text(R.string.ui_all_works),style=MaterialTheme.typography.bodySmall)
+            if(config.custom && config.works.isEmpty())Text(text(R.string.ui_quiz_choose_work),style=MaterialTheme.typography.bodySmall)
             Button(enabled=!config.custom || config.works.isNotEmpty(),onClick={model.start(config)},modifier=Modifier.testTag("start-quiz")){Text(text(R.string.ui_quiz_start))}
         }else if(s.result){
             val right=s.answers.count{it.right};val percent=QuizGenerator.accuracy(s.answers)?.let{String.format(java.util.Locale.ROOT,"%.1f",it)} ?: "0"
@@ -51,7 +47,7 @@ import kotlinx.coroutines.*
         }else{
             Text(text(R.string.ui_quiz_question,s.answers.size+(if(s.selected==null)1 else 0),s.settings.count))
             if(s.loading)LinearProgressIndicator(Modifier.fillMaxWidth())
-            s.error?.let{Text(extensionError(it),color=MaterialTheme.colorScheme.error);TextButton(onClick={if(s.used.isEmpty())model.start(s.settings)else model.next()}){Text(text(R.string.ui_retry))};if(s.answers.isNotEmpty())TextButton(onClick=model::results){Text(text(R.string.ui_quiz_results))}}
+            s.error?.let{Text(extensionError(it),color=MaterialTheme.colorScheme.error);TextButton(onClick={if(s.used.isEmpty())model.start(s.settings)else model.next()}){Text(text(R.string.ui_retry))};if(s.answers.isNotEmpty())TextButton(onClick=model::results){Text(text(R.string.ui_quiz_results))};TextButton(onClick={model.home();managePool()}){Text(text(R.string.ui_pool_manage))};TextButton(onClick=model::home){Text(text(R.string.ui_quiz_change_count))}}
             s.question?.let{q->key(q.post.id){
                 var playable by remember{mutableStateOf(false)};var mediaFailed by remember{mutableStateOf(false)}
                 QuizVideo(q.post,{playable=it},{mediaFailed=it})

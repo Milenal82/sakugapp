@@ -1,0 +1,24 @@
+<resources>
+    <string name="ui_menu_posts">게시물</string>
+    <string name="ui_menu_search">검색</string>
+    <string name="ui_menu_account">내 계정</string>
+    <string name="ui_menu_library">로컬 즐겨찾기</string>
+    <string name="ui_menu_settings">설정</string>
+    <string name="ui_menu_legal">라이선스와 약관</string>
+    <string name="ui_quiz_work_range">작품 범위</string>
+    <string name="ui_pool_manage">작품 목록 관리</string>
+    <string name="ui_pool_selected">선택한 작품 %1$d / %2$d개</string>
+    <string name="ui_quiz_choose_work">작품을 하나 이상 선택하세요.</string>
+    <string name="ui_pool_search_hint">애니메이션 작품 태그 검색…</string>
+    <string name="ui_pool_find">작품 검색</string>
+    <string name="ui_pool_add">작품 추가</string>
+    <string name="ui_pool_added">선택됨</string>
+    <string name="ui_pool_remove">%1$s 제거</string>
+    <string name="ui_pool_post_count">게시물 %1$d개</string>
+    <string name="ui_pool_min_chars">두 글자 이상 입력하세요.</string>
+    <string name="ui_pool_limit">최대 30개 작품을 선택할 수 있습니다.</string>
+    <string name="ui_pool_save_error">저장하지 못했습니다. 기존 선택은 유지됩니다.</string>
+    <string name="ui_pool_all_note">모든 작품 모드에서는 사용자 목록을 사용하지 않으며 기존 선택은 보존됩니다.</string>
+    <string name="ui_pool_clear_confirm">작품 목록을 비울까요? 다른 데이터는 바뀌지 않습니다.</string>
+    <string name="ui_quiz_change_count">문제 수 변경</string>
+</resources>

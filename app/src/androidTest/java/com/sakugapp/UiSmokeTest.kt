@@ -19,32 +19,19 @@ class UiSmokeTest {
     }
     @org.junit.Before fun selectPostsEntry(){enterPostsForLegacyTest(ui)}
     @Test fun launchSettingsLanguageAndAccountAreNativeAndUsable(){
-        ui.onNodeWithTag("main-menu").assertIsDisplayed().performClick()
-        ui.onNodeWithText("Settings").performClick()
+        fun settings(){ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithTag("menu-settings").performClick()}
+        fun language(){settings();ui.onNodeWithText(ui.activity.getString(R.string.ui_app_language)).performScrollTo().performClick()}
+        settings()
         ui.onNodeWithText(ui.activity.getString(R.string.ui_appearance_display)).assertIsDisplayed()
         ui.onNodeWithText(ui.activity.getString(R.string.ui_default_mute)).assertDoesNotExist()
         ui.onNodeWithText(ui.activity.getString(R.string.ui_default_playback_speed)).performScrollTo().assertIsDisplayed()
-        ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithText("Language").performClick()
-        ui.onNodeWithText("日本語").performClick()
-        ui.waitUntil(10000){ui.onAllNodesWithText("メニュー").fetchSemanticsNodes().isNotEmpty()}
-        ui.onNodeWithText("メニュー").performClick();ui.onNodeWithText("言語").performClick()
-        ui.onNodeWithText("繁體中文").performClick()
-        ui.waitUntil(10000){ui.onAllNodesWithText("選單").fetchSemanticsNodes().isNotEmpty()}
-        ui.onNodeWithText("選單").performClick();ui.onNodeWithText("設定").performClick()
-        ui.onNodeWithText(ui.activity.getString(R.string.ui_appearance_display)).assertIsDisplayed()
-        ui.onNodeWithText("選單").performClick();ui.onNodeWithText("語言").performClick()
-        ui.onNodeWithText("简体中文").performClick()
-        ui.waitUntil(10000){ui.onAllNodesWithText("菜单").fetchSemanticsNodes().isNotEmpty()}
-        ui.onNodeWithText("菜单").performClick();ui.onNodeWithText("设置").performClick()
-        ui.onNodeWithText(ui.activity.getString(R.string.ui_appearance_display)).assertIsDisplayed()
-        UiEvidence.capture("compact-settings-zh-cn.png")
-        ui.onNodeWithText("菜单").performClick();ui.onNodeWithText("语言").performClick()
-        ui.onNodeWithText("English").performClick()
-        ui.waitUntil(10000){ui.onAllNodesWithText("Menu").fetchSemanticsNodes().isNotEmpty()}
-        ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithText("My Account").performClick()
-        ui.onNodeWithText("Username").assertIsDisplayed()
-        ui.onNodeWithText("Password").assertIsDisplayed()
-        ui.onNodeWithText("Log in").assertIsNotEnabled()
+        for((choice,description)in listOf("日本語" to "メニュー","繁體中文" to "選單","简体中文" to "菜单","English" to "Menu")){
+            language();ui.onNodeWithText(choice).performClick()
+            ui.waitUntil(10000){ui.onAllNodesWithContentDescription(description).fetchSemanticsNodes().isNotEmpty()}
+            settings();ui.onNodeWithText(ui.activity.getString(R.string.ui_appearance_display)).assertIsDisplayed()
+        }
+        ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithTag("menu-account").performClick()
+        ui.onNodeWithText("Username").assertIsDisplayed();ui.onNodeWithText("Password").assertIsDisplayed();ui.onNodeWithText("Log in").assertIsNotEnabled()
     }
     @Test fun lightAndDarkThemeChoicesApplyAndPersist(){
         ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithText("Settings").performClick()

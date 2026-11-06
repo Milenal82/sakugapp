@@ -1,0 +1,24 @@
+<resources>
+    <string name="ui_menu_posts">Publications</string>
+    <string name="ui_menu_search">Recherche</string>
+    <string name="ui_menu_account">Mon compte</string>
+    <string name="ui_menu_library">Dossiers</string>
+    <string name="ui_menu_settings">Paramètres</string>
+    <string name="ui_menu_legal">Licences et conditions</string>
+    <string name="ui_quiz_work_range">Œuvres du quiz</string>
+    <string name="ui_pool_manage">Gérer les œuvres</string>
+    <string name="ui_pool_selected">%1$d / %2$d œuvres choisies</string>
+    <string name="ui_quiz_choose_work">Choisissez au moins une œuvre.</string>
+    <string name="ui_pool_search_hint">Rechercher un tag d’œuvre…</string>
+    <string name="ui_pool_find">Rechercher des œuvres</string>
+    <string name="ui_pool_add">Ajouter l’œuvre</string>
+    <string name="ui_pool_added">Sélectionné</string>
+    <string name="ui_pool_remove">Retirer %1$s</string>
+    <string name="ui_pool_post_count">Publications : %1$d</string>
+    <string name="ui_pool_min_chars">Saisissez au moins deux caractères.</string>
+    <string name="ui_pool_limit">Vous pouvez choisir 30 œuvres au maximum.</string>
+    <string name="ui_pool_save_error">Échec de l’enregistrement. Votre sélection est conservée.</string>
+    <string name="ui_pool_all_note">Le mode Toutes les œuvres ignore la liste personnalisée, qui reste conservée.</string>
+    <string name="ui_pool_clear_confirm">Vider cette liste d’œuvres ? Les autres données restent inchangées.</string>
+    <string name="ui_quiz_change_count">Modifier le nombre de questions</string>
+</resources>

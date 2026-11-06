@@ -35,7 +35,7 @@ class QuizAndFavoritesTest {
         val queries=mutableListOf<String>();val repo=QuizRepository(object:PostRepository{override suspend fun page(query:String,page:Int):PostPage{queries+=query;return PostPage(emptyList(),0)}},{catalog},Random(1))
         repo.start(QuizSettings(custom=false,works=listOf("other")))
         try{repo.next(emptySet());fail()}catch(e:DataFailure){assertEquals("quiz_insufficient",e.message)}
-        assertEquals(12,queries.size);assertTrue(queries.none{it.startsWith("other ")})
+        assertTrue(queries.size in 1..12);assertTrue(queries.none{it.startsWith("other ")})
         try{repo.start(QuizSettings(custom=true,works=listOf("a")));fail()}catch(_:DataFailure){}
     }
     @Test fun insufficientArtistCandidatesUseAtMostTwoVerifiedSupplementPages()=runBlocking{

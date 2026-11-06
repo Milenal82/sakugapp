@@ -1,0 +1,24 @@
+<resources>
+    <string name="ui_menu_posts">貼文</string>
+    <string name="ui_menu_search">搜尋</string>
+    <string name="ui_menu_account">我的帳戶</string>
+    <string name="ui_menu_library">收藏夾</string>
+    <string name="ui_menu_settings">設定</string>
+    <string name="ui_menu_legal">授權與條款</string>
+    <string name="ui_quiz_work_range">作品範圍</string>
+    <string name="ui_pool_manage">管理作品池</string>
+    <string name="ui_pool_selected">已選擇 %1$d / %2$d 部作品</string>
+    <string name="ui_quiz_choose_work">請至少選擇一部動畫作品。</string>
+    <string name="ui_pool_search_hint">搜尋動畫作品標籤…</string>
+    <string name="ui_pool_find">搜尋作品</string>
+    <string name="ui_pool_add">新增作品</string>
+    <string name="ui_pool_added">已選擇</string>
+    <string name="ui_pool_remove">移除 %1$s</string>
+    <string name="ui_pool_post_count">%1$d 則投稿</string>
+    <string name="ui_pool_min_chars">請輸入至少兩個字元。</string>
+    <string name="ui_pool_limit">最多選擇 30 部作品。</string>
+    <string name="ui_pool_save_error">無法儲存，已保留原有選擇。</string>
+    <string name="ui_pool_all_note">全部作品模式不使用自訂清單，原有選擇仍會保留。</string>
+    <string name="ui_pool_clear_confirm">清空作品池？不會影響其他資料。</string>
+    <string name="ui_quiz_change_count">調整題數</string>
+</resources>

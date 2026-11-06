@@ -164,3 +164,11 @@ This branch compacts player/profile controls and keeps precise clipping only. It
 詳細操作とプロフィールをコンパクトにし、区間保存は精密クリップのみに変更しました。アンバーオレンジ、日付範囲、14の特集、サイトの投票記録、4択原画師クイズを追加しています。投票は投稿ごとに確認し、ローカルのお気に入りとは別に扱います。Debug版のみです。
 
 [Implementation, checks and limitations / 实现与验证 / 実装と制限](docs/compact-explore-quiz.md)
+
+### Menu and quiz pool · 菜单与作品池 · メニューと作品リスト
+
+右上角菜单固定为贴文、搜寻、我的账户、收藏夹、设定、授权与条款。作品池移至独立管理页，支持自动保存、连续添加、单项移除和确认清空，最多 30 部。全部作品模式保留自定义清单但不使用它；自定义模式轮换作品、复用各自缓存，并对投稿 ID 去重。
+
+The overflow menu has six entries. Quiz work selection has its own auto-saving page, capped at 30 verified Copyright tags. All-works mode keeps the saved list without applying it. Custom rounds rotate works and reuse separate buffers, with global Post ID deduplication and bounded requests.
+
+メニューは6項目です。作品リストは独立した自動保存画面で管理でき、最大30作品まで選べます。全作品モードでもリストは保持されます。指定モードは作品を巡回し、投稿の重複と無制限の取得を防ぎます。

@@ -1,0 +1,24 @@
+<resources>
+    <string name="ui_menu_posts">Publicaciones</string>
+    <string name="ui_menu_search">Buscar</string>
+    <string name="ui_menu_account">Mi cuenta</string>
+    <string name="ui_menu_library">Carpetas</string>
+    <string name="ui_menu_settings">Ajustes</string>
+    <string name="ui_menu_legal">Licencias y condiciones</string>
+    <string name="ui_quiz_work_range">Obras del quiz</string>
+    <string name="ui_pool_manage">Gestionar obras</string>
+    <string name="ui_pool_selected">%1$d / %2$d obras elegidas</string>
+    <string name="ui_quiz_choose_work">Elija al menos una obra.</string>
+    <string name="ui_pool_search_hint">Buscar etiquetas de obras…</string>
+    <string name="ui_pool_find">Buscar obras</string>
+    <string name="ui_pool_add">Añadir obra</string>
+    <string name="ui_pool_added">Seleccionado</string>
+    <string name="ui_pool_remove">Quitar %1$s</string>
+    <string name="ui_pool_post_count">Publicaciones: %1$d</string>
+    <string name="ui_pool_min_chars">Escriba al menos dos caracteres.</string>
+    <string name="ui_pool_limit">Puede elegir hasta 30 obras.</string>
+    <string name="ui_pool_save_error">No se pudo guardar. Se conserva su selección anterior.</string>
+    <string name="ui_pool_all_note">Todas las obras ignora la lista personalizada, que se conserva.</string>
+    <string name="ui_pool_clear_confirm">¿Vaciar esta lista de obras? Los demás datos no cambian.</string>
+    <string name="ui_quiz_change_count">Cambiar número de preguntas</string>
+</resources>

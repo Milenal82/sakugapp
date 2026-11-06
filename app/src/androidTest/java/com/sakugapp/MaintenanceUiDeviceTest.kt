@@ -37,8 +37,10 @@ class MaintenanceUiDeviceTest {
     }
 
     private fun menu(label: Int) {
-        ui.onNodeWithText(ui.activity.getString(R.string.ui_menu), substring = false).performClick()
-        ui.onNodeWithText(ui.activity.getString(label), substring = false).performScrollTo().performClick()
+        ui.onNodeWithTag("main-menu").performClick()
+        val route=when(label){R.string.ui_posts->"posts";R.string.ui_settings->"settings";else->"search_home"}
+        ui.onNodeWithTag("menu-$route").performClick()
+        if(label==R.string.ui_browsing_history)ui.onNodeWithText(ui.activity.getString(R.string.ui_home_browsing)).performScrollTo().performClick()
     }
 
     private fun hideIme() {

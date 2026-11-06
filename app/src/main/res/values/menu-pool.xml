@@ -1,0 +1,24 @@
+<resources>
+    <string name="ui_menu_posts">Posts</string>
+    <string name="ui_menu_search">Search</string>
+    <string name="ui_menu_account">My account</string>
+    <string name="ui_menu_library">Folders</string>
+    <string name="ui_menu_settings">Settings</string>
+    <string name="ui_menu_legal">Licenses and terms</string>
+    <string name="ui_quiz_work_range">Work scope</string>
+    <string name="ui_pool_manage">Manage work pool</string>
+    <string name="ui_pool_selected">Selected %1$d / %2$d works</string>
+    <string name="ui_quiz_choose_work">Choose at least one work.</string>
+    <string name="ui_pool_search_hint">Search anime copyright tags…</string>
+    <string name="ui_pool_find">Find works</string>
+    <string name="ui_pool_add">Add work</string>
+    <string name="ui_pool_added">Selected</string>
+    <string name="ui_pool_remove">Remove %1$s</string>
+    <string name="ui_pool_post_count">Posts: %1$d</string>
+    <string name="ui_pool_min_chars">Enter at least two characters.</string>
+    <string name="ui_pool_limit">You can select up to 30 works.</string>
+    <string name="ui_pool_save_error">Could not save. Your previous selection was kept.</string>
+    <string name="ui_pool_all_note">All works ignores the saved custom list. Your selection is kept.</string>
+    <string name="ui_pool_clear_confirm">Remove all works from this pool? Other data is unchanged.</string>
+    <string name="ui_quiz_change_count">Change question count</string>
+</resources>

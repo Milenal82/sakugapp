@@ -1,0 +1,24 @@
+<resources>
+    <string name="ui_menu_posts">Публикации</string>
+    <string name="ui_menu_search">Поиск</string>
+    <string name="ui_menu_account">Мой аккаунт</string>
+    <string name="ui_menu_library">Папки</string>
+    <string name="ui_menu_settings">Настройки</string>
+    <string name="ui_menu_legal">Лицензии и условия</string>
+    <string name="ui_quiz_work_range">Выбор произведений</string>
+    <string name="ui_pool_manage">Управление списком</string>
+    <string name="ui_pool_selected">Выбрано %1$d / %2$d произведений</string>
+    <string name="ui_quiz_choose_work">Выберите хотя бы одно произведение.</string>
+    <string name="ui_pool_search_hint">Поиск тегов произведений…</string>
+    <string name="ui_pool_find">Поиск произведений</string>
+    <string name="ui_pool_add">Добавить произведение</string>
+    <string name="ui_pool_added">Выбрано</string>
+    <string name="ui_pool_remove">Убрать %1$s</string>
+    <string name="ui_pool_post_count">Публикаций: %1$d</string>
+    <string name="ui_pool_min_chars">Введите хотя бы два символа.</string>
+    <string name="ui_pool_limit">Можно выбрать не более 30 произведений.</string>
+    <string name="ui_pool_save_error">Не удалось сохранить. Прежний выбор сохранён.</string>
+    <string name="ui_pool_all_note">Режим всех произведений не использует сохранённый список. Выбор остаётся.</string>
+    <string name="ui_pool_clear_confirm">Очистить список произведений? Другие данные не изменятся.</string>
+    <string name="ui_quiz_change_count">Изменить число вопросов</string>
+</resources>
