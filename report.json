@@ -1,0 +1,98 @@
+{
+  "source_commit": "ff0e91f2d226abac5416df6e0e48c88543befdf0",
+  "run_id": "42190692518",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42190692518",
+  "captured_utc": "2026-11-06T08:56:45.714829+00:00",
+  "validation_result": "failure",
+  "scope": "Backup restore, native screens, app font size and tag spacing; no full player suite.",
+  "jobs": [
+    {
+      "name": "devices (28, Nexus S)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42190692518/job/127801680679",
+      "id": 127801680679
+    },
+    {
+      "name": "build",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42190692518/job/127801680935",
+      "id": 127801680935
+    },
+    {
+      "name": "devices (35, pixel_c)",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42190692518/job/127801681213",
+      "id": 127801681213
+    },
+    {
+      "name": "evidence",
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42190692518/job/127803702290",
+      "id": 127803702290
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "discovery-debug-apk",
+      "bytes": 18669963,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42190692518/artifacts/13489603135"
+    },
+    {
+      "name": "discovery-device-reports-28",
+      "bytes": 131159,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42190692518/artifacts/13489374365"
+    },
+    {
+      "name": "discovery-build-reports",
+      "bytes": 77490,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42190692518/artifacts/13489219389"
+    },
+    {
+      "name": "discovery-device-reports-35",
+      "bytes": 210288,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42190692518/artifacts/13489138368"
+    }
+  ],
+  "test_counts": {
+    "device": {
+      "tests": 26,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "debug_unit": {
+      "tests": 157,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "lint": {
+    "discovery-build-reports/reports/lint-results-debug.xml": {
+      "errors": 0,
+      "warnings": 66
+    }
+  },
+  "failures": [
+    {
+      "job": "devices (35, pixel_c)",
+      "conclusion": "failure",
+      "message": "2026-11-06T08:55:12.2330717Z com.sakugapp.FrameControlsDeviceTest > frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes[emulator-5554 - 15] FAILED \n2026-11-06T08:55:12.2357591Z \tjava.lang.AssertionError: Action performScrollTo() failed.\n2026-11-06T08:55:27.4277984Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-06T08:55:27.5264971Z * What went wrong:\n2026-11-06T08:55:27.5430425Z BUILD FAILED in 2m 23s\n2026-11-06T08:55:27.9456211Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
+    },
+    {
+      "test": "com.sakugapp.FrameControlsDeviceTest.frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes",
+      "report": "discovery-device-reports-35/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 15-_app-.xml",
+      "message": "java.lang.AssertionError: Action performScrollTo() failed.\nReason: Expected exactly '1' node but could not find any node that satisfies: (TestTag = 'ab-toggle')\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:82)\nat com.sakugapp.FrameControlsDeviceTest.frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes(FrameControlsDeviceTest.kt:137)\n"
+    }
+  ],
+  "device_diagnostics": [],
+  "scroll_profile": {},
+  "main_automatic_checks": {
+    "status": "not_requested",
+    "reason": "This push is not main."
+  }
+}
