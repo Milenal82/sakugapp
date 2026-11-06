@@ -1,67 +1,67 @@
 {
-  "source_commit": "dd806d3dc903019f287276ac75a3dae12c31de86",
-  "run_id": "42160713124",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42160713124",
-  "captured_utc": "2026-11-06T04:16:30.372223+00:00",
+  "source_commit": "30c66e11729347c0eeab598fd8fba882062fe938",
+  "run_id": "42161847263",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42161847263",
+  "captured_utc": "2026-11-06T04:27:04.905745+00:00",
   "validation_result": "success",
   "scope": "Compact frame/lock controls, window/aspect detail sizing, community state and persistent SAF batch queue; emulator checks only.",
   "jobs": [
     {
-      "name": "devices (35, Nexus 6)",
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42160713124/job/127705442324",
-      "id": 127705442324
-    },
-    {
       "name": "build",
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42160713124/job/127705442503",
-      "id": 127705442503
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42161847263/job/127709128592",
+      "id": 127709128592
     },
     {
       "name": "devices (28, pixel_c)",
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42160713124/job/127705442541",
-      "id": 127705442541
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42161847263/job/127709128818",
+      "id": 127709128818
     },
     {
       "name": "devices (28, Nexus S)",
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42160713124/job/127705442670",
-      "id": 127705442670
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42161847263/job/127709128829",
+      "id": 127709128829
+    },
+    {
+      "name": "devices (35, Nexus 6)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42161847263/job/127709129105",
+      "id": 127709129105
     },
     {
       "name": "evidence",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42160713124/job/127708054985",
-      "id": 127708054985
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42161847263/job/127711457079",
+      "id": 127711457079
     }
   ],
   "artifacts": [
     {
-      "name": "player-community-device-35-Nexus 6",
-      "bytes": 927252,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42160713124/artifacts/13477480275"
-    },
-    {
       "name": "player-community-device-28-pixel_c",
-      "bytes": 315064,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42160713124/artifacts/13477300686"
-    },
-    {
-      "name": "player-community-device-28-Nexus S",
-      "bytes": 269746,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42160713124/artifacts/13477141588"
+      "bytes": 308461,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42161847263/artifacts/13477686230"
     },
     {
       "name": "player-community-build-reports",
-      "bytes": 74671,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42160713124/artifacts/13476737305"
+      "bytes": 74595,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42161847263/artifacts/13477247598"
+    },
+    {
+      "name": "player-community-device-35-Nexus 6",
+      "bytes": 921614,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42161847263/artifacts/13476944519"
+    },
+    {
+      "name": "player-community-device-28-Nexus S",
+      "bytes": 267709,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42161847263/artifacts/13476594419"
     }
   ],
   "test_counts": {
