@@ -1,406 +1,962 @@
 [
   {
-    "run": "42228918327",
-    "commit": "d0a8d38176e918c5737a751594e92ed81f7e496a",
+    "run": "42251066679",
+    "commit": "cb82905a9e485b5aa7172e2eaf2ad481e7a64d3e",
     "status": "completed",
     "reports": [
       {
-        "artifact": "extension-device-reports-35",
+        "artifact": "six-column-landscape-reports",
         "counts": {
-          "name": "com.sakugapp.MenuAndPoolDeviceTest",
-          "tests": "25",
+          "name": "com.sakugapp.SixColumnDeviceTest",
+          "tests": "2",
           "failures": "0",
           "errors": "0",
           "skipped": "0",
-          "time": "134.841",
-          "timestamp": "2026-11-06T13:57:49",
+          "time": "33.886",
+          "timestamp": "2026-11-06T16:23:03",
           "hostname": "localhost"
         },
         "failures": []
       },
       {
-        "artifact": "extension-device-reports-28",
-        "counts": {
-          "name": "com.sakugapp.MenuAndPoolDeviceTest",
-          "tests": "25",
-          "failures": "0",
-          "errors": "0",
-          "skipped": "0",
-          "time": "76.797",
-          "timestamp": "2026-11-06T13:57:03",
-          "hostname": "localhost"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "extension-build-reports",
-        "counts": {
-          "name": "com.sakugapp.AppearanceAndDownloadTest",
-          "tests": "11",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-06T13:54:19.709Z",
-          "hostname": "runnervm7aw5e",
-          "time": "3.22"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "extension-build-reports",
-        "counts": {
-          "name": "com.sakugapp.BatchQueueTest",
-          "tests": "4",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-06T13:54:23.370Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.121"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "extension-build-reports",
+        "artifact": "check-reports",
         "counts": {
           "name": "com.sakugapp.BackupImportTest",
           "tests": "8",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:54:22.934Z",
+          "timestamp": "2026-11-06T16:20:54.154Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.43"
+          "time": "0.32"
         },
         "failures": []
       },
       {
-        "artifact": "extension-build-reports",
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.AppearanceAndDownloadTest",
+          "tests": "11",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:20:50.416Z",
+          "hostname": "runnervm7aw5e",
+          "time": "3.731"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.BatchQueueTest",
+          "tests": "4",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:20:54.477Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.059"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
         "counts": {
           "name": "com.sakugapp.BrowsingUpgradeTest",
           "tests": "7",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:54:23.497Z",
+          "timestamp": "2026-11-06T16:20:54.541Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.278"
+          "time": "0.151"
         },
         "failures": []
       },
       {
-        "artifact": "extension-build-reports",
+        "artifact": "check-reports",
         "counts": {
           "name": "com.sakugapp.CommunityStateTest",
           "tests": "3",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:54:23.778Z",
+          "timestamp": "2026-11-06T16:20:54.697Z",
           "hostname": "runnervm7aw5e",
-          "time": "14.522"
+          "time": "14.517"
         },
         "failures": []
       },
       {
-        "artifact": "extension-build-reports",
+        "artifact": "check-reports",
         "counts": {
           "name": "com.sakugapp.CommunityTest",
           "tests": "16",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:54:38.305Z",
+          "timestamp": "2026-11-06T16:21:09.216Z",
           "hostname": "runnervm7aw5e",
-          "time": "9.137"
+          "time": "9.126"
         },
         "failures": []
       },
       {
-        "artifact": "extension-build-reports",
+        "artifact": "check-reports",
         "counts": {
           "name": "com.sakugapp.DataTest",
           "tests": "15",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:54:47.448Z",
+          "timestamp": "2026-11-06T16:21:18.348Z",
           "hostname": "runnervm7aw5e",
           "time": "0.02"
         },
         "failures": []
       },
       {
-        "artifact": "extension-build-reports",
+        "artifact": "check-reports",
         "counts": {
           "name": "com.sakugapp.DateAndTopicsTest",
           "tests": "4",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:54:47.480Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.025"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "extension-build-reports",
-        "counts": {
-          "name": "com.sakugapp.DiscoveryTest",
-          "tests": "18",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-06T13:54:47.514Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.102"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "extension-build-reports",
-        "counts": {
-          "name": "com.sakugapp.ExtensionHttpTest",
-          "tests": "2",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-06T13:54:47.621Z",
-          "hostname": "runnervm7aw5e",
-          "time": "1.733"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "extension-build-reports",
-        "counts": {
-          "name": "com.sakugapp.FeedViewModelTest",
-          "tests": "13",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-06T13:54:49.358Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.106"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "extension-build-reports",
-        "counts": {
-          "name": "com.sakugapp.FramePositionTest",
-          "tests": "2",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-06T13:54:49.468Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.015"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "extension-build-reports",
-        "counts": {
-          "name": "com.sakugapp.FullThemeTest",
-          "tests": "2",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-06T13:54:49.484Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.005"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "extension-build-reports",
-        "counts": {
-          "name": "com.sakugapp.HierarchyBackupTest",
-          "tests": "5",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-06T13:54:49.494Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.017"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "extension-build-reports",
-        "counts": {
-          "name": "com.sakugapp.LibraryCodecTest",
-          "tests": "5",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-06T13:54:49.512Z",
+          "timestamp": "2026-11-06T16:21:18.373Z",
           "hostname": "runnervm7aw5e",
           "time": "0.02"
         },
         "failures": []
       },
       {
-        "artifact": "extension-build-reports",
+        "artifact": "check-reports",
         "counts": {
-          "name": "com.sakugapp.LiveFixtureTest",
+          "name": "com.sakugapp.DiscoveryTest",
+          "tests": "18",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:21:18.396Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.105"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.ExtensionHttpTest",
           "tests": "2",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:54:49.533Z",
+          "timestamp": "2026-11-06T16:21:18.503Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.002"
+          "time": "1.762"
         },
         "failures": []
       },
       {
-        "artifact": "extension-build-reports",
+        "artifact": "check-reports",
         "counts": {
-          "name": "com.sakugapp.PersonalDataTest",
-          "tests": "9",
+          "name": "com.sakugapp.FeedViewModelTest",
+          "tests": "13",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:54:49.538Z",
+          "timestamp": "2026-11-06T16:21:20.267Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.141"
+          "time": "0.07"
         },
         "failures": []
       },
       {
-        "artifact": "extension-build-reports",
+        "artifact": "check-reports",
         "counts": {
-          "name": "com.sakugapp.PersonalizationTest",
-          "tests": "4",
+          "name": "com.sakugapp.FramePositionTest",
+          "tests": "2",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:54:49.681Z",
+          "timestamp": "2026-11-06T16:21:20.341Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.027"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.FullThemeTest",
+          "tests": "3",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:21:20.371Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.018"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.LibraryCodecTest",
+          "tests": "5",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:21:20.429Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.03"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.HierarchyBackupTest",
+          "tests": "5",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:21:20.393Z",
           "hostname": "runnervm7aw5e",
           "time": "0.031"
         },
         "failures": []
       },
       {
-        "artifact": "extension-build-reports",
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.LiveFixtureTest",
+          "tests": "2",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:21:20.463Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.001"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.PersonalDataTest",
+          "tests": "9",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:21:20.469Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.204"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.PersonalizationTest",
+          "tests": "4",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:21:20.674Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.033"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
         "counts": {
           "name": "com.sakugapp.PlayerToolsTest",
           "tests": "3",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:54:49.714Z",
+          "timestamp": "2026-11-06T16:21:20.708Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.007"
+          "time": "0.013"
         },
         "failures": []
       },
       {
-        "artifact": "extension-build-reports",
+        "artifact": "check-reports",
         "counts": {
           "name": "com.sakugapp.PreferencesAndFramesTest",
           "tests": "9",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:54:49.725Z",
+          "timestamp": "2026-11-06T16:21:20.723Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.008"
+          "time": "0.01"
         },
         "failures": []
       },
       {
-        "artifact": "extension-build-reports",
+        "artifact": "check-reports",
         "counts": {
           "name": "com.sakugapp.QuizAndFavoritesTest",
           "tests": "11",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:54:49.741Z",
+          "timestamp": "2026-11-06T16:21:20.736Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.214"
+          "time": "0.182"
         },
         "failures": []
       },
       {
-        "artifact": "extension-build-reports",
+        "artifact": "check-reports",
         "counts": {
           "name": "com.sakugapp.QuizPoolSamplingTest",
           "tests": "7",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:54:49.960Z",
+          "timestamp": "2026-11-06T16:21:20.926Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.065"
+          "time": "0.05"
         },
         "failures": []
       },
       {
-        "artifact": "extension-build-reports",
+        "artifact": "check-reports",
         "counts": {
           "name": "com.sakugapp.RepositoryTest",
           "tests": "7",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:54:50.032Z",
+          "timestamp": "2026-11-06T16:21:20.978Z",
           "hostname": "runnervm7aw5e",
-          "time": "6.523"
+          "time": "6.519"
         },
         "failures": []
       },
       {
-        "artifact": "extension-build-reports",
+        "artifact": "check-reports",
         "counts": {
           "name": "com.sakugapp.SearchAndCaptionTest",
           "tests": "10",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:54:56.559Z",
+          "timestamp": "2026-11-06T16:21:27.500Z",
           "hostname": "runnervm7aw5e",
-          "time": "25.377"
+          "time": "25.374"
         },
         "failures": []
       },
       {
-        "artifact": "extension-build-reports",
-        "counts": {
-          "name": "com.sakugapp.TagSuggestionsTest",
-          "tests": "3",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-06T13:55:21.995Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.118"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "extension-build-reports",
+        "artifact": "check-reports",
         "counts": {
           "name": "com.sakugapp.StabilityRegressionTest",
           "tests": "1",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T13:55:21.939Z",
+          "timestamp": "2026-11-06T16:21:52.877Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.051"
+          "time": "0.059"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.TagSuggestionsTest",
+          "tests": "3",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:21:52.943Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.149"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.AppearanceAndDownloadTest",
+          "tests": "11",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:22:42.388Z",
+          "hostname": "runnervm7aw5e",
+          "time": "3.707"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.BackupImportTest",
+          "tests": "8",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:22:46.100Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.353"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.BatchQueueTest",
+          "tests": "4",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:22:46.456Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.066"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.BrowsingUpgradeTest",
+          "tests": "7",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:22:46.524Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.165"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.CommunityStateTest",
+          "tests": "3",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:22:46.692Z",
+          "hostname": "runnervm7aw5e",
+          "time": "14.5"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.CommunityTest",
+          "tests": "16",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:23:01.194Z",
+          "hostname": "runnervm7aw5e",
+          "time": "9.103"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.DataTest",
+          "tests": "15",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:23:10.299Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.006"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.DateAndTopicsTest",
+          "tests": "4",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:23:10.306Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.008"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.DiscoveryTest",
+          "tests": "18",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:23:10.318Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.064"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.ExtensionHttpTest",
+          "tests": "2",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:23:10.383Z",
+          "hostname": "runnervm7aw5e",
+          "time": "1.858"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.FeedViewModelTest",
+          "tests": "13",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:23:12.242Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.032"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.FramePositionTest",
+          "tests": "2",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:23:12.276Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.009"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.FullThemeTest",
+          "tests": "3",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:23:12.287Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.007"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.HierarchyBackupTest",
+          "tests": "5",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:23:12.295Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.011"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.LibraryCodecTest",
+          "tests": "5",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:23:12.308Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.014"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.LiveFixtureTest",
+          "tests": "2",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:23:12.324Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.001"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.PersonalDataTest",
+          "tests": "9",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:23:12.327Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.073"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.PersonalizationTest",
+          "tests": "4",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:23:12.401Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.01"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.PlayerToolsTest",
+          "tests": "3",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:23:12.412Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.002"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.PreferencesAndFramesTest",
+          "tests": "9",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:23:12.418Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.004"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.QuizAndFavoritesTest",
+          "tests": "11",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:23:12.423Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.127"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.QuizPoolSamplingTest",
+          "tests": "7",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:23:12.552Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.022"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.RepositoryTest",
+          "tests": "7",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:23:12.578Z",
+          "hostname": "runnervm7aw5e",
+          "time": "6.814"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.SearchAndCaptionTest",
+          "tests": "10",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:23:19.394Z",
+          "hostname": "runnervm7aw5e",
+          "time": "25.362"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.StabilityRegressionTest",
+          "tests": "1",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:23:44.757Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.021"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "check-reports",
+        "counts": {
+          "name": "com.sakugapp.TagSuggestionsTest",
+          "tests": "3",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T16:23:44.779Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.095"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "device-test-reports",
+        "counts": {
+          "name": "com.sakugapp.DeviceTests",
+          "tests": "34",
+          "failures": "13",
+          "errors": "0",
+          "skipped": "0",
+          "time": "272.426",
+          "timestamp": "2026-11-06T16:26:40",
+          "hostname": "localhost"
+        },
+        "failures": [
+          {
+            "test": "com.sakugapp.UiSmokeTest.launchSettingsLanguageAndAccountAreNativeAndUsable",
+            "message": "java.lang.AssertionError: Assert failed: The component is not displayed!\nat androidx.compose.ui.test.AssertionsKt.assertIsDisplayed(Assertions.kt:34)\nat com.sakugapp.UiSmokeTest.launchSettingsLanguageAndAccountAreNativeAndUsable(UiSmokeTest.kt:31)\n"
+          },
+          {
+            "test": "com.sakugapp.UiSmokeTest.lightAndDarkThemeChoicesApplyAndPersist",
+            "message": "java.lang.AssertionError: Failed to inject touch input.\nReason: Expected exactly '1' node but could not find any node that satisfies: (Text + InputText + EditableText contains 'Settings' (ignoreCase: false))\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.ActionsKt.performTouchInput(Actions.kt:389)\nat androidx.compose.ui.test.AndroidActions.performClickImpl(Actions.android.kt:23)\nat androidx.compose.ui.test.ActionsKt.performClick(Actions.kt:60)\nat com.sakugapp.UiSmokeTest.lightAndDarkThemeChoicesApplyAndPersist(UiSmokeTest.kt:37)\n"
+          },
+          {
+            "test": "com.sakugapp.UiSmokeTest.scoreShortcutsReplaceOnlyTheScoreCondition",
+            "message": "java.lang.AssertionError: Failed to inject touch input.\nReason: Expected exactly '1' node but could not find any node that satisfies: (Text + InputText + EditableText contains 'Cancel' (ignoreCase: false))\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.ActionsKt.performTouchInput(Actions.kt:389)\nat androidx.compose.ui.test.AndroidActions.performClickImpl(Actions.android.kt:23)\nat androidx.compose.ui.test.ActionsKt.performClick(Actions.kt:60)\nat com.sakugapp.UiSmokeTest.scoreShortcutsReplaceOnlyTheScoreCondition(UiSmokeTest.kt:61)\n"
+          },
+          {
+            "test": "com.sakugapp.UiSmokeTest.searchDialogKeepsCombinedQueryAndDisplaysTheReference",
+            "message": "java.lang.AssertionError: Action performScrollTo() failed.\nReason: Expected exactly '1' node but could not find any node that satisfies: (Text + InputText + EditableText contains 'Both tags (AND)' (ignoreCase: false))\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:82)\nat com.sakugapp.UiSmokeTest.searchDialogKeepsCombinedQueryAndDisplaysTheReference(UiSmokeTest.kt:70)\n"
+          },
+          {
+            "test": "com.sakugapp.PublicBrowseTest.actualPostSearchDetailsPlaybackAndFrameAnalysis",
+            "message": "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 90000 ms\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:504)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:339)\nat com.sakugapp.PublicBrowseTest.actualPostSearchDetailsPlaybackAndFrameAnalysis(PublicBrowseTest.kt:26)\n"
+          },
+          {
+            "test": "com.sakugapp.PublicPaginationTest.fiveBatchesDensityAndDetailReturnKeepRealPostsAndScrollState",
+            "message": "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 30000 ms\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:504)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:339)\nat com.sakugapp.PublicPaginationTest.fiveBatchesDensityAndDetailReturnKeepRealPostsAndScrollState(PublicPaginationTest.kt:94)\n"
+          },
+          {
+            "test": "com.sakugapp.LocalLibraryUiDeviceTest.oneFavoriteEntrySupportsMultipleFoldersAndOriginalTagSearch",
+            "message": "java.lang.AssertionError: Failed to inject touch input.\nReason: Expected exactly '1' node but could not find any node that satisfies: (Text + InputText + EditableText contains 'New folder' (ignoreCase: false))\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.ActionsKt.performTouchInput(Actions.kt:389)\nat androidx.compose.ui.test.AndroidActions.performClickImpl(Actions.android.kt:23)\nat androidx.compose.ui.test.ActionsKt.performClick(Actions.kt:60)\nat com.sakugapp.LocalLibraryUiDeviceTest.oneFavoriteEntrySupportsMultipleFoldersAndOriginalTagSearch(LocalLibraryUiDeviceTest.kt:43)\n"
+          },
+          {
+            "test": "com.sakugapp.ProfessionalPlayerDeviceTest.actualLoopPinchPanDoubleTapAndSwipeRespectTransportControls",
+            "message": "java.lang.AssertionError: Action performScrollTo() failed.\nReason: Expected exactly '1' node but could not find any node that satisfies: (Text + InputText + EditableText contains 'Set A' (ignoreCase: false))\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:82)\nat com.sakugapp.ProfessionalPlayerDeviceTest.actualLoopPinchPanDoubleTapAndSwipeRespectTransportControls(ProfessionalPlayerDeviceTest.kt:52)\n"
+          },
+          {
+            "test": "com.sakugapp.CompactInterfaceDeviceTest.fiveActionsFitOnPhoneAndTabletAndScoreIsOnlyInMetadata",
+            "message": "java.lang.AssertionError: Failed: assertExists.\nReason: Expected exactly '1' node but could not find any node that satisfies: (Text + InputText + EditableText contains 'Next post' (ignoreCase: false))\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.assertExists(SemanticsNodeInteraction.kt:125)\nat androidx.compose.ui.test.SemanticsNodeInteraction.assertExists$default(SemanticsNodeInteraction.kt:124)\nat com.sakugapp.CompactInterfaceDeviceTest.fiveActionsFitOnPhoneAndTabletAndScoreIsOnlyInMetadata(CompactInterfaceDeviceTest.kt:100)\n"
+          },
+          {
+            "test": "com.sakugapp.CompactInterfaceDeviceTest.compactSearchRetainsHistoryFiltersFocusAndTheGridAnchor",
+            "message": "java.lang.AssertionError: Failed to inject touch input.\nReason: Expected exactly '1' node but could not find any node that satisfies: (Text + InputText + EditableText contains 'Settings' (ignoreCase: false))\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.ActionsKt.performTouchInput(Actions.kt:389)\nat androidx.compose.ui.test.AndroidActions.performClickImpl(Actions.android.kt:23)\nat androidx.compose.ui.test.ActionsKt.performClick(Actions.kt:60)\nat com.sakugapp.CompactInterfaceDeviceTest.compactSearchRetainsHistoryFiltersFocusAndTheGridAnchor(CompactInterfaceDeviceTest.kt:39)\n"
+          },
+          {
+            "test": "com.sakugapp.LibraryDocumentsDeviceTest.exportAndImportThroughSystemDocumentsRestoreTheFolder",
+            "message": "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:504)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:339)\nat com.sakugapp.LibraryDocumentsDeviceTest.exportAndImportThroughSystemDocumentsRestoreTheFolder(LibraryDocumentsDeviceTest.kt:36)\n"
+          },
+          {
+            "test": "com.sakugapp.PersonalFeatureUiDeviceTest.detailVisitsTagNotesFavoritesSearchAndHistoryUseIndependentNativePages",
+            "message": "java.lang.AssertionError: Failed to inject touch input.\nReason: Expected exactly '1' node but could not find any node that satisfies: (Text + InputText + EditableText contains 'Close' (ignoreCase: false))\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)\nat androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)\nat androidx.compose.ui.test.ActionsKt.performTouchInput(Actions.kt:389)\nat androidx.compose.ui.test.AndroidActions.performClickImpl(Actions.android.kt:23)\nat androidx.compose.ui.test.ActionsKt.performClick(Actions.kt:60)\nat com.sakugapp.PersonalFeatureUiDeviceTest.detailVisitsTagNotesFavoritesSearchAndHistoryUseIndependentNativePages(PersonalFeatureUiDeviceTest.kt:43)\n"
+          },
+          {
+            "test": "com.sakugapp.PersonalFeatureUiDeviceTest.newLanguagePickerPersistsAcrossRecreationAndKeepsWebsiteLocaleSeparate",
+            "message": "java.lang.IllegalStateException: Unmapped test destination: Language\nat com.sakugapp.LegacyNavigationEntryKt.openLegacyDestination(LegacyNavigationEntry.kt:13)\nat com.sakugapp.PersonalFeatureUiDeviceTest.menu(PersonalFeatureUiDeviceTest.kt:24)\nat com.sakugapp.PersonalFeatureUiDeviceTest.newLanguagePickerPersistsAcrossRecreationAndKeepsWebsiteLocaleSeparate(PersonalFeatureUiDeviceTest.kt:98)\n"
+          }
+        ]
+      },
+      {
+        "artifact": "search-back-gesture-reports",
+        "counts": {
+          "name": "com.sakugapp.SearchNavigationDeviceTest",
+          "tests": "2",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0",
+          "time": "60.536",
+          "timestamp": "2026-11-06T16:25:07",
+          "hostname": "localhost"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "six-column-phone-reports",
+        "counts": {
+          "name": "com.sakugapp.SixColumnDeviceTest",
+          "tests": "2",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0",
+          "time": "27.834",
+          "timestamp": "2026-11-06T16:21:48",
+          "hostname": "localhost"
         },
         "failures": []
       }
     ],
-    "conclusion": "success",
+    "conclusion": "failure",
     "jobs": [
       {
+        "name": "search-back-gestures",
+        "conclusion": "success"
+      },
+      {
+        "name": "six-column-display (phone, Nexus S)",
+        "conclusion": "success"
+      },
+      {
         "name": "build",
+        "conclusion": "success"
+      },
+      {
+        "name": "device-tests",
+        "conclusion": "failure",
+        "errors": "2026-11-06T16:19:38.0451324Z WARNING      | Could not open libX11.so, try libX11.so.6\n2026-11-06T16:19:38.0452562Z WARNING      | Could not open libX11-xcb.so, try libX11-xcb.so.1\n2026-11-06T16:20:27.4376264Z > Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED\n2026-11-06T16:20:27.4403962Z > Task :app:preBuild UP-TO-DATE\n2026-11-06T16:20:27.4432875Z > Task :app:preDebugBuild UP-TO-DATE\n2026-11-06T16:20:27.5340325Z > Task :app:generateDebugBuildConfig\n2026-11-06T16:20:28.7355905Z > Task :app:generateDebugResValues\n2026-11-06T16:20:28.7372743Z > Task :app:checkDebugAarMetadata\n2026-11-06T16:20:28.8358676Z > Task :app:mapDebugSourceSetPaths\n2026-11-06T16:20:28.8360157Z > Task :app:generateDebugResources\n2026-11-06T16:20:30.2361406Z > Task :app:packageDebugResources\n2026-11-06T16:20:31.1342398Z > Task :app:mergeDebugResources\n2026-11-06T16:20:31.1369941Z > Task :app:createDebugCompatibleScreenManifests\n2026-11-06T16:20:31.1372280Z > Task :app:parseDebugLocalResources\n2026-11-06T16:20:31.1401427Z > Task :app:extractDeepLinksDebug\n2026-11-06T16:20:31.3352619Z > Task :app:processDebugMainManifest\n2026-11-06T16:20:31.4351691Z > Task :app:processDebugManifest\n2026-11-06T16:20:31.4352713Z > Task :app:processDebugManifestForPackage\n2026-11-06T16:20:31.5342353Z > Task :app:javaPreCompileDebug\n2026-11-06T16:20:31.6358437Z > Task :app:preDebugAndroidTestBuild SKIPPED\n2026-11-06T16:20:32.2363653Z > Task :app:processDebugAndroidTestManifest\n2026-11-06T16:20:32.2364585Z > Task :app:generateDebugAndroidTestBuildConfig\n2026-11-06T16:20:32.2378324Z > Task :app:processDebugResources\n2026-11-06T16:20:32.2403691Z > Task :app:checkDebugAndroidTestAarMetadata\n2026-11-06T16:20:32.8344852Z > Task :app:generateDebugAndroidTestResValues\n2026-11-06T16:20:32.9341612Z > Task :app:mapDebugAndroidTestSourceSetPaths\n2026-11-06T16:20:32.9343692Z > Task :app:generateDebugAndroidTestResources\n2026-11-06T16:20:33.3346746Z > Task :app:mergeDebugAndroidTestResources\n2026-11-06T16:20:33.5358754Z > Task :app:processDebugAndroidTestResources\n2026-11-06T16:20:33.5376314Z > Task :app:javaPreCompileDebugAndroidTest\n2026-11-06T16:20:33.5379517Z > Task :app:mergeDebugShaders\n2026-11-06T16:20:33.5380144Z > Task :app:compileDebugShaders NO-SOURCE\n2026-11-06T16:20:33.5381401Z > Task :app:generateDebugAssets UP-TO-DATE\n2026-11-06T16:20:33.7353204Z > Task :app:mergeDebugAssets\n2026-11-06T16:20:33.7373284Z > Task :app:compressDebugAssets\n2026-11-06T16:20:33.7383111Z > Task :app:desugarDebugFileDependencies\n2026-11-06T16:20:34.0355118Z > Task :app:checkDebugDuplicateClasses\n2026-11-06T16:20:53.2484557Z > Task :app:mergeExtDexDebug\n2026-11-06T16:20:53.2498669Z > Task :app:mergeLibDexDebug\n2026-11-06T16:20:53.2523062Z > Task :app:mergeDebugJniLibFolders\n2026-11-06T16:20:53.4363523Z > Task :app:mergeDebugNativeLibs\n2026-11-06T16:20:53.5403212Z > Task :app:stripDebugDebugSymbols\n2026-11-06T16:20:55.1403466Z > Task :app:validateSigningDebug\n2026-11-06T16:20:55.2353300Z > Task :app:writeDebugAppMetadata\n2026-11-06T16:20:55.2375782Z > Task :app:writeDebugSigningConfigVersions\n2026-11-06T16:20:55.2393887Z > Task :app:mergeDebugAndroidTestShaders\n2026-11-06T16:20:55.2402828Z > Task :app:compileDebugAndroidTestShaders NO-SOURCE\n2026-11-06T16:20:55.2403466Z > Task :app:generateDebugAndroidTestAssets UP-TO-DATE\n2026-11-06T16:20:55.4380814Z > Task :app:mergeDebugAndroidTestAssets\n2026-11-06T16:20:55.5344525Z > Task :app:compressDebugAndroidTestAssets\n2026-11-06T16:20:55.5383459Z > Task :app:desugarDebugAndroidTestFileDependencies\n2026-11-06T16:20:55.8405509Z > Task :app:checkDebugAndroidTestDuplicateClasses\n2026-11-06T16:20:56.7374372Z > Task :app:mergeExtDexDebugAndroidTest\n2026-11-06T16:20:56.7415098Z > Task :app:mergeLibDexDebugAndroidTest\n2026-11-06T16:20:56.7438918Z > Task :app:mergeDebugAndroidTestJniLibFolders\n2026-11-06T16:20:56.8373817Z > Task :app:mergeDebugAndroidTestNativeLibs NO-SOURCE\n2026-11-06T16:20:56.8404618Z > Task :app:stripDebugAndroidTestDebugSymbols NO-SOURCE\n2026-11-06T16:20:56.8453181Z > Task :app:validateSigningDebugAndroidTest\n2026-11-06T16:20:56.8462696Z > Task :app:writeDebugAndroidTestSigningConfigVersions\n2026-11-06T16:21:02.2338874Z > Task :app:kaptGenerateStubsDebugKotlin\n2026-11-06T16:21:10.2356231Z > Task :app:kaptDebugKotlin\n2026-11-06T16:21:33.1403388Z > Task :app:compileDebugKotlin\n2026-11-06T16:21:35.2385780Z > Task :app:compileDebugJavaWithJavac\n2026-11-06T16:21:42.0337573Z > Task :app:bundleDebugClassesToCompileJar\n2026-11-06T16:21:42.3391049Z > Task :app:dexBuilderDebug\n2026-11-06T16:21:43.1346122Z > Task :app:mergeDebugGlobalSynthetics\n2026-11-06T16:21:43.1416654Z > Task :app:processDebugJavaRes\n2026-11-06T16:21:44.8373517Z > Task :app:mergeDebugJavaResource\n2026-11-06T16:21:45.8376309Z > Task :app:mergeProjectDexDebug\n2026-11-06T16:21:46.8339830Z > Task :app:packageDebug\n2026-11-06T16:21:46.8343111Z > Task :app:createDebugApkListingFileRedirect\n2026-11-06T16:21:48.1348220Z > Task :app:kaptGenerateStubsDebugAndroidTestKotlin\n2026-11-06T16:21:48.8393238Z > Task :app:kaptDebugAndroidTestKotlin\n2026-11-06T16:21:55.6344997Z > Task :app:compileDebugAndroidTestKotlin\n2026-11-06T16:21:56.0353626Z > Task :app:compileDebugAndroidTestJavaWithJavac\n2026-11-06T16:21:58.6353230Z > Task :app:dexBuilderDebugAndroidTest\n2026-11-06T16:21:58.7338370Z > Task :app:mergeDebugAndroidTestGlobalSynthetics\n2026-11-06T16:21:58.7343381Z > Task :app:processDebugAndroidTestJavaRes\n2026-11-06T16:21:58.7344018Z > Task :app:mergeDebugAndroidTestJavaResource\n2026-11-06T16:21:58.9338172Z > Task :app:mergeProjectDexDebugAndroidTest\n2026-11-06T16:21:58.9340354Z > Task :app:packageDebugAndroidTest\n2026-11-06T16:21:58.9340867Z > Task :app:createDebugAndroidTestApkListingFileRedirect\n2026-11-06T16:22:04.1379627Z > Task :app:connectedDebugAndroidTest\n2026-11-06T16:22:15.5350930Z com.sakugapp.UiSmokeTest > launchSettingsLanguageAndAccountAreNativeAndUsable[emulator-5554 - 9] \u001b[31mFAILED \u001b[0m\n2026-11-06T16:22:15.5353185Z \tjava.lang.AssertionError: Assert failed: The component is not displayed!\n2026-11-06T16:22:17.7364762Z com.sakugapp.UiSmokeTest > lightAndDarkThemeChoicesApplyAndPersist[emulator-5554 - 9] \u001b[31mFAILED \u001b[0m\n2026-11-06T16:22:17.7369737Z \tjava.lang.AssertionError: Failed to inject touch input.\n2026-11-06T16:22:21.5393592Z > Task :app:connectedDebugAndroidTest\n2026-11-06T16:22:21.5402774Z com.sakugapp.UiSmokeTest > scoreShortcutsReplaceOnlyTheScoreCondition[emulator-5554 - 9] \u001b[31mFAILED \u001b[0m\n2026-11-06T16:22:21.5403908Z \tjava.lang.AssertionError: Failed to inject touch input.\n2026-11-06T16:22:25.3344774Z com.sakugapp.UiSmokeTest > searchDialogKeepsCombinedQueryAndDisplaysTheReference[emulator-5554 - 9] \u001b[31mFAILED \u001b[0m\n2026-11-06T16:22:25.3345980Z \tjava.lang.AssertionError: Action performScrollTo() failed.\n2026-11-06T16:23:57.3363541Z > Task :app:connectedDebugAndroidTest\n2026-11-06T16:23:57.3375395Z com.sakugapp.PublicBrowseTest > actualPostSearchDetailsPlaybackAndFrameAnalysis[emulator-5554 - 9] \u001b[31mFAILED \u001b[0m\n2026-11-06T16:24:53.8403358Z > Task :app:connectedDebugAndroidTest\n2026-11-06T16:24:53.8433946Z com.sakugapp.PublicPaginationTest > fiveBatchesDensityAndDetailReturnKeepRealPostsAndScrollState[emulator-5554 - 9] \u001b[31mFAILED \u001b[0m\n2026-11-06T16:24:57.1346880Z com.sakugapp.LocalLibraryUiDeviceTest > oneFavoriteEntrySupportsMultipleFoldersAndOriginalTagSearch[emulator-5554 - 9] \u001b[31mFAILED \u001b[0m\n2026-11-06T16:24:57.1348609Z \tjava.lang.AssertionError: Failed to inject touch input.\n2026-11-06T16:24:59.4339726Z > Task :app:connectedDebugAndroidTest\n2026-11-06T16:24:59.4341520Z com.sakugapp.ProfessionalPlayerDeviceTest > actualLoopPinchPanDoubleTapAndSwipeRespectTransportControls[emulator-5554 - 9] \u001b[31mFAILED \u001b[0m\n2026-11-06T16:24:59.4343435Z \tjava.lang.AssertionError: Action performScrollTo() failed.\n2026-11-06T16:25:08.7347451Z > Task :app:connectedDebugAndroidTest\n2026-11-06T16:25:08.7349211Z com.sakugapp.CompactInterfaceDeviceTest > fiveActionsFitOnPhoneAndTabletAndScoreIsOnlyInMetadata[emulator-5554 - 9] \u001b[31mFAILED \u001b[0m\n2026-11-06T16:25:08.7350478Z \tjava.lang.AssertionError: Failed: assertExists.\n2026-11-06T16:25:12.4354649Z com.sakugapp.CompactInterfaceDeviceTest > compactSearchRetainsHistoryFiltersFocusAndTheGridAnchor[emulator-5554 - 9] \u001b[31mFAILED \u001b[0m\n2026-11-06T16:25:12.4383000Z \tjava.lang.AssertionError: Failed to inject touch input.\n2026-11-06T16:25:31.4361665Z > Task :app:connectedDebugAndroidTest\n2026-11-06T16:25:31.4363506Z com.sakugapp.LibraryDocumentsDeviceTest > exportAndImportThroughSystemDocumentsRestoreTheFolder[emulator-5554 - 9] \u001b[31mFAILED \u001b[0m\n2026-11-06T16:25:37.2378866Z com.sakugapp.PersonalFeatureUiDeviceTest > detailVisitsTagNotesFavoritesSearchAndHistoryUseIndependentNativePages[emulator-5554 - 9] \u001b[31mFAILED \u001b[0m\n2026-11-06T16:25:37.2380386Z \tjava.lang.AssertionError: Failed to inject touch input.\n2026-11-06T16:25:39.2423310Z > Task :app:connectedDebugAndroidTest\n2026-11-06T16:25:39.2453851Z com.sakugapp.PersonalFeatureUiDeviceTest > newLanguagePickerPersistsAcrossRecreationAndKeepsWebsiteLocaleSeparate[emulator-5554 - 9] \u001b[31mFAILED \u001b[0m\n2026-11-06T16:26:40.3338747Z > Task :app:connectedDebugAndroidTest\n2026-11-06T16:26:41.5339883Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-06T16:26:41.6359117Z * What went wrong:\n2026-11-06T16:26:41.6378933Z BUILD FAILED in 6m 30s\n2026-11-06T16:26:42.0865501Z ##[error]The process '/usr/bin/sh' failed with exit code 1\n2026-11-06T16:26:45.3310684Z java.lang.AssertionError: Assert failed: The component is not displayed!\n2026-11-06T16:26:45.3313481Z java.lang.AssertionError: Failed to inject touch input.\n2026-11-06T16:26:45.3319277Z java.lang.AssertionError: Failed to inject touch input.\n2026-11-06T16:26:45.3325675Z java.lang.AssertionError: Action performScrollTo() failed.\n2026-11-06T16:26:45.3339099Z java.lang.AssertionError: Failed to inject touch input.\n2026-11-06T16:26:45.3346244Z java.lang.AssertionError: Action performScrollTo() failed.\n2026-11-06T16:26:45.3353120Z java.lang.AssertionError: Failed: assertExists.\n2026-11-06T16:26:45.3372568Z java.lang.AssertionError: Failed to inject touch input.\n2026-11-06T16:26:45.3383076Z java.lang.AssertionError: Failed to inject touch input."
+      },
+      {
+        "name": "six-column-display (landscape, pixel_c)",
+        "conclusion": "success"
+      },
+      {
+        "name": "candidate-upgrade-install",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "signed-candidate",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "release-preflight",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "documentation-screenshots",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "release-signing",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "candidate-evidence",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "checks-evidence",
+        "conclusion": "skipped"
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "sakugapp-debug",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42251066679/artifacts/13520792557"
+      },
+      {
+        "name": "six-column-landscape-reports",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42251066679/artifacts/13520307532"
+      },
+      {
+        "name": "check-reports",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42251066679/artifacts/13520158099"
+      },
+      {
+        "name": "device-test-reports",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42251066679/artifacts/13520133535"
+      },
+      {
+        "name": "sakugapp-source",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42251066679/artifacts/13520118025"
+      },
+      {
+        "name": "search-back-gesture-reports",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42251066679/artifacts/13519968296"
+      },
+      {
+        "name": "six-column-phone-reports",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42251066679/artifacts/13519769688"
+      }
+    ],
+    "lint": {
+      "errors": 0,
+      "warnings": 74
+    }
+  },
+  {
+    "run": "42251066826",
+    "commit": "cb82905a9e485b5aa7172e2eaf2ad481e7a64d3e",
+    "status": "in_progress",
+    "reports": [
+      {
+        "artifact": "v130-device-reports-28",
+        "counts": {
+          "name": "com.sakugapp.ReleaseUiDeviceTest",
+          "tests": "36",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0",
+          "time": "199.516",
+          "timestamp": "2026-11-06T16:25:37",
+          "hostname": "localhost"
+        },
+        "failures": []
+      }
+    ],
+    "conclusion": null,
+    "jobs": [
+      {
+        "name": "metadata",
+        "conclusion": "success"
+      },
+      {
+        "name": "devices (35, pixel_c)",
         "conclusion": "success"
       },
       {
@@ -408,31 +964,19 @@
         "conclusion": "success"
       },
       {
-        "name": "devices (35, pixel_c)",
-        "conclusion": "success"
+        "name": "evidence",
+        "conclusion": null
       }
     ],
     "artifacts": [
       {
-        "name": "extension-device-reports-35",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42228918327/artifacts/13507836150"
+        "name": "v130-device-reports-28",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42251066826/artifacts/13520772512"
       },
       {
-        "name": "extension-device-reports-28",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42228918327/artifacts/13507546439"
-      },
-      {
-        "name": "extension-debug-apk",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42228918327/artifacts/13507107999"
-      },
-      {
-        "name": "extension-build-reports",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42228918327/artifacts/13506973214"
+        "name": "v130-metadata",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42251066826/artifacts/13520186699"
       }
-    ],
-    "lint": {
-      "errors": 0,
-      "warnings": 71
-    }
+    ]
   }
 ]
