@@ -64,17 +64,19 @@ class ReleaseUiDeviceTest {
   val(feed,_)=scene();ui.onNodeWithTag("home-combined").performScrollTo().performClick()
   val query="~tag1 ~tag2 -excluded score:>=3 date:2024-02-29...2024-03-01 order:score rating:safe"
   ui.onNodeWithTag("query-expression").performTextReplacement(query)
-  ui.onNodeWithTag("sort-rating-toggle").performScrollTo().performClick()
+  ui.waitUntil(15000){dialogImeHeight()>0};ui.waitForIdle()
+  ui.onNodeWithTag("sort-rating-toggle").performScrollTo().performClick().assertIsSelected()
   ui.onNodeWithTag("query-order-score").performScrollTo().assertIsSelected()
   ui.onNodeWithTag("query-rating-safe").performScrollTo().assertIsSelected()
   ui.onNodeWithTag("apply-combined-search").assertIsDisplayed();assertEquals("",feed.state.value.query)
   ui.onNodeWithTag("clear-date").performScrollTo().performClick()
   ui.onNodeWithTag("query-expression").performScrollTo().assertTextContains("~tag1 ~tag2 -excluded score:>=3 order:score rating:safe")
   ui.onNodeWithTag("query-expression").performClick()
-  fun ime():Int {var pixels=0;ui.runOnUiThread{pixels=androidx.core.view.ViewCompat.getRootWindowInsets(ui.activity.window.decorView)?.getInsets(androidx.core.view.WindowInsetsCompat.Type.ime())?.bottom ?: 0};return pixels}
-  ui.waitUntil(15000){ime()>0};ui.waitForIdle()
-  val bottom=ui.onNodeWithTag("apply-combined-search").assertIsDisplayed().fetchSemanticsNode().boundsInRoot.bottom
-  assertTrue("Apply stays above the real IME",bottom<=UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).displayHeight-ime()+2)
+  ui.waitUntil(15000){dialogImeHeight()>0};ui.waitForIdle()
+  ui.onNodeWithTag("apply-combined-search").assertIsDisplayed()
+  val native=UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+  val button=native.wait(androidx.test.uiautomator.Until.findObject(androidx.test.uiautomator.By.text(ui.activity.getString(R.string.ui_apply_search))),10000)
+  assertNotNull(button);assertTrue("Apply stays above the real IME",button!!.visibleBounds.bottom<=native.displayHeight-dialogImeHeight()+2)
   UiEvidence.capture("v130-search-groups.png")
   ui.onNodeWithTag("apply-combined-search").performClick()
   ui.waitUntil(10000){feed.searchMode.value && !feed.state.value.loading}

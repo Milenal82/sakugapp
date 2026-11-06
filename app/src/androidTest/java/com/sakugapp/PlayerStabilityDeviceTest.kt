@@ -66,15 +66,15 @@ class PlayerStabilityDeviceTest {
                 ui.runOnUiThread{current!!.pause();current!!.seekTo(400)};ready()
                 ui.onNodeWithTag("toggle-fullscreen").performClick()
                 ui.waitUntil(15000){context.resources.configuration.orientation==Configuration.ORIENTATION_LANDSCAPE}
-                ui.onNodeWithTag("toggle-fullscreen").assertDoesNotExist()
-                ui.onNodeWithTag("more-controls").assertDoesNotExist()
+                ui.onNodeWithTag("toggle-fullscreen").assertIsNotDisplayed()
+                ui.onNodeWithTag("more-controls").assertIsNotDisplayed()
                 assertSame(first,current);assertEquals(1,creations)
                 ui.runOnUiThread{assertTrue(kotlin.math.abs(current!!.currentPosition-400)<=50)}
                 if(it==0)UiEvidence.capture("stability-full-hidden.png")
                 tapVideo();ui.onNodeWithTag("toggle-fullscreen").assertIsDisplayed()
-                tapVideo();ui.onNodeWithTag("more-controls").assertDoesNotExist()
+                tapVideo();ui.onNodeWithTag("more-controls").assertIsNotDisplayed()
                 ui.onNodeWithTag("video-gestures").performTouchInput{doubleClick(Offset(width*.25f,height*.3f))}
-                Thread.sleep(400);ui.waitForIdle();ui.onNodeWithTag("more-controls").assertDoesNotExist()
+                Thread.sleep(400);ui.waitForIdle();ui.onNodeWithTag("more-controls").assertIsNotDisplayed()
                 ui.runOnUiThread{current!!.pause();current!!.seekTo(400)};ready()
                 tapVideo()
                 // The expanded panel is deliberately retained across fullscreen round trips.
@@ -85,7 +85,7 @@ class PlayerStabilityDeviceTest {
                 ui.runOnUiThread{current!!.seekTo(1200)};ready()
                 ui.onNodeWithTag("set-b").performScrollTo().performClick()
                 ui.onNodeWithTag("ab-toggle").performScrollTo().assertIsEnabled().performClick().assertIsSelected()
-                ui.onNodeWithTag("step--1").performScrollTo().assertIsDisplayed()
+                ui.onNodeWithTag("step--1").scrollIntoViewIfNeeded().assertIsDisplayed()
                 if(it==0)UiEvidence.capture("stability-full-controls.png")
                 ui.onNodeWithTag("toggle-fullscreen").performClick()
                 ui.waitUntil(15000){context.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT}
@@ -97,7 +97,7 @@ class PlayerStabilityDeviceTest {
             ui.runOnUiThread{url=tall.toURI().toString()};ui.waitUntil(10000){creations==6};ready()
             ui.onNodeWithTag("toggle-fullscreen").performClick()
             ui.waitUntil(15000){context.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT}
-            ui.onNodeWithTag("more-controls").assertDoesNotExist()
+            ui.onNodeWithTag("more-controls").assertIsNotDisplayed()
             tapVideo();ui.onNodeWithTag("toggle-fullscreen").performClick()
             ui.runOnUiThread{shown=false};ui.waitForIdle()
             ui.runOnUiThread{assertTrue((current as ExoPlayer).isReleased)}

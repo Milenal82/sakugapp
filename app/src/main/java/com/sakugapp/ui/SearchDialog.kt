@@ -15,6 +15,8 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -51,6 +53,9 @@ import com.sakugapp.data.*
     }
     val finalQuery=SearchSyntax.filters(expression.text,order,rating)
     Dialog(onDismissRequest=close,properties=DialogProperties(usePlatformDefaultWidth=false,decorFitsSystemWindows=false)){
+        val focus=androidx.compose.ui.platform.LocalFocusManager.current
+        val keyboard=androidx.compose.ui.platform.LocalSoftwareKeyboardController.current
+        fun stopEditing(){focus.clearFocus();keyboard?.hide()}
         BoxWithConstraints(Modifier.fillMaxSize().systemBarsPadding().imePadding().padding(12.dp),contentAlignment=Alignment.Center){
             Surface(Modifier.widthIn(max=640.dp).fillMaxWidth().heightIn(max=maxHeight),shape=FeatureStyle.shape,color=MaterialTheme.colorScheme.surfaceContainerLow){
                 Column{
@@ -64,7 +69,7 @@ import com.sakugapp.data.*
             if(guide) {
                 Text(text(R.string.ui_examples_replace_the_draft_apply_runs_the_search_fields_and_opera))
                 for(example in SearchGuide.examples) {
-                    TextButton(contentPadding=textButtonPadding(),onClick={load(example.query);guide=false}) { Text(example.query) }
+                    TextButton(contentPadding=textButtonPadding(),onClick={stopEditing();load(example.query);guide=false}) { Text(example.query) }
                     Text(text(example.description),style=MaterialTheme.typography.bodySmall)
                 }
                 Text(text(R.string.ui_wildcard_and_mixed_or_combinations_have_website_limitations_repea))
@@ -72,7 +77,7 @@ import com.sakugapp.data.*
                 AnimatedVisibility(historyOpen,enter=expandVertically(tween(Motion.history)),exit=shrinkVertically(tween(Motion.history))){Column(Modifier.testTag("combined-history")){
                     if(history.isEmpty())Text(text(R.string.ui_no_saved_searches),style=MaterialTheme.typography.bodySmall)
                     history.forEachIndexed{index,item->TextButton(contentPadding=textButtonPadding(),onClick={
-                        load(item);historyOpen=false
+                        stopEditing();load(item);historyOpen=false
                     },modifier=Modifier.fillMaxWidth().testTag("combined-history-$index")){Text(item,maxLines=2,overflow=TextOverflow.Ellipsis)}}
                 }}
                 SearchFilterSection(text(R.string.ui_tag_conditions)){
@@ -88,7 +93,7 @@ import com.sakugapp.data.*
                 }
                 FeatureSurface(Modifier.fillMaxWidth()){
                     Column(Modifier.padding(FeatureStyle.inset),verticalArrangement=Arrangement.spacedBy(6.dp)){
-                        TextButton(onClick={filtersOpen=!filtersOpen},modifier=Modifier.fillMaxWidth().testTag("sort-rating-toggle")){
+                        TextButton(onClick={stopEditing();filtersOpen=!filtersOpen},modifier=Modifier.fillMaxWidth().testTag("sort-rating-toggle").semantics{selected=filtersOpen}){
                             Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically){Text(text(R.string.ui_sort_rating),Modifier.weight(1f));Text(if(filtersOpen)"−"else"+")}
                         }
                         AnimatedVisibility(filtersOpen,enter=expandVertically(tween(Motion.controls)),exit=shrinkVertically(tween(Motion.controls))){Column{
