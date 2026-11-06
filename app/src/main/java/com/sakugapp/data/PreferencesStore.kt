@@ -80,6 +80,7 @@ class PreferencesStore(context: Context,private val store:DataStore<Preferences>
             accent=PreferenceRules.palette(p[stringPreferencesKey("accent")]))
     }
     val quiz:Flow<QuizSettings> = data.map{p->QuizSettings((p[intPreferencesKey("quiz_count")] ?: 20).takeIf{it in QuizSettings.counts} ?: 20,p[booleanPreferencesKey("quiz_custom")] ?: false,p[stringPreferencesKey("quiz_pool")]?.split('\n').orEmpty().filter{LibraryCodec.tagName(it)}.distinct().take(20))}
+    suspend fun quizWork(value:String){require(LibraryCodec.tagName(value));store.edit{p->val previous=p[stringPreferencesKey("quiz_pool")]?.split('\n').orEmpty().filter{LibraryCodec.tagName(it)};p[stringPreferencesKey("quiz_pool")]=(previous+value).distinct().take(20).joinToString("\n")}}
     suspend fun quiz(value:QuizSettings){require(value.count in QuizSettings.counts && value.works.size<=20 && value.works.all{LibraryCodec.tagName(it)});store.edit{it[intPreferencesKey("quiz_count")]=value.count;it[booleanPreferencesKey("quiz_custom")]=value.custom;it[stringPreferencesKey("quiz_pool")]=value.works.distinct().joinToString("\n")}}
     val history: Flow<List<String>> = data.map { PreferenceRules.history(it[stringPreferencesKey("history")]?.split('\n').orEmpty(), "") }
     val localeState:Flow<Pair<String,String?>> = data.map { p ->

@@ -26,6 +26,7 @@ import kotlinx.coroutines.*
 @OptIn(ExperimentalLayoutApi::class)
 @Composable internal fun QuizRoute(app:AppViewModel,model:QuizViewModel){
     val s by model.state.collectAsStateWithLifecycle();val config by app.quizSettings.collectAsStateWithLifecycle()
+    val scope=rememberCoroutineScope();var poolError by remember{mutableStateOf<String?>(null)}
     LaunchedEffect(model){model.resume()}
     LifecycleEventEffect(Lifecycle.Event.ON_START){model.resume()}
     BackHandler(s.started){model.home()}
@@ -37,7 +38,8 @@ import kotlinx.coroutines.*
             FlowRow{QuizSettings.counts.forEach{count->FilterChip(selected=config.count==count,onClick={app.quizSettings(config.copy(count=count))},label={Text(count.toString())})}}
             FlowRow{FilterChip(selected=!config.custom,onClick={app.quizSettings(config.copy(custom=false))},label={Text(text(R.string.ui_all_works))});FilterChip(selected=config.custom,onClick={app.quizSettings(config.copy(custom=true))},label={Text(text(R.string.ui_custom_pool))})}
             if(config.custom){
-                TagLookup(app.discovery,TagCategory.COPYRIGHT){tag->if(tag !in config.works && config.works.size<20)app.quizSettings(config.copy(works=config.works+tag))}
+                TagLookup(app.discovery,TagCategory.COPYRIGHT){tag->scope.launch{try{withContext(Dispatchers.Default){app.discovery.validate(tag,TagCategory.COPYRIGHT)};app.preferences.quizWork(tag);poolError=null}catch(e:CancellationException){throw e}catch(e:Exception){poolError=if(e.message?.contains("classification")==true)"quiz_pool"else e.message}}}
+                poolError?.let{Text(extensionError(it),color=MaterialTheme.colorScheme.error,modifier=Modifier.testTag("quiz-pool-error"))}
                 config.works.forEach{tag->Row(verticalAlignment=Alignment.CenterVertically){Text(tag,Modifier.weight(1f));ActionIcon(R.drawable.ic_close,text(R.string.ui_delete),{app.quizSettings(config.copy(works=config.works-tag))})}}
                 TextButton(onClick={app.quizSettings(config.copy(works=emptyList()))}){Text(text(R.string.ui_clear_pool))}
             }

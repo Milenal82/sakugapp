@@ -9,6 +9,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.sakugapp.data.*
 import com.sakugapp.ui.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.first
 import org.junit.*
 import org.junit.Assert.*
 import java.io.File
@@ -56,6 +57,16 @@ class ExtensionUiDeviceTest {
   ui.onNodeWithTag("reset-nickname").performClick();ui.waitUntil(10000){app.localProfile.value.nickname==null}
   ui.onNodeWithTag("profile-favorites").performScrollTo().performClick();ui.onNodeWithText(ui.activity.getString(R.string.ui_favorites_login)).assertIsDisplayed()
   app.preferences.number("fontScale",1f);app.preferences.theme("system");app.preferences.accent("default")
+ }
+ @Test fun quizPoolRejectsArtistAndPersistsVerifiedCopyright()=runBlocking<Unit>{
+  val(_,app)=scene();app.preferences.quiz(QuizSettings(custom=true));ui.waitUntil(10000){app.quizSettings.value.custom}
+  ui.onNodeWithTag("home-quiz").performScrollTo().performClick();ui.onNodeWithTag("discovery-query").performTextInput("artist_a")
+  ui.onNodeWithText(ui.activity.getString(R.string.ui_verify_tag)).performScrollTo().performClick()
+  ui.waitUntil(10000){ui.onAllNodesWithTag("quiz-pool-error").fetchSemanticsNodes().isNotEmpty()};assertTrue(app.quizSettings.value.works.isEmpty())
+  ui.onNodeWithTag("discovery-query").performTextReplacement("test_show")
+  ui.waitUntil(10000){ui.onAllNodesWithTag("candidate-test_show").fetchSemanticsNodes().isNotEmpty()};ui.onNodeWithTag("candidate-test_show").performScrollTo().performClick()
+  ui.waitUntil(10000){app.quizSettings.value.works==listOf("test_show")};assertTrue(PreferencesStore(ui.activity).quiz.first().works.contains("test_show"))
+  app.preferences.quiz(QuizSettings())
  }
  @Test fun nativeQuizPlaysAndCountsFiveDistinctQuestionsOnce()=runBlocking<Unit>{
   val(_,app)=scene();app.preferences.quiz(QuizSettings(5));ui.waitUntil(10000){app.quizSettings.value.count==5}
