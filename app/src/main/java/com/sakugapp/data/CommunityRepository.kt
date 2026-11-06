@@ -29,7 +29,9 @@ class CommunityRepository(
         fields?.let { builder.post(FormBody.Builder().apply { it.forEach { (key,value)->add(key,value) } }.build()) }
         return builder.build()
     }
-    private suspend fun execute(request: Request): String = suspendCancellableCoroutine { continuation ->
+    private suspend fun execute(request: Request): String {
+        PublicReadThrottle.awaitTurn()
+        return suspendCancellableCoroutine { continuation ->
         val call=client.newCall(request);continuation.invokeOnCancellation { call.cancel() }
         call.enqueue(object:Callback {
             override fun onFailure(call:Call,e:IOException) { if(!continuation.isCancelled)continuation.resumeWithException(DataFailure("Network request failed. Check the connection and retry.")) }
@@ -44,6 +46,7 @@ class CommunityRepository(
                 } catch(e:Exception) { if(!continuation.isCancelled)continuation.resumeWithException(if(e is DataFailure)e else DataFailure("Unable to read the website response.")) }
             }
         })
+    }
     }
     private suspend fun token(path: String) = CommunityParser.csrf(execute(request(path)))
     suspend fun identity():Account? {

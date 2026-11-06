@@ -22,10 +22,10 @@ import java.time.*
     range?.let{Text(it.token,style=MaterialTheme.typography.bodySmall)}
     if(unsupported)Text(text(R.string.ui_date_raw),style=MaterialTheme.typography.bodySmall,color=MaterialTheme.colorScheme.error)
     if(open){
-        val state=rememberDateRangePickerState(initialSelectedStartDateMillis=range?.start?.atStartOfDay(ZoneOffset.UTC)?.toInstant()?.toEpochMilli(),initialSelectedEndDateMillis=range?.end?.atStartOfDay(ZoneOffset.UTC)?.toInstant()?.toEpochMilli())
+        val state=rememberDateRangePickerState(yearRange=minOf(1900,range?.start?.year ?: 1900)..maxOf(2100,range?.end?.year ?: 2100),initialSelectedStartDateMillis=range?.start?.atStartOfDay(ZoneOffset.UTC)?.toInstant()?.toEpochMilli(),initialSelectedEndDateMillis=range?.end?.atStartOfDay(ZoneOffset.UTC)?.toInstant()?.toEpochMilli())
         DatePickerDialog(onDismissRequest={open=false},confirmButton={TextButton(enabled=state.selectedStartDateMillis!=null && state.selectedEndDateMillis!=null,onClick={
             val start=Instant.ofEpochMilli(state.selectedStartDateMillis!!).atZone(ZoneOffset.UTC).toLocalDate();val end=Instant.ofEpochMilli(state.selectedEndDateMillis!!).atZone(ZoneOffset.UTC).toLocalDate()
             edit(DateRangeFilter.set(query,CalendarRange(start,end)));open=false
-        }){Text(text(R.string.ui_apply))}},dismissButton={TextButton(onClick={open=false}){Text(text(R.string.ui_cancel))}}){DateRangePicker(state,modifier=Modifier.heightIn(max=440.dp),title={Text(text(R.string.ui_date_range))})}
+        }){Text(text(R.string.ui_apply))}},dismissButton={TextButton(onClick={open=false}){Text(text(R.string.ui_cancel))}}){DateRangePicker(state,modifier=Modifier.heightIn(max=440.dp).testTag("date-picker"),title={Text(text(R.string.ui_date_range))})}
     }
 }

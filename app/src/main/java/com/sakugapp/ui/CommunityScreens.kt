@@ -68,7 +68,7 @@ fun VoteControl(post:Post,model:AppViewModel,onScore:(Int?)->Unit,onLogin:()->Un
             TileMenu(expanded,{expanded=false}){
                 for(value in 0..3)AppMenuItem(icon=null,selected=vote.value==value,text={
                     if(value==0)Text("0")else Row(horizontalArrangement=Arrangement.spacedBy(2.dp)){repeat(value){Icon(painterResource(R.drawable.ic_star),contentDescription=null,modifier=Modifier.size(18.dp))}}
-                },modifier=Modifier.testTag("vote-$value").semantics{contentDescription="$voteLabel $value"},onClick={expanded=false;vote.choose(value,onScore)})
+                },modifier=Modifier.testTag("vote-$value").semantics{contentDescription="$voteLabel $value"},onClick={expanded=false;vote.choose(value){score->model.voteRevision.value++;onScore(score)}})
             }
         }
         if(vote.busy)LinearProgressIndicator(Modifier.width(48.dp))

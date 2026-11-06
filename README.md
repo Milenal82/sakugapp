@@ -11,9 +11,9 @@ Sakuga Mobile（安装名称 Sakugapp）是 Sakugabooru 的非官方 Android 客
 - 浏览真实帖子，连续加载、下拉刷新、返回保留位置。手机可选 1 / 2 / 3 / 4 / 6 列，平板另有 8 / 12 列。
 - 原始标签搜索、组合条件、标签联想、搜索历史和查询备忘录。平均色工具分析已显示的缩略图，不是网站的颜色相似搜索。
 - 原生详情、分类标签、Score、来源和评论；上一帖、下一帖、下载、原帖、收藏集中在同一操作栏。
-- 全屏旋转、倍速、音量、A–B 循环、双指缩放、双击暂停、左右切帖。视频下方提供 ±1/2/3 帧控制，支持确认帧选取 A/B 点；高级控制可折叠，并可导出选定片段（流复制或重编码）。
+- 全屏旋转、倍速、音量、A–B 循环、双指缩放、双击暂停、左右切帖。视频下方提供 ±1/2/3 帧控制，支持确认帧选取 A/B 点；高级控制可折叠，并可导出选定片段（精确裁剪，重编码）。
 - 本地多收藏夹、拖拽排序与封面，夹内支持一层子收藏夹及多分类，JSON 备份；独立的标签收藏和本地备注。浏览历史自动记录，可逐条删除或清空。
-- 深浅色外观及标准 / 樱花粉 / 薄荷青完整配色、75%–125% 应用字号、0–20 dp 预览标签额外行距，八种界面语言；账户、Vote、评论和 Blog / Forum 入口。网站内容与原始标签保持原文，官网语言仅使用英语或日语。
+- 深浅色外观及标准 / 樱花粉 / 薄荷青 / 琥珀橙完整配色、75%–125% 应用字号、0–20 dp 预览标签额外行距，八种界面语言；账户、Vote、评论和 Blog / Forum 入口。网站内容与原始标签保持原文，官网语言仅使用英语或日语。
 
 当前页面的视频使用最多 200 MiB 临时磁盘缓存，播放器和逐帧分析共享已加载区间；退出页面后清理。设置 → 数据管理分别选择普通视频、指定片段和批量下载的 SAF 目录，首次未设置时打开系统目录选择器。旧版私有视频可导出，原文件保留。片段导出与逐帧精度限制见[播放器说明](docs/player-tools.md)。
 
@@ -51,9 +51,9 @@ Sakuga Mobile (installed as Sakugapp) is an unofficial Android client for Sakuga
 - Real posts with continuous loading, pull to refresh, and restored scroll position. Phones support 1 / 2 / 3 / 4 / 6 columns; tablets also offer 8 / 12.
 - Original tag queries, combined filters, tag suggestions, search history, and a query reference. The average-color tool analyzes displayed thumbnails; it does not perform server-side color similarity search.
 - Native details with classified tags, Score, source, and comments. Previous, next, download, original post, and favorites share one toolbar.
-- Fullscreen rotation, speed and volume controls, A–B loops, pinch zoom, double-tap pause, and swiping between posts. A permanent ±1/2/3 frame bar supplies confirmed A/B points. Advanced controls fold away; selected clips export by stream copy or explicit re-encoding.
+- Fullscreen rotation, speed and volume controls, A–B loops, pinch zoom, double-tap pause, and swiping between posts. A permanent ±1/2/3 frame bar supplies confirmed A/B points. Advanced controls fold away; selected clips export by verified re-encoding.
 - Local folders with drag ordering, covers, one level of subfolders and multiple classifications, and JSON backup; separate tag favorites and local notes. Browsing history is recorded automatically; entries can be deleted individually or cleared.
-- Light and dark appearances with complete Default / Sakura Pink / Mint Cyan palettes, 75%–125% app text size, 0–20 dp extra preview tag-row spacing, eight UI languages, account / Vote / comment features, and Blog / Forum links. Website content and tags stay in their original language; website locale uses English or Japanese only.
+- Light and dark appearances with complete Default / Sakura Pink / Mint Cyan / Amber Orange palettes, 75%–125% app text size, 0–20 dp extra preview tag-row spacing, eight UI languages, account / Vote / comment features, and Blog / Forum links. Website content and tags stay in their original language; website locale uses English or Japanese only.
 
 Each page shares up to 200 MiB of temporary disk video cache, including frame analysis, and clears it on exit. Data settings provide independent SAF folders for full videos, selected clips and batches; first use opens the system folder picker if unset. Old private videos can be exported without deleting originals. See [player tools](docs/player-tools.md) for frame and export limits.
 
@@ -91,7 +91,7 @@ Sakuga Mobile（インストール名 Sakugapp）は Sakugabooru の非公式 An
 - 実際の投稿の連続読み込み、引っ張って更新、戻った際のスクロール位置の復元。スマートフォンは 1 / 2 / 3 / 4 / 6 列、タブレットはさらに 8 / 12 列に対応。
 - 元のタグ名による検索、複合条件、タグ候補、検索履歴、検索構文の早見表。平均色ツールは表示中のサムネイルを分析するもので、サイトの色類似検索ではありません。
 - 分類別タグ、Score、出典、コメントを表示するネイティブ詳細画面。前後の投稿、ダウンロード、元投稿、お気に入りを同じ操作バーに配置。
-- 全画面回転、速度と音量、A–B リピート、ピンチズーム、ダブルタップで一時停止、左右の投稿切り替え。動画の下に ±1/2/3 フレーム操作を常設し、確定フレームから A/B 点を設定。詳細操作は折りたたみ可能で、区間をストリームコピーまたは再エンコードで保存できます。
+- 全画面回転、速度と音量、A–B リピート、ピンチズーム、ダブルタップで一時停止、左右の投稿切り替え。動画の下に ±1/2/3 フレーム操作を常設し、確定フレームから A/B 点を設定。詳細操作は折りたたみ可能で、区間を検証付き再エンコードで保存できます。
 - ドラッグで並べ替えできるローカルフォルダ、カバー、1 階層のサブフォルダと複数分類、JSON バックアップ、独立したタグのお気に入りとメモ。閲覧履歴は自動で記録し、個別削除と全消去に対応。
 - ライト / ダーク表示と標準 / Sakura Pink（桜色）/ Mint Cyan（ミント色）の全体配色、75%–125% の文字サイズ、プレビュータグの追加行間 0–20 dp、8 言語の UI、アカウント / Vote / コメント機能、Blog / Forum へのリンク。サイト本文とタグは原文のまま、サイトの言語指定は英語または日本語のみ。
 
@@ -154,3 +154,13 @@ The development branch starts with Search and offers Search / Posts / Profile ta
 開発ブランチは検索から開始し、検索・Posts・プロフィールを切り替えられます。ローカル画像と名前、取得済み投稿による原画師統計・作品別話数閲覧に対応します。通常閲覧と検索結果は別に保持し、話数は取得範囲内のみです。
 
 [Scope, sources and limits / 实现范围与限制 / 実装と制限](docs/search-profile-discovery.md)
+
+## Development update · 开发更新 · 開発更新
+
+本开发分支压缩播放器高级控制区，仅保留精确裁剪；Posts 通过底部入口恢复普通浏览，提交搜索显示结果。资料卡更紧凑，增加琥珀橙、日期范围、14 个专题、独立网站 Favorites 和四选一原画猜谜。网站 Favorites 会核对个人 Vote，和本地收藏夹分开；猜谜只使用单个已验证 Artist 的真实视频。仅提供 Debug APK，不修改正式版。
+
+This branch compacts player/profile controls and keeps precise clipping only. It adds Amber Orange, calendar ranges, 14 discovery topics, account-scoped website Favorites and a four-choice artist quiz. Website votes are checked per post; quiz eligibility is verified locally. Debug builds only.
+
+詳細操作とプロフィールをコンパクトにし、区間保存は精密クリップのみに変更しました。アンバーオレンジ、日付範囲、14の特集、サイトの投票記録、4択原画師クイズを追加しています。投票は投稿ごとに確認し、ローカルのお気に入りとは別に扱います。Debug版のみです。
+
+[Implementation, checks and limitations / 实现与验证 / 実装と制限](docs/compact-explore-quiz.md)

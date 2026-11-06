@@ -49,4 +49,10 @@
     <string name="ui_quiz_home">クイズのホーム</string>
     <string name="ui_quiz_correct">正解</string>
     <string name="ui_quiz_wrong">不正解</string>
+
+    <string name="ui_favorites_sub">サイトの投票記録</string>
+    <string name="ui_favorites_identity_error">サイトのアカウントを確認できません。再ログインしてください。</string>
+    <string name="ui_favorites_verification_error">結果が自分の投票と一致しません。未確認の一覧は表示しません。</string>
+    <string name="ui_directory_verification_error">タグ分類・件数・並び順を確認できません。</string>
+    <string name="ui_quiz_pool_error">確認済みの作品タグを1つ以上選んでください。</string>
 </resources>

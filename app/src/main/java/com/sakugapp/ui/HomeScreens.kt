@@ -96,7 +96,10 @@ import kotlinx.coroutines.*
             if(busy)LinearProgressIndicator(Modifier.fillMaxWidth())
             if(error)Text(text(R.string.ui_profile_error),color=MaterialTheme.colorScheme.error)
         }}
-        HomeTile(R.drawable.ic_folder,text(R.string.ui_my_folders),text(R.string.ui_folders_sub),Modifier.fillMaxWidth()){route("library")}
+        Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min),horizontalArrangement=Arrangement.spacedBy(12.dp)){
+            HomeTile(R.drawable.ic_folder,text(R.string.ui_my_folders),text(R.string.ui_folders_sub),Modifier.weight(1f).fillMaxHeight()){route("library")}
+            HomeTile(R.drawable.ic_star,text(R.string.ui_website_favorites),text(R.string.ui_favorites_sub),Modifier.weight(1f).fillMaxHeight().testTag("profile-favorites")){route("website_favorites")}
+        }
         Row(Modifier.height(IntrinsicSize.Min),horizontalArrangement=Arrangement.spacedBy(12.dp)){
             HomeTile(R.drawable.ic_profile,text(if(account==null)R.string.ui_account_login else R.string.ui_website_account),"Sakugabooru",Modifier.weight(1f).fillMaxHeight()){route("account")}
             HomeTile(R.drawable.ic_book,text(R.string.ui_blog),"Sakugabooru Blog",Modifier.weight(1f).fillMaxHeight()){site("https://blog.sakugabooru.com/")}

@@ -139,6 +139,14 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
         }}){insets->NavHost(navController=nav,startDestination="search_home",modifier=Modifier.padding(insets).semantics{testTagsAsResourceId=true}){
             composable("search_home"){SearchHomeScreen(app,settings,::search,::go)}
             composable("profile"){ProfileHomeScreen(app,::go,openSite)}
+            composable("quiz"){PageMediaScope{
+                val quiz:QuizViewModel=viewModel(factory=object:androidx.lifecycle.ViewModelProvider.Factory{override fun <T:androidx.lifecycle.ViewModel> create(cls:Class<T>):T { @Suppress("UNCHECKED_CAST") return QuizViewModel(app.quizRepository) as T }})
+                QuizRoute(app,quiz)
+            }}
+            composable("website_favorites"){PageMediaScope{
+                val favorites:WebsiteFavoritesViewModel=viewModel(factory=object:androidx.lifecycle.ViewModelProvider.Factory{override fun <T:androidx.lifecycle.ViewModel> create(cls:Class<T>):T { @Suppress("UNCHECKED_CAST") return WebsiteFavoritesViewModel(app.websiteFavorites,app.account,app.voteRevision) as T }})
+                WebsiteFavoritesScreen(favorites,app,settings,{go("account")},::search){post,order->model.openLocal(post,order);go("post/${post.id}")}
+            }}
             composable("explore"){ExploreScreen(::search,::go)}
             composable("topic_tags/{type}/{order}"){back->TopicTagsScreen(app.topics,if(back.arguments?.getString("type")=="artist")TagCategory.ARTIST else TagCategory.COPYRIGHT,back.arguments?.getString("order") ?: "date",::search)}
             composable("search_history"){SearchHistoryScreen(app,::search)}

@@ -49,4 +49,10 @@
     <string name="ui_quiz_home">Accueil du quiz</string>
     <string name="ui_quiz_correct">Correct</string>
     <string name="ui_quiz_wrong">Incorrect</string>
+
+    <string name="ui_favorites_sub">Votes sur le site</string>
+    <string name="ui_favorites_identity_error">Identité modifiée ou indisponible. Reconnectez-vous.</string>
+    <string name="ui_favorites_verification_error">Les résultats ne correspondent pas à vos votes vérifiés. Aucune liste non vérifiée affichée.</string>
+    <string name="ui_directory_verification_error">Types, nombres ou ordre des tags non vérifiés.</string>
+    <string name="ui_quiz_pool_error">Choisissez au moins un tag d’œuvre vérifié.</string>
 </resources>

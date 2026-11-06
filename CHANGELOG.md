@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased — compact controls, topics and quiz
+
+- Compact advanced player controls and local profile card; precise-only clip export.
+- Bottom Posts restores ordinary browsing, without mode chips.
+- Complete light/dark Amber Orange palettes and calendar-aware date ranges.
+- Four popular-date topics, four verified tag directories and six animation-tag searches.
+- Website Favorites isolated by account and verified with personal Vote; four-choice artist quiz with bounded, classified real-post sampling.
+- Debug-only workflow and existing package/version/signing retained.
+
+
 ## Unreleased — Search, Profile and discovery
 
 - Three main tabs, a styled SAKUGAPP header, independent search home and preserved browse/result states.

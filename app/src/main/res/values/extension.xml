@@ -49,4 +49,10 @@
     <string name="ui_quiz_home">Quiz home</string>
     <string name="ui_quiz_correct">Correct</string>
     <string name="ui_quiz_wrong">Incorrect</string>
+
+    <string name="ui_favorites_sub">Website vote records</string>
+    <string name="ui_favorites_identity_error">Website identity changed or cannot be queried. Sign in again.</string>
+    <string name="ui_favorites_verification_error">The server result does not match your verified vote level. No unverified list is shown.</string>
+    <string name="ui_directory_verification_error">Tag types, counts or ordering could not be verified.</string>
+    <string name="ui_quiz_pool_error">Choose at least one verified Copyright tag.</string>
 </resources>

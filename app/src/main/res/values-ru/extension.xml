@@ -49,4 +49,10 @@
     <string name="ui_quiz_home">Начало викторины</string>
     <string name="ui_quiz_correct">Верно</string>
     <string name="ui_quiz_wrong">Неверно</string>
+
+    <string name="ui_favorites_sub">Голоса на сайте</string>
+    <string name="ui_favorites_identity_error">Аккаунт изменён или недоступен. Войдите снова.</string>
+    <string name="ui_favorites_verification_error">Результаты не соответствуют вашим голосам. Непроверенный список не показан.</string>
+    <string name="ui_directory_verification_error">Не удалось проверить типы, количество или порядок тегов.</string>
+    <string name="ui_quiz_pool_error">Выберите хотя бы один подтверждённый тег произведения.</string>
 </resources>

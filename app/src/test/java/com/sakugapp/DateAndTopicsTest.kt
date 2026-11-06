@@ -12,7 +12,7 @@ class DateAndTopicsTest {
             val r=CalendarRange(LocalDate.parse(a),LocalDate.parse(b));assertEquals(r,DateRangeFilter.read(r.token))
         }
         assertEquals(LocalDate.of(2024,2,29),DateRangeFilter.read("date:2024-02-29")!!.end)
-        for(q in listOf("date:2025-02-29","date:2026-02-30","date:2026-02-02...2026-01-01","date:>=2026-01-01","date:2026-01-01 date:2026-01-02")){
+        for(q in listOf("date:0000-01-01","date:2025-02-29","date:2026-02-30","date:2026-02-02...2026-01-01","date:>=2026-01-01","date:2026-01-01 date:2026-01-02")){
             assertTrue(q,DateRangeFilter.unsupported(q));assertThrows(IllegalArgumentException::class.java){DateRangeFilter.set(q,null)}
         }
     }

@@ -12,13 +12,13 @@ object TagDirectory {
         try {
             val root=JsonParser.parseString(body);require(root.isJsonArray && root.asJsonArray.size()<=30)
             val tags=root.asJsonArray.map { entry->val o=entry.asJsonObject
-                val category=when(o["type"].asInt){1->TagCategory.ARTIST;3->TagCategory.COPYRIGHT;else->TagCategory.UNKNOWN}
-                DirectoryTag(o["id"].asLong,o["name"].asString,category,o["count"].asLong).also{require(it.id>0 && LibraryCodec.tagName(it.name) && it.category==type && it.count>=0)}
+                val category=when(o["type"].asString.toIntOrNull()){1->TagCategory.ARTIST;3->TagCategory.COPYRIGHT;else->TagCategory.UNKNOWN}
+                DirectoryTag(o["id"].asString.toLongOrNull() ?: error("id"),o["name"].asString,category,o["count"].asString.toLongOrNull() ?: error("count")).also{require(it.id>0 && LibraryCodec.tagName(it.name) && it.category==type && it.count>=0)}
             }
-            require(tags.map{it.name}.distinct().size==tags.size)
+            require(tags.map{it.name}.distinct().size==tags.size && tags.map{it.id}.distinct().size==tags.size)
             require(tags.zipWithNext().all{(a,b)->if(order=="date")a.id>=b.id else a.count>=b.count})
             return tags
-        }catch(e:Exception){throw DataFailure("Tag directory classification or ordering could not be verified.",e)}
+        }catch(e:Exception){throw DataFailure("tag_directory_invalid",e)}
     }
 }
 class TopicRepository(private val repository:SakugaRepository=SakugaRepository(),private val clock:()->Long={System.currentTimeMillis()}) {

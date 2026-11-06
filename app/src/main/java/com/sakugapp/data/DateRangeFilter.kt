@@ -4,7 +4,7 @@ package com.sakugapp.data
 import java.time.LocalDate
 
 /** Only unambiguous calendar dates are adopted by the picker. Raw unsupported syntax stays intact. */
-data class CalendarRange(val start:LocalDate,val end:LocalDate){init{require(!end.isBefore(start))};val token get()="date:$start...$end"}
+data class CalendarRange(val start:LocalDate,val end:LocalDate){init{require(start.year in 1..9999 && end.year in 1..9999 && !end.isBefore(start))};val token get()="date:$start...$end"}
 object DateRangeFilter {
     fun read(query:String):CalendarRange? {
         val tokens=SearchSyntax.tokens(query).filter{SearchSyntax.field(it)=="date"}
@@ -16,7 +16,7 @@ object DateRangeFilter {
     fun unsupported(query:String)=SearchSyntax.tokens(query).any{SearchSyntax.field(it)=="date"} && read(query)==null
     fun set(query:String,range:CalendarRange?):String {
         require(!unsupported(query)){"date_conflict"}
-        val old=read(query) ?: return if(range==null)query else (query.trim()+" "+range.token).trim()
+        read(query) ?: return if(range==null)query else (query.trim()+" "+range.token).trim()
         val token=SearchSyntax.tokens(query).single{SearchSyntax.field(it)=="date"}
         return SearchSyntax.tokens(query).mapNotNull{if(it==token)range?.token else it}.joinToString(" ")
     }

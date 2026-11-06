@@ -35,12 +35,12 @@ import kotlinx.coroutines.*
 @Composable internal fun TopicTagsScreen(repository:TopicRepository,type:TagCategory,order:String,search:(String)->Unit){
     var tags by remember{mutableStateOf(emptyList<DirectoryTag>())};var page by rememberSaveable{mutableIntStateOf(1)}
     var busy by remember{mutableStateOf(false)};var error by remember{mutableStateOf<String?>(null)};var end by remember{mutableStateOf(false)};var reload by remember{mutableIntStateOf(0)}
-    LaunchedEffect(type,order,page,reload){busy=true;error=null;try{val next=repository.page(type,order,page,reload>0 && page==1);tags=(if(page==1)next else tags+next).distinctBy{it.name};end=next.isEmpty()}catch(e:CancellationException){throw e}catch(e:Exception){error=e.message}finally{busy=false}}
+    LaunchedEffect(type,order,page,reload){busy=true;error=null;try{val pages=if(tags.isEmpty())(1..page).toList()else listOf(page);var next=emptyList<DirectoryTag>();val restored=mutableListOf<DirectoryTag>();for(p in pages){next=repository.page(type,order,p,reload>0 && p==1);restored+=next};tags=(if(page==1 || pages.size>1)restored else tags+restored).distinctBy{it.name};end=next.isEmpty()}catch(e:CancellationException){throw e}catch(e:Exception){error=e.message}finally{busy=false}}
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
         Text(text(R.string.ui_discover_tags),style=MaterialTheme.typography.titleLarge);Text(text(R.string.ui_topic_note),style=MaterialTheme.typography.bodySmall)
         tags.forEach{tag->Surface(onClick={search(tag.name)},shape=MaterialTheme.shapes.medium,color=MaterialTheme.colorScheme.surfaceContainerHigh){Row(Modifier.fillMaxWidth().padding(12.dp)){Text(tag.name,Modifier.weight(1f),color=if(type==TagCategory.ARTIST)artistColor(MaterialTheme.colorScheme.background==appColors(true,LocalAccent.current).background)else copyrightColor(MaterialTheme.colorScheme.background==appColors(true,LocalAccent.current).background));Text(tag.count.toString())}}}
         if(busy)LinearProgressIndicator(Modifier.fillMaxWidth())
-        error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error);TextButton(onClick={reload++}){Text(text(R.string.ui_retry))}}
+        error?.let{Text(extensionError(it),color=MaterialTheme.colorScheme.error);TextButton(onClick={reload++}){Text(text(R.string.ui_retry))}}
         if(!busy && tags.isEmpty() && error==null)Text(text(R.string.ui_no_matching_verified_tags))
         if(!busy && error==null && !end && page<5)OutlinedButton(onClick={page++}){Text(text(R.string.ui_load_more))}
         TextButton(onClick={page=1;reload++}){Text(text(R.string.ui_sample_refresh))}

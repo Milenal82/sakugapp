@@ -49,4 +49,10 @@
     <string name="ui_quiz_home">測驗首頁</string>
     <string name="ui_quiz_correct">正確</string>
     <string name="ui_quiz_wrong">錯誤</string>
+
+    <string name="ui_favorites_sub">網站投票紀錄</string>
+    <string name="ui_favorites_identity_error">網站身分已變更或無法查詢，請重新登入。</string>
+    <string name="ui_favorites_verification_error">伺服器結果與已核實的個人投票等級不符，不顯示未經驗證的清單。</string>
+    <string name="ui_directory_verification_error">無法驗證標籤分類、數量或排序。</string>
+    <string name="ui_quiz_pool_error">請選擇至少一個已驗證的 Copyright 標籤。</string>
 </resources>

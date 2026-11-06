@@ -49,4 +49,10 @@
     <string name="ui_quiz_home">Inicio del quiz</string>
     <string name="ui_quiz_correct">Correcto</string>
     <string name="ui_quiz_wrong">Incorrecto</string>
+
+    <string name="ui_favorites_sub">Votos del sitio</string>
+    <string name="ui_favorites_identity_error">Identidad cambiada o no disponible. Inicie sesión de nuevo.</string>
+    <string name="ui_favorites_verification_error">Los resultados no coinciden con sus votos verificados. No se muestra una lista sin verificar.</string>
+    <string name="ui_directory_verification_error">No se pudo verificar el tipo, recuento u orden de etiquetas.</string>
+    <string name="ui_quiz_pool_error">Elija al menos una etiqueta de obra verificada.</string>
 </resources>

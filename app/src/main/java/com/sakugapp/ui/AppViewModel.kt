@@ -10,13 +10,16 @@ import kotlinx.coroutines.flow.*
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
-class AppViewModel @JvmOverloads constructor(application:Application,discoveryOverride:DiscoveryRepository?=null):AndroidViewModel(application) {
+class AppViewModel @JvmOverloads constructor(application:Application,discoveryOverride:DiscoveryRepository?=null,quizOverride:QuizRepository?=null,favoritesOverride:WebsiteFavoritesSource?=null):AndroidViewModel(application) {
     val localProfileStore=LocalProfileStore(application)
     val localProfile=localProfileStore.profile.catch{emit(LocalProfile())}.stateIn(viewModelScope,SharingStarted.Eagerly,LocalProfile())
     val topics=TopicRepository()
     val discovery=discoveryOverride ?: DiscoveryRepository()
     val preferences=PreferencesStore(application)
     val settings=preferences.settings.stateIn(viewModelScope,SharingStarted.Eagerly,AppSettings())
+    val quizSettings=preferences.quiz.stateIn(viewModelScope,SharingStarted.Eagerly,QuizSettings())
+    val quizRepository=quizOverride ?: QuizRepository()
+    fun quizSettings(value:QuizSettings){viewModelScope.launch{preferences.quiz(value)}}
     val history=preferences.history.stateIn(viewModelScope,SharingStarted.Eagerly,emptyList())
     val localLibrary=LocalLibraryStore(LibraryDatabase.get(application))
     val library=localLibrary.state.catch{emit(LibrarySnapshot(error=true))}.stateIn(viewModelScope,SharingStarted.Eagerly,LibrarySnapshot())
@@ -35,6 +38,8 @@ class AppViewModel @JvmOverloads constructor(application:Application,discoveryOv
     val suggestions:SuggestionSource=TagSuggestionRepository()
     val community=CommunityRepository(client=OkHttpClient.Builder().cookieJar(session).callTimeout(30,TimeUnit.SECONDS)
         .followRedirects(false).retryOnConnectionFailure(false).build())
+    val websiteFavorites=favoritesOverride ?: WebsiteFavoritesRepository(SakugaRepository(client=OkHttpClient.Builder().cookieJar(session).callTimeout(30,TimeUnit.SECONDS).followRedirects(false).retryOnConnectionFailure(false).build(),pageSize=20),community::identity,community::currentVote)
+    val voteRevision=MutableStateFlow(0)
     private val threads=linkedMapOf<Long,CommentThread>()
     private val votes=linkedMapOf<Long,PostVote>()
     fun commentThread(id:Long):CommentThread{if(id !in threads && threads.size>=8)threads.entries.firstOrNull{!it.value.loading && !it.value.sending && it.key!=id}?.let{threads.remove(it.key)};return threads.getOrPut(id){CommentThread(id,community,viewModelScope)}}

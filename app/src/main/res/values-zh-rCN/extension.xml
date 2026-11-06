@@ -49,4 +49,10 @@
     <string name="ui_quiz_home">测验首页</string>
     <string name="ui_quiz_correct">正确</string>
     <string name="ui_quiz_wrong">错误</string>
+
+    <string name="ui_favorites_sub">网站投票记录</string>
+    <string name="ui_favorites_identity_error">网站身份已更改或无法查询，请重新登录。</string>
+    <string name="ui_favorites_verification_error">服务器结果与已核实的个人投票等级不符，不展示未经验证的列表。</string>
+    <string name="ui_directory_verification_error">无法验证标签分类、数量或排序。</string>
+    <string name="ui_quiz_pool_error">请选择至少一个已验证的 Copyright 标签。</string>
 </resources>

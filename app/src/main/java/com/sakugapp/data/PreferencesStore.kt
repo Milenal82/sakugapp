@@ -79,6 +79,8 @@ class PreferencesStore(context: Context,private val store:DataStore<Preferences>
             tagVerticalSpacing=p[floatPreferencesKey("tagVerticalSpacing")]?.takeIf{it.isFinite() && it in 0f..20f} ?: 16f,
             accent=PreferenceRules.palette(p[stringPreferencesKey("accent")]))
     }
+    val quiz:Flow<QuizSettings> = data.map{p->QuizSettings((p[intPreferencesKey("quiz_count")] ?: 20).takeIf{it in QuizSettings.counts} ?: 20,p[booleanPreferencesKey("quiz_custom")] ?: false,p[stringPreferencesKey("quiz_pool")]?.split('\n').orEmpty().filter{LibraryCodec.tagName(it)}.distinct().take(20))}
+    suspend fun quiz(value:QuizSettings){require(value.count in QuizSettings.counts && value.works.size<=20 && value.works.all{LibraryCodec.tagName(it)});store.edit{it[intPreferencesKey("quiz_count")]=value.count;it[booleanPreferencesKey("quiz_custom")]=value.custom;it[stringPreferencesKey("quiz_pool")]=value.works.distinct().joinToString("\n")}}
     val history: Flow<List<String>> = data.map { PreferenceRules.history(it[stringPreferencesKey("history")]?.split('\n').orEmpty(), "") }
     val localeState:Flow<Pair<String,String?>> = data.map { p ->
         (p[stringPreferencesKey("language")]?.takeIf{it in PreferenceRules.languages} ?: "system") to p[stringPreferencesKey("locale_last_applied")]
