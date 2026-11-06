@@ -41,7 +41,7 @@ class PlayerStabilityDeviceTest {
         return assets.open("library-real-posts.json").bufferedReader().use{PostParser.posts(it.readText(),types)}}
     @org.junit.Before fun selectPostsEntry(){enterPostsForLegacyTest(ui)}
     @Test fun fullscreenReusesPlayerPreservesPositionAndGesturesAcrossLifecycleAndVideoSwitches(){
-        val context=ui.activity;val assets=InstrumentationRegistry.getInstrumentation().context.assets
+        val context=ui.activity;val originalOrientation=context.resources.configuration.orientation;val assets=InstrumentationRegistry.getInstrumentation().context.assets
         val wide=File(context.cacheDir,"stability-wide.mp4");val tall=File(context.cacheDir,"stability-tall.mp4")
         assets.open("frame-index-vfr.mp4").use{input->wide.outputStream().use{input.copyTo(it)}}
         assets.open("portrait-pattern.mp4").use{input->tall.outputStream().use{input.copyTo(it)}}
@@ -50,7 +50,12 @@ class PlayerStabilityDeviceTest {
         var owner by mutableStateOf<LifecycleOwner?>(null);var current:Player?=null;var creations=0
         ui.runOnUiThread{owner1=Owner();owner2=Owner();owner1.registry.currentState=Lifecycle.State.RESUMED;owner2.registry.currentState=Lifecycle.State.RESUMED;owner=owner1
             context.setContent{SakugappTheme(false){Surface(Modifier.fillMaxSize().systemBarsPadding()){
-                CompositionLocalProvider(LocalLifecycleOwner provides owner!!){if(shown)VideoPanel(url,onPlayerReady={current=it;creations++})}
+                CompositionLocalProvider(LocalLifecycleOwner provides owner!!){
+                    // The actual detail screen owns the vertical scroll; expanded tools follow it.
+                    Column(Modifier.verticalScroll(rememberScrollState())){
+                        if(shown)VideoPanel(url,onPlayerReady={current=it;creations++})
+                    }
+                }
             }}}
         }
         fun ready(){
@@ -64,8 +69,8 @@ class PlayerStabilityDeviceTest {
             ready();assertSame(first,current);assertEquals(1,creations)
             repeat(3){
                 ui.runOnUiThread{current!!.pause();current!!.seekTo(400)};ready()
-                ui.onNodeWithTag("toggle-fullscreen").performClick()
-                ui.waitUntil(15000){context.resources.configuration.orientation==Configuration.ORIENTATION_LANDSCAPE}
+                ui.onNodeWithTag("toggle-fullscreen").scrollIntoViewIfNeeded().performClick()
+                ui.waitUntil(15000){ui.onAllNodes(isDialog()).fetchSemanticsNodes().isNotEmpty() && context.resources.configuration.orientation==Configuration.ORIENTATION_LANDSCAPE}
                 ui.onNodeWithTag("toggle-fullscreen").assertIsNotDisplayed()
                 ui.onNodeWithTag("more-controls").assertIsNotDisplayed()
                 assertSame(first,current);assertEquals(1,creations)
@@ -87,18 +92,22 @@ class PlayerStabilityDeviceTest {
                 ui.onNodeWithTag("ab-toggle").performScrollTo().assertIsEnabled().performClick().assertIsSelected()
                 ui.onNodeWithTag("step--1").scrollIntoViewIfNeeded().assertIsDisplayed()
                 if(it==0)UiEvidence.capture("stability-full-controls.png")
-                ui.onNodeWithTag("toggle-fullscreen").performClick()
-                ui.waitUntil(15000){context.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT}
+                // Enabling A-B deliberately seeks to A. Fullscreen exit must preserve that
+                // current position, rather than incorrectly require the former B position.
+                var positionBeforeExit=0L
+                ui.runOnUiThread{positionBeforeExit=current!!.currentPosition}
+                ui.onNodeWithTag("toggle-fullscreen").scrollIntoViewIfNeeded().performClick()
+                ui.waitUntil(15000){context.resources.configuration.orientation==originalOrientation}
                 assertSame(first,current);assertEquals(1,creations)
-                ui.runOnUiThread{assertEquals(1.5f,current!!.playbackParameters.speed,0f);assertTrue(kotlin.math.abs(current!!.currentPosition-1200)<=50)}
+                ui.runOnUiThread{assertEquals(1.5f,current!!.playbackParameters.speed,0f);assertTrue(kotlin.math.abs(current!!.currentPosition-positionBeforeExit)<=50)}
                 ui.onNodeWithTag("ab-toggle").performScrollTo().assertIsSelected()
             }
             repeat(4){index->ui.runOnUiThread{url=if(index%2==0)tall.toURI().toString()else wide.toURI().toString()};ui.waitUntil(10000){creations==index+2};ready()}
             ui.runOnUiThread{url=tall.toURI().toString()};ui.waitUntil(10000){creations==6};ready()
-            ui.onNodeWithTag("toggle-fullscreen").performClick()
+            ui.onNodeWithTag("toggle-fullscreen").scrollIntoViewIfNeeded().performClick()
             ui.waitUntil(15000){context.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT}
             ui.onNodeWithTag("more-controls").assertIsNotDisplayed()
-            tapVideo();ui.onNodeWithTag("toggle-fullscreen").performClick()
+            tapVideo();ui.onNodeWithTag("toggle-fullscreen").scrollIntoViewIfNeeded().performClick()
             ui.runOnUiThread{shown=false};ui.waitForIdle()
             ui.runOnUiThread{assertTrue((current as ExoPlayer).isReleased)}
         }finally{ui.runOnUiThread{shown=false};wide.delete();tall.delete()}
