@@ -49,6 +49,10 @@ class SearchImeGestureDeviceTest {
             val original=query()
             entry().click();field().text="animated effects"
             await("Real software keyboard is visible"){ime()}
+            // Insets become visible before the platform IME/back callback handoff settles.
+            // Use the real animation clock, then exercise one actual system-edge gesture.
+            device.waitForIdle();SystemClock.sleep(350)
+            assertTrue("Keyboard remains visible before the edge gesture",ime())
             UiEvidence.capture("search-ime-$context-before-api35.png")
             back();UiEvidence.capture("search-ime-$context-after-api35.png")
             await("Back hides the keyboard or exits editing"){!ime()}

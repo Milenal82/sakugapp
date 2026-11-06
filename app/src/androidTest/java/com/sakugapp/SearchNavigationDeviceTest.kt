@@ -68,11 +68,10 @@ class SearchNavigationDeviceTest {
         val results=feed.state.value.posts.map{it.id};val resultPosition=position()
         openCombined();ui.onNodeWithTag("query-expression").assertTextContains(query)
         chooseHistory(changed);assertEquals(query,feed.state.value.query)
-        var keyboardWasVisible=false
-        ui.runOnUiThread{keyboardWasVisible=ViewCompat.getRootWindowInsets(ui.activity.window.decorView)?.isVisible(WindowInsetsCompat.Type.ime())==true}
+        // Selecting history clears the dialog's focus/IME; await its own window,
+        // rather than reading the inactive Activity's unrelated insets during dismissal.
+        ui.waitUntil(10000){dialogImeHeight()==0}
         back()
-        // System back first dismisses an open IME; only the following back exits the editor.
-        if(keyboardWasVisible && ui.onAllNodesWithTag("query-expression").fetchSemanticsNodes().isNotEmpty())back()
         ui.onNodeWithTag("query-expression").assertDoesNotExist()
         assertEquals(query,feed.state.value.query);assertEquals(results,feed.state.value.posts.map{it.id})
         assertEquals(resultPosition.toDouble(),position().toDouble(),2.0)

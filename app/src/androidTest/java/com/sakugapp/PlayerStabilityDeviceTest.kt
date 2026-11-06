@@ -35,13 +35,16 @@ import java.io.File
 class PlayerStabilityDeviceTest {
     @get:Rule val ui=createAndroidComposeRule<MainActivity>()
     private class Owner:LifecycleOwner {val registry=LifecycleRegistry(this);override val lifecycle:Lifecycle get()=registry}
-    private fun tapVideo(){
+    private fun tapVideo(shown:Boolean){
         // GestureDetector uses real event timestamps. Separate singles must not become a
         // synthetic double tap when Compose's animation clock is idle between actions.
         val bounds=ui.onNodeWithTag("video-gestures").fetchSemanticsNode().boundsInWindow
         androidx.test.uiautomator.UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
             .click((bounds.left+bounds.width*.25f).toInt(),(bounds.top+bounds.height*.3f).toInt())
-        Thread.sleep(android.view.ViewConfiguration.getDoubleTapTimeout()+100L);ui.waitForIdle()
+        // Allow native controller visibility animations to complete, well before its
+        // five-second automatic timeout; this verifies the tap itself changed visibility.
+        ui.waitUntil(2000){runCatching{ui.onNodeWithTag("more-controls").assertIsDisplayed()}.isSuccess==shown}
+        Thread.sleep(android.view.ViewConfiguration.getDoubleTapTimeout()+50L);ui.waitForIdle()
     }
     private fun posts():List<Post>{val assets=InstrumentationRegistry.getInstrumentation().context.assets
         val types=assets.open("personal-tag-summary.json").bufferedReader().use{PostParser.tagSummary(it.readText())}
@@ -83,12 +86,12 @@ class PlayerStabilityDeviceTest {
                 assertSame(first,current);assertEquals(1,creations)
                 ui.runOnUiThread{assertTrue(kotlin.math.abs(current!!.currentPosition-400)<=50)}
                 if(it==0)UiEvidence.capture("stability-full-hidden.png")
-                tapVideo();ui.onNodeWithTag("toggle-fullscreen").assertIsDisplayed()
-                tapVideo();ui.onNodeWithTag("more-controls").assertIsNotDisplayed()
+                tapVideo(true);ui.onNodeWithTag("toggle-fullscreen").assertIsDisplayed()
+                tapVideo(false);ui.onNodeWithTag("more-controls").assertIsNotDisplayed()
                 ui.onNodeWithTag("video-gestures").performTouchInput{doubleClick(Offset(width*.25f,height*.3f))}
                 Thread.sleep(400);ui.waitForIdle();ui.onNodeWithTag("more-controls").assertIsNotDisplayed()
                 ui.runOnUiThread{current!!.pause();current!!.seekTo(400)};ready()
-                tapVideo()
+                tapVideo(true)
                 // The expanded panel is deliberately retained across fullscreen round trips.
                 if(ui.onAllNodesWithTag("advanced-controls").fetchSemanticsNodes().isEmpty())
                     ui.onNodeWithTag("more-controls").performClick()
@@ -114,7 +117,7 @@ class PlayerStabilityDeviceTest {
             ui.onNodeWithTag("toggle-fullscreen").scrollIntoViewIfNeeded().performClick()
             ui.waitUntil(15000){context.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT}
             ui.onNodeWithTag("more-controls").assertIsNotDisplayed()
-            tapVideo();ui.onNodeWithTag("toggle-fullscreen").scrollIntoViewIfNeeded().performClick()
+            tapVideo(true);ui.onNodeWithTag("toggle-fullscreen").scrollIntoViewIfNeeded().performClick()
             ui.runOnUiThread{shown=false};ui.waitForIdle()
             ui.runOnUiThread{assertTrue((current as ExoPlayer).isReleased)}
         }finally{ui.runOnUiThread{shown=false};wide.delete();tall.delete()}

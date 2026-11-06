@@ -259,8 +259,11 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
     }
     fun collapseSearch(){searchExpanded=false;historyOpen=false;keyboard?.hide();focus.clearFocus()}
     fun submit(value:String){collapseSearch();active=null;chromeVisible=true;search(value)}
-    // Let the IME own system back while visible; the editor consumes the next back event.
-    BackHandler(enabled=isActive && searchExpanded && !advanced && !imeVisible){collapseSearch()}
+    // The platform IME normally receives back first. If its callback is being handed
+    // off during animation, keep the editor as the fallback rather than popping Posts.
+    BackHandler(enabled=isActive && searchExpanded && !advanced){
+        if(imeVisible){keyboard?.hide();focus.clearFocus()}else collapseSearch()
+    }
     LaunchedEffect(searchExpanded){if(searchExpanded){searchFocus.requestFocus()}else focus.clearFocus()}
 
     fun complete(name:String){
