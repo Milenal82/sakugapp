@@ -28,8 +28,8 @@ class QuizAndFavoritesTest {
     }
     @Test fun answerIsLockedAndAccuracyUsesActualCompletedCount(){
         val q=QuizGenerator.question(post(),artists,emptySet(),QuizSettings())!!
-        val first=QuizGenerator.answer(q,"a",emptyList());assertEquals(1,QuizGenerator.answer(q,"b",first).size)
-        val second=QuizGenerator.answer(q.copy(post=post(2)),"b",first);assertEquals(50.0,QuizGenerator.accuracy(second)!!,.001);assertNull(QuizGenerator.accuracy(emptyList()))
+        val wrong=q.options.first{it!=q.correct};val first=QuizGenerator.answer(q,q.correct,emptyList());assertEquals(1,QuizGenerator.answer(q,wrong,first).size)
+        val second=QuizGenerator.answer(q.copy(post=post(2)),wrong,first);assertEquals(50.0,QuizGenerator.accuracy(second)!!,.001);assertNull(QuizGenerator.accuracy(emptyList()))
     }
     @Test fun repositoryBoundsAttemptsAndIgnoresHiddenPoolForAllWorks()=runBlocking{
         val queries=mutableListOf<String>();val repo=QuizRepository(object:PostRepository{override suspend fun page(query:String,page:Int):PostPage{queries+=query;return PostPage(emptyList(),0)}},{catalog},Random(1))

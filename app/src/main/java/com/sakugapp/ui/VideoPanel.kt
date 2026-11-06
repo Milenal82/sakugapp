@@ -195,7 +195,7 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                 val panelScroll=rememberScrollState()
                 val compact=MaterialTheme.typography.copy(titleSmall=MaterialTheme.typography.labelLarge,bodyLarge=MaterialTheme.typography.bodySmall,bodyMedium=MaterialTheme.typography.bodySmall,labelLarge=MaterialTheme.typography.labelMedium)
                 MaterialTheme(typography=compact){
-                Column(Modifier.fillMaxWidth().heightIn(max=controlsHeight ?: 440.dp).verticalScroll(panelScroll).padding(horizontal=8.dp).testTag("advanced-controls"),verticalArrangement=Arrangement.spacedBy(4.dp)){
+                Column(Modifier.fillMaxWidth().then(if(controlsHeight!=null)Modifier.heightIn(max=controlsHeight).verticalScroll(panelScroll)else Modifier).padding(horizontal=8.dp).testTag("advanced-controls"),verticalArrangement=Arrangement.spacedBy(4.dp)){
                     if(fullscreen){ActionIcon(R.drawable.ic_rotate,text(R.string.ui_rotate_screen),{
                     manualRotation=true;activity?.requestedOrientation=if(orientation==Configuration.ORIENTATION_LANDSCAPE)ActivityInfo.SCREEN_ORIENTATION_PORTRAIT else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
                     },Modifier.testTag("rotate-video"))}

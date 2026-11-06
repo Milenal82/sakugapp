@@ -4,7 +4,7 @@ Branch `dev/compact-explore-quiz` starts at `05ca44698fb24d7d408ec9a04749eed273a
 
 ## Behavior and boundaries
 
-1. Advanced player typography is scoped to that panel (12–13 sp defaults, still app/system scaled), with smaller spacing, default compact chip visuals, 48 dp touch targets and an independent scroll region. Frame/player/surface/lock algorithms are retained.
+1. Advanced player typography is scoped to that panel (12–13 sp defaults, still app/system scaled), with smaller spacing, default compact chip visuals, 48 dp touch targets ; inline controls follow the detail scroll and fullscreen controls have their own bounded scroll region. Frame/player/surface/lock algorithms are retained.
 2. Precise-only export keeps the existing confirmed A/B range, timestamp gate, source-read-only staging, output frame count/duration checks and separate SAF clip destination. The stream-copy mode, labels and unused WebM writer are removed. Internal remuxing joins already re-encoded tracks; no silent copy fallback. Hardware decoders/encoders still constrain formats and boundary accuracy.
 3. No Posts mode chips. Bottom Posts explicitly restores the ordinary snapshot, even on reselection. Search submissions switch to independent result data; clearing the query restores ordinary data. Both grid positions and pagination survive detail navigation.
 4. The local profile uses a 68 dp avatar and compact actions. Two independent reset icons have tooltips/accessibility labels; image safety, metadata keys and private storage remain unchanged. Six equal feature tiles separate local folders from website Favorites.

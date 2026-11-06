@@ -57,7 +57,7 @@ class ExtensionUiDeviceTest {
   ui.onNodeWithTag("profile-favorites").performScrollTo().performClick();ui.onNodeWithText(ui.activity.getString(R.string.ui_favorites_login)).assertIsDisplayed()
   app.preferences.number("fontScale",1f);app.preferences.theme("system");app.preferences.accent("default")
  }
- @Test fun nativeQuizPlaysAndCountsFiveDistinctQuestionsOnce()=runBlocking{
+ @Test fun nativeQuizPlaysAndCountsFiveDistinctQuestionsOnce()=runBlocking<Unit>{
   val(_,app)=scene();app.preferences.quiz(QuizSettings(5));ui.waitUntil(10000){app.quizSettings.value.count==5}
   ui.onNodeWithTag("home-quiz").performScrollTo().performClick();ui.onNodeWithTag("start-quiz").performScrollTo().performClick()
   repeat(5){
