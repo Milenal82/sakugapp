@@ -1,9 +1,23 @@
 [
   {
-    "run": "42215383925",
-    "commit": "05e8c2c95b10d86f8074fac4e3d358b6470a27b1",
+    "run": "42216165700",
+    "commit": "58579d57d1729f5093f6e11cbc22a8168550eee9",
     "status": "completed",
     "reports": [
+      {
+        "artifact": "extension-device-reports-35",
+        "counts": {
+          "name": "com.sakugapp.ExtensionUiDeviceTest",
+          "tests": "21",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0",
+          "time": "127.667",
+          "timestamp": "2026-11-06T12:21:12",
+          "hostname": "localhost"
+        },
+        "failures": []
+      },
       {
         "artifact": "extension-device-reports-28",
         "counts": {
@@ -12,8 +26,8 @@
           "failures": "0",
           "errors": "0",
           "skipped": "0",
-          "time": "55.517",
-          "timestamp": "2026-11-06T12:14:27",
+          "time": "49.332",
+          "timestamp": "2026-11-06T12:19:30",
           "hostname": "localhost"
         },
         "failures": []
@@ -26,9 +40,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:11:38.507Z",
+          "timestamp": "2026-11-06T12:17:10.810Z",
           "hostname": "runnervm7aw5e",
-          "time": "2.908"
+          "time": "3.57"
         },
         "failures": []
       },
@@ -40,9 +54,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:11:41.421Z",
+          "timestamp": "2026-11-06T12:17:14.387Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.219"
+          "time": "0.385"
         },
         "failures": []
       },
@@ -54,9 +68,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:11:41.643Z",
+          "timestamp": "2026-11-06T12:17:14.778Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.054"
+          "time": "0.059"
         },
         "failures": []
       },
@@ -68,9 +82,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:11:41.701Z",
+          "timestamp": "2026-11-06T12:17:14.843Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.146"
+          "time": "0.197"
         },
         "failures": []
       },
@@ -82,23 +96,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:11:41.849Z",
+          "timestamp": "2026-11-06T12:17:15.045Z",
           "hostname": "runnervm7aw5e",
-          "time": "14.432"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "extension-build-reports",
-        "counts": {
-          "name": "com.sakugapp.DataTest",
-          "tests": "15",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-06T12:12:05.409Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.01"
+          "time": "14.495"
         },
         "failures": []
       },
@@ -110,9 +110,23 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:11:56.283Z",
+          "timestamp": "2026-11-06T12:17:29.548Z",
           "hostname": "runnervm7aw5e",
-          "time": "9.12"
+          "time": "9.131"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.DataTest",
+          "tests": "15",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T12:17:38.689Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.026"
         },
         "failures": []
       },
@@ -124,9 +138,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:12:05.427Z",
+          "timestamp": "2026-11-06T12:17:38.723Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.021"
+          "time": "0.024"
         },
         "failures": []
       },
@@ -138,9 +152,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:12:05.454Z",
+          "timestamp": "2026-11-06T12:17:38.753Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.108"
+          "time": "0.098"
         },
         "failures": []
       },
@@ -152,9 +166,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:12:05.564Z",
+          "timestamp": "2026-11-06T12:17:38.852Z",
           "hostname": "runnervm7aw5e",
-          "time": "1.775"
+          "time": "1.748"
         },
         "failures": []
       },
@@ -166,9 +180,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:12:07.341Z",
+          "timestamp": "2026-11-06T12:17:40.603Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.063"
+          "time": "0.12"
         },
         "failures": []
       },
@@ -180,9 +194,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:12:07.405Z",
+          "timestamp": "2026-11-06T12:17:40.728Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.021"
+          "time": "0.026"
         },
         "failures": []
       },
@@ -194,9 +208,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:12:07.428Z",
+          "timestamp": "2026-11-06T12:17:40.761Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.009"
+          "time": "0.007"
         },
         "failures": []
       },
@@ -208,9 +222,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:12:07.441Z",
+          "timestamp": "2026-11-06T12:17:40.771Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.022"
+          "time": "0.031"
         },
         "failures": []
       },
@@ -222,9 +236,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:12:07.476Z",
+          "timestamp": "2026-11-06T12:17:40.805Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.026"
+          "time": "0.024"
         },
         "failures": []
       },
@@ -236,9 +250,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:12:07.504Z",
+          "timestamp": "2026-11-06T12:17:40.834Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.001"
+          "time": "0.003"
         },
         "failures": []
       },
@@ -250,9 +264,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:12:07.510Z",
+          "timestamp": "2026-11-06T12:17:40.844Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.141"
+          "time": "0.217"
         },
         "failures": []
       },
@@ -264,9 +278,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:12:07.655Z",
+          "timestamp": "2026-11-06T12:17:41.065Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.021"
+          "time": "0.03"
         },
         "failures": []
       },
@@ -278,9 +292,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:12:07.678Z",
+          "timestamp": "2026-11-06T12:17:41.097Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.003"
+          "time": "0.002"
         },
         "failures": []
       },
@@ -292,7 +306,7 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:12:07.684Z",
+          "timestamp": "2026-11-06T12:17:41.104Z",
           "hostname": "runnervm7aw5e",
           "time": "0.012"
         },
@@ -302,13 +316,13 @@
         "artifact": "extension-build-reports",
         "counts": {
           "name": "com.sakugapp.QuizAndFavoritesTest",
-          "tests": "10",
+          "tests": "11",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:12:07.697Z",
+          "timestamp": "2026-11-06T12:17:41.118Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.047"
+          "time": "0.199"
         },
         "failures": []
       },
@@ -320,9 +334,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:12:07.745Z",
+          "timestamp": "2026-11-06T12:17:41.319Z",
           "hostname": "runnervm7aw5e",
-          "time": "6.759"
+          "time": "6.534"
         },
         "failures": []
       },
@@ -334,9 +348,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:12:14.506Z",
+          "timestamp": "2026-11-06T12:17:47.855Z",
           "hostname": "runnervm7aw5e",
-          "time": "25.351"
+          "time": "25.368"
         },
         "failures": []
       },
@@ -348,9 +362,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:12:39.858Z",
+          "timestamp": "2026-11-06T12:18:13.228Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.016"
+          "time": "0.05"
         },
         "failures": []
       },
@@ -362,44 +376,44 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T12:12:39.875Z",
+          "timestamp": "2026-11-06T12:18:13.281Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.094"
+          "time": "0.117"
         },
         "failures": []
       }
     ],
-    "conclusion": "cancelled",
+    "conclusion": "success",
     "jobs": [
       {
         "name": "build",
         "conclusion": "success"
       },
       {
-        "name": "devices (35, pixel_c)",
-        "conclusion": "cancelled"
+        "name": "devices (28, Nexus S)",
+        "conclusion": "success"
       },
       {
-        "name": "devices (28, Nexus S)",
+        "name": "devices (35, pixel_c)",
         "conclusion": "success"
       }
     ],
     "artifacts": [
       {
-        "name": "extension-device-reports-28",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42215383925/artifacts/13502190211"
+        "name": "extension-device-reports-35",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42216165700/artifacts/13502385734"
       },
       {
-        "name": "extension-build-reports",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42215383925/artifacts/13502105031"
+        "name": "extension-device-reports-28",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42216165700/artifacts/13502290415"
       },
       {
         "name": "extension-debug-apk",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42215383925/artifacts/13501650803"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42216165700/artifacts/13502250308"
       },
       {
-        "name": "extension-device-reports-35",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42215383925/artifacts/13500224733"
+        "name": "extension-build-reports",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42216165700/artifacts/13502096086"
       }
     ],
     "lint": {
