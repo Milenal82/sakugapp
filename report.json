@@ -1,65 +1,65 @@
 {
-  "source_commit": "a9994b1c550719cbcf641ad2c0a89034553a20f4",
-  "run_id": "42192066617",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42192066617",
-  "captured_utc": "2026-11-06T09:07:22.691817+00:00",
+  "source_commit": "fe80b21eab5d54ee459414ef075ce86a64c74fa2",
+  "run_id": "42193832178",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42193832178",
+  "captured_utc": "2026-11-06T09:21:42.975047+00:00",
   "validation_result": "success",
   "scope": "Backup restore, native screens, app font size and tag spacing; no full player suite.",
   "jobs": [
     {
+      "name": "devices (35, pixel_c)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42193832178/job/127812029579",
+      "id": 127812029579
+    },
+    {
       "name": "devices (28, Nexus S)",
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42192066617/job/127806246371",
-      "id": 127806246371
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42193832178/job/127812029928",
+      "id": 127812029928
     },
     {
       "name": "build",
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42192066617/job/127806246575",
-      "id": 127806246575
-    },
-    {
-      "name": "devices (35, pixel_c)",
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42192066617/job/127806246627",
-      "id": 127806246627
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42193832178/job/127812030008",
+      "id": 127812030008
     },
     {
       "name": "evidence",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42192066617/job/127808042628",
-      "id": 127808042628
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42193832178/job/127814065508",
+      "id": 127814065508
     }
   ],
   "artifacts": [
     {
       "name": "discovery-device-reports-35",
-      "bytes": 439401,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42192066617/artifacts/13490681026"
-    },
-    {
-      "name": "discovery-device-reports-28",
-      "bytes": 206680,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42192066617/artifacts/13490635602"
-    },
-    {
-      "name": "discovery-debug-apk",
-      "bytes": 18671503,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42192066617/artifacts/13490037821"
+      "bytes": 446200,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42193832178/artifacts/13492015069"
     },
     {
       "name": "discovery-build-reports",
-      "bytes": 77524,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42192066617/artifacts/13489409344"
+      "bytes": 77497,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42193832178/artifacts/13491681170"
+    },
+    {
+      "name": "discovery-debug-apk",
+      "bytes": 18671871,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42193832178/artifacts/13491546447"
+    },
+    {
+      "name": "discovery-device-reports-28",
+      "bytes": 211357,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42193832178/artifacts/13490773657"
     }
   ],
   "test_counts": {
     "device": {
-      "tests": 26,
+      "tests": 28,
       "failures": 0,
       "errors": 0,
       "skipped": 0
