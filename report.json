@@ -1,37 +1,44 @@
 [
   {
-    "run": "42105761887",
-    "commit": "b79c33abf69aa06c23ae261aa4d427a983e41389",
+    "run": "42142624580",
+    "commit": "9d4f1419f9cee901bebadc995769eea88691d73d",
     "status": "in_progress",
     "reports": [
+      {
+        "artifact": "player-tools-reports-35-Nexus 6",
+        "counts": {
+          "name": "com.sakugapp.FrameControlsDeviceTest",
+          "tests": "10",
+          "failures": "1",
+          "errors": "0",
+          "skipped": "0",
+          "time": "94.659",
+          "timestamp": "2026-11-06T01:20:33",
+          "hostname": "localhost"
+        },
+        "failures": [
+          {
+            "test": "com.sakugapp.ClipExportDeviceTest.preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource",
+            "message": "java.lang.IllegalStateException: clip_verify duration=1200000\nat com.sakugapp.data.ClipExporter.precise(ClipExporter.kt:64)\nat com.sakugapp.data.ClipExporter.access$precise(ClipExporter.kt:19)\nat com.sakugapp.data.ClipExporter$precise$1.invokeSuspend(Unknown Source:15)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.ClipExportDeviceTest.preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource(ClipExportDeviceTest.kt:46)\n"
+          }
+        ]
+      },
       {
         "artifact": "player-tools-reports-28-pixel_c",
         "counts": {
           "name": "com.sakugapp.FrameControlsDeviceTest",
           "tests": "10",
-          "failures": "4",
+          "failures": "1",
           "errors": "0",
           "skipped": "0",
-          "time": "96.985",
-          "timestamp": "2026-11-05T20:47:28",
+          "time": "76.027",
+          "timestamp": "2026-11-06T01:20:31",
           "hostname": "localhost"
         },
         "failures": [
           {
-            "test": "com.sakugapp.FrameControlsDeviceTest.frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes",
-            "message": "java.lang.AssertionError: expected same:<androidx.media3.exoplayer.ExoPlayerImpl@ab2bf5a> was not:<androidx.media3.exoplayer.ExoPlayerImpl@8439da4>\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.failNotSame(Assert.java:829)\nat org.junit.Assert.assertSame(Assert.java:772)\nat org.junit.Assert.assertSame(Assert.java:783)\nat com.sakugapp.FrameControlsDeviceTest.frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes(FrameControlsDeviceTest.kt:124)\n"
-          },
-          {
             "test": "com.sakugapp.ClipExportDeviceTest.preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource",
-            "message": "java.lang.IllegalStateException: clip_verify expected=15 output=14 inputFirst=0 outputPTS=[0, 101000, 201000, 301000, 401000, 501000, 601000, 701000, 801000, 901000, 1001000, 1101000, 1201000, 1301000] duration=1536000\nat com.sakugapp.data.ClipExporter$export$3.invokeSuspend(ClipExporter.kt:41)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\n"
-          },
-          {
-            "test": "com.sakugapp.ClipExportDeviceTest.streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv",
-            "message": "java.lang.AssertionError: Muxer timestamp quantization: clip-gop.mp4 PTS=200100 source=1000000\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.assertTrue(Assert.java:42)\nat com.sakugapp.ClipExportDeviceTest$streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv$1.invokeSuspend(ClipExportDeviceTest.kt:37)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.ClipExportDeviceTest.streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv(ClipExportDeviceTest.kt:28)\n"
-          },
-          {
-            "test": "com.sakugapp.PlayerRotationDeviceTest.manualRotationWithSystemLockPreservesThePlayerPositionAndControls",
-            "message": "java.lang.AssertionError: Rotation stage failed: stage=restore portrait state=3 error=null orientation=2 requested=2 initial=2 sameActivity=true instances=1\nat com.sakugapp.PlayerRotationDeviceTest.manualRotationWithSystemLockPreservesThePlayerPositionAndControls$awaitStage(PlayerRotationDeviceTest.kt:47)\nat com.sakugapp.PlayerRotationDeviceTest.manualRotationWithSystemLockPreservesThePlayerPositionAndControls(PlayerRotationDeviceTest.kt:88)\n... 53 trimmed\nCaused by: androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 15000 ms\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:504)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:339)\nat com.sakugapp.PlayerRotationDeviceTest.manualRotationWithSystemLockPreservesThePlayerPositionAndControls$awaitStage(PlayerRotationDeviceTest.kt:43)\n... 55 more\n"
+            "message": "java.lang.IllegalStateException: clip_verify duration=1200000\nat com.sakugapp.data.ClipExporter.precise(ClipExporter.kt:64)\nat com.sakugapp.data.ClipExporter.access$precise(ClipExporter.kt:19)\nat com.sakugapp.data.ClipExporter$precise$1.invokeSuspend(Unknown Source:15)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.ClipExportDeviceTest.preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource(ClipExportDeviceTest.kt:46)\n"
           }
         ]
       },
@@ -40,62 +47,41 @@
         "counts": {
           "name": "com.sakugapp.FrameControlsDeviceTest",
           "tests": "10",
-          "failures": "3",
+          "failures": "1",
           "errors": "0",
           "skipped": "0",
-          "time": "49.703",
-          "timestamp": "2026-11-05T20:46:21",
+          "time": "50.515",
+          "timestamp": "2026-11-06T01:19:59",
           "hostname": "localhost"
         },
         "failures": [
           {
-            "test": "com.sakugapp.FrameControlsDeviceTest.frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes",
-            "message": "java.lang.AssertionError: expected same:<androidx.media3.exoplayer.ExoPlayerImpl@19a941b> was not:<androidx.media3.exoplayer.ExoPlayerImpl@568bd1d>\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.failNotSame(Assert.java:829)\nat org.junit.Assert.assertSame(Assert.java:772)\nat org.junit.Assert.assertSame(Assert.java:783)\nat com.sakugapp.FrameControlsDeviceTest.frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes(FrameControlsDeviceTest.kt:124)\n"
-          },
-          {
             "test": "com.sakugapp.ClipExportDeviceTest.preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource",
-            "message": "java.lang.IllegalStateException: clip_verify expected=15 output=14 inputFirst=0 outputPTS=[0, 101000, 201000, 301000, 401000, 501000, 601000, 701000, 801000, 901000, 1001000, 1101000, 1201000, 1301000] duration=1536000\nat com.sakugapp.data.ClipExporter$export$3.invokeSuspend(ClipExporter.kt:41)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\n"
-          },
-          {
-            "test": "com.sakugapp.ClipExportDeviceTest.streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv",
-            "message": "java.lang.AssertionError: Muxer timestamp quantization: clip-gop.mp4 PTS=200100 source=1000000\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.assertTrue(Assert.java:42)\nat com.sakugapp.ClipExportDeviceTest$streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv$1.invokeSuspend(ClipExportDeviceTest.kt:37)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.ClipExportDeviceTest.streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv(ClipExportDeviceTest.kt:28)\n"
-          }
-        ]
-      },
-      {
-        "artifact": "player-tools-reports-35-Nexus 6",
-        "counts": {
-          "name": "com.sakugapp.FrameControlsDeviceTest",
-          "tests": "10",
-          "failures": "3",
-          "errors": "0",
-          "skipped": "0",
-          "time": "89.371",
-          "timestamp": "2026-11-05T20:46:15",
-          "hostname": "localhost"
-        },
-        "failures": [
-          {
-            "test": "com.sakugapp.FrameControlsDeviceTest.frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes",
-            "message": "java.lang.AssertionError: expected same:<androidx.media3.exoplayer.ExoPlayerImpl@d03128f> was not:<androidx.media3.exoplayer.ExoPlayerImpl@eabb77>\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.failNotSame(Assert.java:829)\nat org.junit.Assert.assertSame(Assert.java:772)\nat org.junit.Assert.assertSame(Assert.java:783)\nat com.sakugapp.FrameControlsDeviceTest.frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes(FrameControlsDeviceTest.kt:124)\n"
-          },
-          {
-            "test": "com.sakugapp.ClipExportDeviceTest.preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource",
-            "message": "java.lang.IllegalStateException: clip_verify expected=15 output=14 inputFirst=0 outputPTS=[0, 101000, 201000, 301000, 401000, 501000, 601000, 701000, 801000, 901000, 1001000, 1101000, 1201000, 1301000] duration=1514700\nat com.sakugapp.data.ClipExporter$export$3.invokeSuspend(ClipExporter.kt:41)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\n"
-          },
-          {
-            "test": "com.sakugapp.ClipExportDeviceTest.streamCopyKeepsEncodedSamplesAndOriginalAcrossMp4WebmAndMkv",
-            "message": "java.lang.IllegalStateException: clip_unsupported\nat com.sakugapp.data.ClipExporter.copy(ClipExporter.kt:92)\nat com.sakugapp.data.ClipExporter.access$copy(ClipExporter.kt:21)\nat com.sakugapp.data.ClipExporter$export$2.invokeSuspend(ClipExporter.kt:38)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)\nat kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)\nat kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:820)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)\nat kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)\n"
+            "message": "java.lang.IllegalStateException: clip_verify duration=1200000\nat com.sakugapp.data.ClipExporter.precise(ClipExporter.kt:64)\nat com.sakugapp.data.ClipExporter.access$precise(ClipExporter.kt:19)\nat com.sakugapp.data.ClipExporter$precise$1.invokeSuspend(Unknown Source:15)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.ClipExportDeviceTest.preciseModeReencodesAndVerifiesFrameCountDurationAndReadOnlySource(ClipExportDeviceTest.kt:46)\n"
           }
         ]
       }
     ]
   },
   {
-    "run": "42105761709",
-    "commit": "b79c33abf69aa06c23ae261aa4d427a983e41389",
+    "run": "42142624734",
+    "commit": "9d4f1419f9cee901bebadc995769eea88691d73d",
     "status": "in_progress",
     "reports": [
+      {
+        "artifact": "six-column-phone-reports",
+        "counts": {
+          "name": "com.sakugapp.SixColumnDeviceTest",
+          "tests": "2",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0",
+          "time": "28.889",
+          "timestamp": "2026-11-06T01:20:03",
+          "hostname": "localhost"
+        },
+        "failures": []
+      },
       {
         "artifact": "six-column-landscape-reports",
         "counts": {
@@ -104,576 +90,11 @@
           "failures": "0",
           "errors": "0",
           "skipped": "0",
-          "time": "40.06",
-          "timestamp": "2026-11-05T20:46:40",
+          "time": "40.571",
+          "timestamp": "2026-11-06T01:20:23",
           "hostname": "localhost"
         },
         "failures": []
-      },
-      {
-        "artifact": "search-back-gesture-reports",
-        "counts": {
-          "name": "com.sakugapp.SearchNavigationDeviceTest",
-          "tests": "2",
-          "failures": "0",
-          "errors": "0",
-          "skipped": "0",
-          "time": "50.031",
-          "timestamp": "2026-11-05T20:47:48",
-          "hostname": "localhost"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.AppearanceAndDownloadTest",
-          "tests": "10",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:44:34.725Z",
-          "hostname": "runnervm7aw5e",
-          "time": "3.148"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.BackupImportTest",
-          "tests": "8",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:44:37.878Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.213"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.BrowsingUpgradeTest",
-          "tests": "7",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:44:38.095Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.166"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.CommunityTest",
-          "tests": "16",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:44:38.266Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.722"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.DataTest",
-          "tests": "15",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:44:38.998Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.015"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.FeedViewModelTest",
-          "tests": "12",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:44:39.018Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.088"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.FramePositionTest",
-          "tests": "2",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:44:39.110Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.016"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.FullThemeTest",
-          "tests": "2",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:44:39.130Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.022"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.HierarchyBackupTest",
-          "tests": "5",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:44:39.159Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.031"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.LibraryCodecTest",
-          "tests": "5",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:44:39.193Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.021"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.LiveFixtureTest",
-          "tests": "2",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:44:39.218Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.002"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.PersonalDataTest",
-          "tests": "9",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:44:39.224Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.166"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.PersonalizationTest",
-          "tests": "4",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:44:39.396Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.016"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.PlayerToolsTest",
-          "tests": "3",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:44:39.413Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.003"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.PreferencesAndFramesTest",
-          "tests": "9",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:44:39.418Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.009"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.RepositoryTest",
-          "tests": "7",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:44:39.431Z",
-          "hostname": "runnervm7aw5e",
-          "time": "6.54"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.SearchAndCaptionTest",
-          "tests": "10",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:44:45.976Z",
-          "hostname": "runnervm7aw5e",
-          "time": "25.385"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.StabilityRegressionTest",
-          "tests": "1",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:45:11.362Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.046"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.TagSuggestionsTest",
-          "tests": "3",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:45:11.410Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.131"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.AppearanceAndDownloadTest",
-          "tests": "10",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:46:09.686Z",
-          "hostname": "runnervm7aw5e",
-          "time": "3.229"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.BackupImportTest",
-          "tests": "8",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:46:12.924Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.365"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.BrowsingUpgradeTest",
-          "tests": "7",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:46:13.294Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.208"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.CommunityTest",
-          "tests": "16",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:46:13.506Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.779"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.DataTest",
-          "tests": "15",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:46:14.290Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.006"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.FeedViewModelTest",
-          "tests": "12",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:46:14.299Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.121"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.FramePositionTest",
-          "tests": "2",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:46:14.425Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.027"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.FullThemeTest",
-          "tests": "2",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:46:14.457Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.014"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.HierarchyBackupTest",
-          "tests": "5",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:46:14.476Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.03"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.LibraryCodecTest",
-          "tests": "5",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:46:14.511Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.033"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.LiveFixtureTest",
-          "tests": "2",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:46:14.546Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.005"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.PersonalDataTest",
-          "tests": "9",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:46:14.555Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.111"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.PersonalizationTest",
-          "tests": "4",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:46:14.668Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.015"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.PlayerToolsTest",
-          "tests": "3",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:46:14.685Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.002"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.PreferencesAndFramesTest",
-          "tests": "9",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:46:14.688Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.004"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.RepositoryTest",
-          "tests": "7",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:46:14.694Z",
-          "hostname": "runnervm7aw5e",
-          "time": "6.508"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.SearchAndCaptionTest",
-          "tests": "10",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:46:21.204Z",
-          "hostname": "runnervm7aw5e",
-          "time": "25.364"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.StabilityRegressionTest",
-          "tests": "1",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:46:46.569Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.024"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "check-reports",
-        "counts": {
-          "name": "com.sakugapp.TagSuggestionsTest",
-          "tests": "3",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-05T20:46:46.594Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.098"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "six-column-phone-reports",
-        "counts": {
-          "name": "com.sakugapp.SixColumnDeviceTest",
-          "tests": "2",
-          "failures": "1",
-          "errors": "0",
-          "skipped": "0",
-          "time": "27.423",
-          "timestamp": "2026-11-05T20:46:19",
-          "hostname": "localhost"
-        },
-        "failures": [
-          {
-            "test": "com.sakugapp.AdvancedControlsLayoutDeviceTest.groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape",
-            "message": "java.lang.AssertionError: Semantic Node has no parent layout with a Scroll SemanticsAction\nat androidx.compose.ui.test.ActionsKt.scrollToNode(Actions.kt:98)\nat androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:83)\nat com.sakugapp.AdvancedControlsLayoutDeviceTest.groupedControlsWrapAndRetainPlaybackSpeedInBothThemesAndLandscape(AdvancedControlsLayoutDeviceTest.kt:74)\n"
-          }
-        ]
       }
     ]
   }
