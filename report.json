@@ -1,0 +1,140 @@
+{
+  "source_commit": "3e601f327dc37b0c15c6d616a2ee1c9ddfaaab7b",
+  "run_id": "42155150105",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42155150105",
+  "captured_utc": "2026-11-06T03:19:48.604509+00:00",
+  "validation_result": "failure",
+  "scope": "Backup restore, native screens, app font size and tag spacing; no full player suite.",
+  "jobs": [
+    {
+      "name": "devices (28, Nexus S)",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42155150105/job/127687419924",
+      "id": 127687419924
+    },
+    {
+      "name": "build",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42155150105/job/127687420103",
+      "id": 127687420103
+    },
+    {
+      "name": "devices (28, pixel_c)",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42155150105/job/127687420267",
+      "id": 127687420267
+    },
+    {
+      "name": "devices (35, Nexus 6)",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42155150105/job/127687420471",
+      "id": 127687420471
+    },
+    {
+      "name": "evidence",
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42155150105/job/127689681852",
+      "id": 127689681852
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "player-community-device-28-pixel_c",
+      "bytes": 95285,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42155150105/artifacts/13475250133"
+    },
+    {
+      "name": "player-community-device-35-Nexus 6",
+      "bytes": 201081,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42155150105/artifacts/13475125249"
+    },
+    {
+      "name": "player-community-build-reports",
+      "bytes": 74440,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42155150105/artifacts/13474640975"
+    },
+    {
+      "name": "player-community-device-28-Nexus S",
+      "bytes": 91782,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42155150105/artifacts/13474337143"
+    }
+  ],
+  "test_counts": {
+    "device": {
+      "tests": 33,
+      "failures": 6,
+      "errors": 0,
+      "skipped": 0
+    },
+    "debug_unit": {
+      "tests": 136,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "lint": {
+    "player-community-build-reports/reports/lint-results-debug.xml": {
+      "errors": 0,
+      "warnings": 62
+    }
+  },
+  "failures": [
+    {
+      "job": "devices (28, Nexus S)",
+      "conclusion": "failure",
+      "message": "2026-11-06T03:17:05.5704888Z com.sakugapp.FrameControlsDeviceTest > rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop[emulator-5554 - 9] FAILED \n2026-11-06T03:17:05.5705882Z \tjava.lang.AssertionError: expected:<480.0> but was:<0.0>\n2026-11-06T03:17:06.2705308Z com.sakugapp.BatchQueueDeviceTest > twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal[emulator-5554 - 9] FAILED \n2026-11-06T03:17:41.8732351Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-06T03:17:41.8748993Z * What went wrong:\n2026-11-06T03:17:41.8755024Z BUILD FAILED in 2m 57s\n2026-11-06T03:17:42.2879877Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
+    },
+    {
+      "job": "devices (28, pixel_c)",
+      "conclusion": "failure",
+      "message": "2026-11-06T03:17:11.2850431Z com.sakugapp.FrameControlsDeviceTest > rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop[emulator-5554 - 9] FAILED \n2026-11-06T03:17:11.2851491Z \tjava.lang.AssertionError: expected:<1544.0> but was:<816.0>\n2026-11-06T03:17:12.9863534Z com.sakugapp.BatchQueueDeviceTest > twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal[emulator-5554 - 9] FAILED \n2026-11-06T03:17:57.7830134Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-06T03:17:57.8880076Z * What went wrong:\n2026-11-06T03:17:57.8886261Z BUILD FAILED in 3m 25s\n2026-11-06T03:17:58.3103522Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
+    },
+    {
+      "job": "devices (35, Nexus 6)",
+      "conclusion": "failure",
+      "message": "2026-11-06T03:18:07.9441404Z com.sakugapp.FrameControlsDeviceTest > rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop[emulator-5554 - 15] FAILED \n2026-11-06T03:18:07.9443240Z \tjava.lang.AssertionError: expected:<960.0> but was:<697.0>\n2026-11-06T03:18:09.9441973Z com.sakugapp.BatchQueueDeviceTest > twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal[emulator-5554 - 15] FAILED \n2026-11-06T03:19:29.0442427Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-06T03:19:29.2369416Z * What went wrong:\n2026-11-06T03:19:29.2379710Z BUILD FAILED in 5m 1s\n2026-11-06T03:19:29.6927368Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
+    },
+    {
+      "test": "com.sakugapp.FrameControlsDeviceTest.rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop",
+      "report": "player-community-device-28-Nexus S/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "message": "java.lang.AssertionError: expected:<480.0> but was:<0.0>\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.failNotEquals(Assert.java:835)\nat org.junit.Assert.assertEquals(Assert.java:577)\nat org.junit.Assert.assertEquals(Assert.java:701)\nat com.sakugapp.FrameControlsDeviceTest.rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop(FrameControlsDeviceTest.kt:50)\n"
+    },
+    {
+      "test": "com.sakugapp.BatchQueueDeviceTest.twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal",
+      "report": "player-community-device-28-Nexus S/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "message": "android.os.NetworkOnMainThreadException\nat android.os.StrictMode$AndroidBlockGuardPolicy.onNetwork(StrictMode.java:1513)\nat java.net.Inet6AddressImpl.getHostByAddr(Inet6AddressImpl.java:163)\nat java.net.InetAddress$1.getHostByAddr(InetAddress.java:288)\nat java.net.InetAddress.getHostFromNameService(InetAddress.java:658)\nat java.net.InetAddress.getCanonicalHostName(InetAddress.java:629)\nat okhttp3.mockwebserver.MockWebServer.getHostName(MockWebServer.kt:159)\nat okhttp3.mockwebserver.MockWebServer.url(MockWebServer.kt:234)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.invokeSuspend$post(BatchQueueDeviceTest.kt:34)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.access$invokeSuspend$post(Unknown Source:0)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1$1.invokeSuspend(BatchQueueDeviceTest.kt:40)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat android.os.Handler.handleCallback(Handler.java:873)\nat android.os.Handler.dispatchMessage(Handler.java:99)\nat android.os.Looper.loop(Looper.java:193)\nat android.app.ActivityThread.main(ActivityThread.java:6669)\nat java.lang.reflect.Method.invoke(Native Method)\nat com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:493)\nat com.android.internal.os.ZygoteInit.main(ZygoteInit.java:858)\n"
+    },
+    {
+      "test": "com.sakugapp.FrameControlsDeviceTest.rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop",
+      "report": "player-community-device-28-pixel_c/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "message": "java.lang.AssertionError: expected:<1544.0> but was:<816.0>\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.failNotEquals(Assert.java:835)\nat org.junit.Assert.assertEquals(Assert.java:577)\nat org.junit.Assert.assertEquals(Assert.java:701)\nat com.sakugapp.FrameControlsDeviceTest.rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop(FrameControlsDeviceTest.kt:50)\n"
+    },
+    {
+      "test": "com.sakugapp.BatchQueueDeviceTest.twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal",
+      "report": "player-community-device-28-pixel_c/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "message": "android.os.NetworkOnMainThreadException\nat android.os.StrictMode$AndroidBlockGuardPolicy.onNetwork(StrictMode.java:1513)\nat java.net.Inet6AddressImpl.getHostByAddr(Inet6AddressImpl.java:163)\nat java.net.InetAddress$1.getHostByAddr(InetAddress.java:288)\nat java.net.InetAddress.getHostFromNameService(InetAddress.java:658)\nat java.net.InetAddress.getCanonicalHostName(InetAddress.java:629)\nat okhttp3.mockwebserver.MockWebServer.getHostName(MockWebServer.kt:159)\nat okhttp3.mockwebserver.MockWebServer.url(MockWebServer.kt:234)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.invokeSuspend$post(BatchQueueDeviceTest.kt:34)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.access$invokeSuspend$post(Unknown Source:0)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1$1.invokeSuspend(BatchQueueDeviceTest.kt:40)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat android.os.Handler.handleCallback(Handler.java:873)\nat android.os.Handler.dispatchMessage(Handler.java:99)\nat android.os.Looper.loop(Looper.java:193)\nat android.app.ActivityThread.main(ActivityThread.java:6669)\nat java.lang.reflect.Method.invoke(Native Method)\nat com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:493)\nat com.android.internal.os.ZygoteInit.main(ZygoteInit.java:858)\n"
+    },
+    {
+      "test": "com.sakugapp.FrameControlsDeviceTest.rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop",
+      "report": "player-community-device-35-Nexus 6/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 15-_app-.xml",
+      "message": "java.lang.AssertionError: expected:<960.0> but was:<697.0>\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.failNotEquals(Assert.java:835)\nat org.junit.Assert.assertEquals(Assert.java:577)\nat org.junit.Assert.assertEquals(Assert.java:701)\nat com.sakugapp.FrameControlsDeviceTest.rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop(FrameControlsDeviceTest.kt:50)\n"
+    },
+    {
+      "test": "com.sakugapp.BatchQueueDeviceTest.twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal",
+      "report": "player-community-device-35-Nexus 6/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 15-_app-.xml",
+      "message": "android.os.NetworkOnMainThreadException\nat android.os.StrictMode$AndroidBlockGuardPolicy.onNetwork(StrictMode.java:1692)\nat java.net.Inet6AddressImpl.getHostByAddr(Inet6AddressImpl.java:162)\nat java.net.InetAddress$1.getHostByAddr(InetAddress.java:286)\nat java.net.InetAddress.getHostFromNameService(InetAddress.java:656)\nat java.net.InetAddress.getCanonicalHostName(InetAddress.java:627)\nat okhttp3.mockwebserver.MockWebServer.getHostName(MockWebServer.kt:159)\nat okhttp3.mockwebserver.MockWebServer.url(MockWebServer.kt:234)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.invokeSuspend$post(BatchQueueDeviceTest.kt:34)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.access$invokeSuspend$post(Unknown Source:0)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1$1.invokeSuspend(BatchQueueDeviceTest.kt:40)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat android.os.Handler.handleCallback(Handler.java:959)\nat android.os.Handler.dispatchMessage(Handler.java:100)\nat android.os.Looper.loopOnce(Looper.java:232)\nat android.os.Looper.loop(Looper.java:317)\nat android.app.ActivityThread.main(ActivityThread.java:8705)\nat java.lang.reflect.Method.invoke(Native Method)\nat com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:580)\nat com.android.internal.os.ZygoteInit.main(ZygoteInit.java:886)\n"
+    }
+  ],
+  "device_diagnostics": [],
+  "scroll_profile": {},
+  "main_automatic_checks": {
+    "status": "not_requested",
+    "reason": "This push is not main."
+  }
+}
