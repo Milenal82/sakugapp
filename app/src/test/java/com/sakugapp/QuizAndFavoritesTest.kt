@@ -49,6 +49,18 @@ class QuizAndFavoritesTest {
         try{repo.start(QuizSettings());fail()}catch(e:DataFailure){assertEquals("quiz_insufficient",e.message)}
         assertEquals(2,pages);assertEquals(0,calls)
     }
+    @Test fun cancelledOldFetchCannotPopulateANewWorkPool()=runBlocking{
+        val started=CompletableDeferred<Unit>();var first=true
+        val source=object:PostRepository{override suspend fun page(query:String,page:Int):PostPage{
+            if(first){first=false;started.complete(Unit);withContext(NonCancellable){delay(80)}}
+            val tag=if(query.startsWith("other "))"other"else"show"
+            return PostPage(listOf(post().copy(tags=listOf(Tag("a",TagCategory.ARTIST),Tag(tag,TagCategory.COPYRIGHT)))),1)
+        }}
+        val repo=QuizRepository(source,{catalog});repo.start(QuizSettings(custom=true,works=listOf("show")))
+        val old=launch{repo.next(emptySet())};started.await();old.cancel()
+        repo.start(QuizSettings(custom=true,works=listOf("other")));old.join()
+        assertTrue(repo.next(emptySet()).post.tags.any{it.name=="other"})
+    }
     @Test fun customPoolAndUsedIdsAreCheckedLocally()=runBlocking{
         val repo=QuizRepository(object:PostRepository{override suspend fun page(query:String,page:Int)=PostPage(listOf(post(1),post(2),post(3).copy(tags=listOf(Tag("a",TagCategory.ARTIST),Tag("other",TagCategory.COPYRIGHT)))),3)},{catalog})
         repo.start(QuizSettings(custom=true,works=listOf("show")));assertEquals(2L,repo.next(setOf(1)).post.id)

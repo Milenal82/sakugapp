@@ -2,6 +2,8 @@
 package com.sakugapp.data
 
 import kotlinx.coroutines.*
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlin.random.Random
 
 data class QuizSettings(val count:Int=20,val custom:Boolean=false,val works:List<String> = emptyList()){
@@ -26,8 +28,9 @@ object QuizGenerator {
 }
 /** Bounded metadata fetching only; no videos are preloaded in bulk. */
 class QuizRepository(private val posts:PostRepository=SakugaRepository(pageSize=100),private val catalog:suspend()->Map<String,TagCategory> = {(posts as SakugaRepository).classifications()},private val random:Random=Random.Default,private val supplement:suspend(Int)->List<DirectoryTag> = {page->if(posts is SakugaRepository)posts.directory(TagCategory.ARTIST,"count",page)else emptyList()}){
+    private val lock=Mutex()
     private var candidates=emptyList<String>();private val buffer=ArrayDeque<Post>();private var attempts=0;private var settings=QuizSettings()
-    suspend fun start(value:QuizSettings)=withContext(Dispatchers.Default){
+    suspend fun start(value:QuizSettings)=withContext(Dispatchers.Default){lock.withLock{
         require(value.count in QuizSettings.counts && value.works.size<=20)
         val types=catalog()
         if(value.custom && (value.works.isEmpty() || value.works.any{types[it]!=TagCategory.COPYRIGHT}))throw DataFailure("quiz_pool")
@@ -38,12 +41,13 @@ class QuizRepository(private val posts:PostRepository=SakugaRepository(pageSize=
             artists+=supplement(page).filter{it.category==TagCategory.ARTIST && it.name!="artist_unknown" && LibraryCodec.tagName(it.name)}.map{it.name}
         }
         if(artists.distinct().size<4)throw DataFailure("quiz_insufficient")
+        currentCoroutineContext().ensureActive()
         candidates=artists.distinct().take(4096);settings=value;buffer.clear();attempts=0
-    }
-    suspend fun next(used:Set<Long>):QuizQuestion=withContext(Dispatchers.Default){
+    }}
+    suspend fun next(used:Set<Long>):QuizQuestion=withContext(Dispatchers.Default){lock.withLock{
         while(true){
             currentCoroutineContext().ensureActive()
-            while(buffer.isNotEmpty()){QuizGenerator.question(buffer.removeFirst(),candidates,used,settings,random)?.let{return@withContext it}}
+            while(buffer.isNotEmpty()){QuizGenerator.question(buffer.removeFirst(),candidates,used,settings,random)?.let{return@withLock it}}
             if(attempts>=12)throw DataFailure("quiz_insufficient")
             val scope=if(settings.custom)settings.works.random(random)+" "else""
             attempts++
@@ -52,5 +56,5 @@ class QuizRepository(private val posts:PostRepository=SakugaRepository(pageSize=
             buffer.addAll(page.posts.take(100))
         }
         @Suppress("UNREACHABLE_CODE") error("quiz_insufficient")
-    }
+    }}
 }
