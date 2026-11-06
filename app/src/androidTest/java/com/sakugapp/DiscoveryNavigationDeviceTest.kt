@@ -14,9 +14,9 @@ import kotlinx.coroutines.*
 
 class DiscoveryNavigationDeviceTest {
  @get:Rule val ui=createAndroidComposeRule<MainActivity>()
- private fun scene():Pair<FeedViewModel,AppViewModel>{
+ private fun scene(count:Int=2):Pair<FeedViewModel,AppViewModel>{
   val original=PostParser.posts(InstrumentationRegistry.getInstrumentation().context.assets.open("library-real-posts.json").bufferedReader().use{it.readText()}).take(2)
-  val posts=original.map{it.copy(tags=listOf(Tag("test_artist",TagCategory.ARTIST),Tag("test_show",TagCategory.COPYRIGHT)),source="episode 12")}
+  val posts=(0 until count).map{index->original[index%original.size].copy(id=1000L+index,previewUrl=null,tags=listOf(Tag("test_artist",TagCategory.ARTIST),Tag("test_show",TagCategory.COPYRIGHT)),source="episode 12")}
   val repo=object:PostRepository{override suspend fun page(query:String,page:Int)=PostPage(posts,posts.size)}
   val discovery=DiscoveryRepository(repo,{mapOf("test_artist" to TagCategory.ARTIST,"test_show" to TagCategory.COPYRIGHT)})
   lateinit var model:FeedViewModel;lateinit var app:AppViewModel
@@ -43,6 +43,16 @@ class DiscoveryNavigationDeviceTest {
   ui.waitUntil(10000){ui.onAllNodesWithTag("episode-episode:12").fetchSemanticsNodes().isNotEmpty()};ui.onNodeWithTag("episode-episode:12").performScrollTo().performClick()
   ui.onNodeWithTag("episode-posts").assertIsDisplayed();ui.onNodeWithTag("main-bottom-nav").assertDoesNotExist()
   ui.runOnUiThread{ui.activity.onBackPressedDispatcher.onBackPressed()};ui.onNodeWithTag("show-detail").assertIsDisplayed()
+ }
+ @Test fun consumedScrollHidesAndRestoresNavAndDetailFullscreenHasNoNav(){
+  val(model,_)=scene(60);ui.onNodeWithTag("nav-posts").performClick();ui.waitUntil(10000){model.state.value.posts.size==60}
+  ui.onNodeWithTag("post-grid").performTouchInput{swipeUp()};ui.mainClock.advanceTimeBy(1000);ui.waitForIdle();ui.onNodeWithTag("main-bottom-nav").assertDoesNotExist()
+  ui.onNodeWithTag("post-grid").performTouchInput{swipeDown()};ui.mainClock.advanceTimeBy(1000);ui.waitForIdle();ui.onNodeWithTag("main-bottom-nav").assertIsDisplayed()
+  ui.onNodeWithTag("post-grid").performScrollToIndex(0);ui.onNodeWithTag("post-media-1000").performClick();ui.onNodeWithTag("main-bottom-nav").assertDoesNotExist()
+  ui.waitUntil(10000){ui.onAllNodesWithTag("toggle-fullscreen").fetchSemanticsNodes().isNotEmpty()}
+  ui.onNodeWithTag("toggle-fullscreen").performScrollTo().performClick();ui.onNodeWithTag("main-bottom-nav").assertDoesNotExist()
+  ui.runOnUiThread{ui.activity.onBackPressedDispatcher.onBackPressed()};ui.mainClock.advanceTimeBy(500);ui.waitForIdle();ui.runOnUiThread{ui.activity.onBackPressedDispatcher.onBackPressed()}
+  ui.onNodeWithTag("post-grid").assertIsDisplayed();assertEquals("",model.state.value.query)
  }
  @Test fun nicknameUpdatesHeaderAndPersistsWithoutWebsiteLogin()=runBlocking{
   val(_,app)=scene();ui.onNodeWithTag("nav-profile").performClick();ui.onNodeWithText(ui.activity.getString(R.string.ui_edit_nickname)).performClick()

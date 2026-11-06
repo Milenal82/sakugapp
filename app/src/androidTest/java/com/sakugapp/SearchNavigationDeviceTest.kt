@@ -42,6 +42,7 @@ class SearchNavigationDeviceTest {
         ui.onNodeWithTag("combined-history-toggle").performScrollTo().performClick()
         ui.onNode(hasText(query) and hasAnyAncestor(hasTestTag("combined-history"))).performScrollTo().performClick()
     }
+    @org.junit.Before fun selectPostsEntry(){enterPostsForLegacyTest(ui)}
     @Test fun combinedHistoryOnlyFillsDraftAndBackRestoresTheOriginalResultAndBrowseLists(){
         lateinit var app:AppViewModel;lateinit var feed:FeedViewModel
         ui.runOnUiThread{app=ViewModelProvider(ui.activity)[AppViewModel::class.java];feed=ViewModelProvider(ui.activity)[FeedViewModel::class.java]}

@@ -37,6 +37,7 @@ class SearchImeGestureDeviceTest {
         assertTrue(device.swipe(if(right)width-1 else 1,y,if(right)width*2/3 else width/3,y,24))
         device.waitForIdle()
     }
+    @Before fun selectPostsEntry(){device.wait(Until.findObject(By.res("nav-posts")),10000)?.click()}
     @Test fun actualImeEdgeBackKeepsRootAndSearchResultsWithoutFinishingOrSubmitting(){
         assertEquals("2",device.executeShellCommand("settings get secure navigation_mode").trim())
         for(context in listOf("root","results")){

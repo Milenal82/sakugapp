@@ -19,6 +19,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class PublicPaginationTest {
     @get:Rule val ui=createAndroidComposeRule<MainActivity>()
+    @org.junit.Before fun selectPostsEntry(){enterPostsForLegacyTest(ui)}
     @Test fun fiveBatchesDensityAndDetailReturnKeepRealPostsAndScrollState(){
         val device=UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         lateinit var feed:FeedViewModel;lateinit var app:AppViewModel

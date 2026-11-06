@@ -39,6 +39,7 @@ class PlayerStabilityDeviceTest {
     private fun posts():List<Post>{val assets=InstrumentationRegistry.getInstrumentation().context.assets
         val types=assets.open("personal-tag-summary.json").bufferedReader().use{PostParser.tagSummary(it.readText())}
         return assets.open("library-real-posts.json").bufferedReader().use{PostParser.posts(it.readText(),types)}}
+    @org.junit.Before fun selectPostsEntry(){enterPostsForLegacyTest(ui)}
     @Test fun fullscreenReusesPlayerPreservesPositionAndGesturesAcrossLifecycleAndVideoSwitches(){
         val context=ui.activity;val assets=InstrumentationRegistry.getInstrumentation().context.assets
         val wide=File(context.cacheDir,"stability-wide.mp4");val tall=File(context.cacheDir,"stability-tall.mp4")

@@ -17,6 +17,7 @@ class UiSmokeTest {
         for(y in 8 until pixels.height step 24)for(x in 8 until pixels.width step 24){sum+=pixels[x,y].luminance();count++}
         return sum/count
     }
+    @org.junit.Before fun selectPostsEntry(){enterPostsForLegacyTest(ui)}
     @Test fun launchSettingsLanguageAndAccountAreNativeAndUsable(){
         ui.onNodeWithText("Menu").assertIsDisplayed().performClick()
         ui.onNodeWithText("Settings").performClick()

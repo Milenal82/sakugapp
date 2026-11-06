@@ -38,6 +38,7 @@ import kotlinx.coroutines.*
 }
 @Composable internal fun ArtistStatsScreen(repository:DiscoveryRepository,model:DiscoveryViewModel,search:(String)->Unit){
     val state by model.state.collectAsStateWithLifecycle();var tag by rememberSaveable{mutableStateOf("")}
+    LaunchedEffect(tag){if(tag.isNotBlank() && state.sample==null && !state.loading)model.select(tag,TagCategory.ARTIST)}
     LifecycleEventEffect(Lifecycle.Event.ON_STOP){model.cancel()}
     Box(Modifier.fillMaxSize(),contentAlignment=Alignment.TopCenter){Column(Modifier.widthIn(max=760.dp).fillMaxWidth().verticalScroll(rememberScrollState()).padding(16.dp).testTag("artist-stats"),verticalArrangement=Arrangement.spacedBy(10.dp)){
         Text(text(R.string.ui_home_artists),style=MaterialTheme.typography.titleLarge)

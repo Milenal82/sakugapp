@@ -132,8 +132,11 @@ class FrameControlsDeviceTest {
             UiEvidence.capture(if(light)"frames-layout-light.png"else"frames-layout-dark.png")
                 ui.onNodeWithTag("set-a").performScrollTo().performClick()
                 ui.runOnUiThread{selectedPost++}
-                ui.waitUntil(15000){player!==identity}
-                ui.onNodeWithTag("more-controls").performScrollTo().performClick()
+                ui.waitUntil(15000){var ready=false;ui.runOnUiThread{ready=player!==identity && player?.playbackState==Player.STATE_READY};ready}
+                ui.waitForIdle()
+                val menu=ui.onNodeWithTag("more-controls").performScrollTo()
+                if(!menu.fetchSemanticsNode().config.getOrElse(SemanticsProperties.Selected){false})menu.performClick()
+                ui.waitUntil(5000){ui.onAllNodesWithTag("ab-toggle").fetchSemanticsNodes().isNotEmpty()}
                 ui.onNodeWithTag("ab-toggle").performScrollTo().assertIsNotEnabled()
             }
         }finally{file.delete()}

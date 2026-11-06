@@ -119,7 +119,7 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
     val openSite:(String)->Unit={url->browser.launch(Intent(context,BrowserActivity::class.java).putExtra("url",url))}
     SakugappTheme(settings.lightTheme,settings.fontScale,settings.accent){CompositionLocalProvider(LocalLanguage provides language,LocalTagActions provides app){
         if(about)AboutDialog{about=false}
-        Scaffold(bottomBar={AnimatedVisibility(entry?.destination?.route in AppRoutes.main && (entry?.destination?.route!="posts" || bottomVisible),enter=expandVertically(tween(Motion.search)),exit=shrinkVertically(tween(Motion.search))){MainBottomBar(entry?.destination?.route ?: AppRoutes.SEARCH,::primary)}},topBar={Column(Modifier.statusBarsPadding()){
+        Scaffold(modifier=Modifier.semantics{testTagsAsResourceId=true},bottomBar={AnimatedVisibility(entry?.destination?.route in AppRoutes.main && (entry?.destination?.route!="posts" || bottomVisible),enter=expandVertically(tween(Motion.search)),exit=shrinkVertically(tween(Motion.search))){MainBottomBar(entry?.destination?.route ?: AppRoutes.SEARCH,::primary)}},topBar={Column(Modifier.statusBarsPadding()){
             Row(Modifier.fillMaxWidth().padding(horizontal=8.dp),verticalAlignment=Alignment.CenterVertically){
                 if(entry?.destination?.route !in AppRoutes.main)TextButton(onClick={nav.popBackStack()},modifier=Modifier.semantics{contentDescription=context.getString(R.string.ui_back_to_app)}){Text("‹")}
                 BrandAndProfile(localProfile,entry?.destination?.route!="profile"){go("profile")}

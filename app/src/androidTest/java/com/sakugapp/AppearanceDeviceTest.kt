@@ -40,6 +40,7 @@ class AppearanceDeviceTest {
         val types=assets.open("personal-tag-summary.json").bufferedReader().use{PostParser.tagSummary(it.readText())}
         return assets.open("library-real-posts.json").bufferedReader().use{PostParser.posts(it.readText(),types)}
     }
+    @org.junit.Before fun selectPostsEntry(){enterPostsForLegacyTest(ui)}
     @Test fun liveSettingsPersistWithoutChangingSystemFontsOrCompoundingNativePlayerText(){
         val app=app();val before=app.settings.value;val systemScale=ui.activity.resources.configuration.fontScale
         try {

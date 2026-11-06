@@ -71,6 +71,7 @@ class MaintenanceUiDeviceTest {
         }
     }
 
+    @org.junit.Before fun selectPostsEntry(){enterPostsForLegacyTest(ui)}
     @Test fun searchHistoryAndSettingsKeepNativeStateInBothThemes() {
         val config = ui.activity.resources.configuration
         assertTrue("Use the physical narrow profile", config.screenWidthDp in 300..340)

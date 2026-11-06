@@ -21,6 +21,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class CompactInterfaceDeviceTest {
     @get:Rule val ui=createAndroidComposeRule<MainActivity>()
+    @org.junit.Before fun selectPostsEntry(){enterPostsForLegacyTest(ui)}
     @Test fun compactSearchRetainsHistoryFiltersFocusAndTheGridAnchor(){
         lateinit var app:AppViewModel;lateinit var feed:FeedViewModel
         ui.runOnUiThread{app=ViewModelProvider(ui.activity)[AppViewModel::class.java];feed=ViewModelProvider(ui.activity)[FeedViewModel::class.java]}

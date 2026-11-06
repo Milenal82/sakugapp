@@ -28,6 +28,7 @@ import org.junit.runner.RunWith
 class RefreshGridDeviceTest {
     @get:Rule val ui=createAndroidComposeRule<MainActivity>()
     private fun pages():List<List<Post>> = InstrumentationRegistry.getInstrumentation().context.assets.open("posts-five-pages.json").bufferedReader().use{reader->JsonParser.parseString(reader.readText()).asJsonArray.map{PostParser.posts(it.toString())}}
+    @org.junit.Before fun selectPostsEntry(){enterPostsForLegacyTest(ui)}
     @Test fun pullAtTopRefreshesWhileMidListScrollDoesNotAndFailureKeepsTheRealSnapshot(){
         val pages=pages();val initial=pages.first();var pending=CompletableDeferred<PostPage>();var first=true;var refreshes=0
         val repository=object:PostRepository{override suspend fun page(query:String,page:Int):PostPage{

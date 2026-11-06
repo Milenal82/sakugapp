@@ -18,7 +18,7 @@ private val Context.profilePreferences by preferencesDataStore("local-profile-v1
 data class LocalProfile(val nickname:String?=null,val avatar:String?=null)
 object ProfileRules {
     fun nickname(input:String):String {
-        require(input.none{it.isISOControl() || (Character.getType(it)==Character.FORMAT.toInt() && it!='\u200d')})
+        require(input.none{it.isISOControl() || it=='\u2028' || it=='\u2029' || (Character.getType(it)==Character.FORMAT.toInt() && it!='\u200d')})
         return input.trim().also{require(it.isNotBlank() && it.codePointCount(0,it.length)<=20)}
     }
 }

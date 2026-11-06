@@ -18,6 +18,7 @@ class PublicBrowseTest {
     private fun frameCounter(index:Int)=SemanticsMatcher("frame counter $index"){node->
         node.config.getOrNull(androidx.compose.ui.semantics.SemanticsProperties.Text)?.any{Regex("$index / [0-9]+").matches(it.text)}==true
     }
+    @org.junit.Before fun selectPostsEntry(){enterPostsForLegacyTest(ui)}
     @Test fun actualPostSearchDetailsPlaybackAndFrameAnalysis(){
         ui.onNodeWithTag("search-entry").performClick()
         ui.onNode(hasSetTextAction()).performTextReplacement("id:319947")
