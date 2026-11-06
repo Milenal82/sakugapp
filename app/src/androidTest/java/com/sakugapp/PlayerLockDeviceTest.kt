@@ -48,6 +48,7 @@ class PlayerLockDeviceTest {
             ui.waitUntil(5000){ui.onAllNodesWithTag("toggle-fullscreen").fetchSemanticsNodes().isNotEmpty()}
             ui.onNodeWithTag("toggle-fullscreen").assertIsDisplayed().performClick()
             assertEquals(1,made);assertTrue(checkPlayer{!it.playWhenReady})
+            ui.mainClock.advanceTimeBy(1000);ui.waitForIdle()
             UiEvidence.capture("player-lock-inline.png")
         }finally{file.delete()}
     }

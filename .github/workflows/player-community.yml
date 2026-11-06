@@ -105,6 +105,7 @@ jobs:
           fi
           cp "$RUNNER_TEMP/page-evidence/report.json" report.json
           cp "$RUNNER_TEMP/page-evidence/README.md" README.md
+          git rm -r --ignore-unmatch screenshots || true
           mkdir -p screenshots
           cp "$RUNNER_TEMP/page-evidence/screenshots/"*.png screenshots/ 2>/dev/null || true
           git config user.name 'github-actions[bot]'

@@ -62,6 +62,7 @@ class FrameControlsDeviceTest {
             for(delta in listOf(-3,-2,-1))ui.onNodeWithTag("step-$delta").performScrollTo().performClick()
             ui.waitUntil(20000){ui.onAllNodesWithText("Locating frame…").fetchSemanticsNodes().isEmpty()}
             assertTrue(matches{!it.playWhenReady})
+            ui.mainClock.advanceTimeBy(1000);ui.waitForIdle()
             UiEvidence.capture("frames-inline-confirmed.png")
             ui.runOnUiThread{player!!.seekTo(1000)}
             ui.waitUntil(15000){matches{it.playbackState==Player.STATE_READY && !it.playWhenReady && it.currentPosition==1000L}}
@@ -127,7 +128,8 @@ class FrameControlsDeviceTest {
                 val expanded=ui.onNodeWithTag("video-gestures").getUnclippedBoundsInRoot()
                 assertEquals(surface.height.value,expanded.height.value,0.1f);assertEquals(surface.width.value,expanded.width.value,0.1f)
                 assertSame(identity,player);assertEquals("2",counter())
-                UiEvidence.capture(if(light)"frames-layout-light.png"else"frames-layout-dark.png")
+                ui.mainClock.advanceTimeBy(1000);ui.waitForIdle()
+            UiEvidence.capture(if(light)"frames-layout-light.png"else"frames-layout-dark.png")
                 ui.onNodeWithTag("set-a").performScrollTo().performClick()
                 ui.runOnUiThread{selectedPost++}
                 ui.waitUntil(15000){player!==identity}

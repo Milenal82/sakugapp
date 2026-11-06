@@ -4,6 +4,7 @@ package com.sakugapp
 import android.content.pm.ActivityInfo
 import androidx.activity.compose.setContent
 import androidx.compose.ui.test.*
+import androidx.compose.ui.unit.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.lifecycle.ViewModelProvider
 import androidx.test.platform.app.InstrumentationRegistry
@@ -34,6 +35,10 @@ class DetailLayoutDeviceTest {
                     val window=ui.onRoot().fetchSemanticsNode().boundsInRoot
                     assertTrue(video.width<=window.width);assertTrue(video.height<window.height)
                     ui.onNodeWithTag("more-controls").performScrollTo().performClick()
+                    ui.mainClock.advanceTimeBy(1000);ui.waitForIdle()
+                    val panel=ui.onNodeWithTag("advanced-controls").getUnclippedBoundsInRoot()
+                    val actions=ui.onNodeWithTag("detail-actions").getUnclippedBoundsInRoot()
+                    assertTrue("Expanded controls must precede, not cover, detail actions",actions.top>=panel.bottom)
                     val expanded=ui.onNodeWithTag("video-gestures").fetchSemanticsNode().boundsInRoot
                     assertEquals(video.width,expanded.width,.5f);assertEquals(video.height,expanded.height,.5f)
                     if(asset=="layout-wide.mp4")UiEvidence.capture("detail-${if(orientation==1)"portrait"else"landscape"}.png")
