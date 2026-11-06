@@ -18,7 +18,7 @@ jobs:
           import subprocess,json,zipfile,io,xml.etree.ElementTree as ET,pathlib,time,re
           repo='Milenal82/sakugapp';output=[]
           def api(path):return subprocess.check_output(['gh','api',f'repos/{repo}/'+path])
-          for run in ['42215383925']:
+          for run in ['42216165700']:
               meta=json.loads(api('actions/runs/'+run));result={'run':run,'commit':meta['head_sha'],'status':meta['status'],'reports':[]}
               for attempt in range(30):
                   items=json.loads(api(f'actions/runs/{run}/artifacts?per_page=100'))['artifacts']
