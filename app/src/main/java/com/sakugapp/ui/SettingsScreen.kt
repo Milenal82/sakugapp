@@ -64,7 +64,7 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel,language:()->Unit,abo
             SettingControl{
                 Text(text(R.string.ui_color_theme),style=MaterialTheme.typography.bodyLarge)
                 FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp),verticalArrangement=Arrangement.spacedBy(4.dp)){
-                    for((value,label)in listOf("default" to R.string.ui_accent_default,"mint" to R.string.ui_theme_mint,"pink" to R.string.ui_theme_sakura))
+                    for((value,label)in listOf("default" to R.string.ui_accent_default,"mint" to R.string.ui_theme_mint,"pink" to R.string.ui_theme_sakura,"amber" to R.string.ui_theme_amber))
                         FilterChip(selected=settings.accent==value,onClick={model.accent(value)},modifier=Modifier.testTag("accent-$value"),label={Text(text(label))})
                 }
             }

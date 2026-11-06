@@ -15,7 +15,7 @@ class FullThemeTest {
     }
     private fun contrast(a:Color,b:Color):Double{val x=luminance(a);val y=luminance(b);return (maxOf(x,y)+.05)/(minOf(x,y)+.05)}
     @Test fun fourCompletePalettesUseTheirOwnBackgroundsAndReadableText(){
-        for((family,light,background)in listOf(Triple("pink",true,0xFFFFF5F8),Triple("pink",false,0xFF211820),Triple("mint",true,0xFFF0FAF9),Triple("mint",false,0xFF142422))){
+        for((family,light,background)in listOf(Triple("pink",true,0xFFFFF5F8),Triple("pink",false,0xFF211820),Triple("mint",true,0xFFF0FAF9),Triple("mint",false,0xFF142422),Triple("amber",true,0xFFFFF8EC),Triple("amber",false,0xFF18140F))){
             val colors=appColors(light,family)
             assertEquals(Color(background),colors.background)
             for((text,surface)in listOf(colors.onBackground to colors.background,colors.onSurface to colors.surface,colors.onSurfaceVariant to colors.surfaceContainerHigh,colors.onPrimary to colors.primary,colors.onSecondaryContainer to colors.secondaryContainer))

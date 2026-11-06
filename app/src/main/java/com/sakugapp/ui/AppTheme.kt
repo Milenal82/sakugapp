@@ -27,6 +27,8 @@ internal fun appColors(light:Boolean,accent:String="default"):ColorScheme {
             else tintedColors(false,0xFF211820,0xFF332430,0xFF432D3C,0xFFE889B0,0xFF6C2C4B,0xFFFCEAF1,0xFFDAB9CA,0xFF674454,0xFF432D39,0xFFB78C9F)
         "mint"->if(light) tintedColors(true,0xFFF0FAF9,0xFFFFFFFF,0xFFDEF3EF,0xFF087B71,0xFFA7E3DC,0xFF243E3E,0xFF50716F,0xFFCDE6E2,0xFFFFFFFF,0xFF71938D)
             else tintedColors(false,0xFF142422,0xFF233633,0xFF2E4741,0xFF63C9BE,0xFF2E5F56,0xFFE3F6F2,0xFFB3D1CA,0xFF45655D,0xFF123C35,0xFF84AAA0)
+        "amber"->if(light) tintedColors(true,0xFFFFF8EC,0xFFFFFDF8,0xFFFFE8BF,0xFF986000,0xFFFFC15A,0xFF332516,0xFF745E42,0xFFE5D3B6,0xFFFFFFFF,0xFF917A59)
+            else tintedColors(false,0xFF18140F,0xFF211B14,0xFF342A1E,0xFFFFC45C,0xFF81551A,0xFFFFF0D9,0xFFD8BF9B,0xFF655338,0xFF352000,0xFFB49B76)
         else->base.copy(surfaceContainerLowest=base.background,surfaceContainerLow=base.surface,surfaceContainerHighest=base.surfaceContainerHigh,
             surfaceBright=base.surfaceContainerHigh,surfaceDim=base.background,surfaceTint=base.primary)
     }

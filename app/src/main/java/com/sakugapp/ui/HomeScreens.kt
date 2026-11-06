@@ -70,16 +70,25 @@ import kotlinx.coroutines.*
     }
     if(clear)AlertDialog(onDismissRequest={clear=false},title={Text(text(R.string.ui_clear_search_history))},confirmButton={TextButton(onClick={app.clearHistory();clear=false}){Text(text(R.string.ui_delete))}},dismissButton={TextButton(onClick={clear=false}){Text(text(R.string.ui_cancel))}})
 }
+@OptIn(ExperimentalLayoutApi::class)
 @Composable internal fun ProfileHomeScreen(app:AppViewModel,route:(String)->Unit,site:(String)->Unit){
     val profile by app.localProfile.collectAsStateWithLifecycle();val account by app.account.collectAsStateWithLifecycle();val scope=rememberCoroutineScope()
     val displayedName=profile.nickname ?: text(R.string.ui_local_user)
     var edit by rememberSaveable{mutableStateOf(false)};var name by rememberSaveable{mutableStateOf("")};var error by remember{mutableStateOf(false)};var busy by remember{mutableStateOf(false)}
     val choose=rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()){uri->if(uri!=null)scope.launch{busy=true;error=false;try{app.localProfileStore.avatar(uri)}catch(e:CancellationException){throw e}catch(_:Exception){error=true}finally{busy=false}}}
     Box(Modifier.fillMaxSize(),contentAlignment=Alignment.TopCenter){Column(Modifier.widthIn(max=600.dp).fillMaxWidth().verticalScroll(rememberScrollState()).padding(16.dp).testTag("profile-home"),verticalArrangement=Arrangement.spacedBy(12.dp)){
-        Surface(shape=RoundedCornerShape(16.dp),color=MaterialTheme.colorScheme.surfaceContainerHigh){Column(Modifier.fillMaxWidth().padding(16.dp),horizontalAlignment=Alignment.CenterHorizontally,verticalArrangement=Arrangement.spacedBy(8.dp)){
-            LocalAvatar(profile,80);Text(profile.nickname ?: text(R.string.ui_local_user),style=MaterialTheme.typography.titleLarge)
-            Row{TextButton(enabled=!busy,onClick={choose.launch(androidx.activity.result.PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))}){Text(text(R.string.ui_change_avatar))};TextButton(onClick={name=displayedName;edit=true}){Text(text(R.string.ui_edit_nickname))}}
-            Row{TextButton(onClick={scope.launch{try{app.localProfileStore.resetAvatar();error=false}catch(e:CancellationException){throw e}catch(_:Exception){error=true}}}){Text(text(R.string.ui_default_avatar))};TextButton(onClick={scope.launch{try{app.localProfileStore.nickname(null);error=false}catch(e:CancellationException){throw e}catch(_:Exception){error=true}}}){Text(text(R.string.ui_default_nickname))}}
+        Surface(shape=RoundedCornerShape(16.dp),color=MaterialTheme.colorScheme.surfaceContainerHigh){Column(Modifier.fillMaxWidth().padding(10.dp)){
+            Row(verticalAlignment=androidx.compose.ui.Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(12.dp)){
+                LocalAvatar(profile,68)
+                Column(Modifier.weight(1f)){
+                    Text(displayedName,style=MaterialTheme.typography.titleMedium)
+                    FlowRow{TextButton(enabled=!busy,onClick={choose.launch(androidx.activity.result.PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))}){Text(text(R.string.ui_change_avatar))};TextButton(onClick={name=displayedName;edit=true}){Text(text(R.string.ui_edit_nickname))}}
+                }
+            }
+            Row(Modifier.align(androidx.compose.ui.Alignment.End)){
+                ActionIcon(R.drawable.ic_rotate,text(R.string.ui_default_avatar),{scope.launch{try{app.localProfileStore.resetAvatar();error=false}catch(e:CancellationException){throw e}catch(_:Exception){error=true}}},Modifier.testTag("reset-avatar"),enabled=!busy,iconSize=20.dp)
+                ActionIcon(R.drawable.ic_edit,text(R.string.ui_default_nickname),{scope.launch{try{app.localProfileStore.nickname(null);error=false}catch(e:CancellationException){throw e}catch(_:Exception){error=true}}},Modifier.testTag("reset-nickname"),iconSize=20.dp)
+            }
             if(busy)LinearProgressIndicator(Modifier.fillMaxWidth())
             if(error)Text(text(R.string.ui_profile_error),color=MaterialTheme.colorScheme.error)
         }}

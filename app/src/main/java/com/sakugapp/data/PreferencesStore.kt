@@ -27,7 +27,7 @@ data class AppSettings(
 object PreferenceRules {
     val columnOptions = listOf(1,2,3,4,6,8,12)
     val themeModes = setOf("system","dark","light")
-    val accents = setOf("default","mint","pink")
+    val accents = setOf("default","mint","pink","amber")
     fun palette(value:String?)=when(value){"blue"->"mint";in accents->value!!;else->"default"}
     val fixedFlags=mapOf("gestures" to true,"screenshot" to true,"loop" to true,"muted" to true,"mobile" to true,"wifiImages" to false)
     fun legacyTheme(mode:String?,light:Boolean?,hasLegacyData:Boolean):String = mode?.takeIf{it in themeModes} ?: when(light){true->"light";false->"dark";null->if(hasLegacyData)"dark" else "system"}
