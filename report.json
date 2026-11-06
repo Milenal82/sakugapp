@@ -2,44 +2,44 @@
   "source_commit": "fa558ea948ebe150934e794f09834a95411e9c95",
   "run_id": "42162609136",
   "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136",
-  "captured_utc": "2026-11-06T04:55:25.979910+00:00",
-  "validation_result": "failure",
+  "captured_utc": "2026-11-06T05:03:11.104159+00:00",
+  "validation_result": "success",
   "scope": "Compact frame/lock controls, window/aspect detail sizing, community state and persistent SAF batch queue; emulator checks only.",
   "jobs": [
     {
-      "name": "devices (35, Nexus 6)",
+      "name": "devices (28, pixel_c)",
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136/job/127718237799",
-      "id": 127718237799
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136/job/127720604295",
+      "id": 127720604295
     },
     {
       "name": "build",
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136/job/127718238123",
-      "id": 127718238123
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136/job/127720605647",
+      "id": 127720605647
     },
     {
-      "name": "devices (28, pixel_c)",
+      "name": "devices (35, Nexus 6)",
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136/job/127718238158",
-      "id": 127718238158
+      "conclusion": "success",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136/job/127720606244",
+      "id": 127720606244
     },
     {
       "name": "devices (28, Nexus S)",
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136/job/127718238194",
-      "id": 127718238194
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136/job/127720654027",
+      "id": 127720654027
     },
     {
       "name": "evidence",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136/job/127720312247",
-      "id": 127720312247
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136/job/127722715922",
+      "id": 127722715922
     }
   ],
   "artifacts": [
@@ -57,6 +57,11 @@
       "name": "player-community-device-35-Nexus 6",
       "bytes": 704703,
       "url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136/artifacts/13478344122"
+    },
+    {
+      "name": "player-community-device-28-pixel_c",
+      "bytes": 315282,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42162609136/artifacts/13477964484"
     },
     {
       "name": "player-community-build-reports",
@@ -85,11 +90,6 @@
     }
   },
   "failures": [
-    {
-      "job": "devices (28, pixel_c)",
-      "conclusion": "failure",
-      "message": "2026-11-06T04:52:20.1654599Z com.sakugapp.FrameControlsDeviceTest > frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes[emulator-5554 - 9] FAILED \n2026-11-06T04:52:20.1656117Z \tjava.lang.AssertionError: Action performScrollTo() failed.\n2026-11-06T04:53:57.8662795Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-06T04:53:57.9730250Z * What went wrong:\n2026-11-06T04:53:57.9734122Z BUILD FAILED in 4m 1s\n2026-11-06T04:53:58.4130318Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
-    },
     {
       "test": "com.sakugapp.FrameControlsDeviceTest.frameBarAndMoreKeepVideoGeometryAndSamePlayerInBothThemes",
       "report": "player-community-device-28-pixel_c/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
