@@ -119,7 +119,14 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                     mediaHeight=if(rotated)size.width else size.height
                 }
             }
-            override fun onPositionDiscontinuity(old:Player.PositionInfo,new:Player.PositionInfo,reason:Int){if(reason==Player.DISCONTINUITY_REASON_SEEK)stepper.discontinuity(new.positionMs)}
+            override fun onPositionDiscontinuity(old:Player.PositionInfo,new:Player.PositionInfo,reason:Int){
+                if(reason==Player.DISCONTINUITY_REASON_SEEK){
+                    val selected=stepper.confirmed!=null || stepper.pending>0
+                    val owned=stepper.expectedSeek?.let{kotlin.math.abs(it-new.positionMs)<=1}==true
+                    stepper.discontinuity(new.positionMs)
+                    if(selected && !owned && player.playbackState==Player.STATE_IDLE)player.prepare()
+                }
+            }
             override fun onPlayWhenReadyChanged(ready:Boolean,reason:Int){if(owner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)){if(ready && stepper.pending>0){player.pause();resumeRequested=false}else{resumeRequested=player.playWhenReady;if(ready && player.playWhenReady){stepper.reset();PlaybackResources.claim(player)}}}}
             override fun onIsPlayingChanged(isPlaying:Boolean){playing=isPlaying;if(isPlaying)PlaybackResources.claim(player)}
         }

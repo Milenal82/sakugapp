@@ -46,7 +46,7 @@ class ClipExporter(private val context:Context){
         val decodeEnd=if(nextKey!=null)minOf((sourceDuration+999)/1000,nextKey/1000+1)else (sourceDuration+999)/1000
         val gate=ClipFrameGate(range,decodeStart)
         val video=File(directory,"video-${java.util.UUID.randomUUID()}.mp4")
-        val encoded=transform(source,video,ClipRange(decodeStart,decodeEnd),copy=false,removeAudio=true,effect=gate)
+        val encoded=transform(source,video,ClipRange(decodeStart,decodeEnd),copy=false,removeAudio=true,effect=gate,outputDurationMs=range.durationMs)
         val accepted=synchronized(gate.accepted){gate.accepted.toList().sorted()}
         check(accepted.size==expected.size && accepted.zip(expected).all{kotlin.math.abs(it.first-it.second)<=1000}){"clip_verify gate expected=$expected actual=$accepted"}
         val audio=if(index.tracks.any{it.type==C.TRACK_TYPE_AUDIO})File(directory,"audio-${java.util.UUID.randomUUID()}.mp4")else null
@@ -85,12 +85,12 @@ class ClipExporter(private val context:Context){
         check(result.samples==kept.size && result.samples>0){"clip_verify copy expected=${kept.size} output=${result.samples}"}
         ClipResult(output,ClipMode.COPY,range,start+result.firstUs,start+result.durationUs,result.samples,if(webm)"video/webm"else"video/mp4")
     }
-    private suspend fun transform(source:File,out:File,range:ClipRange,copy:Boolean,webm:Boolean=false,removeAudio:Boolean=false,removeVideo:Boolean=false,effect:androidx.media3.effect.GlEffect?=null,composition:Composition?=null):ExportResult=withContext(Dispatchers.Main.immediate){
+    private suspend fun transform(source:File,out:File,range:ClipRange,copy:Boolean,webm:Boolean=false,removeAudio:Boolean=false,removeVideo:Boolean=false,effect:androidx.media3.effect.GlEffect?=null,composition:Composition?=null,outputDurationMs:Long=range.durationMs):ExportResult=withContext(Dispatchers.Main.immediate){
         var active:Transformer?=null
         try{suspendCancellableCoroutine<ExportResult>{c->
             val base=DefaultEncoderFactory.Builder(context).setEnableFallback(true).build()
             val force=object:Codec.EncoderFactory by base{override fun videoNeedsEncoding()=true;override fun audioNeedsEncoding()=true}
-            val builder=Transformer.Builder(context).setMuxerFactory(if(webm)WebmClipMuxer.Factory()else InAppMp4Muxer.Factory().setVideoDurationUs(range.durationMs*1000))
+            val builder=Transformer.Builder(context).setMuxerFactory(if(webm)WebmClipMuxer.Factory()else InAppMp4Muxer.Factory().setVideoDurationUs(outputDurationMs*1000))
             if(!copy)builder.setEncoderFactory(force).setVideoMimeType(MimeTypes.VIDEO_H264).setAudioMimeType(MimeTypes.AUDIO_AAC)
             val transformer=builder.addListener(object:Transformer.Listener{
                     override fun onCompleted(composition:Composition,result:ExportResult){if(c.isActive){if(!copy && (if(removeVideo)result.audioEncoderName==null else result.videoEncoderName==null))c.resumeWithException(IllegalStateException("clip_verify"))else c.resume(result)}}

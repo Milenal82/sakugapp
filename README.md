@@ -21,6 +21,8 @@ Sakuga Mobile（安装名称 Sakugapp）是 Sakugabooru 的非官方 Android 客
 
 ### 下载与备份
 
+本开发分支包含逐帧栏和片段导出；正式版保持不变，测试 APK 见 Actions。
+
 正式 APK 在 [GitHub Releases](https://github.com/Milenal82/sakugapp/releases)，开发测试包在 [Actions](https://github.com/Milenal82/sakugapp/actions)。本次正式版本为 **1.2.2 / code 15**。
 
 同包名 `com.sakugapp`、同正式证书签名的版本可覆盖安装。升级前建议导出收藏。Debug 与正式签名不同：切换前先备份，再卸载旧包、安装并导入；卸载会删除其他本地数据。
@@ -59,6 +61,8 @@ Fullscreen starts with video only; a single tap toggles the controls. Videos sta
 
 ### Download and backup
 
+This branch adds the frame bar and clip export. Official Releases are unchanged; test APKs are in Actions.
+
 Find signed releases in [GitHub Releases](https://github.com/Milenal82/sakugapp/releases) and development artifacts in [Actions](https://github.com/Milenal82/sakugapp/actions). The release version is **1.2.2 / code 15**.
 
 Updates using the same package (`com.sakugapp`) and official certificate can be installed over the existing app. Export favorites first. Debug and official signatures differ: back up, uninstall, install the other build, and import. Uninstalling removes other local data.
@@ -96,6 +100,8 @@ Sakuga Mobile（インストール名 Sakugapp）は Sakugabooru の非公式 An
 全画面では動画のみを表示し、シングルタップで操作を表示・非表示にします。動画はミュート・リピートで開始し、再生中は個別に変更できます。ジェスチャーと画面共有は常に有効で、画像とプレビューはモバイル回線でも読み込みます。設定を外観・閲覧・再生・データ・アプリ情報に整理しました。[v1.2.2 更新情報](docs/release-1.2.2.md)を参照してください。
 
 ### ダウンロードとバックアップ
+
+この開発ブランチにはコマ送りバーと区間保存を追加しています。正式版は変更せず、テスト APK は Actions にあります。
 
 正式署名 APK は [GitHub Releases](https://github.com/Milenal82/sakugapp/releases)、開発用 APK は [Actions](https://github.com/Milenal82/sakugapp/actions) から取得できます。今回の正式版は **1.2.2 / code 15** です。
 

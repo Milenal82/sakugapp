@@ -61,6 +61,9 @@ class FrameControlsDeviceTest {
             ui.waitUntil(20000){ui.onAllNodesWithText("Locating frame…").fetchSemanticsNodes().isEmpty()}
             assertTrue(matches{!it.playWhenReady})
             UiEvidence.capture("frames-inline-confirmed.png")
+            ui.runOnUiThread{player!!.seekTo(1000)}
+            ui.waitUntil(15000){matches{it.playbackState==Player.STATE_READY && !it.playWhenReady && it.currentPosition==1000L}}
+            assertEquals(1,instances)
         }finally{file.delete()}
     }
     @Test fun queuedStepsClampedAtBothEndsAndResetDoesNotReuseAnotherVideosSelection()=runBlocking{

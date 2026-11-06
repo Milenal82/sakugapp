@@ -68,6 +68,20 @@ class ClipExportDeviceTest {
                     }
                 }finally{decoder.release()};result.file.delete()
             }
+            if(android.os.Build.VERSION.SDK_INT>=28){
+                val vfr=fixture("frame-index-vfr.mp4",folder)
+                val result=exporter.export(vfr,folder,ClipRange(600,1700),ClipMode.PRECISE)
+                assertEquals(6,result.videoSamples);assertEquals(600000L,result.actualStartUs);assertEquals(1700000L,result.actualEndUs)
+                assertTrue(kotlin.math.abs(result.outputDurationUs-1100000L)<=1000)
+                val decoder=MediaMetadataRetriever();try{decoder.setDataSource(result.file.path)
+                    for((index,sourceIndex)in listOf(0 to 1,5 to 6)){
+                        val bitmap=decoder.getFrameAtIndex(index)!!;val pixel=bitmap.getPixel(bitmap.width/2,bitmap.height/2);val rgb=expected[sourceIndex].asJsonArray
+                        assertTrue(kotlin.math.abs(android.graphics.Color.red(pixel)-rgb[0].asInt)<35)
+                        assertTrue(kotlin.math.abs(android.graphics.Color.green(pixel)-rgb[1].asInt)<35)
+                        assertTrue(kotlin.math.abs(android.graphics.Color.blue(pixel)-rgb[2].asInt)<35);bitmap.recycle()
+                    }
+                }finally{decoder.release()};result.file.delete()
+            }
         }finally{folder.deleteRecursively()}
     }
     @Test fun cancelledStagingAndUnsupportedMediaNeverTouchTheOriginal()=runBlocking{
