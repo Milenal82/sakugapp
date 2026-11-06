@@ -19,12 +19,12 @@ class UiSmokeTest {
     }
     @org.junit.Before fun selectPostsEntry(){enterPostsForLegacyTest(ui)}
     @Test fun launchSettingsLanguageAndAccountAreNativeAndUsable(){
-        ui.onNodeWithText("Menu").assertIsDisplayed().performClick()
+        ui.onNodeWithTag("main-menu").assertIsDisplayed().performClick()
         ui.onNodeWithText("Settings").performClick()
         ui.onNodeWithText(ui.activity.getString(R.string.ui_appearance_display)).assertIsDisplayed()
         ui.onNodeWithText(ui.activity.getString(R.string.ui_default_mute)).assertDoesNotExist()
         ui.onNodeWithText(ui.activity.getString(R.string.ui_default_playback_speed)).performScrollTo().assertIsDisplayed()
-        ui.onNodeWithText("Menu").performClick();ui.onNodeWithText("Language").performClick()
+        ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithText("Language").performClick()
         ui.onNodeWithText("日本語").performClick()
         ui.waitUntil(10000){ui.onAllNodesWithText("メニュー").fetchSemanticsNodes().isNotEmpty()}
         ui.onNodeWithText("メニュー").performClick();ui.onNodeWithText("言語").performClick()
@@ -41,13 +41,13 @@ class UiSmokeTest {
         ui.onNodeWithText("菜单").performClick();ui.onNodeWithText("语言").performClick()
         ui.onNodeWithText("English").performClick()
         ui.waitUntil(10000){ui.onAllNodesWithText("Menu").fetchSemanticsNodes().isNotEmpty()}
-        ui.onNodeWithText("Menu").performClick();ui.onNodeWithText("My Account").performClick()
+        ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithText("My Account").performClick()
         ui.onNodeWithText("Username").assertIsDisplayed()
         ui.onNodeWithText("Password").assertIsDisplayed()
         ui.onNodeWithText("Log in").assertIsNotEnabled()
     }
     @Test fun lightAndDarkThemeChoicesApplyAndPersist(){
-        ui.onNodeWithText("Menu").performClick();ui.onNodeWithText("Settings").performClick()
+        ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithText("Settings").performClick()
         lateinit var app:com.sakugapp.ui.AppViewModel
         ui.runOnUiThread{app=androidx.lifecycle.ViewModelProvider(ui.activity)[com.sakugapp.ui.AppViewModel::class.java]}
         try{

@@ -52,7 +52,7 @@ class DownloadFoldersDeviceTest {
         val image=PostParser.posts(instrumentation.context.assets.open("library-real-posts.json").bufferedReader().use{it.readText()}).first().copy(fileExt="jpg")
         assertNull("Image favorites are not video downloads",app.offlineUri(image))
         val single="SakugappSingleTest";val batch="SakugappBatchTest";val clips="SakugappClipTest"
-        ui.onNodeWithText("Menu").performClick();ui.onNodeWithText("Settings").performClick()
+        ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithText("Settings").performClick()
         picker(DownloadStorage.Kind.SINGLE,single,app.downloadStorage);picker(DownloadStorage.Kind.BATCH,batch,app.downloadStorage);picker(DownloadStorage.Kind.CLIP,clips,app.downloadStorage)
         val storedClip=app.downloadStorage.directory(DownloadStorage.Kind.CLIP)!!
         val storedSingle=app.downloadStorage.directory(DownloadStorage.Kind.SINGLE)!!;val storedBatch=app.downloadStorage.directory(DownloadStorage.Kind.BATCH)!!
@@ -109,7 +109,7 @@ class DownloadFoldersDeviceTest {
         val storage=DownloadStorage(context);DownloadStorage.Kind.entries.forEach(storage::reset)
         val file=File(context.filesDir,"favorites-media/picker-cancel.mp4").apply{parentFile!!.mkdirs();writeBytes(instrumentation.context.assets.open("frame-index-vfr.mp4").use{it.readBytes()})}
         try{
-            ui.onNodeWithText("Menu").performClick();ui.onNodeWithText("Settings").performClick()
+            ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithText("Settings").performClick()
             ui.onNodeWithText(ui.activity.getString(R.string.ui_export_legacy)).performScrollTo().performClick()
             assertTrue(device.wait(Until.hasObject(By.pkg("com.android.documentsui")),10000))
             device.pressBack();ui.waitForIdle();assertNull(storage.directory(DownloadStorage.Kind.BATCH));assertTrue(file.exists())

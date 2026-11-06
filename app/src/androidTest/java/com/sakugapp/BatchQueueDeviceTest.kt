@@ -25,7 +25,7 @@ class BatchQueueDeviceTest {
         val device=UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         val directory="SakugappBatchQueueTest"
         device.executeShellCommand("mkdir -p /sdcard/Download/$directory")
-        ui.onNodeWithText("Menu").performClick();ui.onNodeWithText("Settings").performClick()
+        ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithText("Settings").performClick()
         ui.onAllNodesWithText(ui.activity.getString(R.string.ui_change_directory))[DownloadStorage.Kind.BATCH.ordinal].performScrollTo().performClick()
         device.wait(Until.findObject(By.desc("Show roots")),3000)?.click()
         device.wait(Until.findObject(By.text("Downloads")),3000)?.click()

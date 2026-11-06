@@ -49,7 +49,7 @@ class SixColumnDeviceTest {
         runBlocking{app.localLibrary.ready();posts.forEach{app.localLibrary.membership(it,1,true)};app.preferences.columns(6);app.preferences.librarySort(2);app.preferences.theme("dark")}
         try{
             ui.waitUntil(10000){app.settings.value.columns==6 && app.settings.value.librarySort==2}
-            ui.onNodeWithText("Menu",substring=false).performClick();ui.onNodeWithText("Favorites",substring=false).performClick()
+            ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithText("Favorites",substring=false).performClick()
             ui.onNodeWithTag("local-library").performScrollToNode(hasTestTag("folder-entry-1"))
             ui.onNodeWithTag("folder-entry-1").performClick();ui.onNodeWithTag("local-library").performScrollToIndex(1)
             val grid=ui.onNodeWithTag("local-library").fetchSemanticsNode().boundsInRoot
@@ -68,7 +68,7 @@ class SixColumnDeviceTest {
                 node.config.getOrNull(SemanticsProperties.TestTag)?.startsWith("post-media-")==true && node.boundsInRoot.top>=grid.top && node.boundsInRoot.bottom<=grid.bottom
             }.minWith(compareBy({it.boundsInRoot.top},{it.boundsInRoot.left})).config[SemanticsProperties.TestTag]
             for(columns in listOf(2,6)){
-                ui.onNodeWithText("Menu",substring=false).performClick();ui.onNodeWithText("Settings",substring=false).performScrollTo().performClick()
+                ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithText("Settings",substring=false).performScrollTo().performClick()
                 ui.onNodeWithTag("setting-columns-$columns").performScrollTo().performClick();ui.waitUntil(10000){app.settings.value.columns==columns}
                 device.pressBack();ui.onNodeWithTag(anchor).assertIsDisplayed()
             }

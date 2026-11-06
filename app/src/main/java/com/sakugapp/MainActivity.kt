@@ -121,9 +121,9 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
         if(about)AboutDialog{about=false}
         Scaffold(modifier=Modifier.semantics{testTagsAsResourceId=true},bottomBar={AnimatedVisibility(entry?.destination?.route in AppRoutes.main && (entry?.destination?.route!="posts" || bottomVisible),enter=expandVertically(tween(Motion.search)),exit=shrinkVertically(tween(Motion.search))){MainBottomBar(entry?.destination?.route ?: AppRoutes.SEARCH,::primary)}},topBar={Column(Modifier.statusBarsPadding()){
             Row(Modifier.fillMaxWidth().padding(horizontal=8.dp),verticalAlignment=Alignment.CenterVertically){
-                if(entry?.destination?.route !in AppRoutes.main)TextButton(onClick={nav.popBackStack()},modifier=Modifier.semantics{contentDescription=context.getString(R.string.ui_back_to_app)}){Text("‹")}
+                if(entry?.destination?.route !in AppRoutes.main)ActionIcon(R.drawable.ic_back,text(R.string.ui_back_to_app),{nav.popBackStack()},touchSize=40.dp)
                 BrandAndProfile(localProfile,entry?.destination?.route!="profile"){go("profile")}
-                Box{TextButton(onClick={menu=true},modifier=Modifier.clip(RoundedCornerShape(10.dp)).background(MaterialTheme.colorScheme.surfaceContainerHigh).testTag("main-menu")){Text(text(R.string.ui_menu))};TileMenu(expanded=menu,onDismissRequest={menu=false}){
+                Box{ActionIcon(R.drawable.ic_more,text(R.string.ui_menu),{menu=true},Modifier.testTag("main-menu"),touchSize=40.dp);TileMenu(expanded=menu,onDismissRequest={menu=false}){
                     AppMenuItem(icon=R.drawable.ic_book,selected=entry?.destination?.route in setOf("posts","search","post/{id}"),text={Text(text(R.string.ui_posts))},onClick={menu=false;primary("posts")})
                     AppMenuItem(icon=R.drawable.ic_folder,selected=entry?.destination?.route=="library",text={Text(text(R.string.ui_local_library))},onClick={menu=false;go("library")})
                     AppMenuItem(icon=R.drawable.ic_history,selected=entry?.destination?.route=="history",text={Text(text(R.string.ui_browsing_history))},onClick={menu=false;go("history")})

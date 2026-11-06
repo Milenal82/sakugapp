@@ -79,7 +79,7 @@ class SearchNavigationDeviceTest {
             assertTrue(device.swipe(arrayOf(android.graphics.Point(1,y),android.graphics.Point(device.displayWidth/3,y),android.graphics.Point(2,y)),18))
             ui.waitForIdle();assertEquals("Cancelled predictive back must retain results",changed,feed.state.value.query)
         }
-        back();ui.waitUntil(10000){feed.state.value.query==browse.query}
+        ui.onNodeWithTag("browse-mode").performClick();ui.waitUntil(10000){feed.state.value.query==browse.query}
         ui.onNodeWithTag("search-entry").assertExists()
         assertEquals(browse.posts.map{it.id},feed.state.value.posts.take(browse.posts.size).map{it.id})
         assertEquals(browsePosition.toDouble(),position().toDouble(),2.0)

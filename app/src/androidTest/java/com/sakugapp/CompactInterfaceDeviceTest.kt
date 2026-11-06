@@ -36,8 +36,8 @@ class CompactInterfaceDeviceTest {
         val before=anchor?.let{ui.onNodeWithTag("post-media-$it").fetchSemanticsNode().boundsInRoot}
         runBlocking{app.preferences.theme("light");app.preferences.flag("wrap",false)}
         ui.waitUntil(10000){app.settings.value.themeMode=="light" && !app.settings.value.wrapTags}
-        ui.onNodeWithText("Menu",substring=false).performClick();ui.onNodeWithText("Settings",substring=false).performClick()
-        ui.onNodeWithText("Menu",substring=false).performClick();ui.onNodeWithText("Posts",substring=false).performClick()
+        ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithText("Settings",substring=false).performClick()
+        ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithText("Posts",substring=false).performClick()
         ui.waitForIdle() // Let the Compose test clock finish navigation before UiAutomator polls.
         val nativeDevice=UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         val nativeEntry=nativeDevice.wait(androidx.test.uiautomator.Until.findObject(androidx.test.uiautomator.By.res("search-entry")),10000)

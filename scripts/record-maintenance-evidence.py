@@ -263,6 +263,19 @@ def main():
             'Synthetic codec fixtures are never represented as website content. '
             'Reports distinguish API 28/35 and physical emulator profiles; physical devices and arbitrary codecs remain unverified. '
             'No version, tag, Release or signing changes.\n')
+    if os.environ.get('GITHUB_REF_NAME') == 'dev/search-profile-discovery':
+        report['scope']='Search/Posts/Profile navigation, real consumed scroll, fullscreen isolation, local profile images, bounded discovery fixtures, backup restore and native frame controls on API 28/35.'
+        (OUTPUT / 'report.json').write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
+        for capture in ROOT.rglob('discovery-*.png'):
+            if capture.stat().st_size <= 4 * 1024 * 1024:
+                profile=re.sub(r'[^a-zA-Z0-9-]+','-',capture.relative_to(ROOT).parts[0])
+                shutil.copyfile(capture,images / (profile+'-'+capture.name))
+        (OUTPUT / 'README.md').write_text(f'# Search, profile and discovery checks\n\nSource: `{SHA}`\n\nRun: {report["run_url"]}\n\n'
+            'JVM tests, localization, Lint and Debug build; API 28 phone and API 35 tablet navigation, profile, backup and frame-control checks. '
+            'Screenshots are original app renders with injected response fixtures; they are not evidence of live site access. '
+            'Live site probes were blocked by the cloud proxy. Episode lookup is bounded to the sampled work posts. '
+            'Physical devices, full production-account flows and process-death restoration of in-memory discovery samples are not verified. '
+            'The installable Debug APK and full reports remain in the linked Actions artifacts. No Release, tag or formal version change.\n')
     print('Maintenance evidence recorded for', SHA, report['test_counts'])
 
 

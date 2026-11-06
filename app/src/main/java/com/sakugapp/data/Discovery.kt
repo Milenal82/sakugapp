@@ -50,12 +50,12 @@ class DiscoveryRepository(private val repository:PostRepository=SakugaRepository
         val normalized=query.trim().replace(Regex("\\s+"),"_");val types=catalog();types.entries.asSequence().filter{it.value==type && it.key.contains(normalized,true)}.sortedWith(compareBy<Map.Entry<String,TagCategory>>{!it.key.startsWith(normalized,true)}.thenBy{it.key}).take(30).map{TagSuggestion(it.key,it.value,null)}.toList()
     }
     suspend fun validate(tag:String,type:TagCategory){if(!LibraryCodec.tagName(tag) || catalog()[tag]!=type)throw DataFailure("Tag classification is not verified.")}
-    fun cached(tag:String,type:TagCategory):Sample?=synchronized(samples){samples["$type:$tag"]?.takeIf{clock()-it.savedAt<600000}}
+    fun cached(tag:String,type:TagCategory):Sample?=synchronized(samples){val key=samples.entries.lastOrNull{it.value.tag==tag && it.value.type==type}?.key;key?.let{samples[it]}?.takeIf{clock()-it.savedAt<600000}}
     suspend fun load(tag:String,type:TagCategory,pages:Int=1,refresh:Boolean=false,update:(Sample)->Unit={}):Sample=withContext(Dispatchers.IO){mutex.withLock{
         validate(tag,type)
         var sample=if(refresh)null else cached(tag,type)
         sample=sample ?: Sample(tag,type)
-        if(refresh)synchronized(samples){samples.remove("$type:$tag")}
+        if(refresh)synchronized(samples){samples.entries.removeAll{it.value.tag==tag && it.value.type==type}}
         val limit=if(type==TagCategory.ARTIST)5 else 12
         repeat(pages.coerceIn(1,3)){
             currentCoroutineContext().ensureActive()
@@ -65,7 +65,7 @@ class DiscoveryRepository(private val repository:PostRepository=SakugaRepository
                 if(page.posts.any{post->post.tags.none{t->t.name==tag}})throw DataFailure("The server returned posts for a different tag.")
                 val old=sample!!;val merged=(old.posts+page.posts).distinctBy{it.id}.take(limit*repository.pageSize)
                 sample=Sample(tag,type,merged,old.pages+1,page.rawCount==0,old.pages+1>=limit,page.categoryWarning,clock())
-                synchronized(samples){samples["$type:$tag"]=sample!!;while(samples.size>8)samples.remove(samples.keys.first())}
+                synchronized(samples){samples.entries.removeAll{it.value.tag==tag && it.value.type==type};samples["$type:$tag:${sample!!.pages}"]=sample!!;while(samples.size>8)samples.remove(samples.keys.first())}
                 update(sample!!)
             }
         };sample!!
