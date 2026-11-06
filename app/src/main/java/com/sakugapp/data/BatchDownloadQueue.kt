@@ -58,7 +58,7 @@ class BatchDownloadQueue(private val context:Context,val storage:DownloadStorage
     fun pause(){command{change{s->s.copy(paused=true,tasks=s.tasks.map{if(it.status==BatchStatus.WAITING || it.status==BatchStatus.DOWNLOADING)it.copy(status=BatchStatus.PAUSED)else it})};workers.values.toList().forEach{it.cancel()}}}
     fun resume(){command{change{s->s.copy(paused=false,tasks=s.tasks.map{if(it.status==BatchStatus.PAUSED)it.copy(status=BatchStatus.WAITING,bytes=0)else it})};start()}}
     fun cancel(id:String?=null){command{change{s->s.copy(tasks=s.tasks.map{if((id==null || it.id==id) && it.status in setOf(BatchStatus.WAITING,BatchStatus.DOWNLOADING,BatchStatus.PAUSED))it.copy(status=BatchStatus.CANCELLED)else it})};workers.filterKeys{id==null || it==id}.values.toList().forEach{it.cancel()}}}
-    fun retry(id:String){command{update(id){if(it.status==BatchStatus.FAILED || it.status==BatchStatus.CANCELLED)it.copy(status=if(state.value.paused)BatchStatus.PAUSED else BatchStatus.WAITING,bytes=0,total= -1,attempts=0,after=0,error=null)else it};if(!state.value.paused)start()}}
+    fun retry(id:String){command{update(id){if(it.status==BatchStatus.FAILED || it.status==BatchStatus.CANCELLED)it.copy(status=if(state.value.paused)BatchStatus.PAUSED else BatchStatus.WAITING,bytes=0,total= -1,attempts=0,error=null)else it};if(!state.value.paused)start()}}
     /** Called once by the foreground service. Cancellation leaves interrupted files queued. */
     suspend fun run()=coroutineScope {
         ready.await();if(!valid)return@coroutineScope
@@ -67,7 +67,7 @@ class BatchDownloadQueue(private val context:Context,val storage:DownloadStorage
             val current=state.value
             if(current.paused)break
             val free=(current.parallelism-workers.size).coerceAtLeast(0)
-            val next=current.tasks.filter{it.status==BatchStatus.WAITING && it.id !in workers && it.after<=System.currentTimeMillis()}.take(free)
+            val next=current.tasks.filter{it.status==BatchStatus.WAITING && it.id !in workers && it.after<=System.currentTimeMillis() && DownloadBackoff.remaining(java.net.URI(it.post.fileUrl).host)==0L}.take(free)
             next.forEach{task->
                 var claimed=false
                 change{s->s.copy(tasks=s.tasks.map{if(it.id==task.id && it.status==BatchStatus.WAITING && !s.paused){claimed=true;it.copy(status=BatchStatus.DOWNLOADING,bytes=0,total= -1,attempts=it.attempts+1,error=null)}else it})}
@@ -92,8 +92,9 @@ class BatchDownloadQueue(private val context:Context,val storage:DownloadStorage
             val attempts=state.value.tasks.first{it.id==task.id}.attempts
             val retryable=http?.status in setOf(421,429,500,502,503,504) || (e is DataFailure && http==null && e.message?.contains("network",true)==true)
             val wait=if(retryable && attempts<3)maxOf(http?.retryAfterMs ?: 0,DownloadBackoff.retryDelay(http?.status ?: 0,attempts,null))else 0
-            val now=System.currentTimeMillis();val after=now+minOf(wait,Long.MAX_VALUE-now)
-            if(wait>0)DownloadBackoff.defer(VideoDownloadPlan.from(task.post).url.host,after)
+            val cooldown=maxOf(wait,http?.let{DownloadBackoff.serverCooldown(it.status,attempts,it.retryAfterMs)} ?: 0)
+            val now=System.currentTimeMillis();val after=now+minOf(cooldown,Long.MAX_VALUE-now)
+            if(cooldown>0)DownloadBackoff.defer(VideoDownloadPlan.from(task.post).url.host,after)
             update(task.id){if(it.status!=BatchStatus.DOWNLOADING)it else it.copy(status=if(wait>0)BatchStatus.WAITING else BatchStatus.FAILED,bytes=0,after=after,error=(e as? LibraryFailure)?.code ?: if(http!=null)"HTTP ${http.status}" else "download_storage")}
         }finally{workers.remove(task.id)}
     }

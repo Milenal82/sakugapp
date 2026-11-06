@@ -23,6 +23,14 @@ class BatchQueueTest {
         assertThrows(Exception::class.java){BatchQueueCodec.decode(BatchQueueCodec.encode(state.copy(parallelism=4)))}
         assertThrows(Exception::class.java){BatchQueueCodec.decode(BatchQueueCodec.encode(state).replace("WAITING","UNKNOWN"))}
     }
+    @Test fun exhaustedTaskStillBlocksItsHostAndHonorsServerRetryAfter(){
+        val cooldown=DownloadBackoff.serverCooldown(429,3,120000)
+        assertEquals(120000L,cooldown)
+        val host="rate-limited.example.org";DownloadBackoff.defer(host,System.currentTimeMillis()+cooldown)
+        assertTrue(DownloadBackoff.remaining(host) in 119000..120000)
+        assertEquals(20000L,DownloadBackoff.serverCooldown(421,3,0))
+        assertEquals(0L,DownloadBackoff.serverCooldown(403,3,0))
+    }
     @Test fun rateLimitBackoffHonorsServerSecondsAndHttpDate(){
         assertEquals(5000L,DownloadBackoff.retryDelay(421,1,null));assertEquals(20000L,DownloadBackoff.retryDelay(429,3,null))
         assertEquals(120000L,DownloadBackoff.retryDelay(429,1,"120"))

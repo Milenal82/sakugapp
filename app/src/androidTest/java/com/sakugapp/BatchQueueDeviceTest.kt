@@ -93,9 +93,17 @@ class BatchQueueDeviceTest {
             assertNotNull(storage.existing(post(901),DownloadStorage.Kind.BATCH))
             // Completed receipts, not temporary output documents, determine offline readiness.
             assertNull(storage.existing(post(904),DownloadStorage.Kind.BATCH))
+            server.enqueue(MockResponse().setResponseCode(429).setHeader("Retry-After","1"));server.enqueue(response().setBodyDelay(0,TimeUnit.SECONDS))
+            val before=android.os.SystemClock.elapsedRealtime();val requests=server.requestCount
+            withContext(Dispatchers.Main){queue.resume();queue.enqueue(listOf(post(905)))}
+            stage("rate-limit task admitted"){queue.state.value.tasks.size==5}
+            withContext(Dispatchers.Main){runner=serviceScope.launch{queue.run()}}
+            stage("rate-limit recovery"){queue.state.value.tasks.last().status==BatchStatus.COMPLETE};runner!!.join()
+            assertTrue(android.os.SystemClock.elapsedRealtime()-before>=5000);assertEquals(requests+2,server.requestCount)
+
         }finally{
             runner?.cancelAndJoin();withContext(Dispatchers.Main){runCatching{queue.close()}};serviceScope.cancel()
-            for(id in 901L..904L)storage.existing(post(id),DownloadStorage.Kind.BATCH)?.let{Docs.deleteDocument(context.contentResolver,it)}
+            for(id in 901L..905L)storage.existing(post(id),DownloadStorage.Kind.BATCH)?.let{Docs.deleteDocument(context.contentResolver,it)}
             storage.reset(DownloadStorage.Kind.BATCH);File(context.filesDir,journal).delete();server.shutdown();client.connectionPool.evictAll();client.dispatcher.executorService.shutdown()
         }
     }

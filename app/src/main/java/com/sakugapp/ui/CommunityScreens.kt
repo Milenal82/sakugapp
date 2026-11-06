@@ -8,6 +8,7 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.*
 import androidx.compose.ui.res.painterResource
 import android.view.WindowManager
 import androidx.compose.foundation.layout.*
@@ -57,6 +58,7 @@ fun AccountScreen(model:AppViewModel,openSite:(String)->Unit) {
 @Composable
 fun VoteControl(post:Post,model:AppViewModel,onScore:(Int?)->Unit,onLogin:()->Unit){
     val account by model.account.collectAsStateWithLifecycle()
+    val voteLabel=text(R.string.ui_vote)
     val vote=remember(post.id){model.postVote(post.id)}
     LaunchedEffect(post.id,account?.id){vote.identify(account)}
     var expanded by remember(post.id,account?.id){mutableStateOf(false)}
@@ -66,7 +68,7 @@ fun VoteControl(post:Post,model:AppViewModel,onScore:(Int?)->Unit,onLogin:()->Un
             TileMenu(expanded,{expanded=false}){
                 for(value in 0..3)AppMenuItem(icon=null,selected=vote.value==value,text={
                     if(value==0)Text("0")else Row(horizontalArrangement=Arrangement.spacedBy(2.dp)){repeat(value){Icon(painterResource(R.drawable.ic_star),contentDescription=null,modifier=Modifier.size(18.dp))}}
-                },modifier=Modifier.testTag("vote-$value"),onClick={expanded=false;vote.choose(value,onScore)})
+                },modifier=Modifier.testTag("vote-$value").semantics{contentDescription="$voteLabel $value"},onClick={expanded=false;vote.choose(value,onScore)})
             }
         }
         if(vote.busy)LinearProgressIndicator(Modifier.width(48.dp))

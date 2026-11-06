@@ -15,7 +15,10 @@ object DownloadBackoff {
         val base=(if(status==421 || status==429)5000L else 1000L)*(1L shl (attempt-1).coerceIn(0,8))
         return maxOf(base,seconds ?: date ?: 0)
     }
+    fun serverCooldown(status:Int,attempt:Int,retryAfterMs:Long):Long=
+        if(status in setOf(421,429,503))maxOf(retryAfterMs,retryDelay(status,attempt,null))else 0
     private val blocked=ConcurrentHashMap<String,Long>()
     fun defer(host:String,until:Long){blocked.merge(host,until,::maxOf)}
-    suspend fun await(host:String){while(true){val remaining=(blocked[host] ?: 0)-System.currentTimeMillis();if(remaining<=0)return;delay(minOf(remaining,1000))}}
+    fun remaining(host:String)=((blocked[host] ?: 0)-System.currentTimeMillis()).coerceAtLeast(0)
+    suspend fun await(host:String){while(true){val remaining=remaining(host);if(remaining<=0)return;delay(minOf(remaining,1000))}}
 }
