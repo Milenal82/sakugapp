@@ -56,7 +56,11 @@ import kotlinx.coroutines.*
             HomeTile(R.drawable.ic_history,text(R.string.ui_home_browsing),text(R.string.ui_home_browsing_sub),Modifier.weight(1f).fillMaxHeight()){route("history")}
             HomeTile(R.drawable.ic_book,text(R.string.ui_home_shows),text(R.string.ui_home_shows_sub),Modifier.weight(1f).fillMaxHeight().testTag("home-shows")){route("show_browser")}
         }
-        BoxWithConstraints(Modifier.fillMaxWidth(),contentAlignment=Alignment.Center){HomeTile(R.drawable.ic_profile,text(R.string.ui_home_artists),text(R.string.ui_home_artists_sub),Modifier.width((maxWidth-12.dp)/2).testTag("home-artists")){route("artist_stats")}}
+        Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min),horizontalArrangement=Arrangement.spacedBy(12.dp)){
+            HomeTile(R.drawable.ic_profile,text(R.string.ui_home_artists),text(R.string.ui_home_artists_sub),Modifier.weight(1f).fillMaxHeight().testTag("home-artists")){route("artist_stats")}
+            HomeTile(R.drawable.ic_search,text(R.string.ui_explore),text(R.string.ui_explore_sub),Modifier.weight(1f).fillMaxHeight().testTag("home-explore")){route("explore")}
+        }
+        BoxWithConstraints(Modifier.fillMaxWidth(),contentAlignment=Alignment.Center){HomeTile(R.drawable.ic_star,text(R.string.ui_quiz),text(R.string.ui_quiz_sub),Modifier.width((maxWidth-12.dp)/2).testTag("home-quiz")){route("quiz")}}
     }}
     if(combined)SearchDialog(query.text,app.suggestions,settings.lightTheme,{combined=false;query=TextFieldValue(it);submit(it)},{combined=false},history)
 }

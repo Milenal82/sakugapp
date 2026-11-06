@@ -139,6 +139,8 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
         }}){insets->NavHost(navController=nav,startDestination="search_home",modifier=Modifier.padding(insets).semantics{testTagsAsResourceId=true}){
             composable("search_home"){SearchHomeScreen(app,settings,::search,::go)}
             composable("profile"){ProfileHomeScreen(app,::go,openSite)}
+            composable("explore"){ExploreScreen(::search,::go)}
+            composable("topic_tags/{type}/{order}"){back->TopicTagsScreen(app.topics,if(back.arguments?.getString("type")=="artist")TagCategory.ARTIST else TagCategory.COPYRIGHT,back.arguments?.getString("order") ?: "date",::search)}
             composable("search_history"){SearchHistoryScreen(app,::search)}
             composable("posts"){PageMediaScope{
                 Column(Modifier.fillMaxSize()){

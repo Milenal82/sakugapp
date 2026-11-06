@@ -58,6 +58,11 @@ class SakugaRepository(
         }) }, posts.size, warning, types)
     }
 
+    suspend fun directory(type:TagCategory,order:String,page:Int):List<DirectoryTag> {
+        require(type in setOf(TagCategory.ARTIST,TagCategory.COPYRIGHT) && order in setOf("date","count") && page in 1..5)
+        val url=baseUrl.resolve("tag.json")!!.newBuilder().addQueryParameter("type",if(type==TagCategory.ARTIST)"1"else"3").addQueryParameter("order",order).addQueryParameter("page",page.toString()).addQueryParameter("limit","30").build()
+        return TagDirectory.parse(get(url),type,order)
+    }
     private suspend fun get(url: HttpUrl): String {
         PublicReadThrottle.awaitTurn()
         return suspendCancellableCoroutine { continuation ->

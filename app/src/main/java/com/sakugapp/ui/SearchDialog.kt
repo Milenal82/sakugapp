@@ -69,6 +69,7 @@ import com.sakugapp.data.*
                 }}
                 OutlinedTextField(expression,::edit,label={Text(text(R.string.ui_query))},modifier=Modifier.fillMaxWidth().testTag("query-expression").onFocusChanged{expressionFocused=it.isFocused},minLines=2)
                 TagSuggestionsMenu(expressionSuggestions,light){edit(complete(expression,it))}
+                DateFilterControl(expression.text){value->edit(TextFieldValue(value,TextRange(value.length)))}
                 Text(text(R.string.ui_score_shortcuts))
                 FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp)) {
                     for(preset in SearchSyntax.scorePresets)FilterChip(selected=preset in SearchSyntax.tokens(expression.text),onClick={edit(SearchSyntax.score(expression.text,preset).let{TextFieldValue(it,TextRange(it.length))})},label={Text(preset)})

@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit
 class AppViewModel @JvmOverloads constructor(application:Application,discoveryOverride:DiscoveryRepository?=null):AndroidViewModel(application) {
     val localProfileStore=LocalProfileStore(application)
     val localProfile=localProfileStore.profile.catch{emit(LocalProfile())}.stateIn(viewModelScope,SharingStarted.Eagerly,LocalProfile())
+    val topics=TopicRepository()
     val discovery=discoveryOverride ?: DiscoveryRepository()
     val preferences=PreferencesStore(application)
     val settings=preferences.settings.stateIn(viewModelScope,SharingStarted.Eagerly,AppSettings())
