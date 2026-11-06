@@ -50,7 +50,7 @@ class ExtensionUiDeviceTest {
    app.preferences.theme(if(light)"light"else"dark");app.preferences.accent("amber");app.preferences.number("fontScale",scale)
    ui.waitUntil(10000){app.settings.value.accent=="amber" && app.settings.value.fontScale==scale}
    ui.onNodeWithTag("nav-profile").performClick();ui.onNodeWithTag("reset-avatar").assertIsDisplayed();ui.onNodeWithTag("reset-nickname").assertIsDisplayed()
-   UiEvidence.capture("extension-profile-$light-$scale.png")
+   UiEvidence.capture("extension-profile-$light-${(scale*100).toInt()}.png")
   }
   ui.onNodeWithTag("reset-avatar").performClick();assertEquals("Profile Test",app.localProfile.value.nickname)
   ui.onNodeWithTag("reset-nickname").performClick();ui.waitUntil(10000){app.localProfile.value.nickname==null}
