@@ -1,43 +1,20 @@
 [
   {
-    "run": "42155150105",
-    "commit": "3e601f327dc37b0c15c6d616a2ee1c9ddfaaab7b",
+    "run": "42156199053",
+    "commit": "8f858a3a273d328e1da2e112bc4335ee8a2b7e71",
     "status": "in_progress",
     "reports": [
-      {
-        "artifact": "player-community-device-28-pixel_c",
-        "counts": {
-          "name": "com.sakugapp.PlayerLockDeviceTest",
-          "tests": "11",
-          "failures": "2",
-          "errors": "0",
-          "skipped": "0",
-          "time": "90.211",
-          "timestamp": "2026-11-06T03:17:57",
-          "hostname": "localhost"
-        },
-        "failures": [
-          {
-            "test": "com.sakugapp.FrameControlsDeviceTest.rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop",
-            "message": "java.lang.AssertionError: expected:<1544.0> but was:<816.0>\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.failNotEquals(Assert.java:835)\nat org.junit.Assert.assertEquals(Assert.java:577)\nat org.junit.Assert.assertEquals(Assert.java:701)\nat com.sakugapp.FrameControlsDeviceTest.rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop(FrameControlsDeviceTest.kt:50)\n"
-          },
-          {
-            "test": "com.sakugapp.BatchQueueDeviceTest.twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal",
-            "message": "android.os.NetworkOnMainThreadException\nat android.os.StrictMode$AndroidBlockGuardPolicy.onNetwork(StrictMode.java:1513)\nat java.net.Inet6AddressImpl.getHostByAddr(Inet6AddressImpl.java:163)\nat java.net.InetAddress$1.getHostByAddr(InetAddress.java:288)\nat java.net.InetAddress.getHostFromNameService(InetAddress.java:658)\nat java.net.InetAddress.getCanonicalHostName(InetAddress.java:629)\nat okhttp3.mockwebserver.MockWebServer.getHostName(MockWebServer.kt:159)\nat okhttp3.mockwebserver.MockWebServer.url(MockWebServer.kt:234)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.invokeSuspend$post(BatchQueueDeviceTest.kt:34)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.access$invokeSuspend$post(Unknown Source:0)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1$1.invokeSuspend(BatchQueueDeviceTest.kt:40)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat android.os.Handler.handleCallback(Handler.java:873)\nat android.os.Handler.dispatchMessage(Handler.java:99)\nat android.os.Looper.loop(Looper.java:193)\nat android.app.ActivityThread.main(ActivityThread.java:6669)\nat java.lang.reflect.Method.invoke(Native Method)\nat com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:493)\nat com.android.internal.os.ZygoteInit.main(ZygoteInit.java:858)\n"
-          }
-        ]
-      },
       {
         "artifact": "player-community-build-reports",
         "counts": {
           "name": "com.sakugapp.AppearanceAndDownloadTest",
-          "tests": "10",
+          "tests": "11",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:15:20.179Z",
+          "timestamp": "2026-11-06T03:25:40.639Z",
           "hostname": "runnervm7aw5e",
-          "time": "3.105"
+          "time": "3.58"
         },
         "failures": []
       },
@@ -49,9 +26,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:15:23.288Z",
+          "timestamp": "2026-11-06T03:25:44.224Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.357"
+          "time": "0.186"
         },
         "failures": []
       },
@@ -63,9 +40,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:15:23.656Z",
+          "timestamp": "2026-11-06T03:25:44.413Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.113"
+          "time": "0.032"
         },
         "failures": []
       },
@@ -77,9 +54,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:15:23.771Z",
+          "timestamp": "2026-11-06T03:25:44.447Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.227"
+          "time": "0.12"
         },
         "failures": []
       },
@@ -91,9 +68,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:15:24.002Z",
+          "timestamp": "2026-11-06T03:25:44.571Z",
           "hostname": "runnervm7aw5e",
-          "time": "1.307"
+          "time": "1.195"
         },
         "failures": []
       },
@@ -105,9 +82,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:15:25.318Z",
+          "timestamp": "2026-11-06T03:25:45.769Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.487"
+          "time": "0.499"
         },
         "failures": []
       },
@@ -119,9 +96,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:15:25.807Z",
+          "timestamp": "2026-11-06T03:25:46.271Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.01"
+          "time": "0.017"
         },
         "failures": []
       },
@@ -129,13 +106,13 @@
         "artifact": "player-community-build-reports",
         "counts": {
           "name": "com.sakugapp.FeedViewModelTest",
-          "tests": "12",
+          "tests": "13",
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:15:25.819Z",
+          "timestamp": "2026-11-06T03:25:46.295Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.043"
+          "time": "0.069"
         },
         "failures": []
       },
@@ -147,9 +124,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:15:25.864Z",
+          "timestamp": "2026-11-06T03:25:46.369Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.032"
+          "time": "0.022"
         },
         "failures": []
       },
@@ -161,9 +138,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:15:25.900Z",
+          "timestamp": "2026-11-06T03:25:46.398Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.008"
+          "time": "0.01"
         },
         "failures": []
       },
@@ -175,9 +152,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:15:25.912Z",
+          "timestamp": "2026-11-06T03:25:46.413Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.033"
+          "time": "0.031"
         },
         "failures": []
       },
@@ -189,9 +166,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:15:25.951Z",
+          "timestamp": "2026-11-06T03:25:46.447Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.044"
+          "time": "0.027"
         },
         "failures": []
       },
@@ -203,7 +180,7 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:15:26.001Z",
+          "timestamp": "2026-11-06T03:25:46.476Z",
           "hostname": "runnervm7aw5e",
           "time": "0.001"
         },
@@ -217,9 +194,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:15:26.006Z",
+          "timestamp": "2026-11-06T03:25:46.479Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.165"
+          "time": "0.145"
         },
         "failures": []
       },
@@ -231,9 +208,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:15:26.173Z",
+          "timestamp": "2026-11-06T03:25:46.626Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.024"
+          "time": "0.027"
         },
         "failures": []
       },
@@ -245,9 +222,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:15:26.203Z",
+          "timestamp": "2026-11-06T03:25:46.660Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.005"
+          "time": "0.006"
         },
         "failures": []
       },
@@ -259,9 +236,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:15:26.213Z",
+          "timestamp": "2026-11-06T03:25:46.668Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.014"
+          "time": "0.018"
         },
         "failures": []
       },
@@ -273,23 +250,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:15:26.229Z",
+          "timestamp": "2026-11-06T03:25:46.694Z",
           "hostname": "runnervm7aw5e",
-          "time": "6.532"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "player-community-build-reports",
-        "counts": {
-          "name": "com.sakugapp.StabilityRegressionTest",
-          "tests": "1",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-06T03:15:58.147Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.062"
+          "time": "6.519"
         },
         "failures": []
       },
@@ -301,9 +264,23 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:15:32.766Z",
+          "timestamp": "2026-11-06T03:25:53.216Z",
           "hostname": "runnervm7aw5e",
-          "time": "25.377"
+          "time": "25.388"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "player-community-build-reports",
+        "counts": {
+          "name": "com.sakugapp.StabilityRegressionTest",
+          "tests": "1",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T03:26:18.611Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.075"
         },
         "failures": []
       },
@@ -315,32 +292,47 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-06T03:15:58.210Z",
+          "timestamp": "2026-11-06T03:26:18.693Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.116"
+          "time": "0.131"
         },
         "failures": []
       },
       {
-        "artifact": "player-community-device-28-Nexus S",
+        "artifact": "player-community-device-28-pixel_c",
         "counts": {
-          "name": "com.sakugapp.PlayerLockDeviceTest",
-          "tests": "11",
-          "failures": "2",
+          "name": "com.sakugapp.CommunityUiDeviceTest",
+          "tests": "13",
+          "failures": "1",
           "errors": "0",
           "skipped": "0",
-          "time": "58.919",
-          "timestamp": "2026-11-06T03:17:40",
+          "time": "125.922",
+          "timestamp": "2026-11-06T03:28:15",
           "hostname": "localhost"
         },
         "failures": [
           {
-            "test": "com.sakugapp.FrameControlsDeviceTest.rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop",
-            "message": "java.lang.AssertionError: expected:<480.0> but was:<0.0>\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.failNotEquals(Assert.java:835)\nat org.junit.Assert.assertEquals(Assert.java:577)\nat org.junit.Assert.assertEquals(Assert.java:701)\nat com.sakugapp.FrameControlsDeviceTest.rapidRealFrameStepsPauseAndShareConfirmedPointsWithLoop(FrameControlsDeviceTest.kt:50)\n"
-          },
+            "test": "com.sakugapp.BatchQueueDeviceTest.twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal",
+            "message": "kotlinx.coroutines.TimeoutCancellationException: Timed out waiting for 30000 ms\nat kotlinx.coroutines.TimeoutKt.TimeoutCancellationException(Timeout.kt:189)\nat kotlinx.coroutines.TimeoutCoroutine.run(Timeout.kt:157)\nat kotlinx.coroutines.EventLoopImplBase$DelayedRunnableTask.run(EventLoop.common.kt:505)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.DefaultExecutor.run(DefaultExecutor.kt:105)\nat java.lang.Thread.run(Thread.java:764)\n"
+          }
+        ]
+      },
+      {
+        "artifact": "player-community-device-28-Nexus S",
+        "counts": {
+          "name": "com.sakugapp.CommunityUiDeviceTest",
+          "tests": "13",
+          "failures": "1",
+          "errors": "0",
+          "skipped": "0",
+          "time": "97.32",
+          "timestamp": "2026-11-06T03:28:45",
+          "hostname": "localhost"
+        },
+        "failures": [
           {
             "test": "com.sakugapp.BatchQueueDeviceTest.twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal",
-            "message": "android.os.NetworkOnMainThreadException\nat android.os.StrictMode$AndroidBlockGuardPolicy.onNetwork(StrictMode.java:1513)\nat java.net.Inet6AddressImpl.getHostByAddr(Inet6AddressImpl.java:163)\nat java.net.InetAddress$1.getHostByAddr(InetAddress.java:288)\nat java.net.InetAddress.getHostFromNameService(InetAddress.java:658)\nat java.net.InetAddress.getCanonicalHostName(InetAddress.java:629)\nat okhttp3.mockwebserver.MockWebServer.getHostName(MockWebServer.kt:159)\nat okhttp3.mockwebserver.MockWebServer.url(MockWebServer.kt:234)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.invokeSuspend$post(BatchQueueDeviceTest.kt:34)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1.access$invokeSuspend$post(Unknown Source:0)\nat com.sakugapp.BatchQueueDeviceTest$twoActualTransfersDeduplicateRetryCancelAndRecoverTaskJournal$1$1.invokeSuspend(BatchQueueDeviceTest.kt:40)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat android.os.Handler.handleCallback(Handler.java:873)\nat android.os.Handler.dispatchMessage(Handler.java:99)\nat android.os.Looper.loop(Looper.java:193)\nat android.app.ActivityThread.main(ActivityThread.java:6669)\nat java.lang.reflect.Method.invoke(Native Method)\nat com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:493)\nat com.android.internal.os.ZygoteInit.main(ZygoteInit.java:858)\n"
+            "message": "kotlinx.coroutines.TimeoutCancellationException: Timed out waiting for 30000 ms\nat kotlinx.coroutines.TimeoutKt.TimeoutCancellationException(Timeout.kt:189)\nat kotlinx.coroutines.TimeoutCoroutine.run(Timeout.kt:157)\nat kotlinx.coroutines.EventLoopImplBase$DelayedRunnableTask.run(EventLoop.common.kt:505)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.DefaultExecutor.run(DefaultExecutor.kt:105)\nat java.lang.Thread.run(Thread.java:764)\n"
           }
         ]
       }
