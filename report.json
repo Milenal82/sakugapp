@@ -1,81 +1,1252 @@
 {
-  "source_commit": "a04cd48dea2c0ba5779377d00346bd1f49757187",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42262553227",
+  "source_commit": "9a6f2cc6df4dc567e7905633d57bc23f0891d820",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821447",
   "validation_result": "failure",
-  "reports": [],
+  "reports": [
+    {
+      "report": "v130-device-reports-28/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "counts": {
+        "name": "com.sakugapp.ReleaseUiDeviceTest",
+        "tests": "42",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "231.574",
+        "timestamp": "2026-11-06T17:42:19",
+        "hostname": "localhost"
+      },
+      "failures": []
+    },
+    {
+      "report": "v130-device-reports-35/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 15-_app-.xml",
+      "counts": {
+        "name": "com.sakugapp.ReleaseUiDeviceTest",
+        "tests": "42",
+        "failures": "1",
+        "errors": "0",
+        "skipped": "0",
+        "time": "398.392",
+        "timestamp": "2026-11-06T17:44:41",
+        "hostname": "localhost"
+      },
+      "failures": [
+        {
+          "test": "com.sakugapp.PlayerStabilityDeviceTest.fullscreenReusesPlayerPreservesPositionAndGesturesAcrossLifecycleAndVideoSwitches",
+          "message": "java.lang.AssertionError: Assert failed: The component is displayed!\nat androidx.compose.ui.test.AssertionsKt.assertIsNotDisplayed(Assertions.kt:46)\nat com.sakugapp.PlayerStabilityDeviceTest.fullscreenReusesPlayerPreservesPositionAndGesturesAcrossLifecycleAndVideoSwitches(PlayerStabilityDeviceTest.kt:87)\n"
+        }
+      ]
+    }
+  ],
   "scope": "Native fixture UI, four palettes \u00d7 light/dark \u00d7 75/100/125%, prerequisite functionality and actual standard CI. No real-account claim.",
+  "layout_matrices": [
+    {
+      "report": "v130-device-reports-28/reports/ui-evidence/v130-layout-matrix.json",
+      "cases": [
+        {
+          "palette": "default",
+          "background": "dark",
+          "font": 0.75,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "default",
+          "background": "dark",
+          "font": 1.0,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "default",
+          "background": "dark",
+          "font": 1.25,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "default",
+          "background": "light",
+          "font": 0.75,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "default",
+          "background": "light",
+          "font": 1.0,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "default",
+          "background": "light",
+          "font": 1.25,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "mint",
+          "background": "dark",
+          "font": 0.75,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "mint",
+          "background": "dark",
+          "font": 1.0,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "mint",
+          "background": "dark",
+          "font": 1.25,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "mint",
+          "background": "light",
+          "font": 0.75,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "mint",
+          "background": "light",
+          "font": 1.0,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "mint",
+          "background": "light",
+          "font": 1.25,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "pink",
+          "background": "dark",
+          "font": 0.75,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "pink",
+          "background": "dark",
+          "font": 1.0,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "pink",
+          "background": "dark",
+          "font": 1.25,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "pink",
+          "background": "light",
+          "font": 0.75,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "pink",
+          "background": "light",
+          "font": 1.0,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "pink",
+          "background": "light",
+          "font": 1.25,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "amber",
+          "background": "dark",
+          "font": 0.75,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "amber",
+          "background": "dark",
+          "font": 1.0,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "amber",
+          "background": "dark",
+          "font": 1.25,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "amber",
+          "background": "light",
+          "font": 0.75,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "amber",
+          "background": "light",
+          "font": 1.0,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "amber",
+          "background": "light",
+          "font": 1.25,
+          "home_and_profile": "passed"
+        }
+      ]
+    },
+    {
+      "report": "v130-device-reports-35/reports/ui-evidence/v130-layout-matrix.json",
+      "cases": [
+        {
+          "palette": "default",
+          "background": "dark",
+          "font": 0.75,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "default",
+          "background": "dark",
+          "font": 1.0,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "default",
+          "background": "dark",
+          "font": 1.25,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "default",
+          "background": "light",
+          "font": 0.75,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "default",
+          "background": "light",
+          "font": 1.0,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "default",
+          "background": "light",
+          "font": 1.25,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "mint",
+          "background": "dark",
+          "font": 0.75,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "mint",
+          "background": "dark",
+          "font": 1.0,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "mint",
+          "background": "dark",
+          "font": 1.25,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "mint",
+          "background": "light",
+          "font": 0.75,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "mint",
+          "background": "light",
+          "font": 1.0,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "mint",
+          "background": "light",
+          "font": 1.25,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "pink",
+          "background": "dark",
+          "font": 0.75,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "pink",
+          "background": "dark",
+          "font": 1.0,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "pink",
+          "background": "dark",
+          "font": 1.25,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "pink",
+          "background": "light",
+          "font": 0.75,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "pink",
+          "background": "light",
+          "font": 1.0,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "pink",
+          "background": "light",
+          "font": 1.25,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "amber",
+          "background": "dark",
+          "font": 0.75,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "amber",
+          "background": "dark",
+          "font": 1.0,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "amber",
+          "background": "dark",
+          "font": 1.25,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "amber",
+          "background": "light",
+          "font": 0.75,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "amber",
+          "background": "light",
+          "font": 1.0,
+          "home_and_profile": "passed"
+        },
+        {
+          "palette": "amber",
+          "background": "light",
+          "font": 1.25,
+          "home_and_profile": "passed"
+        }
+      ]
+    }
+  ],
   "artifacts": [
     {
+      "name": "v130-device-reports-28",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821447/artifacts/13525922360"
+    },
+    {
+      "name": "v130-device-reports-35",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821447/artifacts/13525652979"
+    },
+    {
       "name": "v130-metadata",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262553227/artifacts/13525561295"
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821447/artifacts/13525482784"
     }
   ],
   "standard_checks": {
-    "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42262553252",
-    "conclusion": "cancelled",
+    "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821578",
+    "conclusion": "failure",
     "status": "completed",
-    "reports": [],
-    "artifacts": [],
+    "reports": [
+      {
+        "report": "search-back-gesture-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 15-_app-.xml",
+        "counts": {
+          "name": "com.sakugapp.SearchNavigationDeviceTest",
+          "tests": "2",
+          "failures": "1",
+          "errors": "0",
+          "skipped": "0",
+          "time": "62.277",
+          "timestamp": "2026-11-06T17:41:03",
+          "hostname": "localhost"
+        },
+        "failures": [
+          {
+            "test": "com.sakugapp.SearchImeGestureDeviceTest.actualImeEdgeBackKeepsRootAndSearchResultsWithoutFinishingOrSubmitting",
+            "message": "java.lang.AssertionError: Back hides the keyboard or exits editing\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.assertTrue(Assert.java:42)\nat com.sakugapp.SearchImeGestureDeviceTest.await(SearchImeGestureDeviceTest.kt:30)\nat com.sakugapp.SearchImeGestureDeviceTest.actualImeEdgeBackKeepsRootAndSearchResultsWithoutFinishingOrSubmitting(SearchImeGestureDeviceTest.kt:54)\n"
+          }
+        ]
+      },
+      {
+        "report": "six-column-landscape-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+        "counts": {
+          "name": "com.sakugapp.SixColumnDeviceTest",
+          "tests": "2",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0",
+          "time": "33.66",
+          "timestamp": "2026-11-06T17:38:51",
+          "hostname": "localhost"
+        },
+        "failures": []
+      },
+      {
+        "report": "device-test-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+        "counts": {
+          "name": "com.sakugapp.DeviceTests",
+          "tests": "35",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0",
+          "time": "252.084",
+          "timestamp": "2026-11-06T17:42:08",
+          "hostname": "localhost"
+        },
+        "failures": []
+      },
+      {
+        "report": "six-column-phone-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+        "counts": {
+          "name": "com.sakugapp.SixColumnDeviceTest",
+          "tests": "2",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0",
+          "time": "25.172",
+          "timestamp": "2026-11-06T17:37:58",
+          "hostname": "localhost"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/reports/lint-results-debug.xml",
+        "errors": 0,
+        "warnings": 72
+      },
+      {
+        "report": "check-reports/reports/lint-results-release.xml",
+        "errors": 0,
+        "warnings": 74
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.AppearanceAndDownloadTest.xml",
+        "counts": {
+          "name": "com.sakugapp.AppearanceAndDownloadTest",
+          "tests": "11",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:18.684Z",
+          "hostname": "runnervm7aw5e",
+          "time": "3.643"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.BackupImportTest.xml",
+        "counts": {
+          "name": "com.sakugapp.BackupImportTest",
+          "tests": "8",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:22.337Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.37"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.BatchQueueTest.xml",
+        "counts": {
+          "name": "com.sakugapp.BatchQueueTest",
+          "tests": "4",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:22.712Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.066"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.BrowsingUpgradeTest.xml",
+        "counts": {
+          "name": "com.sakugapp.BrowsingUpgradeTest",
+          "tests": "7",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:22.781Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.212"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.CommunityStateTest.xml",
+        "counts": {
+          "name": "com.sakugapp.CommunityStateTest",
+          "tests": "3",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:22.998Z",
+          "hostname": "runnervm7aw5e",
+          "time": "14.524"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.CommunityTest.xml",
+        "counts": {
+          "name": "com.sakugapp.CommunityTest",
+          "tests": "16",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:37.529Z",
+          "hostname": "runnervm7aw5e",
+          "time": "9.125"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DataTest.xml",
+        "counts": {
+          "name": "com.sakugapp.DataTest",
+          "tests": "15",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:46.659Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.015"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DateAndTopicsTest.xml",
+        "counts": {
+          "name": "com.sakugapp.DateAndTopicsTest",
+          "tests": "4",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:46.679Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.02"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DiscoveryTest.xml",
+        "counts": {
+          "name": "com.sakugapp.DiscoveryTest",
+          "tests": "18",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:46.706Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.126"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.ExtensionHttpTest.xml",
+        "counts": {
+          "name": "com.sakugapp.ExtensionHttpTest",
+          "tests": "2",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:46.834Z",
+          "hostname": "runnervm7aw5e",
+          "time": "1.736"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.FeedViewModelTest.xml",
+        "counts": {
+          "name": "com.sakugapp.FeedViewModelTest",
+          "tests": "13",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:48.575Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.085"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.FramePositionTest.xml",
+        "counts": {
+          "name": "com.sakugapp.FramePositionTest",
+          "tests": "2",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:48.664Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.024"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.FullThemeTest.xml",
+        "counts": {
+          "name": "com.sakugapp.FullThemeTest",
+          "tests": "3",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:48.692Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.02"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.HierarchyBackupTest.xml",
+        "counts": {
+          "name": "com.sakugapp.HierarchyBackupTest",
+          "tests": "5",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:48.718Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.038"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.LibraryCodecTest.xml",
+        "counts": {
+          "name": "com.sakugapp.LibraryCodecTest",
+          "tests": "5",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:48.760Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.052"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.LiveFixtureTest.xml",
+        "counts": {
+          "name": "com.sakugapp.LiveFixtureTest",
+          "tests": "2",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:48.814Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.005"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PersonalDataTest.xml",
+        "counts": {
+          "name": "com.sakugapp.PersonalDataTest",
+          "tests": "9",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:48.827Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.21"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PersonalizationTest.xml",
+        "counts": {
+          "name": "com.sakugapp.PersonalizationTest",
+          "tests": "4",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:49.038Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.03"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PlayerToolsTest.xml",
+        "counts": {
+          "name": "com.sakugapp.PlayerToolsTest",
+          "tests": "3",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:49.073Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.003"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PreferencesAndFramesTest.xml",
+        "counts": {
+          "name": "com.sakugapp.PreferencesAndFramesTest",
+          "tests": "9",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:49.079Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.01"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.QuizAndFavoritesTest.xml",
+        "counts": {
+          "name": "com.sakugapp.QuizAndFavoritesTest",
+          "tests": "11",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:49.094Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.215"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.QuizPoolSamplingTest.xml",
+        "counts": {
+          "name": "com.sakugapp.QuizPoolSamplingTest",
+          "tests": "7",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:49.311Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.064"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.RepositoryTest.xml",
+        "counts": {
+          "name": "com.sakugapp.RepositoryTest",
+          "tests": "7",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:49.380Z",
+          "hostname": "runnervm7aw5e",
+          "time": "6.536"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.SearchAndCaptionTest.xml",
+        "counts": {
+          "name": "com.sakugapp.SearchAndCaptionTest",
+          "tests": "10",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:37:55.918Z",
+          "hostname": "runnervm7aw5e",
+          "time": "25.369"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.StabilityRegressionTest.xml",
+        "counts": {
+          "name": "com.sakugapp.StabilityRegressionTest",
+          "tests": "1",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:38:21.291Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.045"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.TagSuggestionsTest.xml",
+        "counts": {
+          "name": "com.sakugapp.TagSuggestionsTest",
+          "tests": "3",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:38:21.338Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.149"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.AppearanceAndDownloadTest.xml",
+        "counts": {
+          "name": "com.sakugapp.AppearanceAndDownloadTest",
+          "tests": "11",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:13.310Z",
+          "hostname": "runnervm7aw5e",
+          "time": "3.591"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.BackupImportTest.xml",
+        "counts": {
+          "name": "com.sakugapp.BackupImportTest",
+          "tests": "8",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:16.910Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.434"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.BatchQueueTest.xml",
+        "counts": {
+          "name": "com.sakugapp.BatchQueueTest",
+          "tests": "4",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:17.349Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.098"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.BrowsingUpgradeTest.xml",
+        "counts": {
+          "name": "com.sakugapp.BrowsingUpgradeTest",
+          "tests": "7",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:17.454Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.271"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.CommunityStateTest.xml",
+        "counts": {
+          "name": "com.sakugapp.CommunityStateTest",
+          "tests": "3",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:17.729Z",
+          "hostname": "runnervm7aw5e",
+          "time": "14.535"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.CommunityTest.xml",
+        "counts": {
+          "name": "com.sakugapp.CommunityTest",
+          "tests": "16",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:32.266Z",
+          "hostname": "runnervm7aw5e",
+          "time": "9.104"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.DataTest.xml",
+        "counts": {
+          "name": "com.sakugapp.DataTest",
+          "tests": "15",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:41.372Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.008"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.DateAndTopicsTest.xml",
+        "counts": {
+          "name": "com.sakugapp.DateAndTopicsTest",
+          "tests": "4",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:41.381Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.009"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.DiscoveryTest.xml",
+        "counts": {
+          "name": "com.sakugapp.DiscoveryTest",
+          "tests": "18",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:41.393Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.072"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.ExtensionHttpTest.xml",
+        "counts": {
+          "name": "com.sakugapp.ExtensionHttpTest",
+          "tests": "2",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:41.466Z",
+          "hostname": "runnervm7aw5e",
+          "time": "1.844"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.FeedViewModelTest.xml",
+        "counts": {
+          "name": "com.sakugapp.FeedViewModelTest",
+          "tests": "13",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:43.312Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.038"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.FramePositionTest.xml",
+        "counts": {
+          "name": "com.sakugapp.FramePositionTest",
+          "tests": "2",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:43.351Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.01"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.FullThemeTest.xml",
+        "counts": {
+          "name": "com.sakugapp.FullThemeTest",
+          "tests": "3",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:43.363Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.008"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.HierarchyBackupTest.xml",
+        "counts": {
+          "name": "com.sakugapp.HierarchyBackupTest",
+          "tests": "5",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:43.373Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.014"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.LibraryCodecTest.xml",
+        "counts": {
+          "name": "com.sakugapp.LibraryCodecTest",
+          "tests": "5",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:43.389Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.017"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.LiveFixtureTest.xml",
+        "counts": {
+          "name": "com.sakugapp.LiveFixtureTest",
+          "tests": "2",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:43.408Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.002"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.PersonalDataTest.xml",
+        "counts": {
+          "name": "com.sakugapp.PersonalDataTest",
+          "tests": "9",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:43.412Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.093"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.PersonalizationTest.xml",
+        "counts": {
+          "name": "com.sakugapp.PersonalizationTest",
+          "tests": "4",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:43.506Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.011"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.PlayerToolsTest.xml",
+        "counts": {
+          "name": "com.sakugapp.PlayerToolsTest",
+          "tests": "3",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:43.518Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.003"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.PreferencesAndFramesTest.xml",
+        "counts": {
+          "name": "com.sakugapp.PreferencesAndFramesTest",
+          "tests": "9",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:43.522Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.004"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.QuizAndFavoritesTest.xml",
+        "counts": {
+          "name": "com.sakugapp.QuizAndFavoritesTest",
+          "tests": "11",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:43.528Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.142"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.QuizPoolSamplingTest.xml",
+        "counts": {
+          "name": "com.sakugapp.QuizPoolSamplingTest",
+          "tests": "7",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:43.671Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.033"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.RepositoryTest.xml",
+        "counts": {
+          "name": "com.sakugapp.RepositoryTest",
+          "tests": "7",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:43.705Z",
+          "hostname": "runnervm7aw5e",
+          "time": "6.759"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.SearchAndCaptionTest.xml",
+        "counts": {
+          "name": "com.sakugapp.SearchAndCaptionTest",
+          "tests": "10",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:39:50.466Z",
+          "hostname": "runnervm7aw5e",
+          "time": "25.361"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.StabilityRegressionTest.xml",
+        "counts": {
+          "name": "com.sakugapp.StabilityRegressionTest",
+          "tests": "1",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:40:15.828Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.022"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.TagSuggestionsTest.xml",
+        "counts": {
+          "name": "com.sakugapp.TagSuggestionsTest",
+          "tests": "3",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-06T17:40:15.851Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.096"
+        },
+        "failures": []
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "search-back-gesture-reports",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821578/artifacts/13526655922"
+      },
+      {
+        "name": "six-column-landscape-reports",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821578/artifacts/13526456136"
+      },
+      {
+        "name": "device-test-reports",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821578/artifacts/13526441741"
+      },
+      {
+        "name": "six-column-phone-reports",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821578/artifacts/13526231395"
+      },
+      {
+        "name": "sakugapp-debug",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821578/artifacts/13525847239"
+      },
+      {
+        "name": "sakugapp-source",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821578/artifacts/13525797374"
+      },
+      {
+        "name": "check-reports",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821578/artifacts/13525602581"
+      }
+    ],
     "jobs": [
       {
-        "name": "search-back-gestures",
-        "conclusion": "cancelled",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262553252/job/128045970171"
-      },
-      {
-        "name": "device-tests",
-        "conclusion": "cancelled",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262553252/job/128045970534"
-      },
-      {
-        "name": "six-column-display (phone, Nexus S)",
-        "conclusion": "cancelled",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262553252/job/128045970578"
+        "name": "build",
+        "conclusion": "success",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821578/job/128047062508"
       },
       {
         "name": "six-column-display (landscape, pixel_c)",
-        "conclusion": "cancelled",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262553252/job/128045970659"
+        "conclusion": "success",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821578/job/128047062692"
       },
       {
-        "name": "build",
-        "conclusion": "cancelled",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262553252/job/128045970742"
+        "name": "device-tests",
+        "conclusion": "success",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821578/job/128047062768"
       },
       {
-        "name": "release-signing",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262553252/job/128045972337"
+        "name": "search-back-gestures",
+        "conclusion": "failure",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821578/job/128047062778"
       },
       {
-        "name": "candidate-upgrade-install",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262553252/job/128045972658"
+        "name": "six-column-display (phone, Nexus S)",
+        "conclusion": "success",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821578/job/128047062830"
       },
       {
         "name": "signed-candidate",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262553252/job/128045973152"
-      },
-      {
-        "name": "candidate-evidence",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262553252/job/128045973573"
-      },
-      {
-        "name": "release-preflight",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262553252/job/128046031928"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821578/job/128047064279"
       },
       {
         "name": "documentation-screenshots",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262553252/job/128046032819"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821578/job/128047064377"
+      },
+      {
+        "name": "candidate-evidence",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821578/job/128047064606"
+      },
+      {
+        "name": "candidate-upgrade-install",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821578/job/128047065543"
+      },
+      {
+        "name": "release-preflight",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821578/job/128047123913"
+      },
+      {
+        "name": "release-signing",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821578/job/128047129519"
       },
       {
         "name": "checks-evidence",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262553252/job/128047061157"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42262821578/job/128051209915"
       }
     ]
   }
