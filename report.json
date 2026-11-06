@@ -967,7 +967,7 @@
       },
       {
         "name": "device-tests",
-        "conclusion": null,
+        "conclusion": "success",
         "started_at": "2026-11-06T18:04:30Z",
         "steps": [
           {
@@ -1008,39 +1008,45 @@
           },
           {
             "name": "Run exact-frame, secure-session, persistence and native UI tests",
-            "status": "in_progress",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "started_at": "2026-11-06T18:04:58Z"
           },
           {
             "name": "Explain failed device assertions",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "skipped",
+            "started_at": "2026-11-06T18:13:30Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:13:30Z"
           },
           {
             "name": "Post Run gradle/actions/setup-gradle@v5",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:13:33Z"
           },
           {
             "name": "Post Run actions/setup-java@v5",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:13:33Z"
           },
           {
             "name": "Post Run actions/checkout@v5",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:13:33Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:13:33Z"
           }
         ]
       },
@@ -1244,6 +1250,12 @@
         "conclusion": "skipped",
         "started_at": "2026-11-06T18:04:37Z",
         "steps": []
+      },
+      {
+        "name": "checks-evidence",
+        "conclusion": "skipped",
+        "started_at": "2026-11-06T18:13:39Z",
+        "steps": []
       }
     ],
     "artifacts": [
@@ -1281,7 +1293,22 @@
     "run": "42267359940",
     "commit": "5c47a78e4d1d0a77b453b64c5d4cb9d4316a21d4",
     "status": "in_progress",
-    "reports": [],
+    "reports": [
+      {
+        "artifact": "v130-device-reports-28",
+        "counts": {
+          "name": "com.sakugapp.ReleaseUiDeviceTest",
+          "tests": "42",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0",
+          "time": "231.921",
+          "timestamp": "2026-11-06T18:12:27",
+          "hostname": "localhost"
+        },
+        "failures": []
+      }
+    ],
     "conclusion": null,
     "jobs": [
       {
@@ -1353,7 +1380,7 @@
       },
       {
         "name": "devices (28, Nexus S)",
-        "conclusion": null,
+        "conclusion": "success",
         "started_at": "2026-11-06T18:04:29Z",
         "steps": [
           {
@@ -1394,33 +1421,39 @@
           },
           {
             "name": "Run reactivecircus/android-emulator-runner@v2",
-            "status": "in_progress",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "started_at": "2026-11-06T18:04:57Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:12:30Z"
           },
           {
             "name": "Post Run gradle/actions/setup-gradle@v5",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:12:32Z"
           },
           {
             "name": "Post Run actions/setup-java@v5",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:12:32Z"
           },
           {
             "name": "Post Run actions/checkout@v5",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:12:32Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:12:33Z"
           }
         ]
       },
@@ -1499,6 +1532,10 @@
       }
     ],
     "artifacts": [
+      {
+        "name": "v130-device-reports-28",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42267359940/artifacts/13528576504"
+      },
       {
         "name": "v130-metadata",
         "url": "https://github.com/Milenal82/sakugapp/actions/runs/42267359940/artifacts/13527741207"
