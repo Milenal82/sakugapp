@@ -18,7 +18,7 @@ jobs:
           import subprocess,json,zipfile,io,xml.etree.ElementTree as ET,pathlib,time,re
           repo='Milenal82/sakugapp';output=[]
           def api(path):return subprocess.check_output(['gh','api',f'repos/{repo}/'+path])
-          for run in ['42212715519']:
+          for run in ['42213783470']:
               meta=json.loads(api('actions/runs/'+run));result={'run':run,'commit':meta['head_sha'],'status':meta['status'],'reports':[]}
               for attempt in range(30):
                   items=json.loads(api(f'actions/runs/{run}/artifacts?per_page=100'))['artifacts']
@@ -31,7 +31,7 @@ jobs:
                   detail={'name':job['name'],'conclusion':job['conclusion']}
                   if job['conclusion']=='failure':
                       try:
-                          log=api(f'actions/jobs/{job["id"]}/logs').decode(errors='replace')
+                          log=subprocess.check_output(['gh','api','--allow-escape-sequences',f'repos/{repo}/actions/jobs/{job["id"]}/logs']).decode(errors='replace')
                           detail['errors']='\n'.join(line for line in log.splitlines() if any(k in line for k in ['e: file:','FAILED','What went wrong','Caused by:','##[error]','Could not','Lint found','> Task :app:']))[-14000:]
                       except Exception:detail['errors']='See failed job logs'
                   result['jobs'].append(detail)
