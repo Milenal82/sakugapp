@@ -21,7 +21,7 @@ Sakuga Mobile（安装名称 Sakugapp）是 Sakugabooru 的非官方 Android 客
 
 ### 下载与备份
 
-本开发分支包含播放器和批量队列更新；正式版保持不变。本轮 Actions 仅提供报告与截图，不自动上传 APK。
+本开发分支包含搜索、个人资料、采样统计与作品浏览，以及先前的播放器和批量队列更新；正式版保持不变。Actions 提供 Debug APK、检查报告与设备截图。
 
 正式 APK 在 [GitHub Releases](https://github.com/Milenal82/sakugapp/releases)，开发测试包在 [Actions](https://github.com/Milenal82/sakugapp/actions)。本次正式版本为 **1.2.2 / code 15**。
 
@@ -61,7 +61,7 @@ Fullscreen starts with video only; a single tap toggles the controls. Videos sta
 
 ### Download and backup
 
-This branch updates player controls and the batch queue. Official Releases are unchanged. This workflow uploads reports and screenshots only, without APKs.
+This branch adds Search, Profile, sampled artist/work browsing, and the earlier player and batch-queue updates. Official Releases are unchanged. Actions provides a Debug APK, reports, and emulator screenshots.
 
 Find signed releases in [GitHub Releases](https://github.com/Milenal82/sakugapp/releases) and development artifacts in [Actions](https://github.com/Milenal82/sakugapp/actions). The release version is **1.2.2 / code 15**.
 
@@ -101,7 +101,7 @@ Sakuga Mobile（インストール名 Sakugapp）は Sakugabooru の非公式 An
 
 ### ダウンロードとバックアップ
 
-この開発ブランチはプレイヤー操作と一括ダウンロードを更新しています。正式版は変更せず、今回の Actions はレポートとスクリーンショットのみを保存し、APK を公開しません。
+この開発ブランチには検索・プロフィール・取得済み投稿の統計と作品閲覧、および以前のプレイヤーと一括ダウンロードの更新が含まれます。正式版は変更せず、Actions から Debug APK・レポート・エミュレーター画像を取得できます。
 
 正式署名 APK は [GitHub Releases](https://github.com/Milenal82/sakugapp/releases)、開発用 APK は [Actions](https://github.com/Milenal82/sakugapp/actions) から取得できます。今回の正式版は **1.2.2 / code 15** です。
 
@@ -139,7 +139,7 @@ Actual Android emulator captures. These earlier captures do not show every chang
 
 当前开发分支调整了逐帧控制与播放器锁定、详情页尺寸、Vote 和评论按需加载，并加入可恢复的后台批量队列。版本号未改变，尚未发布。
 
-The development branch adds compact frame controls and player locking, window-sized details, a Vote menu, on-demand comments and a recoverable background batch queue. No new release or APK is published.
+The development branch adds compact frame controls and player locking, window-sized details, a Vote menu, on-demand comments and a recoverable background batch queue. No new formal Release is published.
 
 開発ブランチではコマ送り・操作ロック、詳細画面のサイズ調整、評価メニュー、コメントの遅延読込、再開可能な一括ダウンロードを更新しています。バージョン変更・公開は行いません。
 
