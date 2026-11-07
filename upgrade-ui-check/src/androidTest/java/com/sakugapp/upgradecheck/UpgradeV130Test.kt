@@ -25,7 +25,9 @@ class UpgradeV130Test {
  private fun menu(route:String){
   click(if(legacy)By.text("Menu")else By.res("main-menu"))
   if(legacy)click(By.text(when(route){"library"->"Favorites";"history"->"Browsing history";"settings"->"Settings";else->error(route)}))
-  else click(By.res("menu-$route"))
+  // Compose popup windows do not inherit the Activity's test-tag resource-ID marker.
+  // Use the visible native menu labels, just as the legacy UI checks do.
+  else click(By.text(when(route){"library"->"Folders";"settings"->"Settings";"search_home"->"Search";else->error(route)}))
  }
  private fun library(){menu("library");repeat(3){device.findObject(By.res("folder-back"))?.click(100)}}
  private fun export(name:String){visible(By.res("export-favorites")).click(100);find(By.clazz("android.widget.EditText")).text=name;click(By.text(Pattern.compile("(?i)save")));find(By.text("Exported"))}

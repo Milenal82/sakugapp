@@ -71,6 +71,9 @@ class SearchNavigationDeviceTest {
         // Selecting history clears the dialog's focus/IME; await its own window,
         // rather than reading the inactive Activity's unrelated insets during dismissal.
         ui.waitUntil(10000){dialogImeHeight()==0}
+        // The IME's back callback is handed off after its zero insets are dispatched.
+        // Keep the real system gesture and all state/position assertions, after that handoff.
+        Thread.sleep(350);ui.waitForIdle()
         back()
         ui.onNodeWithTag("query-expression").assertDoesNotExist()
         assertEquals(query,feed.state.value.query);assertEquals(results,feed.state.value.posts.map{it.id})

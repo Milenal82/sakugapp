@@ -5,6 +5,9 @@ on:
       tag:
         type: string
         required: true
+      reuse_v130_signed:
+        type: boolean
+        default: false
   push:
     tags: ['v*']
   workflow_dispatch:
@@ -13,6 +16,10 @@ on:
         description: 'Existing immutable version tag (run from main or that same tag)'
         required: true
         default: 'v1.3.0'
+      reuse_v130_signed:
+        description: Revalidate the original protected v1.3.0 signed artifact; never rebuild or change its bytes
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
@@ -34,6 +41,7 @@ jobs:
         id: target
         env:
           REQUESTED_TAG: ${{ inputs.tag || github.ref_name }}
+          REUSE_V130_SIGNED: ${{ inputs.reuse_v130_signed || false }}
         run: |
           python3 - <<'PY'
           import os,sys,subprocess
@@ -45,6 +53,8 @@ jobs:
           if not (from_tag or from_main):
               raise SystemExit('Release automation must run from main or the same immutable version tag.')
           sha=exact_tag(tag)
+          if os.environ['REUSE_V130_SIGNED']=='true':
+              assert from_main and tag=='v1.3.0' and sha=='37f5b5515d776ecc53ad8590f14395bb7704bddb'
           subprocess.run(['git','merge-base','--is-ancestor',sha,'origin/main'],check=True)
           with open(os.environ['GITHUB_OUTPUT'],'a') as out:
               out.write('commit='+sha+'\ntag='+tag+'\n')
@@ -90,12 +100,14 @@ jobs:
     environment: release-signing
     permissions:
       contents: write
+      actions: read
     steps:
       - uses: actions/checkout@v5
         with:
           ref: ${{ needs.preflight.outputs.commit }}
           fetch-depth: 0
       - name: Require protected owner-provided signing Secrets
+        if: ${{ !inputs.reuse_v130_signed }}
         env:
           ANDROID_RELEASE_KEYSTORE_BASE64: ${{ secrets.ANDROID_RELEASE_KEYSTORE_BASE64 }}
           ANDROID_RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD }}
@@ -109,19 +121,52 @@ jobs:
           java-version: '17'
       - run: ./scripts/ci-android-sdk.sh
       - uses: gradle/actions/setup-gradle@v5
+        if: ${{ !inputs.reuse_v130_signed }}
         with:
           cache-disabled: true
       - name: Build with the existing official signing key
+        if: ${{ !inputs.reuse_v130_signed }}
         env:
           ANDROID_RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD }}
           ANDROID_RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS }}
           ANDROID_RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
         run: ./gradlew --no-daemon --no-configuration-cache --no-build-cache testReleaseUnitTest lintRelease assembleRelease
       - name: Verify pinned signing identity and prepare allowlisted assets
+        if: ${{ !inputs.reuse_v130_signed }}
         env:
           ANDROID_RELEASE_CERT_SHA256: ${{ secrets.ANDROID_RELEASE_CERT_SHA256 }}
           RELEASE_TAG: ${{ needs.preflight.outputs.tag }}
         run: python3 scripts/prepare-release-bundle.py --tag "$RELEASE_TAG" --apk app/build/outputs/apk/release/app-release.apk --output "$RUNNER_TEMP/release-dist"
+      - name: Retrieve the original protected signed artifact
+        if: inputs.reuse_v130_signed
+        uses: actions/download-artifact@v4
+        with:
+          name: signed-release-v1.3.0
+          run-id: 42329384573
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/release-dist/
+      - name: Reverify original bytes, signing identity, source and allowlisted assets
+        if: inputs.reuse_v130_signed
+        env:
+          ANDROID_RELEASE_CERT_SHA256: 9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff
+        run: |
+          python3 - <<'PY'
+          import os,pathlib,json,hashlib,subprocess,zipfile,runpy
+          from scripts.release_common import exact_tag,verify_checksums
+          source=exact_tag('v1.3.0');assert source=='37f5b5515d776ecc53ad8590f14395bb7704bddb'
+          folder=pathlib.Path(os.environ['RUNNER_TEMP'])/'release-dist'
+          expected={'Sakugapp-v1.3.0-release.apk','Sakugapp-v1.3.0-source.zip','release-notes.md','release-verification.json'}
+          assert {p.name for p in folder.iterdir()}==expected|{'SHA256SUMS.txt'}
+          verify_checksums(folder,expected)
+          apk=folder/'Sakugapp-v1.3.0-release.apk'
+          assert hashlib.sha256(apk.read_bytes()).hexdigest()=='50da9e14b4c9fbcc3811f19419aedf5a2468d4d49a241cb399ba378a36ce0da1'
+          report=json.loads((folder/'release-verification.json').read_text())
+          assert report['source_commit']==source and report['source_tag']=='v1.3.0' and report['signed'] and not report['debuggable']
+          with zipfile.ZipFile(apk) as z:assert f'revision: "{source}"' in z.read('META-INF/version-control-info.textproto').decode()
+          subprocess.run(['python3','scripts/verify-apk.py',str(apk),'--report',str(folder.parent/'reused-apk-verification.json')],check=True)
+          runpy.run_path('scripts/verify-source-zip.py')['verify'](folder/'Sakugapp-v1.3.0-source.zip')
+          print('Original protected APK and corresponding assets verified unchanged; no signing material accessed.')
+          PY
       - name: Upload to DRAFT only
         env:
           GH_TOKEN: ${{ github.token }}
@@ -195,6 +240,17 @@ jobs:
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
           script: python3 ${{ needs.preflight.outputs.tag == 'v1.3.0' && 'scripts/check-upgrade-1.3.0.py' || needs.preflight.outputs.tag == 'v1.2.2' && 'scripts/check-upgrade-1.2.2.py' || needs.preflight.outputs.tag == 'v1.2.1' && 'scripts/check-upgrade-1.2.1.py' || 'scripts/check-upgrade-install.py' }} "$RUNNER_TEMP/previous-release" "$RUNNER_TEMP/release-dist" "$RUNNER_TEMP/upgrade-install-report"
+      - name: Bind passing native upgrade evidence to its validator revision
+        if: success() && needs.preflight.outputs.tag == 'v1.3.0'
+        run: |
+          python3 - <<'PY'
+          import os,pathlib,json
+          root=pathlib.Path(os.environ['RUNNER_TEMP']);path=root/'upgrade-install-report/upgrade-install.json'
+          report=json.loads(path.read_text());bundle=json.loads((root/'release-dist/release-verification.json').read_text())
+          assert report['result']=='passed' and report['source_commit']==bundle['source_commit']
+          report['validation_commit']=os.environ['GITHUB_SHA'];report['apk_sha256']=bundle['apk_sha256']
+          path.write_text(json.dumps(report,indent=2)+'\n')
+          PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -299,7 +355,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
-          ref: ${{ needs.preflight.outputs.commit }}
+          ref: ${{ github.sha }}
           fetch-depth: 0
       - uses: actions/setup-java@v5
         with:

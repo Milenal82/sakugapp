@@ -28,7 +28,14 @@ jobs:
           python3 - <<'PY'
           import subprocess,json,re,pathlib
           releases=json.loads(subprocess.check_output(['gh','api','repos/Milenal82/sakugapp/releases?per_page=100']))
-          assert not any(r["tag_name"]=="v1.3.0" for r in releases), "v1.3.0 already exists; stop rather than replace it."
+          existing=[r for r in releases if r["tag_name"]=="v1.3.0"]
+          if existing:
+              # Only our immutable, still-private candidate can undergo validator repairs.
+              import sys
+              sys.path.insert(0,'scripts')
+              from release_common import checked_v130_validation_source
+              source,validator=checked_v130_validation_source()
+              assert len(existing)==1 and existing[0]['draft'] and existing[0]['target_commitish']==source, 'Existing public/different release: stop.'
           codes={}
           for r in releases:
               if r['draft'] or r['prerelease']:continue

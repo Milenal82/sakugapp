@@ -176,4 +176,19 @@ class LayoutGateTests(unittest.TestCase):
         cases=self.matrix();cases[-1]['home_and_profile']='not_run'
         with self.assertRaises(ValueError):validate_layout_matrix(cases)
 
+class ValidationRevisionTests(unittest.TestCase):
+    def test_only_explicit_non_apk_validator_repairs_are_allowed(self):
+        from release_common import validate_v130_validation_paths, V130_VALIDATION_FILES
+        validate_v130_validation_paths([])
+        validate_v130_validation_paths(list(V130_VALIDATION_FILES))
+    def test_production_signing_and_existing_check_workflows_cannot_change(self):
+        from release_common import validate_v130_validation_paths
+        for name in ['app/build.gradle.kts', 'app/src/main/AndroidManifest.xml',
+                     'app/src/main/java/com/sakugapp/MainActivity.kt',
+                     'app/src/main/res/values/strings.xml', 'gradle.properties',
+                     'scripts/verify-apk.py', 'scripts/prepare-signing.py',
+                     '.github/workflows/android.yml', '.github/workflows/maintenance.yml']:
+            with self.subTest(name=name), self.assertRaises(ValueError):
+                validate_v130_validation_paths([name])
+
 if __name__ == "__main__": unittest.main()

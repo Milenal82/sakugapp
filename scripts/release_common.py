@@ -65,3 +65,33 @@ def validate_layout_matrix(cases):
     actual={(case['palette'],case['background'],case['font'])for case in cases}
     if len(cases)!=24 or actual!=expected or any(case.get('home_and_profile')!='passed'for case in cases):
         raise ValueError('The complete 24-case native layout matrix must pass')
+
+
+V130_SOURCE = '37f5b5515d776ecc53ad8590f14395bb7704bddb'
+V130_VALIDATION_FILES = {
+    '.github/workflows/release.yml', '.github/workflows/refinement.yml',
+    'app/src/androidTest/java/com/sakugapp/SearchNavigationDeviceTest.kt',
+    'upgrade-ui-check/src/androidTest/java/com/sakugapp/upgradecheck/UpgradeV130Test.kt',
+    'scripts/release_common.py', 'scripts/publish-v1.3.0.py',
+    'scripts/tests/test_release_tools.py', 'docs/release-signing.md', 'docs/v1.3.0.md',
+}
+
+
+def validate_v130_validation_paths(paths):
+    """A validator repair cannot change APK code, resources, dependencies or signing tools."""
+    if set(paths) - V130_VALIDATION_FILES:
+        raise ValueError('Validation revision changes files outside the explicit tooling allowlist')
+
+
+def checked_v130_validation_source():
+    if metadata()['tag'] != 'v1.3.0':
+        raise ValueError('This recovery applies only to the existing v1.3.0 candidate')
+    source = command('git', 'rev-parse', 'refs/tags/v1.3.0^{commit}')
+    validator = command('git', 'rev-parse', 'HEAD^{commit}')
+    if source != V130_SOURCE or command('git', 'status', '--porcelain'):
+        raise ValueError('The original immutable source and clean validator checkout are required')
+    command('git', 'merge-base', '--is-ancestor', source, validator)
+    command('git', 'merge-base', '--is-ancestor', validator, 'origin/main')
+    paths = command('git', 'diff', '--name-only', '--no-renames', '-z', source, validator).split('\0')
+    validate_v130_validation_paths([p for p in paths if p])
+    return source, validator
