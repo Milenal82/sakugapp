@@ -57,7 +57,7 @@ class UpgradeV130Test {
    }
    "restart"->{
     menu("search_home");click(By.res("nav-profile"));find(By.text("Upgrade profile"))
-    menu("library");find(By.res("tag-favorites-entry"))
+    library();find(By.res("tag-favorites-entry"))
     menu("settings");assertTrue(control(find(By.res("accent-mint"))).isChecked);assertTrue(control(find(By.desc("Light"))).isChecked)
    }
    else->error("Unknown stage")
