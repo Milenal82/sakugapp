@@ -38,17 +38,9 @@ class PlayerStabilityDeviceTest {
     private fun tapVideo(shown:Boolean){
         // GestureDetector uses real event timestamps. Separate singles must not become a
         // synthetic double tap when Compose's animation clock is idle between actions.
-        androidx.test.espresso.Espresso.onView(
-            androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom(VideoGestureHost::class.java)
-        ).inRoot(androidx.test.espresso.matcher.RootMatchers.isDialog()).perform(
-            androidx.test.espresso.action.GeneralClickAction(
-                androidx.test.espresso.action.Tap.SINGLE,
-                androidx.test.espresso.action.CoordinatesProvider{view->
-                    val location=IntArray(2);view.getLocationOnScreen(location)
-                    floatArrayOf(location[0]+view.width*.25f,location[1]+view.height*.3f)
-                },androidx.test.espresso.action.Press.FINGER
-            )
-        )
+        val bounds=ui.onNodeWithTag("video-gestures").fetchSemanticsNode().boundsInWindow
+        androidx.test.uiautomator.UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+            .click((bounds.left+bounds.width*.25f).toInt(),(bounds.top+bounds.height*.3f).toInt())
         // Allow native controller visibility animations to complete, well before its
         // five-second automatic timeout; this verifies the tap itself changed visibility.
         ui.waitUntil(2000){runCatching{ui.onNodeWithTag("more-controls").assertIsDisplayed()}.isSuccess==shown}
@@ -125,13 +117,16 @@ class PlayerStabilityDeviceTest {
             ui.onNodeWithTag("toggle-fullscreen").scrollIntoViewIfNeeded().performClick()
             ui.waitUntil(15000){
                 val bounds=ui.onNodeWithTag("video-gestures").fetchSemanticsNode().boundsInWindow
-                context.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT && bounds.height>bounds.width
+                val device=androidx.test.uiautomator.UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+                context.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT && bounds.height>bounds.width &&
+                    device.displayHeight>device.displayWidth && kotlin.math.abs(bounds.width-device.displayWidth)<2
             }
             ui.onNodeWithTag("more-controls").assertIsNotDisplayed()
             tapVideo(true);ui.onNodeWithTag("toggle-fullscreen").scrollIntoViewIfNeeded().performClick()
             ui.runOnUiThread{shown=false};ui.waitForIdle()
             ui.runOnUiThread{assertTrue((current as ExoPlayer).isReleased)}
-        }finally{ui.runOnUiThread{shown=false};wide.delete();tall.delete()}
+        }catch(failure:Throwable){UiEvidence.capture("v130-player-failure.png");throw failure}
+        finally{ui.runOnUiThread{shown=false};wide.delete();tall.delete()}
     }
     @Test fun zeroSpacingIsTightAndFolderTilesToggleIndependentMembershipsInBothThemes(){
         val post=posts().first();lateinit var app:AppViewModel
