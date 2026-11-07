@@ -2,7 +2,7 @@
   {
     "run": "42267359923",
     "commit": "5c47a78e4d1d0a77b453b64c5d4cb9d4316a21d4",
-    "status": "completed",
+    "status": "in_progress",
     "reports": [
       {
         "artifact": "device-test-reports",
@@ -789,8 +789,476 @@
         "failures": []
       }
     ],
-    "conclusion": "failure",
-    "jobs": [],
+    "conclusion": null,
+    "jobs": [
+      {
+        "name": "six-column-display (phone, Nexus S)",
+        "conclusion": null,
+        "started_at": "2026-11-07T01:56:30Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T01:56:31Z"
+          },
+          {
+            "name": "Run actions/checkout@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T01:56:34Z"
+          },
+          {
+            "name": "Run actions/setup-java@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T01:56:35Z"
+          },
+          {
+            "name": "Run gradle/actions/setup-gradle@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T01:56:35Z"
+          },
+          {
+            "name": "Run sudo chmod a+rw /dev/kvm",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T01:56:41Z"
+          },
+          {
+            "name": "Run ./scripts/ci-android-sdk.sh",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T01:56:41Z"
+          },
+          {
+            "name": "Test a fresh physical display without wm overrides",
+            "status": "in_progress",
+            "conclusion": null,
+            "started_at": "2026-11-07T01:56:55Z"
+          },
+          {
+            "name": "Export captures even after an assertion failure",
+            "status": "pending",
+            "conclusion": null,
+            "started_at": null
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "pending",
+            "conclusion": null,
+            "started_at": null
+          },
+          {
+            "name": "Post Run gradle/actions/setup-gradle@v5",
+            "status": "pending",
+            "conclusion": null,
+            "started_at": null
+          },
+          {
+            "name": "Post Run actions/setup-java@v5",
+            "status": "pending",
+            "conclusion": null,
+            "started_at": null
+          },
+          {
+            "name": "Post Run actions/checkout@v5",
+            "status": "pending",
+            "conclusion": null,
+            "started_at": null
+          }
+        ]
+      },
+      {
+        "name": "six-column-display (landscape, pixel_c)",
+        "conclusion": "success",
+        "started_at": "2026-11-06T18:04:29Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:30Z"
+          },
+          {
+            "name": "Run actions/checkout@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:33Z"
+          },
+          {
+            "name": "Run actions/setup-java@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:34Z"
+          },
+          {
+            "name": "Run gradle/actions/setup-gradle@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:34Z"
+          },
+          {
+            "name": "Run sudo chmod a+rw /dev/kvm",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:42Z"
+          },
+          {
+            "name": "Run ./scripts/ci-android-sdk.sh",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:42Z"
+          },
+          {
+            "name": "Test a fresh physical display without wm overrides",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:57Z"
+          },
+          {
+            "name": "Export captures even after an assertion failure",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:08:17Z"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:08:17Z"
+          },
+          {
+            "name": "Post Run gradle/actions/setup-gradle@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:08:18Z"
+          },
+          {
+            "name": "Post Run actions/setup-java@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:08:18Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:08:18Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:08:19Z"
+          }
+        ]
+      },
+      {
+        "name": "documentation-screenshots",
+        "conclusion": "skipped",
+        "started_at": "2026-11-07T01:56:29Z",
+        "steps": []
+      },
+      {
+        "name": "release-preflight",
+        "conclusion": "skipped",
+        "started_at": "2026-11-07T01:56:29Z",
+        "steps": []
+      },
+      {
+        "name": "build",
+        "conclusion": "success",
+        "started_at": "2026-11-06T18:04:29Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:30Z"
+          },
+          {
+            "name": "Run actions/checkout@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:32Z"
+          },
+          {
+            "name": "Run actions/setup-java@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:33Z"
+          },
+          {
+            "name": "Prepare Android SDK",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:33Z"
+          },
+          {
+            "name": "Run gradle/actions/setup-gradle@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:47Z"
+          },
+          {
+            "name": "Verify native localization resources",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:53Z"
+          },
+          {
+            "name": "Unit tests, Android Lint and Debug APK",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:54Z"
+          },
+          {
+            "name": "Verify APK signature and list packaged ABIs",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:10:39Z"
+          },
+          {
+            "name": "Package project source",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:10:40Z"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:10:40Z"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:10:41Z"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:10:43Z"
+          },
+          {
+            "name": "Post Run gradle/actions/setup-gradle@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:10:44Z"
+          },
+          {
+            "name": "Post Run actions/setup-java@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:10:44Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:10:44Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:10:44Z"
+          }
+        ]
+      },
+      {
+        "name": "candidate-evidence",
+        "conclusion": "skipped",
+        "started_at": "2026-11-07T01:56:29Z",
+        "steps": []
+      },
+      {
+        "name": "device-tests",
+        "conclusion": "success",
+        "started_at": "2026-11-06T18:04:30Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:31Z"
+          },
+          {
+            "name": "Run actions/checkout@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:34Z"
+          },
+          {
+            "name": "Run actions/setup-java@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:35Z"
+          },
+          {
+            "name": "Run gradle/actions/setup-gradle@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:35Z"
+          },
+          {
+            "name": "Enable runner KVM",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:45Z"
+          },
+          {
+            "name": "Install build SDK",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:45Z"
+          },
+          {
+            "name": "Run exact-frame, secure-session, persistence and native UI tests",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:58Z"
+          },
+          {
+            "name": "Explain failed device assertions",
+            "status": "completed",
+            "conclusion": "skipped",
+            "started_at": "2026-11-06T18:13:30Z"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:13:30Z"
+          },
+          {
+            "name": "Post Run gradle/actions/setup-gradle@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:13:33Z"
+          },
+          {
+            "name": "Post Run actions/setup-java@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:13:33Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:13:33Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:13:33Z"
+          }
+        ]
+      },
+      {
+        "name": "signed-candidate",
+        "conclusion": "skipped",
+        "started_at": "2026-11-07T01:56:29Z",
+        "steps": []
+      },
+      {
+        "name": "release-signing",
+        "conclusion": "skipped",
+        "started_at": "2026-11-07T01:56:34Z",
+        "steps": []
+      },
+      {
+        "name": "candidate-upgrade-install",
+        "conclusion": "skipped",
+        "started_at": "2026-11-07T01:56:35Z",
+        "steps": []
+      },
+      {
+        "name": "search-back-gestures",
+        "conclusion": "success",
+        "started_at": "2026-11-06T18:04:29Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:30Z"
+          },
+          {
+            "name": "Run actions/checkout@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:32Z"
+          },
+          {
+            "name": "Run actions/setup-java@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:33Z"
+          },
+          {
+            "name": "Run gradle/actions/setup-gradle@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:34Z"
+          },
+          {
+            "name": "Run sudo chmod a+rw /dev/kvm",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:39Z"
+          },
+          {
+            "name": "Run ./scripts/ci-android-sdk.sh",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:39Z"
+          },
+          {
+            "name": "Verify real edge gestures, IME back and cancelled predictive back",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:04:51Z"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:10:29Z"
+          },
+          {
+            "name": "Post Run gradle/actions/setup-gradle@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:10:30Z"
+          },
+          {
+            "name": "Post Run actions/setup-java@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:10:31Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:10:31Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-06T18:10:31Z"
+          }
+        ]
+      }
+    ],
     "artifacts": [
       {
         "name": "sakugapp-debug",
