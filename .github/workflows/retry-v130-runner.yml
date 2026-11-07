@@ -31,3 +31,27 @@ jobs:
           subprocess.run(['gh','api','--method','POST',f'repos/{repo}/actions/jobs/{job}/rerun'],check=True)
           print('Requested exactly one runner-offline job retry on the original source commit.')
           PY
+  resume-final:
+    if: github.event.head_commit.message == 'Resume final v130 checks after isolated emulator retry'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Resume cancelled exact-source checks after the old isolated retry ends
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: Milenal82/sakugapp
+        run: |
+          python3 - <<'PY'
+          import subprocess,json,time
+          repo='Milenal82/sakugapp';old=42267359923;final=42326641755
+          def api(path):return json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/'+path]))
+          expected='87e7c2863ed696e81fc787fadfc6a14ac7dbd13c'
+          meta=api(f'actions/runs/{final}');assert meta['head_sha']==expected and meta['conclusion']=='cancelled'
+          deadline=time.monotonic()+15*60
+          while api(f'actions/runs/{old}')['status']!='completed':
+              assert time.monotonic()<deadline,'Wait for the earlier same-branch concurrency group without cancelling it.'
+              time.sleep(20)
+          assert api(f'actions/runs/{final}')['head_sha']==expected
+          subprocess.run(['gh','api','--method','POST',f'repos/{repo}/actions/runs/{final}/rerun'],check=True)
+          print('Restored all required checks on the final source; no workflow or assertion was disabled.')
+          PY
