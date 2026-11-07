@@ -845,26 +845,36 @@
           },
           {
             "name": "Post Run gradle/actions/setup-gradle@v5",
-            "status": "in_progress",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "started_at": "2026-11-07T02:33:09Z"
           },
           {
             "name": "Post Run actions/setup-java@v5",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:33:37Z"
           },
           {
             "name": "Post Run actions/checkout@v5",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:33:38Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:33:38Z"
           }
         ]
       }
     ],
     "artifacts": [
+      {
+        "name": "post-scroll-profile",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42329266591/artifacts/13557365098"
+      },
       {
         "name": "maintenance-test-reports",
         "url": "https://github.com/Milenal82/sakugapp/actions/runs/42329266591/artifacts/13557001979"
@@ -874,11 +884,103 @@
         "url": "https://github.com/Milenal82/sakugapp/actions/runs/42329266591/artifacts/13556832242"
       }
     ],
-    "lint": {
-      "errors": 0,
-      "warnings": 72
-    },
     "public_verification": [
+      {
+        "name": "scroll-baseline.json",
+        "data": {
+          "label": "baseline",
+          "scope": "API 28 Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; not a real-device/network benchmark",
+          "frames": 384,
+          "mean_ms": 167.57550954166666,
+          "p50_ms": 169.811583,
+          "p95_ms": 188.501524,
+          "max_ms": 236.335982,
+          "over_34ms": 384,
+          "over_700ms": 0,
+          "components": {
+            "total": {
+              "mean_ms": 167.57550954166666,
+              "p95_ms": 188.501524
+            },
+            "layout": {
+              "mean_ms": 0.21592466145833342,
+              "p95_ms": 0.32206
+            },
+            "draw": {
+              "mean_ms": 1.9553584635416668,
+              "p95_ms": 7.58959
+            },
+            "animation": {
+              "mean_ms": 6.983451614583333,
+              "p95_ms": 30.56156
+            },
+            "input": {
+              "mean_ms": 1.407226510416667,
+              "p95_ms": 5.24959
+            },
+            "sync": {
+              "mean_ms": 0.24748690104166662,
+              "p95_ms": 0.65021
+            },
+            "commands": {
+              "mean_ms": 1.1426902864583328,
+              "p95_ms": 3.69502
+            },
+            "swap": {
+              "mean_ms": 60.49636390624997,
+              "p95_ms": 68.87475
+            }
+          }
+        }
+      },
+      {
+        "name": "scroll-current.json",
+        "data": {
+          "label": "current",
+          "scope": "API 28 Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; not a real-device/network benchmark",
+          "frames": 383,
+          "mean_ms": 165.81743723498693,
+          "p50_ms": 169.991847,
+          "p95_ms": 185.382982,
+          "max_ms": 203.960298,
+          "over_34ms": 383,
+          "over_700ms": 0,
+          "components": {
+            "total": {
+              "mean_ms": 165.81743723498693,
+              "p95_ms": 185.382982
+            },
+            "layout": {
+              "mean_ms": 0.28297637075718024,
+              "p95_ms": 0.46765
+            },
+            "draw": {
+              "mean_ms": 1.5011224543080948,
+              "p95_ms": 5.71091
+            },
+            "animation": {
+              "mean_ms": 4.698921227154045,
+              "p95_ms": 21.90139
+            },
+            "input": {
+              "mean_ms": 1.2766918015665798,
+              "p95_ms": 5.36366
+            },
+            "sync": {
+              "mean_ms": 0.5037915665796345,
+              "p95_ms": 3.59701
+            },
+            "commands": {
+              "mean_ms": 1.2622626109660577,
+              "p95_ms": 4.18433
+            },
+            "swap": {
+              "mean_ms": 59.88201386422978,
+              "p95_ms": 68.86405
+            }
+          }
+        }
+      },
       {
         "name": "scroll-current.json",
         "data": {
@@ -927,6 +1029,10 @@
           }
         }
       }
-    ]
+    ],
+    "lint": {
+      "errors": 0,
+      "warnings": 72
+    }
   }
 ]
