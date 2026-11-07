@@ -1,8 +1,8 @@
 {
-  "source_commit": "753fc83ea2674f24da5927266afa365684507611",
-  "run_id": "42331648965",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648965",
-  "captured_utc": "2026-11-07T03:03:23.755280+00:00",
+  "source_commit": "d230e93aaa37552c551a28a0b22e0f303533704c",
+  "run_id": "42332146954",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42332146954",
+  "captured_utc": "2026-11-07T03:07:25.048010+00:00",
   "validation_result": "cancelled",
   "scope": "Fixed legacy preference policy, full light/dark pink/mint palettes, menus, short playback sanity and layout scrolling.",
   "jobs": [
@@ -10,39 +10,34 @@
       "name": "scroll-profile",
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648965/job/128279306940",
-      "id": 128279306940
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42332146954/job/128280987513",
+      "id": 128280987513
     },
     {
       "name": "validation",
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648965/job/128279307183",
-      "id": 128279307183
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42332146954/job/128280987741",
+      "id": 128280987741
     },
     {
       "name": "evidence",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648965/job/128280891174",
-      "id": 128280891174
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42332146954/job/128281933822",
+      "id": 128281933822
     }
   ],
   "artifacts": [
     {
-      "name": "maintenance-test-reports",
-      "bytes": 106387,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648965/artifacts/13558206011"
-    },
-    {
       "name": "post-scroll-profile",
-      "bytes": 642,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648965/artifacts/13557991870"
+      "bytes": 635,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42332146954/artifacts/13557971547"
     },
     {
-      "name": "maintenance-debug-apk",
-      "bytes": 18844729,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648965/artifacts/13557258719"
+      "name": "maintenance-test-reports",
+      "bytes": 19085,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/42332146954/artifacts/13557847749"
     }
   ],
   "test_counts": {
@@ -53,22 +48,17 @@
       "skipped": 0
     }
   },
-  "lint": {
-    "reports/lint-results-debug.xml": {
-      "errors": 0,
-      "warnings": 72
-    }
-  },
+  "lint": {},
   "failures": [
     {
       "job": "scroll-profile",
       "conclusion": "cancelled",
-      "message": "2026-11-07T03:02:57.3739031Z ##[error]The operation was canceled."
+      "message": "2026-11-07T03:06:54.1836794Z ##[error]The operation was canceled."
     },
     {
       "job": "validation",
       "conclusion": "cancelled",
-      "message": "2026-11-07T03:02:57.2961902Z ##[error]The operation was canceled."
+      "message": "2026-11-07T03:07:06.7039289Z ##[error]The operation was canceled."
     }
   ],
   "device_diagnostics": [],
@@ -76,52 +66,52 @@
     "scroll-baseline.json": {
       "label": "baseline",
       "scope": "API 28 Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; not a real-device/network benchmark",
-      "frames": 379,
-      "mean_ms": 210.8861848759895,
-      "p50_ms": 216.298061,
-      "p95_ms": 236.767098,
-      "max_ms": 247.203598,
-      "over_34ms": 379,
+      "frames": 386,
+      "mean_ms": 153.61394166321253,
+      "p50_ms": 150.263629,
+      "p95_ms": 195.433498,
+      "max_ms": 229.916783,
+      "over_34ms": 386,
       "over_700ms": 0,
       "components": {
         "total": {
-          "mean_ms": 210.8861848759895,
-          "p95_ms": 236.767098
+          "mean_ms": 153.61394166321253,
+          "p95_ms": 195.433498
         },
         "layout": {
-          "mean_ms": 0.28677818205804745,
-          "p95_ms": 0.485292
+          "mean_ms": 0.2466235233160622,
+          "p95_ms": 0.27802
         },
         "draw": {
-          "mean_ms": 2.451650807387863,
-          "p95_ms": 10.541552
+          "mean_ms": 1.5464214248704662,
+          "p95_ms": 5.59115
         },
         "animation": {
-          "mean_ms": 9.517615905013193,
-          "p95_ms": 44.791463
+          "mean_ms": 5.787088290155439,
+          "p95_ms": 24.01535
         },
         "input": {
-          "mean_ms": 1.4793201477572544,
-          "p95_ms": 5.29459
+          "mean_ms": 1.3189893782383422,
+          "p95_ms": 4.93434
         },
         "sync": {
-          "mean_ms": 0.3055975039577836,
-          "p95_ms": 1.298819
+          "mean_ms": 0.22530238341968914,
+          "p95_ms": 0.42823
         },
         "commands": {
-          "mean_ms": 1.2511852374670183,
-          "p95_ms": 3.739197
+          "mean_ms": 1.4049055699481863,
+          "p95_ms": 4.6778
         },
         "swap": {
-          "mean_ms": 74.98393412664913,
-          "p95_ms": 86.259856
+          "mean_ms": 55.41965054404144,
+          "p95_ms": 72.12708
         }
       }
     }
   },
   "main_automatic_checks": {
-    "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648958",
-    "source_commit": "753fc83ea2674f24da5927266afa365684507611",
+    "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/42332147035",
+    "source_commit": "d230e93aaa37552c551a28a0b22e0f303533704c",
     "status": "completed",
     "conclusion": "cancelled",
     "jobs": [
@@ -129,175 +119,147 @@
         "name": "build",
         "status": "completed",
         "conclusion": "cancelled",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648958/job/128279307497",
-        "id": 128279307497
-      },
-      {
-        "name": "six-column-display (landscape, pixel_c)",
-        "status": "completed",
-        "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648958/job/128279307658",
-        "id": 128279307658
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42332147035/job/128280924322",
+        "id": 128280924322
       },
       {
         "name": "search-back-gestures",
         "status": "completed",
-        "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648958/job/128279307708",
-        "id": 128279307708
+        "conclusion": "cancelled",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42332147035/job/128280924450",
+        "id": 128280924450
+      },
+      {
+        "name": "six-column-display (landscape, pixel_c)",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42332147035/job/128280924522",
+        "id": 128280924522
       },
       {
         "name": "six-column-display (phone, Nexus S)",
         "status": "completed",
-        "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648958/job/128279307756",
-        "id": 128279307756
+        "conclusion": "cancelled",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42332147035/job/128280924567",
+        "id": 128280924567
       },
       {
         "name": "device-tests",
         "status": "completed",
         "conclusion": "cancelled",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648958/job/128279307770",
-        "id": 128279307770
-      },
-      {
-        "name": "documentation-screenshots",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648958/job/128279308503",
-        "id": 128279308503
-      },
-      {
-        "name": "release-signing",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648958/job/128279308572",
-        "id": 128279308572
-      },
-      {
-        "name": "signed-candidate",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648958/job/128279308803",
-        "id": 128279308803
-      },
-      {
-        "name": "candidate-evidence",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648958/job/128279308847",
-        "id": 128279308847
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42332147035/job/128280924573",
+        "id": 128280924573
       },
       {
         "name": "release-preflight",
         "status": "completed",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648958/job/128279309354",
-        "id": 128279309354
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42332147035/job/128280924855",
+        "id": 128280924855
       },
       {
         "name": "candidate-upgrade-install",
         "status": "completed",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648958/job/128279309657",
-        "id": 128279309657
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42332147035/job/128280925120",
+        "id": 128280925120
+      },
+      {
+        "name": "release-signing",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42332147035/job/128280925522",
+        "id": 128280925522
+      },
+      {
+        "name": "candidate-evidence",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42332147035/job/128280926216",
+        "id": 128280926216
+      },
+      {
+        "name": "signed-candidate",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42332147035/job/128280949679",
+        "id": 128280949679
+      },
+      {
+        "name": "documentation-screenshots",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42332147035/job/128280963405",
+        "id": 128280963405
       },
       {
         "name": "checks-evidence",
         "status": "completed",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648958/job/128280923999",
-        "id": 128280923999
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42332147035/job/128281933057",
+        "id": 128281933057
       }
     ],
     "artifacts": [
       {
-        "name": "six-column-phone-reports",
-        "bytes": 177968,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648958/artifacts/13558241307"
-      },
-      {
-        "name": "search-back-gesture-reports",
-        "bytes": 1830578,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648958/artifacts/13557593828"
-      },
-      {
         "name": "check-reports",
-        "bytes": 205578,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648958/artifacts/13557569234"
-      },
-      {
-        "name": "six-column-landscape-reports",
-        "bytes": 3097934,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648958/artifacts/13557383215"
+        "bytes": 122348,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42332147035/artifacts/13558322104"
       },
       {
         "name": "device-test-reports",
-        "bytes": 130092,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42331648958/artifacts/13557308673"
+        "bytes": 11869,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42332147035/artifacts/13557627380"
+      },
+      {
+        "name": "six-column-phone-reports",
+        "bytes": 8955,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42332147035/artifacts/13557609048"
       }
     ],
     "test_counts": {
-      "six-column-phone-reports": {
-        "device": {
-          "tests": 2,
-          "failures": 0,
-          "errors": 0,
-          "skipped": 0
-        }
-      },
-      "search-back-gesture-reports": {
-        "device": {
-          "tests": 2,
-          "failures": 0,
-          "errors": 0,
-          "skipped": 0
-        }
-      },
       "check-reports": {
         "debug_unit": {
           "tests": 182,
           "failures": 0,
           "errors": 0,
           "skipped": 0
-        },
-        "release_unit": {
-          "tests": 182,
-          "failures": 0,
-          "errors": 0,
-          "skipped": 0
         }
       },
-      "six-column-landscape-reports": {
-        "device": {
-          "tests": 2,
-          "failures": 0,
-          "errors": 0,
-          "skipped": 0
-        }
-      },
-      "device-test-reports": {}
+      "device-test-reports": {},
+      "six-column-phone-reports": {}
     },
     "lint": {
       "check-reports/reports/lint-results-debug.xml": {
         "errors": 0,
         "warnings": 72
-      },
-      "check-reports/reports/lint-results-release.xml": {
-        "errors": 0,
-        "warnings": 74
       }
     },
     "failures": [
       {
         "job": "build",
         "conclusion": "cancelled",
-        "message": "2026-11-07T03:03:09.3677822Z ##[error]The operation was canceled."
+        "message": "2026-11-07T03:07:06.8619887Z ##[error]The operation was canceled."
+      },
+      {
+        "job": "search-back-gestures",
+        "conclusion": "cancelled",
+        "message": "2026-11-07T03:06:54.4079309Z ##[error]The operation was canceled."
+      },
+      {
+        "job": "six-column-display (landscape, pixel_c)",
+        "conclusion": "cancelled",
+        "message": "2026-11-07T03:06:54.4133201Z ##[error]The operation was canceled."
+      },
+      {
+        "job": "six-column-display (phone, Nexus S)",
+        "conclusion": "cancelled",
+        "message": "2026-11-07T03:06:54.3780275Z ##[error]The operation was canceled."
       },
       {
         "job": "device-tests",
         "conclusion": "cancelled",
-        "message": "2026-11-07T03:02:57.6235946Z ##[error]The operation was canceled."
+        "message": "2026-11-07T03:06:54.3988630Z ##[error]The operation was canceled."
       }
     ]
   }
