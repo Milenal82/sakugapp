@@ -19,7 +19,7 @@ jobs:
           python3 - <<'PY'
           import subprocess,json,time
           repo='Milenal82/sakugapp';run=42267359923;job=128062646857
-          def api(path):return subprocess.check_output(['gh','api',f'repos/{repo}/'+path])
+          def api(path):return subprocess.check_output(['gh','api','--allow-escape-sequences',f'repos/{repo}/'+path])
           meta=json.loads(api(f'actions/runs/{run}'));assert meta['head_sha'].startswith('5c47a78')
           info=json.loads(api(f'actions/jobs/{job}'));assert info['run_id']==run and info['conclusion']=='failure' and info['name']=='six-column-display (phone, Nexus S)'
           log=api(f'actions/jobs/{job}/logs').decode(errors='replace')
