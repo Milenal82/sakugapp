@@ -37,7 +37,7 @@ jobs:
                   result['jobs'].append(detail)
               result['artifacts']=[{'name':i['name'],'url':f'https://github.com/{repo}/actions/runs/{run}/artifacts/{i["id"]}'} for i in items]
               for item in items:
-                  if ('reports' not in item['name'] and item['name'] not in ['signed-release-v1.3.0','post-scroll-profile']) or item['size_in_bytes']>64*1024*1024:continue
+                  if ('reports' not in item['name'] and item['name'] not in ['signed-release-v1.3.0','release-upgrade-install-report','post-scroll-profile']) or item['size_in_bytes']>64*1024*1024:continue
                   z=zipfile.ZipFile(io.BytesIO(api(f'actions/artifacts/{item["id"]}/zip')))
                   for p in z.infolist():
                       name=pathlib.PurePosixPath(p.filename).name
