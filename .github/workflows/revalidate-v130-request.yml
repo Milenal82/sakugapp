@@ -7,7 +7,7 @@ permissions:
   actions: write
 jobs:
   request:
-    if: github.event.head_commit.message == 'Revalidate original signed v1.3.0 with repaired native validators'
+    if: github.event.head_commit.message == 'Revalidate original signed v1.3.0 after fixture correction'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -18,11 +18,15 @@ jobs:
         run: |
           python3 - <<'PY'
           import subprocess,json,time
-          repo='Milenal82/sakugapp';validator='753fc83ea2674f24da5927266afa365684507611'
+          repo='Milenal82/sakugapp';validator='d230e93aaa37552c551a28a0b22e0f303533704c'
           def api(path):return json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/'+path]))
           assert api('git/ref/heads/main')['object']['sha']==validator
           tag=api('git/ref/tags/v1.3.0')['object'];assert tag['type']=='tag'
           assert api('git/tags/'+tag['sha'])['object']['sha']=='37f5b5515d776ecc53ad8590f14395bb7704bddb'
+          earlier=api('actions/runs/42331820252')
+          assert earlier['head_sha']=='753fc83ea2674f24da5927266afa365684507611'
+          if earlier['status']!='completed':
+              subprocess.run(['gh','api','--method','POST',f'repos/{repo}/actions/runs/42331820252/cancel'],check=True)
           deadline=time.monotonic()+10*60
           while True:
               runs=api(f'actions/workflows/refinement.yml/runs?head_sha={validator}&event=push&per_page=20')['workflow_runs']
