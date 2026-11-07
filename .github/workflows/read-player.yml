@@ -18,7 +18,7 @@ jobs:
           import subprocess,json,zipfile,io,xml.etree.ElementTree as ET,pathlib,time,re
           repo='Milenal82/sakugapp';output=[]
           def api(path):return subprocess.check_output(['gh','api',f'repos/{repo}/'+path])
-          for run in ['42328027929','42328027872']:
+          for run in ['42329384573','42329266591']:
               meta=json.loads(api('actions/runs/'+run));result={'run':run,'commit':meta['head_sha'],'status':meta['status'],'reports':[]}
               for attempt in range(1):
                   items=json.loads(api(f'actions/runs/{run}/artifacts?per_page=100'))['artifacts']
@@ -29,7 +29,7 @@ jobs:
               result['jobs']=[]
               for job in json.loads(api(f'actions/runs/{run}/jobs?per_page=100'))['jobs']:
                   detail={'name':job['name'],'conclusion':job['conclusion'],'started_at':job['started_at'],'steps':[{'name':s['name'],'status':s['status'],'conclusion':s['conclusion'],'started_at':s.get('started_at')} for s in job['steps']]}
-                  if job['conclusion']=='failure':
+                  if job['conclusion']=='failure' and job['name']!='signed-release':
                       try:
                           log=subprocess.check_output(['gh','api','--allow-escape-sequences',f'repos/{repo}/actions/jobs/{job["id"]}/logs']).decode(errors='replace')
                           detail['errors']=log[-18000:]
@@ -37,13 +37,15 @@ jobs:
                   result['jobs'].append(detail)
               result['artifacts']=[{'name':i['name'],'url':f'https://github.com/{repo}/actions/runs/{run}/artifacts/{i["id"]}'} for i in items]
               for item in items:
-                  if 'reports' not in item['name'] or item['size_in_bytes']>64*1024*1024:continue
+                  if ('reports' not in item['name'] and item['name'] not in ['signed-release-v1.3.0','post-scroll-profile']) or item['size_in_bytes']>64*1024*1024:continue
                   z=zipfile.ZipFile(io.BytesIO(api(f'actions/artifacts/{item["id"]}/zip')))
                   for p in z.infolist():
                       name=pathlib.PurePosixPath(p.filename).name
                       if p.file_size>4*1024*1024:continue
                       if name.startswith(('extension-','v130-','search-ime-','stability-')) and name.endswith('.png'):
                           dest=pathlib.Path('/tmp/extension-captures')/(item['name']+'-'+name);dest.parent.mkdir(exist_ok=True);dest.write_bytes(z.read(p))
+                      if name in ['release-verification.json','upgrade-install.json','scroll-current.json','scroll-baseline.json']:
+                          result.setdefault('public_verification',[]).append({'name':name,'data':json.loads(z.read(p))})
                       if name.startswith('lint-results-') and name.endswith('.xml'):
                           lint=ET.fromstring(z.read(p));result['lint']={'errors':sum(i.get('severity') in ['Error','Fatal'] for i in lint.findall('issue')),'warnings':sum(i.get('severity')=='Warning' for i in lint.findall('issue'))}
                       if not name.startswith('TEST-') or not name.endswith('.xml'):continue
