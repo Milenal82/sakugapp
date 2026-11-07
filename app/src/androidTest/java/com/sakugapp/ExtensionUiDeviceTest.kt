@@ -38,12 +38,14 @@ class ExtensionUiDeviceTest {
  @Test fun datePickerAndRawQueryClearKeepOtherFilters(){
   scene();ui.onNodeWithTag("home-combined").performScrollTo().performClick()
   ui.onNodeWithTag("query-expression").performTextReplacement("fighting score:>=3 date:2024-02-29...2024-03-01 order:score")
+  ui.waitUntil(15000){dialogImeHeight()>0};Thread.sleep(350);ui.waitForIdle()
   ui.onNodeWithTag("clear-date").performScrollTo().performClick()
   ui.onNodeWithTag("query-expression").performScrollTo().assertTextContains("fighting score:>=3 order:score")
   ui.onNodeWithTag("date-range").performScrollTo().performClick();ui.onNodeWithTag("date-picker").assertExists()
   androidx.test.uiautomator.UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).pressBack()
   ui.onNodeWithTag("query-expression").assertExists()
   ui.onNodeWithTag("query-expression").performTextReplacement("date:1800-01-01")
+  ui.waitUntil(15000){dialogImeHeight()>0};Thread.sleep(350);ui.waitForIdle()
   ui.onNodeWithTag("date-range").performScrollTo().performClick();ui.onNodeWithTag("date-picker").assertExists()
  }
  @Test fun compactProfileDefaultsFavoritesAndAmberScaleLayouts()=runBlocking{

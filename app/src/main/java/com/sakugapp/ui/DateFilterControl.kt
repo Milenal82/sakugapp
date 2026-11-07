@@ -19,7 +19,7 @@ import java.time.*
     val range=DateRangeFilter.read(query);val unsupported=DateRangeFilter.unsupported(query)
     Row(Modifier.fillMaxWidth(),verticalAlignment=androidx.compose.ui.Alignment.CenterVertically) {
         TextButton(enabled=!unsupported,onClick={focus.clearFocus();keyboard?.hide();open=true},modifier=Modifier.weight(1f).testTag("date-range")){Text(range?.let{"${it.start} – ${it.end}"} ?: text(R.string.ui_date_range))}
-        TextButton(enabled=range!=null,onClick={edit(DateRangeFilter.set(query,null))},modifier=Modifier.testTag("clear-date")){Text(text(R.string.ui_clear_date))}
+        TextButton(enabled=range!=null,onClick={focus.clearFocus();keyboard?.hide();edit(DateRangeFilter.set(query,null))},modifier=Modifier.testTag("clear-date")){Text(text(R.string.ui_clear_date))}
     }
     if(unsupported)Text(text(R.string.ui_date_raw),style=MaterialTheme.typography.bodySmall,color=MaterialTheme.colorScheme.error)
     if(open){

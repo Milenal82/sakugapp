@@ -35,6 +35,17 @@ import java.io.File
 class PlayerStabilityDeviceTest {
     @get:Rule val ui=createAndroidComposeRule<MainActivity>()
     private class Owner:LifecycleOwner {val registry=LifecycleRegistry(this);override val lifecycle:Lifecycle get()=registry}
+    private fun acknowledgeSystemFullscreenEducation(){
+        val device=androidx.test.uiautomator.UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        val button=androidx.test.uiautomator.By.pkg("com.android.systemui").text("Got it")
+        // Android's first-use immersive instruction is a separate window, not app controls.
+        // Acknowledge it through the normal system UI before testing actual video touches.
+        device.wait(androidx.test.uiautomator.Until.findObject(button),4000)?.let{gotIt->
+            assertTrue(device.hasObject(androidx.test.uiautomator.By.pkg("com.android.systemui").text("Viewing full screen")))
+            gotIt.click()
+            assertTrue(device.wait(androidx.test.uiautomator.Until.gone(button),5000))
+        }
+    }
     private fun tapVideo(shown:Boolean){
         // GestureDetector uses real event timestamps. Separate singles must not become a
         // synthetic double tap when Compose's animation clock is idle between actions.
@@ -81,6 +92,7 @@ class PlayerStabilityDeviceTest {
                 ui.runOnUiThread{current!!.pause();current!!.seekTo(400)};ready()
                 ui.onNodeWithTag("toggle-fullscreen").scrollIntoViewIfNeeded().performClick()
                 ui.waitUntil(15000){ui.onAllNodes(isDialog()).fetchSemanticsNodes().isNotEmpty() && context.resources.configuration.orientation==Configuration.ORIENTATION_LANDSCAPE}
+                acknowledgeSystemFullscreenEducation()
                 ui.onNodeWithTag("toggle-fullscreen").assertIsNotDisplayed()
                 ui.onNodeWithTag("more-controls").assertIsNotDisplayed()
                 assertSame(first,current);assertEquals(1,creations)
@@ -121,6 +133,7 @@ class PlayerStabilityDeviceTest {
                 context.resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT && bounds.height>bounds.width &&
                     device.displayHeight>device.displayWidth && kotlin.math.abs(bounds.width-device.displayWidth)<2
             }
+            acknowledgeSystemFullscreenEducation()
             ui.onNodeWithTag("more-controls").assertIsNotDisplayed()
             tapVideo(true);ui.onNodeWithTag("toggle-fullscreen").scrollIntoViewIfNeeded().performClick()
             ui.runOnUiThread{shown=false};ui.waitForIdle()
