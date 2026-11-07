@@ -44,6 +44,10 @@ jobs:
                       if p.file_size>4*1024*1024:continue
                       if name.startswith(('extension-','v130-','search-ime-','stability-')) and name.endswith('.png'):
                           dest=pathlib.Path('/tmp/extension-captures')/(item['name']+'-'+name);dest.parent.mkdir(exist_ok=True);dest.write_bytes(z.read(p))
+                      if item['name']=='release-upgrade-install-report' and name in ['failure.txt','seed-native-ui.txt','verify-native-ui.txt','restart-native-ui.txt']:
+                          result.setdefault('upgrade_diagnostics',[]).append({'name':name,'text':z.read(p).decode(errors='replace')[-14000:]})
+                      if item['name']=='release-upgrade-install-report' and name in ['failure.png','v122-seeded.png','v130-upgraded.png','v130-restarted.png']:
+                          dest=pathlib.Path('/tmp/extension-captures')/(item['name']+'-'+name);dest.parent.mkdir(exist_ok=True);dest.write_bytes(z.read(p))
                       if name in ['release-verification.json','upgrade-install.json','scroll-current.json','scroll-baseline.json']:
                           result.setdefault('public_verification',[]).append({'name':name,'data':json.loads(z.read(p))})
                       if name.startswith('lint-results-') and name.endswith('.xml'):
