@@ -1,0 +1,32 @@
+name: Recheck exact v130 keyboard callback timing
+on:
+  push:
+    branches: [ci/player-tools-audit]
+permissions:
+  contents: read
+  actions: write
+jobs:
+  retry:
+    if: github.event.head_commit.message == 'Recheck exact v130 main keyboard callback timing once'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Retain all assertions and rerun only the identified native callback case
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: Milenal82/sakugapp
+        run: |
+          python3 - <<'PY'
+          import subprocess,json,io,zipfile,xml.etree.ElementTree as ET
+          repo='Milenal82/sakugapp';run=42329266264;job=128271772742
+          def raw(path):return subprocess.check_output(['gh','api',f'repos/{repo}/'+path])
+          meta=json.loads(raw(f'actions/runs/{run}'));assert meta['head_sha']=='37f5b5515d776ecc53ad8590f14395bb7704bddb' and meta['status']=='completed'
+          info=json.loads(raw(f'actions/jobs/{job}'));assert info['run_id']==run and info['name']=='search-back-gestures' and info['conclusion']=='failure'
+          items=json.loads(raw(f'actions/runs/{run}/artifacts?per_page=100'))['artifacts']
+          artifact,=[a for a in items if a['name']=='search-back-gesture-reports'];assert artifact['size_in_bytes']<16*1024*1024
+          z=zipfile.ZipFile(io.BytesIO(raw(f'actions/artifacts/{artifact["id"]}/zip')))
+          failures=[(c.get('classname'),e.text or '') for p in z.namelist() if p.rsplit('/',1)[-1].startswith('TEST-') and p.endswith('.xml') for c in ET.fromstring(z.read(p)).iter('testcase') for e in c.findall('failure')]
+          assert len(failures)==1 and failures[0][0]=='com.sakugapp.SearchNavigationDeviceTest'
+          assert 'query-expression' in failures[0][1] and "Focused = 'false'" in failures[0][1]
+          subprocess.run(['gh','api','--method','POST',f'repos/{repo}/actions/jobs/{job}/rerun'],check=True)
+          print('One exact-source recheck requested; no checks, APK source or signing identity changed.')
+          PY
