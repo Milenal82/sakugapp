@@ -476,7 +476,7 @@
       },
       {
         "name": "signed-release",
-        "conclusion": null,
+        "conclusion": "success",
         "started_at": "2026-11-07T02:31:59Z",
         "steps": [
           {
@@ -517,30 +517,133 @@
           },
           {
             "name": "Build with the existing official signing key",
-            "status": "in_progress",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "started_at": "2026-11-07T02:32:16Z"
           },
           {
             "name": "Verify pinned signing identity and prepare allowlisted assets",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:37:17Z"
           },
           {
             "name": "Upload to DRAFT only",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:37:17Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:37:21Z"
           },
           {
             "name": "Remove temporary private signing material",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:37:23Z"
+          },
+          {
+            "name": "Post Run gradle/actions/setup-gradle@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:37:23Z"
+          },
+          {
+            "name": "Post Run actions/setup-java@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:37:23Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:37:23Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:37:23Z"
+          }
+        ]
+      },
+      {
+        "name": "upgrade-install",
+        "conclusion": null,
+        "started_at": "2026-11-07T02:37:28Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:37:29Z"
+          },
+          {
+            "name": "Run actions/checkout@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:37:31Z"
+          },
+          {
+            "name": "Run actions/setup-java@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:37:32Z"
+          },
+          {
+            "name": "Run actions/download-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:37:33Z"
+          },
+          {
+            "name": "Select the explicit verified upgrade path",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:37:33Z"
+          },
+          {
+            "name": "Download the previous public release",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:37:33Z"
+          },
+          {
+            "name": "Run sudo chmod a+rw /dev/kvm",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:37:34Z"
+          },
+          {
+            "name": "Run ./scripts/ci-android-sdk.sh",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:37:34Z"
+          },
+          {
+            "name": "Run gradle/actions/setup-gradle@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:37:43Z"
+          },
+          {
+            "name": "Build isolated native UI checker",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:37:48Z"
+          },
+          {
+            "name": "Verify official upgrade without uninstalling or clearing user data",
+            "status": "in_progress",
+            "conclusion": null,
+            "started_at": "2026-11-07T02:38:12Z"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
             "status": "pending",
             "conclusion": null,
             "started_at": null
@@ -574,12 +677,98 @@
       {
         "name": "release-check-reports",
         "url": "https://github.com/Milenal82/sakugapp/actions/runs/42329384573/artifacts/13557260280"
+      },
+      {
+        "name": "signed-release-v1.3.0",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42329384573/artifacts/13556388688"
       }
     ],
     "lint": {
       "errors": 0,
       "warnings": 74
-    }
+    },
+    "public_verification": [
+      {
+        "name": "release-verification.json",
+        "data": {
+          "applicationId": "com.sakugapp",
+          "versionName": "1.3.0",
+          "versionCode": 16,
+          "minSdk": 26,
+          "targetSdk": 35,
+          "tag": "v1.3.0",
+          "name": "Sakugapp",
+          "debuggable": false,
+          "signed": true,
+          "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff",
+          "certificate_subject": "CN=Sakugapp Release",
+          "validation_scope": "signed release verified",
+          "apk_sha256": "50da9e14b4c9fbcc3811f19419aedf5a2468d4d49a241cb399ba378a36ce0da1",
+          "apk_bytes": 14878134,
+          "abis": [
+            "arm64-v8a",
+            "armeabi-v7a",
+            "x86",
+            "x86_64"
+          ],
+          "native_libraries": [
+            {
+              "path": "lib/arm64-v8a/libandroidx.graphics.path.so",
+              "abi": "arm64-v8a",
+              "bits": 64,
+              "machine": 183
+            },
+            {
+              "path": "lib/arm64-v8a/libdatastore_shared_counter.so",
+              "abi": "arm64-v8a",
+              "bits": 64,
+              "machine": 183
+            },
+            {
+              "path": "lib/armeabi-v7a/libandroidx.graphics.path.so",
+              "abi": "armeabi-v7a",
+              "bits": 32,
+              "machine": 40
+            },
+            {
+              "path": "lib/armeabi-v7a/libdatastore_shared_counter.so",
+              "abi": "armeabi-v7a",
+              "bits": 32,
+              "machine": 40
+            },
+            {
+              "path": "lib/x86/libandroidx.graphics.path.so",
+              "abi": "x86",
+              "bits": 32,
+              "machine": 3
+            },
+            {
+              "path": "lib/x86/libdatastore_shared_counter.so",
+              "abi": "x86",
+              "bits": 32,
+              "machine": 3
+            },
+            {
+              "path": "lib/x86_64/libandroidx.graphics.path.so",
+              "abi": "x86_64",
+              "bits": 64,
+              "machine": 62
+            },
+            {
+              "path": "lib/x86_64/libdatastore_shared_counter.so",
+              "abi": "x86_64",
+              "bits": 64,
+              "machine": 62
+            }
+          ],
+          "source_commit": "37f5b5515d776ecc53ad8590f14395bb7704bddb",
+          "source_tag": "v1.3.0",
+          "unit_tests": 182,
+          "lint_errors": 0,
+          "lint_warnings": 74
+        }
+      }
+    ]
   },
   {
     "run": "42329266591",
@@ -1093,7 +1282,7 @@
   {
     "run": "42329266264",
     "commit": "37f5b5515d776ecc53ad8590f14395bb7704bddb",
-    "status": "completed",
+    "status": "in_progress",
     "reports": [
       {
         "artifact": "device-test-reports",
@@ -1885,8 +2074,105 @@
         "failures": []
       }
     ],
-    "conclusion": "failure",
+    "conclusion": null,
     "jobs": [
+      {
+        "name": "search-back-gestures",
+        "conclusion": null,
+        "started_at": "2026-11-07T02:38:04Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:38:04Z"
+          },
+          {
+            "name": "Run actions/checkout@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:38:08Z"
+          },
+          {
+            "name": "Run actions/setup-java@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:38:09Z"
+          },
+          {
+            "name": "Run gradle/actions/setup-gradle@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:38:09Z"
+          },
+          {
+            "name": "Run sudo chmod a+rw /dev/kvm",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:38:15Z"
+          },
+          {
+            "name": "Run ./scripts/ci-android-sdk.sh",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:38:15Z"
+          },
+          {
+            "name": "Verify real edge gestures, IME back and cancelled predictive back",
+            "status": "in_progress",
+            "conclusion": null,
+            "started_at": "2026-11-07T02:38:29Z"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "pending",
+            "conclusion": null,
+            "started_at": null
+          },
+          {
+            "name": "Post Run gradle/actions/setup-gradle@v5",
+            "status": "pending",
+            "conclusion": null,
+            "started_at": null
+          },
+          {
+            "name": "Post Run actions/setup-java@v5",
+            "status": "pending",
+            "conclusion": null,
+            "started_at": null
+          },
+          {
+            "name": "Post Run actions/checkout@v5",
+            "status": "pending",
+            "conclusion": null,
+            "started_at": null
+          }
+        ]
+      },
+      {
+        "name": "documentation-screenshots",
+        "conclusion": "skipped",
+        "started_at": "2026-11-07T02:38:02Z",
+        "steps": []
+      },
+      {
+        "name": "release-signing",
+        "conclusion": "skipped",
+        "started_at": "2026-11-07T02:38:02Z",
+        "steps": []
+      },
+      {
+        "name": "signed-candidate",
+        "conclusion": "skipped",
+        "started_at": "2026-11-07T02:38:02Z",
+        "steps": []
+      },
+      {
+        "name": "candidate-upgrade-install",
+        "conclusion": "skipped",
+        "started_at": "2026-11-07T02:38:02Z",
+        "steps": []
+      },
       {
         "name": "build",
         "conclusion": "success",
@@ -1991,87 +2277,7 @@
         ]
       },
       {
-        "name": "search-back-gestures",
-        "conclusion": "failure",
-        "started_at": "2026-11-07T02:26:34Z",
-        "steps": [
-          {
-            "name": "Set up job",
-            "status": "completed",
-            "conclusion": "success",
-            "started_at": "2026-11-07T02:26:35Z"
-          },
-          {
-            "name": "Run actions/checkout@v5",
-            "status": "completed",
-            "conclusion": "success",
-            "started_at": "2026-11-07T02:26:38Z"
-          },
-          {
-            "name": "Run actions/setup-java@v5",
-            "status": "completed",
-            "conclusion": "success",
-            "started_at": "2026-11-07T02:26:39Z"
-          },
-          {
-            "name": "Run gradle/actions/setup-gradle@v5",
-            "status": "completed",
-            "conclusion": "success",
-            "started_at": "2026-11-07T02:26:40Z"
-          },
-          {
-            "name": "Run sudo chmod a+rw /dev/kvm",
-            "status": "completed",
-            "conclusion": "success",
-            "started_at": "2026-11-07T02:26:46Z"
-          },
-          {
-            "name": "Run ./scripts/ci-android-sdk.sh",
-            "status": "completed",
-            "conclusion": "success",
-            "started_at": "2026-11-07T02:26:46Z"
-          },
-          {
-            "name": "Verify real edge gestures, IME back and cancelled predictive back",
-            "status": "completed",
-            "conclusion": "failure",
-            "started_at": "2026-11-07T02:26:57Z"
-          },
-          {
-            "name": "Run actions/upload-artifact@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "started_at": "2026-11-07T02:32:24Z"
-          },
-          {
-            "name": "Post Run gradle/actions/setup-gradle@v5",
-            "status": "completed",
-            "conclusion": "success",
-            "started_at": "2026-11-07T02:32:26Z"
-          },
-          {
-            "name": "Post Run actions/setup-java@v5",
-            "status": "completed",
-            "conclusion": "success",
-            "started_at": "2026-11-07T02:32:34Z"
-          },
-          {
-            "name": "Post Run actions/checkout@v5",
-            "status": "completed",
-            "conclusion": "success",
-            "started_at": "2026-11-07T02:32:35Z"
-          },
-          {
-            "name": "Complete job",
-            "status": "completed",
-            "conclusion": "success",
-            "started_at": "2026-11-07T02:32:35Z"
-          }
-        ],
-        "errors": "ndroidTestResources\n2026-11-07T02:29:06.8029064Z > Task :app:javaPreCompileDebugAndroidTest\n2026-11-07T02:29:06.8974878Z > Task :app:mergeDebugShaders\n2026-11-07T02:29:06.8988923Z > Task :app:compileDebugShaders NO-SOURCE\n2026-11-07T02:29:06.9019298Z > Task :app:generateDebugAssets UP-TO-DATE\n2026-11-07T02:29:07.0979264Z > Task :app:mergeDebugAssets\n2026-11-07T02:29:07.1973762Z > Task :app:compressDebugAssets\n2026-11-07T02:29:07.1988936Z > Task :app:desugarDebugFileDependencies\n2026-11-07T02:29:07.9979333Z > Task :app:checkDebugDuplicateClasses\n2026-11-07T02:29:34.6029409Z > Task :app:kaptGenerateStubsDebugKotlin\n2026-11-07T02:29:37.9989535Z > Task :app:mergeExtDexDebug\n2026-11-07T02:29:40.2973901Z > Task :app:mergeLibDexDebug\n2026-11-07T02:29:40.2999715Z > Task :app:mergeDebugJniLibFolders\n2026-11-07T02:29:40.7989247Z > Task :app:mergeDebugNativeLibs\n2026-11-07T02:29:40.8998497Z \n2026-11-07T02:29:40.9042354Z > Task :app:stripDebugDebugSymbols\n2026-11-07T02:29:40.9109598Z Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so, libdatastore_shared_counter.so.\n2026-11-07T02:29:42.8009374Z \n2026-11-07T02:29:42.8044774Z > Task :app:validateSigningDebug\n2026-11-07T02:29:42.8100797Z > Task :app:writeDebugAppMetadata\n2026-11-07T02:29:42.8130287Z > Task :app:writeDebugSigningConfigVersions\n2026-11-07T02:29:42.8189207Z > Task :app:mergeDebugAndroidTestShaders\n2026-11-07T02:29:42.8225526Z > Task :app:compileDebugAndroidTestShaders NO-SOURCE\n2026-11-07T02:29:42.8269036Z > Task :app:generateDebugAndroidTestAssets UP-TO-DATE\n2026-11-07T02:29:42.8979412Z > Task :app:mergeDebugAndroidTestAssets\n2026-11-07T02:29:42.9994220Z > Task :app:compressDebugAndroidTestAssets\n2026-11-07T02:29:43.0048958Z > Task :app:desugarDebugAndroidTestFileDependencies\n2026-11-07T02:29:43.1987852Z > Task :app:checkDebugAndroidTestDuplicateClasses\n2026-11-07T02:29:44.9983889Z > Task :app:mergeExtDexDebugAndroidTest\n2026-11-07T02:29:45.0037161Z > Task :app:mergeLibDexDebugAndroidTest\n2026-11-07T02:29:45.0041184Z > Task :app:mergeDebugAndroidTestJniLibFolders\n2026-11-07T02:29:45.0969390Z > Task :app:mergeDebugAndroidTestNativeLibs NO-SOURCE\n2026-11-07T02:29:45.0992961Z > Task :app:stripDebugAndroidTestDebugSymbols NO-SOURCE\n2026-11-07T02:29:45.1049659Z > Task :app:validateSigningDebugAndroidTest\n2026-11-07T02:29:45.1979440Z > Task :app:writeDebugAndroidTestSigningConfigVersions\n2026-11-07T02:30:16.4009084Z > Task :app:kaptDebugKotlin\n2026-11-07T02:30:46.4009161Z > Task :app:compileDebugKotlin\n2026-11-07T02:30:49.8000502Z w: file:///home/runner/work/sakugapp/sakugapp/app/src/main/java/com/sakugapp/data/PageVideoCache.kt:37:32 'constructor(p0: File, p1: CacheEvictor): SimpleCache' is deprecated. Deprecated in Java.\n2026-11-07T02:30:49.8019761Z w: file:///home/runner/work/sakugapp/sakugapp/app/src/main/java/com/sakugapp/ui/VideoPanel.kt:120:38 'field unappliedRotationDegrees: Int' is deprecated. Deprecated in Java.\n2026-11-07T02:30:52.3972154Z \n2026-11-07T02:30:52.3974853Z > Task :app:compileDebugJavaWithJavac\n2026-11-07T02:30:59.5979585Z > Task :app:bundleDebugClassesToCompileJar\n2026-11-07T02:31:00.4965131Z > Task :app:dexBuilderDebug\n2026-11-07T02:31:01.0966979Z > Task :app:mergeDebugGlobalSynthetics\n2026-11-07T02:31:01.1000031Z > Task :app:processDebugJavaRes\n2026-11-07T02:31:03.1969364Z > Task :app:mergeDebugJavaResource\n2026-11-07T02:31:04.6979444Z > Task :app:mergeProjectDexDebug\n2026-11-07T02:31:05.9989181Z > Task :app:packageDebug\n2026-11-07T02:31:06.0018604Z > Task :app:createDebugApkListingFileRedirect\n2026-11-07T02:31:07.8979544Z > Task :app:kaptGenerateStubsDebugAndroidTestKotlin\n2026-11-07T02:31:08.4964980Z \n2026-11-07T02:31:08.4967068Z > Task :app:kaptDebugAndroidTestKotlin\n2026-11-07T02:31:08.4968642Z warning: The following options were not recognized by any processor: '[room.schemaLocation, kapt.kotlin.generated]'\n2026-11-07T02:31:15.7965395Z \n2026-11-07T02:31:15.7979254Z > Task :app:compileDebugAndroidTestKotlin\n2026-11-07T02:31:16.4979828Z > Task :app:compileDebugAndroidTestJavaWithJavac\n2026-11-07T02:31:20.1000178Z > Task :app:dexBuilderDebugAndroidTest\n2026-11-07T02:31:20.1989293Z > Task :app:mergeDebugAndroidTestGlobalSynthetics\n2026-11-07T02:31:20.2078956Z > Task :app:processDebugAndroidTestJavaRes\n2026-11-07T02:31:20.3962572Z > Task :app:mergeDebugAndroidTestJavaResource\n2026-11-07T02:31:20.4999604Z > Task :app:mergeProjectDexDebugAndroidTest\n2026-11-07T02:31:20.5966874Z > Task :app:packageDebugAndroidTest\n2026-11-07T02:31:20.5975187Z > Task :app:createDebugAndroidTestApkListingFileRedirect\n2026-11-07T02:31:20.7980956Z [EmulatorConsole]: Failed to start Emulator console for 5554\n2026-11-07T02:31:31.5988585Z \n2026-11-07T02:31:31.6019344Z > Task :app:connectedDebugAndroidTest\n2026-11-07T02:31:31.6020845Z Starting 2 tests on emulator-5554 - 15\n2026-11-07T02:31:41.6018732Z \n2026-11-07T02:31:41.6023330Z emulator-5554 - 15 Tests 0/2 completed. (0 skipped) (0 failed)\n2026-11-07T02:31:54.3968312Z \n2026-11-07T02:31:54.3999061Z > Task :app:connectedDebugAndroidTest\n2026-11-07T02:31:54.4005312Z \n2026-11-07T02:31:54.4007177Z com.sakugapp.SearchNavigationDeviceTest > combinedHistoryOnlyFillsDraftAndBackRestoresTheOriginalResultAndBrowseLists[emulator-5554 - 15] \u001b[31mFAILED \u001b[0m\n2026-11-07T02:31:54.4068809Z \tjava.lang.AssertionError: Failed: assertDoesNotExist.\n2026-11-07T02:31:54.4099019Z \tReason: Did not expect any node but found '1' node that satisfies: (TestTag = 'query-expression')\n2026-11-07T02:32:01.5969492Z \n2026-11-07T02:32:01.5970695Z emulator-5554 - 15 Tests 1/2 completed. (0 skipped) (1 failed)\n2026-11-07T02:32:17.7973837Z \n2026-11-07T02:32:17.7999415Z > Task :app:connectedDebugAndroidTest\n2026-11-07T02:32:17.8041136Z Tests on emulator-5554 - 15 failed: There was 1 failure(s).\n2026-11-07T02:32:17.9068922Z \n2026-11-07T02:32:17.9140464Z Finished 2 tests on emulator-5554 - 15\n2026-11-07T02:32:19.0989076Z \n2026-11-07T02:32:19.1100683Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-07T02:32:19.1965629Z gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__reactivecircus_android-emulator-runner-1794018509683.json\n2026-11-07T02:32:19.3025624Z \n2026-11-07T02:32:19.3060041Z [Incubating] Problems report is available at: file:///home/runner/work/sakugapp/sakugapp/build/reports/problems/problems-report.html\n2026-11-07T02:32:19.3069111Z \n2026-11-07T02:32:19.3102977Z Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.\n2026-11-07T02:32:19.3128501Z \n2026-11-07T02:32:19.3132648Z You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.\n2026-11-07T02:32:19.3150360Z \n2026-11-07T02:32:19.3151554Z For more on this, please refer to https://docs.gradle.org/8.13/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.\n2026-11-07T02:32:19.3155129Z 71 actionable tasks: 71 executed\n2026-11-07T02:32:19.3155962Z \n2026-11-07T02:32:19.3156381Z FAILURE: Build failed with an exception.\n2026-11-07T02:32:19.3156915Z \n2026-11-07T02:32:19.3157239Z * What went wrong:\n2026-11-07T02:32:19.3158188Z Execution failed for task ':app:connectedDebugAndroidTest'.\n2026-11-07T02:32:19.3159791Z > There were failing tests. See the report at: file:///home/runner/work/sakugapp/sakugapp/app/build/reports/androidTests/connected/debug/index.html\n2026-11-07T02:32:19.3160994Z \n2026-11-07T02:32:19.3161309Z * Try:\n2026-11-07T02:32:19.3164213Z > Run with --stacktrace option to get the stack trace.\n2026-11-07T02:32:19.3184481Z > Run with --info or --debug option to get more log output.\n2026-11-07T02:32:19.3185246Z > Run with --scan to get full insights.\n2026-11-07T02:32:19.3185842Z > Get more help at https://help.gradle.org.\n2026-11-07T02:32:19.3186253Z \n2026-11-07T02:32:19.3186458Z BUILD FAILED in 3m 56s\n2026-11-07T02:32:20.1289828Z /sdcard/Download/sakugapp-ui-evidence/./: 5 files pulled, 0 skipped. 5.6 MB/s (1142226 bytes in 0.195s)\n2026-11-07T02:32:20.1786222Z ##[error]The process '/usr/bin/sh' failed with exit code 1\n2026-11-07T02:32:20.1834691Z ##[group]Terminate Emulator\n2026-11-07T02:32:20.1835566Z [command]/home/runner/work/_temp/sakugapp-sdk/platform-tools/adb -s emulator-5554 emu kill\n2026-11-07T02:32:20.1984269Z OK: killing emulator, bye bye\n2026-11-07T02:32:20.2023723Z OK\n2026-11-07T02:32:20.2039594Z INFO         | Wait for emulator (pid 2938) 20 seconds to shutdown gracefully before kill;you can set environment variable ANDROID_EMULATOR_WAIT_TIME_BEFORE_KILL(in seconds) to change the default value (20 seconds)\n2026-11-07T02:32:20.2068615Z \n2026-11-07T02:32:20.2099646Z ##[endgroup]\n2026-11-07T02:32:24.0185600Z INFO         | Saving with gfxstream=1\n2026-11-07T02:32:24.1179124Z INFO         | Saving snapshot 'default_boot' took 3886 ms\n2026-11-07T02:32:24.1919096Z ERROR        | stop: Not implemented\n2026-11-07T02:32:24.1919889Z WARNING      | Emulator client has not yet been configured.. Call configure me first!\n2026-11-07T02:32:24.2179188Z INFO         | removeAll\n2026-11-07T02:32:24.2767650Z WARNING      | Netsim Wifi dns:///localhost:46343 is gone due to Stream removed (CANCELLED)\n2026-11-07T02:32:24.9888664Z ##[group]Run actions/upload-artifact@v4\n2026-11-07T02:32:24.9889048Z with:\n2026-11-07T02:32:24.9889319Z   name: search-back-gesture-reports\n2026-11-07T02:32:24.9889818Z   path: app/build/outputs/androidTest-results/\napp/build/reports/ui-evidence/\n\n2026-11-07T02:32:24.9890314Z   if-no-files-found: warn\n2026-11-07T02:32:24.9890643Z   compression-level: 6\n2026-11-07T02:32:24.9890924Z   overwrite: false\n2026-11-07T02:32:24.9891202Z   include-hidden-files: false\n2026-11-07T02:32:24.9891509Z env:\n2026-11-07T02:32:24.9891867Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64\n2026-11-07T02:32:24.9892425Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64\n2026-11-07T02:32:24.9892866Z   MAVEN_ARGS: -ntp\n2026-11-07T02:32:24.9893180Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle\n2026-11-07T02:32:24.9893536Z   GRADLE_USER_HOME: /home/runner/.gradle\n2026-11-07T02:32:24.9893879Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true\n2026-11-07T02:32:24.9894273Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true\n2026-11-07T02:32:24.9894771Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle\n2026-11-07T02:32:24.9895300Z   DEVELOCITY_INJECTION_CUSTOM_VALUE: gradle-actions\n2026-11-07T02:32:24.9895679Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false\n2026-11-07T02:32:24.9896041Z   ANDROID_HOME: /home/runner/work/_temp/sakugapp-sdk\n2026-11-07T02:32:24.9896453Z   ANDROID_SDK_ROOT: /home/runner/work/_temp/sakugapp-sdk\n2026-11-07T02:32:24.9896838Z   ANDROID_AVD_HOME: /home/runner/.android/avd\n2026-11-07T02:32:24.9897173Z ##[endgroup]\n2026-11-07T02:32:25.1588966Z (node:3816) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.\n2026-11-07T02:32:25.1589872Z (Use `node --trace-deprecation ...` to show where the warning was created)\n2026-11-07T02:32:25.1697644Z Multiple search paths detected. Calculating the least common ancestor of all paths\n2026-11-07T02:32:25.1700203Z The least common ancestor is /home/runner/work/sakugapp/sakugapp/app/build. This will be the root directory of the artifact\n2026-11-07T02:32:25.1701388Z With the provided path, there will be 20 files uploaded\n2026-11-07T02:32:25.1705740Z Artifact name is valid!\n2026-11-07T02:32:25.1706253Z Root directory input is valid!\n2026-11-07T02:32:25.5045500Z Beginning upload of artifact content to blob storage\n2026-11-07T02:32:25.5935330Z (node:3816) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.\n2026-11-07T02:32:26.0800138Z Uploaded bytes 1198747\n2026-11-07T02:32:26.1374595Z Finished uploading artifact content to blob storage!\n2026-11-07T02:32:26.1375808Z SHA256 digest of uploaded artifact zip is 81085001ed1401db3fd1b9a95c76e4753399d74d7ccafb8679e41b24693ff698\n2026-11-07T02:32:26.1376977Z Finalizing artifact upload\n2026-11-07T02:32:26.5349369Z Artifact search-back-gesture-reports.zip successfully finalized. Artifact ID 13556777421\n2026-11-07T02:32:26.5350763Z Artifact search-back-gesture-reports has been successfully uploaded! Final size is 1198747 bytes. Artifact ID is 13556777421\n2026-11-07T02:32:26.5357693Z Artifact download URL: https://github.com/Milenal82/sakugapp/actions/runs/42329266264/artifacts/13556777421\n2026-11-07T02:32:26.5631238Z Post job cleanup.\n2026-11-07T02:32:26.9292142Z In post-action step\n2026-11-07T02:32:26.9303523Z ##[group]Stopping Gradle daemons\n2026-11-07T02:32:26.9304573Z Stopping Gradle daemons for /home/runner/.gradle/wrapper/dists/gradle-8.13-bin/5xuhj0ry160q40clulazy9h7d/gradle-8.13\n2026-11-07T02:32:26.9319654Z [command]/home/runner/.gradle/wrapper/dists/gradle-8.13-bin/5xuhj0ry160q40clulazy9h7d/gradle-8.13/bin/gradle --stop\n2026-11-07T02:32:27.6260019Z Stopping Daemon(s)\n2026-11-07T02:32:27.6268829Z 1 Daemon stopped\n2026-11-07T02:32:27.6479153Z ##[endgroup]\n2026-11-07T02:32:27.6479880Z Not performing cache-cleanup due to build failure\n2026-11-07T02:32:27.6481225Z ##[group]Caching Gradle state\n2026-11-07T02:32:28.0495075Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/sakugapp/sakugapp --files-from manifest.txt --use-compress-program zstdmt\n2026-11-07T02:32:28.3588674Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/sakugapp/sakugapp --files-from manifest.txt --use-compress-program zstdmt\n2026-11-07T02:32:28.3834292Z Failed to save cache entry with path '/home/runner/.gradle/caches/*/kotlin-dsl/accessors/*/,/home/runner/.gradle/caches/*/kotlin-dsl/scripts/*/' and key: gradle-kotlin-dsl-v1-834dcf0a1b06454d685d80efe736c6aa: ReserveCacheError: Unable to reserve cache with key gradle-kotlin-dsl-v1-834dcf0a1b06454d685d80efe736c6aa, another job may be creating this cache.\n2026-11-07T02:32:29.7415188Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/sakugapp/sakugapp --files-from manifest.txt --use-compress-program zstdmt\n2026-11-07T02:32:30.4749536Z Sent 0 of 285883632 (0.0%), 0.0 MBs/sec\n2026-11-07T02:32:31.4732830Z Sent 218774768 of 285883632 (76.5%), 104.2 MBs/sec\n2026-11-07T02:32:31.7186011Z Sent 285883632 of 285883632 (100.0%), 121.3 MBs/sec\n2026-11-07T02:32:31.9704858Z Saved cache entry with key gradle-dependencies-v1-9d98e2dff298c81e6dc3b26aea017482 from /home/runner/.gradle/caches/modules-*/files-*/*/*/*/* in 4020ms\n2026-11-07T02:32:32.6049993Z Failed to save cache entry with path '/home/runner/.gradle/caches/transforms-4/*/,/home/runner/.gradle/caches/*/transforms/*/' and key: gradle-transforms-v1-9b312526d70d5a72cf880881299b5c5d: ReserveCacheError: Unable to reserve cache with key gradle-transforms-v1-9b312526d70d5a72cf880881299b5c5d, another job may be creating this cache.\n2026-11-07T02:32:33.7006289Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/sakugapp/sakugapp --files-from manifest.txt --use-compress-program zstdmt\n2026-11-07T02:32:34.7648871Z Sent 5131262 of 5131262 (100.0%), 8.5 MBs/sec\n2026-11-07T02:32:34.9491496Z Saved cache entry with key gradle-home-v1|Linux-X64|search-back-gestures[ca6509f1145a02de14613a5bbcd69618]-37f5b5515d776ecc53ad8590f14395bb7704bddb from /home/runner/.gradle/caches,/home/runner/.gradle/notifications,/home/runner/.gradle/.setup-gradle in 1265ms\n2026-11-07T02:32:34.9493756Z ##[endgroup]\n2026-11-07T02:32:34.9502027Z Generating Job Summary\n2026-11-07T02:32:34.9516276Z Completed post-action step\n2026-11-07T02:32:34.9939366Z Post job cleanup.\n2026-11-07T02:32:35.1519976Z Post job cleanup.\n2026-11-07T02:32:35.2570884Z [command]/usr/bin/git version\n2026-11-07T02:32:35.2619170Z git version 2.56.0\n2026-11-07T02:32:35.2658506Z Temporarily overriding HOME='/home/runner/work/_temp/a7d17b23-7857-4c2d-9824-b354c3a1c5e1' before making global git config changes\n2026-11-07T02:32:35.2660209Z Adding repository directory to the temporary git global config as a safe directory\n2026-11-07T02:32:35.2665291Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/sakugapp/sakugapp\n2026-11-07T02:32:35.2715960Z [command]/usr/bin/git config --local --name-only --get-regexp core\\.sshCommand\n2026-11-07T02:32:35.2760737Z [command]/usr/bin/git submodule foreach --recursive sh -c \"git config --local --name-only --get-regexp 'core\\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\"\n2026-11-07T02:32:35.3087543Z [command]/usr/bin/git config --local --name-only --get-regexp http\\.https\\:\\/\\/github\\.com\\/\\.extraheader\n2026-11-07T02:32:35.3122304Z http.https://github.com/.extraheader\n2026-11-07T02:32:35.3135586Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader\n2026-11-07T02:32:35.3176104Z [command]/usr/bin/git submodule foreach --recursive sh -c \"git config --local --name-only --get-regexp 'http\\.https\\:\\/\\/github\\.com\\/\\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\"\n2026-11-07T02:32:35.3459168Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\\.gitdir:\n2026-11-07T02:32:35.3507178Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url\n2026-11-07T02:32:35.3937422Z Cleaning up orphan processes\n2026-11-07T02:32:35.4543257Z Terminate orphan process: pid (3100) (adb)\n2026-11-07T02:32:35.4717447Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/\n"
-      },
-      {
-        "name": "six-column-display (landscape, pixel_c)",
+        "name": "device-tests",
         "conclusion": "success",
         "started_at": "2026-11-07T02:26:34Z",
         "steps": [
@@ -2085,75 +2291,87 @@
             "name": "Run actions/checkout@v5",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:26:39Z"
+            "started_at": "2026-11-07T02:26:36Z"
           },
           {
             "name": "Run actions/setup-java@v5",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:26:40Z"
+            "started_at": "2026-11-07T02:26:37Z"
           },
           {
             "name": "Run gradle/actions/setup-gradle@v5",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:26:40Z"
+            "started_at": "2026-11-07T02:26:38Z"
           },
           {
-            "name": "Run sudo chmod a+rw /dev/kvm",
+            "name": "Enable runner KVM",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:26:47Z"
+            "started_at": "2026-11-07T02:26:43Z"
           },
           {
-            "name": "Run ./scripts/ci-android-sdk.sh",
+            "name": "Install build SDK",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:26:48Z"
+            "started_at": "2026-11-07T02:26:43Z"
           },
           {
-            "name": "Test a fresh physical display without wm overrides",
+            "name": "Run exact-frame, secure-session, persistence and native UI tests",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:27:01Z"
+            "started_at": "2026-11-07T02:26:56Z"
           },
           {
-            "name": "Export captures even after an assertion failure",
+            "name": "Explain failed device assertions",
             "status": "completed",
-            "conclusion": "success",
-            "started_at": "2026-11-07T02:31:39Z"
+            "conclusion": "skipped",
+            "started_at": "2026-11-07T02:35:13Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:31:39Z"
+            "started_at": "2026-11-07T02:35:13Z"
           },
           {
             "name": "Post Run gradle/actions/setup-gradle@v5",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:31:41Z"
+            "started_at": "2026-11-07T02:35:14Z"
           },
           {
             "name": "Post Run actions/setup-java@v5",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:31:56Z"
+            "started_at": "2026-11-07T02:35:40Z"
           },
           {
             "name": "Post Run actions/checkout@v5",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:31:56Z"
+            "started_at": "2026-11-07T02:35:40Z"
           },
           {
             "name": "Complete job",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:31:56Z"
+            "started_at": "2026-11-07T02:35:40Z"
           }
         ]
+      },
+      {
+        "name": "candidate-evidence",
+        "conclusion": "skipped",
+        "started_at": "2026-11-07T02:38:03Z",
+        "steps": []
+      },
+      {
+        "name": "release-preflight",
+        "conclusion": "skipped",
+        "started_at": "2026-11-07T02:38:09Z",
+        "steps": []
       },
       {
         "name": "six-column-display (phone, Nexus S)",
@@ -2241,7 +2459,7 @@
         ]
       },
       {
-        "name": "device-tests",
+        "name": "six-column-display (landscape, pixel_c)",
         "conclusion": "success",
         "started_at": "2026-11-07T02:26:34Z",
         "steps": [
@@ -2255,117 +2473,75 @@
             "name": "Run actions/checkout@v5",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:26:36Z"
+            "started_at": "2026-11-07T02:26:39Z"
           },
           {
             "name": "Run actions/setup-java@v5",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:26:37Z"
+            "started_at": "2026-11-07T02:26:40Z"
           },
           {
             "name": "Run gradle/actions/setup-gradle@v5",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:26:38Z"
+            "started_at": "2026-11-07T02:26:40Z"
           },
           {
-            "name": "Enable runner KVM",
+            "name": "Run sudo chmod a+rw /dev/kvm",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:26:43Z"
+            "started_at": "2026-11-07T02:26:47Z"
           },
           {
-            "name": "Install build SDK",
+            "name": "Run ./scripts/ci-android-sdk.sh",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:26:43Z"
+            "started_at": "2026-11-07T02:26:48Z"
           },
           {
-            "name": "Run exact-frame, secure-session, persistence and native UI tests",
+            "name": "Test a fresh physical display without wm overrides",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:26:56Z"
+            "started_at": "2026-11-07T02:27:01Z"
           },
           {
-            "name": "Explain failed device assertions",
+            "name": "Export captures even after an assertion failure",
             "status": "completed",
-            "conclusion": "skipped",
-            "started_at": "2026-11-07T02:35:13Z"
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:31:39Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:35:13Z"
+            "started_at": "2026-11-07T02:31:39Z"
           },
           {
             "name": "Post Run gradle/actions/setup-gradle@v5",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:35:14Z"
+            "started_at": "2026-11-07T02:31:41Z"
           },
           {
             "name": "Post Run actions/setup-java@v5",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:35:40Z"
+            "started_at": "2026-11-07T02:31:56Z"
           },
           {
             "name": "Post Run actions/checkout@v5",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:35:40Z"
+            "started_at": "2026-11-07T02:31:56Z"
           },
           {
             "name": "Complete job",
             "status": "completed",
             "conclusion": "success",
-            "started_at": "2026-11-07T02:35:40Z"
+            "started_at": "2026-11-07T02:31:56Z"
           }
         ]
-      },
-      {
-        "name": "documentation-screenshots",
-        "conclusion": "skipped",
-        "started_at": "2026-11-07T02:26:32Z",
-        "steps": []
-      },
-      {
-        "name": "release-preflight",
-        "conclusion": "skipped",
-        "started_at": "2026-11-07T02:26:32Z",
-        "steps": []
-      },
-      {
-        "name": "release-signing",
-        "conclusion": "skipped",
-        "started_at": "2026-11-07T02:26:32Z",
-        "steps": []
-      },
-      {
-        "name": "candidate-upgrade-install",
-        "conclusion": "skipped",
-        "started_at": "2026-11-07T02:26:32Z",
-        "steps": []
-      },
-      {
-        "name": "signed-candidate",
-        "conclusion": "skipped",
-        "started_at": "2026-11-07T02:26:33Z",
-        "steps": []
-      },
-      {
-        "name": "candidate-evidence",
-        "conclusion": "skipped",
-        "started_at": "2026-11-07T02:26:33Z",
-        "steps": []
-      },
-      {
-        "name": "checks-evidence",
-        "conclusion": "skipped",
-        "started_at": "2026-11-07T02:35:43Z",
-        "steps": []
       }
     ],
     "artifacts": [
