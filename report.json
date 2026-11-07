@@ -17,6 +17,34 @@
           "hostname": "localhost"
         },
         "failures": []
+      },
+      {
+        "artifact": "search-back-gesture-reports",
+        "counts": {
+          "name": "com.sakugapp.SearchNavigationDeviceTest",
+          "tests": "2",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0",
+          "time": "51.336",
+          "timestamp": "2026-11-07T02:06:28",
+          "hostname": "localhost"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "six-column-landscape-reports",
+        "counts": {
+          "name": "com.sakugapp.SixColumnDeviceTest",
+          "tests": "2",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0",
+          "time": "37.205",
+          "timestamp": "2026-11-07T02:05:27",
+          "hostname": "localhost"
+        },
+        "failures": []
       }
     ],
     "conclusion": null,
@@ -187,7 +215,7 @@
       },
       {
         "name": "search-back-gestures",
-        "conclusion": null,
+        "conclusion": "success",
         "started_at": "2026-11-07T02:00:34Z",
         "steps": [
           {
@@ -228,39 +256,45 @@
           },
           {
             "name": "Verify real edge gestures, IME back and cancelled predictive back",
-            "status": "in_progress",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "started_at": "2026-11-07T02:00:56Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:06:35Z"
           },
           {
             "name": "Post Run gradle/actions/setup-gradle@v5",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:06:36Z"
           },
           {
             "name": "Post Run actions/setup-java@v5",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:06:37Z"
           },
           {
             "name": "Post Run actions/checkout@v5",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:06:37Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:06:37Z"
           }
         ]
       },
       {
         "name": "six-column-display (landscape, pixel_c)",
-        "conclusion": null,
+        "conclusion": "success",
         "started_at": "2026-11-07T02:00:34Z",
         "steps": [
           {
@@ -301,39 +335,45 @@
           },
           {
             "name": "Test a fresh physical display without wm overrides",
-            "status": "in_progress",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "started_at": "2026-11-07T02:01:02Z"
           },
           {
             "name": "Export captures even after an assertion failure",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:05:33Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:05:33Z"
           },
           {
             "name": "Post Run gradle/actions/setup-gradle@v5",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:05:34Z"
           },
           {
             "name": "Post Run actions/setup-java@v5",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:05:35Z"
           },
           {
             "name": "Post Run actions/checkout@v5",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:05:35Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:05:35Z"
           }
         ]
       },
@@ -380,33 +420,33 @@
           },
           {
             "name": "Unit tests, Android Lint and Debug APK",
-            "status": "in_progress",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "started_at": "2026-11-07T02:01:02Z"
           },
           {
             "name": "Verify APK signature and list packaged ABIs",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:08:22Z"
           },
           {
             "name": "Package project source",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:08:22Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:08:22Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
-            "status": "pending",
+            "status": "in_progress",
             "conclusion": null,
-            "started_at": null
+            "started_at": "2026-11-07T02:08:25Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
@@ -475,6 +515,14 @@
       {
         "name": "six-column-phone-reports",
         "url": "https://github.com/Milenal82/sakugapp/actions/runs/42326641755/artifacts/13556151996"
+      },
+      {
+        "name": "search-back-gesture-reports",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42326641755/artifacts/13555457330"
+      },
+      {
+        "name": "six-column-landscape-reports",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42326641755/artifacts/13554989817"
       }
     ]
   },
@@ -483,6 +531,25 @@
     "commit": "87e7c2863ed696e81fc787fadfc6a14ac7dbd13c",
     "status": "in_progress",
     "reports": [
+      {
+        "artifact": "v130-device-reports-35",
+        "counts": {
+          "name": "com.sakugapp.ReleaseUiDeviceTest",
+          "tests": "42",
+          "failures": "1",
+          "errors": "0",
+          "skipped": "0",
+          "time": "392.216",
+          "timestamp": "2026-11-07T02:05:52",
+          "hostname": "localhost"
+        },
+        "failures": [
+          {
+            "test": "com.sakugapp.PlayerStabilityDeviceTest.fullscreenReusesPlayerPreservesPositionAndGesturesAcrossLifecycleAndVideoSwitches",
+            "message": "androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 2000 ms\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:504)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:339)\nat com.sakugapp.PlayerStabilityDeviceTest.tapVideo(PlayerStabilityDeviceTest.kt:46)\nat com.sakugapp.PlayerStabilityDeviceTest.fullscreenReusesPlayerPreservesPositionAndGesturesAcrossLifecycleAndVideoSwitches(PlayerStabilityDeviceTest.kt:125)\n"
+          }
+        ]
+      },
       {
         "artifact": "v130-device-reports-28",
         "counts": {
@@ -654,7 +721,7 @@
       },
       {
         "name": "devices (35, pixel_c)",
-        "conclusion": null,
+        "conclusion": "failure",
         "started_at": "2026-11-07T01:56:06Z",
         "steps": [
           {
@@ -695,9 +762,71 @@
           },
           {
             "name": "Run reactivecircus/android-emulator-runner@v2",
+            "status": "completed",
+            "conclusion": "failure",
+            "started_at": "2026-11-07T01:56:28Z"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:06:04Z"
+          },
+          {
+            "name": "Post Run gradle/actions/setup-gradle@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:06:06Z"
+          },
+          {
+            "name": "Post Run actions/setup-java@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:06:06Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:06:06Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:06:06Z"
+          }
+        ],
+        "errors": "86880] no frame!\n2026-11-07T02:01:53.8765572Z [h264 @ 0x562f23181680] no frame!\n2026-11-07T02:01:53.8795697Z [h264 @ 0x562f23181680] no frame!\n2026-11-07T02:01:55.8886599Z [h264 @ 0x562f35bb3600] no frame!\n2026-11-07T02:01:55.8915103Z [h264 @ 0x562f35bb3600] no frame!\n2026-11-07T02:01:57.1585802Z [h264 @ 0x562f2a69a400] no frame!\n2026-11-07T02:01:57.1629003Z [h264 @ 0x562f2a69a400] no frame!\n2026-11-07T02:01:58.3758059Z [h264 @ 0x562f502f4880] no frame!\n2026-11-07T02:01:58.3850729Z [h264 @ 0x562f502f4880] no frame!\n2026-11-07T02:01:59.4671523Z [h264 @ 0x562f42dea900] no frame!\n2026-11-07T02:01:59.4690574Z [h264 @ 0x562f42dea900] no frame!\n2026-11-07T02:02:00.1223235Z emulator-5554 - 15 Tests 26/42 completed. (0 skipped) (0 failed)\n2026-11-07T02:02:00.1434638Z [h264 @ 0x562f372a8900] no frame!\n2026-11-07T02:02:00.1452750Z [h264 @ 0x562f372a8900] no frame!\n2026-11-07T02:02:00.9029470Z [h264 @ 0x562f372a8900] no frame!\n2026-11-07T02:02:00.9046201Z [h264 @ 0x562f372a8900] no frame!\n2026-11-07T02:02:08.9125612Z [h264 @ 0x562f2a45f200] no frame!\n2026-11-07T02:02:08.9155064Z [h264 @ 0x562f2a45f200] no frame!\n2026-11-07T02:02:10.1235683Z emulator-5554 - 15 Tests 31/42 completed. (0 skipped) (0 failed)\n2026-11-07T02:02:20.1226402Z emulator-5554 - 15 Tests 32/42 completed. (0 skipped) (0 failed)\n2026-11-07T02:02:21.8525708Z ERROR        | Failed to find ColorBuffer: 1274\n2026-11-07T02:02:21.8556465Z ERROR        | Failed to bind to texture: invalid color buffer.\n2026-11-07T02:02:23.3701395Z ERROR        | Failed to find ColorBuffer: 1288\n2026-11-07T02:02:23.3745421Z ERROR        | Failed to bind to texture: invalid color buffer.\n2026-11-07T02:02:24.9026304Z ERROR        | Failed to find ColorBuffer: 1300\n2026-11-07T02:02:24.9045402Z ERROR        | Failed to bind to texture: invalid color buffer.\n2026-11-07T02:02:28.3508080Z ERROR        | Failed to find ColorBuffer: 1330\n2026-11-07T02:02:28.3575269Z ERROR        | Failed to bind to texture: invalid color buffer.\n2026-11-07T02:02:30.1223300Z emulator-5554 - 15 Tests 33/42 completed. (0 skipped) (0 failed)\n2026-11-07T02:02:41.6350740Z ERROR        | Failed to find ColorBuffer: 1344\n2026-11-07T02:02:41.6365457Z ERROR        | Failed to bind to texture: invalid color buffer.\n2026-11-07T02:02:43.8655645Z ERROR        | Failed to find ColorBuffer: 1360\n2026-11-07T02:02:43.8685126Z ERROR        | Failed to bind to texture: invalid color buffer.\n2026-11-07T02:02:58.4246386Z ERROR        | Failed to find ColorBuffer: 1372\n2026-11-07T02:02:58.4275686Z ERROR        | Failed to bind to texture: invalid color buffer.\n2026-11-07T02:03:00.2158282Z ERROR        | Failed to find ColorBuffer: 1388\n2026-11-07T02:03:00.2265247Z ERROR        | Failed to bind to texture: invalid color buffer.\n2026-11-07T02:03:14.6192979Z ERROR        | Failed to find ColorBuffer: 1400\n2026-11-07T02:03:14.6215114Z ERROR        | Failed to bind to texture: invalid color buffer.\n2026-11-07T02:03:23.0246775Z ERROR        | Failed to find ColorBuffer: 1449\n2026-11-07T02:03:23.0285347Z ERROR        | Failed to bind to texture: invalid color buffer.\n2026-11-07T02:03:30.1223538Z emulator-5554 - 15 Tests 34/42 completed. (0 skipped) (0 failed)\n2026-11-07T02:03:58.2085569Z ERROR        | Failed to find ColorBuffer: 1479\n2026-11-07T02:03:58.2135950Z ERROR        | Failed to bind to texture: invalid color buffer.\n2026-11-07T02:04:00.1225887Z emulator-5554 - 15 Tests 35/42 completed. (0 skipped) (0 failed)\n2026-11-07T02:04:13.0514854Z ERROR        | Failed to find ColorBuffer: 1522\n2026-11-07T02:04:13.0538277Z ERROR        | Failed to bind to texture: invalid color buffer.\n2026-11-07T02:04:14.3385343Z ERROR        | Failed to find ColorBuffer: 1527\n2026-11-07T02:04:14.3460511Z ERROR        | Failed to bind to texture: invalid color buffer.\n2026-11-07T02:04:20.1224114Z emulator-5554 - 15 Tests 36/42 completed. (0 skipped) (0 failed)\n2026-11-07T02:04:20.3754185Z ERROR        | Failed to find ColorBuffer: 1576\n2026-11-07T02:04:20.3755308Z ERROR        | Failed to bind to texture: invalid color buffer.\n2026-11-07T02:04:30.1236055Z emulator-5554 - 15 Tests 37/42 completed. (0 skipped) (0 failed)\n2026-11-07T02:04:30.8359582Z [h264 @ 0x562f391ef600] no frame!\n2026-11-07T02:04:30.8465099Z [h264 @ 0x562f391ef600] no frame!\n2026-11-07T02:04:31.0129765Z ERROR        | Failed to find ColorBuffer: 0\n2026-11-07T02:04:31.0131099Z ERROR        | Failed to bind to texture: invalid color buffer.\n2026-11-07T02:04:34.6915745Z [h264 @ 0x562f36670d80] no frame!\n2026-11-07T02:04:34.6965165Z [h264 @ 0x562f36670d80] no frame!\n2026-11-07T02:04:35.6615958Z ERROR        | Failed to find ColorBuffer: 1657\n2026-11-07T02:04:35.6645526Z ERROR        | Failed to bind to texture: invalid color buffer.\n2026-11-07T02:04:37.0538292Z [h264 @ 0x562f42dea900] no frame!\n2026-11-07T02:04:37.0575157Z [h264 @ 0x562f42dea900] no frame!\n2026-11-07T02:04:37.4435521Z [h264 @ 0x562f42dea900] no frame!\n2026-11-07T02:04:37.4436070Z [h264 @ 0x562f42dea900] no frame!\n2026-11-07T02:04:37.6039687Z [h264 @ 0x562f2a6a1f80] no frame!\n2026-11-07T02:04:37.6063182Z [h264 @ 0x562f2a6a1f80] no frame!\n2026-11-07T02:04:40.1223174Z emulator-5554 - 15 Tests 39/42 completed. (0 skipped) (0 failed)\n2026-11-07T02:04:42.8749210Z [h264 @ 0x562f2a697a80] no frame!\n2026-11-07T02:04:42.8781398Z [h264 @ 0x562f2a697a80] no frame!\n2026-11-07T02:04:44.7375442Z [h264 @ 0x562f20991b00] no frame!\n2026-11-07T02:04:44.7434964Z [h264 @ 0x562f20991b00] no frame!\n2026-11-07T02:04:45.9295323Z [h264 @ 0x562f2a6a3180] no frame!\n2026-11-07T02:04:45.9335605Z [h264 @ 0x562f2a6a3180] no frame!\n2026-11-07T02:04:51.5625691Z [h264 @ 0x562f372aba80] no frame!\n2026-11-07T02:04:51.5634283Z [h264 @ 0x562f372aba80] no frame!\n2026-11-07T02:04:52.9891842Z [h264 @ 0x562f2a45e000] no frame!\n2026-11-07T02:04:52.9892741Z [h264 @ 0x562f2a45e000] no frame!\n2026-11-07T02:04:54.2025445Z [h264 @ 0x562f3a6b7180] no frame!\n2026-11-07T02:04:54.2074992Z [h264 @ 0x562f3a6b7180] no frame!\n2026-11-07T02:04:56.0275617Z ERROR        | Failed to find ColorBuffer: 1757\n2026-11-07T02:04:56.0328094Z ERROR        | Failed to bind to texture: invalid color buffer.\n2026-11-07T02:04:58.5735271Z [h264 @ 0x562f2a45f680] no frame!\n2026-11-07T02:04:58.5765183Z [h264 @ 0x562f2a45f680] no frame!\n2026-11-07T02:05:00.1155499Z [h264 @ 0x562f42ded600] no frame!\n2026-11-07T02:05:00.1184733Z [h264 @ 0x562f42ded600] no frame!\n2026-11-07T02:05:01.2195469Z [h264 @ 0x562f3663e900] no frame!\n2026-11-07T02:05:01.2244902Z [h264 @ 0x562f3663e900] no frame!\n2026-11-07T02:05:02.8616002Z [h264 @ 0x562f23181680] no frame!\n2026-11-07T02:05:02.8660010Z [h264 @ 0x562f23181680] no frame!\n2026-11-07T02:05:03.0915567Z ERROR        | Failed to find ColorBuffer: 0\n2026-11-07T02:05:03.0945603Z ERROR        | Failed to bind to texture: invalid color buffer.\n2026-11-07T02:05:03.4618196Z [h264 @ 0x562f372aa880] no frame!\n2026-11-07T02:05:03.4639127Z [h264 @ 0x562f372aa880] no frame!\n2026-11-07T02:05:03.9301815Z [h264 @ 0x562f1e9d1b00] no frame!\n2026-11-07T02:05:03.9328983Z [h264 @ 0x562f1e9d1b00] no frame!\n2026-11-07T02:05:04.0523892Z ERROR        | Failed to find ColorBuffer: 0\n2026-11-07T02:05:04.0525092Z ERROR        | Failed to bind to texture: invalid color buffer.\n2026-11-07T02:05:04.4445595Z [h264 @ 0x562f76eeff80] no frame!\n2026-11-07T02:05:04.4476527Z [h264 @ 0x562f76eeff80] no frame!\n2026-11-07T02:05:04.8384155Z [h264 @ 0x562f68a02d00] no frame!\n2026-11-07T02:05:04.8563508Z [h264 @ 0x562f68a02d00] no frame!\n2026-11-07T02:05:05.5441972Z ERROR        | Failed to find ColorBuffer: 1787\n2026-11-07T02:05:05.5442459Z ERROR        | Failed to bind to texture: invalid color buffer.\n2026-11-07T02:05:12.0242109Z \n2026-11-07T02:05:12.0245283Z > Task :app:connectedDebugAndroidTest\n2026-11-07T02:05:12.0264560Z \n2026-11-07T02:05:12.0293641Z com.sakugapp.PlayerStabilityDeviceTest > fullscreenReusesPlayerPreservesPositionAndGesturesAcrossLifecycleAndVideoSwitches[emulator-5554 - 15] \u001b[31mFAILED \u001b[0m\n2026-11-07T02:05:12.0316844Z \tandroidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 2000 ms\n2026-11-07T02:05:12.0345220Z \tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:504)\n2026-11-07T02:05:20.1222809Z \n2026-11-07T02:05:20.1223886Z emulator-5554 - 15 Tests 40/42 completed. (0 skipped) (1 failed)\n2026-11-07T02:05:30.1265920Z emulator-5554 - 15 Tests 41/42 completed. (0 skipped) (1 failed)\n2026-11-07T02:05:52.2246228Z \n2026-11-07T02:05:52.2293091Z > Task :app:connectedDebugAndroidTest\n2026-11-07T02:05:52.2335416Z Tests on emulator-5554 - 15 failed: There was 1 failure(s).\n2026-11-07T02:05:52.3305084Z \n2026-11-07T02:05:52.3395369Z Finished 42 tests on emulator-5554 - 15\n2026-11-07T02:05:53.0222907Z \n2026-11-07T02:05:53.0224886Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-07T02:05:53.1226270Z gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__reactivecircus_android-emulator-runner-1794016671010.json\n2026-11-07T02:05:53.1254894Z \n2026-11-07T02:05:53.1286127Z [Incubating] Problems report is available at: file:///home/runner/work/sakugapp/sakugapp/build/reports/problems/problems-report.html\n2026-11-07T02:05:53.1294756Z \n2026-11-07T02:05:53.1295107Z FAILURE: Build failed with an exception.\n2026-11-07T02:05:53.1295354Z \n2026-11-07T02:05:53.1295451Z * What went wrong:\n2026-11-07T02:05:53.1295737Z Execution failed for task ':app:connectedDebugAndroidTest'.\n2026-11-07T02:05:53.1296397Z > There were failing tests. See the report at: file:///home/runner/work/sakugapp/sakugapp/app/build/reports/androidTests/connected/debug/index.html\n2026-11-07T02:05:53.1296925Z \n2026-11-07T02:05:53.1297017Z * Try:\n2026-11-07T02:05:53.1297282Z > Run with --stacktrace option to get the stack trace.\n2026-11-07T02:05:53.1297666Z > Run with --info or --debug option to get more log output.\n2026-11-07T02:05:53.1297979Z > Run with --scan to get full insights.\n2026-11-07T02:05:53.1298275Z > Get more help at https://help.gradle.org.\n2026-11-07T02:05:53.1298486Z \n2026-11-07T02:05:53.1298579Z BUILD FAILED in 8m 6s\n2026-11-07T02:05:53.1298744Z \n2026-11-07T02:05:53.1299009Z Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.\n2026-11-07T02:05:53.1299348Z \n2026-11-07T02:05:53.1299770Z You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.\n2026-11-07T02:05:53.1300228Z \n2026-11-07T02:05:53.1300705Z For more on this, please refer to https://docs.gradle.org/8.13/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.\n2026-11-07T02:05:53.1301363Z 71 actionable tasks: 71 executed\n2026-11-07T02:05:53.7819113Z /sdcard/Download/sakugapp-ui-evidence/./: 44 files pulled, 0 skipped. 19.9 MB/s (5144481 bytes in 0.247s)\n2026-11-07T02:05:53.7860120Z ##[error]The process '/usr/bin/sh' failed with exit code 1\n2026-11-07T02:05:53.7866443Z ##[group]Terminate Emulator\n2026-11-07T02:05:53.7870277Z [command]/home/runner/work/_temp/sakugapp-sdk/platform-tools/adb -s emulator-5554 emu kill\n2026-11-07T02:05:53.7901774Z OK: killing emulator, bye bye\n2026-11-07T02:05:53.7904286Z OK\n2026-11-07T02:05:53.7905074Z INFO         | Wait for emulator (pid 2684) 20 seconds to shutdown gracefully before kill;you can set environment variable ANDROID_EMULATOR_WAIT_TIME_BEFORE_KILL(in seconds) to change the default value (20 seconds)\n2026-11-07T02:05:53.7905737Z \n2026-11-07T02:05:53.7906151Z ##[endgroup]\n2026-11-07T02:06:02.5789622Z INFO         | Saving with gfxstream=1\n2026-11-07T02:06:02.8548512Z INFO         | Saving snapshot 'default_boot' took 9019 ms\n2026-11-07T02:06:03.4936455Z ERROR        | stop: Not implemented\n2026-11-07T02:06:03.4937195Z WARNING      | Emulator client has not yet been configured.. Call configure me first!\n2026-11-07T02:06:03.5153135Z INFO         | removeAll\n2026-11-07T02:06:03.5760905Z WARNING      | Netsim Wifi dns:///localhost:33141 is gone due to Stream removed (CANCELLED)\n2026-11-07T02:06:04.4042705Z ##[group]Run actions/upload-artifact@v4\n2026-11-07T02:06:04.4042930Z with:\n2026-11-07T02:06:04.4043074Z   name: v130-device-reports-35\n2026-11-07T02:06:04.4043384Z   path: app/build/outputs/androidTest-results/\napp/build/reports/androidTests/\napp/build/reports/ui-evidence/\n\n2026-11-07T02:06:04.4043694Z   if-no-files-found: warn\n2026-11-07T02:06:04.4043856Z   compression-level: 6\n2026-11-07T02:06:04.4044002Z   overwrite: false\n2026-11-07T02:06:04.4044150Z   include-hidden-files: false\n2026-11-07T02:06:04.4044308Z env:\n2026-11-07T02:06:04.4044630Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64\n2026-11-07T02:06:04.4044925Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64\n2026-11-07T02:06:04.4045156Z   MAVEN_ARGS: -ntp\n2026-11-07T02:06:04.4045326Z   ANDROID_HOME: /home/runner/work/_temp/sakugapp-sdk\n2026-11-07T02:06:04.4045552Z   ANDROID_SDK_ROOT: /home/runner/work/_temp/sakugapp-sdk\n2026-11-07T02:06:04.4045799Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle\n2026-11-07T02:06:04.4045995Z   GRADLE_USER_HOME: /home/runner/.gradle\n2026-11-07T02:06:04.4046177Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true\n2026-11-07T02:06:04.4046365Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true\n2026-11-07T02:06:04.4046630Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle\n2026-11-07T02:06:04.4046910Z   DEVELOCITY_INJECTION_CUSTOM_VALUE: gradle-actions\n2026-11-07T02:06:04.4047106Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false\n2026-11-07T02:06:04.4047291Z   ANDROID_AVD_HOME: /home/runner/.android/avd\n2026-11-07T02:06:04.4047471Z ##[endgroup]\n2026-11-07T02:06:04.7253581Z (node:3608) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.\n2026-11-07T02:06:04.7254064Z (Use `node --trace-deprecation ...` to show where the warning was created)\n2026-11-07T02:06:04.7411311Z Multiple search paths detected. Calculating the least common ancestor of all paths\n2026-11-07T02:06:04.7413112Z The least common ancestor is /home/runner/work/sakugapp/sakugapp/app/build. This will be the root directory of the artifact\n2026-11-07T02:06:04.7413700Z With the provided path, there will be 119 files uploaded\n2026-11-07T02:06:04.7417358Z Artifact name is valid!\n2026-11-07T02:06:04.7417697Z Root directory input is valid!\n2026-11-07T02:06:05.0837849Z Beginning upload of artifact content to blob storage\n2026-11-07T02:06:05.2663762Z (node:3608) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.\n2026-11-07T02:06:05.9315580Z Uploaded bytes 4972025\n2026-11-07T02:06:05.9862584Z Finished uploading artifact content to blob storage!\n2026-11-07T02:06:05.9863203Z SHA256 digest of uploaded artifact zip is fc9b80a3579cadaf421232630ce7e40ebed21c0a2506262439877cc0bf42c6a1\n2026-11-07T02:06:05.9864581Z Finalizing artifact upload\n2026-11-07T02:06:06.4257985Z Artifact v130-device-reports-35.zip successfully finalized. Artifact ID 13556186098\n2026-11-07T02:06:06.4259235Z Artifact v130-device-reports-35 has been successfully uploaded! Final size is 4972025 bytes. Artifact ID is 13556186098\n2026-11-07T02:06:06.4263350Z Artifact download URL: https://github.com/Milenal82/sakugapp/actions/runs/42326641580/artifacts/13556186098\n2026-11-07T02:06:06.4464110Z Post job cleanup.\n2026-11-07T02:06:06.6758404Z In post-action step\n2026-11-07T02:06:06.6764631Z Cache is read-only: will not save state for use in subsequent builds.\n2026-11-07T02:06:06.6768221Z Generating Job Summary\n2026-11-07T02:06:06.6784086Z Completed post-action step\n2026-11-07T02:06:06.6916829Z Post job cleanup.\n2026-11-07T02:06:06.7993072Z Post job cleanup.\n2026-11-07T02:06:06.8644845Z [command]/usr/bin/git version\n2026-11-07T02:06:06.8686896Z git version 2.56.0\n2026-11-07T02:06:06.8714930Z Temporarily overriding HOME='/home/runner/work/_temp/43da81eb-13d4-48ea-8f49-a5139d90fd02' before making global git config changes\n2026-11-07T02:06:06.8715638Z Adding repository directory to the temporary git global config as a safe directory\n2026-11-07T02:06:06.8719517Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/sakugapp/sakugapp\n2026-11-07T02:06:06.8766092Z [command]/usr/bin/git config --local --name-only --get-regexp core\\.sshCommand\n2026-11-07T02:06:06.8806459Z [command]/usr/bin/git submodule foreach --recursive sh -c \"git config --local --name-only --get-regexp 'core\\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\"\n2026-11-07T02:06:06.9081258Z [command]/usr/bin/git config --local --name-only --get-regexp http\\.https\\:\\/\\/github\\.com\\/\\.extraheader\n2026-11-07T02:06:06.9114012Z http.https://github.com/.extraheader\n2026-11-07T02:06:06.9128010Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader\n2026-11-07T02:06:06.9165069Z [command]/usr/bin/git submodule foreach --recursive sh -c \"git config --local --name-only --get-regexp 'http\\.https\\:\\/\\/github\\.com\\/\\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\"\n2026-11-07T02:06:06.9389274Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\\.gitdir:\n2026-11-07T02:06:06.9427171Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url\n2026-11-07T02:06:06.9765176Z Cleaning up orphan processes\n2026-11-07T02:06:07.0123801Z Terminate orphan process: pid (2788) (adb)\n2026-11-07T02:06:07.0226989Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/\n"
+      },
+      {
+        "name": "evidence",
+        "conclusion": null,
+        "started_at": "2026-11-07T02:06:12Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:06:12Z"
+          },
+          {
+            "name": "Run actions/checkout@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:06:13Z"
+          },
+          {
+            "name": "Run actions/download-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-07T02:06:14Z"
+          },
+          {
+            "name": "Read actual scoped and standard checks for this exact commit",
             "status": "in_progress",
             "conclusion": null,
-            "started_at": "2026-11-07T01:56:28Z"
+            "started_at": "2026-11-07T02:06:15Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
@@ -706,13 +835,7 @@
             "started_at": null
           },
           {
-            "name": "Post Run gradle/actions/setup-gradle@v5",
-            "status": "pending",
-            "conclusion": null,
-            "started_at": null
-          },
-          {
-            "name": "Post Run actions/setup-java@v5",
+            "name": "Keep original captures and bounded reports independently of app source",
             "status": "pending",
             "conclusion": null,
             "started_at": null
@@ -727,6 +850,10 @@
       }
     ],
     "artifacts": [
+      {
+        "name": "v130-device-reports-35",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42326641580/artifacts/13556186098"
+      },
       {
         "name": "v130-metadata",
         "url": "https://github.com/Milenal82/sakugapp/actions/runs/42326641580/artifacts/13556020967"
