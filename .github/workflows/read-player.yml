@@ -58,6 +58,11 @@ jobs:
                           for e in list(c.findall('failure'))+list(c.findall('error')):f.append({'test':c.get('classname')+'.'+c.get('name'),'message':(e.text or '')[:10000]})
                       result['reports'].append({'artifact':item['name'],'counts':root.attrib,'failures':f})
               output.append(result)
+          try:
+              release=json.loads(api('releases/tags/v1.3.0'))
+              output[0]['release']={'draft':release['draft'],'tag':release['tag_name'],'source':release['target_commitish'],'url':release['html_url'],'published_at':release['published_at'],'assets':[{'name':a['name'],'size':a['size'],'url':a['browser_download_url'],'digest':a.get('digest')}for a in release['assets']]}
+          except subprocess.CalledProcessError:
+              output[0]['release']={'published':False}
           pathlib.Path('/tmp/player-diagnostics.json').write_text(json.dumps(output,indent=2)+'\n')
           PY
       - name: Save diagnostics independently of product source
