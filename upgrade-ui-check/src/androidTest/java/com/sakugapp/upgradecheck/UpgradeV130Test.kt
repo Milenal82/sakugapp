@@ -52,10 +52,11 @@ class UpgradeV130Test {
     menu("settings");assertTrue(control(find(By.res("accent-mint"))).isChecked);assertTrue(control(find(By.desc("Light"))).isChecked)
     assertFalse(control(visible(By.desc("Wrap tags"))).isChecked)
     menu("search_home");click(By.res("nav-profile"));click(By.res("edit-nickname"))
-    find(By.clazz("android.widget.EditText")).text="Upgrade local profile";click(By.text("Save edit"));find(By.text("Upgrade local profile"))
+    find(By.clazz("android.widget.EditText")).text="Upgrade profile";click(By.text("Save edit"))
+    assertTrue(device.wait(Until.gone(By.clazz("android.widget.EditText")),10000));find(By.text("Upgrade profile"))
    }
    "restart"->{
-    menu("search_home");click(By.res("nav-profile"));find(By.text("Upgrade local profile"))
+    menu("search_home");click(By.res("nav-profile"));find(By.text("Upgrade profile"))
     menu("library");find(By.res("tag-favorites-entry"))
     menu("settings");assertTrue(control(find(By.res("accent-mint"))).isChecked);assertTrue(control(find(By.desc("Light"))).isChecked)
    }
