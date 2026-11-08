@@ -1,115 +1,12 @@
 [
   {
-    "run": "42460012528",
-    "sha": "0dcc1edb6b89d31d96eb226dcd0af117977e8930",
+    "run": "42460910586",
+    "sha": "c7f21b00edbe536e71289d01828120cb853f1b72",
     "status": "completed",
-    "conclusion": "success",
+    "conclusion": "failure",
     "jobs": [
       {
-        "id": 128667106639,
-        "name": "devices (35, pixel_c)",
-        "conclusion": "success",
-        "steps": [
-          {
-            "name": "Set up job",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 1,
-            "started_at": "2026-11-08T07:44:37Z",
-            "completed_at": "2026-11-08T07:44:40Z"
-          },
-          {
-            "name": "Run actions/checkout@v5",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 2,
-            "started_at": "2026-11-08T07:44:40Z",
-            "completed_at": "2026-11-08T07:44:42Z"
-          },
-          {
-            "name": "Run actions/setup-java@v5",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 3,
-            "started_at": "2026-11-08T07:44:42Z",
-            "completed_at": "2026-11-08T07:44:42Z"
-          },
-          {
-            "name": "Run ./scripts/ci-android-sdk.sh",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 4,
-            "started_at": "2026-11-08T07:44:42Z",
-            "completed_at": "2026-11-08T07:44:57Z"
-          },
-          {
-            "name": "Run gradle/actions/setup-gradle@v5",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 5,
-            "started_at": "2026-11-08T07:44:57Z",
-            "completed_at": "2026-11-08T07:45:05Z"
-          },
-          {
-            "name": "Run sudo chmod a+rw /dev/kvm",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 6,
-            "started_at": "2026-11-08T07:45:05Z",
-            "completed_at": "2026-11-08T07:45:05Z"
-          },
-          {
-            "name": "Run reactivecircus/android-emulator-runner@v2",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 7,
-            "started_at": "2026-11-08T07:45:05Z",
-            "completed_at": "2026-11-08T07:53:50Z"
-          },
-          {
-            "name": "Run actions/upload-artifact@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 8,
-            "started_at": "2026-11-08T07:53:50Z",
-            "completed_at": "2026-11-08T07:53:52Z"
-          },
-          {
-            "name": "Post Run gradle/actions/setup-gradle@v5",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 14,
-            "started_at": "2026-11-08T07:53:52Z",
-            "completed_at": "2026-11-08T07:53:53Z"
-          },
-          {
-            "name": "Post Run actions/setup-java@v5",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 15,
-            "started_at": "2026-11-08T07:53:53Z",
-            "completed_at": "2026-11-08T07:53:53Z"
-          },
-          {
-            "name": "Post Run actions/checkout@v5",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 16,
-            "started_at": "2026-11-08T07:53:53Z",
-            "completed_at": "2026-11-08T07:53:53Z"
-          },
-          {
-            "name": "Complete job",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 17,
-            "started_at": "2026-11-08T07:53:53Z",
-            "completed_at": "2026-11-08T07:53:53Z"
-          }
-        ]
-      },
-      {
-        "id": 128667106789,
+        "id": 128669803817,
         "name": "devices (28, Nexus S)",
         "conclusion": "success",
         "steps": [
@@ -118,101 +15,101 @@
             "status": "completed",
             "conclusion": "success",
             "number": 1,
-            "started_at": "2026-11-08T07:44:37Z",
-            "completed_at": "2026-11-08T07:44:40Z"
+            "started_at": "2026-11-08T07:58:11Z",
+            "completed_at": "2026-11-08T07:58:14Z"
           },
           {
             "name": "Run actions/checkout@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 2,
-            "started_at": "2026-11-08T07:44:40Z",
-            "completed_at": "2026-11-08T07:44:41Z"
+            "started_at": "2026-11-08T07:58:14Z",
+            "completed_at": "2026-11-08T07:58:15Z"
           },
           {
             "name": "Run actions/setup-java@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 3,
-            "started_at": "2026-11-08T07:44:41Z",
-            "completed_at": "2026-11-08T07:44:41Z"
+            "started_at": "2026-11-08T07:58:15Z",
+            "completed_at": "2026-11-08T07:58:15Z"
           },
           {
             "name": "Run ./scripts/ci-android-sdk.sh",
             "status": "completed",
             "conclusion": "success",
             "number": 4,
-            "started_at": "2026-11-08T07:44:41Z",
-            "completed_at": "2026-11-08T07:44:54Z"
+            "started_at": "2026-11-08T07:58:15Z",
+            "completed_at": "2026-11-08T07:58:26Z"
           },
           {
             "name": "Run gradle/actions/setup-gradle@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 5,
-            "started_at": "2026-11-08T07:44:54Z",
-            "completed_at": "2026-11-08T07:45:02Z"
+            "started_at": "2026-11-08T07:58:26Z",
+            "completed_at": "2026-11-08T07:58:33Z"
           },
           {
             "name": "Run sudo chmod a+rw /dev/kvm",
             "status": "completed",
             "conclusion": "success",
             "number": 6,
-            "started_at": "2026-11-08T07:45:02Z",
-            "completed_at": "2026-11-08T07:45:02Z"
+            "started_at": "2026-11-08T07:58:33Z",
+            "completed_at": "2026-11-08T07:58:33Z"
           },
           {
             "name": "Run reactivecircus/android-emulator-runner@v2",
             "status": "completed",
             "conclusion": "success",
             "number": 7,
-            "started_at": "2026-11-08T07:45:02Z",
-            "completed_at": "2026-11-08T07:50:47Z"
+            "started_at": "2026-11-08T07:58:33Z",
+            "completed_at": "2026-11-08T08:04:30Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
             "status": "completed",
             "conclusion": "success",
             "number": 8,
-            "started_at": "2026-11-08T07:50:47Z",
-            "completed_at": "2026-11-08T07:50:49Z"
+            "started_at": "2026-11-08T08:04:30Z",
+            "completed_at": "2026-11-08T08:04:32Z"
           },
           {
             "name": "Post Run gradle/actions/setup-gradle@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 14,
-            "started_at": "2026-11-08T07:50:49Z",
-            "completed_at": "2026-11-08T07:50:50Z"
+            "started_at": "2026-11-08T08:04:32Z",
+            "completed_at": "2026-11-08T08:04:32Z"
           },
           {
             "name": "Post Run actions/setup-java@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 15,
-            "started_at": "2026-11-08T07:50:50Z",
-            "completed_at": "2026-11-08T07:50:50Z"
+            "started_at": "2026-11-08T08:04:32Z",
+            "completed_at": "2026-11-08T08:04:32Z"
           },
           {
             "name": "Post Run actions/checkout@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 16,
-            "started_at": "2026-11-08T07:50:50Z",
-            "completed_at": "2026-11-08T07:50:50Z"
+            "started_at": "2026-11-08T08:04:32Z",
+            "completed_at": "2026-11-08T08:04:32Z"
           },
           {
             "name": "Complete job",
             "status": "completed",
             "conclusion": "success",
             "number": 17,
-            "started_at": "2026-11-08T07:50:50Z",
-            "completed_at": "2026-11-08T07:50:50Z"
+            "started_at": "2026-11-08T08:04:33Z",
+            "completed_at": "2026-11-08T08:04:33Z"
           }
         ]
       },
       {
-        "id": 128667106816,
+        "id": 128669803963,
         "name": "build",
         "conclusion": "success",
         "steps": [
@@ -221,127 +118,263 @@
             "status": "completed",
             "conclusion": "success",
             "number": 1,
-            "started_at": "2026-11-08T07:44:37Z",
-            "completed_at": "2026-11-08T07:44:40Z"
+            "started_at": "2026-11-08T07:58:10Z",
+            "completed_at": "2026-11-08T07:58:12Z"
           },
           {
             "name": "Run actions/checkout@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 2,
-            "started_at": "2026-11-08T07:44:40Z",
-            "completed_at": "2026-11-08T07:44:41Z"
+            "started_at": "2026-11-08T07:58:12Z",
+            "completed_at": "2026-11-08T07:58:13Z"
           },
           {
             "name": "Run actions/setup-java@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 3,
-            "started_at": "2026-11-08T07:44:41Z",
-            "completed_at": "2026-11-08T07:44:41Z"
+            "started_at": "2026-11-08T07:58:13Z",
+            "completed_at": "2026-11-08T07:58:13Z"
           },
           {
             "name": "Run ./scripts/ci-android-sdk.sh",
             "status": "completed",
             "conclusion": "success",
             "number": 4,
-            "started_at": "2026-11-08T07:44:41Z",
-            "completed_at": "2026-11-08T07:44:51Z"
+            "started_at": "2026-11-08T07:58:13Z",
+            "completed_at": "2026-11-08T07:58:22Z"
           },
           {
             "name": "Run gradle/actions/setup-gradle@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 5,
-            "started_at": "2026-11-08T07:44:51Z",
-            "completed_at": "2026-11-08T07:44:59Z"
+            "started_at": "2026-11-08T07:58:22Z",
+            "completed_at": "2026-11-08T07:58:27Z"
           },
           {
             "name": "Run python3 scripts/check-localization.py",
             "status": "completed",
             "conclusion": "success",
             "number": 6,
-            "started_at": "2026-11-08T07:44:59Z",
-            "completed_at": "2026-11-08T07:44:59Z"
+            "started_at": "2026-11-08T07:58:27Z",
+            "completed_at": "2026-11-08T07:58:28Z"
           },
           {
             "name": "Run ./gradlew --no-daemon testDebugUnitTest lintDebug assembleDebug",
             "status": "completed",
             "conclusion": "success",
             "number": 7,
-            "started_at": "2026-11-08T07:44:59Z",
-            "completed_at": "2026-11-08T07:47:50Z"
+            "started_at": "2026-11-08T07:58:28Z",
+            "completed_at": "2026-11-08T08:02:10Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
             "status": "completed",
             "conclusion": "success",
             "number": 8,
-            "started_at": "2026-11-08T07:47:50Z",
-            "completed_at": "2026-11-08T07:47:52Z"
+            "started_at": "2026-11-08T08:02:10Z",
+            "completed_at": "2026-11-08T08:02:12Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
             "status": "completed",
             "conclusion": "success",
             "number": 9,
-            "started_at": "2026-11-08T07:47:52Z",
-            "completed_at": "2026-11-08T07:47:54Z"
+            "started_at": "2026-11-08T08:02:12Z",
+            "completed_at": "2026-11-08T08:02:13Z"
           },
           {
             "name": "Post Run gradle/actions/setup-gradle@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 16,
-            "started_at": "2026-11-08T07:47:54Z",
-            "completed_at": "2026-11-08T07:47:54Z"
+            "started_at": "2026-11-08T08:02:13Z",
+            "completed_at": "2026-11-08T08:02:13Z"
           },
           {
             "name": "Post Run actions/setup-java@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 17,
-            "started_at": "2026-11-08T07:47:54Z",
-            "completed_at": "2026-11-08T07:47:54Z"
+            "started_at": "2026-11-08T08:02:13Z",
+            "completed_at": "2026-11-08T08:02:13Z"
           },
           {
             "name": "Post Run actions/checkout@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 18,
-            "started_at": "2026-11-08T07:47:54Z",
-            "completed_at": "2026-11-08T07:47:55Z"
+            "started_at": "2026-11-08T08:02:13Z",
+            "completed_at": "2026-11-08T08:02:14Z"
           },
           {
             "name": "Complete job",
             "status": "completed",
             "conclusion": "success",
             "number": 19,
-            "started_at": "2026-11-08T07:47:55Z",
-            "completed_at": "2026-11-08T07:47:55Z"
+            "started_at": "2026-11-08T08:02:14Z",
+            "completed_at": "2026-11-08T08:02:14Z"
+          }
+        ]
+      },
+      {
+        "id": 128669804116,
+        "name": "devices (35, pixel_c)",
+        "conclusion": "failure",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-08T07:58:11Z",
+            "completed_at": "2026-11-08T07:58:14Z"
+          },
+          {
+            "name": "Run actions/checkout@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-08T07:58:14Z",
+            "completed_at": "2026-11-08T07:58:15Z"
+          },
+          {
+            "name": "Run actions/setup-java@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-08T07:58:15Z",
+            "completed_at": "2026-11-08T07:58:16Z"
+          },
+          {
+            "name": "Run ./scripts/ci-android-sdk.sh",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-08T07:58:16Z",
+            "completed_at": "2026-11-08T07:58:26Z"
+          },
+          {
+            "name": "Run gradle/actions/setup-gradle@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-08T07:58:26Z",
+            "completed_at": "2026-11-08T07:58:33Z"
+          },
+          {
+            "name": "Run sudo chmod a+rw /dev/kvm",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-08T07:58:33Z",
+            "completed_at": "2026-11-08T07:58:33Z"
+          },
+          {
+            "name": "Run reactivecircus/android-emulator-runner@v2",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 7,
+            "started_at": "2026-11-08T07:58:33Z",
+            "completed_at": "2026-11-08T08:06:39Z"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-08T08:06:39Z",
+            "completed_at": "2026-11-08T08:06:41Z"
+          },
+          {
+            "name": "Post Run gradle/actions/setup-gradle@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-11-08T08:06:41Z",
+            "completed_at": "2026-11-08T08:06:42Z"
+          },
+          {
+            "name": "Post Run actions/setup-java@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-11-08T08:06:42Z",
+            "completed_at": "2026-11-08T08:06:42Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-11-08T08:06:42Z",
+            "completed_at": "2026-11-08T08:06:42Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-11-08T08:06:42Z",
+            "completed_at": "2026-11-08T08:06:42Z"
           }
         ]
       }
     ],
     "artifacts": [
       {
-        "name": "extension-build-reports",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42460012528/artifacts/13609446871"
-      },
-      {
-        "name": "extension-debug-apk",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42460012528/artifacts/13609323072"
-      },
-      {
         "name": "extension-device-reports-28",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42460012528/artifacts/13609268649"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42460910586/artifacts/13609941437"
       },
       {
         "name": "extension-device-reports-35",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42460012528/artifacts/13609234239"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42460910586/artifacts/13609816286"
+      },
+      {
+        "name": "extension-build-reports",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42460910586/artifacts/13609810879"
+      },
+      {
+        "name": "extension-debug-apk",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42460910586/artifacts/13608933905"
       }
     ],
     "reports": [
+      {
+        "artifact": "extension-device-reports-28",
+        "counts": {
+          "name": "com.sakugapp.DebugLinksDeviceTest",
+          "tests": "42",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0",
+          "time": "131.964",
+          "timestamp": "2026-11-08T08:04:25",
+          "hostname": "localhost"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-device-reports-35",
+        "counts": {
+          "name": "com.sakugapp.DebugLinksDeviceTest",
+          "tests": "42",
+          "failures": "1",
+          "errors": "0",
+          "skipped": "0",
+          "time": "262.616",
+          "timestamp": "2026-11-08T08:06:32",
+          "hostname": "localhost"
+        },
+        "failures": [
+          {
+            "test": "com.sakugapp.DebugLinksDeviceTest.sixEqualActionsKeepFixedHeightAndFavoriteAndGuestVoteWork",
+            "message": "java.lang.AssertionError: expected:<1162.0> but was:<1352.0>\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.failNotEquals(Assert.java:835)\nat org.junit.Assert.assertEquals(Assert.java:577)\nat org.junit.Assert.assertEquals(Assert.java:701)\nat com.sakugapp.DebugLinksDeviceTest.sixEqualActionsKeepFixedHeightAndFavoriteAndGuestVoteWork(DebugLinksDeviceTest.kt:48)\n"
+          }
+        ]
+      },
       {
         "artifact": "extension-build-reports",
         "counts": {
@@ -350,23 +383,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:23.117Z",
+          "timestamp": "2026-11-08T08:00:21.281Z",
           "hostname": "runnervm7aw5e",
-          "time": "3.122"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "extension-build-reports",
-        "counts": {
-          "name": "com.sakugapp.BackupImportTest",
-          "tests": "8",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-08T07:46:26.246Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.289"
+          "time": "3.627"
         },
         "failures": []
       },
@@ -378,9 +397,23 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:26.540Z",
+          "timestamp": "2026-11-08T08:00:25.287Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.052"
+          "time": "0.08"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.BackupImportTest",
+          "tests": "8",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T08:00:24.914Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.364"
         },
         "failures": []
       },
@@ -392,9 +425,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:26.593Z",
+          "timestamp": "2026-11-08T08:00:25.373Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.152"
+          "time": "0.172"
         },
         "failures": []
       },
@@ -406,9 +439,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:26.748Z",
+          "timestamp": "2026-11-08T08:00:25.548Z",
           "hostname": "runnervm7aw5e",
-          "time": "14.434"
+          "time": "14.476"
         },
         "failures": []
       },
@@ -420,9 +453,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:41.184Z",
+          "timestamp": "2026-11-08T08:00:40.031Z",
           "hostname": "runnervm7aw5e",
-          "time": "9.113"
+          "time": "9.121"
         },
         "failures": []
       },
@@ -434,7 +467,7 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:50.304Z",
+          "timestamp": "2026-11-08T08:00:49.157Z",
           "hostname": "runnervm7aw5e",
           "time": "0.012"
         },
@@ -448,9 +481,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:50.322Z",
+          "timestamp": "2026-11-08T08:00:49.174Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.014"
+          "time": "0.013"
         },
         "failures": []
       },
@@ -462,9 +495,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:50.341Z",
+          "timestamp": "2026-11-08T08:00:49.192Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.086"
+          "time": "0.09"
         },
         "failures": []
       },
@@ -476,9 +509,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:50.431Z",
+          "timestamp": "2026-11-08T08:00:49.288Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.079"
+          "time": "0.102"
         },
         "failures": []
       },
@@ -490,9 +523,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:50.511Z",
+          "timestamp": "2026-11-08T08:00:49.391Z",
           "hostname": "runnervm7aw5e",
-          "time": "1.724"
+          "time": "1.692"
         },
         "failures": []
       },
@@ -504,9 +537,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:52.240Z",
+          "timestamp": "2026-11-08T08:00:51.084Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.063"
+          "time": "0.109"
         },
         "failures": []
       },
@@ -518,23 +551,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:52.305Z",
+          "timestamp": "2026-11-08T08:00:51.200Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.021"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "extension-build-reports",
-        "counts": {
-          "name": "com.sakugapp.FullThemeTest",
-          "tests": "3",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-08T07:46:52.328Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.01"
+          "time": "0.032"
         },
         "failures": []
       },
@@ -546,9 +565,23 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:52.340Z",
+          "timestamp": "2026-11-08T08:00:51.258Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.01"
+          "time": "0.034"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.FullThemeTest",
+          "tests": "3",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T08:00:51.237Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.014"
         },
         "failures": []
       },
@@ -560,9 +593,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:52.351Z",
+          "timestamp": "2026-11-08T08:00:51.296Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.025"
+          "time": "0.042"
         },
         "failures": []
       },
@@ -574,9 +607,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:52.380Z",
+          "timestamp": "2026-11-08T08:00:51.350Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.004"
+          "time": "0.001"
         },
         "failures": []
       },
@@ -588,9 +621,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:52.386Z",
+          "timestamp": "2026-11-08T08:00:51.358Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.151"
+          "time": "0.196"
         },
         "failures": []
       },
@@ -602,9 +635,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:52.539Z",
+          "timestamp": "2026-11-08T08:00:51.558Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.037"
+          "time": "0.018"
         },
         "failures": []
       },
@@ -616,9 +649,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:52.578Z",
+          "timestamp": "2026-11-08T08:00:51.577Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.001"
+          "time": "0.002"
         },
         "failures": []
       },
@@ -630,9 +663,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:52.585Z",
+          "timestamp": "2026-11-08T08:00:51.581Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.016"
+          "time": "0.004"
         },
         "failures": []
       },
@@ -644,9 +677,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:52.602Z",
+          "timestamp": "2026-11-08T08:00:51.587Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.158"
+          "time": "0.197"
         },
         "failures": []
       },
@@ -658,9 +691,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:52.763Z",
+          "timestamp": "2026-11-08T08:00:51.794Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.02"
+          "time": "0.045"
         },
         "failures": []
       },
@@ -672,9 +705,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:52.786Z",
+          "timestamp": "2026-11-08T08:00:51.849Z",
           "hostname": "runnervm7aw5e",
-          "time": "6.601"
+          "time": "6.522"
         },
         "failures": []
       },
@@ -686,9 +719,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:46:59.389Z",
+          "timestamp": "2026-11-08T08:00:58.376Z",
           "hostname": "runnervm7aw5e",
-          "time": "25.36"
+          "time": "25.363"
         },
         "failures": []
       },
@@ -700,9 +733,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:47:24.750Z",
+          "timestamp": "2026-11-08T08:01:23.744Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.015"
+          "time": "0.045"
         },
         "failures": []
       },
@@ -714,37 +747,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T07:47:24.766Z",
+          "timestamp": "2026-11-08T08:01:23.793Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.095"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "extension-device-reports-28",
-        "counts": {
-          "name": "com.sakugapp.DebugLinksDeviceTest",
-          "tests": "41",
-          "failures": "0",
-          "errors": "0",
-          "skipped": "0",
-          "time": "128.946",
-          "timestamp": "2026-11-08T07:50:42",
-          "hostname": "localhost"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "extension-device-reports-35",
-        "counts": {
-          "name": "com.sakugapp.DebugLinksDeviceTest",
-          "tests": "41",
-          "failures": "0",
-          "errors": "0",
-          "skipped": "0",
-          "time": "294.138",
-          "timestamp": "2026-11-08T07:53:41",
-          "hostname": "localhost"
+          "time": "0.108"
         },
         "failures": []
       }
