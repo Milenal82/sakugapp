@@ -1,4 +1,4 @@
-name: Performance diagnosis — Debug only
+name: Debug checks and paired performance
 on:
   push:
     branches: [dev/performance-navigation]
@@ -9,13 +9,15 @@ permissions:
 concurrency:
   group: performance-${{ github.ref_name }}-${{ github.sha }}
   cancel-in-progress: true
+env:
+  PERF_COMPARE: ${{ github.event_name == 'workflow_dispatch' }}
 jobs:
   build:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
         with:
-          fetch-depth: 0
+          fetch-depth: 1
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
@@ -35,7 +37,9 @@ jobs:
             app/build/outputs/apk/debug/app-debug.apk
             app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
       - run: bash scripts/build-performance-baseline.sh
+        if: env.PERF_COMPARE == 'true'
       - uses: actions/upload-artifact@v4
+        if: env.PERF_COMPARE == 'true'
         with:
           name: performance-baseline-instrumented
           path: app/build/performance-baseline/*.apk
@@ -65,6 +69,7 @@ jobs:
           name: performance-current-instrumented
           path: ${{ runner.temp }}/perf-input/current
       - uses: actions/download-artifact@v4
+        if: env.PERF_COMPARE == 'true'
         with:
           name: performance-baseline-instrumented
           path: ${{ runner.temp }}/perf-input/baseline
@@ -72,7 +77,7 @@ jobs:
         run: |
           mkdir -p "${{ runner.temp }}/perf-apks/current" "${{ runner.temp }}/perf-apks/baseline"
           find "${{ runner.temp }}/perf-input/current" -name '*.apk' -exec cp {} "${{ runner.temp }}/perf-apks/current/" \;
-          find "${{ runner.temp }}/perf-input/baseline" -name '*.apk' -exec cp {} "${{ runner.temp }}/perf-apks/baseline/" \;
+          if [ "$PERF_COMPARE" = true ]; then find "${{ runner.temp }}/perf-input/baseline" -name '*.apk' -exec cp {} "${{ runner.temp }}/perf-apks/baseline/" \;; fi
       - run: sudo chmod a+rw /dev/kvm
       - uses: reactivecircus/android-emulator-runner@v2
         env:
@@ -89,11 +94,9 @@ jobs:
             adb shell settings put global transition_animation_scale 1
             adb shell settings put global window_animation_scale 1
             if [ "${{ matrix.api }}" = "35" ]; then adb shell wm size 1280x900; adb shell wm density 160; fi
-            bash scripts/run-performance-profile.sh || touch /tmp/sakugapp-profile-failed
+            if [ "$PERF_COMPARE" = true ]; then bash scripts/run-performance-profile.sh || touch /tmp/sakugapp-profile-failed; fi
             adb install -r -t "$PERF_APK_ROOT/current/app-debug.apk"
             adb install -r -t "$PERF_APK_ROOT/current/app-debug-androidTest.apk"
-            adb shell wm size reset
-            adb shell wm density reset
             bash scripts/run-device-instrumentation.sh com.sakugapp.NavigationPerformanceDeviceTest app/build/reports/performance/runner-navigation.log || touch /tmp/sakugapp-navigation-failed
             adb shell settings put global animator_duration_scale 0
             adb shell settings put global transition_animation_scale 0
