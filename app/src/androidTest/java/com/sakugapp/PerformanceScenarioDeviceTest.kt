@@ -64,6 +64,22 @@ class PerformanceScenarioDeviceTest {
         return mapOf("init" to events.count{it.groupValues[1]=="Init"},"release" to events.count{it.groupValues[1]=="Release"},"unreleased_ids" to live.toList())
     }
     private fun bounds(tag:String)=device.findObject(By.res(tag))?.visibleBounds?.let{listOf(it.left,it.top,it.right,it.bottom)}
+    private fun visiblePostIds():List<Long>{
+        // UiDevice.findObjects waits for accessibility idle; that inserts ~1 s between fast
+        // swipes and artificially starts automatic previews. Read a bounded snapshot instead.
+        val pending=java.util.ArrayDeque<AccessibilityNodeInfo>()
+        instrumentation.uiAutomation.rootInActiveWindow?.let{pending.add(it)}
+        val ids=mutableListOf<Long>()
+        var inspected=0
+        while(pending.isNotEmpty()){
+            val item=pending.removeFirst()
+            try{if(inspected++<1000){
+                if(item.isVisibleToUser)item.viewIdResourceName?.substringAfterLast("post-media-","")?.toLongOrNull()?.let(ids::add)
+                repeat(item.childCount){index->item.getChild(index)?.let{pending.add(it)}}
+            }}finally{@Suppress("DEPRECATION") item.recycle()}
+        }
+        return ids
+    }
     private fun top(){
         // Android accessibility scroll-to-position, followed by a bounded native-gesture fallback.
         val grid=instrumentation.uiAutomation.rootInActiveWindow?.findAccessibilityNodeInfosByViewId("post-grid")?.firstOrNull()
@@ -169,7 +185,7 @@ class PerformanceScenarioDeviceTest {
                 var towardEnd=true
                 val result=measure("scroll-$count-auto-$auto"){
                     repeat(24){step->
-                        val visible=device.findObjects(By.res(java.util.regex.Pattern.compile(".*post-media-[0-9]+"))).mapNotNull{runCatching{it.resourceName.substringAfterLast("post-media-").toLongOrNull()}.getOrNull()}
+                        val visible=visiblePostIds()
                         if(visible.any{it in nearTopIds})towardEnd=true else if(visible.any{it in nearEndIds})towardEnd=false
                         directions+=if(towardEnd)"down"else"up"
                         val first=if(towardEnd)device.displayHeight*4/5 else device.displayHeight/4
