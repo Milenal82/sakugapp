@@ -1,4 +1,4 @@
-name: Read Debug-only diagnostics
+name: Read Debug performance evidence
 on:
   push:
     branches: [ci/player-tools-audit]
@@ -10,34 +10,42 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
-      - name: Read only Debug reports
+      - name: Read only performance Debug jobs and reports
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          python3 - <<'PYCODE'
-          import subprocess,json,zipfile,io,xml.etree.ElementTree as E,pathlib
+          python3 - <<'PY'
+          import subprocess,json,zipfile,io,xml.etree.ElementTree as E,pathlib,collections,re
           repo='Milenal82/sakugapp'
           def api(p):return subprocess.check_output(['gh','api',f'repos/{repo}/'+p])
           results=[]
-          for run in ['42461859892']:
+          for run in ['42484005709']:
               meta=json.loads(api('actions/runs/'+run))
-              assert meta['path']=='.github/workflows/debug-only.yml' and meta['head_branch']=='dev/debug-actions-grid-artist'
-              result={'run':run,'sha':meta['head_sha'],'status':meta['status'],'conclusion':meta['conclusion'],'jobs':[],'artifacts':[],'reports':[]}
+              assert meta['path']=='.github/workflows/performance-debug.yml' and meta['head_branch']=='dev/performance-navigation'
+              result={'run':run,'sha':meta['head_sha'],'status':meta['status'],'conclusion':meta['conclusion'],'jobs':[],'artifacts':[],'reports':[],'profiles':[]}
               for job in json.loads(api(f'actions/runs/{run}/jobs?per_page=100'))['jobs']:
                   info={'id':job['id'],'name':job['name'],'conclusion':job['conclusion'],'steps':job['steps']}
                   if job['conclusion']=='failure':
-                      try:info['errors']=api(f'actions/jobs/{job["id"]}/logs').decode(errors='replace')[-26000:]
+                      try:info['errors']=api(f'actions/jobs/{job["id"]}/logs').decode(errors='replace')[-18000:]
                       except Exception:pass
                   result['jobs'].append(info)
               for item in json.loads(api(f'actions/runs/{run}/artifacts?per_page=100'))['artifacts']:
                   result['artifacts'].append({'name':item['name'],'url':f'https://github.com/{repo}/actions/runs/{run}/artifacts/{item["id"]}'})
-                  if 'reports' not in item['name'] or item['size_in_bytes']>64*1024*1024:continue
+                  if 'apk' in item['name'] or item['size_in_bytes']>128*1024*1024:continue
                   archive=zipfile.ZipFile(io.BytesIO(api(f'actions/artifacts/{item["id"]}/zip')))
                   for p in archive.infolist():
                       name=pathlib.PurePosixPath(p.filename).name
-                      if p.file_size>4*1024*1024:continue
-                      if name.startswith('debug-') and name.endswith('.png'):
-                          dest=pathlib.Path('/tmp/debug-captures')/(item['name']+'-'+name);dest.parent.mkdir(exist_ok=True);dest.write_bytes(archive.read(p))
+                      if p.file_size>16*1024*1024:continue
+                      if name.startswith('perf-') and name.endswith('.json'):
+                          result['profiles'].append({'artifact':item['name'],'path':p.filename,'data':json.loads(archive.read(p))})
+                      if name.startswith('perf-') and name.endswith('.atrace'):
+                          raw=archive.read(p).decode(errors='replace')
+                          markers=collections.Counter(re.findall(r'tracing_mark_write: B\|\d+\|([^\n]+)',raw))
+                          result.setdefault('traces',[]).append({'artifact':item['name'],'path':p.filename,'bytes':p.file_size,'frequent_slices':markers.most_common(30)})
+                      if name.startswith('perf-') and name.endswith(('-middle.png','-after.png')):
+                          parts=pathlib.PurePosixPath(p.filename)
+                          if parts.is_absolute() or '..' in parts.parts:continue
+                          dest=pathlib.Path('/tmp/performance-evidence')/run/item['name']/parts;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(archive.read(p))
                       if name.startswith('TEST-') and name.endswith('.xml'):
                           root=E.fromstring(archive.read(p));failures=[]
                           for c in root.iter('testcase'):
@@ -46,17 +54,17 @@ jobs:
                       if name.startswith('lint-results-') and name.endswith('.xml'):
                           lint=E.fromstring(archive.read(p));result['lint']={'errors':sum(i.get('severity') in ['Error','Fatal'] for i in lint.findall('issue')),'warnings':sum(i.get('severity')=='Warning' for i in lint.findall('issue'))}
               results.append(result)
-          pathlib.Path('/tmp/debug-diagnostics.json').write_text(json.dumps(results,indent=2)+'\n')
-          PYCODE
-      - name: Save Debug evidence on isolated branch
+          pathlib.Path('/tmp/performance-report.json').write_text(json.dumps(results,indent=2)+'\n')
+          PY
+      - name: Save read-only diagnostics on isolated evidence branch
         run: |
           git fetch origin evidence/player-diagnostics:refs/remotes/origin/evidence/player-diagnostics
           git switch -c diagnostics origin/evidence/player-diagnostics
-          cp /tmp/debug-diagnostics.json debug-report.json
-          if [ -d /tmp/debug-captures ]; then cp -r /tmp/debug-captures screenshots-debug; fi
+          cp /tmp/performance-report.json performance-report.json
+          mkdir -p performance-evidence
+          if [ -d /tmp/performance-evidence ]; then cp -r /tmp/performance-evidence/. performance-evidence/; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add debug-report.json
-          if [ -d screenshots-debug ]; then git add screenshots-debug; fi
-          git commit -m 'Read Debug-only reports' || true
+          git add performance-report.json performance-evidence
+          git commit -m 'Read Debug performance evidence' || true
           git push origin HEAD:refs/heads/evidence/player-diagnostics
