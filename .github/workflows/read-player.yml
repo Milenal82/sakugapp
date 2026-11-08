@@ -46,19 +46,19 @@ jobs:
                   result.append(dict(phase=name,start_s=start,end_s=end,slices=sorted(records,key=lambda r:-r['total_ms'])[:35]))
               return dict(phase_count=len(phases),completed_main_render_slices=len(spans),phases=result,definition='Wall durations of complete app-pid tracing slices inside measurement markers; nested durations overlap, not CPU time or scheduler blocked-time')
           results=[]
-          for run in ['42489442316']:
+          for run in ['42489442316', '42489882792']:
               meta=json.loads(api('actions/runs/'+run))
               assert meta['path']=='.github/workflows/performance-debug.yml' and meta['head_branch']=='dev/performance-navigation'
               result={'run':run,'sha':meta['head_sha'],'status':meta['status'],'conclusion':meta['conclusion'],'jobs':[],'artifacts':[],'reports':[],'profiles':[]}
               for job in json.loads(api(f'actions/runs/{run}/jobs?per_page=100'))['jobs']:
                   info={'id':job['id'],'name':job['name'],'conclusion':job['conclusion'],'steps':job['steps']}
-                  if job['conclusion'] in ['success','failure'] and job['name'].startswith('profile'):
+                  if job['name'].startswith('profile'):
                       try:
                           log=api(f'actions/jobs/{job["id"]}/logs').decode(errors='replace')
                           info['errors']=log[-18000:] if job['conclusion']=='failure' else ''
                           for match in re.finditer(r'PERFORMANCE_REPORT (\{[^\n]+\})',log):
                               result['profiles'].append({'artifact':'job-log','path':str(job['id']),'data':json.loads(match.group(1))})
-                      except Exception:pass
+                      except Exception as e:info['log_status']=str(e)[-500:]
                   result['jobs'].append(info)
               for item in json.loads(api(f'actions/runs/{run}/artifacts?per_page=100'))['artifacts']:
                   result['artifacts'].append({'name':item['name'],'url':f'https://github.com/{repo}/actions/runs/{run}/artifacts/{item["id"]}'})
