@@ -99,10 +99,11 @@ jobs:
                           peer=p.filename.rsplit('/',1)[0]+'/'+name.replace('-scroll.atrace','.json')
                           pid=json.loads(archive.read(peer)).get('pid') if peer in archive.namelist() else None
                           result.setdefault('traces',[]).append({'artifact':item['name'],'path':p.filename,'bytes':p.file_size,'frequent_slices':markers.most_common(30),'analysis':summarize_trace(raw,pid)})
-                      if name.startswith('perf-') and name.endswith(('-middle.png','-after.png')):
+                      if (name.startswith('perf-') and name.endswith(('-middle.png','-after.png'))) or name=='reset-failed.png':
                           parts=pathlib.PurePosixPath(p.filename)
                           if parts.is_absolute() or '..' in parts.parts:continue
                           dest=pathlib.Path('/tmp/performance-evidence')/run/item['name']/parts;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(archive.read(p))
+                      if name=='reset-failed.xml':result.setdefault('reset_hierarchies',[]).append({'artifact':item['name'],'path':p.filename,'xml':archive.read(p).decode(errors='replace')[:60000]})
                       if name.startswith('TEST-') and name.endswith('.xml'):
                           raw=archive.read(p).decode(errors='replace')
                           if name.startswith('runner-'):
