@@ -15,9 +15,36 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           python3 - <<'PY'
-          import subprocess,json,zipfile,io,xml.etree.ElementTree as E,pathlib,collections,re
+          import subprocess,json,zipfile,io,xml.etree.ElementTree as E,pathlib,collections,re,statistics
           repo='Milenal82/sakugapp'
           def api(p):return subprocess.check_output(['gh','api',f'repos/{repo}/'+p])
+
+          def summarize_trace(raw,app_pid):
+              stack=collections.defaultdict(list);spans=[];phases=[]
+              line_re=re.compile(r'^\s*(.*?)\s*-(\d+)\s+.*?\s(\d+\.\d+):\s+tracing_mark_write:\s*(.*)$')
+              for line in raw.splitlines():
+                  m=line_re.match(line)
+                  if not m:continue
+                  thread,tid,stamp,event=m.groups();tid=int(tid);stamp=float(stamp)
+                  if event.startswith('B|'):
+                      parts=event.split('|',2)
+                      if len(parts)==3:stack[tid].append((stamp,parts[2],int(parts[1]),thread))
+                  elif event.startswith('E') and stack[tid]:
+                      start,name,pid,thread=stack[tid].pop()
+                      if name.startswith('sakugapp:'):phases.append((start,stamp,name))
+                      elif pid==app_pid and (tid==app_pid or 'RenderThread' in thread):
+                          spans.append((start,stamp,re.sub(r'\s+\d.*$','',name),'main' if tid==app_pid else 'RenderThread'))
+              result=[]
+              for start,end,name in phases:
+                  groups=collections.defaultdict(list)
+                  for s,e,n,role in spans:
+                      if start<=s<=e<=end:groups[(role,n)].append((e-s)*1000)
+                  records=[]
+                  for (role,n),values in groups.items():
+                      values.sort()
+                      records.append(dict(thread=role,slice=n,count=len(values),total_ms=round(sum(values),2),p50_ms=round(statistics.median(values),3),p95_ms=round(values[min(len(values)-1,int(len(values)*.95))],3),max_ms=round(values[-1],3)))
+                  result.append(dict(phase=name,start_s=start,end_s=end,slices=sorted(records,key=lambda r:-r['total_ms'])[:35]))
+              return dict(phase_count=len(phases),completed_main_render_slices=len(spans),phases=result,definition='Wall durations of complete app-pid tracing slices inside measurement markers; nested durations overlap, not CPU time or scheduler blocked-time')
           results=[]
           for run in ['42489442316']:
               meta=json.loads(api('actions/runs/'+run))
@@ -40,7 +67,7 @@ jobs:
                   for p in archive.infolist():
                       name=pathlib.PurePosixPath(p.filename).name
                       if 'build' not in item['name']:result.setdefault('files',[]).append(p.filename)
-                      if p.file_size>16*1024*1024:continue
+                      if p.file_size>16*1024*1024 and not (name.endswith('.atrace') and p.file_size<=96*1024*1024):continue
                       if name.endswith(('.txt','.log')) and p.file_size<8*1024*1024:
                           raw=archive.read(p).decode(errors='replace')
                           if name.startswith('logcat'):
@@ -63,7 +90,9 @@ jobs:
                       if name.startswith('perf-') and name.endswith('.atrace'):
                           raw=archive.read(p).decode(errors='replace')
                           markers=collections.Counter(re.findall(r'tracing_mark_write: B\|\d+\|([^\n]+)',raw))
-                          result.setdefault('traces',[]).append({'artifact':item['name'],'path':p.filename,'bytes':p.file_size,'frequent_slices':markers.most_common(30)})
+                          peer=p.filename.rsplit('/',1)[0]+'/'+name.replace('-scroll.atrace','.json')
+                          pid=json.loads(archive.read(peer)).get('pid') if peer in archive.namelist() else None
+                          result.setdefault('traces',[]).append({'artifact':item['name'],'path':p.filename,'bytes':p.file_size,'frequent_slices':markers.most_common(30),'analysis':summarize_trace(raw,pid)})
                       if name.startswith('perf-') and name.endswith(('-middle.png','-after.png')):
                           parts=pathlib.PurePosixPath(p.filename)
                           if parts.is_absolute() or '..' in parts.parts:continue
