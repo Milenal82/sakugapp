@@ -103,7 +103,7 @@
       {
         "id": 128667106789,
         "name": "devices (28, Nexus S)",
-        "conclusion": null,
+        "conclusion": "success",
         "steps": [
           {
             "name": "Set up job",
@@ -155,43 +155,51 @@
           },
           {
             "name": "Run reactivecircus/android-emulator-runner@v2",
-            "status": "in_progress",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 7,
             "started_at": "2026-11-08T07:45:02Z",
-            "completed_at": null
+            "completed_at": "2026-11-08T07:50:47Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 8,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-11-08T07:50:47Z",
+            "completed_at": "2026-11-08T07:50:49Z"
           },
           {
             "name": "Post Run gradle/actions/setup-gradle@v5",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 14,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-11-08T07:50:49Z",
+            "completed_at": "2026-11-08T07:50:50Z"
           },
           {
             "name": "Post Run actions/setup-java@v5",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 15,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-11-08T07:50:50Z",
+            "completed_at": "2026-11-08T07:50:50Z"
           },
           {
             "name": "Post Run actions/checkout@v5",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 16,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-11-08T07:50:50Z",
+            "completed_at": "2026-11-08T07:50:50Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-11-08T07:50:50Z",
+            "completed_at": "2026-11-08T07:50:50Z"
           }
         ]
       },
@@ -315,6 +323,10 @@
       {
         "name": "extension-debug-apk",
         "url": "https://github.com/Milenal82/sakugapp/actions/runs/42460012528/artifacts/13609323072"
+      },
+      {
+        "name": "extension-device-reports-28",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42460012528/artifacts/13609268649"
       }
     ],
     "reports": [
@@ -693,6 +705,20 @@
           "timestamp": "2026-11-08T07:47:24.766Z",
           "hostname": "runnervm7aw5e",
           "time": "0.095"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-device-reports-28",
+        "counts": {
+          "name": "com.sakugapp.DebugLinksDeviceTest",
+          "tests": "41",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0",
+          "time": "128.946",
+          "timestamp": "2026-11-08T07:50:42",
+          "hostname": "localhost"
         },
         "failures": []
       }
