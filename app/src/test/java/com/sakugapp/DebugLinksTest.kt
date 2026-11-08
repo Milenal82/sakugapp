@@ -103,4 +103,15 @@ class DebugLinksTest {
         assertNull(model.selected.value);assertEquals("artist_a",model.state.value.query)
     }
 
+    @Test fun detailReturnUsesPagesLoadedAfterTheDetailWasFirstOpened()=runTest(dispatcher){
+        var requests=0
+        val repo=object:PostRepository{override val pageSize=2;override suspend fun page(query:String,page:Int):PostPage{requests++;return PostPage(listOf(post(page*2L-1),post(page*2L)),2)}}
+        val model=FeedViewModel(SavedStateHandle(),repo);advanceUntilIdle()
+        val first=model.beginSearch("artist_a");advanceUntilIdle();model.open(model.state.value.posts.last());val detail=model.captureDetail()
+        model.loadMore();advanceUntilIdle();model.beginSearch("artist_b");advanceUntilIdle();val before=requests
+        model.restoreDetail(3,detail)
+        assertEquals(3L,model.selected.value!!.id);assertEquals(2L,model.adjacent(-1)!!.id);assertEquals(4L,model.adjacent(1)!!.id)
+        assertEquals(before,requests);model.activateSearch(first,"artist_a");assertEquals(4,model.state.value.posts.size)
+    }
+
 }

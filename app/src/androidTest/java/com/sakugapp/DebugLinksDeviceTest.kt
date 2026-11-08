@@ -41,10 +41,12 @@ class DebugLinksDeviceTest {
         try{
             for(light in listOf(false,true))for(scale in listOf(.75f,1.25f)){
                 ui.runOnUiThread{app=AppViewModel(ui.activity.application);ui.activity.setContent{SakugappTheme(light,scale){Surface(Modifier.fillMaxSize().systemBarsPadding()){PostDetail(post,AppSettings(fontScale=scale),false,app,false,{},{},{login++},{},{},false,true,{true})}}}}
+                ui.waitUntil(20000){ui.onAllNodesWithContentDescription(ui.activity.getString(R.string.ui_video_frame_rendered)).fetchSemanticsNodes().isNotEmpty()}
                 ui.onNodeWithTag("detail-actions").performScrollTo()
                 val tags=listOf("previous-post","next-post","vote-icon","favorite-action","share-post","download-video")
-                val bounds=tags.map{ui.onNodeWithTag(it).fetchSemanticsNode().boundsInRoot}
-                val bar=ui.onNodeWithTag("detail-actions").fetchSemanticsNode().boundsInRoot
+                val nodes=tags.map{ui.onNodeWithTag(it).fetchSemanticsNode()}
+                val toolbar=ui.onNodeWithTag("detail-actions").fetchSemanticsNode()
+                val (bounds,bar)=ui.runOnIdle{nodes.map{it.boundsInRoot} to toolbar.boundsInRoot}
                 bounds.zipWithNext().forEach{(a,b)->assertEquals(a.top,b.top,1f);assertTrue(a.right<=b.left+1f)}
                 bounds.forEach{assertTrue(it.width>=with(ui.density){48.dp.toPx()}-1);assertTrue(it.left>=bar.left-1 && it.right<=bar.right+1)}
                 ui.onNodeWithTag("previous-post").assertIsNotEnabled();ui.onNodeWithTag("next-post").assertIsEnabled()

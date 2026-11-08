@@ -101,8 +101,14 @@ class FeedViewModel @JvmOverloads constructor(
     }
     fun restoreDetail(id:Long,token:String?){
         val context=token?.let{detailContexts[it]}
-        val cached=context?.posts?.firstOrNull{it.id==id}
-        if(cached!=null){select(cached);localSequence=if(!context.local && context.session==_resultSession.value)null else context.posts;detailIsLocal=context.local}
+        val source=context?.let{snapshot->
+            if(snapshot.local)snapshot.posts
+            else if(snapshot.session==_resultSession.value)_state.value.posts
+            else if(snapshot.session==null)browseSnapshot?.posts ?: snapshot.posts
+            else results[snapshot.session]?.posts ?: snapshot.posts
+        }
+        val cached=source?.firstOrNull{it.id==id}
+        if(cached!=null && context!=null){select(cached);localSequence=if(!context.local && context.session==_resultSession.value)null else source;detailIsLocal=context.local}
         else if(_selected.value?.id!=id)openId(id)
     }
     private var detailIsLocal=false
