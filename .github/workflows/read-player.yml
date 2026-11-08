@@ -5,6 +5,9 @@ on:
 permissions:
   contents: write
   actions: read
+concurrency:
+  group: performance-evidence-reader
+  cancel-in-progress: true
 jobs:
   read:
     runs-on: ubuntu-24.04
@@ -62,7 +65,7 @@ jobs:
                   result['jobs'].append(info)
               for item in json.loads(api(f'actions/runs/{run}/artifacts?per_page=100'))['artifacts']:
                   result['artifacts'].append({'name':item['name'],'url':f'https://github.com/{repo}/actions/runs/{run}/artifacts/{item["id"]}'})
-                  if 'apk' in item['name'] or item['size_in_bytes']>128*1024*1024:continue
+                  if 'apk' in item['name'] or 'instrumented' in item['name'] or item['size_in_bytes']>128*1024*1024:continue
                   archive=zipfile.ZipFile(io.BytesIO(api(f'actions/artifacts/{item["id"]}/zip')))
                   for p in archive.infolist():
                       name=pathlib.PurePosixPath(p.filename).name
