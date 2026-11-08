@@ -4,7 +4,7 @@ on:
     branches: [ci/player-tools-audit]
 permissions:
   contents: write
-  actions: write
+  actions: read
 jobs:
   read:
     runs-on: ubuntu-24.04
@@ -49,15 +49,13 @@ jobs:
           for run in ['42489442316', '42490362017']:
               meta=json.loads(api('actions/runs/'+run))
               assert meta['path']=='.github/workflows/performance-debug.yml' and meta['head_branch']=='dev/performance-navigation'
-              if run=='42489442316' and meta['head_sha']=='5c91fd74666fcea9e19739b33a9e96872fcfe9e6' and meta['status']!='completed':
-                  subprocess.check_call(['gh','api','--method','POST',f'repos/{repo}/actions/runs/{run}/cancel'])
               result={'run':run,'sha':meta['head_sha'],'status':meta['status'],'conclusion':meta['conclusion'],'jobs':[],'artifacts':[],'reports':[],'profiles':[]}
               for job in json.loads(api(f'actions/runs/{run}/jobs?per_page=100'))['jobs']:
                   info={'id':job['id'],'name':job['name'],'conclusion':job['conclusion'],'steps':job['steps']}
                   if job['name'].startswith('profile'):
                       try:
                           log=api(f'actions/jobs/{job["id"]}/logs').decode(errors='replace')
-                          info['errors']=log[-18000:] if job['conclusion']=='failure' else ''
+                          info['errors']=log[-18000:] if job['conclusion'] in ['failure','cancelled'] else ''
                           for match in re.finditer(r'PERFORMANCE_REPORT (\{[^\n]+\})',log):
                               result['profiles'].append({'artifact':'job-log','path':str(job['id']),'data':json.loads(match.group(1))})
                       except Exception as e:info['log_status']=str(e)[-500:]
