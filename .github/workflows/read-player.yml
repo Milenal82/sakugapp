@@ -19,7 +19,7 @@ jobs:
           repo='Milenal82/sakugapp'
           def api(p):return subprocess.check_output(['gh','api',f'repos/{repo}/'+p])
           results=[]
-          for run in ['42460910586']:
+          for run in ['42461859892']:
               meta=json.loads(api('actions/runs/'+run))
               assert meta['path']=='.github/workflows/debug-only.yml' and meta['head_branch']=='dev/debug-actions-grid-artist'
               result={'run':run,'sha':meta['head_sha'],'status':meta['status'],'conclusion':meta['conclusion'],'jobs':[],'artifacts':[],'reports':[]}
