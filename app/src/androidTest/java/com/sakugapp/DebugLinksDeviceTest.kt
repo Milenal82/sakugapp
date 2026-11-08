@@ -52,13 +52,38 @@ class DebugLinksDeviceTest {
                 assertEquals(bar.height,ui.onNodeWithTag("detail-actions").fetchSemanticsNode().boundsInRoot.height,.1f)
                 ui.onNodeWithTag("favorite-action").performClick();ui.onNodeWithTag("favorite-folder-1").assertExists()
                 ui.onNodeWithText(ui.activity.getString(R.string.ui_close)).performClick()
+                ui.mainClock.advanceTimeBy(500);ui.waitForIdle()
+                ui.onNodeWithTag("favorite-folder-1").assertDoesNotExist()
+                ui.onNodeWithTag("detail-actions").performScrollTo()
                 UiEvidence.capture("debug-six-actions-$light-${(scale*100).toInt()}.png")
+                if(!light && scale==.75f){
+                    val device=androidx.test.uiautomator.UiDevice.getInstance(instrumentation)
+                    ui.onNodeWithTag("share-post").performClick()
+                    ui.waitUntil(10000){device.currentPackageName!=ui.activity.packageName}
+                    device.pressBack();ui.waitForIdle();ui.onNodeWithTag("detail-actions").assertIsDisplayed()
+                }
             }
             val chooser=postShareIntent(post);assertEquals(Intent.ACTION_CHOOSER,chooser.action)
             @Suppress("DEPRECATION") val send=chooser.getParcelableExtra<Intent>(Intent.EXTRA_INTENT)!!
             assertEquals(Intent.ACTION_SEND,send.action);assertEquals("text/plain",send.type);assertEquals(post.pageUrl,send.getStringExtra(Intent.EXTRA_TEXT))
             ui.onNodeWithTag("detail-post-id").performScrollTo().assertHasClickAction()
         }finally{file.delete()}
+    }
+    @Test fun toolbarFavoritePickerCanSelectAndCancelWithoutChangingOtherFavorites()=runBlocking<Unit>{
+        lateinit var app:AppViewModel
+        val post=fixture().copy(id=98765001L)
+        ui.runOnUiThread{app=AppViewModel(ui.activity.application);ui.activity.setContent{SakugappTheme(false){Surface(Modifier.fillMaxSize().systemBarsPadding()){FavoriteControl(post,app)}}}}
+        app.localLibrary.ready()
+        try{
+            ui.waitUntil(10000){app.library.value.folders.any{it.id==1L}}
+            ui.onNodeWithTag("favorite-action").performClick()
+            ui.onNodeWithTag("favorite-folder-1").performClick()
+            ui.waitUntil(10000){app.library.value.contains(post.id,1L)}
+            ui.onNodeWithTag("favorite-folder-1").assertIsOn().performClick()
+            ui.waitUntil(10000){!app.library.value.contains(post.id,1L)}
+            ui.onNodeWithTag("favorite-folder-1").assertIsOff()
+            ui.onNodeWithText(ui.activity.getString(R.string.ui_close)).performClick()
+        }finally{app.localLibrary.batch(setOf(post.id),null,null)}
     }
     @Test fun actualPostsGridHonorsBothAxesAtZeroAndTenForSixEightAndTwelveColumns(){
         val posts=posts(48);var settings by mutableStateOf(AppSettings(columns=6,cardSpacing=0f));lateinit var grid:LazyGridState
