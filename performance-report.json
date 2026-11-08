@@ -1,12 +1,12 @@
 [
   {
-    "run": "42484005709",
-    "sha": "670165d02b78be9fdfedc7594679ea1a3edf09bc",
+    "run": "42484999487",
+    "sha": "59f25f0af1f486f1e37b8c82a665fd447b6d7cd6",
     "status": "completed",
-    "conclusion": "cancelled",
+    "conclusion": "failure",
     "jobs": [
       {
-        "id": 128741821933,
+        "id": 128744859077,
         "name": "build",
         "conclusion": "success",
         "steps": [
@@ -15,109 +15,109 @@
             "status": "completed",
             "conclusion": "success",
             "number": 1,
-            "started_at": "2026-11-08T13:14:35Z",
-            "completed_at": "2026-11-08T13:14:38Z"
+            "started_at": "2026-11-08T13:26:57Z",
+            "completed_at": "2026-11-08T13:27:00Z"
           },
           {
             "name": "Run actions/checkout@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 2,
-            "started_at": "2026-11-08T13:14:38Z",
-            "completed_at": "2026-11-08T13:14:39Z"
+            "started_at": "2026-11-08T13:27:00Z",
+            "completed_at": "2026-11-08T13:27:01Z"
           },
           {
             "name": "Run actions/setup-java@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 3,
-            "started_at": "2026-11-08T13:14:39Z",
-            "completed_at": "2026-11-08T13:14:39Z"
+            "started_at": "2026-11-08T13:27:01Z",
+            "completed_at": "2026-11-08T13:27:01Z"
           },
           {
             "name": "Run ./scripts/ci-android-sdk.sh",
             "status": "completed",
             "conclusion": "success",
             "number": 4,
-            "started_at": "2026-11-08T13:14:39Z",
-            "completed_at": "2026-11-08T13:14:49Z"
+            "started_at": "2026-11-08T13:27:01Z",
+            "completed_at": "2026-11-08T13:27:09Z"
           },
           {
             "name": "Run gradle/actions/setup-gradle@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 5,
-            "started_at": "2026-11-08T13:14:49Z",
-            "completed_at": "2026-11-08T13:14:56Z"
+            "started_at": "2026-11-08T13:27:09Z",
+            "completed_at": "2026-11-08T13:27:14Z"
           },
           {
             "name": "Run python3 scripts/check-localization.py",
             "status": "completed",
             "conclusion": "success",
             "number": 6,
-            "started_at": "2026-11-08T13:14:56Z",
-            "completed_at": "2026-11-08T13:14:56Z"
+            "started_at": "2026-11-08T13:27:14Z",
+            "completed_at": "2026-11-08T13:27:14Z"
           },
           {
             "name": "Run ./gradlew --no-daemon testDebugUnitTest lintDebug assembleDebug",
             "status": "completed",
             "conclusion": "success",
             "number": 7,
-            "started_at": "2026-11-08T13:14:56Z",
-            "completed_at": "2026-11-08T13:18:41Z"
+            "started_at": "2026-11-08T13:27:14Z",
+            "completed_at": "2026-11-08T13:29:46Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
             "status": "completed",
             "conclusion": "success",
             "number": 8,
-            "started_at": "2026-11-08T13:18:41Z",
-            "completed_at": "2026-11-08T13:18:43Z"
+            "started_at": "2026-11-08T13:29:46Z",
+            "completed_at": "2026-11-08T13:29:47Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
             "status": "completed",
             "conclusion": "success",
             "number": 9,
-            "started_at": "2026-11-08T13:18:43Z",
-            "completed_at": "2026-11-08T13:18:45Z"
+            "started_at": "2026-11-08T13:29:47Z",
+            "completed_at": "2026-11-08T13:29:49Z"
           },
           {
             "name": "Post Run gradle/actions/setup-gradle@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 16,
-            "started_at": "2026-11-08T13:18:45Z",
-            "completed_at": "2026-11-08T13:18:45Z"
+            "started_at": "2026-11-08T13:29:49Z",
+            "completed_at": "2026-11-08T13:29:49Z"
           },
           {
             "name": "Post Run actions/setup-java@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 17,
-            "started_at": "2026-11-08T13:18:45Z",
-            "completed_at": "2026-11-08T13:18:45Z"
+            "started_at": "2026-11-08T13:29:49Z",
+            "completed_at": "2026-11-08T13:29:49Z"
           },
           {
             "name": "Post Run actions/checkout@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 18,
-            "started_at": "2026-11-08T13:18:45Z",
-            "completed_at": "2026-11-08T13:18:46Z"
+            "started_at": "2026-11-08T13:29:49Z",
+            "completed_at": "2026-11-08T13:29:49Z"
           },
           {
             "name": "Complete job",
             "status": "completed",
             "conclusion": "success",
             "number": 19,
-            "started_at": "2026-11-08T13:18:46Z",
-            "completed_at": "2026-11-08T13:18:46Z"
+            "started_at": "2026-11-08T13:29:49Z",
+            "completed_at": "2026-11-08T13:29:49Z"
           }
         ]
       },
       {
-        "id": 128741821958,
+        "id": 128744859286,
         "name": "profile (28, Nexus S)",
         "conclusion": "success",
         "steps": [
@@ -126,222 +126,241 @@
             "status": "completed",
             "conclusion": "success",
             "number": 1,
-            "started_at": "2026-11-08T13:14:34Z",
-            "completed_at": "2026-11-08T13:14:37Z"
+            "started_at": "2026-11-08T13:26:58Z",
+            "completed_at": "2026-11-08T13:27:02Z"
           },
           {
             "name": "Run actions/checkout@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 2,
-            "started_at": "2026-11-08T13:14:37Z",
-            "completed_at": "2026-11-08T13:14:39Z"
+            "started_at": "2026-11-08T13:27:02Z",
+            "completed_at": "2026-11-08T13:27:05Z"
           },
           {
             "name": "Run actions/setup-java@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 3,
-            "started_at": "2026-11-08T13:14:39Z",
-            "completed_at": "2026-11-08T13:14:39Z"
+            "started_at": "2026-11-08T13:27:05Z",
+            "completed_at": "2026-11-08T13:27:05Z"
           },
           {
             "name": "Run ./scripts/ci-android-sdk.sh",
             "status": "completed",
             "conclusion": "success",
             "number": 4,
-            "started_at": "2026-11-08T13:14:39Z",
-            "completed_at": "2026-11-08T13:14:47Z"
+            "started_at": "2026-11-08T13:27:05Z",
+            "completed_at": "2026-11-08T13:27:17Z"
           },
           {
             "name": "Run gradle/actions/setup-gradle@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 5,
-            "started_at": "2026-11-08T13:14:47Z",
-            "completed_at": "2026-11-08T13:14:52Z"
+            "started_at": "2026-11-08T13:27:17Z",
+            "completed_at": "2026-11-08T13:27:23Z"
           },
           {
             "name": "Run sudo chmod a+rw /dev/kvm",
             "status": "completed",
             "conclusion": "success",
             "number": 6,
-            "started_at": "2026-11-08T13:14:52Z",
-            "completed_at": "2026-11-08T13:14:53Z"
+            "started_at": "2026-11-08T13:27:23Z",
+            "completed_at": "2026-11-08T13:27:23Z"
           },
           {
             "name": "Run reactivecircus/android-emulator-runner@v2",
             "status": "completed",
             "conclusion": "success",
             "number": 7,
-            "started_at": "2026-11-08T13:14:53Z",
-            "completed_at": "2026-11-08T13:19:36Z"
+            "started_at": "2026-11-08T13:27:23Z",
+            "completed_at": "2026-11-08T13:32:19Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
             "status": "completed",
             "conclusion": "success",
             "number": 8,
-            "started_at": "2026-11-08T13:19:36Z",
-            "completed_at": "2026-11-08T13:19:37Z"
+            "started_at": "2026-11-08T13:32:19Z",
+            "completed_at": "2026-11-08T13:32:22Z"
           },
           {
             "name": "Post Run gradle/actions/setup-gradle@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 14,
-            "started_at": "2026-11-08T13:19:37Z",
-            "completed_at": "2026-11-08T13:19:37Z"
+            "started_at": "2026-11-08T13:32:22Z",
+            "completed_at": "2026-11-08T13:32:22Z"
           },
           {
             "name": "Post Run actions/setup-java@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 15,
-            "started_at": "2026-11-08T13:19:37Z",
-            "completed_at": "2026-11-08T13:19:37Z"
+            "started_at": "2026-11-08T13:32:22Z",
+            "completed_at": "2026-11-08T13:32:22Z"
           },
           {
             "name": "Post Run actions/checkout@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 16,
-            "started_at": "2026-11-08T13:19:37Z",
-            "completed_at": "2026-11-08T13:19:37Z"
+            "started_at": "2026-11-08T13:32:22Z",
+            "completed_at": "2026-11-08T13:32:23Z"
           },
           {
             "name": "Complete job",
             "status": "completed",
             "conclusion": "success",
             "number": 17,
-            "started_at": "2026-11-08T13:19:37Z",
-            "completed_at": "2026-11-08T13:19:37Z"
+            "started_at": "2026-11-08T13:32:23Z",
+            "completed_at": "2026-11-08T13:32:23Z"
           }
         ]
       },
       {
-        "id": 128741822074,
+        "id": 128744859377,
         "name": "profile (35, pixel_c)",
-        "conclusion": "cancelled",
+        "conclusion": "failure",
         "steps": [
           {
             "name": "Set up job",
             "status": "completed",
             "conclusion": "success",
             "number": 1,
-            "started_at": "2026-11-08T13:14:34Z",
-            "completed_at": "2026-11-08T13:14:37Z"
+            "started_at": "2026-11-08T13:26:57Z",
+            "completed_at": "2026-11-08T13:27:01Z"
           },
           {
             "name": "Run actions/checkout@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 2,
-            "started_at": "2026-11-08T13:14:37Z",
-            "completed_at": "2026-11-08T13:14:39Z"
+            "started_at": "2026-11-08T13:27:01Z",
+            "completed_at": "2026-11-08T13:27:03Z"
           },
           {
             "name": "Run actions/setup-java@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 3,
-            "started_at": "2026-11-08T13:14:39Z",
-            "completed_at": "2026-11-08T13:14:39Z"
+            "started_at": "2026-11-08T13:27:03Z",
+            "completed_at": "2026-11-08T13:27:04Z"
           },
           {
             "name": "Run ./scripts/ci-android-sdk.sh",
             "status": "completed",
             "conclusion": "success",
             "number": 4,
-            "started_at": "2026-11-08T13:14:39Z",
-            "completed_at": "2026-11-08T13:14:48Z"
+            "started_at": "2026-11-08T13:27:04Z",
+            "completed_at": "2026-11-08T13:27:15Z"
           },
           {
             "name": "Run gradle/actions/setup-gradle@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 5,
-            "started_at": "2026-11-08T13:14:48Z",
-            "completed_at": "2026-11-08T13:14:54Z"
+            "started_at": "2026-11-08T13:27:15Z",
+            "completed_at": "2026-11-08T13:27:20Z"
           },
           {
             "name": "Run sudo chmod a+rw /dev/kvm",
             "status": "completed",
             "conclusion": "success",
             "number": 6,
-            "started_at": "2026-11-08T13:14:54Z",
-            "completed_at": "2026-11-08T13:14:54Z"
+            "started_at": "2026-11-08T13:27:20Z",
+            "completed_at": "2026-11-08T13:27:20Z"
           },
           {
             "name": "Run reactivecircus/android-emulator-runner@v2",
             "status": "completed",
-            "conclusion": "cancelled",
+            "conclusion": "failure",
             "number": 7,
-            "started_at": "2026-11-08T13:14:54Z",
-            "completed_at": "2026-11-08T13:26:50Z"
+            "started_at": "2026-11-08T13:27:20Z",
+            "completed_at": "2026-11-08T13:40:37Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
             "status": "completed",
             "conclusion": "success",
             "number": 8,
-            "started_at": "2026-11-08T13:26:50Z",
-            "completed_at": "2026-11-08T13:26:51Z"
+            "started_at": "2026-11-08T13:40:37Z",
+            "completed_at": "2026-11-08T13:40:38Z"
           },
           {
             "name": "Post Run gradle/actions/setup-gradle@v5",
             "status": "completed",
-            "conclusion": "skipped",
+            "conclusion": "success",
             "number": 14,
-            "started_at": "2026-11-08T13:26:51Z",
-            "completed_at": "2026-11-08T13:26:51Z"
+            "started_at": "2026-11-08T13:40:38Z",
+            "completed_at": "2026-11-08T13:40:38Z"
           },
           {
             "name": "Post Run actions/setup-java@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 15,
-            "started_at": "2026-11-08T13:26:51Z",
-            "completed_at": "2026-11-08T13:26:51Z"
+            "started_at": "2026-11-08T13:40:38Z",
+            "completed_at": "2026-11-08T13:40:39Z"
           },
           {
             "name": "Post Run actions/checkout@v5",
             "status": "completed",
             "conclusion": "success",
             "number": 16,
-            "started_at": "2026-11-08T13:26:51Z",
-            "completed_at": "2026-11-08T13:26:52Z"
+            "started_at": "2026-11-08T13:40:39Z",
+            "completed_at": "2026-11-08T13:40:39Z"
           },
           {
             "name": "Complete job",
             "status": "completed",
             "conclusion": "success",
             "number": 17,
-            "started_at": "2026-11-08T13:26:52Z",
-            "completed_at": "2026-11-08T13:26:52Z"
+            "started_at": "2026-11-08T13:40:39Z",
+            "completed_at": "2026-11-08T13:40:39Z"
           }
         ]
       }
     ],
     "artifacts": [
       {
-        "name": "performance-debug-apk",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42484005709/artifacts/13618616856"
-      },
-      {
         "name": "performance-35",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42484005709/artifacts/13618519452"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42484999487/artifacts/13619471516"
       },
       {
         "name": "performance-build-reports",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42484005709/artifacts/13618019553"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42484999487/artifacts/13618844202"
       },
       {
         "name": "performance-28",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42484005709/artifacts/13617879934"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42484999487/artifacts/13618839528"
+      },
+      {
+        "name": "performance-debug-apk",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42484999487/artifacts/13618794204"
       }
     ],
     "reports": [
+      {
+        "artifact": "performance-35",
+        "counts": {
+          "name": "com.sakugapp.PerformanceScenarioDeviceTest",
+          "tests": "1",
+          "failures": "1",
+          "errors": "0",
+          "skipped": "0",
+          "time": "602.282",
+          "timestamp": "2026-11-08T13:40:24",
+          "hostname": "localhost"
+        },
+        "failures": [
+          {
+            "test": "com.sakugapp.PerformanceScenarioDeviceTest.profileRealScaffoldScrollPreviewAndNavigation",
+            "message": "java.lang.AssertionError: Tab switches must not fetch an unchanged feed expected:<1> but was:<27>\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.failNotEquals(Assert.java:835)\nat org.junit.Assert.assertEquals(Assert.java:120)\nat com.sakugapp.PerformanceScenarioDeviceTest$profileRealScaffoldScrollPreviewAndNavigation$1.invokeSuspend(PerformanceScenarioDeviceTest.kt:186)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)\nat kotlinx.coroutines.UndispatchedCoroutine.afterResume(CoroutineContext.kt:266)\nat kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:101)\nat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)\nat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\nat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)\nat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)\nat kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)\nat kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)\nat kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)\nat com.sakugapp.PerformanceScenarioDeviceTest.profileRealScaffoldScrollPreviewAndNavigation(PerformanceScenarioDeviceTest.kt:119)\n"
+          }
+        ]
+      },
       {
         "artifact": "performance-build-reports",
         "counts": {
@@ -350,23 +369,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:16:54.495Z",
+          "timestamp": "2026-11-08T13:28:23.412Z",
           "hostname": "runnervm7aw5e",
-          "time": "3.313"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "performance-build-reports",
-        "counts": {
-          "name": "com.sakugapp.BackupImportTest",
-          "tests": "8",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-08T13:16:57.819Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.404"
+          "time": "2.806"
         },
         "failures": []
       },
@@ -378,9 +383,23 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:16:58.236Z",
+          "timestamp": "2026-11-08T13:28:26.501Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.099"
+          "time": "0.062"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "performance-build-reports",
+        "counts": {
+          "name": "com.sakugapp.BackupImportTest",
+          "tests": "8",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T13:28:26.226Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.269"
         },
         "failures": []
       },
@@ -392,9 +411,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:16:58.342Z",
+          "timestamp": "2026-11-08T13:28:26.565Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.243"
+          "time": "0.13"
         },
         "failures": []
       },
@@ -406,9 +425,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:16:58.591Z",
+          "timestamp": "2026-11-08T13:28:26.697Z",
           "hostname": "runnervm7aw5e",
-          "time": "14.507"
+          "time": "14.456"
         },
         "failures": []
       },
@@ -420,9 +439,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:17:13.108Z",
+          "timestamp": "2026-11-08T13:28:41.155Z",
           "hostname": "runnervm7aw5e",
-          "time": "9.122"
+          "time": "9.127"
         },
         "failures": []
       },
@@ -434,9 +453,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:17:22.238Z",
+          "timestamp": "2026-11-08T13:28:50.285Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.024"
+          "time": "0.014"
         },
         "failures": []
       },
@@ -448,9 +467,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:17:22.268Z",
+          "timestamp": "2026-11-08T13:28:50.302Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.024"
+          "time": "0.016"
         },
         "failures": []
       },
@@ -462,23 +481,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:17:22.297Z",
+          "timestamp": "2026-11-08T13:28:50.321Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.084"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "performance-build-reports",
-        "counts": {
-          "name": "com.sakugapp.DiscoveryTest",
-          "tests": "18",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-08T13:17:22.388Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.128"
+          "time": "0.068"
         },
         "failures": []
       },
@@ -490,9 +495,23 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:17:22.525Z",
+          "timestamp": "2026-11-08T13:28:50.464Z",
           "hostname": "runnervm7aw5e",
-          "time": "1.628"
+          "time": "1.741"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "performance-build-reports",
+        "counts": {
+          "name": "com.sakugapp.DiscoveryTest",
+          "tests": "18",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T13:28:50.392Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.071"
         },
         "failures": []
       },
@@ -504,9 +523,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:17:24.155Z",
+          "timestamp": "2026-11-08T13:28:52.206Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.087"
+          "time": "0.045"
         },
         "failures": []
       },
@@ -518,9 +537,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:17:24.244Z",
+          "timestamp": "2026-11-08T13:28:52.253Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.016"
+          "time": "0.017"
         },
         "failures": []
       },
@@ -532,9 +551,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:17:24.266Z",
+          "timestamp": "2026-11-08T13:28:52.271Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.014"
+          "time": "0.004"
         },
         "failures": []
       },
@@ -546,9 +565,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:17:24.283Z",
+          "timestamp": "2026-11-08T13:28:52.276Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.018"
+          "time": "0.009"
         },
         "failures": []
       },
@@ -560,23 +579,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:17:24.304Z",
+          "timestamp": "2026-11-08T13:28:52.289Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.024"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "performance-build-reports",
-        "counts": {
-          "name": "com.sakugapp.PersonalDataTest",
-          "tests": "9",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-08T13:17:24.347Z",
-          "hostname": "runnervm7aw5e",
-          "time": "0.167"
+          "time": "0.011"
         },
         "failures": []
       },
@@ -588,9 +593,23 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:17:24.334Z",
+          "timestamp": "2026-11-08T13:28:52.301Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.006"
+          "time": "0.002"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "performance-build-reports",
+        "counts": {
+          "name": "com.sakugapp.PersonalDataTest",
+          "tests": "9",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T13:28:52.305Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.118"
         },
         "failures": []
       },
@@ -602,9 +621,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:17:24.516Z",
+          "timestamp": "2026-11-08T13:28:52.425Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.014"
+          "time": "0.016"
         },
         "failures": []
       },
@@ -616,9 +635,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:17:24.532Z",
+          "timestamp": "2026-11-08T13:28:52.444Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.004"
+          "time": "0.002"
         },
         "failures": []
       },
@@ -630,9 +649,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:17:24.539Z",
+          "timestamp": "2026-11-08T13:28:52.450Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.008"
+          "time": "0.006"
         },
         "failures": []
       },
@@ -644,9 +663,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:17:24.550Z",
+          "timestamp": "2026-11-08T13:28:52.457Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.199"
+          "time": "0.153"
         },
         "failures": []
       },
@@ -658,9 +677,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:17:24.754Z",
+          "timestamp": "2026-11-08T13:28:52.611Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.043"
+          "time": "0.044"
         },
         "failures": []
       },
@@ -672,23 +691,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:17:24.799Z",
+          "timestamp": "2026-11-08T13:28:52.660Z",
           "hostname": "runnervm7aw5e",
-          "time": "6.52"
-        },
-        "failures": []
-      },
-      {
-        "artifact": "performance-build-reports",
-        "counts": {
-          "name": "com.sakugapp.SearchAndCaptionTest",
-          "tests": "10",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-08T13:17:31.321Z",
-          "hostname": "runnervm7aw5e",
-          "time": "25.37"
+          "time": "6.697"
         },
         "failures": []
       },
@@ -700,9 +705,23 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:17:56.693Z",
+          "timestamp": "2026-11-08T13:29:24.714Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.028"
+          "time": "0.013"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "performance-build-reports",
+        "counts": {
+          "name": "com.sakugapp.SearchAndCaptionTest",
+          "tests": "10",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T13:28:59.359Z",
+          "hostname": "runnervm7aw5e",
+          "time": "25.355"
         },
         "failures": []
       },
@@ -714,9 +733,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-08T13:17:56.724Z",
+          "timestamp": "2026-11-08T13:29:24.727Z",
           "hostname": "runnervm7aw5e",
-          "time": "0.105"
+          "time": "0.094"
         },
         "failures": []
       },
@@ -728,8 +747,8 @@
           "failures": "0",
           "errors": "0",
           "skipped": "0",
-          "time": "104.14",
-          "timestamp": "2026-11-08T13:19:32",
+          "time": "105.482",
+          "timestamp": "2026-11-08T13:32:15",
           "hostname": "localhost"
         },
         "failures": []
@@ -742,27 +761,822 @@
           "failures": "0",
           "errors": "0",
           "skipped": "0",
-          "time": "104.14",
-          "timestamp": "2026-11-08T13:19:32",
+          "time": "105.482",
+          "timestamp": "2026-11-08T13:32:15",
           "hostname": "localhost"
         },
         "failures": []
       }
     ],
-    "profiles": [],
+    "profiles": [
+      {
+        "artifact": "performance-28",
+        "path": "reports/performance/trial-1/baseline/perf-baseline.json",
+        "data": {
+          "label": "baseline",
+          "scope": "Debug fixture host running production Sakugapp; real Android frame clock; AVD/SwiftShader, not physical-device or live-network performance",
+          "device": "Android SDK built for x86_64",
+          "api": 28,
+          "pid": 3198,
+          "frame_definition": "FrameMetrics TOTAL_DURATION > display refresh period; not SurfaceFlinger FrameTimeline jank",
+          "post_count": 300,
+          "media": "300 owned copies of a deterministic MP4 and generated 320x180 PNGs; public response IDs/tags/scores, synthetic media URLs never requested",
+          "animator_scale": 1.0,
+          "window_animation_scale": 1.0,
+          "transition_scale": 1.0,
+          "memory_start": {
+            "pss_kib": 134542,
+            "java_heap_bytes": 8133456,
+            "native_heap_bytes": 15864312
+          },
+          "atrace_start": "capturing trace...",
+          "transitions": [
+            {
+              "from": "posts",
+              "to": "search_home",
+              "middle_capture_start_ms": 80,
+              "middle_capture_end_ms": 101,
+              "mixed_pixels": 1279,
+              "sampled_pixels": 10560
+            },
+            {
+              "from": "search_home",
+              "to": "posts",
+              "middle_capture_start_ms": 74,
+              "middle_capture_end_ms": 91,
+              "mixed_pixels": 0,
+              "sampled_pixels": 10560
+            },
+            {
+              "from": "posts",
+              "to": "profile",
+              "middle_capture_start_ms": 72,
+              "middle_capture_end_ms": 96,
+              "mixed_pixels": 0,
+              "sampled_pixels": 10560
+            },
+            {
+              "from": "profile",
+              "to": "posts",
+              "middle_capture_start_ms": 66,
+              "middle_capture_end_ms": 95,
+              "mixed_pixels": 0,
+              "sampled_pixels": 10560
+            }
+          ],
+          "detail_grid_before": [
+            0,
+            194,
+            480,
+            692
+          ],
+          "detail_grid_after": [
+            0,
+            194,
+            480,
+            692
+          ],
+          "phases": [
+            {
+              "name": "scroll-2-auto-false",
+              "frames": 480,
+              "over_budget_frames": 422,
+              "budget_ms": 16.666665607028605,
+              "metrics": {
+                "total": {
+                  "p50_ms": 21.481977,
+                  "p95_ms": 38.509101,
+                  "max_ms": 63.224313
+                },
+                "layout": {
+                  "p50_ms": 0.075838,
+                  "p95_ms": 1.724607,
+                  "max_ms": 9.925136
+                },
+                "draw": {
+                  "p50_ms": 0.294024,
+                  "p95_ms": 2.815921,
+                  "max_ms": 9.745772
+                },
+                "input": {
+                  "p50_ms": 0.548772,
+                  "p95_ms": 2.076924,
+                  "max_ms": 11.095065
+                },
+                "sync": {
+                  "p50_ms": 0.040963,
+                  "p95_ms": 0.081259,
+                  "max_ms": 1.486888
+                },
+                "commands": {
+                  "p50_ms": 0.419455,
+                  "p95_ms": 0.785154,
+                  "max_ms": 6.560463
+                },
+                "swap": {
+                  "p50_ms": 16.036672,
+                  "p95_ms": 17.628756,
+                  "max_ms": 51.949462
+                }
+              },
+              "dropped_frame_callbacks": 0,
+              "elapsed_ms": 9790,
+              "recomposer_change_delta": 34,
+              "memory_before": {
+                "pss_kib": 134651,
+                "java_heap_bytes": 8592720,
+                "native_heap_bytes": 16085960
+              },
+              "memory_after": {
+                "pss_kib": 146308,
+                "java_heap_bytes": 13522056,
+                "native_heap_bytes": 20441472
+              },
+              "players_before": {
+                "init": 0,
+                "release": 0,
+                "unreleased_ids": []
+              },
+              "players_after": {
+                "init": 0,
+                "release": 0,
+                "unreleased_ids": []
+              },
+              "repository_requests_delta": 0,
+              "columns": 2,
+              "auto_preview": false,
+              "grid_before": [
+                0,
+                194,
+                480,
+                692
+              ],
+              "grid_while_nav_hidden": [
+                0,
+                96,
+                480,
+                800
+              ],
+              "grid_after": [
+                0,
+                194,
+                480,
+                692
+              ],
+              "image_memory_cache_bytes": 3232440
+            },
+            {
+              "name": "scroll-2-auto-true",
+              "frames": 510,
+              "over_budget_frames": 369,
+              "budget_ms": 16.666665607028605,
+              "metrics": {
+                "total": {
+                  "p50_ms": 21.373933,
+                  "p95_ms": 71.577862,
+                  "max_ms": 159.212914
+                },
+                "layout": {
+                  "p50_ms": 0.038679,
+                  "p95_ms": 1.296763,
+                  "max_ms": 7.481302
+                },
+                "draw": {
+                  "p50_ms": 0.311186,
+                  "p95_ms": 5.81034,
+                  "max_ms": 32.863025
+                },
+                "input": {
+                  "p50_ms": 0.303987,
+                  "p95_ms": 1.291229,
+                  "max_ms": 5.826915
+                },
+                "sync": {
+                  "p50_ms": 0.047717,
+                  "p95_ms": 0.163,
+                  "max_ms": 2.518821
+                },
+                "commands": {
+                  "p50_ms": 0.486303,
+                  "p95_ms": 1.167907,
+                  "max_ms": 4.737905
+                },
+                "swap": {
+                  "p50_ms": 15.051137,
+                  "p95_ms": 18.141327,
+                  "max_ms": 64.560644
+                }
+              },
+              "dropped_frame_callbacks": 0,
+              "elapsed_ms": 10750,
+              "recomposer_change_delta": 102,
+              "memory_before": {
+                "pss_kib": 149999,
+                "java_heap_bytes": 13778008,
+                "native_heap_bytes": 30174616
+              },
+              "memory_after": {
+                "pss_kib": 156457,
+                "java_heap_bytes": 13949656,
+                "native_heap_bytes": 33829848
+              },
+              "players_before": {
+                "init": 1,
+                "release": 0,
+                "unreleased_ids": [
+                  "2960326"
+                ]
+              },
+              "players_after": {
+                "init": 17,
+                "release": 16,
+                "unreleased_ids": [
+                  "c29548a"
+                ]
+              },
+              "repository_requests_delta": 0,
+              "columns": 2,
+              "auto_preview": true,
+              "grid_before": [
+                0,
+                194,
+                480,
+                692
+              ],
+              "grid_while_nav_hidden": [
+                0,
+                96,
+                480,
+                800
+              ],
+              "grid_after": [
+                0,
+                194,
+                480,
+                692
+              ],
+              "image_memory_cache_bytes": 3232440
+            },
+            {
+              "name": "scroll-4-auto-false",
+              "frames": 452,
+              "over_budget_frames": 356,
+              "budget_ms": 16.666665607028605,
+              "metrics": {
+                "total": {
+                  "p50_ms": 21.094266,
+                  "p95_ms": 22.731202,
+                  "max_ms": 62.971116
+                },
+                "layout": {
+                  "p50_ms": 0.031067,
+                  "p95_ms": 1.164301,
+                  "max_ms": 24.884371
+                },
+                "draw": {
+                  "p50_ms": 0.271371,
+                  "p95_ms": 3.114279,
+                  "max_ms": 12.000997
+                },
+                "input": {
+                  "p50_ms": 0.392966,
+                  "p95_ms": 1.52833,
+                  "max_ms": 4.464188
+                },
+                "sync": {
+                  "p50_ms": 0.064622,
+                  "p95_ms": 0.155466,
+                  "max_ms": 0.789551
+                },
+                "commands": {
+                  "p50_ms": 0.620792,
+                  "p95_ms": 1.471191,
+                  "max_ms": 3.986191
+                },
+                "swap": {
+                  "p50_ms": 15.391629,
+                  "p95_ms": 17.078148,
+                  "max_ms": 47.241316
+                }
+              },
+              "dropped_frame_callbacks": 0,
+              "elapsed_ms": 9113,
+              "recomposer_change_delta": 55,
+              "memory_before": {
+                "pss_kib": 161912,
+                "java_heap_bytes": 18098952,
+                "native_heap_bytes": 36031488
+              },
+              "memory_after": {
+                "pss_kib": 163614,
+                "java_heap_bytes": 15150664,
+                "native_heap_bytes": 28132272
+              },
+              "players_before": {
+                "init": 17,
+                "release": 16,
+                "unreleased_ids": [
+                  "c29548a"
+                ]
+              },
+              "players_after": {
+                "init": 17,
+                "release": 17,
+                "unreleased_ids": []
+              },
+              "repository_requests_delta": 0,
+              "columns": 4,
+              "auto_preview": false,
+              "grid_before": [
+                0,
+                194,
+                480,
+                692
+              ],
+              "grid_while_nav_hidden": [
+                0,
+                96,
+                480,
+                800
+              ],
+              "grid_after": [
+                0,
+                194,
+                480,
+                692
+              ],
+              "image_memory_cache_bytes": 5201192
+            },
+            {
+              "name": "scroll-4-auto-true",
+              "frames": 533,
+              "over_budget_frames": 449,
+              "budget_ms": 16.666665607028605,
+              "metrics": {
+                "total": {
+                  "p50_ms": 21.708247,
+                  "p95_ms": 72.192999,
+                  "max_ms": 139.203197
+                },
+                "layout": {
+                  "p50_ms": 0.025466,
+                  "p95_ms": 1.657272,
+                  "max_ms": 18.736877
+                },
+                "draw": {
+                  "p50_ms": 0.365266,
+                  "p95_ms": 6.507574,
+                  "max_ms": 29.997457
+                },
+                "input": {
+                  "p50_ms": 0.251952,
+                  "p95_ms": 1.541924,
+                  "max_ms": 11.075043
+                },
+                "sync": {
+                  "p50_ms": 0.067426,
+                  "p95_ms": 0.155581,
+                  "max_ms": 3.262972
+                },
+                "commands": {
+                  "p50_ms": 0.65353,
+                  "p95_ms": 1.638205,
+                  "max_ms": 8.585789
+                },
+                "swap": {
+                  "p50_ms": 15.120562,
+                  "p95_ms": 18.17314,
+                  "max_ms": 62.905412
+                }
+              },
+              "dropped_frame_callbacks": 0,
+              "elapsed_ms": 11139,
+              "recomposer_change_delta": 125,
+              "memory_before": {
+                "pss_kib": 159524,
+                "java_heap_bytes": 13846976,
+                "native_heap_bytes": 32915592
+              },
+              "memory_after": {
+                "pss_kib": 163816,
+                "java_heap_bytes": 15714600,
+                "native_heap_bytes": 38644816
+              },
+              "players_before": {
+                "init": 18,
+                "release": 17,
+                "unreleased_ids": [
+                  "3a593a6"
+                ]
+              },
+              "players_after": {
+                "init": 36,
+                "release": 35,
+                "unreleased_ids": [
+                  "62fe15d"
+                ]
+              },
+              "repository_requests_delta": 0,
+              "columns": 4,
+              "auto_preview": true,
+              "grid_before": [
+                0,
+                194,
+                480,
+                692
+              ],
+              "grid_while_nav_hidden": [
+                0,
+                96,
+                480,
+                800
+              ],
+              "grid_after": [
+                0,
+                194,
+                480,
+                692
+              ],
+              "image_memory_cache_bytes": 5201192
+            },
+            {
+              "name": "scroll-6-auto-false",
+              "frames": 476,
+              "over_budget_frames": 473,
+              "budget_ms": 16.666665607028605,
+              "metrics": {
+                "total": {
+                  "p50_ms": 21.374232,
+                  "p95_ms": 24.029454,
+                  "max_ms": 66.902538
+                },
+                "layout": {
+                  "p50_ms": 0.039153,
+                  "p95_ms": 0.721189,
+                  "max_ms": 7.761589
+                },
+                "draw": {
+                  "p50_ms": 0.538623,
+                  "p95_ms": 3.280587,
+                  "max_ms": 7.096909
+                },
+                "input": {
+                  "p50_ms": 0.363852,
+                  "p95_ms": 1.494053,
+                  "max_ms": 5.645683
+                },
+                "sync": {
+                  "p50_ms": 0.092621,
+                  "p95_ms": 0.136981,
+                  "max_ms": 0.47119
+                },
+                "commands": {
+                  "p50_ms": 0.932598,
+                  "p95_ms": 2.122432,
+                  "max_ms": 3.663159
+                },
+                "swap": {
+                  "p50_ms": 15.226259,
+                  "p95_ms": 16.799529,
+                  "max_ms": 20.949393
+                }
+              },
+              "dropped_frame_callbacks": 0,
+              "elapsed_ms": 9477,
+              "recomposer_change_delta": 97,
+              "memory_before": {
+                "pss_kib": 170208,
+                "java_heap_bytes": 19869832,
+                "native_heap_bytes": 40794952
+              },
+              "memory_after": {
+                "pss_kib": 174582,
+                "java_heap_bytes": 22352496,
+                "native_heap_bytes": 32712216
+              },
+              "players_before": {
+                "init": 36,
+                "release": 35,
+                "unreleased_ids": [
+                  "62fe15d"
+                ]
+              },
+              "players_after": {
+                "init": 36,
+                "release": 36,
+                "unreleased_ids": []
+              },
+              "repository_requests_delta": 0,
+              "columns": 6,
+              "auto_preview": false,
+              "grid_before": [
+                0,
+                194,
+                480,
+                692
+              ],
+              "grid_while_nav_hidden": [
+                0,
+                96,
+                480,
+                800
+              ],
+              "grid_after": [
+                0,
+                194,
+                480,
+                692
+              ],
+              "image_memory_cache_bytes": 7224824
+            },
+            {
+              "name": "scroll-6-auto-true",
+              "frames": 529,
+              "over_budget_frames": 417,
+              "budget_ms": 16.666665607028605,
+              "metrics": {
+                "total": {
+                  "p50_ms": 21.666291,
+                  "p95_ms": 60.482981,
+                  "max_ms": 121.290324
+                },
+                "layout": {
+                  "p50_ms": 0.032322,
+                  "p95_ms": 0.281656,
+                  "max_ms": 17.805572
+                },
+                "draw": {
+                  "p50_ms": 0.561466,
+                  "p95_ms": 4.90041,
+                  "max_ms": 21.408325
+                },
+                "input": {
+                  "p50_ms": 0.2685,
+                  "p95_ms": 1.371451,
+                  "max_ms": 3.012976
+                },
+                "sync": {
+                  "p50_ms": 0.098842,
+                  "p95_ms": 0.292749,
+                  "max_ms": 2.293577
+                },
+                "commands": {
+                  "p50_ms": 1.038446,
+                  "p95_ms": 2.28608,
+                  "max_ms": 9.269457
+                },
+                "swap": {
+                  "p50_ms": 14.325394,
+                  "p95_ms": 16.890006,
+                  "max_ms": 66.13373
+                }
+              },
+              "dropped_frame_callbacks": 0,
+              "elapsed_ms": 10767,
+              "recomposer_change_delta": 144,
+              "memory_before": {
+                "pss_kib": 173174,
+                "java_heap_bytes": 21420040,
+                "native_heap_bytes": 42173504
+              },
+              "memory_after": {
+                "pss_kib": 175930,
+                "java_heap_bytes": 22227920,
+                "native_heap_bytes": 43159976
+              },
+              "players_before": {
+                "init": 37,
+                "release": 36,
+                "unreleased_ids": [
+                  "343cdd9"
+                ]
+              },
+              "players_after": {
+                "init": 49,
+                "release": 48,
+                "unreleased_ids": [
+                  "4d925c"
+                ]
+              },
+              "repository_requests_delta": 0,
+              "columns": 6,
+              "auto_preview": true,
+              "grid_before": [
+                0,
+                194,
+                480,
+                692
+              ],
+              "grid_while_nav_hidden": [
+                0,
+                96,
+                480,
+                800
+              ],
+              "grid_after": [
+                0,
+                194,
+                480,
+                692
+              ],
+              "image_memory_cache_bytes": 7224824
+            },
+            {
+              "name": "detail-return",
+              "frames": 29,
+              "over_budget_frames": 22,
+              "budget_ms": 16.666665607028605,
+              "metrics": {
+                "total": {
+                  "p50_ms": 21.875049,
+                  "p95_ms": 118.07117,
+                  "max_ms": 121.950393
+                },
+                "layout": {
+                  "p50_ms": 2.52796,
+                  "p95_ms": 19.095214,
+                  "max_ms": 28.265571
+                },
+                "draw": {
+                  "p50_ms": 0.845276,
+                  "p95_ms": 9.328062,
+                  "max_ms": 40.737085
+                },
+                "input": {
+                  "p50_ms": 0.009911,
+                  "p95_ms": 0.015297,
+                  "max_ms": 0.019146
+                },
+                "sync": {
+                  "p50_ms": 0.076429,
+                  "p95_ms": 0.290069,
+                  "max_ms": 0.42237
+                },
+                "commands": {
+                  "p50_ms": 0.555583,
+                  "p95_ms": 1.839642,
+                  "max_ms": 10.038041
+                },
+                "swap": {
+                  "p50_ms": 13.712019,
+                  "p95_ms": 19.734951,
+                  "max_ms": 64.576545
+                }
+              },
+              "dropped_frame_callbacks": 0,
+              "elapsed_ms": 2420,
+              "recomposer_change_delta": 15,
+              "memory_before": {
+                "pss_kib": 167789,
+                "java_heap_bytes": 13962352,
+                "native_heap_bytes": 36817952
+              },
+              "memory_after": {
+                "pss_kib": 174260,
+                "java_heap_bytes": 14946696,
+                "native_heap_bytes": 37178064
+              },
+              "players_before": {
+                "init": 49,
+                "release": 49,
+                "unreleased_ids": []
+              },
+              "players_after": {
+                "init": 50,
+                "release": 50,
+                "unreleased_ids": []
+              },
+              "repository_requests_delta": 0
+            },
+            {
+              "name": "twenty-main-switches",
+              "frames": 473,
+              "over_budget_frames": 73,
+              "budget_ms": 16.666665607028605,
+              "metrics": {
+                "total": {
+                  "p50_ms": 9.363201,
+                  "p95_ms": 21.538423,
+                  "max_ms": 38.331507
+                },
+                "layout": {
+                  "p50_ms": 0.012959,
+                  "p95_ms": 0.627195,
+                  "max_ms": 12.230401
+                },
+                "draw": {
+                  "p50_ms": 1.655525,
+                  "p95_ms": 4.614416,
+                  "max_ms": 8.696148
+                },
+                "input": {
+                  "p50_ms": 0.004051,
+                  "p95_ms": 0.021391,
+                  "max_ms": 0.420983
+                },
+                "sync": {
+                  "p50_ms": 0.078201,
+                  "p95_ms": 0.222566,
+                  "max_ms": 2.394331
+                },
+                "commands": {
+                  "p50_ms": 0.436301,
+                  "p95_ms": 1.389337,
+                  "max_ms": 3.398962
+                },
+                "swap": {
+                  "p50_ms": 5.209325,
+                  "p95_ms": 16.367395,
+                  "max_ms": 19.502191
+                }
+              },
+              "dropped_frame_callbacks": 0,
+              "elapsed_ms": 16087,
+              "recomposer_change_delta": 195,
+              "memory_before": {
+                "pss_kib": 174736,
+                "java_heap_bytes": 15389112,
+                "native_heap_bytes": 41492496
+              },
+              "memory_after": {
+                "pss_kib": 173460,
+                "java_heap_bytes": 17977096,
+                "native_heap_bytes": 37578976
+              },
+              "players_before": {
+                "init": 50,
+                "release": 50,
+                "unreleased_ids": []
+              },
+              "players_after": {
+                "init": 50,
+                "release": 50,
+                "unreleased_ids": []
+              },
+              "repository_requests_delta": 0
+            }
+          ],
+          "memory_end": {
+            "pss_kib": 177984,
+            "java_heap_bytes": 18255624,
+            "native_heap_bytes": 41875072
+          },
+          "repository_requests": 1,
+          "players_end": {
+            "init": 50,
+            "release": 50,
+            "unreleased_ids": []
+          }
+        }
+      }
+    ],
     "files": [
+      "outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 15-_app-.xml",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 15/aapt.2.ok.txt",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 15/aapt.1.ok.txt",
       "outputs/androidTest-results/connected/debug/emulator-5554 - 15/cpuinfo",
       "outputs/androidTest-results/connected/debug/emulator-5554 - 15/device-info.pb",
       "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
       "outputs/androidTest-results/connected/debug/emulator-5554 - 15/meminfo",
       "outputs/androidTest-results/connected/debug/emulator-5554 - 15/profiling/emulator-5554_profile.pb",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 15/test-result.pb",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 15/test-result.textproto",
       "outputs/androidTest-results/connected/debug/emulator-5554 - 15/testlog/test-results.log",
       "outputs/androidTest-results/connected/debug/emulator-5554 - 15/utp.0.log",
       "outputs/androidTest-results/connected/debug/emulator-5554 - 15/utp.0.log.lck",
+      "outputs/androidTest-results/connected/debug/test-result.pb",
+      "reports/androidTests/connected/debug/com.sakugapp.PerformanceScenarioDeviceTest.html",
+      "reports/androidTests/connected/debug/com.sakugapp.html",
+      "reports/androidTests/connected/debug/css/base-style.css",
+      "reports/androidTests/connected/debug/css/style.css",
+      "reports/androidTests/connected/debug/index.html",
+      "reports/androidTests/connected/debug/js/report.js",
+      "reports/performance/trial-1/baseline/frames-baseline-detail-return.csv",
+      "reports/performance/trial-1/baseline/frames-baseline-scroll-2-auto-false.csv",
+      "reports/performance/trial-1/baseline/frames-baseline-scroll-2-auto-true.csv",
+      "reports/performance/trial-1/baseline/frames-baseline-scroll-4-auto-false.csv",
+      "reports/performance/trial-1/baseline/frames-baseline-scroll-4-auto-true.csv",
+      "reports/performance/trial-1/baseline/frames-baseline-scroll-6-auto-false.csv",
+      "reports/performance/trial-1/baseline/frames-baseline-scroll-6-auto-true.csv",
+      "reports/performance/trial-1/baseline/frames-baseline-twenty-main-switches.csv",
+      "reports/performance/trial-1/baseline/perf-baseline-posts-profile-after.png",
+      "reports/performance/trial-1/baseline/perf-baseline-posts-profile-before.png",
+      "reports/performance/trial-1/baseline/perf-baseline-posts-profile-middle.png",
+      "reports/performance/trial-1/baseline/perf-baseline-posts-search_home-after.png",
+      "reports/performance/trial-1/baseline/perf-baseline-posts-search_home-before.png",
+      "reports/performance/trial-1/baseline/perf-baseline-posts-search_home-middle.png",
+      "reports/performance/trial-1/baseline/perf-baseline-profile-posts-after.png",
+      "reports/performance/trial-1/baseline/perf-baseline-profile-posts-before.png",
+      "reports/performance/trial-1/baseline/perf-baseline-profile-posts-middle.png",
+      "reports/performance/trial-1/baseline/perf-baseline-scroll.atrace",
+      "reports/performance/trial-1/baseline/perf-baseline-search_home-posts-after.png",
+      "reports/performance/trial-1/baseline/perf-baseline-search_home-posts-before.png",
+      "reports/performance/trial-1/baseline/perf-baseline-search_home-posts-middle.png",
+      "reports/performance/trial-1/baseline/perf-baseline.json",
+      "reports/performance/trial-1/baseline/test-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
       "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/aapt.1.ok.txt",
       "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/aapt.2.ok.txt",
       "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/cpuinfo",
-      "reports/performance/trial-1/baseline/test-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
       "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/device-info.pb",
       "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
       "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/meminfo",
@@ -776,17 +1590,17 @@
       "outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
       "outputs/androidTest-results/connected/debug/emulator-5554 - 9/aapt.1.ok.txt",
       "outputs/androidTest-results/connected/debug/emulator-5554 - 9/aapt.2.ok.txt",
-      "outputs/androidTest-results/connected/debug/emulator-5554 - 9/cpuinfo",
       "outputs/androidTest-results/connected/debug/emulator-5554 - 9/device-info.pb",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 9/cpuinfo",
       "outputs/androidTest-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
       "outputs/androidTest-results/connected/debug/emulator-5554 - 9/meminfo",
       "outputs/androidTest-results/connected/debug/emulator-5554 - 9/profiling/emulator-5554_profile.pb",
       "outputs/androidTest-results/connected/debug/emulator-5554 - 9/test-result.pb",
       "outputs/androidTest-results/connected/debug/emulator-5554 - 9/test-result.textproto",
       "outputs/androidTest-results/connected/debug/emulator-5554 - 9/testlog/test-results.log",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 9/utp.0.log",
       "outputs/androidTest-results/connected/debug/emulator-5554 - 9/utp.0.log.lck",
       "outputs/androidTest-results/connected/debug/test-result.pb",
-      "outputs/androidTest-results/connected/debug/emulator-5554 - 9/utp.0.log",
       "reports/androidTests/connected/debug/com.sakugapp.PerformanceScenarioDeviceTest.html",
       "reports/androidTests/connected/debug/com.sakugapp.html",
       "reports/androidTests/connected/debug/css/base-style.css",
@@ -798,25 +1612,25 @@
       {
         "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "lines": [
-          "11-08 13:18:43.891  2318  2333 I System.out: PERF {\"name\":\"scroll-2-auto-false\",\"frames\":381,\"over_budget_frames\":381,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":290.790327,\"p95_ms\":342.138059,\"max_ms\":369.490823},\"layout\":{\"p50_ms\":0.038807,\"p95_ms\":0.087089,\"max_ms\":113.626979},\"draw\":{\"p50_ms\":0.410879,\"p95_ms\":5.629408,\"max_ms\":57.638687},\"input\":{\"p50_ms\":0.728419,\"p95_ms\":4.893358,\"max_ms\":78.849093},\"sync\":{\"p50_ms\":0.087459,\"p95_ms\":2.163314,\"max_ms\":6.263207},\"commands\":{\"p50_ms\":7.959649,\"p95_ms\":40.336394,\"max_ms\":49.448386},\"swap\":{\"p50_ms\":87.502935,\"p95_ms\":116.762503,\"max_ms\":147.911109}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":43227,\"recomposer_change_delta\":35,\"memory_before\":{\"pss_kib\":180344,\"java_heap_bytes\":19977136,\"native_heap_bytes\":46770800},\"memory_after\":{\"pss_kib\":179985,\"java_heap_bytes\":14391024,\"native_heap_bytes\":46523872},\"players_before\":{\"init\":0,\"release\":0,\"unreleased_ids\":[]},\"players_after\":{\"init\":0,\"release\":0,\"unreleased_ids\":[]},\"repository_requests_delta\":0}",
-          "11-08 13:19:40.494  2318  2333 I System.out: PERF {\"name\":\"scroll-2-auto-true\",\"frames\":435,\"over_budget_frames\":435,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":298.494417,\"p95_ms\":497.076972,\"max_ms\":704.382767},\"layout\":{\"p50_ms\":0.039458,\"p95_ms\":0.097765,\"max_ms\":78.206892},\"draw\":{\"p50_ms\":0.554732,\"p95_ms\":27.537617,\"max_ms\":122.413829},\"input\":{\"p50_ms\":0.734928,\"p95_ms\":8.64935,\"max_ms\":118.572444},\"sync\":{\"p50_ms\":0.104174,\"p95_ms\":2.78138,\"max_ms\":62.696854},\"commands\":{\"p50_ms\":9.369367,\"p95_ms\":76.100071,\"max_ms\":326.282705},\"swap\":{\"p50_ms\":84.555243,\"p95_ms\":135.453297,\"max_ms\":240.420564}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":54598,\"recomposer_change_delta\":105,\"memory_before\":{\"pss_kib\":183786,\"java_heap_bytes\":13424096,\"native_heap_bytes\":52317840},\"memory_after\":{\"pss_kib\":183375,\"java_heap_bytes\":21476624,\"native_heap_bytes\":44741344},\"players_before\":{\"init\":1,\"release\":0,\"unreleased_ids\":[\"fb9bdb4\"]},\"players_after\":{\"init\":17,\"release\":16,\"unreleased_ids\":[\"c35cf91\"]},\"repository_requests_delta\":0}",
-          "11-08 13:20:32.127  2318  2333 I System.out: PERF {\"name\":\"scroll-4-auto-false\",\"frames\":418,\"over_budget_frames\":418,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":314.704552,\"p95_ms\":363.701615,\"max_ms\":402.596994},\"layout\":{\"p50_ms\":0.039899,\"p95_ms\":0.145225,\"max_ms\":67.451976},\"draw\":{\"p50_ms\":0.541692,\"p95_ms\":8.464076,\"max_ms\":110.611022},\"input\":{\"p50_ms\":0.655701,\"p95_ms\":6.121907,\"max_ms\":63.209358},\"sync\":{\"p50_ms\":0.161369,\"p95_ms\":2.455327,\"max_ms\":29.598149},\"commands\":{\"p50_ms\":13.513095,\"p95_ms\":45.629554,\"max_ms\":62.100601},\"swap\":{\"p50_ms\":91.089337,\"p95_ms\":118.652117,\"max_ms\":145.161411}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":49706,\"recomposer_change_delta\":62,\"memory_before\":{\"pss_kib\":179947,\"java_heap_bytes\":14400736,\"native_heap_bytes\":44498288},\"memory_after\":{\"pss_kib\":209490,\"java_heap_bytes\":21640112,\"native_heap_bytes\":61575856},\"players_before\":{\"init\":17,\"release\":16,\"unreleased_ids\":[\"c35cf91\"]},\"players_after\":{\"init\":17,\"release\":17,\"unreleased_ids\":[]},\"repository_requests_delta\":0}"
+          "11-08 13:31:14.211  2311  2325 I System.out: PERF {\"name\":\"scroll-2-auto-false\",\"frames\":383,\"over_budget_frames\":383,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":293.542818,\"p95_ms\":348.3721,\"max_ms\":408.833652},\"layout\":{\"p50_ms\":0.039114,\"p95_ms\":0.095795,\"max_ms\":95.809052},\"draw\":{\"p50_ms\":0.315685,\"p95_ms\":7.117402,\"max_ms\":73.92346},\"input\":{\"p50_ms\":0.679431,\"p95_ms\":9.523234,\"max_ms\":128.391413},\"sync\":{\"p50_ms\":0.096874,\"p95_ms\":2.717019,\"max_ms\":11.090937},\"commands\":{\"p50_ms\":10.539716,\"p95_ms\":44.426073,\"max_ms\":64.601624},\"swap\":{\"p50_ms\":86.879616,\"p95_ms\":118.022554,\"max_ms\":149.33591}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":44384,\"recomposer_change_delta\":35,\"memory_before\":{\"pss_kib\":209488,\"java_heap_bytes\":30504352,\"native_heap_bytes\":65741488},\"memory_after\":{\"pss_kib\":181838,\"java_heap_bytes\":14887120,\"native_heap_bytes\":46307152},\"players_before\":{\"init\":0,\"release\":0,\"unreleased_ids\":[]},\"players_after\":{\"init\":0,\"release\":0,\"unreleased_ids\":[]},\"repository_requests_delta\":0}",
+          "11-08 13:32:14.198  2311  2325 I System.out: PERF {\"name\":\"scroll-2-auto-true\",\"frames\":453,\"over_budget_frames\":453,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":299.61972,\"p95_ms\":454.29877,\"max_ms\":832.133684},\"layout\":{\"p50_ms\":0.039403,\"p95_ms\":0.160894,\"max_ms\":71.806438},\"draw\":{\"p50_ms\":0.443651,\"p95_ms\":17.986173,\"max_ms\":126.214448},\"input\":{\"p50_ms\":0.65731,\"p95_ms\":6.325557,\"max_ms\":75.125286},\"sync\":{\"p50_ms\":0.115512,\"p95_ms\":4.034626,\"max_ms\":54.531544},\"commands\":{\"p50_ms\":9.892589,\"p95_ms\":59.817251,\"max_ms\":222.393545},\"swap\":{\"p50_ms\":84.54706,\"p95_ms\":133.098434,\"max_ms\":211.535345}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":56873,\"recomposer_change_delta\":106,\"memory_before\":{\"pss_kib\":187133,\"java_heap_bytes\":15610336,\"native_heap_bytes\":52473776},\"memory_after\":{\"pss_kib\":190097,\"java_heap_bytes\":15292656,\"native_heap_bytes\":53177952},\"players_before\":{\"init\":1,\"release\":0,\"unreleased_ids\":[\"33728ca\"]},\"players_after\":{\"init\":17,\"release\":16,\"unreleased_ids\":[\"e9f3511\"]},\"repository_requests_delta\":0}",
+          "11-08 13:33:07.358  2311  2325 I System.out: PERF {\"name\":\"scroll-4-auto-false\",\"frames\":416,\"over_budget_frames\":416,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":324.472109,\"p95_ms\":371.066763,\"max_ms\":411.03803},\"layout\":{\"p50_ms\":0.045697,\"p95_ms\":0.099007,\"max_ms\":27.027477},\"draw\":{\"p50_ms\":0.455196,\"p95_ms\":8.572857,\"max_ms\":61.603717},\"input\":{\"p50_ms\":0.665702,\"p95_ms\":4.275488,\"max_ms\":79.514644},\"sync\":{\"p50_ms\":0.216852,\"p95_ms\":3.003451,\"max_ms\":26.332265},\"commands\":{\"p50_ms\":19.68921,\"p95_ms\":47.230985,\"max_ms\":66.137911},\"swap\":{\"p50_ms\":91.145523,\"p95_ms\":118.749633,\"max_ms\":143.040719}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":50282,\"recomposer_change_delta\":61,\"memory_before\":{\"pss_kib\":195763,\"java_heap_bytes\":19827184,\"native_heap_bytes\":55490880},\"memory_after\":{\"pss_kib\":210526,\"java_heap_bytes\":21181520,\"native_heap_bytes\":60802976},\"players_before\":{\"init\":17,\"release\":16,\"unreleased_ids\":[\"e9f3511\"]},\"players_after\":{\"init\":17,\"release\":17,\"unreleased_ids\":[]},\"repository_requests_delta\":0}"
         ]
       },
       {
         "path": "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "lines": [
-          "11-08 13:18:03.286  3215  3231 I System.out: PERF {\"name\":\"scroll-2-auto-false\",\"frames\":516,\"over_budget_frames\":355,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":22.63527,\"p95_ms\":39.629322,\"max_ms\":79.389868},\"layout\":{\"p50_ms\":0.15677,\"p95_ms\":1.52647,\"max_ms\":17.65303},\"draw\":{\"p50_ms\":0.60679,\"p95_ms\":3.28353,\"max_ms\":17.58029},\"input\":{\"p50_ms\":0.96506,\"p95_ms\":3.66225,\"max_ms\":20.56251},\"sync\":{\"p50_ms\":0.11852,\"p95_ms\":0.23711,\"max_ms\":1.87101},\"commands\":{\"p50_ms\":0.61425,\"p95_ms\":1.53168,\"max_ms\":6.60156},\"swap\":{\"p50_ms\":14.29573,\"p95_ms\":16.85931,\"max_ms\":51.53574}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":10037,\"recomposer_change_delta\":34,\"memory_before\":{\"pss_kib\":134295,\"java_heap_bytes\":8785288,\"native_heap_bytes\":15760080},\"memory_after\":{\"pss_kib\":146659,\"java_heap_bytes\":13551256,\"native_heap_bytes\":21280344},\"players_before\":{\"init\":0,\"release\":0,\"unreleased_ids\":[]},\"players_after\":{\"init\":0,\"release\":0,\"unreleased_ids\":[]},\"repository_requests_delta\":0}",
-          "11-08 13:18:16.563  3215  3231 I System.out: PERF {\"name\":\"scroll-2-auto-true\",\"frames\":576,\"over_budget_frames\":479,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":23.330918,\"p95_ms\":72.929718,\"max_ms\":191.63274},\"layout\":{\"p50_ms\":0.07782,\"p95_ms\":1.09562,\"max_ms\":35.94218},\"draw\":{\"p50_ms\":0.58888,\"p95_ms\":7.833873,\"max_ms\":44.19168},\"input\":{\"p50_ms\":0.49961,\"p95_ms\":2.69936,\"max_ms\":8.9353},\"sync\":{\"p50_ms\":0.11928,\"p95_ms\":0.42498,\"max_ms\":6.95516},\"commands\":{\"p50_ms\":0.66403,\"p95_ms\":1.67309,\"max_ms\":11.55694},\"swap\":{\"p50_ms\":15.14563,\"p95_ms\":17.68934,\"max_ms\":55.6459}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":11651,\"recomposer_change_delta\":89,\"memory_before\":{\"pss_kib\":150158,\"java_heap_bytes\":13675488,\"native_heap_bytes\":30047440},\"memory_after\":{\"pss_kib\":155439,\"java_heap_bytes\":14774728,\"native_heap_bytes\":33525064},\"players_before\":{\"init\":1,\"release\":0,\"unreleased_ids\":[\"e373d4d\"]},\"players_after\":{\"init\":17,\"release\":16,\"unreleased_ids\":[\"37e54ee\"]},\"repository_requests_delta\":0}",
-          "11-08 13:18:27.760  3215  3231 I System.out: PERF {\"name\":\"scroll-4-auto-false\",\"frames\":455,\"over_budget_frames\":344,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":22.430942,\"p95_ms\":24.528653,\"max_ms\":28.451891},\"layout\":{\"p50_ms\":0.08716,\"p95_ms\":2.84227,\"max_ms\":7.44008},\"draw\":{\"p50_ms\":0.62073,\"p95_ms\":2.6665,\"max_ms\":6.34581},\"input\":{\"p50_ms\":0.85714,\"p95_ms\":2.72744,\"max_ms\":8.68261},\"sync\":{\"p50_ms\":0.14781,\"p95_ms\":0.24179,\"max_ms\":3.12179},\"commands\":{\"p50_ms\":0.80906,\"p95_ms\":1.88281,\"max_ms\":3.96737},\"swap\":{\"p50_ms\":14.05467,\"p95_ms\":16.6472,\"max_ms\":20.47585}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":8740,\"recomposer_change_delta\":55,\"memory_before\":{\"pss_kib\":153601,\"java_heap_bytes\":11436368,\"native_heap_bytes\":24185048},\"memory_after\":{\"pss_kib\":160536,\"java_heap_bytes\":13527760,\"native_heap_bytes\":27033336},\"players_before\":{\"init\":17,\"release\":17,\"unreleased_ids\":[]},\"players_after\":{\"init\":17,\"release\":17,\"unreleased_ids\":[]},\"repository_requests_delta\":0}"
+          "11-08 13:30:45.275  3198  3214 I System.out: PERF {\"name\":\"scroll-2-auto-false\",\"frames\":480,\"over_budget_frames\":422,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":21.481977,\"p95_ms\":38.509101,\"max_ms\":63.224313},\"layout\":{\"p50_ms\":0.075838,\"p95_ms\":1.724607,\"max_ms\":9.925136},\"draw\":{\"p50_ms\":0.294024,\"p95_ms\":2.815921,\"max_ms\":9.745772},\"input\":{\"p50_ms\":0.548772,\"p95_ms\":2.076924,\"max_ms\":11.095065},\"sync\":{\"p50_ms\":0.040963,\"p95_ms\":0.081259,\"max_ms\":1.486888},\"commands\":{\"p50_ms\":0.419455,\"p95_ms\":0.785154,\"max_ms\":6.560463},\"swap\":{\"p50_ms\":16.036672,\"p95_ms\":17.628756,\"max_ms\":51.949462}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":9790,\"recomposer_change_delta\":34,\"memory_before\":{\"pss_kib\":134651,\"java_heap_bytes\":8592720,\"native_heap_bytes\":16085960},\"memory_after\":{\"pss_kib\":146308,\"java_heap_bytes\":13522056,\"native_heap_bytes\":20441472},\"players_before\":{\"init\":0,\"release\":0,\"unreleased_ids\":[]},\"players_after\":{\"init\":0,\"release\":0,\"unreleased_ids\":[]},\"repository_requests_delta\":0}",
+          "11-08 13:30:57.590  3198  3214 I System.out: PERF {\"name\":\"scroll-2-auto-true\",\"frames\":510,\"over_budget_frames\":369,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":21.373933,\"p95_ms\":71.577862,\"max_ms\":159.212914},\"layout\":{\"p50_ms\":0.038679,\"p95_ms\":1.296763,\"max_ms\":7.481302},\"draw\":{\"p50_ms\":0.311186,\"p95_ms\":5.81034,\"max_ms\":32.863025},\"input\":{\"p50_ms\":0.303987,\"p95_ms\":1.291229,\"max_ms\":5.826915},\"sync\":{\"p50_ms\":0.047717,\"p95_ms\":0.163,\"max_ms\":2.518821},\"commands\":{\"p50_ms\":0.486303,\"p95_ms\":1.167907,\"max_ms\":4.737905},\"swap\":{\"p50_ms\":15.051137,\"p95_ms\":18.141327,\"max_ms\":64.560644}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":10750,\"recomposer_change_delta\":102,\"memory_before\":{\"pss_kib\":149999,\"java_heap_bytes\":13778008,\"native_heap_bytes\":30174616},\"memory_after\":{\"pss_kib\":156457,\"java_heap_bytes\":13949656,\"native_heap_bytes\":33829848},\"players_before\":{\"init\":1,\"release\":0,\"unreleased_ids\":[\"2960326\"]},\"players_after\":{\"init\":17,\"release\":16,\"unreleased_ids\":[\"c29548a\"]},\"repository_requests_delta\":0}",
+          "11-08 13:31:09.796  3198  3214 I System.out: PERF {\"name\":\"scroll-4-auto-false\",\"frames\":452,\"over_budget_frames\":356,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":21.094266,\"p95_ms\":22.731202,\"max_ms\":62.971116},\"layout\":{\"p50_ms\":0.031067,\"p95_ms\":1.164301,\"max_ms\":24.884371},\"draw\":{\"p50_ms\":0.271371,\"p95_ms\":3.114279,\"max_ms\":12.000997},\"input\":{\"p50_ms\":0.392966,\"p95_ms\":1.52833,\"max_ms\":4.464188},\"sync\":{\"p50_ms\":0.064622,\"p95_ms\":0.155466,\"max_ms\":0.789551},\"commands\":{\"p50_ms\":0.620792,\"p95_ms\":1.471191,\"max_ms\":3.986191},\"swap\":{\"p50_ms\":15.391629,\"p95_ms\":17.078148,\"max_ms\":47.241316}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":9113,\"recomposer_change_delta\":55,\"memory_before\":{\"pss_kib\":161912,\"java_heap_bytes\":18098952,\"native_heap_bytes\":36031488},\"memory_after\":{\"pss_kib\":163614,\"java_heap_bytes\":15150664,\"native_heap_bytes\":28132272},\"players_before\":{\"init\":17,\"release\":16,\"unreleased_ids\":[\"c29548a\"]},\"players_after\":{\"init\":17,\"release\":17,\"unreleased_ids\":[]},\"repository_requests_delta\":0}"
         ]
       },
       {
         "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "lines": [
-          "11-08 13:18:03.286  3215  3231 I System.out: PERF {\"name\":\"scroll-2-auto-false\",\"frames\":516,\"over_budget_frames\":355,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":22.63527,\"p95_ms\":39.629322,\"max_ms\":79.389868},\"layout\":{\"p50_ms\":0.15677,\"p95_ms\":1.52647,\"max_ms\":17.65303},\"draw\":{\"p50_ms\":0.60679,\"p95_ms\":3.28353,\"max_ms\":17.58029},\"input\":{\"p50_ms\":0.96506,\"p95_ms\":3.66225,\"max_ms\":20.56251},\"sync\":{\"p50_ms\":0.11852,\"p95_ms\":0.23711,\"max_ms\":1.87101},\"commands\":{\"p50_ms\":0.61425,\"p95_ms\":1.53168,\"max_ms\":6.60156},\"swap\":{\"p50_ms\":14.29573,\"p95_ms\":16.85931,\"max_ms\":51.53574}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":10037,\"recomposer_change_delta\":34,\"memory_before\":{\"pss_kib\":134295,\"java_heap_bytes\":8785288,\"native_heap_bytes\":15760080},\"memory_after\":{\"pss_kib\":146659,\"java_heap_bytes\":13551256,\"native_heap_bytes\":21280344},\"players_before\":{\"init\":0,\"release\":0,\"unreleased_ids\":[]},\"players_after\":{\"init\":0,\"release\":0,\"unreleased_ids\":[]},\"repository_requests_delta\":0}",
-          "11-08 13:18:16.563  3215  3231 I System.out: PERF {\"name\":\"scroll-2-auto-true\",\"frames\":576,\"over_budget_frames\":479,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":23.330918,\"p95_ms\":72.929718,\"max_ms\":191.63274},\"layout\":{\"p50_ms\":0.07782,\"p95_ms\":1.09562,\"max_ms\":35.94218},\"draw\":{\"p50_ms\":0.58888,\"p95_ms\":7.833873,\"max_ms\":44.19168},\"input\":{\"p50_ms\":0.49961,\"p95_ms\":2.69936,\"max_ms\":8.9353},\"sync\":{\"p50_ms\":0.11928,\"p95_ms\":0.42498,\"max_ms\":6.95516},\"commands\":{\"p50_ms\":0.66403,\"p95_ms\":1.67309,\"max_ms\":11.55694},\"swap\":{\"p50_ms\":15.14563,\"p95_ms\":17.68934,\"max_ms\":55.6459}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":11651,\"recomposer_change_delta\":89,\"memory_before\":{\"pss_kib\":150158,\"java_heap_bytes\":13675488,\"native_heap_bytes\":30047440},\"memory_after\":{\"pss_kib\":155439,\"java_heap_bytes\":14774728,\"native_heap_bytes\":33525064},\"players_before\":{\"init\":1,\"release\":0,\"unreleased_ids\":[\"e373d4d\"]},\"players_after\":{\"init\":17,\"release\":16,\"unreleased_ids\":[\"37e54ee\"]},\"repository_requests_delta\":0}",
-          "11-08 13:18:27.760  3215  3231 I System.out: PERF {\"name\":\"scroll-4-auto-false\",\"frames\":455,\"over_budget_frames\":344,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":22.430942,\"p95_ms\":24.528653,\"max_ms\":28.451891},\"layout\":{\"p50_ms\":0.08716,\"p95_ms\":2.84227,\"max_ms\":7.44008},\"draw\":{\"p50_ms\":0.62073,\"p95_ms\":2.6665,\"max_ms\":6.34581},\"input\":{\"p50_ms\":0.85714,\"p95_ms\":2.72744,\"max_ms\":8.68261},\"sync\":{\"p50_ms\":0.14781,\"p95_ms\":0.24179,\"max_ms\":3.12179},\"commands\":{\"p50_ms\":0.80906,\"p95_ms\":1.88281,\"max_ms\":3.96737},\"swap\":{\"p50_ms\":14.05467,\"p95_ms\":16.6472,\"max_ms\":20.47585}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":8740,\"recomposer_change_delta\":55,\"memory_before\":{\"pss_kib\":153601,\"java_heap_bytes\":11436368,\"native_heap_bytes\":24185048},\"memory_after\":{\"pss_kib\":160536,\"java_heap_bytes\":13527760,\"native_heap_bytes\":27033336},\"players_before\":{\"init\":17,\"release\":17,\"unreleased_ids\":[]},\"players_after\":{\"init\":17,\"release\":17,\"unreleased_ids\":[]},\"repository_requests_delta\":0}"
+          "11-08 13:30:45.275  3198  3214 I System.out: PERF {\"name\":\"scroll-2-auto-false\",\"frames\":480,\"over_budget_frames\":422,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":21.481977,\"p95_ms\":38.509101,\"max_ms\":63.224313},\"layout\":{\"p50_ms\":0.075838,\"p95_ms\":1.724607,\"max_ms\":9.925136},\"draw\":{\"p50_ms\":0.294024,\"p95_ms\":2.815921,\"max_ms\":9.745772},\"input\":{\"p50_ms\":0.548772,\"p95_ms\":2.076924,\"max_ms\":11.095065},\"sync\":{\"p50_ms\":0.040963,\"p95_ms\":0.081259,\"max_ms\":1.486888},\"commands\":{\"p50_ms\":0.419455,\"p95_ms\":0.785154,\"max_ms\":6.560463},\"swap\":{\"p50_ms\":16.036672,\"p95_ms\":17.628756,\"max_ms\":51.949462}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":9790,\"recomposer_change_delta\":34,\"memory_before\":{\"pss_kib\":134651,\"java_heap_bytes\":8592720,\"native_heap_bytes\":16085960},\"memory_after\":{\"pss_kib\":146308,\"java_heap_bytes\":13522056,\"native_heap_bytes\":20441472},\"players_before\":{\"init\":0,\"release\":0,\"unreleased_ids\":[]},\"players_after\":{\"init\":0,\"release\":0,\"unreleased_ids\":[]},\"repository_requests_delta\":0}",
+          "11-08 13:30:57.590  3198  3214 I System.out: PERF {\"name\":\"scroll-2-auto-true\",\"frames\":510,\"over_budget_frames\":369,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":21.373933,\"p95_ms\":71.577862,\"max_ms\":159.212914},\"layout\":{\"p50_ms\":0.038679,\"p95_ms\":1.296763,\"max_ms\":7.481302},\"draw\":{\"p50_ms\":0.311186,\"p95_ms\":5.81034,\"max_ms\":32.863025},\"input\":{\"p50_ms\":0.303987,\"p95_ms\":1.291229,\"max_ms\":5.826915},\"sync\":{\"p50_ms\":0.047717,\"p95_ms\":0.163,\"max_ms\":2.518821},\"commands\":{\"p50_ms\":0.486303,\"p95_ms\":1.167907,\"max_ms\":4.737905},\"swap\":{\"p50_ms\":15.051137,\"p95_ms\":18.141327,\"max_ms\":64.560644}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":10750,\"recomposer_change_delta\":102,\"memory_before\":{\"pss_kib\":149999,\"java_heap_bytes\":13778008,\"native_heap_bytes\":30174616},\"memory_after\":{\"pss_kib\":156457,\"java_heap_bytes\":13949656,\"native_heap_bytes\":33829848},\"players_before\":{\"init\":1,\"release\":0,\"unreleased_ids\":[\"2960326\"]},\"players_after\":{\"init\":17,\"release\":16,\"unreleased_ids\":[\"c29548a\"]},\"repository_requests_delta\":0}",
+          "11-08 13:31:09.796  3198  3214 I System.out: PERF {\"name\":\"scroll-4-auto-false\",\"frames\":452,\"over_budget_frames\":356,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":21.094266,\"p95_ms\":22.731202,\"max_ms\":62.971116},\"layout\":{\"p50_ms\":0.031067,\"p95_ms\":1.164301,\"max_ms\":24.884371},\"draw\":{\"p50_ms\":0.271371,\"p95_ms\":3.114279,\"max_ms\":12.000997},\"input\":{\"p50_ms\":0.392966,\"p95_ms\":1.52833,\"max_ms\":4.464188},\"sync\":{\"p50_ms\":0.064622,\"p95_ms\":0.155466,\"max_ms\":0.789551},\"commands\":{\"p50_ms\":0.620792,\"p95_ms\":1.471191,\"max_ms\":3.986191},\"swap\":{\"p50_ms\":15.391629,\"p95_ms\":17.078148,\"max_ms\":47.241316}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":9113,\"recomposer_change_delta\":55,\"memory_before\":{\"pss_kib\":161912,\"java_heap_bytes\":18098952,\"native_heap_bytes\":36031488},\"memory_after\":{\"pss_kib\":163614,\"java_heap_bytes\":15150664,\"native_heap_bytes\":28132272},\"players_before\":{\"init\":17,\"release\":16,\"unreleased_ids\":[\"c29548a\"]},\"players_after\":{\"init\":17,\"release\":17,\"unreleased_ids\":[]},\"repository_requests_delta\":0}"
         ]
       }
     ],
@@ -826,58 +1640,58 @@
         "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "scroll-2-auto-false",
-          "frames": 381,
-          "over_budget_frames": 381,
+          "frames": 383,
+          "over_budget_frames": 383,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 290.790327,
-              "p95_ms": 342.138059,
-              "max_ms": 369.490823
+              "p50_ms": 293.542818,
+              "p95_ms": 348.3721,
+              "max_ms": 408.833652
             },
             "layout": {
-              "p50_ms": 0.038807,
-              "p95_ms": 0.087089,
-              "max_ms": 113.626979
+              "p50_ms": 0.039114,
+              "p95_ms": 0.095795,
+              "max_ms": 95.809052
             },
             "draw": {
-              "p50_ms": 0.410879,
-              "p95_ms": 5.629408,
-              "max_ms": 57.638687
+              "p50_ms": 0.315685,
+              "p95_ms": 7.117402,
+              "max_ms": 73.92346
             },
             "input": {
-              "p50_ms": 0.728419,
-              "p95_ms": 4.893358,
-              "max_ms": 78.849093
+              "p50_ms": 0.679431,
+              "p95_ms": 9.523234,
+              "max_ms": 128.391413
             },
             "sync": {
-              "p50_ms": 0.087459,
-              "p95_ms": 2.163314,
-              "max_ms": 6.263207
+              "p50_ms": 0.096874,
+              "p95_ms": 2.717019,
+              "max_ms": 11.090937
             },
             "commands": {
-              "p50_ms": 7.959649,
-              "p95_ms": 40.336394,
-              "max_ms": 49.448386
+              "p50_ms": 10.539716,
+              "p95_ms": 44.426073,
+              "max_ms": 64.601624
             },
             "swap": {
-              "p50_ms": 87.502935,
-              "p95_ms": 116.762503,
-              "max_ms": 147.911109
+              "p50_ms": 86.879616,
+              "p95_ms": 118.022554,
+              "max_ms": 149.33591
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 43227,
+          "elapsed_ms": 44384,
           "recomposer_change_delta": 35,
           "memory_before": {
-            "pss_kib": 180344,
-            "java_heap_bytes": 19977136,
-            "native_heap_bytes": 46770800
+            "pss_kib": 209488,
+            "java_heap_bytes": 30504352,
+            "native_heap_bytes": 65741488
           },
           "memory_after": {
-            "pss_kib": 179985,
-            "java_heap_bytes": 14391024,
-            "native_heap_bytes": 46523872
+            "pss_kib": 181838,
+            "java_heap_bytes": 14887120,
+            "native_heap_bytes": 46307152
           },
           "players_before": {
             "init": 0,
@@ -897,71 +1711,71 @@
         "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "scroll-2-auto-true",
-          "frames": 435,
-          "over_budget_frames": 435,
+          "frames": 453,
+          "over_budget_frames": 453,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 298.494417,
-              "p95_ms": 497.076972,
-              "max_ms": 704.382767
+              "p50_ms": 299.61972,
+              "p95_ms": 454.29877,
+              "max_ms": 832.133684
             },
             "layout": {
-              "p50_ms": 0.039458,
-              "p95_ms": 0.097765,
-              "max_ms": 78.206892
+              "p50_ms": 0.039403,
+              "p95_ms": 0.160894,
+              "max_ms": 71.806438
             },
             "draw": {
-              "p50_ms": 0.554732,
-              "p95_ms": 27.537617,
-              "max_ms": 122.413829
+              "p50_ms": 0.443651,
+              "p95_ms": 17.986173,
+              "max_ms": 126.214448
             },
             "input": {
-              "p50_ms": 0.734928,
-              "p95_ms": 8.64935,
-              "max_ms": 118.572444
+              "p50_ms": 0.65731,
+              "p95_ms": 6.325557,
+              "max_ms": 75.125286
             },
             "sync": {
-              "p50_ms": 0.104174,
-              "p95_ms": 2.78138,
-              "max_ms": 62.696854
+              "p50_ms": 0.115512,
+              "p95_ms": 4.034626,
+              "max_ms": 54.531544
             },
             "commands": {
-              "p50_ms": 9.369367,
-              "p95_ms": 76.100071,
-              "max_ms": 326.282705
+              "p50_ms": 9.892589,
+              "p95_ms": 59.817251,
+              "max_ms": 222.393545
             },
             "swap": {
-              "p50_ms": 84.555243,
-              "p95_ms": 135.453297,
-              "max_ms": 240.420564
+              "p50_ms": 84.54706,
+              "p95_ms": 133.098434,
+              "max_ms": 211.535345
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 54598,
-          "recomposer_change_delta": 105,
+          "elapsed_ms": 56873,
+          "recomposer_change_delta": 106,
           "memory_before": {
-            "pss_kib": 183786,
-            "java_heap_bytes": 13424096,
-            "native_heap_bytes": 52317840
+            "pss_kib": 187133,
+            "java_heap_bytes": 15610336,
+            "native_heap_bytes": 52473776
           },
           "memory_after": {
-            "pss_kib": 183375,
-            "java_heap_bytes": 21476624,
-            "native_heap_bytes": 44741344
+            "pss_kib": 190097,
+            "java_heap_bytes": 15292656,
+            "native_heap_bytes": 53177952
           },
           "players_before": {
             "init": 1,
             "release": 0,
             "unreleased_ids": [
-              "fb9bdb4"
+              "33728ca"
             ]
           },
           "players_after": {
             "init": 17,
             "release": 16,
             "unreleased_ids": [
-              "c35cf91"
+              "e9f3511"
             ]
           },
           "repository_requests_delta": 0
@@ -972,64 +1786,64 @@
         "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "scroll-4-auto-false",
-          "frames": 418,
-          "over_budget_frames": 418,
+          "frames": 416,
+          "over_budget_frames": 416,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 314.704552,
-              "p95_ms": 363.701615,
-              "max_ms": 402.596994
+              "p50_ms": 324.472109,
+              "p95_ms": 371.066763,
+              "max_ms": 411.03803
             },
             "layout": {
-              "p50_ms": 0.039899,
-              "p95_ms": 0.145225,
-              "max_ms": 67.451976
+              "p50_ms": 0.045697,
+              "p95_ms": 0.099007,
+              "max_ms": 27.027477
             },
             "draw": {
-              "p50_ms": 0.541692,
-              "p95_ms": 8.464076,
-              "max_ms": 110.611022
+              "p50_ms": 0.455196,
+              "p95_ms": 8.572857,
+              "max_ms": 61.603717
             },
             "input": {
-              "p50_ms": 0.655701,
-              "p95_ms": 6.121907,
-              "max_ms": 63.209358
+              "p50_ms": 0.665702,
+              "p95_ms": 4.275488,
+              "max_ms": 79.514644
             },
             "sync": {
-              "p50_ms": 0.161369,
-              "p95_ms": 2.455327,
-              "max_ms": 29.598149
+              "p50_ms": 0.216852,
+              "p95_ms": 3.003451,
+              "max_ms": 26.332265
             },
             "commands": {
-              "p50_ms": 13.513095,
-              "p95_ms": 45.629554,
-              "max_ms": 62.100601
+              "p50_ms": 19.68921,
+              "p95_ms": 47.230985,
+              "max_ms": 66.137911
             },
             "swap": {
-              "p50_ms": 91.089337,
-              "p95_ms": 118.652117,
-              "max_ms": 145.161411
+              "p50_ms": 91.145523,
+              "p95_ms": 118.749633,
+              "max_ms": 143.040719
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 49706,
-          "recomposer_change_delta": 62,
+          "elapsed_ms": 50282,
+          "recomposer_change_delta": 61,
           "memory_before": {
-            "pss_kib": 179947,
-            "java_heap_bytes": 14400736,
-            "native_heap_bytes": 44498288
+            "pss_kib": 195763,
+            "java_heap_bytes": 19827184,
+            "native_heap_bytes": 55490880
           },
           "memory_after": {
-            "pss_kib": 209490,
-            "java_heap_bytes": 21640112,
-            "native_heap_bytes": 61575856
+            "pss_kib": 210526,
+            "java_heap_bytes": 21181520,
+            "native_heap_bytes": 60802976
           },
           "players_before": {
             "init": 17,
             "release": 16,
             "unreleased_ids": [
-              "c35cf91"
+              "e9f3511"
             ]
           },
           "players_after": {
@@ -1050,66 +1864,66 @@
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 324.429533,
-              "p95_ms": 542.976188,
-              "max_ms": 916.853997
+              "p50_ms": 328.984607,
+              "p95_ms": 590.882872,
+              "max_ms": 867.155402
             },
             "layout": {
-              "p50_ms": 0.042182,
-              "p95_ms": 0.198524,
-              "max_ms": 129.783109
+              "p50_ms": 0.042554,
+              "p95_ms": 0.13403,
+              "max_ms": 48.510232
             },
             "draw": {
-              "p50_ms": 0.70894,
-              "p95_ms": 23.462563,
-              "max_ms": 199.632281
+              "p50_ms": 0.533416,
+              "p95_ms": 33.612566,
+              "max_ms": 111.729188
             },
             "input": {
-              "p50_ms": 0.737412,
-              "p95_ms": 9.182736,
-              "max_ms": 100.447127
+              "p50_ms": 0.711695,
+              "p95_ms": 7.742922,
+              "max_ms": 192.057554
             },
             "sync": {
-              "p50_ms": 0.184453,
-              "p95_ms": 4.109076,
-              "max_ms": 72.780549
+              "p50_ms": 0.212525,
+              "p95_ms": 4.516057,
+              "max_ms": 29.113515
             },
             "commands": {
-              "p50_ms": 15.337252,
-              "p95_ms": 72.415494,
-              "max_ms": 368.962135
+              "p50_ms": 19.041915,
+              "p95_ms": 88.618896,
+              "max_ms": 438.837752
             },
             "swap": {
-              "p50_ms": 89.344603,
-              "p95_ms": 131.976843,
-              "max_ms": 243.989716
+              "p50_ms": 87.151168,
+              "p95_ms": 125.123698,
+              "max_ms": 217.68419
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 57637,
-          "recomposer_change_delta": 126,
+          "elapsed_ms": 58291,
+          "recomposer_change_delta": 129,
           "memory_before": {
-            "pss_kib": 200439,
-            "java_heap_bytes": 18107344,
-            "native_heap_bytes": 63703680
+            "pss_kib": 200811,
+            "java_heap_bytes": 15706144,
+            "native_heap_bytes": 63471792
           },
           "memory_after": {
-            "pss_kib": 191011,
-            "java_heap_bytes": 24814896,
-            "native_heap_bytes": 48262288
+            "pss_kib": 193067,
+            "java_heap_bytes": 14720416,
+            "native_heap_bytes": 54509568
           },
           "players_before": {
             "init": 18,
             "release": 17,
             "unreleased_ids": [
-              "b4930ec"
+              "56889d1"
             ]
           },
           "players_after": {
             "init": 36,
             "release": 35,
             "unreleased_ids": [
-              "f1dece3"
+              "96be962"
             ]
           },
           "repository_requests_delta": 0
@@ -1120,64 +1934,64 @@
         "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "scroll-6-auto-false",
-          "frames": 405,
-          "over_budget_frames": 405,
+          "frames": 419,
+          "over_budget_frames": 419,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 294.603118,
-              "p95_ms": 338.774642,
-              "max_ms": 383.489906
+              "p50_ms": 297.110056,
+              "p95_ms": 342.344347,
+              "max_ms": 378.080979
             },
             "layout": {
-              "p50_ms": 0.043925,
-              "p95_ms": 0.08735,
-              "max_ms": 73.177181
+              "p50_ms": 0.037341,
+              "p95_ms": 0.695414,
+              "max_ms": 112.052213
             },
             "draw": {
-              "p50_ms": 0.828817,
-              "p95_ms": 9.582443,
-              "max_ms": 75.040967
+              "p50_ms": 0.481659,
+              "p95_ms": 7.552835,
+              "max_ms": 78.04936
             },
             "input": {
-              "p50_ms": 0.70256,
-              "p95_ms": 4.507326,
-              "max_ms": 101.521699
+              "p50_ms": 0.59377,
+              "p95_ms": 6.071256,
+              "max_ms": 34.99531
             },
             "sync": {
-              "p50_ms": 0.176652,
-              "p95_ms": 2.03905,
-              "max_ms": 22.596684
+              "p50_ms": 0.188157,
+              "p95_ms": 3.0306,
+              "max_ms": 25.154957
             },
             "commands": {
-              "p50_ms": 18.059474,
-              "p95_ms": 46.274189,
-              "max_ms": 86.70618
+              "p50_ms": 24.830669,
+              "p95_ms": 50.022176,
+              "max_ms": 81.322025
             },
             "swap": {
-              "p50_ms": 79.561312,
-              "p95_ms": 107.796433,
-              "max_ms": 138.941724
+              "p50_ms": 78.338173,
+              "p95_ms": 106.286718,
+              "max_ms": 121.508104
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 45311,
-          "recomposer_change_delta": 81,
+          "elapsed_ms": 46696,
+          "recomposer_change_delta": 82,
           "memory_before": {
-            "pss_kib": 186321,
-            "java_heap_bytes": 17190256,
-            "native_heap_bytes": 46190112
+            "pss_kib": 202691,
+            "java_heap_bytes": 21925616,
+            "native_heap_bytes": 58866592
           },
           "memory_after": {
-            "pss_kib": 210750,
-            "java_heap_bytes": 16278592,
-            "native_heap_bytes": 67097088
+            "pss_kib": 216841,
+            "java_heap_bytes": 20202736,
+            "native_heap_bytes": 67776416
           },
           "players_before": {
             "init": 36,
             "release": 35,
             "unreleased_ids": [
-              "f1dece3"
+              "96be962"
             ]
           },
           "players_after": {
@@ -1193,71 +2007,71 @@
         "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "scroll-6-auto-true",
-          "frames": 487,
-          "over_budget_frames": 485,
+          "frames": 484,
+          "over_budget_frames": 482,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 298.779235,
-              "p95_ms": 514.165818,
-              "max_ms": 1117.90308
+              "p50_ms": 298.150908,
+              "p95_ms": 558.028994,
+              "max_ms": 879.254966
             },
             "layout": {
-              "p50_ms": 0.038548,
-              "p95_ms": 0.089102,
-              "max_ms": 79.491109
+              "p50_ms": 0.038479,
+              "p95_ms": 0.135983,
+              "max_ms": 36.96316
             },
             "draw": {
-              "p50_ms": 1.624596,
-              "p95_ms": 16.486349,
-              "max_ms": 158.421381
+              "p50_ms": 0.63787,
+              "p95_ms": 17.504145,
+              "max_ms": 103.095806
             },
             "input": {
-              "p50_ms": 0.654199,
-              "p95_ms": 5.676483,
-              "max_ms": 93.742502
+              "p50_ms": 0.611308,
+              "p95_ms": 5.124822,
+              "max_ms": 47.082878
             },
             "sync": {
-              "p50_ms": 0.186516,
-              "p95_ms": 3.440416,
-              "max_ms": 118.682857
+              "p50_ms": 0.186707,
+              "p95_ms": 4.231349,
+              "max_ms": 49.169763
             },
             "commands": {
-              "p50_ms": 18.378541,
-              "p95_ms": 67.800653,
-              "max_ms": 305.544619
+              "p50_ms": 25.546091,
+              "p95_ms": 82.118949,
+              "max_ms": 272.788972
             },
             "swap": {
-              "p50_ms": 77.354418,
-              "p95_ms": 110.811669,
-              "max_ms": 159.174347
+              "p50_ms": 75.472295,
+              "p95_ms": 112.974528,
+              "max_ms": 159.867436
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 54855,
-          "recomposer_change_delta": 140,
+          "elapsed_ms": 57175,
+          "recomposer_change_delta": 146,
           "memory_before": {
-            "pss_kib": 218837,
-            "java_heap_bytes": 24365520,
-            "native_heap_bytes": 77500256
+            "pss_kib": 224278,
+            "java_heap_bytes": 27662720,
+            "native_heap_bytes": 78328272
           },
           "memory_after": {
-            "pss_kib": 213951,
-            "java_heap_bytes": 21264752,
-            "native_heap_bytes": 74692176
+            "pss_kib": 220764,
+            "java_heap_bytes": 25387456,
+            "native_heap_bytes": 76289552
           },
           "players_before": {
             "init": 37,
             "release": 36,
             "unreleased_ids": [
-              "3ce97a9"
+              "9ff68a8"
             ]
           },
           "players_after": {
-            "init": 55,
-            "release": 54,
+            "init": 53,
+            "release": 52,
             "unreleased_ids": [
-              "97b69b"
+              "b3146ce"
             ]
           },
           "repository_requests_delta": 0
@@ -1268,69 +2082,69 @@
         "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "scroll-8-auto-false",
-          "frames": 418,
-          "over_budget_frames": 418,
+          "frames": 423,
+          "over_budget_frames": 423,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 296.502458,
-              "p95_ms": 401.842404,
-              "max_ms": 625.187409
+              "p50_ms": 309.379322,
+              "p95_ms": 403.386327,
+              "max_ms": 628.942604
             },
             "layout": {
-              "p50_ms": 0.04034,
-              "p95_ms": 0.144955,
-              "max_ms": 131.22917
+              "p50_ms": 0.039019,
+              "p95_ms": 0.103493,
+              "max_ms": 54.219205
             },
             "draw": {
-              "p50_ms": 0.95855,
-              "p95_ms": 7.670291,
-              "max_ms": 65.84396
+              "p50_ms": 0.576895,
+              "p95_ms": 8.427943,
+              "max_ms": 92.530676
             },
             "input": {
-              "p50_ms": 0.655271,
-              "p95_ms": 4.667323,
-              "max_ms": 71.971435
+              "p50_ms": 0.567482,
+              "p95_ms": 3.493503,
+              "max_ms": 72.136052
             },
             "sync": {
-              "p50_ms": 0.228699,
-              "p95_ms": 2.377737,
-              "max_ms": 40.136528
+              "p50_ms": 0.250024,
+              "p95_ms": 3.02215,
+              "max_ms": 25.357895
             },
             "commands": {
-              "p50_ms": 32.325569,
-              "p95_ms": 81.960917,
-              "max_ms": 318.812169
+              "p50_ms": 37.120707,
+              "p95_ms": 89.36559,
+              "max_ms": 342.353133
             },
             "swap": {
-              "p50_ms": 71.436549,
-              "p95_ms": 98.127823,
-              "max_ms": 142.850894
+              "p50_ms": 67.824471,
+              "p95_ms": 99.877288,
+              "max_ms": 127.901108
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 47167,
-          "recomposer_change_delta": 79,
+          "elapsed_ms": 48543,
+          "recomposer_change_delta": 81,
           "memory_before": {
-            "pss_kib": 228049,
-            "java_heap_bytes": 29801184,
-            "native_heap_bytes": 84841680
+            "pss_kib": 234308,
+            "java_heap_bytes": 33870528,
+            "native_heap_bytes": 86143136
           },
           "memory_after": {
-            "pss_kib": 225081,
-            "java_heap_bytes": 20272304,
-            "native_heap_bytes": 78612624
+            "pss_kib": 236564,
+            "java_heap_bytes": 31143184,
+            "native_heap_bytes": 80842320
           },
           "players_before": {
-            "init": 55,
-            "release": 54,
+            "init": 53,
+            "release": 52,
             "unreleased_ids": [
-              "97b69b"
+              "b3146ce"
             ]
           },
           "players_after": {
-            "init": 55,
-            "release": 55,
+            "init": 53,
+            "release": 53,
             "unreleased_ids": []
           },
           "repository_requests_delta": 4
@@ -1341,71 +2155,71 @@
         "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "scroll-8-auto-true",
-          "frames": 477,
-          "over_budget_frames": 477,
+          "frames": 490,
+          "over_budget_frames": 490,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 298.343089,
-              "p95_ms": 513.60816,
-              "max_ms": 890.164868
+              "p50_ms": 307.538542,
+              "p95_ms": 630.106054,
+              "max_ms": 1068.04737
             },
             "layout": {
-              "p50_ms": 0.039088,
-              "p95_ms": 0.096403,
-              "max_ms": 141.71683
+              "p50_ms": 0.044897,
+              "p95_ms": 0.111472,
+              "max_ms": 99.965013
             },
             "draw": {
-              "p50_ms": 1.244403,
-              "p95_ms": 16.575155,
-              "max_ms": 134.83776
+              "p50_ms": 0.886369,
+              "p95_ms": 16.563944,
+              "max_ms": 101.253801
             },
             "input": {
-              "p50_ms": 0.63491,
-              "p95_ms": 5.977723,
-              "max_ms": 81.499083
+              "p50_ms": 0.622296,
+              "p95_ms": 6.067058,
+              "max_ms": 54.806097
             },
             "sync": {
-              "p50_ms": 0.240346,
-              "p95_ms": 2.837453,
-              "max_ms": 27.406038
+              "p50_ms": 0.272429,
+              "p95_ms": 3.957659,
+              "max_ms": 97.699396
             },
             "commands": {
-              "p50_ms": 31.649422,
-              "p95_ms": 89.578925,
-              "max_ms": 473.325022
+              "p50_ms": 38.015893,
+              "p95_ms": 94.220838,
+              "max_ms": 404.380007
             },
             "swap": {
-              "p50_ms": 66.11724,
-              "p95_ms": 94.076541,
-              "max_ms": 171.928737
+              "p50_ms": 63.350406,
+              "p95_ms": 97.861385,
+              "max_ms": 216.141205
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 53574,
-          "recomposer_change_delta": 120,
+          "elapsed_ms": 57085,
+          "recomposer_change_delta": 119,
           "memory_before": {
-            "pss_kib": 238890,
-            "java_heap_bytes": 30001568,
-            "native_heap_bytes": 94409984
+            "pss_kib": 229265,
+            "java_heap_bytes": 23648640,
+            "native_heap_bytes": 84952656
           },
           "memory_after": {
-            "pss_kib": 228800,
-            "java_heap_bytes": 21110224,
-            "native_heap_bytes": 86003328
+            "pss_kib": 231109,
+            "java_heap_bytes": 23658032,
+            "native_heap_bytes": 85960704
           },
           "players_before": {
-            "init": 56,
-            "release": 55,
+            "init": 54,
+            "release": 53,
             "unreleased_ids": [
-              "5710ea6"
+              "b7061c9"
             ]
           },
           "players_after": {
-            "init": 69,
-            "release": 68,
+            "init": 66,
+            "release": 65,
             "unreleased_ids": [
-              "5e424fc"
+              "63266da"
             ]
           },
           "repository_requests_delta": 4
@@ -1416,131 +2230,348 @@
         "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "scroll-12-auto-false",
-          "frames": 431,
-          "over_budget_frames": 431,
+          "frames": 425,
+          "over_budget_frames": 425,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 313.695262,
-              "p95_ms": 422.134838,
-              "max_ms": 460.125348
+              "p50_ms": 329.944054,
+              "p95_ms": 417.881748,
+              "max_ms": 477.628935
             },
             "layout": {
-              "p50_ms": 0.036854,
-              "p95_ms": 0.08751,
-              "max_ms": 31.694485
+              "p50_ms": 0.041589,
+              "p95_ms": 0.097523,
+              "max_ms": 36.673751
             },
             "draw": {
-              "p50_ms": 0.373803,
-              "p95_ms": 6.569796,
-              "max_ms": 61.247967
+              "p50_ms": 0.371934,
+              "p95_ms": 7.225914,
+              "max_ms": 87.93814
             },
             "input": {
-              "p50_ms": 0.630204,
-              "p95_ms": 3.498642,
-              "max_ms": 92.379894
+              "p50_ms": 0.622294,
+              "p95_ms": 3.746391,
+              "max_ms": 67.273184
             },
             "sync": {
-              "p50_ms": 0.32421,
-              "p95_ms": 2.162473,
-              "max_ms": 6.410795
+              "p50_ms": 0.382308,
+              "p95_ms": 3.166514,
+              "max_ms": 32.16842
             },
             "commands": {
-              "p50_ms": 44.759196,
-              "p95_ms": 92.886799,
-              "max_ms": 129.967608
+              "p50_ms": 55.135432,
+              "p95_ms": 96.060196,
+              "max_ms": 126.641859
             },
             "swap": {
-              "p50_ms": 61.188289,
-              "p95_ms": 88.921297,
-              "max_ms": 124.861964
+              "p50_ms": 51.936501,
+              "p95_ms": 87.084919,
+              "max_ms": 136.912929
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 50949,
+          "elapsed_ms": 51238,
           "recomposer_change_delta": 60,
           "memory_before": {
-            "pss_kib": 228494,
-            "java_heap_bytes": 20598224,
-            "native_heap_bytes": 86669424
+            "pss_kib": 232321,
+            "java_heap_bytes": 22916544,
+            "native_heap_bytes": 86957840
           },
           "memory_after": {
-            "pss_kib": 246802,
-            "java_heap_bytes": 30291216,
-            "native_heap_bytes": 87541584
+            "pss_kib": 240502,
+            "java_heap_bytes": 22721808,
+            "native_heap_bytes": 86001504
           },
           "players_before": {
-            "init": 69,
-            "release": 68,
+            "init": 66,
+            "release": 65,
             "unreleased_ids": [
-              "5e424fc"
+              "63266da"
             ]
           },
           "players_after": {
-            "init": 69,
-            "release": 69,
+            "init": 66,
+            "release": 66,
             "unreleased_ids": []
           },
           "repository_requests_delta": 9
         }
       },
       {
+        "artifact": "performance-35",
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-12-auto-true",
+          "frames": 429,
+          "over_budget_frames": 429,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 331.25054,
+              "p95_ms": 447.416467,
+              "max_ms": 965.71964
+            },
+            "layout": {
+              "p50_ms": 0.041161,
+              "p95_ms": 0.107808,
+              "max_ms": 52.343543
+            },
+            "draw": {
+              "p50_ms": 0.432562,
+              "p95_ms": 6.949912,
+              "max_ms": 132.201191
+            },
+            "input": {
+              "p50_ms": 0.634116,
+              "p95_ms": 6.328752,
+              "max_ms": 36.310197
+            },
+            "sync": {
+              "p50_ms": 0.37829,
+              "p95_ms": 3.320839,
+              "max_ms": 13.050819
+            },
+            "commands": {
+              "p50_ms": 57.079581,
+              "p95_ms": 102.718743,
+              "max_ms": 417.843081
+            },
+            "swap": {
+              "p50_ms": 48.386198,
+              "p95_ms": 86.84468,
+              "max_ms": 150.419695
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 53270,
+          "recomposer_change_delta": 74,
+          "memory_before": {
+            "pss_kib": 257397,
+            "java_heap_bytes": 33864160,
+            "native_heap_bytes": 104209856
+          },
+          "memory_after": {
+            "pss_kib": 262753,
+            "java_heap_bytes": 40263088,
+            "native_heap_bytes": 100840160
+          },
+          "players_before": {
+            "init": 67,
+            "release": 66,
+            "unreleased_ids": [
+              "bed0322"
+            ]
+          },
+          "players_after": {
+            "init": 70,
+            "release": 69,
+            "unreleased_ids": [
+              "306a7e1"
+            ]
+          },
+          "repository_requests_delta": 9
+        }
+      },
+      {
+        "artifact": "performance-35",
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "detail-return",
+          "frames": 16,
+          "over_budget_frames": 16,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 234.438842,
+              "p95_ms": 651.161131,
+              "max_ms": 651.161131
+            },
+            "layout": {
+              "p50_ms": 5.978849,
+              "p95_ms": 86.091239,
+              "max_ms": 86.091239
+            },
+            "draw": {
+              "p50_ms": 0.777733,
+              "p95_ms": 175.133903,
+              "max_ms": 175.133903
+            },
+            "input": {
+              "p50_ms": 0.000763,
+              "p95_ms": 0.00221,
+              "max_ms": 0.00221
+            },
+            "sync": {
+              "p50_ms": 0.178529,
+              "p95_ms": 4.402193,
+              "max_ms": 4.402193
+            },
+            "commands": {
+              "p50_ms": 6.410024,
+              "p95_ms": 117.863544,
+              "max_ms": 117.863544
+            },
+            "swap": {
+              "p50_ms": 57.708921,
+              "p95_ms": 121.368045,
+              "max_ms": 121.368045
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 3291,
+          "recomposer_change_delta": 16,
+          "memory_before": {
+            "pss_kib": 212625,
+            "java_heap_bytes": 11879808,
+            "native_heap_bytes": 66878176
+          },
+          "memory_after": {
+            "pss_kib": 226716,
+            "java_heap_bytes": 20935808,
+            "native_heap_bytes": 74040016
+          },
+          "players_before": {
+            "init": 70,
+            "release": 70,
+            "unreleased_ids": []
+          },
+          "players_after": {
+            "init": 71,
+            "release": 71,
+            "unreleased_ids": []
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-35",
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "twenty-main-switches",
+          "frames": 195,
+          "over_budget_frames": 195,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 184.833111,
+              "p95_ms": 355.242814,
+              "max_ms": 426.548624
+            },
+            "layout": {
+              "p50_ms": 0.040615,
+              "p95_ms": 50.200552,
+              "max_ms": 129.063781
+            },
+            "draw": {
+              "p50_ms": 2.498651,
+              "p95_ms": 15.966877,
+              "max_ms": 64.457744
+            },
+            "input": {
+              "p50_ms": 0.000665,
+              "p95_ms": 0.001779,
+              "max_ms": 0.004759
+            },
+            "sync": {
+              "p50_ms": 0.114789,
+              "p95_ms": 3.521417,
+              "max_ms": 26.6405
+            },
+            "commands": {
+              "p50_ms": 9.135664,
+              "p95_ms": 56.267948,
+              "max_ms": 120.912136
+            },
+            "swap": {
+              "p50_ms": 61.177763,
+              "p95_ms": 107.924118,
+              "max_ms": 123.752819
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 16695,
+          "recomposer_change_delta": 103,
+          "memory_before": {
+            "pss_kib": 235020,
+            "java_heap_bytes": 21419184,
+            "native_heap_bytes": 83742560
+          },
+          "memory_after": {
+            "pss_kib": 224099,
+            "java_heap_bytes": 21427824,
+            "native_heap_bytes": 66131568
+          },
+          "players_before": {
+            "init": 71,
+            "release": 71,
+            "unreleased_ids": []
+          },
+          "players_after": {
+            "init": 71,
+            "release": 71,
+            "unreleased_ids": []
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
         "artifact": "performance-28",
         "path": "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "scroll-2-auto-false",
-          "frames": 516,
-          "over_budget_frames": 355,
+          "frames": 480,
+          "over_budget_frames": 422,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 22.63527,
-              "p95_ms": 39.629322,
-              "max_ms": 79.389868
+              "p50_ms": 21.481977,
+              "p95_ms": 38.509101,
+              "max_ms": 63.224313
             },
             "layout": {
-              "p50_ms": 0.15677,
-              "p95_ms": 1.52647,
-              "max_ms": 17.65303
+              "p50_ms": 0.075838,
+              "p95_ms": 1.724607,
+              "max_ms": 9.925136
             },
             "draw": {
-              "p50_ms": 0.60679,
-              "p95_ms": 3.28353,
-              "max_ms": 17.58029
+              "p50_ms": 0.294024,
+              "p95_ms": 2.815921,
+              "max_ms": 9.745772
             },
             "input": {
-              "p50_ms": 0.96506,
-              "p95_ms": 3.66225,
-              "max_ms": 20.56251
+              "p50_ms": 0.548772,
+              "p95_ms": 2.076924,
+              "max_ms": 11.095065
             },
             "sync": {
-              "p50_ms": 0.11852,
-              "p95_ms": 0.23711,
-              "max_ms": 1.87101
+              "p50_ms": 0.040963,
+              "p95_ms": 0.081259,
+              "max_ms": 1.486888
             },
             "commands": {
-              "p50_ms": 0.61425,
-              "p95_ms": 1.53168,
-              "max_ms": 6.60156
+              "p50_ms": 0.419455,
+              "p95_ms": 0.785154,
+              "max_ms": 6.560463
             },
             "swap": {
-              "p50_ms": 14.29573,
-              "p95_ms": 16.85931,
-              "max_ms": 51.53574
+              "p50_ms": 16.036672,
+              "p95_ms": 17.628756,
+              "max_ms": 51.949462
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 10037,
+          "elapsed_ms": 9790,
           "recomposer_change_delta": 34,
           "memory_before": {
-            "pss_kib": 134295,
-            "java_heap_bytes": 8785288,
-            "native_heap_bytes": 15760080
+            "pss_kib": 134651,
+            "java_heap_bytes": 8592720,
+            "native_heap_bytes": 16085960
           },
           "memory_after": {
-            "pss_kib": 146659,
-            "java_heap_bytes": 13551256,
-            "native_heap_bytes": 21280344
+            "pss_kib": 146308,
+            "java_heap_bytes": 13522056,
+            "native_heap_bytes": 20441472
           },
           "players_before": {
             "init": 0,
@@ -1560,71 +2591,71 @@
         "path": "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "scroll-2-auto-true",
-          "frames": 576,
-          "over_budget_frames": 479,
+          "frames": 510,
+          "over_budget_frames": 369,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 23.330918,
-              "p95_ms": 72.929718,
-              "max_ms": 191.63274
+              "p50_ms": 21.373933,
+              "p95_ms": 71.577862,
+              "max_ms": 159.212914
             },
             "layout": {
-              "p50_ms": 0.07782,
-              "p95_ms": 1.09562,
-              "max_ms": 35.94218
+              "p50_ms": 0.038679,
+              "p95_ms": 1.296763,
+              "max_ms": 7.481302
             },
             "draw": {
-              "p50_ms": 0.58888,
-              "p95_ms": 7.833873,
-              "max_ms": 44.19168
+              "p50_ms": 0.311186,
+              "p95_ms": 5.81034,
+              "max_ms": 32.863025
             },
             "input": {
-              "p50_ms": 0.49961,
-              "p95_ms": 2.69936,
-              "max_ms": 8.9353
+              "p50_ms": 0.303987,
+              "p95_ms": 1.291229,
+              "max_ms": 5.826915
             },
             "sync": {
-              "p50_ms": 0.11928,
-              "p95_ms": 0.42498,
-              "max_ms": 6.95516
+              "p50_ms": 0.047717,
+              "p95_ms": 0.163,
+              "max_ms": 2.518821
             },
             "commands": {
-              "p50_ms": 0.66403,
-              "p95_ms": 1.67309,
-              "max_ms": 11.55694
+              "p50_ms": 0.486303,
+              "p95_ms": 1.167907,
+              "max_ms": 4.737905
             },
             "swap": {
-              "p50_ms": 15.14563,
-              "p95_ms": 17.68934,
-              "max_ms": 55.6459
+              "p50_ms": 15.051137,
+              "p95_ms": 18.141327,
+              "max_ms": 64.560644
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 11651,
-          "recomposer_change_delta": 89,
+          "elapsed_ms": 10750,
+          "recomposer_change_delta": 102,
           "memory_before": {
-            "pss_kib": 150158,
-            "java_heap_bytes": 13675488,
-            "native_heap_bytes": 30047440
+            "pss_kib": 149999,
+            "java_heap_bytes": 13778008,
+            "native_heap_bytes": 30174616
           },
           "memory_after": {
-            "pss_kib": 155439,
-            "java_heap_bytes": 14774728,
-            "native_heap_bytes": 33525064
+            "pss_kib": 156457,
+            "java_heap_bytes": 13949656,
+            "native_heap_bytes": 33829848
           },
           "players_before": {
             "init": 1,
             "release": 0,
             "unreleased_ids": [
-              "e373d4d"
+              "2960326"
             ]
           },
           "players_after": {
             "init": 17,
             "release": 16,
             "unreleased_ids": [
-              "37e54ee"
+              "c29548a"
             ]
           },
           "repository_requests_delta": 0
@@ -1635,63 +2666,65 @@
         "path": "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "scroll-4-auto-false",
-          "frames": 455,
-          "over_budget_frames": 344,
+          "frames": 452,
+          "over_budget_frames": 356,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 22.430942,
-              "p95_ms": 24.528653,
-              "max_ms": 28.451891
+              "p50_ms": 21.094266,
+              "p95_ms": 22.731202,
+              "max_ms": 62.971116
             },
             "layout": {
-              "p50_ms": 0.08716,
-              "p95_ms": 2.84227,
-              "max_ms": 7.44008
+              "p50_ms": 0.031067,
+              "p95_ms": 1.164301,
+              "max_ms": 24.884371
             },
             "draw": {
-              "p50_ms": 0.62073,
-              "p95_ms": 2.6665,
-              "max_ms": 6.34581
+              "p50_ms": 0.271371,
+              "p95_ms": 3.114279,
+              "max_ms": 12.000997
             },
             "input": {
-              "p50_ms": 0.85714,
-              "p95_ms": 2.72744,
-              "max_ms": 8.68261
+              "p50_ms": 0.392966,
+              "p95_ms": 1.52833,
+              "max_ms": 4.464188
             },
             "sync": {
-              "p50_ms": 0.14781,
-              "p95_ms": 0.24179,
-              "max_ms": 3.12179
+              "p50_ms": 0.064622,
+              "p95_ms": 0.155466,
+              "max_ms": 0.789551
             },
             "commands": {
-              "p50_ms": 0.80906,
-              "p95_ms": 1.88281,
-              "max_ms": 3.96737
+              "p50_ms": 0.620792,
+              "p95_ms": 1.471191,
+              "max_ms": 3.986191
             },
             "swap": {
-              "p50_ms": 14.05467,
-              "p95_ms": 16.6472,
-              "max_ms": 20.47585
+              "p50_ms": 15.391629,
+              "p95_ms": 17.078148,
+              "max_ms": 47.241316
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 8740,
+          "elapsed_ms": 9113,
           "recomposer_change_delta": 55,
           "memory_before": {
-            "pss_kib": 153601,
-            "java_heap_bytes": 11436368,
-            "native_heap_bytes": 24185048
+            "pss_kib": 161912,
+            "java_heap_bytes": 18098952,
+            "native_heap_bytes": 36031488
           },
           "memory_after": {
-            "pss_kib": 160536,
-            "java_heap_bytes": 13527760,
-            "native_heap_bytes": 27033336
+            "pss_kib": 163614,
+            "java_heap_bytes": 15150664,
+            "native_heap_bytes": 28132272
           },
           "players_before": {
             "init": 17,
-            "release": 17,
-            "unreleased_ids": []
+            "release": 16,
+            "unreleased_ids": [
+              "c29548a"
+            ]
           },
           "players_after": {
             "init": 17,
@@ -1706,71 +2739,71 @@
         "path": "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "scroll-4-auto-true",
-          "frames": 617,
-          "over_budget_frames": 520,
+          "frames": 533,
+          "over_budget_frames": 449,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 23.872614,
-              "p95_ms": 67.444184,
-              "max_ms": 177.319571
+              "p50_ms": 21.708247,
+              "p95_ms": 72.192999,
+              "max_ms": 139.203197
             },
             "layout": {
-              "p50_ms": 0.08039,
-              "p95_ms": 0.96942,
-              "max_ms": 7.80966
+              "p50_ms": 0.025466,
+              "p95_ms": 1.657272,
+              "max_ms": 18.736877
             },
             "draw": {
-              "p50_ms": 0.75129,
-              "p95_ms": 8.473635,
-              "max_ms": 35.67636
+              "p50_ms": 0.365266,
+              "p95_ms": 6.507574,
+              "max_ms": 29.997457
             },
             "input": {
-              "p50_ms": 0.49826,
-              "p95_ms": 2.63741,
-              "max_ms": 14.93763
+              "p50_ms": 0.251952,
+              "p95_ms": 1.541924,
+              "max_ms": 11.075043
             },
             "sync": {
-              "p50_ms": 0.15697,
-              "p95_ms": 0.54755,
-              "max_ms": 8.35933
+              "p50_ms": 0.067426,
+              "p95_ms": 0.155581,
+              "max_ms": 3.262972
             },
             "commands": {
-              "p50_ms": 0.9115,
-              "p95_ms": 2.70815,
-              "max_ms": 11.7338
+              "p50_ms": 0.65353,
+              "p95_ms": 1.638205,
+              "max_ms": 8.585789
             },
             "swap": {
-              "p50_ms": 14.41557,
-              "p95_ms": 18.10044,
-              "max_ms": 57.28302
+              "p50_ms": 15.120562,
+              "p95_ms": 18.17314,
+              "max_ms": 62.905412
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 12485,
-          "recomposer_change_delta": 117,
+          "elapsed_ms": 11139,
+          "recomposer_change_delta": 125,
           "memory_before": {
-            "pss_kib": 165690,
-            "java_heap_bytes": 17947952,
-            "native_heap_bytes": 38593224
+            "pss_kib": 159524,
+            "java_heap_bytes": 13846976,
+            "native_heap_bytes": 32915592
           },
           "memory_after": {
-            "pss_kib": 161264,
-            "java_heap_bytes": 14550112,
-            "native_heap_bytes": 38125904
+            "pss_kib": 163816,
+            "java_heap_bytes": 15714600,
+            "native_heap_bytes": 38644816
           },
           "players_before": {
             "init": 18,
             "release": 17,
             "unreleased_ids": [
-              "6df3379"
+              "3a593a6"
             ]
           },
           "players_after": {
             "init": 36,
             "release": 35,
             "unreleased_ids": [
-              "efc84f2"
+              "62fe15d"
             ]
           },
           "repository_requests_delta": 0
@@ -1781,64 +2814,64 @@
         "path": "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "scroll-6-auto-false",
-          "frames": 490,
-          "over_budget_frames": 487,
+          "frames": 476,
+          "over_budget_frames": 473,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 22.722232,
-              "p95_ms": 39.733364,
-              "max_ms": 76.283193
+              "p50_ms": 21.374232,
+              "p95_ms": 24.029454,
+              "max_ms": 66.902538
             },
             "layout": {
-              "p50_ms": 0.07958,
-              "p95_ms": 1.37024,
-              "max_ms": 20.09804
+              "p50_ms": 0.039153,
+              "p95_ms": 0.721189,
+              "max_ms": 7.761589
             },
             "draw": {
-              "p50_ms": 0.66026,
-              "p95_ms": 2.68736,
-              "max_ms": 8.30649
+              "p50_ms": 0.538623,
+              "p95_ms": 3.280587,
+              "max_ms": 7.096909
             },
             "input": {
-              "p50_ms": 0.66391,
-              "p95_ms": 2.30374,
-              "max_ms": 7.13605
+              "p50_ms": 0.363852,
+              "p95_ms": 1.494053,
+              "max_ms": 5.645683
             },
             "sync": {
-              "p50_ms": 0.12981,
-              "p95_ms": 0.23143,
-              "max_ms": 3.84278
+              "p50_ms": 0.092621,
+              "p95_ms": 0.136981,
+              "max_ms": 0.47119
             },
             "commands": {
-              "p50_ms": 1.01898,
-              "p95_ms": 2.58137,
-              "max_ms": 7.8969
+              "p50_ms": 0.932598,
+              "p95_ms": 2.122432,
+              "max_ms": 3.663159
             },
             "swap": {
-              "p50_ms": 15.36769,
-              "p95_ms": 16.76282,
-              "max_ms": 45.63112
+              "p50_ms": 15.226259,
+              "p95_ms": 16.799529,
+              "max_ms": 20.949393
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 9441,
-          "recomposer_change_delta": 96,
+          "elapsed_ms": 9477,
+          "recomposer_change_delta": 97,
           "memory_before": {
-            "pss_kib": 170640,
-            "java_heap_bytes": 20341936,
-            "native_heap_bytes": 42408696
+            "pss_kib": 170208,
+            "java_heap_bytes": 19869832,
+            "native_heap_bytes": 40794952
           },
           "memory_after": {
-            "pss_kib": 169090,
-            "java_heap_bytes": 18913128,
-            "native_heap_bytes": 31853976
+            "pss_kib": 174582,
+            "java_heap_bytes": 22352496,
+            "native_heap_bytes": 32712216
           },
           "players_before": {
             "init": 36,
             "release": 35,
             "unreleased_ids": [
-              "efc84f2"
+              "62fe15d"
             ]
           },
           "players_after": {
@@ -1854,71 +2887,71 @@
         "path": "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "scroll-6-auto-true",
-          "frames": 575,
-          "over_budget_frames": 522,
+          "frames": 529,
+          "over_budget_frames": 417,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 22.936509,
-              "p95_ms": 56.787469,
-              "max_ms": 210.600397
+              "p50_ms": 21.666291,
+              "p95_ms": 60.482981,
+              "max_ms": 121.290324
             },
             "layout": {
-              "p50_ms": 0.07541,
-              "p95_ms": 1.17737,
-              "max_ms": 23.15593
+              "p50_ms": 0.032322,
+              "p95_ms": 0.281656,
+              "max_ms": 17.805572
             },
             "draw": {
-              "p50_ms": 0.88531,
-              "p95_ms": 6.514107,
-              "max_ms": 25.14637
+              "p50_ms": 0.561466,
+              "p95_ms": 4.90041,
+              "max_ms": 21.408325
             },
             "input": {
-              "p50_ms": 0.39752,
-              "p95_ms": 1.93283,
-              "max_ms": 9.812
+              "p50_ms": 0.2685,
+              "p95_ms": 1.371451,
+              "max_ms": 3.012976
             },
             "sync": {
-              "p50_ms": 0.14346,
-              "p95_ms": 0.40084,
-              "max_ms": 16.74228
+              "p50_ms": 0.098842,
+              "p95_ms": 0.292749,
+              "max_ms": 2.293577
             },
             "commands": {
-              "p50_ms": 1.08549,
-              "p95_ms": 2.71536,
-              "max_ms": 13.67957
+              "p50_ms": 1.038446,
+              "p95_ms": 2.28608,
+              "max_ms": 9.269457
             },
             "swap": {
-              "p50_ms": 14.67541,
-              "p95_ms": 17.26084,
-              "max_ms": 50.92414
+              "p50_ms": 14.325394,
+              "p95_ms": 16.890006,
+              "max_ms": 66.13373
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 11366,
-          "recomposer_change_delta": 138,
+          "elapsed_ms": 10767,
+          "recomposer_change_delta": 144,
           "memory_before": {
-            "pss_kib": 169597,
-            "java_heap_bytes": 17769248,
-            "native_heap_bytes": 41713224
+            "pss_kib": 173174,
+            "java_heap_bytes": 21420040,
+            "native_heap_bytes": 42173504
           },
           "memory_after": {
-            "pss_kib": 175851,
-            "java_heap_bytes": 23601608,
-            "native_heap_bytes": 43924960
+            "pss_kib": 175930,
+            "java_heap_bytes": 22227920,
+            "native_heap_bytes": 43159976
           },
           "players_before": {
             "init": 37,
             "release": 36,
             "unreleased_ids": [
-              "cc48b09"
+              "343cdd9"
             ]
           },
           "players_after": {
-            "init": 48,
-            "release": 47,
+            "init": 49,
+            "release": 48,
             "unreleased_ids": [
-              "e78467f"
+              "4d925c"
             ]
           },
           "repository_requests_delta": 0
@@ -1929,67 +2962,67 @@
         "path": "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "detail-return",
-          "frames": 34,
+          "frames": 29,
           "over_budget_frames": 22,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 21.135854,
-              "p95_ms": 37.669084,
-              "max_ms": 71.456865
+              "p50_ms": 21.875049,
+              "p95_ms": 118.07117,
+              "max_ms": 121.950393
             },
             "layout": {
-              "p50_ms": 2.26169,
-              "p95_ms": 4.59076,
-              "max_ms": 9.3091
+              "p50_ms": 2.52796,
+              "p95_ms": 19.095214,
+              "max_ms": 28.265571
             },
             "draw": {
-              "p50_ms": 1.03994,
-              "p95_ms": 4.126227,
-              "max_ms": 6.64049
+              "p50_ms": 0.845276,
+              "p95_ms": 9.328062,
+              "max_ms": 40.737085
             },
             "input": {
-              "p50_ms": 0.02595,
-              "p95_ms": 0.11408,
-              "max_ms": 0.38593
+              "p50_ms": 0.009911,
+              "p95_ms": 0.015297,
+              "max_ms": 0.019146
             },
             "sync": {
-              "p50_ms": 0.09731,
-              "p95_ms": 0.1459,
-              "max_ms": 0.19449
+              "p50_ms": 0.076429,
+              "p95_ms": 0.290069,
+              "max_ms": 0.42237
             },
             "commands": {
-              "p50_ms": 0.56152,
-              "p95_ms": 3.14186,
-              "max_ms": 8.42145
+              "p50_ms": 0.555583,
+              "p95_ms": 1.839642,
+              "max_ms": 10.038041
             },
             "swap": {
-              "p50_ms": 11.8125,
-              "p95_ms": 16.80999,
-              "max_ms": 17.7713
+              "p50_ms": 13.712019,
+              "p95_ms": 19.734951,
+              "max_ms": 64.576545
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 2035,
-          "recomposer_change_delta": 14,
+          "elapsed_ms": 2420,
+          "recomposer_change_delta": 15,
           "memory_before": {
-            "pss_kib": 166661,
-            "java_heap_bytes": 13175208,
-            "native_heap_bytes": 37224024
+            "pss_kib": 167789,
+            "java_heap_bytes": 13962352,
+            "native_heap_bytes": 36817952
           },
           "memory_after": {
-            "pss_kib": 168752,
-            "java_heap_bytes": 15747016,
-            "native_heap_bytes": 37025448
+            "pss_kib": 174260,
+            "java_heap_bytes": 14946696,
+            "native_heap_bytes": 37178064
           },
           "players_before": {
-            "init": 48,
-            "release": 48,
+            "init": 49,
+            "release": 49,
             "unreleased_ids": []
           },
           "players_after": {
-            "init": 49,
-            "release": 49,
+            "init": 50,
+            "release": 50,
             "unreleased_ids": []
           },
           "repository_requests_delta": 0
@@ -2000,67 +3033,67 @@
         "path": "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "twenty-main-switches",
-          "frames": 474,
-          "over_budget_frames": 12,
+          "frames": 473,
+          "over_budget_frames": 73,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 7.805547,
-              "p95_ms": 12.180023,
-              "max_ms": 33.535512
+              "p50_ms": 9.363201,
+              "p95_ms": 21.538423,
+              "max_ms": 38.331507
             },
             "layout": {
-              "p50_ms": 0.02975,
-              "p95_ms": 0.68099,
-              "max_ms": 12.35765
+              "p50_ms": 0.012959,
+              "p95_ms": 0.627195,
+              "max_ms": 12.230401
             },
             "draw": {
-              "p50_ms": 1.9281,
-              "p95_ms": 4.174909,
-              "max_ms": 5.94938
+              "p50_ms": 1.655525,
+              "p95_ms": 4.614416,
+              "max_ms": 8.696148
             },
             "input": {
-              "p50_ms": 0.01986,
-              "p95_ms": 0.10933,
-              "max_ms": 0.3942
+              "p50_ms": 0.004051,
+              "p95_ms": 0.021391,
+              "max_ms": 0.420983
             },
             "sync": {
-              "p50_ms": 0.07358,
-              "p95_ms": 0.36943,
-              "max_ms": 1.26025
+              "p50_ms": 0.078201,
+              "p95_ms": 0.222566,
+              "max_ms": 2.394331
             },
             "commands": {
-              "p50_ms": 0.42914,
-              "p95_ms": 0.97898,
-              "max_ms": 3.30728
+              "p50_ms": 0.436301,
+              "p95_ms": 1.389337,
+              "max_ms": 3.398962
             },
             "swap": {
-              "p50_ms": 3.60837,
-              "p95_ms": 6.87672,
-              "max_ms": 10.15652
+              "p50_ms": 5.209325,
+              "p95_ms": 16.367395,
+              "max_ms": 19.502191
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 15916,
-          "recomposer_change_delta": 200,
+          "elapsed_ms": 16087,
+          "recomposer_change_delta": 195,
           "memory_before": {
-            "pss_kib": 173200,
-            "java_heap_bytes": 16107512,
-            "native_heap_bytes": 41250312
+            "pss_kib": 174736,
+            "java_heap_bytes": 15389112,
+            "native_heap_bytes": 41492496
           },
           "memory_after": {
-            "pss_kib": 170668,
-            "java_heap_bytes": 16987416,
-            "native_heap_bytes": 37417104
+            "pss_kib": 173460,
+            "java_heap_bytes": 17977096,
+            "native_heap_bytes": 37578976
           },
           "players_before": {
-            "init": 49,
-            "release": 49,
+            "init": 50,
+            "release": 50,
             "unreleased_ids": []
           },
           "players_after": {
-            "init": 49,
-            "release": 49,
+            "init": 50,
+            "release": 50,
             "unreleased_ids": []
           },
           "repository_requests_delta": 0
@@ -2071,58 +3104,58 @@
         "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "scroll-2-auto-false",
-          "frames": 516,
-          "over_budget_frames": 355,
+          "frames": 480,
+          "over_budget_frames": 422,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 22.63527,
-              "p95_ms": 39.629322,
-              "max_ms": 79.389868
+              "p50_ms": 21.481977,
+              "p95_ms": 38.509101,
+              "max_ms": 63.224313
             },
             "layout": {
-              "p50_ms": 0.15677,
-              "p95_ms": 1.52647,
-              "max_ms": 17.65303
+              "p50_ms": 0.075838,
+              "p95_ms": 1.724607,
+              "max_ms": 9.925136
             },
             "draw": {
-              "p50_ms": 0.60679,
-              "p95_ms": 3.28353,
-              "max_ms": 17.58029
+              "p50_ms": 0.294024,
+              "p95_ms": 2.815921,
+              "max_ms": 9.745772
             },
             "input": {
-              "p50_ms": 0.96506,
-              "p95_ms": 3.66225,
-              "max_ms": 20.56251
+              "p50_ms": 0.548772,
+              "p95_ms": 2.076924,
+              "max_ms": 11.095065
             },
             "sync": {
-              "p50_ms": 0.11852,
-              "p95_ms": 0.23711,
-              "max_ms": 1.87101
+              "p50_ms": 0.040963,
+              "p95_ms": 0.081259,
+              "max_ms": 1.486888
             },
             "commands": {
-              "p50_ms": 0.61425,
-              "p95_ms": 1.53168,
-              "max_ms": 6.60156
+              "p50_ms": 0.419455,
+              "p95_ms": 0.785154,
+              "max_ms": 6.560463
             },
             "swap": {
-              "p50_ms": 14.29573,
-              "p95_ms": 16.85931,
-              "max_ms": 51.53574
+              "p50_ms": 16.036672,
+              "p95_ms": 17.628756,
+              "max_ms": 51.949462
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 10037,
+          "elapsed_ms": 9790,
           "recomposer_change_delta": 34,
           "memory_before": {
-            "pss_kib": 134295,
-            "java_heap_bytes": 8785288,
-            "native_heap_bytes": 15760080
+            "pss_kib": 134651,
+            "java_heap_bytes": 8592720,
+            "native_heap_bytes": 16085960
           },
           "memory_after": {
-            "pss_kib": 146659,
-            "java_heap_bytes": 13551256,
-            "native_heap_bytes": 21280344
+            "pss_kib": 146308,
+            "java_heap_bytes": 13522056,
+            "native_heap_bytes": 20441472
           },
           "players_before": {
             "init": 0,
@@ -2142,71 +3175,71 @@
         "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "scroll-2-auto-true",
-          "frames": 576,
-          "over_budget_frames": 479,
+          "frames": 510,
+          "over_budget_frames": 369,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 23.330918,
-              "p95_ms": 72.929718,
-              "max_ms": 191.63274
+              "p50_ms": 21.373933,
+              "p95_ms": 71.577862,
+              "max_ms": 159.212914
             },
             "layout": {
-              "p50_ms": 0.07782,
-              "p95_ms": 1.09562,
-              "max_ms": 35.94218
+              "p50_ms": 0.038679,
+              "p95_ms": 1.296763,
+              "max_ms": 7.481302
             },
             "draw": {
-              "p50_ms": 0.58888,
-              "p95_ms": 7.833873,
-              "max_ms": 44.19168
+              "p50_ms": 0.311186,
+              "p95_ms": 5.81034,
+              "max_ms": 32.863025
             },
             "input": {
-              "p50_ms": 0.49961,
-              "p95_ms": 2.69936,
-              "max_ms": 8.9353
+              "p50_ms": 0.303987,
+              "p95_ms": 1.291229,
+              "max_ms": 5.826915
             },
             "sync": {
-              "p50_ms": 0.11928,
-              "p95_ms": 0.42498,
-              "max_ms": 6.95516
+              "p50_ms": 0.047717,
+              "p95_ms": 0.163,
+              "max_ms": 2.518821
             },
             "commands": {
-              "p50_ms": 0.66403,
-              "p95_ms": 1.67309,
-              "max_ms": 11.55694
+              "p50_ms": 0.486303,
+              "p95_ms": 1.167907,
+              "max_ms": 4.737905
             },
             "swap": {
-              "p50_ms": 15.14563,
-              "p95_ms": 17.68934,
-              "max_ms": 55.6459
+              "p50_ms": 15.051137,
+              "p95_ms": 18.141327,
+              "max_ms": 64.560644
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 11651,
-          "recomposer_change_delta": 89,
+          "elapsed_ms": 10750,
+          "recomposer_change_delta": 102,
           "memory_before": {
-            "pss_kib": 150158,
-            "java_heap_bytes": 13675488,
-            "native_heap_bytes": 30047440
+            "pss_kib": 149999,
+            "java_heap_bytes": 13778008,
+            "native_heap_bytes": 30174616
           },
           "memory_after": {
-            "pss_kib": 155439,
-            "java_heap_bytes": 14774728,
-            "native_heap_bytes": 33525064
+            "pss_kib": 156457,
+            "java_heap_bytes": 13949656,
+            "native_heap_bytes": 33829848
           },
           "players_before": {
             "init": 1,
             "release": 0,
             "unreleased_ids": [
-              "e373d4d"
+              "2960326"
             ]
           },
           "players_after": {
             "init": 17,
             "release": 16,
             "unreleased_ids": [
-              "37e54ee"
+              "c29548a"
             ]
           },
           "repository_requests_delta": 0
@@ -2217,63 +3250,65 @@
         "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "scroll-4-auto-false",
-          "frames": 455,
-          "over_budget_frames": 344,
+          "frames": 452,
+          "over_budget_frames": 356,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 22.430942,
-              "p95_ms": 24.528653,
-              "max_ms": 28.451891
+              "p50_ms": 21.094266,
+              "p95_ms": 22.731202,
+              "max_ms": 62.971116
             },
             "layout": {
-              "p50_ms": 0.08716,
-              "p95_ms": 2.84227,
-              "max_ms": 7.44008
+              "p50_ms": 0.031067,
+              "p95_ms": 1.164301,
+              "max_ms": 24.884371
             },
             "draw": {
-              "p50_ms": 0.62073,
-              "p95_ms": 2.6665,
-              "max_ms": 6.34581
+              "p50_ms": 0.271371,
+              "p95_ms": 3.114279,
+              "max_ms": 12.000997
             },
             "input": {
-              "p50_ms": 0.85714,
-              "p95_ms": 2.72744,
-              "max_ms": 8.68261
+              "p50_ms": 0.392966,
+              "p95_ms": 1.52833,
+              "max_ms": 4.464188
             },
             "sync": {
-              "p50_ms": 0.14781,
-              "p95_ms": 0.24179,
-              "max_ms": 3.12179
+              "p50_ms": 0.064622,
+              "p95_ms": 0.155466,
+              "max_ms": 0.789551
             },
             "commands": {
-              "p50_ms": 0.80906,
-              "p95_ms": 1.88281,
-              "max_ms": 3.96737
+              "p50_ms": 0.620792,
+              "p95_ms": 1.471191,
+              "max_ms": 3.986191
             },
             "swap": {
-              "p50_ms": 14.05467,
-              "p95_ms": 16.6472,
-              "max_ms": 20.47585
+              "p50_ms": 15.391629,
+              "p95_ms": 17.078148,
+              "max_ms": 47.241316
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 8740,
+          "elapsed_ms": 9113,
           "recomposer_change_delta": 55,
           "memory_before": {
-            "pss_kib": 153601,
-            "java_heap_bytes": 11436368,
-            "native_heap_bytes": 24185048
+            "pss_kib": 161912,
+            "java_heap_bytes": 18098952,
+            "native_heap_bytes": 36031488
           },
           "memory_after": {
-            "pss_kib": 160536,
-            "java_heap_bytes": 13527760,
-            "native_heap_bytes": 27033336
+            "pss_kib": 163614,
+            "java_heap_bytes": 15150664,
+            "native_heap_bytes": 28132272
           },
           "players_before": {
             "init": 17,
-            "release": 17,
-            "unreleased_ids": []
+            "release": 16,
+            "unreleased_ids": [
+              "c29548a"
+            ]
           },
           "players_after": {
             "init": 17,
@@ -2288,71 +3323,71 @@
         "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "scroll-4-auto-true",
-          "frames": 617,
-          "over_budget_frames": 520,
+          "frames": 533,
+          "over_budget_frames": 449,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 23.872614,
-              "p95_ms": 67.444184,
-              "max_ms": 177.319571
+              "p50_ms": 21.708247,
+              "p95_ms": 72.192999,
+              "max_ms": 139.203197
             },
             "layout": {
-              "p50_ms": 0.08039,
-              "p95_ms": 0.96942,
-              "max_ms": 7.80966
+              "p50_ms": 0.025466,
+              "p95_ms": 1.657272,
+              "max_ms": 18.736877
             },
             "draw": {
-              "p50_ms": 0.75129,
-              "p95_ms": 8.473635,
-              "max_ms": 35.67636
+              "p50_ms": 0.365266,
+              "p95_ms": 6.507574,
+              "max_ms": 29.997457
             },
             "input": {
-              "p50_ms": 0.49826,
-              "p95_ms": 2.63741,
-              "max_ms": 14.93763
+              "p50_ms": 0.251952,
+              "p95_ms": 1.541924,
+              "max_ms": 11.075043
             },
             "sync": {
-              "p50_ms": 0.15697,
-              "p95_ms": 0.54755,
-              "max_ms": 8.35933
+              "p50_ms": 0.067426,
+              "p95_ms": 0.155581,
+              "max_ms": 3.262972
             },
             "commands": {
-              "p50_ms": 0.9115,
-              "p95_ms": 2.70815,
-              "max_ms": 11.7338
+              "p50_ms": 0.65353,
+              "p95_ms": 1.638205,
+              "max_ms": 8.585789
             },
             "swap": {
-              "p50_ms": 14.41557,
-              "p95_ms": 18.10044,
-              "max_ms": 57.28302
+              "p50_ms": 15.120562,
+              "p95_ms": 18.17314,
+              "max_ms": 62.905412
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 12485,
-          "recomposer_change_delta": 117,
+          "elapsed_ms": 11139,
+          "recomposer_change_delta": 125,
           "memory_before": {
-            "pss_kib": 165690,
-            "java_heap_bytes": 17947952,
-            "native_heap_bytes": 38593224
+            "pss_kib": 159524,
+            "java_heap_bytes": 13846976,
+            "native_heap_bytes": 32915592
           },
           "memory_after": {
-            "pss_kib": 161264,
-            "java_heap_bytes": 14550112,
-            "native_heap_bytes": 38125904
+            "pss_kib": 163816,
+            "java_heap_bytes": 15714600,
+            "native_heap_bytes": 38644816
           },
           "players_before": {
             "init": 18,
             "release": 17,
             "unreleased_ids": [
-              "6df3379"
+              "3a593a6"
             ]
           },
           "players_after": {
             "init": 36,
             "release": 35,
             "unreleased_ids": [
-              "efc84f2"
+              "62fe15d"
             ]
           },
           "repository_requests_delta": 0
@@ -2363,64 +3398,64 @@
         "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "scroll-6-auto-false",
-          "frames": 490,
-          "over_budget_frames": 487,
+          "frames": 476,
+          "over_budget_frames": 473,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 22.722232,
-              "p95_ms": 39.733364,
-              "max_ms": 76.283193
+              "p50_ms": 21.374232,
+              "p95_ms": 24.029454,
+              "max_ms": 66.902538
             },
             "layout": {
-              "p50_ms": 0.07958,
-              "p95_ms": 1.37024,
-              "max_ms": 20.09804
+              "p50_ms": 0.039153,
+              "p95_ms": 0.721189,
+              "max_ms": 7.761589
             },
             "draw": {
-              "p50_ms": 0.66026,
-              "p95_ms": 2.68736,
-              "max_ms": 8.30649
+              "p50_ms": 0.538623,
+              "p95_ms": 3.280587,
+              "max_ms": 7.096909
             },
             "input": {
-              "p50_ms": 0.66391,
-              "p95_ms": 2.30374,
-              "max_ms": 7.13605
+              "p50_ms": 0.363852,
+              "p95_ms": 1.494053,
+              "max_ms": 5.645683
             },
             "sync": {
-              "p50_ms": 0.12981,
-              "p95_ms": 0.23143,
-              "max_ms": 3.84278
+              "p50_ms": 0.092621,
+              "p95_ms": 0.136981,
+              "max_ms": 0.47119
             },
             "commands": {
-              "p50_ms": 1.01898,
-              "p95_ms": 2.58137,
-              "max_ms": 7.8969
+              "p50_ms": 0.932598,
+              "p95_ms": 2.122432,
+              "max_ms": 3.663159
             },
             "swap": {
-              "p50_ms": 15.36769,
-              "p95_ms": 16.76282,
-              "max_ms": 45.63112
+              "p50_ms": 15.226259,
+              "p95_ms": 16.799529,
+              "max_ms": 20.949393
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 9441,
-          "recomposer_change_delta": 96,
+          "elapsed_ms": 9477,
+          "recomposer_change_delta": 97,
           "memory_before": {
-            "pss_kib": 170640,
-            "java_heap_bytes": 20341936,
-            "native_heap_bytes": 42408696
+            "pss_kib": 170208,
+            "java_heap_bytes": 19869832,
+            "native_heap_bytes": 40794952
           },
           "memory_after": {
-            "pss_kib": 169090,
-            "java_heap_bytes": 18913128,
-            "native_heap_bytes": 31853976
+            "pss_kib": 174582,
+            "java_heap_bytes": 22352496,
+            "native_heap_bytes": 32712216
           },
           "players_before": {
             "init": 36,
             "release": 35,
             "unreleased_ids": [
-              "efc84f2"
+              "62fe15d"
             ]
           },
           "players_after": {
@@ -2436,71 +3471,71 @@
         "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "scroll-6-auto-true",
-          "frames": 575,
-          "over_budget_frames": 522,
+          "frames": 529,
+          "over_budget_frames": 417,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 22.936509,
-              "p95_ms": 56.787469,
-              "max_ms": 210.600397
+              "p50_ms": 21.666291,
+              "p95_ms": 60.482981,
+              "max_ms": 121.290324
             },
             "layout": {
-              "p50_ms": 0.07541,
-              "p95_ms": 1.17737,
-              "max_ms": 23.15593
+              "p50_ms": 0.032322,
+              "p95_ms": 0.281656,
+              "max_ms": 17.805572
             },
             "draw": {
-              "p50_ms": 0.88531,
-              "p95_ms": 6.514107,
-              "max_ms": 25.14637
+              "p50_ms": 0.561466,
+              "p95_ms": 4.90041,
+              "max_ms": 21.408325
             },
             "input": {
-              "p50_ms": 0.39752,
-              "p95_ms": 1.93283,
-              "max_ms": 9.812
+              "p50_ms": 0.2685,
+              "p95_ms": 1.371451,
+              "max_ms": 3.012976
             },
             "sync": {
-              "p50_ms": 0.14346,
-              "p95_ms": 0.40084,
-              "max_ms": 16.74228
+              "p50_ms": 0.098842,
+              "p95_ms": 0.292749,
+              "max_ms": 2.293577
             },
             "commands": {
-              "p50_ms": 1.08549,
-              "p95_ms": 2.71536,
-              "max_ms": 13.67957
+              "p50_ms": 1.038446,
+              "p95_ms": 2.28608,
+              "max_ms": 9.269457
             },
             "swap": {
-              "p50_ms": 14.67541,
-              "p95_ms": 17.26084,
-              "max_ms": 50.92414
+              "p50_ms": 14.325394,
+              "p95_ms": 16.890006,
+              "max_ms": 66.13373
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 11366,
-          "recomposer_change_delta": 138,
+          "elapsed_ms": 10767,
+          "recomposer_change_delta": 144,
           "memory_before": {
-            "pss_kib": 169597,
-            "java_heap_bytes": 17769248,
-            "native_heap_bytes": 41713224
+            "pss_kib": 173174,
+            "java_heap_bytes": 21420040,
+            "native_heap_bytes": 42173504
           },
           "memory_after": {
-            "pss_kib": 175851,
-            "java_heap_bytes": 23601608,
-            "native_heap_bytes": 43924960
+            "pss_kib": 175930,
+            "java_heap_bytes": 22227920,
+            "native_heap_bytes": 43159976
           },
           "players_before": {
             "init": 37,
             "release": 36,
             "unreleased_ids": [
-              "cc48b09"
+              "343cdd9"
             ]
           },
           "players_after": {
-            "init": 48,
-            "release": 47,
+            "init": 49,
+            "release": 48,
             "unreleased_ids": [
-              "e78467f"
+              "4d925c"
             ]
           },
           "repository_requests_delta": 0
@@ -2511,67 +3546,67 @@
         "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "detail-return",
-          "frames": 34,
+          "frames": 29,
           "over_budget_frames": 22,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 21.135854,
-              "p95_ms": 37.669084,
-              "max_ms": 71.456865
+              "p50_ms": 21.875049,
+              "p95_ms": 118.07117,
+              "max_ms": 121.950393
             },
             "layout": {
-              "p50_ms": 2.26169,
-              "p95_ms": 4.59076,
-              "max_ms": 9.3091
+              "p50_ms": 2.52796,
+              "p95_ms": 19.095214,
+              "max_ms": 28.265571
             },
             "draw": {
-              "p50_ms": 1.03994,
-              "p95_ms": 4.126227,
-              "max_ms": 6.64049
+              "p50_ms": 0.845276,
+              "p95_ms": 9.328062,
+              "max_ms": 40.737085
             },
             "input": {
-              "p50_ms": 0.02595,
-              "p95_ms": 0.11408,
-              "max_ms": 0.38593
+              "p50_ms": 0.009911,
+              "p95_ms": 0.015297,
+              "max_ms": 0.019146
             },
             "sync": {
-              "p50_ms": 0.09731,
-              "p95_ms": 0.1459,
-              "max_ms": 0.19449
+              "p50_ms": 0.076429,
+              "p95_ms": 0.290069,
+              "max_ms": 0.42237
             },
             "commands": {
-              "p50_ms": 0.56152,
-              "p95_ms": 3.14186,
-              "max_ms": 8.42145
+              "p50_ms": 0.555583,
+              "p95_ms": 1.839642,
+              "max_ms": 10.038041
             },
             "swap": {
-              "p50_ms": 11.8125,
-              "p95_ms": 16.80999,
-              "max_ms": 17.7713
+              "p50_ms": 13.712019,
+              "p95_ms": 19.734951,
+              "max_ms": 64.576545
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 2035,
-          "recomposer_change_delta": 14,
+          "elapsed_ms": 2420,
+          "recomposer_change_delta": 15,
           "memory_before": {
-            "pss_kib": 166661,
-            "java_heap_bytes": 13175208,
-            "native_heap_bytes": 37224024
+            "pss_kib": 167789,
+            "java_heap_bytes": 13962352,
+            "native_heap_bytes": 36817952
           },
           "memory_after": {
-            "pss_kib": 168752,
-            "java_heap_bytes": 15747016,
-            "native_heap_bytes": 37025448
+            "pss_kib": 174260,
+            "java_heap_bytes": 14946696,
+            "native_heap_bytes": 37178064
           },
           "players_before": {
-            "init": 48,
-            "release": 48,
+            "init": 49,
+            "release": 49,
             "unreleased_ids": []
           },
           "players_after": {
-            "init": 49,
-            "release": 49,
+            "init": 50,
+            "release": 50,
             "unreleased_ids": []
           },
           "repository_requests_delta": 0
@@ -2582,67 +3617,67 @@
         "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
         "data": {
           "name": "twenty-main-switches",
-          "frames": 474,
-          "over_budget_frames": 12,
+          "frames": 473,
+          "over_budget_frames": 73,
           "budget_ms": 16.666665607028605,
           "metrics": {
             "total": {
-              "p50_ms": 7.805547,
-              "p95_ms": 12.180023,
-              "max_ms": 33.535512
+              "p50_ms": 9.363201,
+              "p95_ms": 21.538423,
+              "max_ms": 38.331507
             },
             "layout": {
-              "p50_ms": 0.02975,
-              "p95_ms": 0.68099,
-              "max_ms": 12.35765
+              "p50_ms": 0.012959,
+              "p95_ms": 0.627195,
+              "max_ms": 12.230401
             },
             "draw": {
-              "p50_ms": 1.9281,
-              "p95_ms": 4.174909,
-              "max_ms": 5.94938
+              "p50_ms": 1.655525,
+              "p95_ms": 4.614416,
+              "max_ms": 8.696148
             },
             "input": {
-              "p50_ms": 0.01986,
-              "p95_ms": 0.10933,
-              "max_ms": 0.3942
+              "p50_ms": 0.004051,
+              "p95_ms": 0.021391,
+              "max_ms": 0.420983
             },
             "sync": {
-              "p50_ms": 0.07358,
-              "p95_ms": 0.36943,
-              "max_ms": 1.26025
+              "p50_ms": 0.078201,
+              "p95_ms": 0.222566,
+              "max_ms": 2.394331
             },
             "commands": {
-              "p50_ms": 0.42914,
-              "p95_ms": 0.97898,
-              "max_ms": 3.30728
+              "p50_ms": 0.436301,
+              "p95_ms": 1.389337,
+              "max_ms": 3.398962
             },
             "swap": {
-              "p50_ms": 3.60837,
-              "p95_ms": 6.87672,
-              "max_ms": 10.15652
+              "p50_ms": 5.209325,
+              "p95_ms": 16.367395,
+              "max_ms": 19.502191
             }
           },
           "dropped_frame_callbacks": 0,
-          "elapsed_ms": 15916,
-          "recomposer_change_delta": 200,
+          "elapsed_ms": 16087,
+          "recomposer_change_delta": 195,
           "memory_before": {
-            "pss_kib": 173200,
-            "java_heap_bytes": 16107512,
-            "native_heap_bytes": 41250312
+            "pss_kib": 174736,
+            "java_heap_bytes": 15389112,
+            "native_heap_bytes": 41492496
           },
           "memory_after": {
-            "pss_kib": 170668,
-            "java_heap_bytes": 16987416,
-            "native_heap_bytes": 37417104
+            "pss_kib": 173460,
+            "java_heap_bytes": 17977096,
+            "native_heap_bytes": 37578976
           },
           "players_before": {
-            "init": 49,
-            "release": 49,
+            "init": 50,
+            "release": 50,
             "unreleased_ids": []
           },
           "players_after": {
-            "init": 49,
-            "release": 49,
+            "init": 50,
+            "release": 50,
             "unreleased_ids": []
           },
           "repository_requests_delta": 0
