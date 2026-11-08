@@ -80,16 +80,31 @@ class PerformanceScenarioDeviceTest {
         }
         return ids
     }
+    private fun gridNode():AccessibilityNodeInfo?{
+        // Compose testTag resource names are virtual IDs, not qualified Android View IDs.
+        // findAccessibilityNodeInfosByViewId("post-grid") cannot resolve them.
+        val pending=java.util.ArrayDeque<AccessibilityNodeInfo>()
+        instrumentation.uiAutomation.rootInActiveWindow?.let{pending.add(it)}
+        while(pending.isNotEmpty()){
+            val item=pending.removeFirst()
+            if(item.viewIdResourceName?.substringAfterLast('/')=="post-grid"){
+                @Suppress("DEPRECATION") pending.forEach{it.recycle()}
+                return item
+            }
+            repeat(item.childCount){index->item.getChild(index)?.let{pending.add(it)}}
+            @Suppress("DEPRECATION") item.recycle()
+        }
+        return null
+    }
     private fun top(){
         // Precondition outside the measured gesture window. Accessibility page actions avoid
         // fling-distance differences between the phone and a slow software-rendered tablet.
-        fun grid()=instrumentation.uiAutomation.rootInActiveWindow?.findAccessibilityNodeInfosByViewId("post-grid")?.firstOrNull()
-        grid()?.performAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_TO_POSITION.id,Bundle().apply{
+        gridNode()?.performAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_TO_POSITION.id,Bundle().apply{
             putInt(AccessibilityNodeInfo.ACTION_ARGUMENT_ROW_INT,0);putInt(AccessibilityNodeInfo.ACTION_ARGUMENT_COLUMN_INT,0)
         })
         repeat(160){
             if(posts.first().id in visiblePostIds()){settle();return}
-            grid()?.performAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD)
+            gridNode()?.let{node->try{node.performAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD)}finally{@Suppress("DEPRECATION") node.recycle()}}
             Thread.sleep(60)
         }
         val capture=bitmap();save("reset-failed.png",capture);capture.recycle()

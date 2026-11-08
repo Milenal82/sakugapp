@@ -89,16 +89,19 @@ jobs:
             adb shell settings put global transition_animation_scale 1
             adb shell settings put global window_animation_scale 1
             if [ "${{ matrix.api }}" = "35" ]; then adb shell wm size 1280x900; adb shell wm density 160; fi
-            bash scripts/run-performance-profile.sh
+            bash scripts/run-performance-profile.sh || touch /tmp/sakugapp-profile-failed
+            adb install -r -t "$PERF_APK_ROOT/current/app-debug.apk"
+            adb install -r -t "$PERF_APK_ROOT/current/app-debug-androidTest.apk"
             adb shell wm size reset
             adb shell wm density reset
-            bash scripts/run-device-instrumentation.sh com.sakugapp.NavigationPerformanceDeviceTest app/build/reports/performance/runner-navigation.log
+            bash scripts/run-device-instrumentation.sh com.sakugapp.NavigationPerformanceDeviceTest app/build/reports/performance/runner-navigation.log || touch /tmp/sakugapp-navigation-failed
             adb shell settings put global animator_duration_scale 0
             adb shell settings put global transition_animation_scale 0
             adb shell settings put global window_animation_scale 0
-            bash scripts/run-device-instrumentation.sh com.sakugapp.DebugLinksDeviceTest,com.sakugapp.PageCacheDeviceTest,com.sakugapp.SearchNavigationDeviceTest,com.sakugapp.CommunityUiDeviceTest,com.sakugapp.PlayerLockDeviceTest,com.sakugapp.MenuAndPoolDeviceTest,com.sakugapp.ExtensionUiDeviceTest,com.sakugapp.DiscoveryNavigationDeviceTest,com.sakugapp.ClipExportDeviceTest,com.sakugapp.LocalProfileDeviceTest,com.sakugapp.BackupRestoreDeviceTest,com.sakugapp.FrameControlsDeviceTest app/build/reports/performance/runner-regression.log
+            bash scripts/run-device-instrumentation.sh com.sakugapp.DebugLinksDeviceTest,com.sakugapp.PageCacheDeviceTest,com.sakugapp.SearchNavigationDeviceTest,com.sakugapp.CommunityUiDeviceTest,com.sakugapp.PlayerLockDeviceTest,com.sakugapp.MenuAndPoolDeviceTest,com.sakugapp.ExtensionUiDeviceTest,com.sakugapp.DiscoveryNavigationDeviceTest,com.sakugapp.ClipExportDeviceTest,com.sakugapp.LocalProfileDeviceTest,com.sakugapp.BackupRestoreDeviceTest,com.sakugapp.FrameControlsDeviceTest app/build/reports/performance/runner-regression.log || touch /tmp/sakugapp-regression-failed
             mkdir -p app/build/reports/ui-evidence
             adb pull /sdcard/Download/sakugapp-ui-evidence/. app/build/reports/ui-evidence/ || true
+            test ! -e /tmp/sakugapp-profile-failed && test ! -e /tmp/sakugapp-navigation-failed && test ! -e /tmp/sakugapp-regression-failed
       - uses: actions/upload-artifact@v4
         if: always()
         with:
