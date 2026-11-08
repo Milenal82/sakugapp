@@ -25,8 +25,12 @@ jobs:
               result={'run':run,'sha':meta['head_sha'],'status':meta['status'],'conclusion':meta['conclusion'],'jobs':[],'artifacts':[],'reports':[],'profiles':[]}
               for job in json.loads(api(f'actions/runs/{run}/jobs?per_page=100'))['jobs']:
                   info={'id':job['id'],'name':job['name'],'conclusion':job['conclusion'],'steps':job['steps']}
-                  if job['conclusion']=='failure':
-                      try:info['errors']=api(f'actions/jobs/{job["id"]}/logs').decode(errors='replace')[-18000:]
+                  if job['conclusion'] in ['success','failure'] and job['name'].startswith('profile'):
+                      try:
+                          log=api(f'actions/jobs/{job["id"]}/logs').decode(errors='replace')
+                          info['errors']=log[-18000:] if job['conclusion']=='failure' else ''
+                          for match in re.finditer(r'PERFORMANCE_REPORT (\{[^\n]+\})',log):
+                              result['profiles'].append({'artifact':'job-log','path':str(job['id']),'data':json.loads(match.group(1))})
                       except Exception:pass
                   result['jobs'].append(info)
               for item in json.loads(api(f'actions/runs/{run}/artifacts?per_page=100'))['artifacts']:
@@ -35,7 +39,13 @@ jobs:
                   archive=zipfile.ZipFile(io.BytesIO(api(f'actions/artifacts/{item["id"]}/zip')))
                   for p in archive.infolist():
                       name=pathlib.PurePosixPath(p.filename).name
+                      if 'build' not in item['name']:result.setdefault('files',[]).append(p.filename)
                       if p.file_size>16*1024*1024:continue
+                      if name.endswith(('.txt','.log')) and p.file_size<8*1024*1024:
+                          raw=archive.read(p).decode(errors='replace')
+                          for match in re.finditer(r'PERFORMANCE_REPORT (\{[^\n]+\})',raw):
+                              try:result['profiles'].append({'artifact':item['name'],'path':p.filename,'data':json.loads(match.group(1))})
+                              except json.JSONDecodeError:pass
                       if name.startswith('perf-') and name.endswith('.json'):
                           result['profiles'].append({'artifact':item['name'],'path':p.filename,'data':json.loads(archive.read(p))})
                       if name.startswith('perf-') and name.endswith('.atrace'):
@@ -47,7 +57,11 @@ jobs:
                           if parts.is_absolute() or '..' in parts.parts:continue
                           dest=pathlib.Path('/tmp/performance-evidence')/run/item['name']/parts;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(archive.read(p))
                       if name.startswith('TEST-') and name.endswith('.xml'):
-                          root=E.fromstring(archive.read(p));failures=[]
+                          raw=archive.read(p).decode(errors='replace')
+                          root=E.fromstring(raw);failures=[]
+                          for match in re.finditer(r'PERFORMANCE_REPORT (\{[^\n]+\})', ''.join(root.itertext())):
+                              try:result['profiles'].append({'artifact':item['name'],'path':p.filename,'data':json.loads(match.group(1))})
+                              except json.JSONDecodeError:pass
                           for c in root.iter('testcase'):
                               for error in list(c.findall('failure'))+list(c.findall('error')):failures.append({'test':c.get('classname')+'.'+c.get('name'),'message':(error.text or '')[:12000]})
                           result['reports'].append({'artifact':item['name'],'counts':root.attrib,'failures':failures})
