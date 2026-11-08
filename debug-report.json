@@ -103,7 +103,7 @@
       {
         "id": 128665700188,
         "name": "devices (28, Nexus S)",
-        "conclusion": null,
+        "conclusion": "failure",
         "steps": [
           {
             "name": "Set up job",
@@ -155,50 +155,58 @@
           },
           {
             "name": "Run reactivecircus/android-emulator-runner@v2",
-            "status": "in_progress",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "failure",
             "number": 7,
             "started_at": "2026-11-08T07:37:50Z",
-            "completed_at": null
+            "completed_at": "2026-11-08T07:42:31Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 8,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-11-08T07:42:31Z",
+            "completed_at": "2026-11-08T07:42:32Z"
           },
           {
             "name": "Post Run gradle/actions/setup-gradle@v5",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 14,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-11-08T07:42:32Z",
+            "completed_at": "2026-11-08T07:42:32Z"
           },
           {
             "name": "Post Run actions/setup-java@v5",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 15,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-11-08T07:42:32Z",
+            "completed_at": "2026-11-08T07:42:32Z"
           },
           {
             "name": "Post Run actions/checkout@v5",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 16,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-11-08T07:42:32Z",
+            "completed_at": "2026-11-08T07:42:32Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-11-08T07:42:32Z",
+            "completed_at": "2026-11-08T07:42:32Z"
           }
         ]
       },
       {
         "id": 128665700277,
         "name": "build",
-        "conclusion": null,
+        "conclusion": "success",
         "steps": [
           {
             "name": "Set up job",
@@ -250,56 +258,479 @@
           },
           {
             "name": "Run ./gradlew --no-daemon testDebugUnitTest lintDebug assembleDebug",
-            "status": "in_progress",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 7,
             "started_at": "2026-11-08T07:37:57Z",
-            "completed_at": null
+            "completed_at": "2026-11-08T07:41:01Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 8,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-11-08T07:41:01Z",
+            "completed_at": "2026-11-08T07:41:03Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 9,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-11-08T07:41:03Z",
+            "completed_at": "2026-11-08T07:41:05Z"
           },
           {
             "name": "Post Run gradle/actions/setup-gradle@v5",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 16,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-11-08T07:41:05Z",
+            "completed_at": "2026-11-08T07:41:05Z"
           },
           {
             "name": "Post Run actions/setup-java@v5",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 17,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-11-08T07:41:05Z",
+            "completed_at": "2026-11-08T07:41:05Z"
           },
           {
             "name": "Post Run actions/checkout@v5",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 18,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-11-08T07:41:05Z",
+            "completed_at": "2026-11-08T07:41:05Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19,
+            "started_at": "2026-11-08T07:41:05Z",
+            "completed_at": "2026-11-08T07:41:05Z"
           }
         ]
       }
     ],
-    "artifacts": [],
-    "reports": []
+    "artifacts": [
+      {
+        "name": "extension-device-reports-28",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42459558500/artifacts/13608838890"
+      },
+      {
+        "name": "extension-debug-apk",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42459558500/artifacts/13608488686"
+      },
+      {
+        "name": "extension-build-reports",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42459558500/artifacts/13608439120"
+      }
+    ],
+    "reports": [
+      {
+        "artifact": "extension-device-reports-28",
+        "counts": {
+          "name": "com.sakugapp.DebugLinksDeviceTest",
+          "tests": "37",
+          "failures": "1",
+          "errors": "0",
+          "skipped": "0",
+          "time": "98.503",
+          "timestamp": "2026-11-08T07:42:27",
+          "hostname": "localhost"
+        },
+        "failures": [
+          {
+            "test": "com.sakugapp.DebugLinksDeviceTest.initializationError",
+            "message": "org.junit.runners.model.InvalidTestClassError: Invalid test class 'com.sakugapp.DebugLinksDeviceTest':\n1. Method tagSelectionSurvivesAndAndSearchAndEditorShareTheSameRawQuery() should be void\nat org.junit.runners.ParentRunner.validate(ParentRunner.java:525)\nat org.junit.runners.ParentRunner.<init>(ParentRunner.java:92)\nat org.junit.runners.BlockJUnit4ClassRunner.<init>(BlockJUnit4ClassRunner.java:74)\nat androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner.<init>(AndroidJUnit4ClassRunner.java:50)\nat androidx.test.internal.runner.junit4.AndroidJUnit4Builder.runnerForClass(AndroidJUnit4Builder.java:81)\nat org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:70)\nat org.junit.internal.builders.AllDefaultPossibilitiesBuilder.runnerForClass(AllDefaultPossibilitiesBuilder.java:37)\nat androidx.test.internal.runner.AndroidRunnerBuilder.runnerForClass(AndroidRunnerBuilder.java:152)\nat org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:70)\nat androidx.test.internal.runner.DirectTestLoader.doCreateRunner(DirectTestLoader.java:45)\nat androidx.test.internal.runner.TestLoader.getRunnersFor(TestLoader.java:64)\nat androidx.test.internal.runner.TestRequestBuilder.build(TestRequestBuilder.java:842)\nat androidx.test.runner.AndroidJUnitRunner.buildRequest(AndroidJUnitRunner.java:663)\nat androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:437)\nat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2145)\n"
+          }
+        ]
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.AppearanceAndDownloadTest",
+          "tests": "11",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:39:30.211Z",
+          "hostname": "runnervm7aw5e",
+          "time": "3.307"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.BatchQueueTest",
+          "tests": "4",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:39:33.922Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.074"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.BackupImportTest",
+          "tests": "8",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:39:33.526Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.387"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.BrowsingUpgradeTest",
+          "tests": "7",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:39:34.002Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.21"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.CommunityStateTest",
+          "tests": "3",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:39:34.214Z",
+          "hostname": "runnervm7aw5e",
+          "time": "14.5"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.CommunityTest",
+          "tests": "16",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:39:48.721Z",
+          "hostname": "runnervm7aw5e",
+          "time": "9.128"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.DataTest",
+          "tests": "15",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:39:57.858Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.015"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.DateAndTopicsTest",
+          "tests": "4",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:39:57.878Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.024"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.DebugLinksTest",
+          "tests": "7",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:39:57.914Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.072"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.DiscoveryTest",
+          "tests": "18",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:39:57.991Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.083"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.ExtensionHttpTest",
+          "tests": "2",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:39:58.077Z",
+          "hostname": "runnervm7aw5e",
+          "time": "1.691"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.FeedViewModelTest",
+          "tests": "13",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:39:59.770Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.071"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.FramePositionTest",
+          "tests": "2",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:39:59.843Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.014"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.FullThemeTest",
+          "tests": "3",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:39:59.858Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.011"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.HierarchyBackupTest",
+          "tests": "5",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:39:59.871Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.028"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.LibraryCodecTest",
+          "tests": "5",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:39:59.904Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.024"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.LiveFixtureTest",
+          "tests": "2",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:39:59.931Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.002"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.PersonalDataTest",
+          "tests": "9",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:39:59.935Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.147"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.PlayerToolsTest",
+          "tests": "3",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:40:00.109Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.004"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.PersonalizationTest",
+          "tests": "4",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:40:00.083Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.025"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.PreferencesAndFramesTest",
+          "tests": "9",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:40:00.119Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.009"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.QuizAndFavoritesTest",
+          "tests": "11",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:40:00.136Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.179"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.QuizPoolSamplingTest",
+          "tests": "7",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:40:00.317Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.022"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.RepositoryTest",
+          "tests": "7",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:40:00.341Z",
+          "hostname": "runnervm7aw5e",
+          "time": "6.575"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.SearchAndCaptionTest",
+          "tests": "10",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:40:06.918Z",
+          "hostname": "runnervm7aw5e",
+          "time": "25.368"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.StabilityRegressionTest",
+          "tests": "1",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:40:32.287Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.019"
+        },
+        "failures": []
+      },
+      {
+        "artifact": "extension-build-reports",
+        "counts": {
+          "name": "com.sakugapp.TagSuggestionsTest",
+          "tests": "3",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-08T07:40:32.307Z",
+          "hostname": "runnervm7aw5e",
+          "time": "0.096"
+        },
+        "failures": []
+      }
+    ],
+    "lint": {
+      "errors": 0,
+      "warnings": 75
+    }
   }
 ]
