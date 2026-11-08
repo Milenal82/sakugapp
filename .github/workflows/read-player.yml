@@ -46,7 +46,7 @@ jobs:
                   result.append(dict(phase=name,start_s=start,end_s=end,slices=sorted(records,key=lambda r:-r['total_ms'])[:35]))
               return dict(phase_count=len(phases),completed_main_render_slices=len(spans),phases=result,definition='Wall durations of complete app-pid tracing slices inside measurement markers; nested durations overlap, not CPU time or scheduler blocked-time')
           results=[]
-          for run in ['42491174598']:
+          for run in ['42492222618']:
               meta=json.loads(api('actions/runs/'+run))
               assert meta['path']=='.github/workflows/performance-debug.yml' and meta['head_branch']=='dev/performance-navigation'
               result={'run':run,'sha':meta['head_sha'],'status':meta['status'],'conclusion':meta['conclusion'],'jobs':[],'artifacts':[],'reports':[],'profiles':[]}
@@ -70,6 +70,9 @@ jobs:
                       if p.file_size>16*1024*1024 and not (name.endswith('.atrace') and p.file_size<=96*1024*1024):continue
                       if name.endswith(('.txt','.log')) and p.file_size<8*1024*1024:
                           raw=archive.read(p).decode(errors='replace')
+                          if name.startswith('runner-'):
+                              ok=re.search(r'^OK \(([0-9]+) tests?\)',raw,re.M)
+                              result.setdefault('native_tests',[]).append({'artifact':item['name'],'path':p.filename,'passed_count':int(ok.group(1)) if ok else None,'tail':raw[-10000:] if not ok else ''})
                           if name.startswith('logcat'):
                               result.setdefault('log_samples',[]).append({'path':p.filename,'lines':[line[-4500:] for line in raw.splitlines() if 'PERF' in line][:3]})
                           for match in re.finditer(r'PERF (\{[^\n]+\})',raw):
@@ -89,6 +92,9 @@ jobs:
                           result['profiles'].append({'artifact':item['name'],'path':p.filename,'data':json.loads(archive.read(p))})
                       if name.startswith('perf-') and name.endswith('.atrace'):
                           raw=archive.read(p).decode(errors='replace')
+                          if name.startswith('runner-'):
+                              ok=re.search(r'^OK \(([0-9]+) tests?\)',raw,re.M)
+                              result.setdefault('native_tests',[]).append({'artifact':item['name'],'path':p.filename,'passed_count':int(ok.group(1)) if ok else None,'tail':raw[-10000:] if not ok else ''})
                           markers=collections.Counter(re.findall(r'tracing_mark_write: B\|\d+\|([^\n]+)',raw))
                           peer=p.filename.rsplit('/',1)[0]+'/'+name.replace('-scroll.atrace','.json')
                           pid=json.loads(archive.read(peer)).get('pid') if peer in archive.namelist() else None
@@ -99,6 +105,9 @@ jobs:
                           dest=pathlib.Path('/tmp/performance-evidence')/run/item['name']/parts;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(archive.read(p))
                       if name.startswith('TEST-') and name.endswith('.xml'):
                           raw=archive.read(p).decode(errors='replace')
+                          if name.startswith('runner-'):
+                              ok=re.search(r'^OK \(([0-9]+) tests?\)',raw,re.M)
+                              result.setdefault('native_tests',[]).append({'artifact':item['name'],'path':p.filename,'passed_count':int(ok.group(1)) if ok else None,'tail':raw[-10000:] if not ok else ''})
                           root=E.fromstring(raw);failures=[]
                           for match in re.finditer(r'PERFORMANCE_REPORT (\{[^\n]+\})', ''.join(root.itertext())):
                               try:result['profiles'].append({'artifact':item['name'],'path':p.filename,'data':json.loads(match.group(1))})
