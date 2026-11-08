@@ -60,34 +60,34 @@
           },
           {
             "name": "Run ./gradlew --no-daemon testDebugUnitTest lintDebug assembleDebug assembleDebugAndroidTest",
-            "status": "in_progress",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 7,
             "started_at": "2026-11-08T14:56:32Z",
-            "completed_at": null
+            "completed_at": "2026-11-08T14:59:41Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 8,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-11-08T14:59:41Z",
+            "completed_at": "2026-11-08T14:59:44Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 9,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-11-08T14:59:44Z",
+            "completed_at": "2026-11-08T14:59:46Z"
           },
           {
             "name": "Run bash scripts/build-performance-baseline.sh",
-            "status": "pending",
+            "status": "in_progress",
             "conclusion": null,
             "number": 10,
-            "started_at": null,
+            "started_at": "2026-11-08T14:59:46Z",
             "completed_at": null
           },
           {
@@ -133,8 +133,21 @@
         ]
       }
     ],
-    "artifacts": [],
+    "artifacts": [
+      {
+        "name": "performance-debug-apk",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42492222618/artifacts/13622057824"
+      },
+      {
+        "name": "performance-current-instrumented",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42492222618/artifacts/13621873432"
+      }
+    ],
     "reports": [],
-    "profiles": []
+    "profiles": [],
+    "files": [
+      "debug/app-debug.apk",
+      "androidTest/debug/app-debug-androidTest.apk"
+    ]
   }
 ]
