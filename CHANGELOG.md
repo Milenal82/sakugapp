@@ -3,7 +3,7 @@
 ## Unreleased — scrolling and main navigation diagnosis
 
 - Keep the Posts viewport stable while sliding bottom chrome.
-- Use one main-tab navigation action, retaining page drafts and ordinary/result state separately.
+- Use one main-tab navigation action, retaining page drafts and ordinary/result state separately. Save UI state before child providers unregister, using stable main-page field keys.
 - Delay automatic preview until stable idle; pause onscreen auto previews while scrolling without rebuilding their player. Manual preview remains immediate.
 - Scope feed/fact/detail collection to their pages and preserve unchanged presentation identities.
 - Add paired Debug/AVD frame, transition, trace, resource and state-retention checks.

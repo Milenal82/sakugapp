@@ -1,0 +1,1528 @@
+{
+  "baseline_commit": "65124526ed12726f06fa41249dd78f4f7e368a1a",
+  "measured_commit": "b2346b67c91ff76f1fa8abcbf0bcb371d3478139",
+  "validation_commit": "896e42bab1090d67121abb904f8b80b1e208a2fd",
+  "measurement_run": "42496524866",
+  "validation_run": "42497405174",
+  "scope": "Debug fixture host; same-AVD ABBA; generated PNG/MP4 media and captured response IDs/tags/scores. Not physical-device or live-network performance.",
+  "aggregation": "Median of two per-trial percentiles/ratios, not pooled percentiles. Over-budget is FrameMetrics TOTAL_DURATION > refresh period, not official FrameTimeline jank.",
+  "devices": {
+    "performance-28": {
+      "display_px": [
+        480,
+        800
+      ],
+      "density_dpi": 240,
+      "trials": [
+        {
+          "path": "reports/performance/trial-1/baseline/perf-baseline.json",
+          "label": "baseline",
+          "navigation_requests": 0,
+          "repository_requests": 1,
+          "players_end": {
+            "init": 79,
+            "release": 79,
+            "unreleased_ids": []
+          },
+          "memory_start": {
+            "pss_kib": 138260,
+            "java_heap_bytes": 8660128,
+            "native_heap_bytes": 15950536
+          },
+          "memory_end": {
+            "pss_kib": 207603,
+            "java_heap_bytes": 16207480,
+            "native_heap_bytes": 68417528
+          },
+          "transitions": [
+            {
+              "from": "posts",
+              "to": "search_home",
+              "middle_capture_start_ms": 159,
+              "middle_capture_end_ms": 172,
+              "mixed_pixels": 4805,
+              "sampled_pixels": 10560
+            },
+            {
+              "from": "search_home",
+              "to": "posts",
+              "middle_capture_start_ms": 160,
+              "middle_capture_end_ms": 179,
+              "mixed_pixels": 3293,
+              "sampled_pixels": 10560
+            },
+            {
+              "from": "posts",
+              "to": "profile",
+              "middle_capture_start_ms": 152,
+              "middle_capture_end_ms": 166,
+              "mixed_pixels": 623,
+              "sampled_pixels": 10560
+            },
+            {
+              "from": "profile",
+              "to": "posts",
+              "middle_capture_start_ms": 147,
+              "middle_capture_end_ms": 165,
+              "mixed_pixels": 3220,
+              "sampled_pixels": 10560
+            }
+          ]
+        },
+        {
+          "path": "reports/performance/trial-1/current/perf-current.json",
+          "label": "current",
+          "navigation_requests": 0,
+          "repository_requests": 1,
+          "players_end": {
+            "init": 9,
+            "release": 9,
+            "unreleased_ids": []
+          },
+          "memory_start": {
+            "pss_kib": 133435,
+            "java_heap_bytes": 8312336,
+            "native_heap_bytes": 15516992
+          },
+          "memory_end": {
+            "pss_kib": 170231,
+            "java_heap_bytes": 18750976,
+            "native_heap_bytes": 34823848
+          },
+          "transitions": [
+            {
+              "from": "posts",
+              "to": "search_home",
+              "middle_capture_start_ms": 157,
+              "middle_capture_end_ms": 175,
+              "mixed_pixels": 3843,
+              "sampled_pixels": 10560
+            },
+            {
+              "from": "search_home",
+              "to": "posts",
+              "middle_capture_start_ms": 149,
+              "middle_capture_end_ms": 164,
+              "mixed_pixels": 3683,
+              "sampled_pixels": 10560
+            },
+            {
+              "from": "posts",
+              "to": "profile",
+              "middle_capture_start_ms": 153,
+              "middle_capture_end_ms": 171,
+              "mixed_pixels": 4754,
+              "sampled_pixels": 10560
+            },
+            {
+              "from": "profile",
+              "to": "posts",
+              "middle_capture_start_ms": 150,
+              "middle_capture_end_ms": 166,
+              "mixed_pixels": 3541,
+              "sampled_pixels": 10560
+            }
+          ]
+        },
+        {
+          "path": "reports/performance/trial-2/baseline/perf-baseline.json",
+          "label": "baseline",
+          "navigation_requests": 0,
+          "repository_requests": 1,
+          "players_end": {
+            "init": 77,
+            "release": 77,
+            "unreleased_ids": []
+          },
+          "memory_start": {
+            "pss_kib": 134967,
+            "java_heap_bytes": 8560368,
+            "native_heap_bytes": 15918752
+          },
+          "memory_end": {
+            "pss_kib": 207048,
+            "java_heap_bytes": 22328752,
+            "native_heap_bytes": 67803864
+          },
+          "transitions": [
+            {
+              "from": "posts",
+              "to": "search_home",
+              "middle_capture_start_ms": 151,
+              "middle_capture_end_ms": 196,
+              "mixed_pixels": 0,
+              "sampled_pixels": 10560
+            },
+            {
+              "from": "search_home",
+              "to": "posts",
+              "middle_capture_start_ms": 153,
+              "middle_capture_end_ms": 170,
+              "mixed_pixels": 2547,
+              "sampled_pixels": 10560
+            },
+            {
+              "from": "posts",
+              "to": "profile",
+              "middle_capture_start_ms": 156,
+              "middle_capture_end_ms": 174,
+              "mixed_pixels": 551,
+              "sampled_pixels": 10560
+            },
+            {
+              "from": "profile",
+              "to": "posts",
+              "middle_capture_start_ms": 147,
+              "middle_capture_end_ms": 165,
+              "mixed_pixels": 3691,
+              "sampled_pixels": 10560
+            }
+          ]
+        },
+        {
+          "path": "reports/performance/trial-2/current/perf-current.json",
+          "label": "current",
+          "navigation_requests": 0,
+          "repository_requests": 1,
+          "players_end": {
+            "init": 7,
+            "release": 7,
+            "unreleased_ids": []
+          },
+          "memory_start": {
+            "pss_kib": 134131,
+            "java_heap_bytes": 8377888,
+            "native_heap_bytes": 15707144
+          },
+          "memory_end": {
+            "pss_kib": 173345,
+            "java_heap_bytes": 22030624,
+            "native_heap_bytes": 35884752
+          },
+          "transitions": [
+            {
+              "from": "posts",
+              "to": "search_home",
+              "middle_capture_start_ms": 162,
+              "middle_capture_end_ms": 180,
+              "mixed_pixels": 5176,
+              "sampled_pixels": 10560
+            },
+            {
+              "from": "search_home",
+              "to": "posts",
+              "middle_capture_start_ms": 148,
+              "middle_capture_end_ms": 169,
+              "mixed_pixels": 5181,
+              "sampled_pixels": 10560
+            },
+            {
+              "from": "posts",
+              "to": "profile",
+              "middle_capture_start_ms": 155,
+              "middle_capture_end_ms": 176,
+              "mixed_pixels": 4769,
+              "sampled_pixels": 10560
+            },
+            {
+              "from": "profile",
+              "to": "posts",
+              "middle_capture_start_ms": 146,
+              "middle_capture_end_ms": 162,
+              "mixed_pixels": 3570,
+              "sampled_pixels": 10560
+            }
+          ]
+        }
+      ],
+      "phases": [
+        {
+          "name": "scroll-2-auto-false",
+          "observed_no_refresh_during_phase": true,
+          "interpretation": "Controlled phase",
+          "baseline": {
+            "p50_ms": 22.883670000000002,
+            "p95_ms": 33.5392145,
+            "over_budget_percent": 61.90459274951399,
+            "player_creations": 0.0,
+            "recomposer_changes": 30.5,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 1.147395,
+            "draw_p95_ms": 3.2202650000000004,
+            "swap_p50_ms": 13.16292,
+            "frames": [
+              562,
+              551
+            ],
+            "over_budget_frames": [
+              348,
+              341
+            ],
+            "dropped_callbacks": 0
+          },
+          "current": {
+            "p50_ms": 21.721390999999997,
+            "p95_ms": 33.099756,
+            "over_budget_percent": 56.188177107866224,
+            "player_creations": 0.0,
+            "recomposer_changes": 30.0,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.58794,
+            "draw_p95_ms": 3.294245,
+            "swap_p50_ms": 10.084489999999999,
+            "frames": [
+              528,
+              579
+            ],
+            "over_budget_frames": [
+              276,
+              348
+            ],
+            "dropped_callbacks": 0
+          }
+        },
+        {
+          "name": "scroll-2-auto-true",
+          "observed_no_refresh_during_phase": true,
+          "interpretation": "Controlled phase",
+          "baseline": {
+            "p50_ms": 23.630735,
+            "p95_ms": 84.5875885,
+            "over_budget_percent": 78.29647530747638,
+            "player_creations": 23.5,
+            "recomposer_changes": 139.5,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.5976250000000001,
+            "draw_p95_ms": 9.715814,
+            "swap_p50_ms": 14.64261,
+            "frames": [
+              809,
+              779
+            ],
+            "over_budget_frames": [
+              651,
+              593
+            ],
+            "dropped_callbacks": 0
+          },
+          "current": {
+            "p50_ms": 10.846154,
+            "p95_ms": 23.337927,
+            "over_budget_percent": 7.032967032967033,
+            "player_creations": 2.0,
+            "recomposer_changes": 41.0,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.45320499999999997,
+            "draw_p95_ms": 2.7188749999999997,
+            "swap_p50_ms": 5.53445,
+            "frames": [
+              518,
+              520
+            ],
+            "over_budget_frames": [
+              37,
+              36
+            ],
+            "dropped_callbacks": 0
+          }
+        },
+        {
+          "name": "scroll-4-auto-false",
+          "observed_no_refresh_during_phase": true,
+          "interpretation": "Controlled phase",
+          "baseline": {
+            "p50_ms": 22.748454000000002,
+            "p95_ms": 25.0733025,
+            "over_budget_percent": 68.32651205093225,
+            "player_creations": 0.0,
+            "recomposer_changes": 66.0,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.672555,
+            "draw_p95_ms": 3.06632,
+            "swap_p50_ms": 13.55336,
+            "frames": [
+              733,
+              705
+            ],
+            "over_budget_frames": [
+              513,
+              470
+            ],
+            "dropped_callbacks": 0
+          },
+          "current": {
+            "p50_ms": 18.677985,
+            "p95_ms": 23.8980495,
+            "over_budget_percent": 50.850765561563534,
+            "player_creations": 0.0,
+            "recomposer_changes": 67.5,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.409165,
+            "draw_p95_ms": 2.849015,
+            "swap_p50_ms": 10.26706,
+            "frames": [
+              765,
+              718
+            ],
+            "over_budget_frames": [
+              322,
+              428
+            ],
+            "dropped_callbacks": 0
+          }
+        },
+        {
+          "name": "scroll-4-auto-true",
+          "observed_no_refresh_during_phase": true,
+          "interpretation": "Controlled phase",
+          "baseline": {
+            "p50_ms": 23.4622355,
+            "p95_ms": 71.88155549999999,
+            "over_budget_percent": 77.3346527477456,
+            "player_creations": 26.0,
+            "recomposer_changes": 167.0,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.44272,
+            "draw_p95_ms": 10.816317999999999,
+            "swap_p50_ms": 14.213560000000001,
+            "frames": [
+              991,
+              1008
+            ],
+            "over_budget_frames": [
+              820,
+              725
+            ],
+            "dropped_callbacks": 0
+          },
+          "current": {
+            "p50_ms": 12.6064285,
+            "p95_ms": 23.818835999999997,
+            "over_budget_percent": 18.672616528258196,
+            "player_creations": 2.0,
+            "recomposer_changes": 73.5,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.38794,
+            "draw_p95_ms": 3.3632549999999997,
+            "swap_p50_ms": 6.490055,
+            "frames": [
+              621,
+              662
+            ],
+            "over_budget_frames": [
+              64,
+              179
+            ],
+            "dropped_callbacks": 0
+          }
+        },
+        {
+          "name": "scroll-6-auto-false",
+          "observed_no_refresh_during_phase": true,
+          "interpretation": "Controlled phase",
+          "baseline": {
+            "p50_ms": 23.113173,
+            "p95_ms": 35.465121,
+            "over_budget_percent": 88.65984607678433,
+            "player_creations": 0.0,
+            "recomposer_changes": 210.0,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 1.7297799999999999,
+            "draw_p95_ms": 3.520595,
+            "swap_p50_ms": 14.24451,
+            "frames": [
+              1238,
+              1203
+            ],
+            "over_budget_frames": [
+              1091,
+              1073
+            ],
+            "dropped_callbacks": 0
+          },
+          "current": {
+            "p50_ms": 22.872833999999997,
+            "p95_ms": 32.544456,
+            "over_budget_percent": 76.67698366710479,
+            "player_creations": 0.0,
+            "recomposer_changes": 209.0,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.4375,
+            "draw_p95_ms": 3.7687299999999997,
+            "swap_p50_ms": 14.110990000000001,
+            "frames": [
+              1211,
+              1227
+            ],
+            "over_budget_frames": [
+              882,
+              988
+            ],
+            "dropped_callbacks": 0
+          }
+        },
+        {
+          "name": "scroll-6-auto-true",
+          "observed_no_refresh_during_phase": true,
+          "interpretation": "Controlled phase",
+          "baseline": {
+            "p50_ms": 25.307833,
+            "p95_ms": 71.17362299999999,
+            "over_budget_percent": 83.8607347891654,
+            "player_creations": 26.0,
+            "recomposer_changes": 294.5,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 1.039215,
+            "draw_p95_ms": 8.1559195,
+            "swap_p50_ms": 13.309545,
+            "frames": [
+              1258,
+              1283
+            ],
+            "over_budget_frames": [
+              1050,
+              1081
+            ],
+            "dropped_callbacks": 0
+          },
+          "current": {
+            "p50_ms": 23.0318915,
+            "p95_ms": 34.7252345,
+            "over_budget_percent": 76.88621480114779,
+            "player_creations": 3.0,
+            "recomposer_changes": 231.5,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.35141500000000003,
+            "draw_p95_ms": 3.99334,
+            "swap_p50_ms": 14.06945,
+            "frames": [
+              1317,
+              1263
+            ],
+            "over_budget_frames": [
+              972,
+              1010
+            ],
+            "dropped_callbacks": 0
+          }
+        },
+        {
+          "name": "detail-return",
+          "observed_no_refresh_during_phase": true,
+          "interpretation": "Controlled phase",
+          "baseline": {
+            "p50_ms": 21.915455,
+            "p95_ms": 115.9994845,
+            "over_budget_percent": 69.09722222222223,
+            "player_creations": 1.0,
+            "recomposer_changes": 14.5,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 9.662205,
+            "draw_p95_ms": 9.823337,
+            "swap_p50_ms": 13.077365,
+            "frames": [
+              36,
+              32
+            ],
+            "over_budget_frames": [
+              25,
+              22
+            ],
+            "dropped_callbacks": 0
+          },
+          "current": {
+            "p50_ms": 21.596629999999998,
+            "p95_ms": 102.432451,
+            "over_budget_percent": 83.33333333333333,
+            "player_creations": 1.0,
+            "recomposer_changes": 14.0,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 32.654935,
+            "draw_p95_ms": 7.290735,
+            "swap_p50_ms": 14.461504999999999,
+            "frames": [
+              33,
+              33
+            ],
+            "over_budget_frames": [
+              26,
+              29
+            ],
+            "dropped_callbacks": 0
+          }
+        },
+        {
+          "name": "twenty-main-switches",
+          "observed_no_refresh_during_phase": true,
+          "interpretation": "Controlled phase",
+          "baseline": {
+            "p50_ms": 9.217161,
+            "p95_ms": 21.393040499999998,
+            "over_budget_percent": 7.30957927669526,
+            "player_creations": 0.0,
+            "recomposer_changes": 196.5,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.646805,
+            "draw_p95_ms": 4.6104535,
+            "swap_p50_ms": 4.641855,
+            "frames": [
+              473,
+              471
+            ],
+            "over_budget_frames": [
+              34,
+              35
+            ],
+            "dropped_callbacks": 0
+          },
+          "current": {
+            "p50_ms": 9.200325,
+            "p95_ms": 18.13301,
+            "over_budget_percent": 8.9514641403795,
+            "player_creations": 0.0,
+            "recomposer_changes": 195.0,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 1.020985,
+            "draw_p95_ms": 4.5936105,
+            "swap_p50_ms": 4.623635,
+            "frames": [
+              463,
+              466
+            ],
+            "over_budget_frames": [
+              66,
+              17
+            ],
+            "dropped_callbacks": 0
+          }
+        }
+      ]
+    },
+    "performance-35": {
+      "display_px": [
+        1280,
+        900
+      ],
+      "density_dpi": 160,
+      "trials": [
+        {
+          "path": "reports/performance/trial-1/baseline/perf-baseline.json",
+          "label": "baseline",
+          "navigation_requests": 0,
+          "repository_requests": 8,
+          "players_end": {
+            "init": 109,
+            "release": 109,
+            "unreleased_ids": []
+          },
+          "memory_start": {
+            "pss_kib": 183637,
+            "java_heap_bytes": 9935104,
+            "native_heap_bytes": 44028640
+          },
+          "memory_end": {
+            "pss_kib": 262722,
+            "java_heap_bytes": 18523600,
+            "native_heap_bytes": 106866256
+          },
+          "transitions": [
+            {
+              "from": "posts",
+              "to": "search_home",
+              "middle_capture_start_ms": 226,
+              "middle_capture_end_ms": 455,
+              "mixed_pixels": 0,
+              "sampled_pixels": 31744
+            },
+            {
+              "from": "search_home",
+              "to": "posts",
+              "middle_capture_start_ms": 200,
+              "middle_capture_end_ms": 386,
+              "mixed_pixels": 18165,
+              "sampled_pixels": 31744
+            },
+            {
+              "from": "posts",
+              "to": "profile",
+              "middle_capture_start_ms": 216,
+              "middle_capture_end_ms": 367,
+              "mixed_pixels": 0,
+              "sampled_pixels": 31744
+            },
+            {
+              "from": "profile",
+              "to": "posts",
+              "middle_capture_start_ms": 214,
+              "middle_capture_end_ms": 386,
+              "mixed_pixels": 0,
+              "sampled_pixels": 31744
+            }
+          ]
+        },
+        {
+          "path": "reports/performance/trial-1/current/perf-current.json",
+          "label": "current",
+          "navigation_requests": 0,
+          "repository_requests": 13,
+          "players_end": {
+            "init": 20,
+            "release": 20,
+            "unreleased_ids": []
+          },
+          "memory_start": {
+            "pss_kib": 207942,
+            "java_heap_bytes": 29791600,
+            "native_heap_bytes": 65150544
+          },
+          "memory_end": {
+            "pss_kib": 221327,
+            "java_heap_bytes": 16217760,
+            "native_heap_bytes": 70880928
+          },
+          "transitions": [
+            {
+              "from": "posts",
+              "to": "search_home",
+              "middle_capture_start_ms": 200,
+              "middle_capture_end_ms": 346,
+              "mixed_pixels": 0,
+              "sampled_pixels": 31744
+            },
+            {
+              "from": "search_home",
+              "to": "posts",
+              "middle_capture_start_ms": 196,
+              "middle_capture_end_ms": 325,
+              "mixed_pixels": 0,
+              "sampled_pixels": 31744
+            },
+            {
+              "from": "posts",
+              "to": "profile",
+              "middle_capture_start_ms": 216,
+              "middle_capture_end_ms": 315,
+              "mixed_pixels": 0,
+              "sampled_pixels": 31744
+            },
+            {
+              "from": "profile",
+              "to": "posts",
+              "middle_capture_start_ms": 215,
+              "middle_capture_end_ms": 303,
+              "mixed_pixels": 0,
+              "sampled_pixels": 31744
+            }
+          ]
+        },
+        {
+          "path": "reports/performance/trial-2/baseline/perf-baseline.json",
+          "label": "baseline",
+          "navigation_requests": 0,
+          "repository_requests": 7,
+          "players_end": {
+            "init": 106,
+            "release": 106,
+            "unreleased_ids": []
+          },
+          "memory_start": {
+            "pss_kib": 215926,
+            "java_heap_bytes": 29934928,
+            "native_heap_bytes": 65190992
+          },
+          "memory_end": {
+            "pss_kib": 260733,
+            "java_heap_bytes": 18949552,
+            "native_heap_bytes": 103753344
+          },
+          "transitions": [
+            {
+              "from": "posts",
+              "to": "search_home",
+              "middle_capture_start_ms": 231,
+              "middle_capture_end_ms": 372,
+              "mixed_pixels": 0,
+              "sampled_pixels": 31744
+            },
+            {
+              "from": "search_home",
+              "to": "posts",
+              "middle_capture_start_ms": 190,
+              "middle_capture_end_ms": 368,
+              "mixed_pixels": 0,
+              "sampled_pixels": 31744
+            },
+            {
+              "from": "posts",
+              "to": "profile",
+              "middle_capture_start_ms": 204,
+              "middle_capture_end_ms": 307,
+              "mixed_pixels": 0,
+              "sampled_pixels": 31744
+            },
+            {
+              "from": "profile",
+              "to": "posts",
+              "middle_capture_start_ms": 186,
+              "middle_capture_end_ms": 328,
+              "mixed_pixels": 0,
+              "sampled_pixels": 31744
+            }
+          ]
+        },
+        {
+          "path": "reports/performance/trial-2/current/perf-current.json",
+          "label": "current",
+          "navigation_requests": 0,
+          "repository_requests": 14,
+          "players_end": {
+            "init": 28,
+            "release": 28,
+            "unreleased_ids": []
+          },
+          "memory_start": {
+            "pss_kib": 209928,
+            "java_heap_bytes": 30270752,
+            "native_heap_bytes": 65402000
+          },
+          "memory_end": {
+            "pss_kib": 215042,
+            "java_heap_bytes": 17262224,
+            "native_heap_bytes": 59575792
+          },
+          "transitions": [
+            {
+              "from": "posts",
+              "to": "search_home",
+              "middle_capture_start_ms": 210,
+              "middle_capture_end_ms": 322,
+              "mixed_pixels": 0,
+              "sampled_pixels": 31744
+            },
+            {
+              "from": "search_home",
+              "to": "posts",
+              "middle_capture_start_ms": 223,
+              "middle_capture_end_ms": 379,
+              "mixed_pixels": 0,
+              "sampled_pixels": 31744
+            },
+            {
+              "from": "posts",
+              "to": "profile",
+              "middle_capture_start_ms": 208,
+              "middle_capture_end_ms": 331,
+              "mixed_pixels": 0,
+              "sampled_pixels": 31744
+            },
+            {
+              "from": "profile",
+              "to": "posts",
+              "middle_capture_start_ms": 226,
+              "middle_capture_end_ms": 341,
+              "mixed_pixels": 0,
+              "sampled_pixels": 31744
+            }
+          ]
+        }
+      ],
+      "phases": [
+        {
+          "name": "scroll-2-auto-false",
+          "observed_no_refresh_during_phase": true,
+          "interpretation": "Controlled phase",
+          "baseline": {
+            "p50_ms": 91.3960795,
+            "p95_ms": 146.1604145,
+            "over_budget_percent": 100.0,
+            "player_creations": 0.0,
+            "recomposer_changes": 33.0,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.090054,
+            "draw_p95_ms": 6.524792,
+            "swap_p50_ms": 36.9614415,
+            "frames": [
+              426,
+              411
+            ],
+            "over_budget_frames": [
+              426,
+              411
+            ],
+            "dropped_callbacks": 0
+          },
+          "current": {
+            "p50_ms": 95.45889,
+            "p95_ms": 144.705478,
+            "over_budget_percent": 100.0,
+            "player_creations": 0.0,
+            "recomposer_changes": 34.5,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.07984350000000001,
+            "draw_p95_ms": 5.895723500000001,
+            "swap_p50_ms": 36.0084985,
+            "frames": [
+              434,
+              452
+            ],
+            "over_budget_frames": [
+              434,
+              452
+            ],
+            "dropped_callbacks": 0
+          }
+        },
+        {
+          "name": "scroll-2-auto-true",
+          "observed_no_refresh_during_phase": true,
+          "interpretation": "Controlled phase",
+          "baseline": {
+            "p50_ms": 107.8244275,
+            "p95_ms": 303.07417599999997,
+            "over_budget_percent": 99.60459503270113,
+            "player_creations": 22.5,
+            "recomposer_changes": 151.0,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.115036,
+            "draw_p95_ms": 15.793397500000001,
+            "swap_p50_ms": 34.6432635,
+            "frames": [
+              637,
+              614
+            ],
+            "over_budget_frames": [
+              633,
+              613
+            ],
+            "dropped_callbacks": 0
+          },
+          "current": {
+            "p50_ms": 84.361111,
+            "p95_ms": 144.4508045,
+            "over_budget_percent": 100.0,
+            "player_creations": 2.0,
+            "recomposer_changes": 44.5,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.084415,
+            "draw_p95_ms": 6.6053560000000004,
+            "swap_p50_ms": 35.7388035,
+            "frames": [
+              444,
+              453
+            ],
+            "over_budget_frames": [
+              444,
+              453
+            ],
+            "dropped_callbacks": 0
+          }
+        },
+        {
+          "name": "scroll-4-auto-false",
+          "observed_no_refresh_during_phase": true,
+          "interpretation": "Controlled phase",
+          "baseline": {
+            "p50_ms": 118.229684,
+            "p95_ms": 160.1628945,
+            "over_budget_percent": 100.0,
+            "player_creations": 0.0,
+            "recomposer_changes": 56.0,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.0768645,
+            "draw_p95_ms": 6.8258785,
+            "swap_p50_ms": 39.0160985,
+            "frames": [
+              436,
+              451
+            ],
+            "over_budget_frames": [
+              436,
+              451
+            ],
+            "dropped_callbacks": 0
+          },
+          "current": {
+            "p50_ms": 112.25000499999999,
+            "p95_ms": 158.38663300000002,
+            "over_budget_percent": 100.0,
+            "player_creations": 0.0,
+            "recomposer_changes": 57.5,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.084245,
+            "draw_p95_ms": 6.7473765,
+            "swap_p50_ms": 37.505053000000004,
+            "frames": [
+              471,
+              458
+            ],
+            "over_budget_frames": [
+              471,
+              458
+            ],
+            "dropped_callbacks": 0
+          }
+        },
+        {
+          "name": "scroll-4-auto-true",
+          "observed_no_refresh_during_phase": true,
+          "interpretation": "Controlled phase",
+          "baseline": {
+            "p50_ms": 127.621928,
+            "p95_ms": 282.536049,
+            "over_budget_percent": 99.76599063962558,
+            "player_creations": 24.5,
+            "recomposer_changes": 188.5,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.095206,
+            "draw_p95_ms": 18.852221999999998,
+            "swap_p50_ms": 35.650122,
+            "frames": [
+              638,
+              641
+            ],
+            "over_budget_frames": [
+              638,
+              638
+            ],
+            "dropped_callbacks": 0
+          },
+          "current": {
+            "p50_ms": 110.144713,
+            "p95_ms": 157.424505,
+            "over_budget_percent": 99.90234375,
+            "player_creations": 2.0,
+            "recomposer_changes": 72.0,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.079403,
+            "draw_p95_ms": 7.907788,
+            "swap_p50_ms": 36.038858000000005,
+            "frames": [
+              517,
+              512
+            ],
+            "over_budget_frames": [
+              517,
+              511
+            ],
+            "dropped_callbacks": 0
+          }
+        },
+        {
+          "name": "scroll-6-auto-false",
+          "observed_no_refresh_during_phase": true,
+          "interpretation": "Controlled phase",
+          "baseline": {
+            "p50_ms": 118.50888,
+            "p95_ms": 163.6676215,
+            "over_budget_percent": 100.0,
+            "player_creations": 0.0,
+            "recomposer_changes": 75.0,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.162992,
+            "draw_p95_ms": 5.8804965,
+            "swap_p50_ms": 32.8604545,
+            "frames": [
+              494,
+              467
+            ],
+            "over_budget_frames": [
+              494,
+              467
+            ],
+            "dropped_callbacks": 0
+          },
+          "current": {
+            "p50_ms": 111.48611199999999,
+            "p95_ms": 154.85313200000002,
+            "over_budget_percent": 100.0,
+            "player_creations": 0.0,
+            "recomposer_changes": 82.0,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.08018900000000001,
+            "draw_p95_ms": 6.5838595,
+            "swap_p50_ms": 33.2281145,
+            "frames": [
+              467,
+              465
+            ],
+            "over_budget_frames": [
+              467,
+              465
+            ],
+            "dropped_callbacks": 0
+          }
+        },
+        {
+          "name": "scroll-6-auto-true",
+          "observed_no_refresh_during_phase": true,
+          "interpretation": "Controlled phase",
+          "baseline": {
+            "p50_ms": 117.3528195,
+            "p95_ms": 244.809575,
+            "over_budget_percent": 99.7096094556104,
+            "player_creations": 19.0,
+            "recomposer_changes": 187.0,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.140944,
+            "draw_p95_ms": 12.7728575,
+            "swap_p50_ms": 32.139756,
+            "frames": [
+              713,
+              681
+            ],
+            "over_budget_frames": [
+              712,
+              678
+            ],
+            "dropped_callbacks": 0
+          },
+          "current": {
+            "p50_ms": 108.35525799999999,
+            "p95_ms": 162.6998175,
+            "over_budget_percent": 99.80512333965845,
+            "player_creations": 4.0,
+            "recomposer_changes": 102.0,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.0805945,
+            "draw_p95_ms": 8.7992505,
+            "swap_p50_ms": 32.282512,
+            "frames": [
+              500,
+              527
+            ],
+            "over_budget_frames": [
+              499,
+              526
+            ],
+            "dropped_callbacks": 0
+          }
+        },
+        {
+          "name": "scroll-8-auto-false",
+          "observed_no_refresh_during_phase": false,
+          "interpretation": "Exploratory high density: within/prior refreshes affect isolation; no pure scrolling speed-up claim.",
+          "baseline": {
+            "p50_ms": 131.8796655,
+            "p95_ms": 168.5054455,
+            "over_budget_percent": 100.0,
+            "player_creations": 0.0,
+            "recomposer_changes": 85.0,
+            "repository_requests": [
+              4,
+              4
+            ],
+            "layout_p95_ms": 0.1366575,
+            "draw_p95_ms": 5.4843139999999995,
+            "swap_p50_ms": 31.4625965,
+            "frames": [
+              499,
+              496
+            ],
+            "over_budget_frames": [
+              499,
+              496
+            ],
+            "dropped_callbacks": 0
+          },
+          "current": {
+            "p50_ms": 122.5967035,
+            "p95_ms": 165.764157,
+            "over_budget_percent": 100.0,
+            "player_creations": 0.0,
+            "recomposer_changes": 94.0,
+            "repository_requests": [
+              0,
+              7
+            ],
+            "layout_p95_ms": 0.115957,
+            "draw_p95_ms": 6.1668009999999995,
+            "swap_p50_ms": 30.90556,
+            "frames": [
+              493,
+              498
+            ],
+            "over_budget_frames": [
+              493,
+              498
+            ],
+            "dropped_callbacks": 0
+          }
+        },
+        {
+          "name": "scroll-8-auto-true",
+          "observed_no_refresh_during_phase": false,
+          "interpretation": "Exploratory high density: within/prior refreshes affect isolation; no pure scrolling speed-up claim.",
+          "baseline": {
+            "p50_ms": 118.0690075,
+            "p95_ms": 232.1204765,
+            "over_budget_percent": 99.46759619455673,
+            "player_creations": 18.5,
+            "recomposer_changes": 205.0,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.7265075,
+            "draw_p95_ms": 10.868727,
+            "swap_p50_ms": 31.3745205,
+            "frames": [
+              754,
+              733
+            ],
+            "over_budget_frames": [
+              747,
+              732
+            ],
+            "dropped_callbacks": 0
+          },
+          "current": {
+            "p50_ms": 118.8109975,
+            "p95_ms": 194.1576305,
+            "over_budget_percent": 99.74958263772955,
+            "player_creations": 6.5,
+            "recomposer_changes": 140.0,
+            "repository_requests": [
+              2,
+              0
+            ],
+            "layout_p95_ms": 0.09059400000000001,
+            "draw_p95_ms": 8.743252,
+            "swap_p50_ms": 30.176904999999998,
+            "frames": [
+              520,
+              599
+            ],
+            "over_budget_frames": [
+              520,
+              596
+            ],
+            "dropped_callbacks": 0
+          }
+        },
+        {
+          "name": "scroll-12-auto-false",
+          "observed_no_refresh_during_phase": false,
+          "interpretation": "Exploratory high density: within/prior refreshes affect isolation; no pure scrolling speed-up claim.",
+          "baseline": {
+            "p50_ms": 157.9371165,
+            "p95_ms": 190.585695,
+            "over_budget_percent": 100.0,
+            "player_creations": 0.0,
+            "recomposer_changes": 86.5,
+            "repository_requests": [
+              3,
+              2
+            ],
+            "layout_p95_ms": 0.298648,
+            "draw_p95_ms": 6.4582025000000005,
+            "swap_p50_ms": 27.250044000000003,
+            "frames": [
+              509,
+              513
+            ],
+            "over_budget_frames": [
+              509,
+              513
+            ],
+            "dropped_callbacks": 0
+          },
+          "current": {
+            "p50_ms": 144.158272,
+            "p95_ms": 179.77731699999998,
+            "over_budget_percent": 100.0,
+            "player_creations": 0.0,
+            "recomposer_changes": 88.5,
+            "repository_requests": [
+              10,
+              6
+            ],
+            "layout_p95_ms": 0.0799485,
+            "draw_p95_ms": 6.4174525,
+            "swap_p50_ms": 28.396839999999997,
+            "frames": [
+              524,
+              504
+            ],
+            "over_budget_frames": [
+              524,
+              504
+            ],
+            "dropped_callbacks": 0
+          }
+        },
+        {
+          "name": "scroll-12-auto-true",
+          "observed_no_refresh_during_phase": true,
+          "interpretation": "Exploratory high density: within/prior refreshes affect isolation; no pure scrolling speed-up claim.",
+          "baseline": {
+            "p50_ms": 133.784976,
+            "p95_ms": 292.907611,
+            "over_budget_percent": 99.93589743589743,
+            "player_creations": 18.0,
+            "recomposer_changes": 257.5,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 5.2081995,
+            "draw_p95_ms": 9.698353000000001,
+            "swap_p50_ms": 29.3267085,
+            "frames": [
+              780,
+              735
+            ],
+            "over_budget_frames": [
+              779,
+              735
+            ],
+            "dropped_callbacks": 0
+          },
+          "current": {
+            "p50_ms": 137.1588195,
+            "p95_ms": 208.896643,
+            "over_budget_percent": 99.83838004671338,
+            "player_creations": 8.5,
+            "recomposer_changes": 198.5,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 0.113588,
+            "draw_p95_ms": 9.207423,
+            "swap_p50_ms": 28.187063000000002,
+            "frames": [
+              592,
+              648
+            ],
+            "over_budget_frames": [
+              591,
+              647
+            ],
+            "dropped_callbacks": 0
+          }
+        },
+        {
+          "name": "detail-return",
+          "observed_no_refresh_during_phase": true,
+          "interpretation": "Controlled phase",
+          "baseline": {
+            "p50_ms": 125.399578,
+            "p95_ms": 359.566953,
+            "over_budget_percent": 100.0,
+            "player_creations": 1.0,
+            "recomposer_changes": 15.5,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 73.4299475,
+            "draw_p95_ms": 82.6667465,
+            "swap_p50_ms": 23.1098585,
+            "frames": [
+              17,
+              18
+            ],
+            "over_budget_frames": [
+              17,
+              18
+            ],
+            "dropped_callbacks": 0
+          },
+          "current": {
+            "p50_ms": 95.3702715,
+            "p95_ms": 316.898803,
+            "over_budget_percent": 100.0,
+            "player_creations": 1.0,
+            "recomposer_changes": 13.5,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 54.699473999999995,
+            "draw_p95_ms": 38.668589999999995,
+            "swap_p50_ms": 31.413649,
+            "frames": [
+              19,
+              23
+            ],
+            "over_budget_frames": [
+              19,
+              23
+            ],
+            "dropped_callbacks": 0
+          }
+        },
+        {
+          "name": "twenty-main-switches",
+          "observed_no_refresh_during_phase": true,
+          "interpretation": "Controlled phase",
+          "baseline": {
+            "p50_ms": 104.670848,
+            "p95_ms": 222.78993300000002,
+            "over_budget_percent": 100.0,
+            "player_creations": 0.0,
+            "recomposer_changes": 110.5,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 38.4791625,
+            "draw_p95_ms": 13.336134999999999,
+            "swap_p50_ms": 34.5432305,
+            "frames": [
+              209,
+              215
+            ],
+            "over_budget_frames": [
+              209,
+              215
+            ],
+            "dropped_callbacks": 0
+          },
+          "current": {
+            "p50_ms": 100.08238800000001,
+            "p95_ms": 229.48081200000001,
+            "over_budget_percent": 100.0,
+            "player_creations": 0.0,
+            "recomposer_changes": 109.0,
+            "repository_requests": [
+              0,
+              0
+            ],
+            "layout_p95_ms": 40.1425345,
+            "draw_p95_ms": 13.5882335,
+            "swap_p50_ms": 34.2810365,
+            "frames": [
+              225,
+              220
+            ],
+            "over_budget_frames": [
+              225,
+              220
+            ],
+            "dropped_callbacks": 0
+          }
+        }
+      ]
+    }
+  },
+  "checks": {
+    "unit_tests": 201,
+    "unit_failures": 0,
+    "lint_errors": 0,
+    "lint_warnings": 74,
+    "ui_tests": [
+      {
+        "artifact": "performance-28",
+        "path": "reports/performance/runner-navigation.log",
+        "passed_count": 8,
+        "tail": ""
+      },
+      {
+        "artifact": "performance-28",
+        "path": "reports/performance/runner-regression.log",
+        "passed_count": 42,
+        "tail": ""
+      },
+      {
+        "artifact": "performance-35",
+        "path": "reports/performance/runner-navigation.log",
+        "passed_count": 8,
+        "tail": ""
+      },
+      {
+        "artifact": "performance-35",
+        "path": "reports/performance/runner-regression.log",
+        "passed_count": 42,
+        "tail": ""
+      }
+    ],
+    "localization_resources": 630,
+    "ui_languages": 8
+  },
+  "schema_version": 1
+}
