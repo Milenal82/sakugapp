@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — scrolling and main navigation diagnosis
+
+- Keep the Posts viewport stable while sliding bottom chrome.
+- Use one main-tab navigation action, retaining page drafts and ordinary/result state separately.
+- Delay automatic preview until stable idle; pause onscreen auto previews while scrolling without rebuilding their player. Manual preview remains immediate.
+- Scope feed/fact/detail collection to their pages and preserve unchanged presentation identities.
+- Add paired Debug/AVD frame, transition, trace, resource and state-retention checks.
+
 ## Unreleased — Debug actions, grids and artist links
 
 - Keep Previous, Next, Vote, Favorite, Share and Download in one equal-width row; open the original from Post ID.

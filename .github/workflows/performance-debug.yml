@@ -9,7 +9,7 @@ concurrency:
   group: performance-${{ github.ref_name }}
   cancel-in-progress: true
 env:
-  PERF_MODE: baseline
+  PERF_MODE: compare
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -68,7 +68,18 @@ jobs:
             adb shell settings put global animator_duration_scale 1
             adb shell settings put global transition_animation_scale 1
             adb shell settings put global window_animation_scale 1
+            if [ "${{ matrix.api }}" = "35" ]; then adb shell wm size 1280x900; adb shell wm density 160; fi
             bash scripts/run-performance-profile.sh
+            adb shell wm size reset
+            adb shell wm density reset
+            ./gradlew --no-daemon connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.sakugapp.NavigationPerformanceDeviceTest
+            mkdir -p app/build/reports/performance/navigation-regression
+            cp -r app/build/outputs/androidTest-results app/build/reports/performance/navigation-regression/
+            cp -r app/build/reports/androidTests app/build/reports/performance/navigation-regression/
+            adb shell settings put global animator_duration_scale 0
+            adb shell settings put global transition_animation_scale 0
+            adb shell settings put global window_animation_scale 0
+            bash scripts/run-extension-checks.sh
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -77,3 +88,4 @@ jobs:
             app/build/reports/performance/
             app/build/outputs/androidTest-results/
             app/build/reports/androidTests/
+            app/build/reports/ui-evidence/

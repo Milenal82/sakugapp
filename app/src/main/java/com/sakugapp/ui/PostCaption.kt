@@ -9,7 +9,7 @@ internal fun captionTags(post:Post,settings:AppSettings):List<Tag> {
     val allowed=post.tags.filter {
         (it.category==TagCategory.COPYRIGHT && settings.showCopyright)||
             (it.category==TagCategory.ARTIST && settings.showArtist) ||
-            (it.category in setOf(TagCategory.OTHER,TagCategory.UNKNOWN) && settings.showOtherTags)
+            ((it.category==TagCategory.OTHER || it.category==TagCategory.UNKNOWN) && settings.showOtherTags)
     }
     val required=listOfNotNull(allowed.firstOrNull{it.category==TagCategory.COPYRIGHT},allowed.firstOrNull{it.category==TagCategory.ARTIST})
     val selected=(required+allowed).distinctBy{it.name}.take(limit).toSet()

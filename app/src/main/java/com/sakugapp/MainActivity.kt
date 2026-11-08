@@ -46,6 +46,7 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.lifecycleScope
@@ -86,14 +87,9 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
     val orientationHost=LocalActivity.current as? VideoOrientationHost
     val metered by remember(context){meteredNetwork(context.applicationContext)}.collectAsStateWithLifecycle(initialValue=true)
     val nav=rememberNavController();val entry by nav.currentBackStackEntryAsState()
-    val selected by model.selected.collectAsStateWithLifecycle();val detailError by model.detailError.collectAsStateWithLifecycle()
-    val rawFeed by model.state.collectAsStateWithLifecycle()
-    val library by app.library.collectAsStateWithLifecycle()
-    val feed=remember(rawFeed,library.durations){rawFeed.copy(posts=rawFeed.posts.map{p->library.durations[p.fileUrl]?.takeIf{it!=p.durationMs}?.let{p.copy(durationMs=it)} ?: p})}
-    val history by app.history.collectAsStateWithLifecycle()
     val grid=rememberLazyGridState()
-    val resultSession by model.resultSession.collectAsStateWithLifecycle()
-    val searchMode by model.searchMode.collectAsStateWithLifecycle()
+    val mainStates=rememberSaveable(saver=MainPageState.StateSaver){MainPageState()}
+    val navigationShift=with(LocalDensity.current){10.dp.roundToPx()}
     val localProfile by app.localProfile.collectAsStateWithLifecycle()
     var bottomVisible by remember{mutableStateOf(true)}
     val systemTag=android.content.res.Resources.getSystem().configuration.locales[0].toLanguageTag()
@@ -101,15 +97,14 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
     var menu by remember{mutableStateOf(false)};var about by remember{mutableStateOf(false)}
     LaunchedEffect(entry?.destination?.route){bottomVisible=true}
     fun primary(route:String){
+        mainStates.capture()
         bottomVisible=true
         if(route=="posts")model.restoreBrowse()
         if(nav.currentDestination?.route==route){if(route=="posts")nav.currentBackStackEntry?.savedStateHandle?.set<String?>("resultToken",null);return}
-        nav.navigate(route){popUpTo(nav.graph.startDestinationId){saveState=true};launchSingleTop=true;restoreState=true}
-        // A saved tab can include child pages. Explicit main navigation must land on its root.
-        if(nav.currentDestination?.route!=route)nav.popBackStack(route,false)
+        navigatePrimary(nav,route)
         if(route=="posts")nav.currentBackStackEntry?.savedStateHandle?.set<String?>("resultToken",null)
     }
-    fun go(route:String){nav.navigate(route){launchSingleTop=true}}
+    fun go(route:String){mainStates.capture();nav.navigate(route){launchSingleTop=true}}
     fun detail(post:Post,order:List<Post>?=null){
         if(order==null)model.open(post)else model.openLocal(post,order)
         val token=model.captureDetail();go("post/${post.id}")
@@ -124,6 +119,8 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
         if(value.isBlank()){primary("posts");return}
         app.search(value);showResult(value,model.beginSearch(value))
     }
+    val runSearch=remember(app,model,nav){{value:String->search(value)}}
+    val openPost=remember(model,nav){{post:Post->detail(post)}}
     val browser=rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()){result->
         if(result.resultCode==android.app.Activity.RESULT_OK)app.syncBrowserSession()
         val data=result.data
@@ -131,9 +128,9 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
         else data?.getStringExtra("query")?.let{search(it)}
     }
     val openSite:(String)->Unit={url->browser.launch(Intent(context,BrowserActivity::class.java).putExtra("url",url))}
-    SakugappTheme(settings.lightTheme,settings.fontScale,settings.accent){CompositionLocalProvider(LocalLanguage provides language,LocalTagActions provides app,LocalTagSearch provides ::search,LocalArtistStats provides {artist->go("artist_stats?artist="+android.net.Uri.encode(artist))}){
+    SakugappTheme(settings.lightTheme,settings.fontScale,settings.accent){CompositionLocalProvider(LocalLanguage provides language,LocalTagActions provides app,LocalTagSearch provides runSearch,LocalArtistStats provides {artist->go("artist_stats?artist="+android.net.Uri.encode(artist))}){
         if(about)AboutDialog{about=false}
-        Scaffold(modifier=Modifier.semantics{testTagsAsResourceId=true},bottomBar={AnimatedVisibility(entry?.destination?.route in AppRoutes.main && (entry?.destination?.route!="posts" || bottomVisible),enter=expandVertically(tween(Motion.chrome)),exit=shrinkVertically(tween(Motion.chrome))){MainBottomBar(entry?.destination?.route ?: AppRoutes.SEARCH,::primary)}},topBar={Column(Modifier.statusBarsPadding()){
+        Scaffold(modifier=Modifier.semantics{testTagsAsResourceId=true},bottomBar={MainNavigationChrome(entry?.destination?.route,entry?.destination?.route!="posts" || bottomVisible,::primary)},topBar={Column(Modifier.statusBarsPadding()){
             Row(Modifier.fillMaxWidth().padding(horizontal=8.dp),verticalAlignment=Alignment.CenterVertically){
                 if(entry?.destination?.route !in AppRoutes.main)ActionIcon(R.drawable.ic_back,text(R.string.ui_back_to_app),{nav.popBackStack()},touchSize=40.dp)
                 BrandAndProfile(localProfile,entry?.destination?.route!="profile"){go("profile")}
@@ -144,10 +141,10 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
                 }
             }
         }}){insets->NavHost(navController=nav,startDestination="search_home",
-            enterTransition={fadeIn(tween(Motion.navigation))},exitTransition={fadeOut(tween(Motion.navigation))},
-            popEnterTransition={fadeIn(tween(Motion.navigation))},popExitTransition={fadeOut(tween(Motion.navigation))},modifier=Modifier.padding(insets).semantics{testTagsAsResourceId=true}){
-            composable("search_home"){SearchHomeScreen(app,settings,::search,::go)}
-            composable("profile"){ProfileHomeScreen(app,::go,openSite)}
+            enterTransition={fadeIn(tween(Motion.navigation))+slideInHorizontally(tween(Motion.navigation)){navigationShift}},exitTransition={fadeOut(tween(Motion.navigation))+slideOutHorizontally(tween(Motion.navigation)){-navigationShift}},
+            popEnterTransition={fadeIn(tween(Motion.navigation))+slideInHorizontally(tween(Motion.navigation)){-navigationShift}},popExitTransition={fadeOut(tween(Motion.navigation))+slideOutHorizontally(tween(Motion.navigation)){navigationShift}},modifier=Modifier.padding(insets).semantics{testTagsAsResourceId=true}){
+            composable("search_home"){back->mainStates.Content("search_home",back.id,entry?.id==back.id){SearchHomeScreen(app,settings,runSearch,::go)}}
+            composable("profile"){back->mainStates.Content("profile",back.id,entry?.id==back.id){ProfileHomeScreen(app,::go,openSite)}}
             composable("quiz"){PageMediaScope{
                 val quiz:QuizViewModel=viewModel(factory=object:androidx.lifecycle.ViewModelProvider.Factory{override fun <T:androidx.lifecycle.ViewModel> create(cls:Class<T>):T { @Suppress("UNCHECKED_CAST") return QuizViewModel(app.quizRepository) as T }})
                 QuizRoute(app,quiz){go("quiz_pool")}
@@ -155,45 +152,56 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
             composable("quiz_pool"){QuizPoolScreen(app)}
             composable("website_favorites"){PageMediaScope{
                 val favorites:WebsiteFavoritesViewModel=viewModel(factory=object:androidx.lifecycle.ViewModelProvider.Factory{override fun <T:androidx.lifecycle.ViewModel> create(cls:Class<T>):T { @Suppress("UNCHECKED_CAST") return WebsiteFavoritesViewModel(app.websiteFavorites,app.account,app.voteRevision) as T }})
-                WebsiteFavoritesScreen(favorites,app,settings,{go("account")},::search){post,order->detail(post,order)}
+                WebsiteFavoritesScreen(favorites,app,settings,{go("account")},runSearch){post,order->detail(post,order)}
             }}
-            composable("explore"){ExploreScreen(::search,::go)}
-            composable("topic_tags/{type}/{order}"){back->TopicTagsScreen(app.topics,if(back.arguments?.getString("type")=="artist")TagCategory.ARTIST else TagCategory.COPYRIGHT,back.arguments?.getString("order") ?: "date",::search)}
-            composable("search_history"){SearchHistoryScreen(app,::search)}
+            composable("explore"){ExploreScreen(runSearch,::go)}
+            composable("topic_tags/{type}/{order}"){back->TopicTagsScreen(app.topics,if(back.arguments?.getString("type")=="artist")TagCategory.ARTIST else TagCategory.COPYRIGHT,back.arguments?.getString("order") ?: "date",runSearch)}
+            composable("search_history"){SearchHistoryScreen(app,runSearch)}
             composable("posts"){postsEntry->PageMediaScope{
+                val rawFeed by model.state.collectAsStateWithLifecycle()
+                val durations by remember(app){app.library.map{it.durations}.distinctUntilChanged()}.collectAsStateWithLifecycle(initialValue=emptyMap())
+                val feed=remember(rawFeed,durations){presentFeed(rawFeed,durations)}
+                val history by app.history.collectAsStateWithLifecycle()
+                val searchMode by model.searchMode.collectAsStateWithLifecycle()
+                val resultSession by model.resultSession.collectAsStateWithLifecycle()
                 val token by postsEntry.savedStateHandle.getStateFlow<String?>("resultToken",null).collectAsStateWithLifecycle()
                 val searchGrid=rememberLazyGridState()
                 androidx.lifecycle.compose.LifecycleEventEffect(androidx.lifecycle.Lifecycle.Event.ON_START){if(entry?.id==postsEntry.id){if(token!=null)model.activateSearch(token!!,postsEntry.savedStateHandle["resultQuery"] ?: "",postsEntry.savedStateHandle["sampleOnly"] ?: false)else model.restoreBrowse()}}
                 LaunchedEffect(entry?.id,token){if(entry?.id==postsEntry.id){if(token!=null)model.activateSearch(token!!,postsEntry.savedStateHandle["resultQuery"] ?: "",postsEntry.savedStateHandle["sampleOnly"] ?: false)else model.restoreBrowse()}}
                 if(token==resultSession)
-                Column(Modifier.fillMaxSize()){
-                    key(token){PostsScreen(feed,if(searchMode)searchGrid else grid,settings,history,metered,app,::search,{post->detail(post)},model::loadMore,model::refresh,isActive=entry?.id==postsEntry.id,onChromeVisibility={bottomVisible=it})}
+                {
+                val body:@Composable ()->Unit={Column(Modifier.fillMaxSize()){
+                    key(token){PostsScreen(feed,if(searchMode)searchGrid else grid,settings,history,metered,app,runSearch,openPost,model::loadMore,model::refresh,isActive=entry?.id==postsEntry.id,onChromeVisibility={bottomVisible=it})}
+                }}
+                if(token==null)mainStates.Content("posts",postsEntry.id,entry?.id==postsEntry.id,body)else body()
                 }
             }}
             composable("search"){LaunchedEffect(Unit){primary("posts")}}
             composable("artist_stats?artist={artist}",arguments=listOf(androidx.navigation.navArgument("artist"){defaultValue=""})){artistEntry->
                 val stats:DiscoveryViewModel=viewModel(factory=object:androidx.lifecycle.ViewModelProvider.Factory{override fun <T:androidx.lifecycle.ViewModel> create(cls:Class<T>):T { @Suppress("UNCHECKED_CAST") return DiscoveryViewModel(app.discovery) as T }})
-                ArtistStatsScreen(app.discovery,stats,::search,artistEntry.arguments?.getString("artist").orEmpty())
+                ArtistStatsScreen(app.discovery,stats,runSearch,artistEntry.arguments?.getString("artist").orEmpty())
             }
             composable("show_browser"){ShowBrowserScreen(app.discovery){go("show_detail/"+android.net.Uri.encode(it))}}
             composable("show_detail/{showTag}"){back->
                 val tag=back.arguments?.getString("showTag").orEmpty()
                 val show:DiscoveryViewModel=viewModel(factory=object:androidx.lifecycle.ViewModelProvider.Factory{override fun <T:androidx.lifecycle.ViewModel> create(cls:Class<T>):T { @Suppress("UNCHECKED_CAST") return DiscoveryViewModel(app.discovery) as T }})
-                ShowDetailScreen(tag,show,::search){ep->go("episode_posts/"+android.net.Uri.encode(tag)+"/"+android.net.Uri.encode(ep.key))}
+                ShowDetailScreen(tag,show,runSearch){ep->go("episode_posts/"+android.net.Uri.encode(tag)+"/"+android.net.Uri.encode(ep.key))}
             }
             composable("episode_posts/{showTag}/{group}"){back->PageMediaScope{
                 val tag=back.arguments?.getString("showTag").orEmpty();val raw=back.arguments?.getString("group").orEmpty().split(":")
                 val group=EpisodeKey(EpisodeKind.entries.firstOrNull{it.name.equals(raw.firstOrNull(),true)} ?: EpisodeKind.OTHER,raw.getOrNull(1)?.toIntOrNull())
                 val episodes:DiscoveryViewModel=viewModel(factory=object:androidx.lifecycle.ViewModelProvider.Factory{override fun <T:androidx.lifecycle.ViewModel> create(cls:Class<T>):T { @Suppress("UNCHECKED_CAST") return DiscoveryViewModel(app.discovery) as T }})
-                EpisodePostsScreen(tag,group,episodes,settings,app,::search,{artist,posts->val query=ArtistLinks.query(tag,artist);showResult(query,model.beginSampleSearch(query,ArtistLinks.episodePosts(posts,group,artist)),true)},{post,order->detail(post,order)},entry?.destination?.route=="episode_posts/{showTag}/{group}")
+                EpisodePostsScreen(tag,group,episodes,settings,app,runSearch,{artist,posts->val query=ArtistLinks.query(tag,artist);showResult(query,model.beginSampleSearch(query,ArtistLinks.episodePosts(posts,group,artist)),true)},{post,order->detail(post,order)},entry?.destination?.route=="episode_posts/{showTag}/{group}")
             }}
-            composable("library"){PageMediaScope{LibraryScreen(app,::search,{nav.navigate("tags")}){post,order->detail(post,order)}}}
+            composable("library"){PageMediaScope{LibraryScreen(app,runSearch,{nav.navigate("tags")}){post,order->detail(post,order)}}}
             composable("tags"){TagFavoritesScreen(app,{nav.popBackStack()}){value->search(value)}}
             composable("history"){PageMediaScope{BrowsingHistoryScreen(app,{nav.popBackStack()}){post,order->detail(post,order)}}}
             composable("account"){AccountScreen(app,openSite)}
             composable("language"){LanguageScreen(settings.language,app::language)}
             composable("settings"){SettingsScreen(settings,app,{go("language")},{about=true})}
             composable("post/{id}"){backStack->PageMediaScope{
+                val selected by model.selected.collectAsStateWithLifecycle()
+                val detailError by model.detailError.collectAsStateWithLifecycle()
                 val id=backStack.arguments?.getString("id")?.toLongOrNull()
                 LaunchedEffect(id,entry?.id){if(id!=null && entry?.id==backStack.id)model.restoreDetail(id,backStack.savedStateHandle["detailContext"])}
                 val post=selected?.takeIf{it.id==id}
@@ -204,7 +212,7 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
                         val requests=neighboringUrls.map{url->coil.Coil.imageLoader(context).enqueue(coil.request.ImageRequest.Builder(context.applicationContext).data(url).size(320).build())}
                         onDispose{requests.forEach{it.dispose()}}
                     }
-                    PostDetail(post,settings,metered,app,model.usesLocalSnapshot(),::search,openSite,{go("account")},{score->model.updateScore(post.id,score);app.score(post.id,score)},{duration->model.updateDuration(post.id,post.fileUrl.orEmpty(),duration);app.duration(post.fileUrl.orEmpty(),duration)},model.adjacent(-1)!=null,model.adjacent(1)!=null,{delta->
+                    PostDetail(post,settings,metered,app,model.usesLocalSnapshot(),runSearch,openSite,{go("account")},{score->model.updateScore(post.id,score);app.score(post.id,score)},{duration->model.updateDuration(post.id,post.fileUrl.orEmpty(),duration);app.duration(post.fileUrl.orEmpty(),duration)},model.adjacent(-1)!=null,model.adjacent(1)!=null,{delta->
                         val next=model.adjacent(delta)
                         if(next==null){model.prefetchNeighbors();false}else{
                             model.selectAdjacent(next)
@@ -226,7 +234,10 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
 @Composable
 internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,history:List<String>,metered:Boolean,app:AppViewModel,search:(String)->Unit,open:(Post)->Unit,loadMore:()->Unit,refresh:()->Unit,isActive:Boolean=true,onChromeVisibility:(Boolean)->Unit={}) {
     var query by rememberSaveable(state.query,stateSaver=TextFieldValue.Saver){mutableStateOf(TextFieldValue(state.query,TextRange(state.query.length)))}
-    var active by rememberSaveable{mutableStateOf<Long?>(null)}
+    var preview by remember{mutableStateOf(PreviewSelection())}
+    val active=preview.id
+    var manualRevision by remember{mutableIntStateOf(0)}
+    val lifecycleState by LocalLifecycleOwner.current.lifecycle.currentStateFlow.collectAsState()
     var advanced by remember{mutableStateOf(false)}
     var historyOpen by rememberSaveable{mutableStateOf(false)}
     var policy by remember{mutableStateOf(false)}
@@ -269,14 +280,17 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
             isActive && current.posts.isNotEmpty() && last>=current.posts.size-12 && !current.loading && !current.refreshing && current.refreshError==null && current.error==null && !current.endReached && !current.autoLoadPaused
         }.distinctUntilChanged().filter{it}.collect{loadMore()}
     }
-    LaunchedEffect(grid,settings.autoPreview,allowedPreview,isActive){
-        snapshotFlow{grid.layoutInfo.visibleItemsInfo.mapNotNull{it.key as? Long} to grid.isScrollInProgress}.distinctUntilChanged().collect{(visible,scrolling)->
-            if(!isActive || !allowedPreview || active !in visible)active=null
-            if(isActive && settings.autoPreview && allowedPreview && !scrolling && active==null)active=latestState.posts.firstOrNull{it.id in visible && it.isVideo}?.id
-        }
+    LaunchedEffect(grid,settings.autoPreview,allowedPreview,isActive,lifecycleState){
+        snapshotFlow{PreviewViewport(grid.layoutInfo.visibleItemsInfo.mapNotNull{it.key as? Long},grid.isScrollInProgress,isActive,
+            lifecycleState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED),settings.autoPreview && allowedPreview,manualRevision)}
+            .collectLatest{view->
+                preview=preview.retain(view)
+                settledPreview(view,{preview},{latestState.posts})?.let{preview=it}
+            }
     }
     fun collapseSearch(){searchExpanded=false;historyOpen=false;keyboard?.hide();focus.clearFocus()}
-    fun submit(value:String){collapseSearch();active=null;chromeVisible=true;search(value)}
+    fun submit(value:String){collapseSearch();preview=PreviewSelection();chromeVisible=true;search(value)}
+    val tagSearch=remember(search,focus,keyboard){{value:String->submit(value)}}
     // The platform IME normally receives back first. If its callback is being handed
     // off during animation, keep the editor as the fallback rather than popping Posts.
     BackHandler(enabled=isActive && searchExpanded && !advanced){
@@ -305,7 +319,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
                 Text(translateMessage(it),style=MaterialTheme.typography.labelSmall)
                 TextButton(enabled=!state.loading,onClick={submit(state.query)}){Text(text(R.string.ui_reload_posts_and_tags))}
             }}}
-            items(state.posts,key={it.id}){post->PostCard(post,settings,metered,isActive && active==post.id,{active=null;collapseSearch();open(post)},::submit,{if(!allowedPreview)policy=true else active=if(active==post.id)null else post.id},{actual->app.duration(post.fileUrl.orEmpty(),actual)})}
+            items(state.posts,key={it.id},contentType={"post"}){post->PostCard(post,settings,metered,isActive && active==post.id,{preview=PreviewSelection();collapseSearch();open(post)},tagSearch,{if(!allowedPreview)policy=true else{manualRevision++;preview=preview.manual(post.id)}},{actual->app.duration(post.fileUrl.orEmpty(),actual)},previewPaused=active==post.id && preview.automatic && grid.isScrollInProgress)}
             if(state.loading && state.posts.isEmpty())items(settings.columns.coerceAtLeast(6),key={"skeleton-$it"}){SkeletonCard()}
             item(span={GridItemSpan(maxLineSpan)}){Column(Modifier.fillMaxWidth().padding(vertical=8.dp)){
                 if(state.discardedPosts>0)Text(text(R.string.ui_feed_window_hint,FeedState.MAX_RETAINED_POSTS),style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.onSurfaceVariant)
@@ -390,7 +404,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
 }
 
 @OptIn(ExperimentalFoundationApi::class)
-@Composable internal fun PostCard(post:Post,settings:AppSettings,metered:Boolean,preview:Boolean,open:()->Unit,search:(String)->Unit,toggle:()->Unit,onDuration:(Long)->Unit,onClassify:(()->Unit)?=null){
+@Composable internal fun PostCard(post:Post,settings:AppSettings,metered:Boolean,preview:Boolean,open:()->Unit,search:(String)->Unit,toggle:()->Unit,onDuration:(Long)->Unit,previewPaused:Boolean=false,onClassify:(()->Unit)?=null){
     val previewApp=LocalTagActions.current
     val previewUrl=if(preview)produceState<String?>(null,post.id,post.fileUrl){value=withContext(Dispatchers.IO){previewApp?.offlineUri(post)?.toString() ?: post.fileUrl}}.value else null
     val contextDescriptionDurationUnknown=text(R.string.ui_duration_unknown)
@@ -401,7 +415,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
         shadowElevation=if(settings.columns>=6)0.dp else 1.dp,tonalElevation=1.dp){Column{
         Box(Modifier.fillMaxWidth().heightIn(min=if(settings.columns>=6)24.dp else 48.dp).aspectRatio(16f/9f).background(MaterialTheme.colorScheme.surfaceVariant)
             .testTag("post-media-${post.id}").combinedClickable(interactionSource=interaction,indication=LocalIndication.current,onClick=open,onLongClick={options=true},onLongClickLabel=text(R.string.ui_preview_options))){
-            if(preview && previewUrl!=null)CompositionLocalProvider(LocalSaveableStateRegistry provides null){VideoPanel(previewUrl!!,settings,preview=true,onDurationChanged=onDuration)}
+            if(preview && previewUrl!=null)CompositionLocalProvider(LocalSaveableStateRegistry provides null){VideoPanel(previewUrl!!,settings,preview=true,onDurationChanged=onDuration,previewPaused=previewPaused)}
             else PostImage(post,Modifier.fillMaxSize(),settings,metered)
             Row(Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(2.dp),horizontalArrangement=Arrangement.SpaceBetween,verticalAlignment=Alignment.Bottom){
                 if(post.isVideo && settings.columns<6)Surface(color=MaterialTheme.colorScheme.surface.copy(alpha=0.96f),shape=RoundedCornerShape(3.dp)){
@@ -430,7 +444,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
 @OptIn(ExperimentalLayoutApi::class)
 @Composable private fun PostCaption(post:Post,settings:AppSettings,search:(String)->Unit){
     val size=when(settings.columns){1->14.sp;2->12.sp;else->11.sp}
-    val tags=remember(post,settings){captionTags(post,settings).let{if(settings.columns>=6)it.take(2)else it}}
+    val tags=remember(post.tags,settings.columns,settings.wrapTags,settings.showCopyright,settings.showArtist,settings.showOtherTags){captionTags(post,settings).let{if(settings.columns>=6)it.take(2)else it}}
     if(!settings.wrapTags || settings.columns>=6){
         Column(Modifier.fillMaxWidth().padding(top=5.dp).testTag("post-caption-${post.id}").semantics(mergeDescendants=true){}){
             Row(horizontalArrangement=Arrangement.spacedBy(4.dp)){

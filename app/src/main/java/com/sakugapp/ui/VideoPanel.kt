@@ -49,7 +49,7 @@ interface VideoOrientationHost { var hasFullscreenPlayer:Boolean;var fullscreenO
 @OptIn(ExperimentalLayoutApi::class,ExperimentalMaterial3Api::class)
 @Composable
 fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=false,seekRequest:Pair<Long,Int>?=null,
-    onPlayerReady:((Player)->Unit)?=null,onDurationChanged:(Long)->Unit={},onNavigate:(Int)->Boolean={false},videoDimensions:Pair<Int,Int>?=null,downloadPost:Post?=null,maxInlineHeight:androidx.compose.ui.unit.Dp?=null) {
+    onPlayerReady:((Player)->Unit)?=null,onDurationChanged:(Long)->Unit={},onNavigate:(Int)->Boolean={false},videoDimensions:Pair<Int,Int>?=null,downloadPost:Post?=null,maxInlineHeight:androidx.compose.ui.unit.Dp?=null,previewPaused:Boolean=false) {
     val mediaKey=url+":"+downloadPost?.id
     val pageCache=LocalPageVideoCache.current
     val context=LocalContext.current;val owner=LocalLifecycleOwner.current;val scope=rememberCoroutineScope()
@@ -96,8 +96,15 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
     val player=remember(mediaKey){ExoPlayer.Builder(context.applicationContext).apply{pageCache?.let{setMediaSourceFactory(androidx.media3.exoplayer.source.DefaultMediaSourceFactory(it.factory()))}}.setLoadControl(DefaultLoadControl.Builder()
         .setBufferDurationsMs(3000,15000,500,1000).setTargetBufferBytes((if(preview)8 else 24)*1024*1024)
         .setPrioritizeTimeOverSizeThresholds(false).build()).build().apply{
-        setSeekParameters(SeekParameters.EXACT);setMediaItem(MediaItem.fromUri(url));seekTo(position);playWhenReady=handoff?.play ?: preview
+        setSeekParameters(SeekParameters.EXACT);setMediaItem(MediaItem.fromUri(url));seekTo(position);playWhenReady=handoff?.play ?: (preview && !previewPaused)
     }}
+    if(preview){
+        val stage by owner.lifecycle.currentStateFlow.collectAsState()
+        LaunchedEffect(player,stage,previewPaused){
+            if(previewPaused || !stage.isAtLeast(Lifecycle.State.RESUMED))player.pause()
+            else{if(player.playbackState==Player.STATE_IDLE)player.prepare();player.play()}
+        }
+    }
     val currentRate by rememberUpdatedState(nominalFps)
     val currentLength by rememberUpdatedState(duration)
     val stepper=remember(player,mediaKey){FrameStepper(player,FrameDecoder(context.applicationContext,url,pageCache=pageCache),{currentRate},{currentLength})}

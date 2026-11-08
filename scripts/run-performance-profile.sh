@@ -10,12 +10,14 @@ run_profile() {
   local checkout="$1" label="$2" trial="$3"
   # Fresh fixture databases/cache for both revisions, same emulator and real frame clock.
   adb shell pm clear com.sakugapp >/dev/null 2>&1 || true
+  local test_status=0
   (cd "$checkout" && ./gradlew --no-daemon connectedDebugAndroidTest \
     -Pandroid.testInstrumentationRunnerArguments.class=com.sakugapp.PerformanceScenarioDeviceTest \
-    -Pandroid.testInstrumentationRunnerArguments.profileLabel="$label")
+    -Pandroid.testInstrumentationRunnerArguments.profileLabel="$label") || test_status=$?
   mkdir -p "$report_dir/trial-$trial/$label"
-  adb pull "/sdcard/Download/sakugapp-performance/$label/." "$report_dir/trial-$trial/$label/"
+  adb pull "/sdcard/Download/sakugapp-performance/$label/." "$report_dir/trial-$trial/$label/" || true
   cp -r "$checkout/app/build/outputs/androidTest-results" "$report_dir/trial-$trial/$label/test-results"
+  return "$test_status"
 }
 if [[ "$mode" == baseline ]]; then
   run_profile "$PWD" baseline 1

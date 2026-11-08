@@ -37,6 +37,7 @@ class PerformanceScenarioDeviceTest {
     private lateinit var model:FeedViewModel
     private lateinit var posts:List<Post>
     private val requests=AtomicInteger()
+    private val requestLog=Collections.synchronizedList(mutableListOf<String>())
     private val report=linkedMapOf<String,Any?>()
     private val phases=mutableListOf<Map<String,Any?>>()
     private lateinit var output:File
@@ -116,6 +117,13 @@ class PerformanceScenarioDeviceTest {
         before.recycle();middle.recycle();after.recycle()
         return mapOf("from" to from,"to" to to,"middle_capture_start_ms" to sampleStart-started,"middle_capture_end_ms" to sampleEnd-started,"mixed_pixels" to mixed,"sampled_pixels" to samples)
     }
+    private fun stopPreview(){
+        if((players()["unreleased_ids"] as List<*>).isEmpty())return
+        for(media in device.findObjects(By.res(java.util.regex.Pattern.compile("post-media-[0-9]+")))){
+            media.longClick();val stop=device.findObject(By.text(activity.getString(R.string.ui_stop_preview)))
+            if(stop!=null){stop.click();settle();return}else device.pressBack()
+        }
+    }
     @Test fun profileRealScaffoldScrollPreviewAndNavigation()=runBlocking<Unit>{
         require(label in listOf("baseline","current"));device.executeShellCommand("logcat -c")
         rule.scenario.onActivity{activity=it;output=File(it.getExternalFilesDir(null),"performance-$label").apply{mkdirs()}}
@@ -134,7 +142,7 @@ class PerformanceScenarioDeviceTest {
             File(offline,"${post.id}-$hash.mp4").writeBytes(videoBytes)
             post.copy(previewUrl=android.net.Uri.fromFile(image).toString(),fileUrl=url,fileExt="mp4")
         };assertEquals(300,posts.size)
-        val repository=object:PostRepository{override val pageSize=1000;override suspend fun page(query:String,page:Int):PostPage{requests.incrementAndGet();return PostPage(if(page==1)posts else emptyList(),if(page==1)posts.size else 0)}}
+        val repository=object:PostRepository{override val pageSize=1000;override suspend fun page(query:String,page:Int):PostPage{requests.incrementAndGet();requestLog+="$query:$page";return PostPage(if(page==1)posts else emptyList(),if(page==1)posts.size else 0)}}
         rule.scenario.onActivity{host->
             app=ViewModelProvider(host)[AppViewModel::class.java]
             model=ViewModelProvider(host,object:ViewModelProvider.Factory{override fun <T:ViewModel> create(cls:Class<T>):T{@Suppress("UNCHECKED_CAST")return FeedViewModel(SavedStateHandle(),repository) as T}})["performance-feed",FeedViewModel::class.java]
@@ -144,7 +152,8 @@ class PerformanceScenarioDeviceTest {
         rule.scenario.onActivity{it.setContent{Sakugapp(model,app)}};node("search-home");tap("nav-posts");node("post-grid");settle()
         report["label"]=label;report["scope"]="Debug fixture host running production Sakugapp; real Android frame clock; AVD/SwiftShader, not physical-device or live-network performance"
         report["device"]=Build.MODEL;report["api"]=Build.VERSION.SDK_INT;report["pid"]=android.os.Process.myPid()
-        report["frame_definition"]="FrameMetrics TOTAL_DURATION > display refresh period; not SurfaceFlinger FrameTimeline jank";report["post_count"]=posts.size;report["media"]="300 owned copies of a deterministic MP4 and generated 320x180 PNGs; public response IDs/tags/scores, synthetic media URLs never requested"
+        report["frame_definition"]="FrameMetrics TOTAL_DURATION > display refresh period; not SurfaceFlinger FrameTimeline jank";report["display_px"]=listOf(device.displayWidth,device.displayHeight);report["density_dpi"]=activity.resources.displayMetrics.densityDpi
+        report["post_count"]=posts.size;report["media"]="300 owned copies of a deterministic MP4 and generated 320x180 PNGs; public response IDs/tags/scores, synthetic media URLs never requested"
         report["animator_scale"]=Settings.Global.getFloat(activity.contentResolver,Settings.Global.ANIMATOR_DURATION_SCALE,1f)
         report["window_animation_scale"]=Settings.Global.getFloat(activity.contentResolver,Settings.Global.WINDOW_ANIMATION_SCALE,1f)
         report["transition_scale"]=Settings.Global.getFloat(activity.contentResolver,Settings.Global.TRANSITION_ANIMATION_SCALE,1f)
@@ -155,27 +164,35 @@ class PerformanceScenarioDeviceTest {
             val columns=listOf(2,4,6)+if(activity.resources.configuration.smallestScreenWidthDp>=600)listOf(8,12)else emptyList()
             for(count in columns)for(auto in listOf(false,true)){
                 app.preferences.columns(count);app.preferences.flag("auto",auto);await{app.settings.value.columns==count && app.settings.value.autoPreview==auto};top()
-                val shown=bounds("post-grid");var hidden:List<Int>?=null
+                val shown=bounds("post-grid");var hidden:List<Int>?=null;var navHidden=false
+                val directions=mutableListOf<String>();val nearTopIds=posts.take(count*8).map{it.id}.toSet();val nearEndIds=posts.takeLast(count*4).map{it.id}.toSet()
+                var towardEnd=true
                 val result=measure("scroll-$count-auto-$auto"){
-                    repeat(12){device.swipe(device.displayWidth/2,device.displayHeight*4/5,device.displayWidth/2,device.displayHeight/4,16)}
-                    Thread.sleep(700);hidden=bounds("post-grid")
-                    repeat(12){device.swipe(device.displayWidth/2,device.displayHeight/4,device.displayWidth/2,device.displayHeight*4/5,16)}
-                    Thread.sleep(700)
+                    repeat(24){step->
+                        val visible=device.findObjects(By.res(java.util.regex.Pattern.compile(".*post-media-[0-9]+"))).mapNotNull{it.resourceName.substringAfterLast("post-media-").toLongOrNull()}
+                        if(visible.any{it in nearTopIds})towardEnd=true else if(visible.any{it in nearEndIds})towardEnd=false
+                        directions+=if(towardEnd)"down"else"up"
+                        val first=if(towardEnd)device.displayHeight*4/5 else device.displayHeight/4
+                        val last=if(towardEnd)device.displayHeight/4 else device.displayHeight*4/5
+                        device.swipe(device.displayWidth/2,first,device.displayWidth/2,last,16)
+                        if(step==11){Thread.sleep(700);hidden=bounds("post-grid");navHidden=!device.hasObject(By.res("main-bottom-nav"))}
+                    };Thread.sleep(700)
                 }
-                phases[phases.lastIndex]=result+mapOf("columns" to count,"auto_preview" to auto,"grid_before" to shown,"grid_while_nav_hidden" to hidden,"grid_after" to bounds("post-grid"),"image_memory_cache_bytes" to coil.Coil.imageLoader(activity).memoryCache?.size)
+                phases[phases.lastIndex]=result+mapOf("gesture_directions" to directions,"refresh_revision" to model.state.value.refreshRevision,"columns" to count,"auto_preview" to auto,"grid_before" to shown,"grid_midway" to hidden,"bottom_nav_midway_hidden" to navHidden,"grid_after" to bounds("post-grid"),"image_memory_cache_bytes" to coil.Coil.imageLoader(activity).memoryCache?.size)
             }
         }finally{
             val pfd=instrumentation.uiAutomation.executeShellCommand("atrace --async_stop")
             ParcelFileDescriptor.AutoCloseInputStream(pfd).use{input->File(output,"perf-$label-scroll.atrace").outputStream().use{input.copyTo(it)}}
         }
-        app.preferences.flag("auto",false);app.preferences.columns(2);top()
+        app.preferences.flag("auto",false);app.preferences.columns(2);top();stopPreview()
         report["transitions"]=listOf(transition("posts","search_home"),transition("search_home","posts"),transition("posts","profile"),transition("profile","posts"))
         top();val gridBefore=bounds("post-grid")
         measure("detail-return"){
             tap("post-media-${posts.first().id}");node("detail-actions");Thread.sleep(350);device.pressBack();node("post-grid")
         };report["detail_grid_before"]=gridBefore;report["detail_grid_after"]=bounds("post-grid")
+        val navigationRequests=requests.get()
         measure("twenty-main-switches"){repeat(5){for(route in listOf("search_home","posts","profile","posts")){tap("nav-$route");Thread.sleep(260)}}}
-        report["phases"]=phases;report["memory_end"]=memory();report["repository_requests"]=requests.get();report["players_end"]=players()
+        report["phases"]=phases;report["memory_end"]=memory();report["repository_requests"]=requests.get();report["repository_request_log"]=requestLog.toList();report["navigation_requests_delta"]=requests.get()-navigationRequests;report["players_end"]=players()
         val file=File(output,"perf-$label.json");file.writeText(Gson().toJson(report));println("PERFORMANCE_REPORT "+file.readText())
         device.executeShellCommand("mkdir -p /sdcard/Download/sakugapp-performance/$label")
         output.listFiles().orEmpty().forEach{captured->
@@ -183,6 +200,6 @@ class PerformanceScenarioDeviceTest {
             device.executeShellCommand("cp ${captured.absolutePath} $target")
             check(device.executeShellCommand("stat -c %s $target").trim().toLongOrNull()==captured.length()){"Export failed: ${captured.name}"}
         }
-        assertEquals("Tab switches must not fetch an unchanged feed",1,requests.get())
+        assertEquals("Tab switches must not fetch an unchanged feed",navigationRequests,requests.get())
     }
 }
