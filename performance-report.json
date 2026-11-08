@@ -209,7 +209,8 @@
             "started_at": null,
             "completed_at": null
           }
-        ]
+        ],
+        "log_status": "Command '['gh', 'api', 'repos/Milenal82/sakugapp/actions/jobs/128758375164/logs']' returned non-zero exit status 1."
       },
       {
         "id": 128758375264,
@@ -312,7 +313,8 @@
             "started_at": "2026-11-08T14:25:10Z",
             "completed_at": "2026-11-08T14:25:10Z"
           }
-        ]
+        ],
+        "log_status": "Command '['gh', 'api', 'repos/Milenal82/sakugapp/actions/jobs/128758375264/logs']' returned non-zero exit status 1."
       }
     ],
     "artifacts": [
@@ -783,5 +785,15 @@
       "errors": 0,
       "warnings": 74
     }
+  },
+  {
+    "run": "42489882792",
+    "sha": "9074314508ac88f810aba18aeee8ce61b5277d83",
+    "status": "pending",
+    "conclusion": null,
+    "jobs": [],
+    "artifacts": [],
+    "reports": [],
+    "profiles": []
   }
 ]
