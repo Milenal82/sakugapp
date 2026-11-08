@@ -51,7 +51,7 @@ class FeedViewModel @JvmOverloads constructor(
     fun beginSampleSearch(query:String,posts:List<Post>):String {
         saveResult();request?.cancel();generation++
         if(browseSnapshot==null){browseSnapshot=_state.value;savedState["browseQuery"]=_state.value.query}
-        _searchMode.value=true
+        _searchMode.value=true;close()
         val token=java.util.UUID.randomUUID().toString();_resultSession.value=token
         savedState["query"]=query
         _state.value=FeedState(query=query,posts=posts.distinctBy{it.id}.take(FeedState.MAX_RETAINED_POSTS),endReached=true,sampleOnly=true)
@@ -66,7 +66,7 @@ class FeedViewModel @JvmOverloads constructor(
         val cached=results[token]
         _state.value=cached?.copy(loading=false,refreshing=false) ?: FeedState(query=query,sampleOnly=sampleOnly,endReached=sampleOnly)
         savedState["query"]=query
-        if(!sampleOnly && (cached==null || cached.loading || cached.refreshing))loadMore()
+        if(!sampleOnly){if(cached?.refreshing==true)refresh()else if(cached==null || cached.loading)loadMore()}
     }
     /** Called only after navigation commits back to Posts, not during a cancelled back gesture. */
     fun restoreBrowse(){
@@ -80,7 +80,7 @@ class FeedViewModel @JvmOverloads constructor(
     }
     fun search(query: String) {
         request?.cancel()
-        localSequence=null
+        close()
         generation++
         val normalized = query.trim()
         savedState["query"] = normalized

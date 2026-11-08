@@ -79,4 +79,28 @@ class DebugLinksTest {
         assertEquals(1L,model.adjacent(1)!!.id);assertNull(model.adjacent(-1));assertEquals(17,model.selected.value!!.score)
         assertTrue(model.usesLocalSnapshot());assertEquals(before,requests)
     }
+    @Test fun interruptedRefreshRestartsPageOneWhenReturningToTheQuery()=runTest(dispatcher){
+        val waiting=CompletableDeferred<Unit>();val calls=mutableListOf<Pair<String,Int>>()
+        val repo=object:PostRepository{override val pageSize=1;override suspend fun page(query:String,page:Int):PostPage{
+            calls+=query to page
+            if(query=="artist_a" && calls.count{it.first==query}>=2)waiting.await()
+            return PostPage(listOf(post()),1)
+        }}
+        val model=FeedViewModel(SavedStateHandle(),repo);advanceUntilIdle()
+        val first=model.beginSearch("artist_a");advanceUntilIdle();model.refresh();runCurrent()
+        model.beginSearch("artist_b");advanceUntilIdle();model.activateSearch(first,"artist_a");runCurrent()
+        assertEquals("artist_a" to 1,calls.last());assertTrue(model.state.value.refreshing)
+        waiting.complete(Unit);advanceUntilIdle();assertFalse(model.state.value.refreshing)
+    }
+    @Test fun startingSearchInvalidatesAnUnfinishedDetailRead()=runTest(dispatcher){
+        val waiting=CompletableDeferred<Unit>()
+        val repo=object:PostRepository{override suspend fun page(query:String,page:Int):PostPage{
+            if(query=="id:1")withContext(NonCancellable){waiting.await()}
+            return PostPage(listOf(post()),1)
+        }}
+        val model=FeedViewModel(SavedStateHandle(),repo);advanceUntilIdle();model.openId(1);runCurrent()
+        model.beginSearch("artist_a");runCurrent();waiting.complete(Unit);advanceUntilIdle()
+        assertNull(model.selected.value);assertEquals("artist_a",model.state.value.query)
+    }
+
 }
