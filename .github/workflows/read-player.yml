@@ -46,7 +46,7 @@ jobs:
                   result.append(dict(phase=name,start_s=start,end_s=end,slices=sorted(records,key=lambda r:-r['total_ms'])[:35]))
               return dict(phase_count=len(phases),completed_main_render_slices=len(spans),phases=result,definition='Wall durations of complete app-pid tracing slices inside measurement markers; nested durations overlap, not CPU time or scheduler blocked-time')
           results=[]
-          for run in ['42493326362']:
+          for run in ['42493326362','42496524866']:
               meta=json.loads(api('actions/runs/'+run))
               assert meta['path']=='.github/workflows/performance-debug.yml' and meta['head_branch']=='dev/performance-navigation'
               result={'run':run,'sha':meta['head_sha'],'status':meta['status'],'conclusion':meta['conclusion'],'jobs':[],'artifacts':[],'reports':[],'profiles':[]}
