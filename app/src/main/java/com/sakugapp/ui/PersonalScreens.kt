@@ -66,7 +66,7 @@ import java.time.format.*
             items(shown,key={it.name}){entry->
                 val tag=Tag(entry.name,PersonalRules.category(entry.category))
                 Row(Modifier.fillMaxWidth().padding(vertical=6.dp),verticalAlignment=Alignment.CenterVertically){
-                    if(picking)Checkbox(checked=tag.name in chosen,onCheckedChange={toggle(tag.name)},modifier=Modifier.testTag("select-tag-${tag.name}"))
+                    if(picking)Checkbox(checked=tag.name in chosen,onCheckedChange={toggle(tag.name)},modifier=Modifier.testTag("select-tag-${tag.name}").semantics{contentDescription=tag.name})
                     Column(Modifier.weight(1f).clickable{if(picking)toggle(tag.name)else search(tag.name)}.padding(8.dp).testTag("saved-tag-${tag.name}")){
                         Text(tag.name,color=tagColor(tag,light) ?: MaterialTheme.colorScheme.onSurface,maxLines=2,overflow=TextOverflow.Ellipsis)
                         byName[tag.name]?.let{Text(it,style=MaterialTheme.typography.bodySmall,color=MaterialTheme.colorScheme.onSurfaceVariant,maxLines=2,overflow=TextOverflow.Ellipsis)}

@@ -17,8 +17,8 @@ import com.sakugapp.data.*
 import kotlinx.coroutines.*
 
 internal val LocalTagActions=staticCompositionLocalOf<AppViewModel?>{null}
-internal val LocalArtistStats=staticCompositionLocalOf<((String)->Unit)?>{null}
-internal val LocalTagSearch=staticCompositionLocalOf<((String)->Unit)?>{null}
+internal val LocalArtistStats=compositionLocalOf<((String)->Unit)?>{null}
+internal val LocalTagSearch=compositionLocalOf<((String)->Unit)?>{null}
 internal fun tagColor(tag:Tag,light:Boolean)=when(tag.category){TagCategory.ARTIST->artistColor(light);TagCategory.COPYRIGHT->copyrightColor(light);else->null}
 
 @Composable internal fun TagActionsDialog(tag:Tag,app:AppViewModel,dismiss:()->Unit){
