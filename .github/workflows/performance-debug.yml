@@ -1,0 +1,79 @@
+name: Performance diagnosis — Debug only
+on:
+  push:
+    branches: [dev/performance-navigation]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: performance-${{ github.ref_name }}
+  cancel-in-progress: true
+env:
+  PERF_MODE: baseline
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: ./scripts/ci-android-sdk.sh
+      - uses: gradle/actions/setup-gradle@v5
+      - run: python3 scripts/check-localization.py
+      - run: ./gradlew --no-daemon testDebugUnitTest lintDebug assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: performance-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: performance-build-reports
+          path: |
+            app/build/test-results/
+            app/build/reports/lint-results-debug.*
+  profile:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - api: 28
+            profile: Nexus S
+          - api: 35
+            profile: pixel_c
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: ./scripts/ci-android-sdk.sh
+      - uses: gradle/actions/setup-gradle@v5
+      - run: sudo chmod a+rw /dev/kvm
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api }}
+          arch: x86_64
+          target: default
+          profile: ${{ matrix.profile }}
+          disable-animations: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
+          script: |
+            adb shell settings put global animator_duration_scale 1
+            adb shell settings put global transition_animation_scale 1
+            adb shell settings put global window_animation_scale 1
+            bash scripts/run-performance-profile.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: performance-${{ matrix.api }}
+          path: |
+            app/build/reports/performance/
+            app/build/outputs/androidTest-results/
+            app/build/reports/androidTests/
