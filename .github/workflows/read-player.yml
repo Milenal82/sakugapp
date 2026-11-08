@@ -43,6 +43,18 @@ jobs:
                       if p.file_size>16*1024*1024:continue
                       if name.endswith(('.txt','.log')) and p.file_size<8*1024*1024:
                           raw=archive.read(p).decode(errors='replace')
+                          if name.startswith('logcat'):
+                              result.setdefault('log_samples',[]).append({'path':p.filename,'lines':[line[-4500:] for line in raw.splitlines() if 'PERF' in line][:3]})
+                          for match in re.finditer(r'PERF (\{[^\n]+\})',raw):
+                              try:result.setdefault('phase_logs',[]).append({'artifact':item['name'],'path':p.filename,'data':json.loads(match.group(1))})
+                              except json.JSONDecodeError:pass
+                          messages=re.findall(r'System\.out\s*(?:\([^)]*\))?\s*:\s?(.*)',raw)
+                          joined=''.join(messages)
+                          marker=joined.find('PERFORMANCE_REPORT ')
+                          if marker>=0:
+                              try:
+                                  value,_=json.JSONDecoder().raw_decode(joined[marker+len('PERFORMANCE_REPORT '):]);result['profiles'].append({'artifact':item['name'],'path':p.filename,'data':value})
+                              except json.JSONDecodeError:pass
                           for match in re.finditer(r'PERFORMANCE_REPORT (\{[^\n]+\})',raw):
                               try:result['profiles'].append({'artifact':item['name'],'path':p.filename,'data':json.loads(match.group(1))})
                               except json.JSONDecodeError:pass
