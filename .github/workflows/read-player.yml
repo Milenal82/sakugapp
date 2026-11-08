@@ -1,4 +1,4 @@
-name: Read completed player test diagnostics
+name: Read Debug-only diagnostics
 on:
   push:
     branches: [ci/player-tools-audit]
@@ -10,70 +10,53 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
-      - name: Read existing report artifacts only
+      - name: Read only Debug reports
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          python3 - <<'PY'
-          import subprocess,json,zipfile,io,xml.etree.ElementTree as ET,pathlib,time,re
-          repo='Milenal82/sakugapp';output=[]
-          def api(path):return subprocess.check_output(['gh','api',f'repos/{repo}/'+path])
-          for run in ['42332600592','42332467811','42332467770','42332467795']:
-              meta=json.loads(api('actions/runs/'+run));result={'run':run,'commit':meta['head_sha'],'status':meta['status'],'reports':[]}
-              for attempt in range(1):
-                  items=json.loads(api(f'actions/runs/{run}/artifacts?per_page=100'))['artifacts']
-                  meta=json.loads(api('actions/runs/'+run))
-                  if meta['status']=='completed' or {'extension-device-reports-28','extension-device-reports-35','extension-build-reports'}.issubset({i['name'] for i in items}):break
-                  time.sleep(20)
-              result['status']=meta['status'];result['conclusion']=meta['conclusion']
-              result['jobs']=[]
+          python3 - <<'PYCODE'
+          import subprocess,json,zipfile,io,xml.etree.ElementTree as E,pathlib
+          repo='Milenal82/sakugapp'
+          def api(p):return subprocess.check_output(['gh','api',f'repos/{repo}/'+p])
+          results=[]
+          for run in ['42459558500']:
+              meta=json.loads(api('actions/runs/'+run))
+              assert meta['path']=='.github/workflows/debug-only.yml' and meta['head_branch']=='dev/debug-actions-grid-artist'
+              result={'run':run,'sha':meta['head_sha'],'status':meta['status'],'conclusion':meta['conclusion'],'jobs':[],'artifacts':[],'reports':[]}
               for job in json.loads(api(f'actions/runs/{run}/jobs?per_page=100'))['jobs']:
-                  detail={'name':job['name'],'conclusion':job['conclusion'],'started_at':job['started_at'],'steps':[{'name':s['name'],'status':s['status'],'conclusion':s['conclusion'],'started_at':s.get('started_at')} for s in job['steps']]}
-                  if job['conclusion']=='failure' and job['name']!='signed-release':
-                      try:
-                          log=subprocess.check_output(['gh','api','--allow-escape-sequences',f'repos/{repo}/actions/jobs/{job["id"]}/logs']).decode(errors='replace')
-                          detail['errors']=log[-18000:]
-                      except Exception:detail['errors']='See failed job logs'
-                  result['jobs'].append(detail)
-              result['artifacts']=[{'name':i['name'],'url':f'https://github.com/{repo}/actions/runs/{run}/artifacts/{i["id"]}'} for i in items]
-              for item in items:
-                  if ('reports' not in item['name'] and item['name'] not in ['signed-release-v1.3.0','release-upgrade-install-report','post-scroll-profile']) or item['size_in_bytes']>64*1024*1024:continue
-                  z=zipfile.ZipFile(io.BytesIO(api(f'actions/artifacts/{item["id"]}/zip')))
-                  for p in z.infolist():
+                  info={'id':job['id'],'name':job['name'],'conclusion':job['conclusion'],'steps':job['steps']}
+                  if job['conclusion']=='failure':
+                      try:info['errors']=api(f'actions/jobs/{job["id"]}/logs').decode(errors='replace')[-26000:]
+                      except Exception:pass
+                  result['jobs'].append(info)
+              for item in json.loads(api(f'actions/runs/{run}/artifacts?per_page=100'))['artifacts']:
+                  result['artifacts'].append({'name':item['name'],'url':f'https://github.com/{repo}/actions/runs/{run}/artifacts/{item["id"]}'})
+                  if 'reports' not in item['name'] or item['size_in_bytes']>64*1024*1024:continue
+                  archive=zipfile.ZipFile(io.BytesIO(api(f'actions/artifacts/{item["id"]}/zip')))
+                  for p in archive.infolist():
                       name=pathlib.PurePosixPath(p.filename).name
                       if p.file_size>4*1024*1024:continue
-                      if name.startswith(('extension-','v130-','search-ime-','stability-')) and name.endswith('.png'):
-                          dest=pathlib.Path('/tmp/extension-captures')/(item['name']+'-'+name);dest.parent.mkdir(exist_ok=True);dest.write_bytes(z.read(p))
-                      if item['name']=='release-upgrade-install-report' and name in ['failure.txt','seed-native-ui.txt','verify-native-ui.txt','restart-native-ui.txt']:
-                          result.setdefault('upgrade_diagnostics',[]).append({'name':name,'text':z.read(p).decode(errors='replace')[-14000:]})
-                      if item['name']=='release-upgrade-install-report' and name in ['failure.png','v122-seeded.png','v130-upgraded.png','v130-restarted.png']:
-                          dest=pathlib.Path('/tmp/extension-captures')/(item['name']+'-'+name);dest.parent.mkdir(exist_ok=True);dest.write_bytes(z.read(p))
-                      if name in ['release-verification.json','upgrade-install.json','scroll-current.json','scroll-baseline.json']:
-                          result.setdefault('public_verification',[]).append({'name':name,'data':json.loads(z.read(p))})
+                      if name.startswith('debug-') and name.endswith('.png'):
+                          dest=pathlib.Path('/tmp/debug-captures')/(item['name']+'-'+name);dest.parent.mkdir(exist_ok=True);dest.write_bytes(archive.read(p))
+                      if name.startswith('TEST-') and name.endswith('.xml'):
+                          root=E.fromstring(archive.read(p));failures=[]
+                          for c in root.iter('testcase'):
+                              for error in list(c.findall('failure'))+list(c.findall('error')):failures.append({'test':c.get('classname')+'.'+c.get('name'),'message':(error.text or '')[:12000]})
+                          result['reports'].append({'artifact':item['name'],'counts':root.attrib,'failures':failures})
                       if name.startswith('lint-results-') and name.endswith('.xml'):
-                          lint=ET.fromstring(z.read(p));result['lint']={'errors':sum(i.get('severity') in ['Error','Fatal'] for i in lint.findall('issue')),'warnings':sum(i.get('severity')=='Warning' for i in lint.findall('issue'))}
-                      if not name.startswith('TEST-') or not name.endswith('.xml'):continue
-                      root=ET.fromstring(z.read(p));f=[]
-                      for c in root.iter('testcase'):
-                          for e in list(c.findall('failure'))+list(c.findall('error')):f.append({'test':c.get('classname')+'.'+c.get('name'),'message':(e.text or '')[:10000]})
-                      result['reports'].append({'artifact':item['name'],'counts':root.attrib,'failures':f})
-              output.append(result)
-          try:
-              release=json.loads(api('releases/tags/v1.3.0'))
-              output[0]['release']={'draft':release['draft'],'tag':release['tag_name'],'source':release['target_commitish'],'url':release['html_url'],'published_at':release['published_at'],'assets':[{'name':a['name'],'size':a['size'],'url':a['browser_download_url'],'digest':a.get('digest')}for a in release['assets']]}
-          except subprocess.CalledProcessError:
-              output[0]['release']={'published':False}
-          pathlib.Path('/tmp/player-diagnostics.json').write_text(json.dumps(output,indent=2)+'\n')
-          PY
-      - name: Save diagnostics independently of product source
+                          lint=E.fromstring(archive.read(p));result['lint']={'errors':sum(i.get('severity') in ['Error','Fatal'] for i in lint.findall('issue')),'warnings':sum(i.get('severity')=='Warning' for i in lint.findall('issue'))}
+              results.append(result)
+          pathlib.Path('/tmp/debug-diagnostics.json').write_text(json.dumps(results,indent=2)+'\n')
+          PYCODE
+      - name: Save Debug evidence on isolated branch
         run: |
-          git fetch origin evidence/player-diagnostics:refs/remotes/origin/evidence/player-diagnostics || true
-          if git show-ref --verify --quiet refs/remotes/origin/evidence/player-diagnostics; then git switch -c diagnostics origin/evidence/player-diagnostics; else git switch --orphan diagnostics; fi
-          cp /tmp/player-diagnostics.json report.json
-          if [ -d /tmp/extension-captures ]; then cp -r /tmp/extension-captures screenshots-extension; fi
+          git fetch origin evidence/player-diagnostics:refs/remotes/origin/evidence/player-diagnostics
+          git switch -c diagnostics origin/evidence/player-diagnostics
+          cp /tmp/debug-diagnostics.json debug-report.json
+          if [ -d /tmp/debug-captures ]; then cp -r /tmp/debug-captures screenshots-debug; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add report.json
-          if [ -d screenshots-extension ]; then git add screenshots-extension; fi
-          git commit -m 'Read existing player reports' || true
+          git add debug-report.json
+          if [ -d screenshots-debug ]; then git add screenshots-debug; fi
+          git commit -m 'Read Debug-only reports' || true
           git push origin HEAD:refs/heads/evidence/player-diagnostics
