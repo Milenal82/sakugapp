@@ -85,11 +85,14 @@ class PerformanceScenarioDeviceTest {
         val changes=recompositions();val before=memory();val playerBefore=players();val requestBefore=requests.get()
         rule.scenario.onActivity{it.window.addOnFrameMetricsAvailableListener(listener,handler)}
         val start=SystemClock.elapsedRealtime()
+        Trace.beginSection("sakugapp:$name")
         try{action();settle()}finally{
+            Trace.endSection()
             rule.scenario.onActivity{it.window.removeOnFrameMetricsAvailableListener(listener)}
             val drained=CountDownLatch(1);handler.post{drained.countDown()};check(drained.await(5,TimeUnit.SECONDS));thread.quitSafely()
         }
         val measured=synchronized(frames){frames.toList()};check(measured.isNotEmpty()){"No frame samples for $name"}
+        File(output,"frames-$label-$name.csv").writeText(measured.first().keys.joinToString(",")+"\n"+measured.joinToString("\n"){row->row.values.joinToString(",")})
         val budget=1000.0/activity.windowManager.defaultDisplay.refreshRate
         val summary=measured.first().keys.associateWith{key->val sorted=measured.map{it.getValue(key)}.sorted()
             mapOf("p50_ms" to sorted[sorted.size/2],"p95_ms" to sorted[(sorted.size*.95).toInt().coerceAtMost(sorted.lastIndex)],"max_ms" to sorted.last())}
@@ -117,23 +120,31 @@ class PerformanceScenarioDeviceTest {
         require(label in listOf("baseline","current"));device.executeShellCommand("logcat -c")
         rule.scenario.onActivity{activity=it;output=File(it.getExternalFilesDir(null),"performance-$label").apply{mkdirs()}}
         val fixtureDir=File(activity.cacheDir,"performance-fixtures").apply{mkdirs()}
-        val video=File(fixtureDir,"preview.mp4").apply{writeBytes(instrumentation.context.assets.open("clip-gop.mp4").use{it.readBytes()})}
+        val videoBytes=instrumentation.context.assets.open("clip-gop.mp4").use{it.readBytes()}
+        val offline=File(activity.filesDir,"favorites-media").apply{mkdirs()}
         val poster=Bitmap.createBitmap(320,180,Bitmap.Config.ARGB_8888).apply{eraseColor(Color.rgb(68,96,126))}
         val bytes=java.io.ByteArrayOutputStream().apply{poster.compress(Bitmap.CompressFormat.PNG,100,this)}.toByteArray();poster.recycle()
         val types=instrumentation.context.assets.open("personal-tag-summary.json").bufferedReader().use{PostParser.tagSummary(it.readText())}
         posts=instrumentation.context.assets.open("posts-five-pages.json").bufferedReader().use{JsonParser.parseString(it.readText()).asJsonArray.flatMap{page->PostParser.posts(page.toString(),types)}}.distinctBy{it.id}.map{post->
             val image=File(fixtureDir,"poster-${post.id}.png").apply{writeBytes(bytes)}
-            post.copy(previewUrl=android.net.Uri.fromFile(image).toString(),fileUrl=android.net.Uri.fromFile(video).buildUpon().appendQueryParameter("post",post.id.toString()).build().toString(),fileExt="mp4")
+            // Synthetic media URLs exist only in this fixture. Seed owned offline files before rendering;
+            // this exercises the real local-first resolver and trusted duration-fact path without HTTP.
+            val url="https://www.sakugabooru.com/data/performance-fixture-${post.id}.mp4"
+            val hash=java.security.MessageDigest.getInstance("SHA-256").digest(url.toByteArray()).take(12).joinToString(""){"%02x".format(it)}
+            File(offline,"${post.id}-$hash.mp4").writeBytes(videoBytes)
+            post.copy(previewUrl=android.net.Uri.fromFile(image).toString(),fileUrl=url,fileExt="mp4")
         };assertEquals(300,posts.size)
         val repository=object:PostRepository{override val pageSize=1000;override suspend fun page(query:String,page:Int):PostPage{requests.incrementAndGet();return PostPage(if(page==1)posts else emptyList(),if(page==1)posts.size else 0)}}
         rule.scenario.onActivity{host->
             app=ViewModelProvider(host)[AppViewModel::class.java]
             model=ViewModelProvider(host,object:ViewModelProvider.Factory{override fun <T:ViewModel> create(cls:Class<T>):T{@Suppress("UNCHECKED_CAST")return FeedViewModel(SavedStateHandle(),repository) as T}})["performance-feed",FeedViewModel::class.java]
         }
+        assertTrue("All fixture video URLs must resolve offline before any player is created",posts.all{app.offlineUri(it)!=null})
         app.preferences.theme("dark");app.preferences.number("fontScale",1f);app.preferences.number("cardSpacing",8f)
         rule.scenario.onActivity{it.setContent{Sakugapp(model,app)}};node("search-home");tap("nav-posts");node("post-grid");settle()
         report["label"]=label;report["scope"]="Debug fixture host running production Sakugapp; real Android frame clock; AVD/SwiftShader, not physical-device or live-network performance"
-        report["device"]=Build.MODEL;report["api"]=Build.VERSION.SDK_INT;report["post_count"]=posts.size
+        report["device"]=Build.MODEL;report["api"]=Build.VERSION.SDK_INT;report["pid"]=android.os.Process.myPid()
+        report["frame_definition"]="FrameMetrics TOTAL_DURATION > display refresh period; not SurfaceFlinger FrameTimeline jank";report["post_count"]=posts.size;report["media"]="300 owned copies of a deterministic MP4 and generated 320x180 PNGs; public response IDs/tags/scores, synthetic media URLs never requested"
         report["animator_scale"]=Settings.Global.getFloat(activity.contentResolver,Settings.Global.ANIMATOR_DURATION_SCALE,1f)
         report["window_animation_scale"]=Settings.Global.getFloat(activity.contentResolver,Settings.Global.WINDOW_ANIMATION_SCALE,1f)
         report["transition_scale"]=Settings.Global.getFloat(activity.contentResolver,Settings.Global.TRANSITION_ANIMATION_SCALE,1f)
@@ -144,14 +155,14 @@ class PerformanceScenarioDeviceTest {
             val columns=listOf(2,4,6)+if(activity.resources.configuration.smallestScreenWidthDp>=600)listOf(8,12)else emptyList()
             for(count in columns)for(auto in listOf(false,true)){
                 app.preferences.columns(count);app.preferences.flag("auto",auto);await{app.settings.value.columns==count && app.settings.value.autoPreview==auto};top()
-                val shown=bounds("post-grid")
+                val shown=bounds("post-grid");var hidden:List<Int>?=null
                 val result=measure("scroll-$count-auto-$auto"){
                     repeat(12){device.swipe(device.displayWidth/2,device.displayHeight*4/5,device.displayWidth/2,device.displayHeight/4,16)}
-                    Thread.sleep(700)
+                    Thread.sleep(700);hidden=bounds("post-grid")
                     repeat(12){device.swipe(device.displayWidth/2,device.displayHeight/4,device.displayWidth/2,device.displayHeight*4/5,16)}
                     Thread.sleep(700)
                 }
-                phases[phases.lastIndex]=result+mapOf("columns" to count,"auto_preview" to auto,"grid_before" to shown,"grid_after" to bounds("post-grid"),"image_memory_cache_bytes" to coil.Coil.imageLoader(activity).memoryCache?.size)
+                phases[phases.lastIndex]=result+mapOf("columns" to count,"auto_preview" to auto,"grid_before" to shown,"grid_while_nav_hidden" to hidden,"grid_after" to bounds("post-grid"),"image_memory_cache_bytes" to coil.Coil.imageLoader(activity).memoryCache?.size)
             }
         }finally{
             val pfd=instrumentation.uiAutomation.executeShellCommand("atrace --async_stop")
@@ -167,7 +178,11 @@ class PerformanceScenarioDeviceTest {
         report["phases"]=phases;report["memory_end"]=memory();report["repository_requests"]=requests.get();report["players_end"]=players()
         val file=File(output,"perf-$label.json");file.writeText(Gson().toJson(report));println("PERFORMANCE_REPORT "+file.readText())
         device.executeShellCommand("mkdir -p /sdcard/Download/sakugapp-performance/$label")
-        device.executeShellCommand("cp ${output.absolutePath}/* /sdcard/Download/sakugapp-performance/$label/")
+        output.listFiles().orEmpty().forEach{captured->
+            val target="/sdcard/Download/sakugapp-performance/$label/${captured.name}"
+            device.executeShellCommand("cp ${captured.absolutePath} $target")
+            check(device.executeShellCommand("stat -c %s $target").trim().toLongOrNull()==captured.length()){"Export failed: ${captured.name}"}
+        }
         assertEquals("Tab switches must not fetch an unchanged feed",1,requests.get())
     }
 }
