@@ -18094,7 +18094,7 @@
       {
         "id": 128782620965,
         "name": "build",
-        "conclusion": null,
+        "conclusion": "success",
         "steps": [
           {
             "name": "Set up job",
@@ -18202,21 +18202,189 @@
           },
           {
             "name": "Post Run actions/setup-java@v5",
-            "status": "in_progress",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 23,
             "started_at": "2026-11-08T16:01:59Z",
+            "completed_at": "2026-11-08T16:01:59Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-11-08T16:01:59Z",
+            "completed_at": "2026-11-08T16:01:59Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-11-08T16:01:59Z",
+            "completed_at": "2026-11-08T16:01:59Z"
+          }
+        ]
+      },
+      {
+        "id": 128783772965,
+        "name": "profile (35, pixel_c)",
+        "conclusion": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-08T16:02:04Z",
+            "completed_at": "2026-11-08T16:02:05Z"
+          },
+          {
+            "name": "Run actions/checkout@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-08T16:02:05Z",
+            "completed_at": "2026-11-08T16:02:06Z"
+          },
+          {
+            "name": "Run actions/download-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-08T16:02:06Z",
+            "completed_at": "2026-11-08T16:02:07Z"
+          },
+          {
+            "name": "Run actions/download-artifact@v4",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 4,
+            "started_at": "2026-11-08T16:02:07Z",
+            "completed_at": "2026-11-08T16:02:07Z"
+          },
+          {
+            "name": "Flatten prebuilt Debug artifact paths",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-08T16:02:07Z",
+            "completed_at": "2026-11-08T16:02:07Z"
+          },
+          {
+            "name": "Run sudo chmod a+rw /dev/kvm",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-08T16:02:07Z",
+            "completed_at": "2026-11-08T16:02:07Z"
+          },
+          {
+            "name": "Run reactivecircus/android-emulator-runner@v2",
+            "status": "in_progress",
+            "conclusion": null,
+            "number": 7,
+            "started_at": "2026-11-08T16:02:07Z",
+            "completed_at": null
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "pending",
+            "conclusion": null,
+            "number": 8,
+            "started_at": null,
             "completed_at": null
           },
           {
             "name": "Post Run actions/checkout@v5",
             "status": "pending",
             "conclusion": null,
-            "number": 24,
+            "number": 16,
             "started_at": null,
             "completed_at": null
           }
-        ]
+        ],
+        "log_status": "Command '['gh', 'api', 'repos/Milenal82/sakugapp/actions/jobs/128783772965/logs']' returned non-zero exit status 1."
+      },
+      {
+        "id": 128783773124,
+        "name": "profile (28, Nexus S)",
+        "conclusion": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-08T16:02:04Z",
+            "completed_at": "2026-11-08T16:02:06Z"
+          },
+          {
+            "name": "Run actions/checkout@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-08T16:02:06Z",
+            "completed_at": "2026-11-08T16:02:07Z"
+          },
+          {
+            "name": "Run actions/download-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-08T16:02:07Z",
+            "completed_at": "2026-11-08T16:02:08Z"
+          },
+          {
+            "name": "Run actions/download-artifact@v4",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 4,
+            "started_at": "2026-11-08T16:02:08Z",
+            "completed_at": "2026-11-08T16:02:08Z"
+          },
+          {
+            "name": "Flatten prebuilt Debug artifact paths",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-08T16:02:08Z",
+            "completed_at": "2026-11-08T16:02:08Z"
+          },
+          {
+            "name": "Run sudo chmod a+rw /dev/kvm",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-08T16:02:08Z",
+            "completed_at": "2026-11-08T16:02:08Z"
+          },
+          {
+            "name": "Run reactivecircus/android-emulator-runner@v2",
+            "status": "in_progress",
+            "conclusion": null,
+            "number": 7,
+            "started_at": "2026-11-08T16:02:08Z",
+            "completed_at": null
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "pending",
+            "conclusion": null,
+            "number": 8,
+            "started_at": null,
+            "completed_at": null
+          },
+          {
+            "name": "Post Run actions/checkout@v5",
+            "status": "pending",
+            "conclusion": null,
+            "number": 16,
+            "started_at": null,
+            "completed_at": null
+          }
+        ],
+        "log_status": "Command '['gh', 'api', 'repos/Milenal82/sakugapp/actions/jobs/128783773124/logs']' returned non-zero exit status 1."
       }
     ],
     "artifacts": [
