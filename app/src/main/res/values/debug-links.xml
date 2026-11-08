@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ui_share_post">Share post</string>
+    <string name="ui_select_tags">Select tags</string>
+    <string name="ui_tags_selected">%1$d selected</string>
+    <string name="ui_sample_artists">Artists in this sample</string>
+    <string name="ui_episode_sample_results">Results from the loaded episode sample. Return to the episode to load more.</string>
+</resources>

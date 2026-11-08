@@ -17,9 +17,12 @@ import com.sakugapp.data.*
 import kotlinx.coroutines.*
 
 internal val LocalTagActions=staticCompositionLocalOf<AppViewModel?>{null}
+internal val LocalArtistStats=staticCompositionLocalOf<((String)->Unit)?>{null}
+internal val LocalTagSearch=staticCompositionLocalOf<((String)->Unit)?>{null}
 internal fun tagColor(tag:Tag,light:Boolean)=when(tag.category){TagCategory.ARTIST->artistColor(light);TagCategory.COPYRIGHT->copyrightColor(light);else->null}
 
 @Composable internal fun TagActionsDialog(tag:Tag,app:AppViewModel,dismiss:()->Unit){
+    val search=LocalTagSearch.current;val stats=LocalArtistStats.current
     val saved by app.savedTags.collectAsStateWithLifecycle();val notes by app.tagNotes.collectAsStateWithLifecycle()
     val present=saved.any{it.name==tag.name};val current=notes.firstOrNull{it.name==tag.name}?.note.orEmpty()
     val scope=rememberCoroutineScope();val context=LocalContext.current
@@ -27,6 +30,10 @@ internal fun tagColor(tag:Tag,light:Boolean)=when(tag.category){TagCategory.ARTI
     fun operate(action:suspend()->Unit){scope.launch{try{action();error=null}catch(e:CancellationException){throw e}catch(e:Exception){error=libraryError(context,e)}}}
     if(editing)TagNoteDialog(tag.name,current,app,{editing=false})else AlertDialog(onDismissRequest=dismiss,
         title={Text(tag.name)},text={Column(Modifier.verticalScroll(rememberScrollState())){
+            if(tag.category==TagCategory.ARTIST){
+                if(search!=null)AppMenuItem(icon=R.drawable.ic_search,text={Text(text(R.string.ui_search))},modifier=Modifier.testTag("search-artist"),onClick={dismiss();search(tag.name)})
+                if(stats!=null)AppMenuItem(icon=R.drawable.ic_profile,text={Text(text(R.string.ui_home_artists))},modifier=Modifier.testTag("view-artist-stats"),onClick={dismiss();stats(tag.name)})
+            }
             if(current.isNotBlank())Text(current,style=MaterialTheme.typography.bodySmall,modifier=Modifier.testTag("tag-note-text"))
             AppMenuItem(icon=R.drawable.ic_favorite,selected=present,text={Text(text(if(present)R.string.ui_unfavorite_tag else R.string.ui_favorite_tag))},onClick={operate{if(present)app.personal.removeTag(tag.name)else app.personal.saveTag(tag)}},modifier=Modifier.testTag("toggle-tag-favorite"))
             AppMenuItem(icon=R.drawable.ic_edit,text={Text(text(if(current.isBlank())R.string.ui_add_tag_note else R.string.ui_edit_tag_note))},onClick={editing=true},modifier=Modifier.testTag("edit-tag-note"))

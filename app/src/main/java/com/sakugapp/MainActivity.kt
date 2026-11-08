@@ -92,7 +92,7 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
     val feed=remember(rawFeed,library.durations){rawFeed.copy(posts=rawFeed.posts.map{p->library.durations[p.fileUrl]?.takeIf{it!=p.durationMs}?.let{p.copy(durationMs=it)} ?: p})}
     val history by app.history.collectAsStateWithLifecycle()
     val grid=rememberLazyGridState()
-    val searchGrid=rememberLazyGridState()
+    val resultSession by model.resultSession.collectAsStateWithLifecycle()
     val searchMode by model.searchMode.collectAsStateWithLifecycle()
     val localProfile by app.localProfile.collectAsStateWithLifecycle()
     var bottomVisible by remember{mutableStateOf(true)}
@@ -103,15 +103,26 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
     fun primary(route:String){
         bottomVisible=true
         if(route=="posts")model.restoreBrowse()
-        if(nav.currentDestination?.route==route)return
+        if(nav.currentDestination?.route==route){if(route=="posts")nav.currentBackStackEntry?.savedStateHandle?.set<String?>("resultToken",null);return}
         nav.navigate(route){popUpTo(nav.graph.startDestinationId){saveState=true};launchSingleTop=true;restoreState=true}
         // A saved tab can include child pages. Explicit main navigation must land on its root.
         if(nav.currentDestination?.route!=route)nav.popBackStack(route,false)
+        if(route=="posts")nav.currentBackStackEntry?.savedStateHandle?.set<String?>("resultToken",null)
     }
     fun go(route:String){nav.navigate(route){launchSingleTop=true}}
-    fun search(value:String){
-        if(value.isBlank())model.restoreBrowse()else{app.search(value);model.beginSearch(value);searchGrid.requestScrollToItem(0)};bottomVisible=true
+    fun detail(post:Post,order:List<Post>?=null){
+        if(order==null)model.open(post)else model.openLocal(post,order)
+        val token=model.captureDetail();go("post/${post.id}")
+        nav.currentBackStackEntry?.savedStateHandle?.set("detailContext",token)
+    }
+    fun showResult(value:String,token:String,sampleOnly:Boolean=false){
+        bottomVisible=true
         if(nav.currentDestination?.route!="posts")nav.navigate("posts"){launchSingleTop=true}
+        nav.currentBackStackEntry?.savedStateHandle?.apply{set("resultToken",token);set("resultQuery",value);set("sampleOnly",sampleOnly)}
+    }
+    fun search(value:String){
+        if(value.isBlank()){primary("posts");return}
+        app.search(value);showResult(value,model.beginSearch(value))
     }
     val browser=rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()){result->
         if(result.resultCode==android.app.Activity.RESULT_OK)app.syncBrowserSession()
@@ -120,7 +131,7 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
         else data?.getStringExtra("query")?.let{search(it)}
     }
     val openSite:(String)->Unit={url->browser.launch(Intent(context,BrowserActivity::class.java).putExtra("url",url))}
-    SakugappTheme(settings.lightTheme,settings.fontScale,settings.accent){CompositionLocalProvider(LocalLanguage provides language,LocalTagActions provides app){
+    SakugappTheme(settings.lightTheme,settings.fontScale,settings.accent){CompositionLocalProvider(LocalLanguage provides language,LocalTagActions provides app,LocalTagSearch provides ::search,LocalArtistStats provides {artist->go("artist_stats?artist="+android.net.Uri.encode(artist))}){
         if(about)AboutDialog{about=false}
         Scaffold(modifier=Modifier.semantics{testTagsAsResourceId=true},bottomBar={AnimatedVisibility(entry?.destination?.route in AppRoutes.main && (entry?.destination?.route!="posts" || bottomVisible),enter=expandVertically(tween(Motion.chrome)),exit=shrinkVertically(tween(Motion.chrome))){MainBottomBar(entry?.destination?.route ?: AppRoutes.SEARCH,::primary)}},topBar={Column(Modifier.statusBarsPadding()){
             Row(Modifier.fillMaxWidth().padding(horizontal=8.dp),verticalAlignment=Alignment.CenterVertically){
@@ -144,20 +155,25 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
             composable("quiz_pool"){QuizPoolScreen(app)}
             composable("website_favorites"){PageMediaScope{
                 val favorites:WebsiteFavoritesViewModel=viewModel(factory=object:androidx.lifecycle.ViewModelProvider.Factory{override fun <T:androidx.lifecycle.ViewModel> create(cls:Class<T>):T { @Suppress("UNCHECKED_CAST") return WebsiteFavoritesViewModel(app.websiteFavorites,app.account,app.voteRevision) as T }})
-                WebsiteFavoritesScreen(favorites,app,settings,{go("account")},::search){post,order->model.openLocal(post,order);go("post/${post.id}")}
+                WebsiteFavoritesScreen(favorites,app,settings,{go("account")},::search){post,order->detail(post,order)}
             }}
             composable("explore"){ExploreScreen(::search,::go)}
             composable("topic_tags/{type}/{order}"){back->TopicTagsScreen(app.topics,if(back.arguments?.getString("type")=="artist")TagCategory.ARTIST else TagCategory.COPYRIGHT,back.arguments?.getString("order") ?: "date",::search)}
             composable("search_history"){SearchHistoryScreen(app,::search)}
-            composable("posts"){PageMediaScope{
+            composable("posts"){postsEntry->PageMediaScope{
+                val token by postsEntry.savedStateHandle.getStateFlow<String?>("resultToken",null).collectAsStateWithLifecycle()
+                val searchGrid=rememberLazyGridState()
+                androidx.lifecycle.compose.LifecycleEventEffect(androidx.lifecycle.Lifecycle.Event.ON_START){if(entry?.id==postsEntry.id){if(token!=null)model.activateSearch(token!!,postsEntry.savedStateHandle["resultQuery"] ?: "",postsEntry.savedStateHandle["sampleOnly"] ?: false)else model.restoreBrowse()}}
+                LaunchedEffect(entry?.id,token){if(entry?.id==postsEntry.id){if(token!=null)model.activateSearch(token!!,postsEntry.savedStateHandle["resultQuery"] ?: "",postsEntry.savedStateHandle["sampleOnly"] ?: false)else model.restoreBrowse()}}
+                if(token==resultSession)
                 Column(Modifier.fillMaxSize()){
-                    key(searchMode){PostsScreen(feed,if(searchMode)searchGrid else grid,settings,history,metered,app,::search,{post->model.open(post);nav.navigate("post/${post.id}")},model::loadMore,model::refresh,isActive=entry?.destination?.route=="posts",onChromeVisibility={bottomVisible=it})}
+                    key(token){PostsScreen(feed,if(searchMode)searchGrid else grid,settings,history,metered,app,::search,{post->detail(post)},model::loadMore,model::refresh,isActive=entry?.id==postsEntry.id,onChromeVisibility={bottomVisible=it})}
                 }
             }}
             composable("search"){LaunchedEffect(Unit){primary("posts")}}
-            composable("artist_stats"){
+            composable("artist_stats?artist={artist}",arguments=listOf(androidx.navigation.navArgument("artist"){defaultValue=""})){artistEntry->
                 val stats:DiscoveryViewModel=viewModel(factory=object:androidx.lifecycle.ViewModelProvider.Factory{override fun <T:androidx.lifecycle.ViewModel> create(cls:Class<T>):T { @Suppress("UNCHECKED_CAST") return DiscoveryViewModel(app.discovery) as T }})
-                ArtistStatsScreen(app.discovery,stats,::search)
+                ArtistStatsScreen(app.discovery,stats,::search,artistEntry.arguments?.getString("artist").orEmpty())
             }
             composable("show_browser"){ShowBrowserScreen(app.discovery){go("show_detail/"+android.net.Uri.encode(it))}}
             composable("show_detail/{showTag}"){back->
@@ -169,17 +185,17 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
                 val tag=back.arguments?.getString("showTag").orEmpty();val raw=back.arguments?.getString("group").orEmpty().split(":")
                 val group=EpisodeKey(EpisodeKind.entries.firstOrNull{it.name.equals(raw.firstOrNull(),true)} ?: EpisodeKind.OTHER,raw.getOrNull(1)?.toIntOrNull())
                 val episodes:DiscoveryViewModel=viewModel(factory=object:androidx.lifecycle.ViewModelProvider.Factory{override fun <T:androidx.lifecycle.ViewModel> create(cls:Class<T>):T { @Suppress("UNCHECKED_CAST") return DiscoveryViewModel(app.discovery) as T }})
-                EpisodePostsScreen(tag,group,episodes,settings,app,::search,{post,order->model.openLocal(post,order);go("post/${post.id}")},entry?.destination?.route=="episode_posts/{showTag}/{group}")
+                EpisodePostsScreen(tag,group,episodes,settings,app,::search,{artist,posts->val query=ArtistLinks.query(tag,artist);showResult(query,model.beginSampleSearch(query,ArtistLinks.episodePosts(posts,group,artist)),true)},{post,order->detail(post,order)},entry?.destination?.route=="episode_posts/{showTag}/{group}")
             }}
-            composable("library"){PageMediaScope{LibraryScreen(app,::search,{nav.navigate("tags")}){post,order->model.openLocal(post,order);nav.navigate("post/${post.id}")}}}
+            composable("library"){PageMediaScope{LibraryScreen(app,::search,{nav.navigate("tags")}){post,order->detail(post,order)}}}
             composable("tags"){TagFavoritesScreen(app,{nav.popBackStack()}){value->search(value)}}
-            composable("history"){PageMediaScope{BrowsingHistoryScreen(app,{nav.popBackStack()}){post,order->model.openLocal(post,order);nav.navigate("post/${post.id}")}}}
+            composable("history"){PageMediaScope{BrowsingHistoryScreen(app,{nav.popBackStack()}){post,order->detail(post,order)}}}
             composable("account"){AccountScreen(app,openSite)}
             composable("language"){LanguageScreen(settings.language,app::language)}
             composable("settings"){SettingsScreen(settings,app,{go("language")},{about=true})}
             composable("post/{id}"){backStack->PageMediaScope{
                 val id=backStack.arguments?.getString("id")?.toLongOrNull()
-                LaunchedEffect(id){if(id!=null && selected?.id!=id)model.openId(id)}
+                LaunchedEffect(id,entry?.id){if(id!=null && entry?.id==backStack.id)model.restoreDetail(id,backStack.savedStateHandle["detailContext"])}
                 val post=selected?.takeIf{it.id==id}
                 if(post!=null)key(post.id){
                     LaunchedEffect(post.id){app.visited(post);model.prefetchNeighbors()}
@@ -193,7 +209,9 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
                         if(next==null){model.prefetchNeighbors();false}else{
                             model.selectAdjacent(next)
                             if(!next.isVideo)orientationHost?.fullscreenHandoff=null
+                            val detailContext=backStack.savedStateHandle.get<String>("detailContext")
                             nav.navigate("post/${next.id}"){popUpTo(entry!!.destination.id){inclusive=true};launchSingleTop=true}
+                            nav.currentBackStackEntry?.savedStateHandle?.set("detailContext",detailContext)
                             true
                         }
                     })}
@@ -280,7 +298,8 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
         LazyVerticalGrid(columns=GridCells.Fixed(settings.columns),state=grid,
             modifier=Modifier.fillMaxSize().nestedScroll(connection).testTag("post-grid"),
             contentPadding=PaddingValues(start=if(settings.columns>=6)2.dp else 10.dp,end=if(settings.columns>=6)2.dp else 10.dp,top=with(density){baseHeight.toDp()},bottom=if(state.refreshError!=null)120.dp else 16.dp),
-            horizontalArrangement=Arrangement.spacedBy(if(settings.columns>=6)settings.cardSpacing.coerceAtMost(1f).dp else settings.cardSpacing.dp),verticalArrangement=Arrangement.spacedBy(if(settings.columns>=6)1.dp else (settings.cardSpacing+2f).dp)){
+            horizontalArrangement=Arrangement.spacedBy(GridSpacingPolicy.spacing(settings.cardSpacing).dp),verticalArrangement=Arrangement.spacedBy(GridSpacingPolicy.spacing(settings.cardSpacing).dp)){
+            if(state.sampleOnly)item(span={GridItemSpan(maxLineSpan)}){Text(text(R.string.ui_episode_sample_results),style=MaterialTheme.typography.bodySmall,modifier=Modifier.testTag("episode-sample-scope"))}
             state.categoryWarning?.let{item(span={GridItemSpan(maxLineSpan)}){Column{
                 Text(text(R.string.ui_tag_categories_unavailable_unknown_categories_are_not_guessed),style=MaterialTheme.typography.bodySmall)
                 Text(translateMessage(it),style=MaterialTheme.typography.labelSmall)
@@ -372,15 +391,17 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable internal fun PostCard(post:Post,settings:AppSettings,metered:Boolean,preview:Boolean,open:()->Unit,search:(String)->Unit,toggle:()->Unit,onDuration:(Long)->Unit,onClassify:(()->Unit)?=null){
+    val previewApp=LocalTagActions.current
+    val previewUrl=if(preview)produceState<String?>(null,post.id,post.fileUrl){value=withContext(Dispatchers.IO){previewApp?.offlineUri(post)?.toString() ?: post.fileUrl}}.value else null
     val contextDescriptionDurationUnknown=text(R.string.ui_duration_unknown)
     var options by remember(post.id){mutableStateOf(false)}
     val interaction=remember(post.id){MutableInteractionSource()};val pressed by interaction.collectIsPressedAsState()
     val pressScale by animateFloatAsState(if(pressed && settings.columns<=4)0.985f else 1f,tween(Motion.press,easing=FastOutSlowInEasing),label="card-press")
-    Surface(modifier=if(settings.columns<=4)Modifier.graphicsLayer{scaleX=pressScale;scaleY=pressScale}else Modifier,shape=RoundedCornerShape(if(settings.columns>=6)6.dp else 12.dp),color=MaterialTheme.colorScheme.surface,
+    Surface(modifier=(if(settings.columns<=4)Modifier.graphicsLayer{scaleX=pressScale;scaleY=pressScale}else Modifier).testTag("post-card-${post.id}"),shape=RoundedCornerShape(if(settings.columns>=6)6.dp else 12.dp),color=MaterialTheme.colorScheme.surface,
         shadowElevation=if(settings.columns>=6)0.dp else 1.dp,tonalElevation=1.dp){Column{
         Box(Modifier.fillMaxWidth().heightIn(min=if(settings.columns>=6)24.dp else 48.dp).aspectRatio(16f/9f).background(MaterialTheme.colorScheme.surfaceVariant)
             .testTag("post-media-${post.id}").combinedClickable(interactionSource=interaction,indication=LocalIndication.current,onClick=open,onLongClick={options=true},onLongClickLabel=text(R.string.ui_preview_options))){
-            if(preview && post.fileUrl!=null)CompositionLocalProvider(LocalSaveableStateRegistry provides null){VideoPanel(post.fileUrl,settings,preview=true,onDurationChanged=onDuration)}
+            if(preview && previewUrl!=null)CompositionLocalProvider(LocalSaveableStateRegistry provides null){VideoPanel(previewUrl!!,settings,preview=true,onDurationChanged=onDuration)}
             else PostImage(post,Modifier.fillMaxSize(),settings,metered)
             Row(Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(2.dp),horizontalArrangement=Arrangement.SpaceBetween,verticalAlignment=Alignment.Bottom){
                 if(post.isVideo && settings.columns<6)Surface(color=MaterialTheme.colorScheme.surface.copy(alpha=0.96f),shape=RoundedCornerShape(3.dp)){
@@ -445,8 +466,10 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
 }
 
 @Composable internal fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,localSnapshot:Boolean,search:(String)->Unit,wiki:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit,onDuration:(Long)->Unit,hasPrevious:Boolean,hasNext:Boolean,onNavigate:(Int)->Boolean){
+    val context=LocalContext.current
+
     val uri=LocalUriHandler.current;var linkError by remember{mutableStateOf(false)}
-    val playback by produceState<Pair<Boolean,String?>>(false to null,post.id){value=true to withContext(Dispatchers.IO){app.offlineUri(post)?.toString() ?: post.fileUrl}}
+    val playback by produceState<Pair<Boolean,String?>>(false to null,post.id,post.fileUrl){value=true to withContext(Dispatchers.IO){app.offlineUri(post)?.toString() ?: post.fileUrl}}
     val playbackUrl=playback.second
     var seek by remember(post.id){mutableStateOf<Pair<Long,Int>?>(null)}
     val activity=androidx.activity.compose.LocalActivity.current as? MainActivity
@@ -457,14 +480,16 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
         if(localSnapshot)Text(text(R.string.ui_library_snapshot_hint),style=MaterialTheme.typography.bodySmall)
         if(post.isVideo){if(playbackUrl!=null)VideoPanel(playbackUrl,settings,seekRequest=seek,onDurationChanged=onDuration,onNavigate=onNavigate,videoDimensions=if(post.width!=null && post.height!=null)post.width to post.height else null,downloadPost=post,maxInlineHeight=availableVideoHeight)else if(!playback.first)Box(Modifier.fillMaxWidth().aspectRatio(if((post.width ?: 0)>0 && (post.height ?: 0)>0)post.width!!.toFloat()/post.height!! else 16f/9f),contentAlignment=Alignment.Center){CircularProgressIndicator()}else Text(text(R.string.ui_media_unavailable))}
         else PostImage(post,Modifier.fillMaxWidth().height(320.dp),settings,metered,true)
-        Row(Modifier.widthIn(max=360.dp).fillMaxWidth().testTag("detail-actions"),horizontalArrangement=Arrangement.SpaceEvenly,verticalAlignment=Alignment.CenterVertically){
-            ActionIcon(R.drawable.ic_previous,text(R.string.ui_previous_post),{onNavigate(-1)},Modifier.testTag("previous-post"),enabled=hasPrevious)
-            ActionIcon(R.drawable.ic_next,text(R.string.ui_next_post),{onNavigate(1)},Modifier.testTag("next-post"),enabled=hasNext)
-            if(post.isVideo)VideoDownloadButton(post)else ActionIcon(R.drawable.ic_download,text(R.string.ui_download_video),{},enabled=false)
-            ActionIcon(R.drawable.ic_open,text(R.string.ui_open_original_post),{linkError=runCatching{uri.openUri(post.pageUrl)}.isFailure},Modifier.testTag("original-post"))
-            FavoriteControl(post,app)
+        Row(Modifier.fillMaxWidth().height(48.dp).testTag("detail-actions"),verticalAlignment=Alignment.CenterVertically){
+            Box(Modifier.weight(1f),contentAlignment=Alignment.Center){ActionIcon(R.drawable.ic_previous,text(R.string.ui_previous_post),{onNavigate(-1)},Modifier.testTag("previous-post"),enabled=hasPrevious)}
+            Box(Modifier.weight(1f),contentAlignment=Alignment.Center){ActionIcon(R.drawable.ic_next,text(R.string.ui_next_post),{onNavigate(1)},Modifier.testTag("next-post"),enabled=hasNext)}
+            Box(Modifier.weight(1f),contentAlignment=Alignment.Center){VoteControl(post,app,onScore,login)}
+            Box(Modifier.weight(1f),contentAlignment=Alignment.Center){FavoriteControl(post,app)}
+            Box(Modifier.weight(1f),contentAlignment=Alignment.Center){ActionIcon(R.drawable.ic_share,text(R.string.ui_share_post),{
+                linkError=runCatching{context.startActivity(postShareIntent(post))}.isFailure
+            },Modifier.testTag("share-post"))}
+            Box(Modifier.weight(1f),contentAlignment=Alignment.Center){if(post.isVideo)VideoDownloadButton(post)else ActionIcon(R.drawable.ic_download,text(R.string.ui_download_video),{},enabled=false)}
         }
-        VoteControl(post,app,onScore,login)
         PostMetadata(post,settings.lightTheme){url->linkError=runCatching{uri.openUri(url)}.isFailure}
         if(linkError)Text(text(R.string.ui_no_browser_available))
         DetailTags(post.tags,settings.lightTheme,search,wiki)
@@ -485,7 +510,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
         post.status?.let{add(text(R.string.ui_status) to it)}
     }
     FlowRow(Modifier.fillMaxWidth().testTag("post-metadata"),horizontalArrangement=Arrangement.spacedBy(12.dp),verticalArrangement=Arrangement.spacedBy(6.dp)){
-        Text("${text(R.string.ui_post_id)} #${post.id}",style=MaterialTheme.typography.bodySmall,modifier=Modifier.testTag("detail-post-id"))
+        Text("${text(R.string.ui_post_id)} #${post.id}",style=MaterialTheme.typography.bodySmall,color=MaterialTheme.colorScheme.primary,modifier=Modifier.testTag("detail-post-id").clickable{open(post.pageUrl)})
         post.source?.takeIf{it.isNotBlank()}?.let{source->
             val url=PostParser.safeUrl(source)
             Text("${text(R.string.ui_source)}: $source",style=MaterialTheme.typography.bodySmall,

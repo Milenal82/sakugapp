@@ -62,19 +62,19 @@ fun VoteControl(post:Post,model:AppViewModel,onScore:(Int?)->Unit,onLogin:()->Un
     val vote=remember(post.id){model.postVote(post.id)}
     LaunchedEffect(post.id,account?.id){vote.identify(account)}
     var expanded by remember(post.id,account?.id){mutableStateOf(false)}
-    Column{
-        Box{
-            ActionIcon(if((vote.value ?: 0)>0)R.drawable.ic_star else R.drawable.ic_star_outline,text(R.string.ui_vote),{if(account==null)onLogin()else expanded=true},Modifier.testTag("vote-icon"),touchSize=40.dp,enabled=!vote.busy,selected=(vote.value ?: 0)>0)
-            TileMenu(expanded,{expanded=false}){
-                for(value in 0..3)AppMenuItem(icon=null,selected=vote.value==value,text={
-                    if(value==0)Text("0")else Row(horizontalArrangement=Arrangement.spacedBy(2.dp)){repeat(value){Icon(painterResource(R.drawable.ic_star),contentDescription=null,modifier=Modifier.size(18.dp))}}
-                },modifier=Modifier.testTag("vote-$value").semantics{contentDescription="$voteLabel $value"},onClick={expanded=false;vote.choose(value){score->model.voteRevision.value++;onScore(score)}})
-            }
+    Box{
+        ActionIcon(if((vote.value ?: 0)>0)R.drawable.ic_star else R.drawable.ic_star_outline,text(R.string.ui_vote),{if(account==null)onLogin()else expanded=true},Modifier.testTag("vote-icon"),enabled=!vote.busy,selected=(vote.value ?: 0)>0)
+        if(vote.busy)CircularProgressIndicator(Modifier.size(12.dp).align(Alignment.TopEnd),strokeWidth=2.dp)
+        TileMenu(expanded,{expanded=false}){
+            for(value in 0..3)AppMenuItem(icon=null,selected=vote.value==value,text={
+                if(value==0)Text("0")else Row(horizontalArrangement=Arrangement.spacedBy(2.dp)){repeat(value){Icon(painterResource(R.drawable.ic_star),contentDescription=null,modifier=Modifier.size(18.dp))}}
+            },modifier=Modifier.testTag("vote-$value").semantics{contentDescription="$voteLabel $value"},onClick={expanded=false;vote.choose(value){score->model.voteRevision.value++;onScore(score)}})
         }
-        if(vote.busy)LinearProgressIndicator(Modifier.width(48.dp))
-        vote.error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error);TextButton(onClick=vote::refresh){Text(text(R.string.ui_reload_vote))}}
-        if(vote.confirmed)Text(text(R.string.ui_vote_confirmed_by_the_server),style=MaterialTheme.typography.bodySmall)
     }
+    val context=LocalContext.current
+    val confirmed=text(R.string.ui_vote_confirmed_by_the_server)
+    LaunchedEffect(vote.confirmed){if(vote.confirmed)android.widget.Toast.makeText(context,confirmed,android.widget.Toast.LENGTH_SHORT).show()}
+    vote.error?.let{failure->AlertDialog(onDismissRequest=vote::clearError,title={Text(voteLabel)},text={Text(translateMessage(failure))},confirmButton={TextButton(onClick={vote.clearError();vote.refresh()}){Text(text(R.string.ui_reload_vote))}},dismissButton={TextButton(onClick=vote::clearError){Text(text(R.string.ui_close))}})}
 }
 
 @OptIn(ExperimentalLayoutApi::class)

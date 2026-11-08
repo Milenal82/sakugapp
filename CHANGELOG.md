@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased — Debug actions, grids and artist links
+
+- Keep Previous, Next, Vote, Favorite, Share and Download in one equal-width row; open the original from Post ID.
+- Apply the saved 0–10 dp card spacing on both axes of Posts, local folders, website Favorites and episode grids, including high column counts.
+- Link verified Artist tags to search/statistics; filter loaded show/episode samples without guessing categories or Source matching.
+- Select saved tags for raw-name AND search or the existing combined-search editor.
+- Keep bounded query/detail snapshots and each result entry’s scroll state when returning from linked pages.
+- Prefer existing single/batch/private videos for detail and preview playback; bypass temporary cache for local media and reject stale detail responses.
+- Debug-only checks and artifacts; package, official version, signing, folder database and backup format unchanged.
+
 ## 1.3.0
 
 - Unify functional tiles and compact local profile actions.

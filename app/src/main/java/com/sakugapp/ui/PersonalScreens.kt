@@ -28,11 +28,18 @@ import kotlinx.coroutines.*
 import java.time.*
 import java.time.format.*
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable fun TagFavoritesScreen(app:AppViewModel,back:()->Unit,search:(String)->Unit){
+    var picking by rememberSaveable{mutableStateOf(false)}
+    var chosen by rememberSaveable{mutableStateOf(arrayListOf<String>())}
+    var combined by rememberSaveable{mutableStateOf(false)}
+    val history by app.history.collectAsStateWithLifecycle()
     val tags by app.savedTags.collectAsStateWithLifecycle();val notes by app.tagNotes.collectAsStateWithLifecycle()
     var query by rememberSaveable{mutableStateOf("")};var sort by rememberSaveable{mutableIntStateOf(0)}
     var sorting by remember{mutableStateOf(false)};var selected by remember{mutableStateOf<Tag?>(null)}
     val failure by app.personalError.collectAsStateWithLifecycle();val context=LocalContext.current
+    LaunchedEffect(tags){chosen=ArrayList(chosen.filter{name->tags.any{it.name==name}})}
+    fun toggle(name:String){chosen=ArrayList(if(name in chosen)chosen-name else chosen+name)}
     val list=rememberLazyListState();val byName=remember(notes){notes.associate{it.name to it.note}}
     val shown=remember(tags,notes,query,sort){PersonalRules.searchable(tags,notes,query,sort)}
     val settings by app.settings.collectAsStateWithLifecycle();val light=themeIsLight(settings.themeMode,androidx.compose.foundation.isSystemInDarkTheme())
@@ -40,11 +47,18 @@ import java.time.format.*
         Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically){
             ActionIcon(R.drawable.ic_back,text(R.string.ui_back_to_app),back)
             Text(text(R.string.ui_tag_favorites),style=MaterialTheme.typography.titleLarge,modifier=Modifier.weight(1f))
+            ActionIcon(R.drawable.ic_check,text(R.string.ui_select_tags),{picking=!picking},Modifier.testTag("select-tags"),selected=picking)
             Box{ActionIcon(R.drawable.ic_more,text(R.string.ui_sort_tags),{sorting=true},Modifier.testTag("sort-tags"))
                 TileMenu(sorting,{sorting=false}){listOf(R.string.ui_tags_recent,R.string.ui_tags_name,R.string.ui_tags_oldest).forEachIndexed{i,label->AppMenuItem(icon=R.drawable.ic_drag,selected=sort==i,text={Text(text(label))},onClick={sort=i;sorting=false})}}
             }
         }
         OutlinedTextField(query,{query=it},label={Text(text(R.string.ui_find_tags_notes))},singleLine=true,modifier=Modifier.fillMaxWidth().padding(horizontal=12.dp).testTag("saved-tags-search"))
+        if(picking)FlowRow(Modifier.fillMaxWidth().padding(horizontal=12.dp),verticalArrangement=Arrangement.spacedBy(4.dp)){
+            Text(text(R.string.ui_tags_selected,chosen.size),Modifier.align(Alignment.CenterVertically))
+            TextButton(onClick={chosen=arrayListOf()}){Text(text(R.string.ui_clear))}
+            TextButton(enabled=chosen.isNotEmpty(),onClick={search(ArtistLinks.selectedQuery(chosen))},modifier=Modifier.testTag("search-selected-tags")){Text(text(R.string.ui_search))}
+            TextButton(enabled=chosen.isNotEmpty(),onClick={combined=true},modifier=Modifier.testTag("edit-selected-tags")){Text(text(R.string.ui_home_combined))}
+        }
         failure?.let{Text(libraryError(context,it),color=MaterialTheme.colorScheme.error)}
         if(tags.isEmpty())Text(text(R.string.ui_tag_favorites_empty),Modifier.padding(16.dp))
         else if(shown.isEmpty())Text(text(R.string.ui_no_results),Modifier.padding(16.dp))
@@ -52,7 +66,8 @@ import java.time.format.*
             items(shown,key={it.name}){entry->
                 val tag=Tag(entry.name,PersonalRules.category(entry.category))
                 Row(Modifier.fillMaxWidth().padding(vertical=6.dp),verticalAlignment=Alignment.CenterVertically){
-                    Column(Modifier.weight(1f).clickable{search(tag.name)}.padding(8.dp).testTag("saved-tag-${tag.name}")){
+                    if(picking)Checkbox(checked=tag.name in chosen,onCheckedChange={toggle(tag.name)},modifier=Modifier.testTag("select-tag-${tag.name}"))
+                    Column(Modifier.weight(1f).clickable{if(picking)toggle(tag.name)else search(tag.name)}.padding(8.dp).testTag("saved-tag-${tag.name}")){
                         Text(tag.name,color=tagColor(tag,light) ?: MaterialTheme.colorScheme.onSurface,maxLines=2,overflow=TextOverflow.Ellipsis)
                         byName[tag.name]?.let{Text(it,style=MaterialTheme.typography.bodySmall,color=MaterialTheme.colorScheme.onSurfaceVariant,maxLines=2,overflow=TextOverflow.Ellipsis)}
                     }
@@ -61,6 +76,7 @@ import java.time.format.*
             }
         }
     }
+    if(combined)SearchDialog(ArtistLinks.selectedQuery(chosen),app.suggestions,light,{combined=false;search(it)},{combined=false},history)
     selected?.let{TagActionsDialog(it,app){selected=null}}
 }
 

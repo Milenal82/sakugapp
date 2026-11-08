@@ -48,7 +48,7 @@ class PageVideoCache(context:Context,private val upstream:DataSource.Factory=Def
         override fun open(spec:DataSpec):Long {
             original=spec;consumed=0;bypass=false;lease=retain()
             try{
-                val source=cachedFactory().createDataSource();delegate=source
+                val source=(if(spec.uri.scheme in setOf("http","https"))cachedFactory()else upstream).createDataSource();delegate=source
                 synchronized(this@PageVideoCache){if(closed)throw IOException("Page closed");readers.add(this)}
                 listeners.forEach(source::addTransferListener)
                 val length=try{source.open(spec)}catch(e:Cache.CacheException){

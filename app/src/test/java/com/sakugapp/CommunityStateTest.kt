@@ -44,6 +44,7 @@ class CommunityStateTest {
         }
         assertEquals(listOf(31,32,33,30),scores)
         token();server.enqueue(MockResponse().setResponseCode(503));vote.choose(3,scores::add);until{!vote.busy};assertNotNull(vote.error);assertEquals(0,vote.value);assertEquals(4,scores.size)
+        val requests=server.requestCount;vote.clearError();assertNull(vote.error);assertEquals(requests,server.requestCount)
         vote.identify(null);assertNull(vote.value)
     }
 }

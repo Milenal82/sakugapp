@@ -82,8 +82,8 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 
     LazyVerticalGrid(columns=GridCells.Fixed(if(inside)settings.columns else 1),state=grid,
         modifier=Modifier.fillMaxSize().testTag("local-library"),contentPadding=PaddingValues(12.dp),
-        horizontalArrangement=Arrangement.spacedBy(if(settings.columns>=6)1.dp else settings.cardSpacing.dp),
-        verticalArrangement=Arrangement.spacedBy(if(inside && settings.columns>=6)1.dp else 8.dp)){
+        horizontalArrangement=Arrangement.spacedBy(GridSpacingPolicy.spacing(settings.cardSpacing).dp),
+        verticalArrangement=Arrangement.spacedBy(if(inside)GridSpacingPolicy.spacing(settings.cardSpacing).dp else 8.dp)){
         item(span={GridItemSpan(maxLineSpan)}){
             Column(verticalArrangement=Arrangement.spacedBy(8.dp)){
                 if(inside){

@@ -12,6 +12,7 @@ class DiscoveryViewModel(private val repository:DiscoveryRepository):ViewModel()
     private val _state=MutableStateFlow(DiscoveryState());val state=_state.asStateFlow()
     private var work:Job?=null;private var generation=0
     fun select(tag:String,type:TagCategory,refresh:Boolean=false,pages:Int=if(type==TagCategory.ARTIST)1 else 3){
+        if(!refresh && state.value.sample?.let{it.tag==tag && it.type==type}==true)return
         work?.cancel();val version=++generation
         val warm=if(refresh)null else repository.cached(tag,type)
         _state.value=DiscoveryState(sample=warm,loading=true)

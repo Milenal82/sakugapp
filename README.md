@@ -4,6 +4,8 @@
 
 ## 简体中文
 
+开发分支的 Debug 测试更新：六按钮详情栏、所有列数一致的 0–10 dp 卡片间距、Artist 统计联动及标签收藏多选。集数内 Artist 查询仅使用已加载的集数样本。[检查记录与限制](docs/debug-actions-grid-artist.md)。
+
 Sakugapp（Sakuga Mobile）是 Sakugabooru 的非官方原生 Android 客户端，使用 Kotlin、Compose 和 Media3，不以 WebView 实现帖子列表。
 
 - 搜索首页、Posts 与个人资料三个主入口；标签联想、组合条件、日期范围、搜索历史及 14 个发现入口。
@@ -20,6 +22,8 @@ Sakugapp（Sakuga Mobile）是 Sakugabooru 的非官方原生 Android 客户端�
 
 ## English
 
+Debug development update: six detail actions, consistent 0–10 dp grid spacing at every column count, artist-statistics links and saved-tag multi-selection. Episode artist results are limited to the loaded episode sample. [Checks and limitations](docs/debug-actions-grid-artist.md).
+
 Sakugapp (Sakuga Mobile) is an unofficial native Android client for Sakugabooru, built with Kotlin, Compose and Media3.
 
 - Search, Posts and Profile navigation; tag suggestions, combined conditions, date ranges, search history and 14 discovery entries.
@@ -35,6 +39,8 @@ Download the official APK from [Releases](https://github.com/Milenal82/sakugapp/
 [Signing and installation](docs/release-signing.md) · [v1.3.0](docs/v1.3.0.md) · [Backup format](docs/backup-format.md) · [License](LICENSE) · [Third-party notices](docs/third-party-notices.md)
 
 ## 日本語
+
+開発ブランチの Debug 更新：詳細の6操作、全列数共通の 0–10 dp カード間隔、原画家統計への連携、保存タグの複数選択。話数内の原画家検索は読み込み済みの標本に限定されます。[確認記録と制限](docs/debug-actions-grid-artist.md)。
 
 Sakugapp（Sakuga Mobile）は Kotlin、Compose、Media3 を使用した Sakugabooru 非公式の Android ネイティブクライアントです。
 

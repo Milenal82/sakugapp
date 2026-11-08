@@ -67,7 +67,7 @@ class CompactInterfaceDeviceTest {
         UiEvidence.capture("compact-post-grid.png")
     }
 
-    @Test fun fiveActionsFitOnPhoneAndTabletAndScoreIsOnlyInMetadata(){
+    @Test fun sixActionsFitOnPhoneAndTabletAndScoreIsOnlyInMetadata(){
         val device=UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         val post=PostParser.posts(InstrumentationRegistry.getInstrumentation().context.assets.open("library-real-posts.json").bufferedReader().use{it.readText()}).first()
         lateinit var app:AppViewModel;var direction=0;var opened=""
@@ -89,13 +89,13 @@ class CompactInterfaceDeviceTest {
                 ui.waitForIdle()
                 ui.onNodeWithTag("detail-actions").performScrollTo()
                 val row=ui.onNodeWithTag("detail-actions").fetchSemanticsNode().boundsInRoot
-                val tags=listOf("previous-post","next-post","download-video","original-post","favorite-action")
+                val tags=listOf("previous-post","next-post","vote-icon","favorite-action","share-post","download-video")
                 val bounds=tags.map{ui.onNodeWithTag(it).assertIsDisplayed().fetchSemanticsNode().boundsInRoot}
                 assertTrue(bounds.all{it.left>=row.left-1 && it.right<=row.right+1})
                 assertTrue(bounds.zipWithNext().all{(a,b)->a.right<=b.left+1 && kotlin.math.abs(a.top-b.top)<1})
                 ui.onNodeWithTag("previous-post").assertIsNotEnabled()
                 ui.onNodeWithTag("next-post").assertIsEnabled().performClick();assertEquals(1,direction)
-                ui.onNodeWithTag("original-post").performClick();assertEquals(post.pageUrl,opened)
+                ui.onNodeWithTag("detail-post-id").performScrollTo().performClick();assertEquals(post.pageUrl,opened)
                 ui.onNodeWithTag("next-post").performTouchInput{longClick()}
                 ui.onNodeWithText("Next post",substring=false).assertExists()
                 ui.mainClock.advanceTimeBy(2000);ui.waitForIdle()

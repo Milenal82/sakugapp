@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ui_share_post">Compartir publicación</string>
+    <string name="ui_select_tags">Seleccionar etiquetas</string>
+    <string name="ui_tags_selected">%1$d seleccionadas</string>
+    <string name="ui_sample_artists">Artistas de esta muestra</string>
+    <string name="ui_episode_sample_results">Resultados de la muestra cargada del episodio. Vuelve al episodio para cargar más.</string>
+</resources>

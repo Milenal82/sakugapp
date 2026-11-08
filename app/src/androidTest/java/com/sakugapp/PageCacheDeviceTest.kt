@@ -97,4 +97,21 @@ class PageCacheDeviceTest {
         repeat(15){val cache=session(2048);withContext(Dispatchers.IO){assertArrayEquals(data,read(cache))};val used=cache.directory.walkTopDown().filter{it.isFile && it.name.endsWith(".exo")}.sumOf{it.length()};assertTrue("LRU disk payload is bounded",used<=2048);cache.close();withTimeout(10000){while(cache.directory.exists())delay(10)}}
         System.gc();val growth=runtime.totalMemory()-runtime.freeMemory()-before;println("15 pages Java heap delta: $growth bytes");assertTrue("Bounded short-run heap growth",growth<32L*1024*1024)
     }
+    @Test fun differentResourceUrlsDoNotShareBytesAndLocalPlaybackDoesNotCopyToCache()=runBlocking{
+        val cache=session()
+        try{
+            withContext(Dispatchers.IO){read(cache)};val count=server.requestCount
+            videoUrl=server.url("/video.mp4?representation=other").toString()
+            withContext(Dispatchers.IO){read(cache)};assertTrue(server.requestCount>count)
+        }finally{cache.close()}
+        val file=java.io.File(context.cacheDir,"cache-local-fixture.mp4").apply{writeBytes(data)}
+        val local=PageVideoCache(context)
+        try{
+            videoUrl=android.net.Uri.fromFile(file).toString();val count=server.requestCount
+            assertArrayEquals(data,withContext(Dispatchers.IO){read(local)})
+            assertEquals(count,server.requestCount)
+            assertFalse("Local files must bypass disk cache initialization",local.directory.exists())
+        }finally{local.close();file.delete()}
+    }
+
 }

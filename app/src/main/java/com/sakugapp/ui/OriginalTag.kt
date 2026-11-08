@@ -22,7 +22,7 @@ import com.sakugapp.data.Tag
     val app=LocalTagActions.current;var options by remember(tag.name){mutableStateOf(false)}
     val notes=if(app!=null && showNote)app.tagNotes.collectAsStateWithLifecycle().value else emptyList()
     val note=notes.firstOrNull{it.name==tag.name}?.note
-    val action=if(app==null)Modifier.clickable{search(tag.name)}else Modifier.combinedClickable(onClick={search(tag.name)},onLongClick={options=true},onLongClickLabel=text(R.string.ui_tag_options))
+    val action=if(app==null)Modifier.clickable{search(tag.name)}else Modifier.combinedClickable(onClick={if(tag.category==com.sakugapp.data.TagCategory.ARTIST)options=true else search(tag.name)},onLongClick={options=true},onLongClickLabel=text(R.string.ui_tag_options))
     val base=LocalTextStyle.current;val density=LocalDensity.current;val textSize=appTextSize(fontSize)
     val style=remember(base,density,textSize,previewSpacing){if(previewSpacing==null)base else base.copy(
         lineHeight=(textSize.value*1.2f+with(density){previewSpacing.dp.toSp().value}).sp,

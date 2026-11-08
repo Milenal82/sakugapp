@@ -33,7 +33,7 @@ class AppViewModel @JvmOverloads constructor(application:Application,discoveryOv
     val offlineMedia=OfflineLibraryMedia(application)
     val batchDownloads=(application as com.sakugapp.SakugappApplication).batchDownloads
     val downloadStorage=batchDownloads.storage
-    fun offlineUri(post:Post)=offlineMedia.existing(post)?.let(android.net.Uri::fromFile) ?: downloadStorage.existing(post,DownloadStorage.Kind.BATCH)
+    fun offlineUri(post:Post)=offlineMedia.existing(post)?.let(android.net.Uri::fromFile) ?: downloadStorage.existing(post,DownloadStorage.Kind.BATCH) ?: downloadStorage.existing(post,DownloadStorage.Kind.SINGLE)
     val session=SecureSession(application)
     val suggestions:SuggestionSource=suggestionsOverride ?: TagSuggestionRepository()
     val community=CommunityRepository(client=OkHttpClient.Builder().cookieJar(session).callTimeout(30,TimeUnit.SECONDS)

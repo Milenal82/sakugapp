@@ -52,6 +52,7 @@ class PostVote(private val id:Long,private val repository:CommunityRepository,pr
     var confirmed by mutableStateOf(false);private set
     private var identity:Long?=null;private var generation=0
     fun identify(account:Account?){if(identity==account?.id)return;identity=account?.id;generation++;value=null;error=null;confirmed=false;if(account!=null)refresh()}
+    fun clearError(){error=null}
     fun refresh(){val who=identity ?: return;val version=generation
         scope.launch(Dispatchers.Main.immediate){try{val result=repository.currentVote(id);if(who==identity && version==generation){value=result;error=null}}
             catch(e:CancellationException){throw e}catch(e:Exception){if(version==generation)error=e.message}}

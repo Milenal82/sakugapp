@@ -51,6 +51,7 @@ data class FeedState(
     val refreshError:String?=null,
     val refreshRevision:Int=0,
     val discardedPosts:Int=0,
+    val sampleOnly:Boolean=false,
 ) {
     companion object { const val MAX_RETAINED_POSTS=600 }
     fun append(page: PostPage, pageSize: Int): FeedState {

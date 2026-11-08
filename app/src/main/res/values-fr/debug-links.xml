@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ui_share_post">Partager la publication</string>
+    <string name="ui_select_tags">Sélectionner des tags</string>
+    <string name="ui_tags_selected">%1$d sélectionnés</string>
+    <string name="ui_sample_artists">Artistes de cet échantillon</string>
+    <string name="ui_episode_sample_results">Résultats limités aux publications déjà chargées de cet épisode. Revenez à cet épisode pour en charger davantage.</string>
+</resources>

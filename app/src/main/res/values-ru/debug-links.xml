@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ui_share_post">Поделиться публикацией</string>
+    <string name="ui_select_tags">Выбрать теги</string>
+    <string name="ui_tags_selected">Выбрано: %1$d</string>
+    <string name="ui_sample_artists">Художники в выборке</string>
+    <string name="ui_episode_sample_results">Результаты из загруженной выборки эпизода. Вернитесь к эпизоду, чтобы загрузить больше.</string>
+</resources>

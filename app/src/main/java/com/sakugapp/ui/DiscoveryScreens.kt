@@ -36,8 +36,8 @@ import kotlinx.coroutines.*
     state.error?.let{Text(text(if(it.contains("classification"))R.string.ui_classification_unknown else R.string.ui_discovery_error),color=MaterialTheme.colorScheme.error);if(!it.contains("classification"))Text(translateMessage(it),style=MaterialTheme.typography.bodySmall);TextButton(onClick={model.retry(tag,type)}){Text(text(R.string.ui_retry))}}
     if(!state.loading){Row{OutlinedButton(enabled=state.sample?.let{!it.ended && !it.capped}==true,onClick=model::more){Text(text(R.string.ui_continue_sampling))};TextButton(onClick={model.select(tag,type,true)}){Text(text(R.string.ui_sample_refresh))}}}
 }
-@Composable internal fun ArtistStatsScreen(repository:DiscoveryRepository,model:DiscoveryViewModel,search:(String)->Unit){
-    val state by model.state.collectAsStateWithLifecycle();var tag by rememberSaveable{mutableStateOf("")}
+@Composable internal fun ArtistStatsScreen(repository:DiscoveryRepository,model:DiscoveryViewModel,search:(String)->Unit,initialArtist:String=""){
+    val state by model.state.collectAsStateWithLifecycle();var tag by rememberSaveable{mutableStateOf(initialArtist)}
     LaunchedEffect(tag){if(tag.isNotBlank() && state.sample==null && !state.loading)model.select(tag,TagCategory.ARTIST)}
     LifecycleEventEffect(Lifecycle.Event.ON_STOP){model.cancel()}
     Box(Modifier.fillMaxSize(),contentAlignment=Alignment.TopCenter){Column(Modifier.widthIn(max=760.dp).fillMaxWidth().verticalScroll(rememberScrollState()).padding(16.dp).testTag("artist-stats"),verticalArrangement=Arrangement.spacedBy(10.dp)){
@@ -62,7 +62,7 @@ import kotlinx.coroutines.*
     }}
 }
 @Composable private fun Frequency(value:TagFrequency,click:()->Unit){
-    Surface(onClick=click,shape=MaterialTheme.shapes.small,color=MaterialTheme.colorScheme.surfaceContainerHigh,modifier=Modifier.fillMaxWidth()){
+    Surface(onClick=click,shape=MaterialTheme.shapes.small,color=MaterialTheme.colorScheme.surfaceContainerHigh,modifier=Modifier.fillMaxWidth().testTag("frequency-${value.tag.name}")){
         Row(Modifier.padding(10.dp),horizontalArrangement=Arrangement.spacedBy(8.dp)){Text(value.tag.name,Modifier.weight(1f));Text("${value.count} · ${String.format(java.util.Locale.ROOT,"%.1f",value.percent)}%")}
     }
 }
@@ -73,7 +73,7 @@ import kotlinx.coroutines.*
 }
 @Composable internal fun episodeLabel(key:EpisodeKey)=when(key.kind){EpisodeKind.EPISODE->text(R.string.ui_episode_number,key.number ?: 0);EpisodeKind.OP->"OP"+(key.number?.toString() ?: "");EpisodeKind.ED->"ED"+(key.number?.toString() ?: "");EpisodeKind.MOVIE->text(R.string.ui_movie);EpisodeKind.OVA->"OVA"+(key.number?.toString() ?: "");EpisodeKind.PV->"PV / Trailer";EpisodeKind.OTHER->text(R.string.ui_uncategorized);EpisodeKind.MISSING->text(R.string.ui_missing_source)}
 @Composable internal fun ShowDetailScreen(tag:String,model:DiscoveryViewModel,search:(String)->Unit,episode:(EpisodeKey)->Unit){
-    val state by model.state.collectAsStateWithLifecycle();var number by rememberSaveable{mutableStateOf("")};var artists by rememberSaveable{mutableStateOf(false)}
+    val state by model.state.collectAsStateWithLifecycle();var number by rememberSaveable{mutableStateOf("")}
     LaunchedEffect(tag){model.select(tag,TagCategory.COPYRIGHT)}
     LifecycleEventEffect(Lifecycle.Event.ON_STOP){model.cancel()}
     Box(Modifier.fillMaxSize(),contentAlignment=Alignment.TopCenter){Column(Modifier.widthIn(max=760.dp).fillMaxWidth().verticalScroll(rememberScrollState()).padding(16.dp).testTag("show-detail"),verticalArrangement=Arrangement.spacedBy(10.dp)){
@@ -84,24 +84,39 @@ import kotlinx.coroutines.*
         state.groups.forEach{(group,posts)->OutlinedButton(onClick={episode(group)},modifier=Modifier.fillMaxWidth().testTag("episode-${group.key}")){Text("${episodeLabel(group)} · ${posts.size}")}}
         SampleFooter(state,model,tag,TagCategory.COPYRIGHT)
         OutlinedButton(onClick={search(tag)}){Text(text(R.string.ui_view_posts))}
-        TextButton(onClick={artists=!artists}){Text(text(R.string.ui_common_artists))}
-        if(artists)state.sample?.let{sample->state.statistics?.related.orEmpty().filter{it.tag.category==TagCategory.ARTIST}.take(25).forEach{Frequency(it){search(SearchSyntax.add(tag,it.tag.name,"and"))}}}
+        ArtistSampleFilters(state.sample?.posts.orEmpty()){artist->search(ArtistLinks.query(tag,artist))}
     }}
 }
-@Composable internal fun EpisodePostsScreen(tag:String,key:EpisodeKey,model:DiscoveryViewModel,settings:AppSettings,app:AppViewModel,search:(String)->Unit,open:(Post,List<Post>)->Unit,isActive:Boolean){
+@Composable internal fun EpisodePostsScreen(tag:String,key:EpisodeKey,model:DiscoveryViewModel,settings:AppSettings,app:AppViewModel,search:(String)->Unit,filter:(Tag,List<Post>)->Unit,open:(Post,List<Post>)->Unit,isActive:Boolean){
     val state by model.state.collectAsStateWithLifecycle();val grid=rememberLazyGridState();var preview by remember{mutableStateOf<Long?>(null)}
     LaunchedEffect(tag){model.select(tag,TagCategory.COPYRIGHT)};LifecycleEventEffect(Lifecycle.Event.ON_STOP){model.cancel();preview=null}
     val scoreChanges by app.scoreChanges.collectAsStateWithLifecycle();val facts by app.library.collectAsStateWithLifecycle()
     val posts=remember(state.groups[key],scoreChanges,facts.durations){state.groups[key].orEmpty().map{p->p.copy(score=scoreChanges[p.id] ?: p.score,durationMs=facts.durations[p.fileUrl] ?: p.durationMs)}}
     val visible by remember(grid){derivedStateOf{grid.layoutInfo.visibleItemsInfo.mapNotNull{it.key as? Long}.toSet()}}
     LaunchedEffect(visible,isActive){if(!isActive || preview !in visible)preview=null}
-    LazyVerticalGrid(GridCells.Fixed(settings.columns),state=grid,modifier=Modifier.fillMaxSize().testTag("episode-posts"),contentPadding=PaddingValues(12.dp),horizontalArrangement=Arrangement.spacedBy(6.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
+    LazyVerticalGrid(GridCells.Fixed(settings.columns),state=grid,modifier=Modifier.fillMaxSize().testTag("episode-posts"),contentPadding=PaddingValues(12.dp),horizontalArrangement=Arrangement.spacedBy(GridSpacingPolicy.spacing(settings.cardSpacing).dp),verticalArrangement=Arrangement.spacedBy(GridSpacingPolicy.spacing(settings.cardSpacing).dp)){
         item(span={GridItemSpan(maxLineSpan)}){Column{
             Text("$tag · ${episodeLabel(key)}",style=MaterialTheme.typography.titleMedium)
             Text(text(R.string.ui_source_sampling_note),style=MaterialTheme.typography.bodySmall)
+            ArtistSampleFilters(posts){artist->filter(artist,posts)}
             if(posts.isEmpty() && !state.loading)Text(text(R.string.ui_episode_not_found))
             SampleFooter(state,model,tag,TagCategory.COPYRIGHT)
         }}
         items(posts,key={it.id}){post->PostCard(post,settings,false,isActive && preview==post.id,{preview=null;open(post,posts)},search,{preview=if(preview==post.id)null else post.id},{app.duration(post.fileUrl.orEmpty(),it)})}
+    }
+}
+
+/** Verified categories and per-Post counts from the current sample, never a staff list. */
+@Composable internal fun ArtistSampleFilters(posts:List<Post>,search:(Tag)->Unit){
+    val candidates=remember(posts){ArtistLinks.candidates(posts)}
+    var expanded by rememberSaveable{mutableStateOf(false)}
+    var selected by remember{mutableStateOf<Tag?>(null)}
+    val app=LocalTagActions.current
+    if(candidates.isNotEmpty()){
+        TextButton(onClick={expanded=!expanded},modifier=Modifier.testTag("sample-artist-filter")){Text(text(R.string.ui_sample_artists))}
+        if(expanded)candidates.forEach{frequency->Frequency(frequency){selected=frequency.tag}}
+    }
+    selected?.let{artist->
+        if(app!=null)CompositionLocalProvider(LocalTagSearch provides {search(artist)}){TagActionsDialog(artist,app){selected=null}}
     }
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ui_share_post">게시물 공유</string>
+    <string name="ui_select_tags">태그 선택</string>
+    <string name="ui_tags_selected">%1$d개 선택</string>
+    <string name="ui_sample_artists">현재 표본의 작화가</string>
+    <string name="ui_episode_sample_results">불러온 에피소드 표본의 결과입니다. 더 불러오려면 에피소드로 돌아가세요.</string>
+</resources>

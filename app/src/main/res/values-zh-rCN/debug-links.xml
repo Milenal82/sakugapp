@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ui_share_post">分享帖子</string>
+    <string name="ui_select_tags">选择标签</string>
+    <string name="ui_tags_selected">已选 %1$d 项</string>
+    <string name="ui_sample_artists">当前样本中的原画师</string>
+    <string name="ui_episode_sample_results">仅显示已加载集数样本中的结果。返回集数页面可继续加载。</string>
+</resources>
