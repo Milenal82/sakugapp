@@ -19,7 +19,7 @@ jobs:
           repo='Milenal82/sakugapp'
           def api(p):return subprocess.check_output(['gh','api',f'repos/{repo}/'+p])
           results=[]
-          for run in ['42484999487']:
+          for run in ['42489442316']:
               meta=json.loads(api('actions/runs/'+run))
               assert meta['path']=='.github/workflows/performance-debug.yml' and meta['head_branch']=='dev/performance-navigation'
               result={'run':run,'sha':meta['head_sha'],'status':meta['status'],'conclusion':meta['conclusion'],'jobs':[],'artifacts':[],'reports':[],'profiles':[]}
