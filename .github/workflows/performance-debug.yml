@@ -2,6 +2,7 @@ name: Performance diagnosis — Debug only
 on:
   push:
     branches: [dev/performance-navigation]
+    paths-ignore: [README.md, CHANGELOG.md, 'docs/**']
   workflow_dispatch:
 permissions:
   contents: read

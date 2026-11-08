@@ -15,6 +15,7 @@ run_profile() {
     -Pandroid.testInstrumentationRunnerArguments.class=com.sakugapp.PerformanceScenarioDeviceTest \
     -Pandroid.testInstrumentationRunnerArguments.profileLabel="$label") || test_status=$?
   mkdir -p "$report_dir/trial-$trial/$label"
+  adb pull "/sdcard/Android/data/com.sakugapp/files/performance-$label/." "$report_dir/trial-$trial/$label/" || true
   adb pull "/sdcard/Download/sakugapp-performance/$label/." "$report_dir/trial-$trial/$label/" || true
   cp -r "$checkout/app/build/outputs/androidTest-results" "$report_dir/trial-$trial/$label/test-results"
   return "$test_status"
