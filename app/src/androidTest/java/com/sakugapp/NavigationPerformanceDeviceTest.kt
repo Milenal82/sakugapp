@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.lifecycle.*
@@ -56,6 +57,7 @@ class NavigationPerformanceDeviceTest {
     }
     @Test fun draftsFeedAndScrollSurviveRepeatedPrimarySwitches(){
         val(model,calls)=scene();ui.onNodeWithTag("home-search-input").performTextInput("draft artist_tag score:>=3")
+        ui.onNodeWithTag("home-search-input").assertTextContains("draft artist_tag score:>=3")
         ui.onNodeWithTag("nav-posts").performClick();ui.onNodeWithTag("post-grid").performScrollToIndex(20)
         val before=ui.onNodeWithTag("post-grid").fetchSemanticsNode().config[SemanticsProperties.VerticalScrollAxisRange].value()
         repeat(5){ui.onNodeWithTag("nav-profile").performClick();ui.onNodeWithTag("profile-home").assertIsDisplayed();ui.onNodeWithTag("nav-posts").performClick()}
@@ -80,6 +82,17 @@ class NavigationPerformanceDeviceTest {
             repeat(6){for(route in listOf("profile","posts","search_home")){ui.onNodeWithTag("nav-$route").performClick();ui.mainClock.advanceTimeBy(32)}}
             ui.mainClock.advanceTimeBy(400);ui.waitForIdle();ui.onNodeWithTag("search-home").assertIsDisplayed()
         }finally{ui.mainClock.autoAdvance=true}
+    }
+    @Test fun departingPageSavesBeforeChildProvidersUnregister(){
+        val pages=MainPageState();var shown by mutableStateOf(true)
+        ui.runOnUiThread{ui.activity.setContent{if(shown)pages.Content("search_home","entry",true){
+            var draft by androidx.compose.runtime.saveable.rememberSaveable(key="draft"){mutableStateOf("initial")}
+            androidx.compose.foundation.text.BasicTextField(draft,{draft=it},Modifier.testTag("draft-disposal"))
+        }}}
+        ui.onNodeWithTag("draft-disposal").performTextReplacement("last unsent draft")
+        ui.runOnUiThread{shown=false};ui.waitForIdle()
+        val saved=pages.values("search_home")!!["draft"]!!.single() as State<*>
+        assertEquals("last unsent draft",saved.value)
     }
     @Test fun mainSnapshotsCanBeWrittenToAnAndroidParcel(){
         val states=MainPageState();val registry=androidx.compose.runtime.saveable.SaveableStateRegistry(null){true}

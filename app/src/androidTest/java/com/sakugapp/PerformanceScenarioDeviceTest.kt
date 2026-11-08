@@ -153,7 +153,7 @@ class PerformanceScenarioDeviceTest {
     private fun save(name:String,bitmap:Bitmap){File(output,name).outputStream().use{bitmap.compress(Bitmap.CompressFormat.PNG,100,it)}}
     private fun transition(from:String,to:String):Map<String,Any?>{
         settle();val before=bitmap();val started=SystemClock.elapsedRealtime();tap("nav-$to")
-        Thread.sleep(55);val sampleStart=SystemClock.elapsedRealtime();val middle=bitmap();val sampleEnd=SystemClock.elapsedRealtime()
+        Thread.sleep(135);val sampleStart=SystemClock.elapsedRealtime();val middle=bitmap();val sampleEnd=SystemClock.elapsedRealtime()
         Thread.sleep((300-(SystemClock.elapsedRealtime()-started)).coerceAtLeast(0));settle();val after=bitmap()
         var mixed=0;var samples=0
         fun distance(a:Int,b:Int)=kotlin.math.abs(Color.red(a)-Color.red(b))+kotlin.math.abs(Color.green(a)-Color.green(b))+kotlin.math.abs(Color.blue(a)-Color.blue(b))

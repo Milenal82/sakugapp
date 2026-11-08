@@ -24,11 +24,15 @@ internal class MainPageState(restored:Map<String,Map<String,List<Any?>>> = empty
     }
 }
 
-/** Separate entry registries avoid duplicate route keys during rapid interrupted transitions. */
+/** Separate entry registries avoid duplicate route keys during rapid interrupted transitions.
+ * Main-page saveable fields use explicit names: automatic composition hashes include the entry ID
+ * and cannot be copied between newly created entries. Transient widget/focus state stays per entry.
+ */
 @Composable internal fun MainPageState.Content(route:String,entryKey:String,active:Boolean,content:@Composable ()->Unit){
     val parent=LocalSaveableStateRegistry.current
     val registry=remember(this,entryKey,parent){SaveableStateRegistry(values(route)){parent?.canBeSaved(it) ?: true}}
+    CompositionLocalProvider(LocalSaveableStateRegistry provides registry,content=content)
+    // Register after children: disposal runs in reverse, before their saveable providers unregister.
     DisposableEffect(this,entryKey,registry){attach(entryKey,route,registry);onDispose{detach(entryKey)}}
     SideEffect{if(active)activate(entryKey)}
-    CompositionLocalProvider(LocalSaveableStateRegistry provides registry,content=content)
 }

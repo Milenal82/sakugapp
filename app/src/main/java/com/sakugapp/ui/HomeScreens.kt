@@ -30,12 +30,13 @@ import kotlinx.coroutines.*
     else Surface(Modifier.size(size.dp),shape=CircleShape,color=MaterialTheme.colorScheme.surfaceContainerHigh){Icon(painterResource(R.drawable.ic_profile),null,Modifier.padding((size/5).dp))}
 }
 @Composable internal fun SearchHomeScreen(app:AppViewModel,settings:AppSettings,search:(String)->Unit,route:(String)->Unit){
-    var query by rememberSaveable(stateSaver=TextFieldValue.Saver){mutableStateOf(TextFieldValue(""))};var focused by remember{mutableStateOf(false)}
-    var combined by rememberSaveable{mutableStateOf(false)}
+    var query by rememberSaveable(key="home-query",stateSaver=TextFieldValue.Saver){mutableStateOf(TextFieldValue(""))};var focused by remember{mutableStateOf(false)}
+    var combined by rememberSaveable(key="home-combined"){mutableStateOf(false)}
     val history by app.history.collectAsStateWithLifecycle();val keyboard=LocalSoftwareKeyboardController.current
+    val scroll=rememberSaveable(key="home-scroll",saver=ScrollState.Saver){ScrollState(0)}
     val suggestions=rememberSuggestions(query,focused,app.suggestions)
     fun submit(value:String){keyboard?.hide();search(value)}
-    Box(Modifier.fillMaxSize(),contentAlignment=Alignment.TopCenter){Column(Modifier.widthIn(max=600.dp).fillMaxWidth().verticalScroll(rememberScrollState()).imePadding().padding(16.dp).testTag("search-home"),verticalArrangement=Arrangement.spacedBy(FeatureStyle.gap)){
+    Box(Modifier.fillMaxSize(),contentAlignment=Alignment.TopCenter){Column(Modifier.widthIn(max=600.dp).fillMaxWidth().verticalScroll(scroll).imePadding().padding(16.dp).testTag("search-home"),verticalArrangement=Arrangement.spacedBy(FeatureStyle.gap)){
         OutlinedTextField(query,{query=it},modifier=Modifier.fillMaxWidth().onFocusChanged{focused=it.isFocused}.testTag("home-search-input"),placeholder={Text(text(R.string.ui_home_search_hint),maxLines=1,overflow=TextOverflow.Ellipsis)},singleLine=true,
             leadingIcon={Icon(painterResource(R.drawable.ic_search),null)},trailingIcon={Row{if(query.text.isNotEmpty())ActionIcon(R.drawable.ic_close,text(R.string.ui_clear_search),{query=TextFieldValue("")});ActionIcon(R.drawable.ic_search,text(R.string.ui_search),{submit(query.text)},Modifier.testTag("home-submit"))}},keyboardOptions=KeyboardOptions(imeAction=ImeAction.Search),keyboardActions=KeyboardActions(onSearch={submit(query.text)}))
         SearchSyntax.warnings(query.text).forEach{Text(translateMessage(it),style=MaterialTheme.typography.labelSmall)}
@@ -70,9 +71,10 @@ import kotlinx.coroutines.*
 @Composable internal fun ProfileHomeScreen(app:AppViewModel,route:(String)->Unit,site:(String)->Unit){
     val profile by app.localProfile.collectAsStateWithLifecycle();val account by app.account.collectAsStateWithLifecycle();val scope=rememberCoroutineScope()
     val displayedName=profile.nickname ?: text(R.string.ui_local_user)
-    var edit by rememberSaveable{mutableStateOf(false)};var name by rememberSaveable{mutableStateOf("")};var error by remember{mutableStateOf(false)};var busy by remember{mutableStateOf(false)}
+    val scroll=rememberSaveable(key="profile-scroll",saver=ScrollState.Saver){ScrollState(0)}
+    var edit by rememberSaveable(key="profile-edit"){mutableStateOf(false)};var name by rememberSaveable(key="profile-name"){mutableStateOf("")};var error by remember{mutableStateOf(false)};var busy by remember{mutableStateOf(false)}
     val choose=rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()){uri->if(uri!=null)scope.launch{busy=true;error=false;try{app.localProfileStore.avatar(uri)}catch(e:CancellationException){throw e}catch(_:Exception){error=true}finally{busy=false}}}
-    Box(Modifier.fillMaxSize(),contentAlignment=Alignment.TopCenter){Column(Modifier.widthIn(max=600.dp).fillMaxWidth().verticalScroll(rememberScrollState()).padding(16.dp).testTag("profile-home"),verticalArrangement=Arrangement.spacedBy(FeatureStyle.gap)){
+    Box(Modifier.fillMaxSize(),contentAlignment=Alignment.TopCenter){Column(Modifier.widthIn(max=600.dp).fillMaxWidth().verticalScroll(scroll).padding(16.dp).testTag("profile-home"),verticalArrangement=Arrangement.spacedBy(FeatureStyle.gap)){
         FeatureSurface(Modifier.fillMaxWidth().testTag("profile-card")){Column(Modifier.padding(FeatureStyle.inset)){
             Row(verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(12.dp)){
                 LocalAvatar(profile,68)

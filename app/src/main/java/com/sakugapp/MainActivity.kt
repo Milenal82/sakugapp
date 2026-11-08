@@ -233,19 +233,19 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
 @OptIn(ExperimentalLayoutApi::class,ExperimentalMaterial3Api::class)
 @Composable
 internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,history:List<String>,metered:Boolean,app:AppViewModel,search:(String)->Unit,open:(Post)->Unit,loadMore:()->Unit,refresh:()->Unit,isActive:Boolean=true,onChromeVisibility:(Boolean)->Unit={}) {
-    var query by rememberSaveable(state.query,stateSaver=TextFieldValue.Saver){mutableStateOf(TextFieldValue(state.query,TextRange(state.query.length)))}
+    var query by rememberSaveable(state.query,key="posts-query",stateSaver=TextFieldValue.Saver){mutableStateOf(TextFieldValue(state.query,TextRange(state.query.length)))}
     var preview by remember{mutableStateOf(PreviewSelection())}
     val active=preview.id
     var manualRevision by remember{mutableIntStateOf(0)}
     val lifecycleState by LocalLifecycleOwner.current.lifecycle.currentStateFlow.collectAsState()
     var advanced by remember{mutableStateOf(false)}
-    var historyOpen by rememberSaveable{mutableStateOf(false)}
+    var historyOpen by rememberSaveable(key="posts-historyOpen"){mutableStateOf(false)}
     var policy by remember{mutableStateOf(false)}
     var gridMenu by remember{mutableStateOf(false)}
     var searchFocused by remember{mutableStateOf(false)}
-    var searchExpanded by rememberSaveable{mutableStateOf(false)}
+    var searchExpanded by rememberSaveable(key="posts-searchExpanded"){mutableStateOf(false)}
     val searchFocus=remember{FocusRequester()}
-    var chromeVisible by rememberSaveable{mutableStateOf(true)}
+    var chromeVisible by rememberSaveable(key="posts-chromeVisible"){mutableStateOf(true)}
     var baseHeight by remember{mutableIntStateOf(0)}
     var fullHeight by remember{mutableIntStateOf(0)}
     var average by remember(state.query){mutableStateOf<String?>(null)}
@@ -254,7 +254,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
     val scope=rememberCoroutineScope();val focus=LocalFocusManager.current
     val keyboard=LocalSoftwareKeyboardController.current
     val imeVisible=WindowInsets.isImeVisible
-    var scrollQuery by rememberSaveable{mutableStateOf(state.query)}
+    var scrollQuery by rememberSaveable(key="posts-scrollQuery"){mutableStateOf(state.query)}
     LaunchedEffect(state.query){if(scrollQuery!=state.query){grid.scrollToItem(0);scrollQuery=state.query}}
     val allowedPreview=true
     val suggestions=rememberSuggestions(query,searchFocused,app.suggestions)
@@ -303,7 +303,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
         val edit=SearchEditing.complete(query.text,query.selection.start,name);query=TextFieldValue(edit.text,TextRange(edit.cursor))
     }
     val refreshState=rememberPullToRefreshState()
-    var shownRefresh by rememberSaveable(state.query){mutableIntStateOf(state.refreshRevision)}
+    var shownRefresh by rememberSaveable(state.query,key="posts-refresh"){mutableIntStateOf(state.refreshRevision)}
     LaunchedEffect(state.refreshRevision){if(shownRefresh!=state.refreshRevision){shownRefresh=state.refreshRevision;grid.requestScrollToItem(0)}}
     PullToRefreshBox(isRefreshing=state.refreshing,onRefresh={if(!grid.canScrollBackward && !searchExpanded)refresh()},state=refreshState,
         modifier=Modifier.fillMaxSize().clipToBounds().testTag("posts-refresh"),
