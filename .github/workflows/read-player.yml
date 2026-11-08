@@ -57,7 +57,10 @@ jobs:
                   for s,e,n,role in selected:groups[(role,n)].append((e-s)*1000)
                   return sorted([dict(thread=role,slice=n,total_ms=round(sum(v),2),**summary(v)) for (role,n),v in groups.items()],key=lambda r:-r['total_ms'])[:35]
               result=[dict(phase=n,start_s=s,end_s=e,slices=slices([p for p in spans if s<=p[0]<=p[1]<=e])) for s,e,n in phases]
-              frames=sorted((s,e) for s,e,n,role in spans if role=='main' and n.startswith('Choreographer#doFrame'))
+              candidates=sorted(((s,e) for s,e,n,role in spans if role=='main' and n.startswith('Choreographer#doFrame')),key=lambda p:(p[0],-p[1]))
+              frames=[]
+              for interval in candidates:
+                  if not frames or interval[1]>frames[-1][1]:frames.append(interval)
               waits.sort();j=0;wall=[];sleep=[];runnable=[];running=[]
               for s,e in frames:
                   while j<len(waits) and waits[j][1]<=s:j+=1
@@ -70,7 +73,7 @@ jobs:
                   duration=(e-s)*1000;wall.append(duration);sleep.append(off_sleep);runnable.append(off_runnable);running.append(max(0,duration-off_sleep-off_runnable))
               return dict(phase_count=len(phases),completed_main_render_slices=len(spans),phases=result,retained_tail_slices=slices(spans),
                   retained_tail_main_frames=dict(wall=summary(wall),off_cpu_not_runnable=summary(sleep),off_cpu_runnable=summary(runnable),estimated_running=summary(running),sched_wait_intervals=len(waits)),
-                  definition='Only complete slices in retained trace tail; phase markers may be overwritten. Nested wall spans overlap. Main doFrame off-CPU time intersects sched_switch waits; non-runnable waits are not automatically application bugs or disk I/O. Running is wall minus observed waits, not a CPU profiler sample.')
+                  definition='Only complete slices in retained trace tail; phase markers may be overwritten. Nested wall spans overlap. Outermost main doFrame spans only; off-CPU time intersects sched_switch waits; non-runnable waits are not automatically application bugs or disk I/O. Running is wall minus observed waits, not a CPU profiler sample.')
           results=[]
           for run in ['42497405174','42496524866']:
               meta=json.loads(api('actions/runs/'+run))
