@@ -9,13 +9,13 @@ permissions:
 concurrency:
   group: performance-${{ github.ref_name }}
   cancel-in-progress: true
-env:
-  PERF_MODE: compare
 jobs:
   build:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
@@ -23,11 +23,22 @@ jobs:
       - run: ./scripts/ci-android-sdk.sh
       - uses: gradle/actions/setup-gradle@v5
       - run: python3 scripts/check-localization.py
-      - run: ./gradlew --no-daemon testDebugUnitTest lintDebug assembleDebug
+      - run: ./gradlew --no-daemon testDebugUnitTest lintDebug assembleDebug assembleDebugAndroidTest
       - uses: actions/upload-artifact@v4
         with:
           name: performance-debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: performance-current-instrumented
+          path: |
+            app/build/outputs/apk/debug/app-debug.apk
+            app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+      - run: bash scripts/build-performance-baseline.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: performance-baseline-instrumented
+          path: app/build/performance-baseline/*.apk
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -36,6 +47,7 @@ jobs:
             app/build/test-results/
             app/build/reports/lint-results-debug.*
   profile:
+    needs: build
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     strategy:
@@ -48,16 +60,23 @@ jobs:
             profile: pixel_c
     steps:
       - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v4
         with:
-          fetch-depth: 0
-      - uses: actions/setup-java@v5
+          name: performance-current-instrumented
+          path: ${{ runner.temp }}/perf-input/current
+      - uses: actions/download-artifact@v4
         with:
-          distribution: temurin
-          java-version: '17'
-      - run: ./scripts/ci-android-sdk.sh
-      - uses: gradle/actions/setup-gradle@v5
+          name: performance-baseline-instrumented
+          path: ${{ runner.temp }}/perf-input/baseline
+      - name: Flatten prebuilt Debug artifact paths
+        run: |
+          mkdir -p "${{ runner.temp }}/perf-apks/current" "${{ runner.temp }}/perf-apks/baseline"
+          find "${{ runner.temp }}/perf-input/current" -name '*.apk' -exec cp {} "${{ runner.temp }}/perf-apks/current/" \;
+          find "${{ runner.temp }}/perf-input/baseline" -name '*.apk' -exec cp {} "${{ runner.temp }}/perf-apks/baseline/" \;
       - run: sudo chmod a+rw /dev/kvm
       - uses: reactivecircus/android-emulator-runner@v2
+        env:
+          PERF_APK_ROOT: ${{ runner.temp }}/perf-apks
         with:
           api-level: ${{ matrix.api }}
           arch: x86_64
@@ -73,14 +92,13 @@ jobs:
             bash scripts/run-performance-profile.sh
             adb shell wm size reset
             adb shell wm density reset
-            ./gradlew --no-daemon connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.sakugapp.NavigationPerformanceDeviceTest
-            mkdir -p app/build/reports/performance/navigation-regression
-            cp -r app/build/outputs/androidTest-results app/build/reports/performance/navigation-regression/
-            cp -r app/build/reports/androidTests app/build/reports/performance/navigation-regression/
+            bash scripts/run-device-instrumentation.sh com.sakugapp.NavigationPerformanceDeviceTest app/build/reports/performance/runner-navigation.log
             adb shell settings put global animator_duration_scale 0
             adb shell settings put global transition_animation_scale 0
             adb shell settings put global window_animation_scale 0
-            bash scripts/run-extension-checks.sh
+            bash scripts/run-device-instrumentation.sh com.sakugapp.DebugLinksDeviceTest,com.sakugapp.PageCacheDeviceTest,com.sakugapp.SearchNavigationDeviceTest,com.sakugapp.CommunityUiDeviceTest,com.sakugapp.PlayerLockDeviceTest,com.sakugapp.MenuAndPoolDeviceTest,com.sakugapp.ExtensionUiDeviceTest,com.sakugapp.DiscoveryNavigationDeviceTest,com.sakugapp.ClipExportDeviceTest,com.sakugapp.LocalProfileDeviceTest,com.sakugapp.BackupRestoreDeviceTest,com.sakugapp.FrameControlsDeviceTest app/build/reports/performance/runner-regression.log
+            mkdir -p app/build/reports/ui-evidence
+            adb pull /sdcard/Download/sakugapp-ui-evidence/. app/build/reports/ui-evidence/ || true
       - uses: actions/upload-artifact@v4
         if: always()
         with:

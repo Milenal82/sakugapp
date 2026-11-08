@@ -81,15 +81,31 @@ class PerformanceScenarioDeviceTest {
         return ids
     }
     private fun top(){
-        // Android accessibility scroll-to-position, followed by a bounded native-gesture fallback.
-        val grid=instrumentation.uiAutomation.rootInActiveWindow?.findAccessibilityNodeInfosByViewId("post-grid")?.firstOrNull()
-        grid?.performAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_TO_POSITION.id,Bundle().apply{
+        // Precondition outside the measured gesture window. Accessibility page actions avoid
+        // fling-distance differences between the phone and a slow software-rendered tablet.
+        fun grid()=instrumentation.uiAutomation.rootInActiveWindow?.findAccessibilityNodeInfosByViewId("post-grid")?.firstOrNull()
+        grid()?.performAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_TO_POSITION.id,Bundle().apply{
             putInt(AccessibilityNodeInfo.ACTION_ARGUMENT_ROW_INT,0);putInt(AccessibilityNodeInfo.ACTION_ARGUMENT_COLUMN_INT,0)
         })
-        Thread.sleep(200)
-        repeat(25){if(device.hasObject(By.res("post-media-${posts.first().id}"))){settle();return}
-            device.swipe(device.displayWidth/2,device.displayHeight/3,device.displayWidth/2,device.displayHeight*4/5,5)
-        };check(device.hasObject(By.res("post-media-${posts.first().id}"))){"Unable to reset grid"};settle()
+        repeat(160){
+            if(posts.first().id in visiblePostIds()){settle();return}
+            grid()?.performAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD)
+            Thread.sleep(60)
+        }
+        val capture=bitmap();save("reset-failed.png",capture);capture.recycle()
+        device.dumpWindowHierarchy(File(output,"reset-failed.xml"))
+        error("Unable to reset grid; visible IDs=${visiblePostIds()}")
+    }
+    @After fun exportMeasurementsEvenWhenAPreconditionFails(){
+        if(!::output.isInitialized)return
+        report["label"]=label;report["phases"]=phases;report["players_end"]=players();report["memory_end"]=memory()
+        File(output,"perf-$label.json").writeText(Gson().toJson(report))
+        device.executeShellCommand("mkdir -p /sdcard/Download/sakugapp-performance/$label")
+        output.listFiles().orEmpty().forEach{captured->
+            val target="/sdcard/Download/sakugapp-performance/$label/${captured.name}"
+            device.executeShellCommand("cp ${captured.absolutePath} $target")
+            check(device.executeShellCommand("stat -c %s $target").trim().toLongOrNull()==captured.length()){"Export failed: ${captured.name}"}
+        }
     }
     private fun measure(name:String,action:()->Unit):Map<String,Any?> {
         val frames=Collections.synchronizedList(mutableListOf<Map<String,Double>>());val dropped=AtomicInteger()
@@ -179,7 +195,8 @@ class PerformanceScenarioDeviceTest {
         try{
             val columns=listOf(2,4,6)+if(activity.resources.configuration.smallestScreenWidthDp>=600)listOf(8,12)else emptyList()
             for(count in columns)for(auto in listOf(false,true)){
-                app.preferences.columns(count);app.preferences.flag("auto",auto);await{app.settings.value.columns==count && app.settings.value.autoPreview==auto};top()
+                app.preferences.flag("auto",false);app.preferences.columns(count);await{app.settings.value.columns==count && !app.settings.value.autoPreview};top()
+                app.preferences.flag("auto",auto);await{app.settings.value.autoPreview==auto}
                 val shown=bounds("post-grid");var hidden:List<Int>?=null;var navHidden=false
                 val directions=mutableListOf<String>();val nearTopIds=posts.take(count*8).map{it.id}.toSet();val nearEndIds=posts.takeLast(count*4).map{it.id}.toSet()
                 var towardEnd=true
@@ -210,12 +227,6 @@ class PerformanceScenarioDeviceTest {
         measure("twenty-main-switches"){repeat(5){for(route in listOf("search_home","posts","profile","posts")){tap("nav-$route");Thread.sleep(260)}}}
         report["phases"]=phases;report["memory_end"]=memory();report["repository_requests"]=requests.get();report["repository_request_log"]=requestLog.toList();report["navigation_requests_delta"]=requests.get()-navigationRequests;report["players_end"]=players()
         val file=File(output,"perf-$label.json");file.writeText(Gson().toJson(report));println("PERFORMANCE_REPORT "+file.readText())
-        device.executeShellCommand("mkdir -p /sdcard/Download/sakugapp-performance/$label")
-        output.listFiles().orEmpty().forEach{captured->
-            val target="/sdcard/Download/sakugapp-performance/$label/${captured.name}"
-            device.executeShellCommand("cp ${captured.absolutePath} $target")
-            check(device.executeShellCommand("stat -c %s $target").trim().toLongOrNull()==captured.length()){"Export failed: ${captured.name}"}
-        }
-        assertEquals("Tab switches must not fetch an unchanged feed",navigationRequests,requests.get())
+        assertEquals("Tab switches must not fetch an unchanged feed",navigationRequests,requests.get());report["scenario_completed"]=true
     }
 }
