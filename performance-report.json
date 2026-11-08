@@ -17575,32 +17575,32 @@
           ],
           "retained_tail_main_frames": {
             "wall": {
-              "count": 92,
-              "p50_ms": 25.689,
-              "p95_ms": 115.909,
+              "count": 69,
+              "p50_ms": 3.173,
+              "p95_ms": 105.523,
               "max_ms": 154.884
             },
             "off_cpu_not_runnable": {
-              "count": 92,
-              "p50_ms": 1.541,
-              "p95_ms": 62.944,
+              "count": 69,
+              "p50_ms": 0.826,
+              "p95_ms": 55.723,
               "max_ms": 145.728
             },
             "off_cpu_runnable": {
-              "count": 92,
+              "count": 69,
               "p50_ms": 0.0,
-              "p95_ms": 19.448,
+              "p95_ms": 17.652,
               "max_ms": 112.506
             },
             "estimated_running": {
-              "count": 92,
-              "p50_ms": 0.51,
-              "p95_ms": 69.356,
+              "count": 69,
+              "p50_ms": 0.248,
+              "p95_ms": 61.178,
               "max_ms": 119.687
             },
             "sched_wait_intervals": 1838
           },
-          "definition": "Only complete slices in retained trace tail; phase markers may be overwritten. Nested wall spans overlap. Main doFrame off-CPU time intersects sched_switch waits; non-runnable waits are not automatically application bugs or disk I/O. Running is wall minus observed waits, not a CPU profiler sample."
+          "definition": "Only complete slices in retained trace tail; phase markers may be overwritten. Nested wall spans overlap. Outermost main doFrame spans only; off-CPU time intersects sched_switch waits; non-runnable waits are not automatically application bugs or disk I/O. Running is wall minus observed waits, not a CPU profiler sample."
         }
       },
       {
@@ -18052,32 +18052,32 @@
           ],
           "retained_tail_main_frames": {
             "wall": {
-              "count": 116,
-              "p50_ms": 32.766,
-              "p95_ms": 165.745,
+              "count": 78,
+              "p50_ms": 31.332,
+              "p95_ms": 166.018,
               "max_ms": 255.914
             },
             "off_cpu_not_runnable": {
-              "count": 116,
-              "p50_ms": 14.384,
+              "count": 78,
+              "p50_ms": 9.203,
               "p95_ms": 114.486,
               "max_ms": 214.404
             },
             "off_cpu_runnable": {
-              "count": 116,
-              "p50_ms": 0.271,
+              "count": 78,
+              "p50_ms": 0.177,
               "p95_ms": 37.589,
               "max_ms": 122.537
             },
             "estimated_running": {
-              "count": 116,
-              "p50_ms": 4.065,
-              "p95_ms": 90.751,
+              "count": 78,
+              "p50_ms": 2.548,
+              "p95_ms": 88.128,
               "max_ms": 117.719
             },
             "sched_wait_intervals": 1552
           },
-          "definition": "Only complete slices in retained trace tail; phase markers may be overwritten. Nested wall spans overlap. Main doFrame off-CPU time intersects sched_switch waits; non-runnable waits are not automatically application bugs or disk I/O. Running is wall minus observed waits, not a CPU profiler sample."
+          "definition": "Only complete slices in retained trace tail; phase markers may be overwritten. Nested wall spans overlap. Outermost main doFrame spans only; off-CPU time intersects sched_switch waits; non-runnable waits are not automatically application bugs or disk I/O. Running is wall minus observed waits, not a CPU profiler sample."
         }
       },
       {
@@ -18529,32 +18529,32 @@
           ],
           "retained_tail_main_frames": {
             "wall": {
-              "count": 83,
-              "p50_ms": 22.511,
-              "p95_ms": 231.193,
+              "count": 66,
+              "p50_ms": 5.3,
+              "p95_ms": 175.723,
               "max_ms": 561.193
             },
             "off_cpu_not_runnable": {
-              "count": 83,
-              "p50_ms": 5.501,
-              "p95_ms": 140.109,
+              "count": 66,
+              "p50_ms": 0.953,
+              "p95_ms": 128.493,
               "max_ms": 443.194
             },
             "off_cpu_runnable": {
-              "count": 83,
+              "count": 66,
               "p50_ms": 0.0,
               "p95_ms": 34.169,
               "max_ms": 167.659
             },
             "estimated_running": {
-              "count": 83,
-              "p50_ms": 0.28,
-              "p95_ms": 17.671,
+              "count": 66,
+              "p50_ms": 0.252,
+              "p95_ms": 15.097,
               "max_ms": 79.754
             },
             "sched_wait_intervals": 1816
           },
-          "definition": "Only complete slices in retained trace tail; phase markers may be overwritten. Nested wall spans overlap. Main doFrame off-CPU time intersects sched_switch waits; non-runnable waits are not automatically application bugs or disk I/O. Running is wall minus observed waits, not a CPU profiler sample."
+          "definition": "Only complete slices in retained trace tail; phase markers may be overwritten. Nested wall spans overlap. Outermost main doFrame spans only; off-CPU time intersects sched_switch waits; non-runnable waits are not automatically application bugs or disk I/O. Running is wall minus observed waits, not a CPU profiler sample."
         }
       },
       {
@@ -19006,32 +19006,32 @@
           ],
           "retained_tail_main_frames": {
             "wall": {
-              "count": 89,
-              "p50_ms": 5.562,
-              "p95_ms": 93.827,
+              "count": 69,
+              "p50_ms": 3.826,
+              "p95_ms": 77.664,
               "max_ms": 100.843
             },
             "off_cpu_not_runnable": {
-              "count": 89,
-              "p50_ms": 0.953,
-              "p95_ms": 55.092,
+              "count": 69,
+              "p50_ms": 0.85,
+              "p95_ms": 52.827,
               "max_ms": 85.344
             },
             "off_cpu_runnable": {
-              "count": 89,
-              "p50_ms": 0.026,
-              "p95_ms": 21.95,
+              "count": 69,
+              "p50_ms": 0.0,
+              "p95_ms": 20.128,
               "max_ms": 47.483
             },
             "estimated_running": {
-              "count": 89,
-              "p50_ms": 0.403,
-              "p95_ms": 60.846,
+              "count": 69,
+              "p50_ms": 0.322,
+              "p95_ms": 54.023,
               "max_ms": 76.908
             },
             "sched_wait_intervals": 2078
           },
-          "definition": "Only complete slices in retained trace tail; phase markers may be overwritten. Nested wall spans overlap. Main doFrame off-CPU time intersects sched_switch waits; non-runnable waits are not automatically application bugs or disk I/O. Running is wall minus observed waits, not a CPU profiler sample."
+          "definition": "Only complete slices in retained trace tail; phase markers may be overwritten. Nested wall spans overlap. Outermost main doFrame spans only; off-CPU time intersects sched_switch waits; non-runnable waits are not automatically application bugs or disk I/O. Running is wall minus observed waits, not a CPU profiler sample."
         }
       },
       {
@@ -19508,7 +19508,7 @@
             },
             "sched_wait_intervals": 8781
           },
-          "definition": "Only complete slices in retained trace tail; phase markers may be overwritten. Nested wall spans overlap. Main doFrame off-CPU time intersects sched_switch waits; non-runnable waits are not automatically application bugs or disk I/O. Running is wall minus observed waits, not a CPU profiler sample."
+          "definition": "Only complete slices in retained trace tail; phase markers may be overwritten. Nested wall spans overlap. Outermost main doFrame spans only; off-CPU time intersects sched_switch waits; non-runnable waits are not automatically application bugs or disk I/O. Running is wall minus observed waits, not a CPU profiler sample."
         }
       },
       {
@@ -19960,32 +19960,32 @@
           ],
           "retained_tail_main_frames": {
             "wall": {
-              "count": 893,
-              "p50_ms": 6.079,
-              "p95_ms": 13.977,
+              "count": 880,
+              "p50_ms": 6.068,
+              "p95_ms": 13.969,
               "max_ms": 393.991
             },
             "off_cpu_not_runnable": {
-              "count": 893,
-              "p50_ms": 1.639,
-              "p95_ms": 8.848,
+              "count": 880,
+              "p50_ms": 1.653,
+              "p95_ms": 8.682,
               "max_ms": 342.434
             },
             "off_cpu_runnable": {
-              "count": 893,
-              "p50_ms": 0.682,
+              "count": 880,
+              "p50_ms": 0.671,
               "p95_ms": 3.252,
               "max_ms": 15.382
             },
             "estimated_running": {
-              "count": 893,
-              "p50_ms": 2.135,
-              "p95_ms": 7.636,
+              "count": 880,
+              "p50_ms": 2.107,
+              "p95_ms": 7.639,
               "max_ms": 40.485
             },
             "sched_wait_intervals": 10260
           },
-          "definition": "Only complete slices in retained trace tail; phase markers may be overwritten. Nested wall spans overlap. Main doFrame off-CPU time intersects sched_switch waits; non-runnable waits are not automatically application bugs or disk I/O. Running is wall minus observed waits, not a CPU profiler sample."
+          "definition": "Only complete slices in retained trace tail; phase markers may be overwritten. Nested wall spans overlap. Outermost main doFrame spans only; off-CPU time intersects sched_switch waits; non-runnable waits are not automatically application bugs or disk I/O. Running is wall minus observed waits, not a CPU profiler sample."
         }
       },
       {
@@ -20462,7 +20462,7 @@
             },
             "sched_wait_intervals": 8984
           },
-          "definition": "Only complete slices in retained trace tail; phase markers may be overwritten. Nested wall spans overlap. Main doFrame off-CPU time intersects sched_switch waits; non-runnable waits are not automatically application bugs or disk I/O. Running is wall minus observed waits, not a CPU profiler sample."
+          "definition": "Only complete slices in retained trace tail; phase markers may be overwritten. Nested wall spans overlap. Outermost main doFrame spans only; off-CPU time intersects sched_switch waits; non-runnable waits are not automatically application bugs or disk I/O. Running is wall minus observed waits, not a CPU profiler sample."
         }
       },
       {
@@ -20914,32 +20914,32 @@
           ],
           "retained_tail_main_frames": {
             "wall": {
-              "count": 921,
+              "count": 896,
               "p50_ms": 6.266,
-              "p95_ms": 14.903,
+              "p95_ms": 13.625,
               "max_ms": 584.677
             },
             "off_cpu_not_runnable": {
-              "count": 921,
-              "p50_ms": 2.049,
-              "p95_ms": 7.454,
+              "count": 896,
+              "p50_ms": 2.07,
+              "p95_ms": 7.296,
               "max_ms": 286.71
             },
             "off_cpu_runnable": {
-              "count": 921,
-              "p50_ms": 0.74,
-              "p95_ms": 3.23,
+              "count": 896,
+              "p50_ms": 0.731,
+              "p95_ms": 3.073,
               "max_ms": 177.487
             },
             "estimated_running": {
-              "count": 921,
-              "p50_ms": 2.239,
-              "p95_ms": 7.634,
+              "count": 896,
+              "p50_ms": 2.228,
+              "p95_ms": 7.539,
               "max_ms": 120.48
             },
             "sched_wait_intervals": 10577
           },
-          "definition": "Only complete slices in retained trace tail; phase markers may be overwritten. Nested wall spans overlap. Main doFrame off-CPU time intersects sched_switch waits; non-runnable waits are not automatically application bugs or disk I/O. Running is wall minus observed waits, not a CPU profiler sample."
+          "definition": "Only complete slices in retained trace tail; phase markers may be overwritten. Nested wall spans overlap. Outermost main doFrame spans only; off-CPU time intersects sched_switch waits; non-runnable waits are not automatically application bugs or disk I/O. Running is wall minus observed waits, not a CPU profiler sample."
         }
       }
     ],
