@@ -102,7 +102,7 @@ class DebugLinksDeviceTest {
         back();ui.onNodeWithTag("post-media-18").assertIsDisplayed();assertTrue(model.state.value.sampleOnly)
         back();ui.onNodeWithTag("episode-posts").assertIsDisplayed();UiEvidence.capture("debug-episode-artists.png")
     }
-    @Test fun tagSelectionSurvivesAndAndSearchAndEditorShareTheSameRawQuery()=runBlocking{
+    @Test fun tagSelectionSurvivesAndAndSearchAndEditorShareTheSameRawQuery()=runBlocking<Unit>{
         val(model,app)=scene();app.personal.saveTag(Tag("artist_a",TagCategory.ARTIST));app.personal.saveTag(Tag("test_show",TagCategory.COPYRIGHT))
         try{
             ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithText(ui.activity.getString(R.string.ui_menu_library)).performClick()
