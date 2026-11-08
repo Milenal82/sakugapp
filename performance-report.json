@@ -2,8 +2,8 @@
   {
     "run": "42484005709",
     "sha": "670165d02b78be9fdfedc7594679ea1a3edf09bc",
-    "status": "in_progress",
-    "conclusion": null,
+    "status": "completed",
+    "conclusion": "cancelled",
     "jobs": [
       {
         "id": 128741821933,
@@ -222,7 +222,7 @@
       {
         "id": 128741822074,
         "name": "profile (35, pixel_c)",
-        "conclusion": null,
+        "conclusion": "cancelled",
         "steps": [
           {
             "name": "Set up job",
@@ -793,6 +793,1861 @@
       "reports/androidTests/connected/debug/css/style.css",
       "reports/androidTests/connected/debug/index.html",
       "reports/androidTests/connected/debug/js/report.js"
+    ],
+    "log_samples": [
+      {
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "lines": [
+          "11-08 13:18:43.891  2318  2333 I System.out: PERF {\"name\":\"scroll-2-auto-false\",\"frames\":381,\"over_budget_frames\":381,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":290.790327,\"p95_ms\":342.138059,\"max_ms\":369.490823},\"layout\":{\"p50_ms\":0.038807,\"p95_ms\":0.087089,\"max_ms\":113.626979},\"draw\":{\"p50_ms\":0.410879,\"p95_ms\":5.629408,\"max_ms\":57.638687},\"input\":{\"p50_ms\":0.728419,\"p95_ms\":4.893358,\"max_ms\":78.849093},\"sync\":{\"p50_ms\":0.087459,\"p95_ms\":2.163314,\"max_ms\":6.263207},\"commands\":{\"p50_ms\":7.959649,\"p95_ms\":40.336394,\"max_ms\":49.448386},\"swap\":{\"p50_ms\":87.502935,\"p95_ms\":116.762503,\"max_ms\":147.911109}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":43227,\"recomposer_change_delta\":35,\"memory_before\":{\"pss_kib\":180344,\"java_heap_bytes\":19977136,\"native_heap_bytes\":46770800},\"memory_after\":{\"pss_kib\":179985,\"java_heap_bytes\":14391024,\"native_heap_bytes\":46523872},\"players_before\":{\"init\":0,\"release\":0,\"unreleased_ids\":[]},\"players_after\":{\"init\":0,\"release\":0,\"unreleased_ids\":[]},\"repository_requests_delta\":0}",
+          "11-08 13:19:40.494  2318  2333 I System.out: PERF {\"name\":\"scroll-2-auto-true\",\"frames\":435,\"over_budget_frames\":435,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":298.494417,\"p95_ms\":497.076972,\"max_ms\":704.382767},\"layout\":{\"p50_ms\":0.039458,\"p95_ms\":0.097765,\"max_ms\":78.206892},\"draw\":{\"p50_ms\":0.554732,\"p95_ms\":27.537617,\"max_ms\":122.413829},\"input\":{\"p50_ms\":0.734928,\"p95_ms\":8.64935,\"max_ms\":118.572444},\"sync\":{\"p50_ms\":0.104174,\"p95_ms\":2.78138,\"max_ms\":62.696854},\"commands\":{\"p50_ms\":9.369367,\"p95_ms\":76.100071,\"max_ms\":326.282705},\"swap\":{\"p50_ms\":84.555243,\"p95_ms\":135.453297,\"max_ms\":240.420564}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":54598,\"recomposer_change_delta\":105,\"memory_before\":{\"pss_kib\":183786,\"java_heap_bytes\":13424096,\"native_heap_bytes\":52317840},\"memory_after\":{\"pss_kib\":183375,\"java_heap_bytes\":21476624,\"native_heap_bytes\":44741344},\"players_before\":{\"init\":1,\"release\":0,\"unreleased_ids\":[\"fb9bdb4\"]},\"players_after\":{\"init\":17,\"release\":16,\"unreleased_ids\":[\"c35cf91\"]},\"repository_requests_delta\":0}",
+          "11-08 13:20:32.127  2318  2333 I System.out: PERF {\"name\":\"scroll-4-auto-false\",\"frames\":418,\"over_budget_frames\":418,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":314.704552,\"p95_ms\":363.701615,\"max_ms\":402.596994},\"layout\":{\"p50_ms\":0.039899,\"p95_ms\":0.145225,\"max_ms\":67.451976},\"draw\":{\"p50_ms\":0.541692,\"p95_ms\":8.464076,\"max_ms\":110.611022},\"input\":{\"p50_ms\":0.655701,\"p95_ms\":6.121907,\"max_ms\":63.209358},\"sync\":{\"p50_ms\":0.161369,\"p95_ms\":2.455327,\"max_ms\":29.598149},\"commands\":{\"p50_ms\":13.513095,\"p95_ms\":45.629554,\"max_ms\":62.100601},\"swap\":{\"p50_ms\":91.089337,\"p95_ms\":118.652117,\"max_ms\":145.161411}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":49706,\"recomposer_change_delta\":62,\"memory_before\":{\"pss_kib\":179947,\"java_heap_bytes\":14400736,\"native_heap_bytes\":44498288},\"memory_after\":{\"pss_kib\":209490,\"java_heap_bytes\":21640112,\"native_heap_bytes\":61575856},\"players_before\":{\"init\":17,\"release\":16,\"unreleased_ids\":[\"c35cf91\"]},\"players_after\":{\"init\":17,\"release\":17,\"unreleased_ids\":[]},\"repository_requests_delta\":0}"
+        ]
+      },
+      {
+        "path": "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "lines": [
+          "11-08 13:18:03.286  3215  3231 I System.out: PERF {\"name\":\"scroll-2-auto-false\",\"frames\":516,\"over_budget_frames\":355,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":22.63527,\"p95_ms\":39.629322,\"max_ms\":79.389868},\"layout\":{\"p50_ms\":0.15677,\"p95_ms\":1.52647,\"max_ms\":17.65303},\"draw\":{\"p50_ms\":0.60679,\"p95_ms\":3.28353,\"max_ms\":17.58029},\"input\":{\"p50_ms\":0.96506,\"p95_ms\":3.66225,\"max_ms\":20.56251},\"sync\":{\"p50_ms\":0.11852,\"p95_ms\":0.23711,\"max_ms\":1.87101},\"commands\":{\"p50_ms\":0.61425,\"p95_ms\":1.53168,\"max_ms\":6.60156},\"swap\":{\"p50_ms\":14.29573,\"p95_ms\":16.85931,\"max_ms\":51.53574}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":10037,\"recomposer_change_delta\":34,\"memory_before\":{\"pss_kib\":134295,\"java_heap_bytes\":8785288,\"native_heap_bytes\":15760080},\"memory_after\":{\"pss_kib\":146659,\"java_heap_bytes\":13551256,\"native_heap_bytes\":21280344},\"players_before\":{\"init\":0,\"release\":0,\"unreleased_ids\":[]},\"players_after\":{\"init\":0,\"release\":0,\"unreleased_ids\":[]},\"repository_requests_delta\":0}",
+          "11-08 13:18:16.563  3215  3231 I System.out: PERF {\"name\":\"scroll-2-auto-true\",\"frames\":576,\"over_budget_frames\":479,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":23.330918,\"p95_ms\":72.929718,\"max_ms\":191.63274},\"layout\":{\"p50_ms\":0.07782,\"p95_ms\":1.09562,\"max_ms\":35.94218},\"draw\":{\"p50_ms\":0.58888,\"p95_ms\":7.833873,\"max_ms\":44.19168},\"input\":{\"p50_ms\":0.49961,\"p95_ms\":2.69936,\"max_ms\":8.9353},\"sync\":{\"p50_ms\":0.11928,\"p95_ms\":0.42498,\"max_ms\":6.95516},\"commands\":{\"p50_ms\":0.66403,\"p95_ms\":1.67309,\"max_ms\":11.55694},\"swap\":{\"p50_ms\":15.14563,\"p95_ms\":17.68934,\"max_ms\":55.6459}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":11651,\"recomposer_change_delta\":89,\"memory_before\":{\"pss_kib\":150158,\"java_heap_bytes\":13675488,\"native_heap_bytes\":30047440},\"memory_after\":{\"pss_kib\":155439,\"java_heap_bytes\":14774728,\"native_heap_bytes\":33525064},\"players_before\":{\"init\":1,\"release\":0,\"unreleased_ids\":[\"e373d4d\"]},\"players_after\":{\"init\":17,\"release\":16,\"unreleased_ids\":[\"37e54ee\"]},\"repository_requests_delta\":0}",
+          "11-08 13:18:27.760  3215  3231 I System.out: PERF {\"name\":\"scroll-4-auto-false\",\"frames\":455,\"over_budget_frames\":344,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":22.430942,\"p95_ms\":24.528653,\"max_ms\":28.451891},\"layout\":{\"p50_ms\":0.08716,\"p95_ms\":2.84227,\"max_ms\":7.44008},\"draw\":{\"p50_ms\":0.62073,\"p95_ms\":2.6665,\"max_ms\":6.34581},\"input\":{\"p50_ms\":0.85714,\"p95_ms\":2.72744,\"max_ms\":8.68261},\"sync\":{\"p50_ms\":0.14781,\"p95_ms\":0.24179,\"max_ms\":3.12179},\"commands\":{\"p50_ms\":0.80906,\"p95_ms\":1.88281,\"max_ms\":3.96737},\"swap\":{\"p50_ms\":14.05467,\"p95_ms\":16.6472,\"max_ms\":20.47585}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":8740,\"recomposer_change_delta\":55,\"memory_before\":{\"pss_kib\":153601,\"java_heap_bytes\":11436368,\"native_heap_bytes\":24185048},\"memory_after\":{\"pss_kib\":160536,\"java_heap_bytes\":13527760,\"native_heap_bytes\":27033336},\"players_before\":{\"init\":17,\"release\":17,\"unreleased_ids\":[]},\"players_after\":{\"init\":17,\"release\":17,\"unreleased_ids\":[]},\"repository_requests_delta\":0}"
+        ]
+      },
+      {
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "lines": [
+          "11-08 13:18:03.286  3215  3231 I System.out: PERF {\"name\":\"scroll-2-auto-false\",\"frames\":516,\"over_budget_frames\":355,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":22.63527,\"p95_ms\":39.629322,\"max_ms\":79.389868},\"layout\":{\"p50_ms\":0.15677,\"p95_ms\":1.52647,\"max_ms\":17.65303},\"draw\":{\"p50_ms\":0.60679,\"p95_ms\":3.28353,\"max_ms\":17.58029},\"input\":{\"p50_ms\":0.96506,\"p95_ms\":3.66225,\"max_ms\":20.56251},\"sync\":{\"p50_ms\":0.11852,\"p95_ms\":0.23711,\"max_ms\":1.87101},\"commands\":{\"p50_ms\":0.61425,\"p95_ms\":1.53168,\"max_ms\":6.60156},\"swap\":{\"p50_ms\":14.29573,\"p95_ms\":16.85931,\"max_ms\":51.53574}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":10037,\"recomposer_change_delta\":34,\"memory_before\":{\"pss_kib\":134295,\"java_heap_bytes\":8785288,\"native_heap_bytes\":15760080},\"memory_after\":{\"pss_kib\":146659,\"java_heap_bytes\":13551256,\"native_heap_bytes\":21280344},\"players_before\":{\"init\":0,\"release\":0,\"unreleased_ids\":[]},\"players_after\":{\"init\":0,\"release\":0,\"unreleased_ids\":[]},\"repository_requests_delta\":0}",
+          "11-08 13:18:16.563  3215  3231 I System.out: PERF {\"name\":\"scroll-2-auto-true\",\"frames\":576,\"over_budget_frames\":479,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":23.330918,\"p95_ms\":72.929718,\"max_ms\":191.63274},\"layout\":{\"p50_ms\":0.07782,\"p95_ms\":1.09562,\"max_ms\":35.94218},\"draw\":{\"p50_ms\":0.58888,\"p95_ms\":7.833873,\"max_ms\":44.19168},\"input\":{\"p50_ms\":0.49961,\"p95_ms\":2.69936,\"max_ms\":8.9353},\"sync\":{\"p50_ms\":0.11928,\"p95_ms\":0.42498,\"max_ms\":6.95516},\"commands\":{\"p50_ms\":0.66403,\"p95_ms\":1.67309,\"max_ms\":11.55694},\"swap\":{\"p50_ms\":15.14563,\"p95_ms\":17.68934,\"max_ms\":55.6459}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":11651,\"recomposer_change_delta\":89,\"memory_before\":{\"pss_kib\":150158,\"java_heap_bytes\":13675488,\"native_heap_bytes\":30047440},\"memory_after\":{\"pss_kib\":155439,\"java_heap_bytes\":14774728,\"native_heap_bytes\":33525064},\"players_before\":{\"init\":1,\"release\":0,\"unreleased_ids\":[\"e373d4d\"]},\"players_after\":{\"init\":17,\"release\":16,\"unreleased_ids\":[\"37e54ee\"]},\"repository_requests_delta\":0}",
+          "11-08 13:18:27.760  3215  3231 I System.out: PERF {\"name\":\"scroll-4-auto-false\",\"frames\":455,\"over_budget_frames\":344,\"budget_ms\":16.666665607028605,\"metrics\":{\"total\":{\"p50_ms\":22.430942,\"p95_ms\":24.528653,\"max_ms\":28.451891},\"layout\":{\"p50_ms\":0.08716,\"p95_ms\":2.84227,\"max_ms\":7.44008},\"draw\":{\"p50_ms\":0.62073,\"p95_ms\":2.6665,\"max_ms\":6.34581},\"input\":{\"p50_ms\":0.85714,\"p95_ms\":2.72744,\"max_ms\":8.68261},\"sync\":{\"p50_ms\":0.14781,\"p95_ms\":0.24179,\"max_ms\":3.12179},\"commands\":{\"p50_ms\":0.80906,\"p95_ms\":1.88281,\"max_ms\":3.96737},\"swap\":{\"p50_ms\":14.05467,\"p95_ms\":16.6472,\"max_ms\":20.47585}},\"dropped_frame_callbacks\":0,\"elapsed_ms\":8740,\"recomposer_change_delta\":55,\"memory_before\":{\"pss_kib\":153601,\"java_heap_bytes\":11436368,\"native_heap_bytes\":24185048},\"memory_after\":{\"pss_kib\":160536,\"java_heap_bytes\":13527760,\"native_heap_bytes\":27033336},\"players_before\":{\"init\":17,\"release\":17,\"unreleased_ids\":[]},\"players_after\":{\"init\":17,\"release\":17,\"unreleased_ids\":[]},\"repository_requests_delta\":0}"
+        ]
+      }
+    ],
+    "phase_logs": [
+      {
+        "artifact": "performance-35",
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-2-auto-false",
+          "frames": 381,
+          "over_budget_frames": 381,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 290.790327,
+              "p95_ms": 342.138059,
+              "max_ms": 369.490823
+            },
+            "layout": {
+              "p50_ms": 0.038807,
+              "p95_ms": 0.087089,
+              "max_ms": 113.626979
+            },
+            "draw": {
+              "p50_ms": 0.410879,
+              "p95_ms": 5.629408,
+              "max_ms": 57.638687
+            },
+            "input": {
+              "p50_ms": 0.728419,
+              "p95_ms": 4.893358,
+              "max_ms": 78.849093
+            },
+            "sync": {
+              "p50_ms": 0.087459,
+              "p95_ms": 2.163314,
+              "max_ms": 6.263207
+            },
+            "commands": {
+              "p50_ms": 7.959649,
+              "p95_ms": 40.336394,
+              "max_ms": 49.448386
+            },
+            "swap": {
+              "p50_ms": 87.502935,
+              "p95_ms": 116.762503,
+              "max_ms": 147.911109
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 43227,
+          "recomposer_change_delta": 35,
+          "memory_before": {
+            "pss_kib": 180344,
+            "java_heap_bytes": 19977136,
+            "native_heap_bytes": 46770800
+          },
+          "memory_after": {
+            "pss_kib": 179985,
+            "java_heap_bytes": 14391024,
+            "native_heap_bytes": 46523872
+          },
+          "players_before": {
+            "init": 0,
+            "release": 0,
+            "unreleased_ids": []
+          },
+          "players_after": {
+            "init": 0,
+            "release": 0,
+            "unreleased_ids": []
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-35",
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-2-auto-true",
+          "frames": 435,
+          "over_budget_frames": 435,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 298.494417,
+              "p95_ms": 497.076972,
+              "max_ms": 704.382767
+            },
+            "layout": {
+              "p50_ms": 0.039458,
+              "p95_ms": 0.097765,
+              "max_ms": 78.206892
+            },
+            "draw": {
+              "p50_ms": 0.554732,
+              "p95_ms": 27.537617,
+              "max_ms": 122.413829
+            },
+            "input": {
+              "p50_ms": 0.734928,
+              "p95_ms": 8.64935,
+              "max_ms": 118.572444
+            },
+            "sync": {
+              "p50_ms": 0.104174,
+              "p95_ms": 2.78138,
+              "max_ms": 62.696854
+            },
+            "commands": {
+              "p50_ms": 9.369367,
+              "p95_ms": 76.100071,
+              "max_ms": 326.282705
+            },
+            "swap": {
+              "p50_ms": 84.555243,
+              "p95_ms": 135.453297,
+              "max_ms": 240.420564
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 54598,
+          "recomposer_change_delta": 105,
+          "memory_before": {
+            "pss_kib": 183786,
+            "java_heap_bytes": 13424096,
+            "native_heap_bytes": 52317840
+          },
+          "memory_after": {
+            "pss_kib": 183375,
+            "java_heap_bytes": 21476624,
+            "native_heap_bytes": 44741344
+          },
+          "players_before": {
+            "init": 1,
+            "release": 0,
+            "unreleased_ids": [
+              "fb9bdb4"
+            ]
+          },
+          "players_after": {
+            "init": 17,
+            "release": 16,
+            "unreleased_ids": [
+              "c35cf91"
+            ]
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-35",
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-4-auto-false",
+          "frames": 418,
+          "over_budget_frames": 418,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 314.704552,
+              "p95_ms": 363.701615,
+              "max_ms": 402.596994
+            },
+            "layout": {
+              "p50_ms": 0.039899,
+              "p95_ms": 0.145225,
+              "max_ms": 67.451976
+            },
+            "draw": {
+              "p50_ms": 0.541692,
+              "p95_ms": 8.464076,
+              "max_ms": 110.611022
+            },
+            "input": {
+              "p50_ms": 0.655701,
+              "p95_ms": 6.121907,
+              "max_ms": 63.209358
+            },
+            "sync": {
+              "p50_ms": 0.161369,
+              "p95_ms": 2.455327,
+              "max_ms": 29.598149
+            },
+            "commands": {
+              "p50_ms": 13.513095,
+              "p95_ms": 45.629554,
+              "max_ms": 62.100601
+            },
+            "swap": {
+              "p50_ms": 91.089337,
+              "p95_ms": 118.652117,
+              "max_ms": 145.161411
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 49706,
+          "recomposer_change_delta": 62,
+          "memory_before": {
+            "pss_kib": 179947,
+            "java_heap_bytes": 14400736,
+            "native_heap_bytes": 44498288
+          },
+          "memory_after": {
+            "pss_kib": 209490,
+            "java_heap_bytes": 21640112,
+            "native_heap_bytes": 61575856
+          },
+          "players_before": {
+            "init": 17,
+            "release": 16,
+            "unreleased_ids": [
+              "c35cf91"
+            ]
+          },
+          "players_after": {
+            "init": 17,
+            "release": 17,
+            "unreleased_ids": []
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-35",
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-4-auto-true",
+          "frames": 432,
+          "over_budget_frames": 432,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 324.429533,
+              "p95_ms": 542.976188,
+              "max_ms": 916.853997
+            },
+            "layout": {
+              "p50_ms": 0.042182,
+              "p95_ms": 0.198524,
+              "max_ms": 129.783109
+            },
+            "draw": {
+              "p50_ms": 0.70894,
+              "p95_ms": 23.462563,
+              "max_ms": 199.632281
+            },
+            "input": {
+              "p50_ms": 0.737412,
+              "p95_ms": 9.182736,
+              "max_ms": 100.447127
+            },
+            "sync": {
+              "p50_ms": 0.184453,
+              "p95_ms": 4.109076,
+              "max_ms": 72.780549
+            },
+            "commands": {
+              "p50_ms": 15.337252,
+              "p95_ms": 72.415494,
+              "max_ms": 368.962135
+            },
+            "swap": {
+              "p50_ms": 89.344603,
+              "p95_ms": 131.976843,
+              "max_ms": 243.989716
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 57637,
+          "recomposer_change_delta": 126,
+          "memory_before": {
+            "pss_kib": 200439,
+            "java_heap_bytes": 18107344,
+            "native_heap_bytes": 63703680
+          },
+          "memory_after": {
+            "pss_kib": 191011,
+            "java_heap_bytes": 24814896,
+            "native_heap_bytes": 48262288
+          },
+          "players_before": {
+            "init": 18,
+            "release": 17,
+            "unreleased_ids": [
+              "b4930ec"
+            ]
+          },
+          "players_after": {
+            "init": 36,
+            "release": 35,
+            "unreleased_ids": [
+              "f1dece3"
+            ]
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-35",
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-6-auto-false",
+          "frames": 405,
+          "over_budget_frames": 405,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 294.603118,
+              "p95_ms": 338.774642,
+              "max_ms": 383.489906
+            },
+            "layout": {
+              "p50_ms": 0.043925,
+              "p95_ms": 0.08735,
+              "max_ms": 73.177181
+            },
+            "draw": {
+              "p50_ms": 0.828817,
+              "p95_ms": 9.582443,
+              "max_ms": 75.040967
+            },
+            "input": {
+              "p50_ms": 0.70256,
+              "p95_ms": 4.507326,
+              "max_ms": 101.521699
+            },
+            "sync": {
+              "p50_ms": 0.176652,
+              "p95_ms": 2.03905,
+              "max_ms": 22.596684
+            },
+            "commands": {
+              "p50_ms": 18.059474,
+              "p95_ms": 46.274189,
+              "max_ms": 86.70618
+            },
+            "swap": {
+              "p50_ms": 79.561312,
+              "p95_ms": 107.796433,
+              "max_ms": 138.941724
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 45311,
+          "recomposer_change_delta": 81,
+          "memory_before": {
+            "pss_kib": 186321,
+            "java_heap_bytes": 17190256,
+            "native_heap_bytes": 46190112
+          },
+          "memory_after": {
+            "pss_kib": 210750,
+            "java_heap_bytes": 16278592,
+            "native_heap_bytes": 67097088
+          },
+          "players_before": {
+            "init": 36,
+            "release": 35,
+            "unreleased_ids": [
+              "f1dece3"
+            ]
+          },
+          "players_after": {
+            "init": 36,
+            "release": 36,
+            "unreleased_ids": []
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-35",
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-6-auto-true",
+          "frames": 487,
+          "over_budget_frames": 485,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 298.779235,
+              "p95_ms": 514.165818,
+              "max_ms": 1117.90308
+            },
+            "layout": {
+              "p50_ms": 0.038548,
+              "p95_ms": 0.089102,
+              "max_ms": 79.491109
+            },
+            "draw": {
+              "p50_ms": 1.624596,
+              "p95_ms": 16.486349,
+              "max_ms": 158.421381
+            },
+            "input": {
+              "p50_ms": 0.654199,
+              "p95_ms": 5.676483,
+              "max_ms": 93.742502
+            },
+            "sync": {
+              "p50_ms": 0.186516,
+              "p95_ms": 3.440416,
+              "max_ms": 118.682857
+            },
+            "commands": {
+              "p50_ms": 18.378541,
+              "p95_ms": 67.800653,
+              "max_ms": 305.544619
+            },
+            "swap": {
+              "p50_ms": 77.354418,
+              "p95_ms": 110.811669,
+              "max_ms": 159.174347
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 54855,
+          "recomposer_change_delta": 140,
+          "memory_before": {
+            "pss_kib": 218837,
+            "java_heap_bytes": 24365520,
+            "native_heap_bytes": 77500256
+          },
+          "memory_after": {
+            "pss_kib": 213951,
+            "java_heap_bytes": 21264752,
+            "native_heap_bytes": 74692176
+          },
+          "players_before": {
+            "init": 37,
+            "release": 36,
+            "unreleased_ids": [
+              "3ce97a9"
+            ]
+          },
+          "players_after": {
+            "init": 55,
+            "release": 54,
+            "unreleased_ids": [
+              "97b69b"
+            ]
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-35",
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-8-auto-false",
+          "frames": 418,
+          "over_budget_frames": 418,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 296.502458,
+              "p95_ms": 401.842404,
+              "max_ms": 625.187409
+            },
+            "layout": {
+              "p50_ms": 0.04034,
+              "p95_ms": 0.144955,
+              "max_ms": 131.22917
+            },
+            "draw": {
+              "p50_ms": 0.95855,
+              "p95_ms": 7.670291,
+              "max_ms": 65.84396
+            },
+            "input": {
+              "p50_ms": 0.655271,
+              "p95_ms": 4.667323,
+              "max_ms": 71.971435
+            },
+            "sync": {
+              "p50_ms": 0.228699,
+              "p95_ms": 2.377737,
+              "max_ms": 40.136528
+            },
+            "commands": {
+              "p50_ms": 32.325569,
+              "p95_ms": 81.960917,
+              "max_ms": 318.812169
+            },
+            "swap": {
+              "p50_ms": 71.436549,
+              "p95_ms": 98.127823,
+              "max_ms": 142.850894
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 47167,
+          "recomposer_change_delta": 79,
+          "memory_before": {
+            "pss_kib": 228049,
+            "java_heap_bytes": 29801184,
+            "native_heap_bytes": 84841680
+          },
+          "memory_after": {
+            "pss_kib": 225081,
+            "java_heap_bytes": 20272304,
+            "native_heap_bytes": 78612624
+          },
+          "players_before": {
+            "init": 55,
+            "release": 54,
+            "unreleased_ids": [
+              "97b69b"
+            ]
+          },
+          "players_after": {
+            "init": 55,
+            "release": 55,
+            "unreleased_ids": []
+          },
+          "repository_requests_delta": 4
+        }
+      },
+      {
+        "artifact": "performance-35",
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-8-auto-true",
+          "frames": 477,
+          "over_budget_frames": 477,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 298.343089,
+              "p95_ms": 513.60816,
+              "max_ms": 890.164868
+            },
+            "layout": {
+              "p50_ms": 0.039088,
+              "p95_ms": 0.096403,
+              "max_ms": 141.71683
+            },
+            "draw": {
+              "p50_ms": 1.244403,
+              "p95_ms": 16.575155,
+              "max_ms": 134.83776
+            },
+            "input": {
+              "p50_ms": 0.63491,
+              "p95_ms": 5.977723,
+              "max_ms": 81.499083
+            },
+            "sync": {
+              "p50_ms": 0.240346,
+              "p95_ms": 2.837453,
+              "max_ms": 27.406038
+            },
+            "commands": {
+              "p50_ms": 31.649422,
+              "p95_ms": 89.578925,
+              "max_ms": 473.325022
+            },
+            "swap": {
+              "p50_ms": 66.11724,
+              "p95_ms": 94.076541,
+              "max_ms": 171.928737
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 53574,
+          "recomposer_change_delta": 120,
+          "memory_before": {
+            "pss_kib": 238890,
+            "java_heap_bytes": 30001568,
+            "native_heap_bytes": 94409984
+          },
+          "memory_after": {
+            "pss_kib": 228800,
+            "java_heap_bytes": 21110224,
+            "native_heap_bytes": 86003328
+          },
+          "players_before": {
+            "init": 56,
+            "release": 55,
+            "unreleased_ids": [
+              "5710ea6"
+            ]
+          },
+          "players_after": {
+            "init": 69,
+            "release": 68,
+            "unreleased_ids": [
+              "5e424fc"
+            ]
+          },
+          "repository_requests_delta": 4
+        }
+      },
+      {
+        "artifact": "performance-35",
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-12-auto-false",
+          "frames": 431,
+          "over_budget_frames": 431,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 313.695262,
+              "p95_ms": 422.134838,
+              "max_ms": 460.125348
+            },
+            "layout": {
+              "p50_ms": 0.036854,
+              "p95_ms": 0.08751,
+              "max_ms": 31.694485
+            },
+            "draw": {
+              "p50_ms": 0.373803,
+              "p95_ms": 6.569796,
+              "max_ms": 61.247967
+            },
+            "input": {
+              "p50_ms": 0.630204,
+              "p95_ms": 3.498642,
+              "max_ms": 92.379894
+            },
+            "sync": {
+              "p50_ms": 0.32421,
+              "p95_ms": 2.162473,
+              "max_ms": 6.410795
+            },
+            "commands": {
+              "p50_ms": 44.759196,
+              "p95_ms": 92.886799,
+              "max_ms": 129.967608
+            },
+            "swap": {
+              "p50_ms": 61.188289,
+              "p95_ms": 88.921297,
+              "max_ms": 124.861964
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 50949,
+          "recomposer_change_delta": 60,
+          "memory_before": {
+            "pss_kib": 228494,
+            "java_heap_bytes": 20598224,
+            "native_heap_bytes": 86669424
+          },
+          "memory_after": {
+            "pss_kib": 246802,
+            "java_heap_bytes": 30291216,
+            "native_heap_bytes": 87541584
+          },
+          "players_before": {
+            "init": 69,
+            "release": 68,
+            "unreleased_ids": [
+              "5e424fc"
+            ]
+          },
+          "players_after": {
+            "init": 69,
+            "release": 69,
+            "unreleased_ids": []
+          },
+          "repository_requests_delta": 9
+        }
+      },
+      {
+        "artifact": "performance-28",
+        "path": "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-2-auto-false",
+          "frames": 516,
+          "over_budget_frames": 355,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 22.63527,
+              "p95_ms": 39.629322,
+              "max_ms": 79.389868
+            },
+            "layout": {
+              "p50_ms": 0.15677,
+              "p95_ms": 1.52647,
+              "max_ms": 17.65303
+            },
+            "draw": {
+              "p50_ms": 0.60679,
+              "p95_ms": 3.28353,
+              "max_ms": 17.58029
+            },
+            "input": {
+              "p50_ms": 0.96506,
+              "p95_ms": 3.66225,
+              "max_ms": 20.56251
+            },
+            "sync": {
+              "p50_ms": 0.11852,
+              "p95_ms": 0.23711,
+              "max_ms": 1.87101
+            },
+            "commands": {
+              "p50_ms": 0.61425,
+              "p95_ms": 1.53168,
+              "max_ms": 6.60156
+            },
+            "swap": {
+              "p50_ms": 14.29573,
+              "p95_ms": 16.85931,
+              "max_ms": 51.53574
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 10037,
+          "recomposer_change_delta": 34,
+          "memory_before": {
+            "pss_kib": 134295,
+            "java_heap_bytes": 8785288,
+            "native_heap_bytes": 15760080
+          },
+          "memory_after": {
+            "pss_kib": 146659,
+            "java_heap_bytes": 13551256,
+            "native_heap_bytes": 21280344
+          },
+          "players_before": {
+            "init": 0,
+            "release": 0,
+            "unreleased_ids": []
+          },
+          "players_after": {
+            "init": 0,
+            "release": 0,
+            "unreleased_ids": []
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-28",
+        "path": "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-2-auto-true",
+          "frames": 576,
+          "over_budget_frames": 479,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 23.330918,
+              "p95_ms": 72.929718,
+              "max_ms": 191.63274
+            },
+            "layout": {
+              "p50_ms": 0.07782,
+              "p95_ms": 1.09562,
+              "max_ms": 35.94218
+            },
+            "draw": {
+              "p50_ms": 0.58888,
+              "p95_ms": 7.833873,
+              "max_ms": 44.19168
+            },
+            "input": {
+              "p50_ms": 0.49961,
+              "p95_ms": 2.69936,
+              "max_ms": 8.9353
+            },
+            "sync": {
+              "p50_ms": 0.11928,
+              "p95_ms": 0.42498,
+              "max_ms": 6.95516
+            },
+            "commands": {
+              "p50_ms": 0.66403,
+              "p95_ms": 1.67309,
+              "max_ms": 11.55694
+            },
+            "swap": {
+              "p50_ms": 15.14563,
+              "p95_ms": 17.68934,
+              "max_ms": 55.6459
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 11651,
+          "recomposer_change_delta": 89,
+          "memory_before": {
+            "pss_kib": 150158,
+            "java_heap_bytes": 13675488,
+            "native_heap_bytes": 30047440
+          },
+          "memory_after": {
+            "pss_kib": 155439,
+            "java_heap_bytes": 14774728,
+            "native_heap_bytes": 33525064
+          },
+          "players_before": {
+            "init": 1,
+            "release": 0,
+            "unreleased_ids": [
+              "e373d4d"
+            ]
+          },
+          "players_after": {
+            "init": 17,
+            "release": 16,
+            "unreleased_ids": [
+              "37e54ee"
+            ]
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-28",
+        "path": "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-4-auto-false",
+          "frames": 455,
+          "over_budget_frames": 344,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 22.430942,
+              "p95_ms": 24.528653,
+              "max_ms": 28.451891
+            },
+            "layout": {
+              "p50_ms": 0.08716,
+              "p95_ms": 2.84227,
+              "max_ms": 7.44008
+            },
+            "draw": {
+              "p50_ms": 0.62073,
+              "p95_ms": 2.6665,
+              "max_ms": 6.34581
+            },
+            "input": {
+              "p50_ms": 0.85714,
+              "p95_ms": 2.72744,
+              "max_ms": 8.68261
+            },
+            "sync": {
+              "p50_ms": 0.14781,
+              "p95_ms": 0.24179,
+              "max_ms": 3.12179
+            },
+            "commands": {
+              "p50_ms": 0.80906,
+              "p95_ms": 1.88281,
+              "max_ms": 3.96737
+            },
+            "swap": {
+              "p50_ms": 14.05467,
+              "p95_ms": 16.6472,
+              "max_ms": 20.47585
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 8740,
+          "recomposer_change_delta": 55,
+          "memory_before": {
+            "pss_kib": 153601,
+            "java_heap_bytes": 11436368,
+            "native_heap_bytes": 24185048
+          },
+          "memory_after": {
+            "pss_kib": 160536,
+            "java_heap_bytes": 13527760,
+            "native_heap_bytes": 27033336
+          },
+          "players_before": {
+            "init": 17,
+            "release": 17,
+            "unreleased_ids": []
+          },
+          "players_after": {
+            "init": 17,
+            "release": 17,
+            "unreleased_ids": []
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-28",
+        "path": "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-4-auto-true",
+          "frames": 617,
+          "over_budget_frames": 520,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 23.872614,
+              "p95_ms": 67.444184,
+              "max_ms": 177.319571
+            },
+            "layout": {
+              "p50_ms": 0.08039,
+              "p95_ms": 0.96942,
+              "max_ms": 7.80966
+            },
+            "draw": {
+              "p50_ms": 0.75129,
+              "p95_ms": 8.473635,
+              "max_ms": 35.67636
+            },
+            "input": {
+              "p50_ms": 0.49826,
+              "p95_ms": 2.63741,
+              "max_ms": 14.93763
+            },
+            "sync": {
+              "p50_ms": 0.15697,
+              "p95_ms": 0.54755,
+              "max_ms": 8.35933
+            },
+            "commands": {
+              "p50_ms": 0.9115,
+              "p95_ms": 2.70815,
+              "max_ms": 11.7338
+            },
+            "swap": {
+              "p50_ms": 14.41557,
+              "p95_ms": 18.10044,
+              "max_ms": 57.28302
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 12485,
+          "recomposer_change_delta": 117,
+          "memory_before": {
+            "pss_kib": 165690,
+            "java_heap_bytes": 17947952,
+            "native_heap_bytes": 38593224
+          },
+          "memory_after": {
+            "pss_kib": 161264,
+            "java_heap_bytes": 14550112,
+            "native_heap_bytes": 38125904
+          },
+          "players_before": {
+            "init": 18,
+            "release": 17,
+            "unreleased_ids": [
+              "6df3379"
+            ]
+          },
+          "players_after": {
+            "init": 36,
+            "release": 35,
+            "unreleased_ids": [
+              "efc84f2"
+            ]
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-28",
+        "path": "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-6-auto-false",
+          "frames": 490,
+          "over_budget_frames": 487,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 22.722232,
+              "p95_ms": 39.733364,
+              "max_ms": 76.283193
+            },
+            "layout": {
+              "p50_ms": 0.07958,
+              "p95_ms": 1.37024,
+              "max_ms": 20.09804
+            },
+            "draw": {
+              "p50_ms": 0.66026,
+              "p95_ms": 2.68736,
+              "max_ms": 8.30649
+            },
+            "input": {
+              "p50_ms": 0.66391,
+              "p95_ms": 2.30374,
+              "max_ms": 7.13605
+            },
+            "sync": {
+              "p50_ms": 0.12981,
+              "p95_ms": 0.23143,
+              "max_ms": 3.84278
+            },
+            "commands": {
+              "p50_ms": 1.01898,
+              "p95_ms": 2.58137,
+              "max_ms": 7.8969
+            },
+            "swap": {
+              "p50_ms": 15.36769,
+              "p95_ms": 16.76282,
+              "max_ms": 45.63112
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 9441,
+          "recomposer_change_delta": 96,
+          "memory_before": {
+            "pss_kib": 170640,
+            "java_heap_bytes": 20341936,
+            "native_heap_bytes": 42408696
+          },
+          "memory_after": {
+            "pss_kib": 169090,
+            "java_heap_bytes": 18913128,
+            "native_heap_bytes": 31853976
+          },
+          "players_before": {
+            "init": 36,
+            "release": 35,
+            "unreleased_ids": [
+              "efc84f2"
+            ]
+          },
+          "players_after": {
+            "init": 36,
+            "release": 36,
+            "unreleased_ids": []
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-28",
+        "path": "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-6-auto-true",
+          "frames": 575,
+          "over_budget_frames": 522,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 22.936509,
+              "p95_ms": 56.787469,
+              "max_ms": 210.600397
+            },
+            "layout": {
+              "p50_ms": 0.07541,
+              "p95_ms": 1.17737,
+              "max_ms": 23.15593
+            },
+            "draw": {
+              "p50_ms": 0.88531,
+              "p95_ms": 6.514107,
+              "max_ms": 25.14637
+            },
+            "input": {
+              "p50_ms": 0.39752,
+              "p95_ms": 1.93283,
+              "max_ms": 9.812
+            },
+            "sync": {
+              "p50_ms": 0.14346,
+              "p95_ms": 0.40084,
+              "max_ms": 16.74228
+            },
+            "commands": {
+              "p50_ms": 1.08549,
+              "p95_ms": 2.71536,
+              "max_ms": 13.67957
+            },
+            "swap": {
+              "p50_ms": 14.67541,
+              "p95_ms": 17.26084,
+              "max_ms": 50.92414
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 11366,
+          "recomposer_change_delta": 138,
+          "memory_before": {
+            "pss_kib": 169597,
+            "java_heap_bytes": 17769248,
+            "native_heap_bytes": 41713224
+          },
+          "memory_after": {
+            "pss_kib": 175851,
+            "java_heap_bytes": 23601608,
+            "native_heap_bytes": 43924960
+          },
+          "players_before": {
+            "init": 37,
+            "release": 36,
+            "unreleased_ids": [
+              "cc48b09"
+            ]
+          },
+          "players_after": {
+            "init": 48,
+            "release": 47,
+            "unreleased_ids": [
+              "e78467f"
+            ]
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-28",
+        "path": "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "detail-return",
+          "frames": 34,
+          "over_budget_frames": 22,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 21.135854,
+              "p95_ms": 37.669084,
+              "max_ms": 71.456865
+            },
+            "layout": {
+              "p50_ms": 2.26169,
+              "p95_ms": 4.59076,
+              "max_ms": 9.3091
+            },
+            "draw": {
+              "p50_ms": 1.03994,
+              "p95_ms": 4.126227,
+              "max_ms": 6.64049
+            },
+            "input": {
+              "p50_ms": 0.02595,
+              "p95_ms": 0.11408,
+              "max_ms": 0.38593
+            },
+            "sync": {
+              "p50_ms": 0.09731,
+              "p95_ms": 0.1459,
+              "max_ms": 0.19449
+            },
+            "commands": {
+              "p50_ms": 0.56152,
+              "p95_ms": 3.14186,
+              "max_ms": 8.42145
+            },
+            "swap": {
+              "p50_ms": 11.8125,
+              "p95_ms": 16.80999,
+              "max_ms": 17.7713
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 2035,
+          "recomposer_change_delta": 14,
+          "memory_before": {
+            "pss_kib": 166661,
+            "java_heap_bytes": 13175208,
+            "native_heap_bytes": 37224024
+          },
+          "memory_after": {
+            "pss_kib": 168752,
+            "java_heap_bytes": 15747016,
+            "native_heap_bytes": 37025448
+          },
+          "players_before": {
+            "init": 48,
+            "release": 48,
+            "unreleased_ids": []
+          },
+          "players_after": {
+            "init": 49,
+            "release": 49,
+            "unreleased_ids": []
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-28",
+        "path": "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "twenty-main-switches",
+          "frames": 474,
+          "over_budget_frames": 12,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 7.805547,
+              "p95_ms": 12.180023,
+              "max_ms": 33.535512
+            },
+            "layout": {
+              "p50_ms": 0.02975,
+              "p95_ms": 0.68099,
+              "max_ms": 12.35765
+            },
+            "draw": {
+              "p50_ms": 1.9281,
+              "p95_ms": 4.174909,
+              "max_ms": 5.94938
+            },
+            "input": {
+              "p50_ms": 0.01986,
+              "p95_ms": 0.10933,
+              "max_ms": 0.3942
+            },
+            "sync": {
+              "p50_ms": 0.07358,
+              "p95_ms": 0.36943,
+              "max_ms": 1.26025
+            },
+            "commands": {
+              "p50_ms": 0.42914,
+              "p95_ms": 0.97898,
+              "max_ms": 3.30728
+            },
+            "swap": {
+              "p50_ms": 3.60837,
+              "p95_ms": 6.87672,
+              "max_ms": 10.15652
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 15916,
+          "recomposer_change_delta": 200,
+          "memory_before": {
+            "pss_kib": 173200,
+            "java_heap_bytes": 16107512,
+            "native_heap_bytes": 41250312
+          },
+          "memory_after": {
+            "pss_kib": 170668,
+            "java_heap_bytes": 16987416,
+            "native_heap_bytes": 37417104
+          },
+          "players_before": {
+            "init": 49,
+            "release": 49,
+            "unreleased_ids": []
+          },
+          "players_after": {
+            "init": 49,
+            "release": 49,
+            "unreleased_ids": []
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-28",
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-2-auto-false",
+          "frames": 516,
+          "over_budget_frames": 355,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 22.63527,
+              "p95_ms": 39.629322,
+              "max_ms": 79.389868
+            },
+            "layout": {
+              "p50_ms": 0.15677,
+              "p95_ms": 1.52647,
+              "max_ms": 17.65303
+            },
+            "draw": {
+              "p50_ms": 0.60679,
+              "p95_ms": 3.28353,
+              "max_ms": 17.58029
+            },
+            "input": {
+              "p50_ms": 0.96506,
+              "p95_ms": 3.66225,
+              "max_ms": 20.56251
+            },
+            "sync": {
+              "p50_ms": 0.11852,
+              "p95_ms": 0.23711,
+              "max_ms": 1.87101
+            },
+            "commands": {
+              "p50_ms": 0.61425,
+              "p95_ms": 1.53168,
+              "max_ms": 6.60156
+            },
+            "swap": {
+              "p50_ms": 14.29573,
+              "p95_ms": 16.85931,
+              "max_ms": 51.53574
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 10037,
+          "recomposer_change_delta": 34,
+          "memory_before": {
+            "pss_kib": 134295,
+            "java_heap_bytes": 8785288,
+            "native_heap_bytes": 15760080
+          },
+          "memory_after": {
+            "pss_kib": 146659,
+            "java_heap_bytes": 13551256,
+            "native_heap_bytes": 21280344
+          },
+          "players_before": {
+            "init": 0,
+            "release": 0,
+            "unreleased_ids": []
+          },
+          "players_after": {
+            "init": 0,
+            "release": 0,
+            "unreleased_ids": []
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-28",
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-2-auto-true",
+          "frames": 576,
+          "over_budget_frames": 479,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 23.330918,
+              "p95_ms": 72.929718,
+              "max_ms": 191.63274
+            },
+            "layout": {
+              "p50_ms": 0.07782,
+              "p95_ms": 1.09562,
+              "max_ms": 35.94218
+            },
+            "draw": {
+              "p50_ms": 0.58888,
+              "p95_ms": 7.833873,
+              "max_ms": 44.19168
+            },
+            "input": {
+              "p50_ms": 0.49961,
+              "p95_ms": 2.69936,
+              "max_ms": 8.9353
+            },
+            "sync": {
+              "p50_ms": 0.11928,
+              "p95_ms": 0.42498,
+              "max_ms": 6.95516
+            },
+            "commands": {
+              "p50_ms": 0.66403,
+              "p95_ms": 1.67309,
+              "max_ms": 11.55694
+            },
+            "swap": {
+              "p50_ms": 15.14563,
+              "p95_ms": 17.68934,
+              "max_ms": 55.6459
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 11651,
+          "recomposer_change_delta": 89,
+          "memory_before": {
+            "pss_kib": 150158,
+            "java_heap_bytes": 13675488,
+            "native_heap_bytes": 30047440
+          },
+          "memory_after": {
+            "pss_kib": 155439,
+            "java_heap_bytes": 14774728,
+            "native_heap_bytes": 33525064
+          },
+          "players_before": {
+            "init": 1,
+            "release": 0,
+            "unreleased_ids": [
+              "e373d4d"
+            ]
+          },
+          "players_after": {
+            "init": 17,
+            "release": 16,
+            "unreleased_ids": [
+              "37e54ee"
+            ]
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-28",
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-4-auto-false",
+          "frames": 455,
+          "over_budget_frames": 344,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 22.430942,
+              "p95_ms": 24.528653,
+              "max_ms": 28.451891
+            },
+            "layout": {
+              "p50_ms": 0.08716,
+              "p95_ms": 2.84227,
+              "max_ms": 7.44008
+            },
+            "draw": {
+              "p50_ms": 0.62073,
+              "p95_ms": 2.6665,
+              "max_ms": 6.34581
+            },
+            "input": {
+              "p50_ms": 0.85714,
+              "p95_ms": 2.72744,
+              "max_ms": 8.68261
+            },
+            "sync": {
+              "p50_ms": 0.14781,
+              "p95_ms": 0.24179,
+              "max_ms": 3.12179
+            },
+            "commands": {
+              "p50_ms": 0.80906,
+              "p95_ms": 1.88281,
+              "max_ms": 3.96737
+            },
+            "swap": {
+              "p50_ms": 14.05467,
+              "p95_ms": 16.6472,
+              "max_ms": 20.47585
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 8740,
+          "recomposer_change_delta": 55,
+          "memory_before": {
+            "pss_kib": 153601,
+            "java_heap_bytes": 11436368,
+            "native_heap_bytes": 24185048
+          },
+          "memory_after": {
+            "pss_kib": 160536,
+            "java_heap_bytes": 13527760,
+            "native_heap_bytes": 27033336
+          },
+          "players_before": {
+            "init": 17,
+            "release": 17,
+            "unreleased_ids": []
+          },
+          "players_after": {
+            "init": 17,
+            "release": 17,
+            "unreleased_ids": []
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-28",
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-4-auto-true",
+          "frames": 617,
+          "over_budget_frames": 520,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 23.872614,
+              "p95_ms": 67.444184,
+              "max_ms": 177.319571
+            },
+            "layout": {
+              "p50_ms": 0.08039,
+              "p95_ms": 0.96942,
+              "max_ms": 7.80966
+            },
+            "draw": {
+              "p50_ms": 0.75129,
+              "p95_ms": 8.473635,
+              "max_ms": 35.67636
+            },
+            "input": {
+              "p50_ms": 0.49826,
+              "p95_ms": 2.63741,
+              "max_ms": 14.93763
+            },
+            "sync": {
+              "p50_ms": 0.15697,
+              "p95_ms": 0.54755,
+              "max_ms": 8.35933
+            },
+            "commands": {
+              "p50_ms": 0.9115,
+              "p95_ms": 2.70815,
+              "max_ms": 11.7338
+            },
+            "swap": {
+              "p50_ms": 14.41557,
+              "p95_ms": 18.10044,
+              "max_ms": 57.28302
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 12485,
+          "recomposer_change_delta": 117,
+          "memory_before": {
+            "pss_kib": 165690,
+            "java_heap_bytes": 17947952,
+            "native_heap_bytes": 38593224
+          },
+          "memory_after": {
+            "pss_kib": 161264,
+            "java_heap_bytes": 14550112,
+            "native_heap_bytes": 38125904
+          },
+          "players_before": {
+            "init": 18,
+            "release": 17,
+            "unreleased_ids": [
+              "6df3379"
+            ]
+          },
+          "players_after": {
+            "init": 36,
+            "release": 35,
+            "unreleased_ids": [
+              "efc84f2"
+            ]
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-28",
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-6-auto-false",
+          "frames": 490,
+          "over_budget_frames": 487,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 22.722232,
+              "p95_ms": 39.733364,
+              "max_ms": 76.283193
+            },
+            "layout": {
+              "p50_ms": 0.07958,
+              "p95_ms": 1.37024,
+              "max_ms": 20.09804
+            },
+            "draw": {
+              "p50_ms": 0.66026,
+              "p95_ms": 2.68736,
+              "max_ms": 8.30649
+            },
+            "input": {
+              "p50_ms": 0.66391,
+              "p95_ms": 2.30374,
+              "max_ms": 7.13605
+            },
+            "sync": {
+              "p50_ms": 0.12981,
+              "p95_ms": 0.23143,
+              "max_ms": 3.84278
+            },
+            "commands": {
+              "p50_ms": 1.01898,
+              "p95_ms": 2.58137,
+              "max_ms": 7.8969
+            },
+            "swap": {
+              "p50_ms": 15.36769,
+              "p95_ms": 16.76282,
+              "max_ms": 45.63112
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 9441,
+          "recomposer_change_delta": 96,
+          "memory_before": {
+            "pss_kib": 170640,
+            "java_heap_bytes": 20341936,
+            "native_heap_bytes": 42408696
+          },
+          "memory_after": {
+            "pss_kib": 169090,
+            "java_heap_bytes": 18913128,
+            "native_heap_bytes": 31853976
+          },
+          "players_before": {
+            "init": 36,
+            "release": 35,
+            "unreleased_ids": [
+              "efc84f2"
+            ]
+          },
+          "players_after": {
+            "init": 36,
+            "release": 36,
+            "unreleased_ids": []
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-28",
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "scroll-6-auto-true",
+          "frames": 575,
+          "over_budget_frames": 522,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 22.936509,
+              "p95_ms": 56.787469,
+              "max_ms": 210.600397
+            },
+            "layout": {
+              "p50_ms": 0.07541,
+              "p95_ms": 1.17737,
+              "max_ms": 23.15593
+            },
+            "draw": {
+              "p50_ms": 0.88531,
+              "p95_ms": 6.514107,
+              "max_ms": 25.14637
+            },
+            "input": {
+              "p50_ms": 0.39752,
+              "p95_ms": 1.93283,
+              "max_ms": 9.812
+            },
+            "sync": {
+              "p50_ms": 0.14346,
+              "p95_ms": 0.40084,
+              "max_ms": 16.74228
+            },
+            "commands": {
+              "p50_ms": 1.08549,
+              "p95_ms": 2.71536,
+              "max_ms": 13.67957
+            },
+            "swap": {
+              "p50_ms": 14.67541,
+              "p95_ms": 17.26084,
+              "max_ms": 50.92414
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 11366,
+          "recomposer_change_delta": 138,
+          "memory_before": {
+            "pss_kib": 169597,
+            "java_heap_bytes": 17769248,
+            "native_heap_bytes": 41713224
+          },
+          "memory_after": {
+            "pss_kib": 175851,
+            "java_heap_bytes": 23601608,
+            "native_heap_bytes": 43924960
+          },
+          "players_before": {
+            "init": 37,
+            "release": 36,
+            "unreleased_ids": [
+              "cc48b09"
+            ]
+          },
+          "players_after": {
+            "init": 48,
+            "release": 47,
+            "unreleased_ids": [
+              "e78467f"
+            ]
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-28",
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "detail-return",
+          "frames": 34,
+          "over_budget_frames": 22,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 21.135854,
+              "p95_ms": 37.669084,
+              "max_ms": 71.456865
+            },
+            "layout": {
+              "p50_ms": 2.26169,
+              "p95_ms": 4.59076,
+              "max_ms": 9.3091
+            },
+            "draw": {
+              "p50_ms": 1.03994,
+              "p95_ms": 4.126227,
+              "max_ms": 6.64049
+            },
+            "input": {
+              "p50_ms": 0.02595,
+              "p95_ms": 0.11408,
+              "max_ms": 0.38593
+            },
+            "sync": {
+              "p50_ms": 0.09731,
+              "p95_ms": 0.1459,
+              "max_ms": 0.19449
+            },
+            "commands": {
+              "p50_ms": 0.56152,
+              "p95_ms": 3.14186,
+              "max_ms": 8.42145
+            },
+            "swap": {
+              "p50_ms": 11.8125,
+              "p95_ms": 16.80999,
+              "max_ms": 17.7713
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 2035,
+          "recomposer_change_delta": 14,
+          "memory_before": {
+            "pss_kib": 166661,
+            "java_heap_bytes": 13175208,
+            "native_heap_bytes": 37224024
+          },
+          "memory_after": {
+            "pss_kib": 168752,
+            "java_heap_bytes": 15747016,
+            "native_heap_bytes": 37025448
+          },
+          "players_before": {
+            "init": 48,
+            "release": 48,
+            "unreleased_ids": []
+          },
+          "players_after": {
+            "init": 49,
+            "release": 49,
+            "unreleased_ids": []
+          },
+          "repository_requests_delta": 0
+        }
+      },
+      {
+        "artifact": "performance-28",
+        "path": "outputs/androidTest-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+        "data": {
+          "name": "twenty-main-switches",
+          "frames": 474,
+          "over_budget_frames": 12,
+          "budget_ms": 16.666665607028605,
+          "metrics": {
+            "total": {
+              "p50_ms": 7.805547,
+              "p95_ms": 12.180023,
+              "max_ms": 33.535512
+            },
+            "layout": {
+              "p50_ms": 0.02975,
+              "p95_ms": 0.68099,
+              "max_ms": 12.35765
+            },
+            "draw": {
+              "p50_ms": 1.9281,
+              "p95_ms": 4.174909,
+              "max_ms": 5.94938
+            },
+            "input": {
+              "p50_ms": 0.01986,
+              "p95_ms": 0.10933,
+              "max_ms": 0.3942
+            },
+            "sync": {
+              "p50_ms": 0.07358,
+              "p95_ms": 0.36943,
+              "max_ms": 1.26025
+            },
+            "commands": {
+              "p50_ms": 0.42914,
+              "p95_ms": 0.97898,
+              "max_ms": 3.30728
+            },
+            "swap": {
+              "p50_ms": 3.60837,
+              "p95_ms": 6.87672,
+              "max_ms": 10.15652
+            }
+          },
+          "dropped_frame_callbacks": 0,
+          "elapsed_ms": 15916,
+          "recomposer_change_delta": 200,
+          "memory_before": {
+            "pss_kib": 173200,
+            "java_heap_bytes": 16107512,
+            "native_heap_bytes": 41250312
+          },
+          "memory_after": {
+            "pss_kib": 170668,
+            "java_heap_bytes": 16987416,
+            "native_heap_bytes": 37417104
+          },
+          "players_before": {
+            "init": 49,
+            "release": 49,
+            "unreleased_ids": []
+          },
+          "players_after": {
+            "init": 49,
+            "release": 49,
+            "unreleased_ids": []
+          },
+          "repository_requests_delta": 0
+        }
+      }
     ],
     "lint": {
       "errors": 0,
