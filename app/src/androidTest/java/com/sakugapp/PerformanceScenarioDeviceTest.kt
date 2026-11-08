@@ -169,7 +169,7 @@ class PerformanceScenarioDeviceTest {
                 var towardEnd=true
                 val result=measure("scroll-$count-auto-$auto"){
                     repeat(24){step->
-                        val visible=device.findObjects(By.res(java.util.regex.Pattern.compile(".*post-media-[0-9]+"))).mapNotNull{it.resourceName.substringAfterLast("post-media-").toLongOrNull()}
+                        val visible=device.findObjects(By.res(java.util.regex.Pattern.compile(".*post-media-[0-9]+"))).mapNotNull{runCatching{it.resourceName.substringAfterLast("post-media-").toLongOrNull()}.getOrNull()}
                         if(visible.any{it in nearTopIds})towardEnd=true else if(visible.any{it in nearEndIds})towardEnd=false
                         directions+=if(towardEnd)"down"else"up"
                         val first=if(towardEnd)device.displayHeight*4/5 else device.displayHeight/4
