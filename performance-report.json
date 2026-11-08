@@ -274,43 +274,51 @@
           },
           {
             "name": "Run reactivecircus/android-emulator-runner@v2",
-            "status": "in_progress",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "cancelled",
             "number": 7,
             "started_at": "2026-11-08T13:14:54Z",
-            "completed_at": null
+            "completed_at": "2026-11-08T13:26:50Z"
           },
           {
             "name": "Run actions/upload-artifact@v4",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 8,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-11-08T13:26:50Z",
+            "completed_at": "2026-11-08T13:26:51Z"
           },
           {
             "name": "Post Run gradle/actions/setup-gradle@v5",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "skipped",
             "number": 14,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-11-08T13:26:51Z",
+            "completed_at": "2026-11-08T13:26:51Z"
           },
           {
             "name": "Post Run actions/setup-java@v5",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 15,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-11-08T13:26:51Z",
+            "completed_at": "2026-11-08T13:26:51Z"
           },
           {
             "name": "Post Run actions/checkout@v5",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 16,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-11-08T13:26:51Z",
+            "completed_at": "2026-11-08T13:26:52Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-11-08T13:26:52Z",
+            "completed_at": "2026-11-08T13:26:52Z"
           }
         ]
       }
@@ -319,6 +327,10 @@
       {
         "name": "performance-debug-apk",
         "url": "https://github.com/Milenal82/sakugapp/actions/runs/42484005709/artifacts/13618616856"
+      },
+      {
+        "name": "performance-35",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/42484005709/artifacts/13618519452"
       },
       {
         "name": "performance-build-reports",
@@ -738,6 +750,50 @@
       }
     ],
     "profiles": [],
+    "files": [
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 15/cpuinfo",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 15/device-info.pb",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 15/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 15/meminfo",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 15/profiling/emulator-5554_profile.pb",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 15/testlog/test-results.log",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 15/utp.0.log",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 15/utp.0.log.lck",
+      "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/aapt.1.ok.txt",
+      "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/aapt.2.ok.txt",
+      "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/cpuinfo",
+      "reports/performance/trial-1/baseline/test-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/device-info.pb",
+      "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+      "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/meminfo",
+      "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/profiling/emulator-5554_profile.pb",
+      "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/test-result.pb",
+      "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/test-result.textproto",
+      "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/testlog/test-results.log",
+      "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/utp.0.log",
+      "reports/performance/trial-1/baseline/test-results/connected/debug/emulator-5554 - 9/utp.0.log.lck",
+      "reports/performance/trial-1/baseline/test-results/connected/debug/test-result.pb",
+      "outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 9/aapt.1.ok.txt",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 9/aapt.2.ok.txt",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 9/cpuinfo",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 9/device-info.pb",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 9/logcat-com.sakugapp.PerformanceScenarioDeviceTest-profileRealScaffoldScrollPreviewAndNavigation.txt",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 9/meminfo",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 9/profiling/emulator-5554_profile.pb",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 9/test-result.pb",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 9/test-result.textproto",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 9/testlog/test-results.log",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 9/utp.0.log.lck",
+      "outputs/androidTest-results/connected/debug/test-result.pb",
+      "outputs/androidTest-results/connected/debug/emulator-5554 - 9/utp.0.log",
+      "reports/androidTests/connected/debug/com.sakugapp.PerformanceScenarioDeviceTest.html",
+      "reports/androidTests/connected/debug/com.sakugapp.html",
+      "reports/androidTests/connected/debug/css/base-style.css",
+      "reports/androidTests/connected/debug/css/style.css",
+      "reports/androidTests/connected/debug/index.html",
+      "reports/androidTests/connected/debug/js/report.js"
+    ],
     "lint": {
       "errors": 0,
       "warnings": 74
