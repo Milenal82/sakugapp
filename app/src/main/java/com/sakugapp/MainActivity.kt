@@ -280,7 +280,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
         LazyVerticalGrid(columns=GridCells.Fixed(settings.columns),state=grid,
             modifier=Modifier.fillMaxSize().nestedScroll(connection).testTag("post-grid"),
             contentPadding=PaddingValues(start=if(settings.columns>=6)2.dp else 10.dp,end=if(settings.columns>=6)2.dp else 10.dp,top=with(density){baseHeight.toDp()},bottom=if(state.refreshError!=null)120.dp else 16.dp),
-            horizontalArrangement=Arrangement.spacedBy(if(settings.columns>=6)settings.cardSpacing.coerceAtMost(1f).dp else settings.cardSpacing.dp),verticalArrangement=Arrangement.spacedBy(if(settings.columns>=6)1.dp else (settings.cardSpacing+2f).dp)){
+            horizontalArrangement=Arrangement.spacedBy(settings.cardSpacing.coerceIn(0f,10f).dp),verticalArrangement=Arrangement.spacedBy(settings.cardSpacing.coerceIn(0f,10f).dp)){
             state.categoryWarning?.let{item(span={GridItemSpan(maxLineSpan)}){Column{
                 Text(text(R.string.ui_tag_categories_unavailable_unknown_categories_are_not_guessed),style=MaterialTheme.typography.bodySmall)
                 Text(translateMessage(it),style=MaterialTheme.typography.labelSmall)
@@ -445,7 +445,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
 }
 
 @Composable internal fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,localSnapshot:Boolean,search:(String)->Unit,wiki:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit,onDuration:(Long)->Unit,hasPrevious:Boolean,hasNext:Boolean,onNavigate:(Int)->Boolean){
-    val uri=LocalUriHandler.current;var linkError by remember{mutableStateOf(false)}
+    val uri=LocalUriHandler.current;val context=LocalContext.current;var linkError by remember{mutableStateOf(false)}
     val playback by produceState<Pair<Boolean,String?>>(false to null,post.id){value=true to withContext(Dispatchers.IO){app.offlineUri(post)?.toString() ?: post.fileUrl}}
     val playbackUrl=playback.second
     var seek by remember(post.id){mutableStateOf<Pair<Long,Int>?>(null)}
@@ -457,15 +457,21 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
         if(localSnapshot)Text(text(R.string.ui_library_snapshot_hint),style=MaterialTheme.typography.bodySmall)
         if(post.isVideo){if(playbackUrl!=null)VideoPanel(playbackUrl,settings,seekRequest=seek,onDurationChanged=onDuration,onNavigate=onNavigate,videoDimensions=if(post.width!=null && post.height!=null)post.width to post.height else null,downloadPost=post,maxInlineHeight=availableVideoHeight)else if(!playback.first)Box(Modifier.fillMaxWidth().aspectRatio(if((post.width ?: 0)>0 && (post.height ?: 0)>0)post.width!!.toFloat()/post.height!! else 16f/9f),contentAlignment=Alignment.Center){CircularProgressIndicator()}else Text(text(R.string.ui_media_unavailable))}
         else PostImage(post,Modifier.fillMaxWidth().height(320.dp),settings,metered,true)
-        Row(Modifier.widthIn(max=360.dp).fillMaxWidth().testTag("detail-actions"),horizontalArrangement=Arrangement.SpaceEvenly,verticalAlignment=Alignment.CenterVertically){
+        Row(Modifier.widthIn(max=400.dp).fillMaxWidth().testTag("detail-actions"),horizontalArrangement=Arrangement.SpaceEvenly,verticalAlignment=Alignment.CenterVertically){
             ActionIcon(R.drawable.ic_previous,text(R.string.ui_previous_post),{onNavigate(-1)},Modifier.testTag("previous-post"),enabled=hasPrevious)
             ActionIcon(R.drawable.ic_next,text(R.string.ui_next_post),{onNavigate(1)},Modifier.testTag("next-post"),enabled=hasNext)
-            if(post.isVideo)VideoDownloadButton(post)else ActionIcon(R.drawable.ic_download,text(R.string.ui_download_video),{},enabled=false)
-            ActionIcon(R.drawable.ic_open,text(R.string.ui_open_original_post),{linkError=runCatching{uri.openUri(post.pageUrl)}.isFailure},Modifier.testTag("original-post"))
+            VoteControl(post,app,onScore,login,compact=true)
             FavoriteControl(post,app)
+            ActionIcon(R.drawable.ic_open,"Share",{
+                val share=android.content.Intent(android.content.Intent.ACTION_SEND).apply{
+                    type="text/plain"
+                    putExtra(android.content.Intent.EXTRA_TEXT,post.pageUrl)
+                }
+                linkError=runCatching { context.startActivity(android.content.Intent.createChooser(share,null)) }.isFailure
+            },Modifier.testTag("share-post"))
+            if(post.isVideo)VideoDownloadButton(post)else ActionIcon(R.drawable.ic_download,text(R.string.ui_download_video),{},enabled=false)
         }
-        VoteControl(post,app,onScore,login)
-        PostMetadata(post,settings.lightTheme){url->linkError=runCatching{uri.openUri(url)}.isFailure}
+        PostMetadata(post,settings.lightTheme,openPost={linkError=runCatching{uri.openUri(post.pageUrl)}.isFailure}){url->linkError=runCatching{uri.openUri(url)}.isFailure}
         if(linkError)Text(text(R.string.ui_no_browser_available))
         DetailTags(post.tags,settings.lightTheme,search,wiki)
         CommentsPanel(post,app,login){time->seek=time to ((seek?.second ?: 0)+1)}
@@ -473,7 +479,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
 }
 
 @OptIn(ExperimentalLayoutApi::class)
-@Composable private fun PostMetadata(post:Post,light:Boolean,open:(String)->Unit){
+@Composable private fun PostMetadata(post:Post,light:Boolean,openPost:()->Unit,open:(String)->Unit){
     val context=LocalContext.current
     val fields=buildList{
         post.uploader?.let{add(text(R.string.ui_uploader) to it)}
@@ -485,7 +491,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
         post.status?.let{add(text(R.string.ui_status) to it)}
     }
     FlowRow(Modifier.fillMaxWidth().testTag("post-metadata"),horizontalArrangement=Arrangement.spacedBy(12.dp),verticalArrangement=Arrangement.spacedBy(6.dp)){
-        Text("${text(R.string.ui_post_id)} #${post.id}",style=MaterialTheme.typography.bodySmall,modifier=Modifier.testTag("detail-post-id"))
+        Text("${text(R.string.ui_post_id)} #${post.id}",style=MaterialTheme.typography.bodySmall,modifier=Modifier.testTag("detail-post-id").clickable(onClick=openPost))
         post.source?.takeIf{it.isNotBlank()}?.let{source->
             val url=PostParser.safeUrl(source)
             Text("${text(R.string.ui_source)}: $source",style=MaterialTheme.typography.bodySmall,
