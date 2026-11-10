@@ -36,8 +36,8 @@ import kotlinx.coroutines.*
     state.error?.let{Text(text(if(it.contains("classification"))R.string.ui_classification_unknown else R.string.ui_discovery_error),color=MaterialTheme.colorScheme.error);if(!it.contains("classification"))Text(translateMessage(it),style=MaterialTheme.typography.bodySmall);TextButton(onClick={model.retry(tag,type)}){Text(text(R.string.ui_retry))}}
     if(!state.loading){Row{OutlinedButton(enabled=state.sample?.let{!it.ended && !it.capped}==true,onClick=model::more){Text(text(R.string.ui_continue_sampling))};TextButton(onClick={model.select(tag,type,true)}){Text(text(R.string.ui_sample_refresh))}}}
 }
-@Composable internal fun ArtistStatsScreen(repository:DiscoveryRepository,model:DiscoveryViewModel,search:(String)->Unit){
-    val state by model.state.collectAsStateWithLifecycle();var tag by rememberSaveable{mutableStateOf("")}
+@Composable internal fun ArtistStatsScreen(repository:DiscoveryRepository,model:DiscoveryViewModel,search:(String)->Unit,initialTag:String=""){
+    val state by model.state.collectAsStateWithLifecycle();var tag by rememberSaveable(initialTag){mutableStateOf(initialTag)}
     LaunchedEffect(tag){if(tag.isNotBlank() && state.sample==null && !state.loading)model.select(tag,TagCategory.ARTIST)}
     LifecycleEventEffect(Lifecycle.Event.ON_STOP){model.cancel()}
     Box(Modifier.fillMaxSize(),contentAlignment=Alignment.TopCenter){Column(Modifier.widthIn(max=760.dp).fillMaxWidth().verticalScroll(rememberScrollState()).padding(16.dp).testTag("artist-stats"),verticalArrangement=Arrangement.spacedBy(10.dp)){
