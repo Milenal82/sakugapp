@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.sakugapp.data.*
 
 @OptIn(ExperimentalLayoutApi::class)
-@Composable fun DetailTags(tags:List<Tag>,light:Boolean,search:(String)->Unit,wiki:(String)->Unit) {
+@Composable fun DetailTags(tags:List<Tag>,light:Boolean,search:(String)->Unit,wiki:(String)->Unit,artistStats:(String)->Unit={}) {
     FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp),verticalArrangement=Arrangement.spacedBy(8.dp)) {
         for(tag in tags) {
             val color=when(tag.category){TagCategory.COPYRIGHT->copyrightColor(light);TagCategory.ARTIST->artistColor(light);else->MaterialTheme.colorScheme.onSurfaceVariant}
@@ -23,6 +23,8 @@ import com.sakugapp.data.*
                     if(tag.category==TagCategory.ARTIST) {
                         val description=text(R.string.ui_artist_wiki)+tag.name
                         TextButton(onClick={wiki(UrlPolicy.artistWiki(tag.name))},modifier=Modifier.testTag("artist-wiki-${tag.name}").semantics{contentDescription=description}){Text("?",color=color)}
+                        VerticalDivider(Modifier.height(40.dp),color=color.copy(alpha=0.35f))
+                        ActionIcon(R.drawable.ic_profile,text(R.string.ui_home_artists),{artistStats(tag.name)},Modifier.testTag("artist-stats-${tag.name}"),touchSize=40.dp)
                         VerticalDivider(Modifier.height(40.dp),color=color.copy(alpha=0.35f))
                     }
                     OriginalTag(tag,color,search,Modifier.padding(horizontal=12.dp,vertical=4.dp),showNote=true)
