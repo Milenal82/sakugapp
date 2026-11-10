@@ -33,7 +33,7 @@ import java.time.format.*
     var query by rememberSaveable{mutableStateOf("")};var sort by rememberSaveable{mutableIntStateOf(0)}
     var sorting by remember{mutableStateOf(false)};var selected by remember{mutableStateOf<Tag?>(null)}
     var multiSelect by rememberSaveable{mutableStateOf(false)}
-    var checkedTags by rememberSaveable{mutableStateOf(setOf<String>())}
+    var checkedTags by rememberSaveable{mutableStateOf(listOf<String>())}
     val failure by app.personalError.collectAsStateWithLifecycle();val context=LocalContext.current
     val list=rememberLazyListState();val byName=remember(notes){notes.associate{it.name to it.note}}
     val shown=remember(tags,notes,query,sort){PersonalRules.searchable(tags,notes,query,sort)}
@@ -42,7 +42,7 @@ import java.time.format.*
         Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically){
             ActionIcon(R.drawable.ic_back,text(R.string.ui_back_to_app),back)
             Text(text(R.string.ui_tag_favorites),style=MaterialTheme.typography.titleLarge,modifier=Modifier.weight(1f))
-            TextButton(onClick={multiSelect=!multiSelect;checkedTags=emptySet()},modifier=Modifier.testTag("select-saved-tags")){
+            TextButton(onClick={multiSelect=!multiSelect;checkedTags=emptyList()},modifier=Modifier.testTag("select-saved-tags")){
                 Text(if(multiSelect)text(R.string.ui_cancel) else text(R.string.ui_compose_query))
             }
             Box{ActionIcon(R.drawable.ic_more,text(R.string.ui_sort_tags),{sorting=true},Modifier.testTag("sort-tags"))
@@ -52,7 +52,7 @@ import java.time.format.*
         OutlinedTextField(query,{query=it},label={Text(text(R.string.ui_find_tags_notes))},singleLine=true,modifier=Modifier.fillMaxWidth().padding(horizontal=12.dp).testTag("saved-tags-search"))
         if(multiSelect) Row(Modifier.fillMaxWidth().padding(horizontal=12.dp),verticalAlignment=Alignment.CenterVertically){
             Text(checkedTags.size.toString(),modifier=Modifier.weight(1f),style=MaterialTheme.typography.labelLarge)
-            TextButton(enabled=checkedTags.isNotEmpty(),onClick={checkedTags=emptySet()}){Text(text(R.string.ui_clear))}
+            TextButton(enabled=checkedTags.isNotEmpty(),onClick={checkedTags=emptyList()}){Text(text(R.string.ui_clear))}
             Button(enabled=checkedTags.isNotEmpty(),onClick={search(checkedTags.sorted().joinToString(" "))},modifier=Modifier.testTag("saved-tags-and-search")){
                 Text(text(R.string.ui_search))
             }
