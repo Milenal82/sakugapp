@@ -28,7 +28,7 @@ import com.sakugapp.data.*
         if(account==null){Column(Modifier.padding(12.dp)){Text(text(R.string.ui_favorites_login));OutlinedButton(onClick=login){Text(text(R.string.ui_account_login))}}}
         else{
             FlowRow(Modifier.padding(horizontal=12.dp),horizontalArrangement=Arrangement.spacedBy(8.dp)){for(rank in 0..3)SearchToolTile(R.drawable.ic_star,if(rank==0)text(R.string.ui_all_votes)else"★".repeat(rank),{model.grade(rank)},Modifier.testTag("favorites-$rank"),selected=grade==rank)}
-            LazyVerticalGrid(GridCells.Fixed(settings.columns),state=grid,contentPadding=PaddingValues(12.dp),horizontalArrangement=Arrangement.spacedBy(6.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
+            LazyVerticalGrid(GridCells.Fixed(settings.columns),state=grid,contentPadding=PaddingValues(12.dp),horizontalArrangement=Arrangement.spacedBy(settings.cardSpacing.coerceIn(0f,10f).dp),verticalArrangement=Arrangement.spacedBy(settings.cardSpacing.coerceIn(0f,10f).dp)){
                 item(span={GridItemSpan(maxLineSpan)}){Column{
                     Text(text(R.string.ui_favorites_levels),style=MaterialTheme.typography.bodySmall)
                     OutlinedButton(enabled=!state.loading && !state.refreshing,onClick={model.load(true)}){Text(text(R.string.ui_sample_refresh))}
