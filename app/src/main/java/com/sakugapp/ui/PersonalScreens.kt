@@ -32,6 +32,7 @@ import java.time.format.*
     val tags by app.savedTags.collectAsStateWithLifecycle();val notes by app.tagNotes.collectAsStateWithLifecycle()
     var query by rememberSaveable{mutableStateOf("")};var sort by rememberSaveable{mutableIntStateOf(0)}
     var sorting by remember{mutableStateOf(false)};var selected by remember{mutableStateOf<Tag?>(null)}
+    var combined by remember{mutableStateOf(false)}
     var multiSelect by rememberSaveable{mutableStateOf(false)}
     var checkedTags by rememberSaveable{mutableStateOf(listOf<String>())}
     val failure by app.personalError.collectAsStateWithLifecycle();val context=LocalContext.current
@@ -53,6 +54,9 @@ import java.time.format.*
         if(multiSelect) Row(Modifier.fillMaxWidth().padding(horizontal=12.dp),verticalAlignment=Alignment.CenterVertically){
             Text(checkedTags.size.toString(),modifier=Modifier.weight(1f),style=MaterialTheme.typography.labelLarge)
             TextButton(enabled=checkedTags.isNotEmpty(),onClick={checkedTags=emptyList()}){Text(text(R.string.ui_clear))}
+            TextButton(enabled=checkedTags.isNotEmpty(),onClick={combined=true},modifier=Modifier.testTag("saved-tags-advanced")){
+                Text(text(R.string.ui_search_tools))
+            }
             Button(enabled=checkedTags.isNotEmpty(),onClick={search(checkedTags.sorted().joinToString(" "))},modifier=Modifier.testTag("saved-tags-and-search")){
                 Text(text(R.string.ui_search))
             }
@@ -78,6 +82,7 @@ import java.time.format.*
             }
         }
     }
+    if(combined)SearchDialog(checkedTags.sorted().joinToString(" "),app.suggestions,light,{value->combined=false;search(value)},{combined=false})
     selected?.let{TagActionsDialog(it,app){selected=null}}
 }
 
