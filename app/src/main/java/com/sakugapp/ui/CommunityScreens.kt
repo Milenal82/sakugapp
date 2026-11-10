@@ -56,7 +56,7 @@ fun AccountScreen(model:AppViewModel,openSite:(String)->Unit) {
 }
 
 @Composable
-fun VoteControl(post:Post,model:AppViewModel,onScore:(Int?)->Unit,onLogin:()->Unit){
+fun VoteControl(post:Post,model:AppViewModel,onScore:(Int?)->Unit,onLogin:()->Unit,compact:Boolean=false){
     val account by model.account.collectAsStateWithLifecycle()
     val voteLabel=text(R.string.ui_vote)
     val vote=remember(post.id){model.postVote(post.id)}
@@ -71,9 +71,15 @@ fun VoteControl(post:Post,model:AppViewModel,onScore:(Int?)->Unit,onLogin:()->Un
                 },modifier=Modifier.testTag("vote-$value").semantics{contentDescription="$voteLabel $value"},onClick={expanded=false;vote.choose(value){score->model.voteRevision.value++;onScore(score)}})
             }
         }
-        if(vote.busy)LinearProgressIndicator(Modifier.width(48.dp))
-        vote.error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error);TextButton(onClick=vote::refresh){Text(text(R.string.ui_reload_vote))}}
-        if(vote.confirmed)Text(text(R.string.ui_vote_confirmed_by_the_server),style=MaterialTheme.typography.bodySmall)
+        if(!compact){
+            if(vote.busy)LinearProgressIndicator(Modifier.width(48.dp))
+            vote.error?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error);TextButton(onClick=vote::refresh){Text(text(R.string.ui_reload_vote))}}
+            if(vote.confirmed)Text(text(R.string.ui_vote_confirmed_by_the_server),style=MaterialTheme.typography.bodySmall)
+        }else{
+            vote.error?.let{failure->AlertDialog(onDismissRequest=vote::refresh,title={Text(text(R.string.ui_vote))},
+                text={Text(translateMessage(failure))},
+                confirmButton={TextButton(onClick=vote::refresh){Text(text(R.string.ui_reload_vote))}})}
+        }
     }
 }
 
