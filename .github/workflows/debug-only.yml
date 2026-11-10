@@ -1,7 +1,7 @@
 name: Compact controls, topics and quiz Debug only
 on:
   push:
-    branches: [dev/compact-explore-quiz]
+    branches: [dev/compact-explore-quiz, dev/v130-rebuild-ui-search]
   workflow_dispatch:
 permissions:
   contents: read
