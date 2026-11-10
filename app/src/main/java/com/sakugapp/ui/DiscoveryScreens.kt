@@ -95,7 +95,7 @@ import kotlinx.coroutines.*
     val posts=remember(state.groups[key],scoreChanges,facts.durations){state.groups[key].orEmpty().map{p->p.copy(score=scoreChanges[p.id] ?: p.score,durationMs=facts.durations[p.fileUrl] ?: p.durationMs)}}
     val visible by remember(grid){derivedStateOf{grid.layoutInfo.visibleItemsInfo.mapNotNull{it.key as? Long}.toSet()}}
     LaunchedEffect(visible,isActive){if(!isActive || preview !in visible)preview=null}
-    LazyVerticalGrid(GridCells.Fixed(settings.columns),state=grid,modifier=Modifier.fillMaxSize().testTag("episode-posts"),contentPadding=PaddingValues(12.dp),horizontalArrangement=Arrangement.spacedBy(6.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
+    LazyVerticalGrid(GridCells.Fixed(settings.columns),state=grid,modifier=Modifier.fillMaxSize().testTag("episode-posts"),contentPadding=PaddingValues(12.dp),horizontalArrangement=Arrangement.spacedBy(settings.cardSpacing.coerceIn(0f,10f).dp),verticalArrangement=Arrangement.spacedBy(settings.cardSpacing.coerceIn(0f,10f).dp)){
         item(span={GridItemSpan(maxLineSpan)}){Column{
             Text("$tag · ${episodeLabel(key)}",style=MaterialTheme.typography.titleMedium)
             Text(text(R.string.ui_source_sampling_note),style=MaterialTheme.typography.bodySmall)
