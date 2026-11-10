@@ -93,6 +93,9 @@ import kotlinx.coroutines.*
     LaunchedEffect(tag){model.select(tag,TagCategory.COPYRIGHT)};LifecycleEventEffect(Lifecycle.Event.ON_STOP){model.cancel();preview=null}
     val scoreChanges by app.scoreChanges.collectAsStateWithLifecycle();val facts by app.library.collectAsStateWithLifecycle()
     val posts=remember(state.groups[key],scoreChanges,facts.durations){state.groups[key].orEmpty().map{p->p.copy(score=scoreChanges[p.id] ?: p.score,durationMs=facts.durations[p.fileUrl] ?: p.durationMs)}}
+    var chosenArtist by rememberSaveable(tag,key){mutableStateOf<String?>(null)}
+    val artists=remember(posts){posts.flatMap{post->post.tags.distinctBy{it.name}.filter{it.category==TagCategory.ARTIST && it.name!="artist_unknown"}}.groupingBy{it.name}.eachCount().toList().sortedWith(compareByDescending<Pair<String,Int>>{it.second}.thenBy{it.first}).take(20)}
+    val displayPosts=remember(posts,chosenArtist){if(chosenArtist==null)posts else posts.filter{post->post.tags.any{it.name==chosenArtist && it.category==TagCategory.ARTIST}}}
     val visible by remember(grid){derivedStateOf{grid.layoutInfo.visibleItemsInfo.mapNotNull{it.key as? Long}.toSet()}}
     LaunchedEffect(visible,isActive){if(!isActive || preview !in visible)preview=null}
     LazyVerticalGrid(GridCells.Fixed(settings.columns),state=grid,modifier=Modifier.fillMaxSize().testTag("episode-posts"),contentPadding=PaddingValues(12.dp),horizontalArrangement=Arrangement.spacedBy(settings.cardSpacing.coerceIn(0f,10f).dp),verticalArrangement=Arrangement.spacedBy(settings.cardSpacing.coerceIn(0f,10f).dp)){
@@ -101,7 +104,16 @@ import kotlinx.coroutines.*
             Text(text(R.string.ui_source_sampling_note),style=MaterialTheme.typography.bodySmall)
             if(posts.isEmpty() && !state.loading)Text(text(R.string.ui_episode_not_found))
             SampleFooter(state,model,tag,TagCategory.COPYRIGHT)
+            if(artists.isNotEmpty()){
+                Text(text(R.string.ui_common_artists),style=MaterialTheme.typography.titleSmall)
+                FlowRow(horizontalArrangement=Arrangement.spacedBy(6.dp),verticalArrangement=Arrangement.spacedBy(4.dp)){
+                    artists.forEach{(artist,count)->
+                        FilterChip(selected=chosenArtist==artist,onClick={chosenArtist=if(chosenArtist==artist)null else artist},
+                            label={Text("$artist ($count)")})
+                    }
+                }
+            }
         }}
-        items(posts,key={it.id}){post->PostCard(post,settings,false,isActive && preview==post.id,{preview=null;open(post,posts)},search,{preview=if(preview==post.id)null else post.id},{app.duration(post.fileUrl.orEmpty(),it)})}
+        items(displayPosts,key={it.id}){post->PostCard(post,settings,false,isActive && preview==post.id,{preview=null;open(post,posts)},search,{preview=if(preview==post.id)null else post.id},{app.duration(post.fileUrl.orEmpty(),it)})}
     }
 }
