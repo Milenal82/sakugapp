@@ -32,6 +32,8 @@ import java.time.format.*
     val tags by app.savedTags.collectAsStateWithLifecycle();val notes by app.tagNotes.collectAsStateWithLifecycle()
     var query by rememberSaveable{mutableStateOf("")};var sort by rememberSaveable{mutableIntStateOf(0)}
     var sorting by remember{mutableStateOf(false)};var selected by remember{mutableStateOf<Tag?>(null)}
+    var multiSelect by rememberSaveable{mutableStateOf(false)}
+    var checkedTags by rememberSaveable{mutableStateOf(setOf<String>())}
     val failure by app.personalError.collectAsStateWithLifecycle();val context=LocalContext.current
     val list=rememberLazyListState();val byName=remember(notes){notes.associate{it.name to it.note}}
     val shown=remember(tags,notes,query,sort){PersonalRules.searchable(tags,notes,query,sort)}
@@ -40,11 +42,21 @@ import java.time.format.*
         Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically){
             ActionIcon(R.drawable.ic_back,text(R.string.ui_back_to_app),back)
             Text(text(R.string.ui_tag_favorites),style=MaterialTheme.typography.titleLarge,modifier=Modifier.weight(1f))
+            TextButton(onClick={multiSelect=!multiSelect;checkedTags=emptySet()},modifier=Modifier.testTag("select-saved-tags")){
+                Text(if(multiSelect)text(R.string.ui_cancel) else text(R.string.ui_compose_query))
+            }
             Box{ActionIcon(R.drawable.ic_more,text(R.string.ui_sort_tags),{sorting=true},Modifier.testTag("sort-tags"))
                 TileMenu(sorting,{sorting=false}){listOf(R.string.ui_tags_recent,R.string.ui_tags_name,R.string.ui_tags_oldest).forEachIndexed{i,label->AppMenuItem(icon=R.drawable.ic_drag,selected=sort==i,text={Text(text(label))},onClick={sort=i;sorting=false})}}
             }
         }
         OutlinedTextField(query,{query=it},label={Text(text(R.string.ui_find_tags_notes))},singleLine=true,modifier=Modifier.fillMaxWidth().padding(horizontal=12.dp).testTag("saved-tags-search"))
+        if(multiSelect) Row(Modifier.fillMaxWidth().padding(horizontal=12.dp),verticalAlignment=Alignment.CenterVertically){
+            Text(checkedTags.size.toString(),modifier=Modifier.weight(1f),style=MaterialTheme.typography.labelLarge)
+            TextButton(enabled=checkedTags.isNotEmpty(),onClick={checkedTags=emptySet()}){Text(text(R.string.ui_clear))}
+            Button(enabled=checkedTags.isNotEmpty(),onClick={search(checkedTags.sorted().joinToString(" "))},modifier=Modifier.testTag("saved-tags-and-search")){
+                Text(text(R.string.ui_search))
+            }
+        }
         failure?.let{Text(libraryError(context,it),color=MaterialTheme.colorScheme.error)}
         if(tags.isEmpty())Text(text(R.string.ui_tag_favorites_empty),Modifier.padding(16.dp))
         else if(shown.isEmpty())Text(text(R.string.ui_no_results),Modifier.padding(16.dp))
@@ -52,7 +64,12 @@ import java.time.format.*
             items(shown,key={it.name}){entry->
                 val tag=Tag(entry.name,PersonalRules.category(entry.category))
                 Row(Modifier.fillMaxWidth().padding(vertical=6.dp),verticalAlignment=Alignment.CenterVertically){
-                    Column(Modifier.weight(1f).clickable{search(tag.name)}.padding(8.dp).testTag("saved-tag-${tag.name}")){
+                    if(multiSelect)Checkbox(checked=tag.name in checkedTags,onCheckedChange={enabled->
+                        checkedTags=if(enabled)checkedTags+tag.name else checkedTags-tag.name
+                    },modifier=Modifier.testTag("multi-select-${tag.name}"))
+                    Column(Modifier.weight(1f).clickable{
+                        if(multiSelect)checkedTags=if(tag.name in checkedTags)checkedTags-tag.name else checkedTags+tag.name else search(tag.name)
+                    }.padding(8.dp).testTag("saved-tag-${tag.name}")){
                         Text(tag.name,color=tagColor(tag,light) ?: MaterialTheme.colorScheme.onSurface,maxLines=2,overflow=TextOverflow.Ellipsis)
                         byName[tag.name]?.let{Text(it,style=MaterialTheme.typography.bodySmall,color=MaterialTheme.colorScheme.onSurfaceVariant,maxLines=2,overflow=TextOverflow.Ellipsis)}
                     }
