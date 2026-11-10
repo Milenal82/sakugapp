@@ -159,6 +159,11 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
                 val stats:DiscoveryViewModel=viewModel(factory=object:androidx.lifecycle.ViewModelProvider.Factory{override fun <T:androidx.lifecycle.ViewModel> create(cls:Class<T>):T { @Suppress("UNCHECKED_CAST") return DiscoveryViewModel(app.discovery) as T }})
                 ArtistStatsScreen(app.discovery,stats,::search)
             }
+            composable("artist_stats/{artistTag}"){back->
+                val artist=back.arguments?.getString("artistTag").orEmpty()
+                val stats:DiscoveryViewModel=viewModel(factory=object:androidx.lifecycle.ViewModelProvider.Factory{override fun <T:androidx.lifecycle.ViewModel> create(cls:Class<T>):T { @Suppress("UNCHECKED_CAST") return DiscoveryViewModel(app.discovery) as T }})
+                ArtistStatsScreen(app.discovery,stats,::search,initialTag=artist)
+            }
             composable("show_browser"){ShowBrowserScreen(app.discovery){go("show_detail/"+android.net.Uri.encode(it))}}
             composable("show_detail/{showTag}"){back->
                 val tag=back.arguments?.getString("showTag").orEmpty()
@@ -196,7 +201,7 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
                             nav.navigate("post/${next.id}"){popUpTo(entry!!.destination.id){inclusive=true};launchSingleTop=true}
                             true
                         }
-                    })}
+                    },artistStats={artist->go("artist_stats/"+android.net.Uri.encode(artist))})}
 
                 else Column(Modifier.padding(16.dp)){if(detailError==null)CircularProgressIndicator()else{Text(translateMessage(detailError.orEmpty()),color=MaterialTheme.colorScheme.error);TextButton(onClick={id?.let(model::openId)}){Text(text(R.string.ui_retry))}}}
             }}
@@ -444,7 +449,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
     }
 }
 
-@Composable internal fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,localSnapshot:Boolean,search:(String)->Unit,wiki:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit,onDuration:(Long)->Unit,hasPrevious:Boolean,hasNext:Boolean,onNavigate:(Int)->Boolean){
+@Composable internal fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,localSnapshot:Boolean,search:(String)->Unit,wiki:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit,onDuration:(Long)->Unit,hasPrevious:Boolean,hasNext:Boolean,onNavigate:(Int)->Boolean,artistStats:(String)->Unit={}){
     val uri=LocalUriHandler.current;val context=LocalContext.current;var linkError by remember{mutableStateOf(false)}
     val playback by produceState<Pair<Boolean,String?>>(false to null,post.id){value=true to withContext(Dispatchers.IO){app.offlineUri(post)?.toString() ?: post.fileUrl}}
     val playbackUrl=playback.second
@@ -473,7 +478,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
         }
         PostMetadata(post,settings.lightTheme,openPost={linkError=runCatching{uri.openUri(post.pageUrl)}.isFailure}){url->linkError=runCatching{uri.openUri(url)}.isFailure}
         if(linkError)Text(text(R.string.ui_no_browser_available))
-        DetailTags(post.tags,settings.lightTheme,search,wiki)
+        DetailTags(post.tags,settings.lightTheme,search,wiki,artistStats)
         CommentsPanel(post,app,login){time->seek=time to ((seek?.second ?: 0)+1)}
     }}
 }
