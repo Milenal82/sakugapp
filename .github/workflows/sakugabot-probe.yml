@@ -54,6 +54,7 @@ jobs:
           cp /tmp/ci-evidence/* .
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add report.json '*.png'
+          git add report.json
+          git add -- '*.png' 2>/dev/null || true
           git commit -m 'Record bounded checks for Sakugabot development' || true
           git push origin HEAD:refs/heads/evidence/sakugabot-ci
