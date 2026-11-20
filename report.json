@@ -1,8 +1,8 @@
 {
-  "source_commit": "fad1c618c891ff13da8878ecf797990e85366c9f",
-  "run_id": "44710507211",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507211",
-  "captured_utc": "2026-11-20T09:30:51.987199+00:00",
+  "source_commit": "5f5f672edfe9db37293a68e7af3272f527119e82",
+  "run_id": "44733309665",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309665",
+  "captured_utc": "2026-11-20T12:14:52.227085+00:00",
   "validation_result": "success",
   "scope": "Fixed legacy preference policy, full light/dark pink/mint palettes, menus, short playback sanity and layout scrolling.",
   "jobs": [
@@ -10,39 +10,39 @@
       "name": "scroll-profile",
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507211/job/136200688399",
-      "id": 136200688399
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309665/job/136278284587",
+      "id": 136278284587
     },
     {
       "name": "validation",
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507211/job/136200688650",
-      "id": 136200688650
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309665/job/136278284929",
+      "id": 136278284929
     },
     {
       "name": "evidence",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507211/job/136203485832",
-      "id": 136203485832
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309665/job/136281193551",
+      "id": 136281193551
     }
   ],
   "artifacts": [
     {
       "name": "post-scroll-profile",
-      "bytes": 1255,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507211/artifacts/14617352734"
+      "bytes": 1250,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309665/artifacts/14628110924"
     },
     {
       "name": "maintenance-test-reports",
-      "bytes": 627577,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507211/artifacts/14616773508"
+      "bytes": 629566,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309665/artifacts/14627911906"
     },
     {
       "name": "maintenance-debug-apk",
-      "bytes": 18911844,
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507211/artifacts/14616479123"
+      "bytes": 18930956,
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309665/artifacts/14627637327"
     }
   ],
   "test_counts": {
@@ -71,200 +71,229 @@
     "scroll-current.json": {
       "label": "current",
       "scope": "API 28 Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; not a real-device/network benchmark",
-      "frames": 420,
-      "mean_ms": 10.482944299999993,
-      "p50_ms": 8.801827,
-      "p95_ms": 20.718361,
-      "max_ms": 85.938191,
-      "over_34ms": 5,
+      "frames": 422,
+      "mean_ms": 15.592057936018964,
+      "p50_ms": 9.729378,
+      "p95_ms": 37.451137,
+      "max_ms": 79.905677,
+      "over_34ms": 40,
       "over_700ms": 0,
       "components": {
         "total": {
-          "mean_ms": 10.482944299999993,
-          "p95_ms": 20.718361
+          "mean_ms": 15.592057936018964,
+          "p95_ms": 37.451137
         },
         "layout": {
-          "mean_ms": 0.0586559857142857,
-          "p95_ms": 0.110037
+          "mean_ms": 0.05122297630331753,
+          "p95_ms": 0.07157
         },
         "draw": {
-          "mean_ms": 0.3886327238095238,
-          "p95_ms": 1.523801
+          "mean_ms": 0.3614476682464457,
+          "p95_ms": 1.507062
         },
         "animation": {
-          "mean_ms": 0.6798277357142862,
-          "p95_ms": 2.223766
+          "mean_ms": 0.7434083909952608,
+          "p95_ms": 2.706717
         },
         "input": {
-          "mean_ms": 0.41594552380952393,
-          "p95_ms": 0.883732
+          "mean_ms": 0.3973834360189573,
+          "p95_ms": 0.96157
         },
         "sync": {
-          "mean_ms": 0.06495463095238098,
-          "p95_ms": 0.12155
+          "mean_ms": 0.046395258293838844,
+          "p95_ms": 0.188081
         },
         "commands": {
-          "mean_ms": 0.6267891166666665,
-          "p95_ms": 1.516172
+          "mean_ms": 0.5781253767772511,
+          "p95_ms": 1.132359
         },
         "swap": {
-          "mean_ms": 7.1414494071428605,
-          "p95_ms": 16.45869
+          "mean_ms": 10.240671658767772,
+          "p95_ms": 17.257717
         }
       }
     },
     "scroll-baseline.json": {
       "label": "baseline",
       "scope": "API 28 Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; not a real-device/network benchmark",
-      "frames": 381,
-      "mean_ms": 164.6789882414698,
-      "p50_ms": 166.833115,
-      "p95_ms": 189.631371,
-      "max_ms": 212.670994,
-      "over_34ms": 381,
+      "frames": 383,
+      "mean_ms": 149.21736698172327,
+      "p50_ms": 151.140723,
+      "p95_ms": 169.995862,
+      "max_ms": 199.024999,
+      "over_34ms": 383,
       "over_700ms": 0,
       "components": {
         "total": {
-          "mean_ms": 164.6789882414698,
-          "p95_ms": 189.631371
+          "mean_ms": 149.21736698172327,
+          "p95_ms": 169.995862
         },
         "layout": {
-          "mean_ms": 0.19831365091863515,
-          "p95_ms": 0.260249
+          "mean_ms": 0.29599511749347246,
+          "p95_ms": 0.9798
         },
         "draw": {
-          "mean_ms": 1.824285732283464,
-          "p95_ms": 7.289322
+          "mean_ms": 1.9591599738903396,
+          "p95_ms": 8.15534
         },
         "animation": {
-          "mean_ms": 6.9006898766404206,
-          "p95_ms": 29.610929
+          "mean_ms": 7.13605689295039,
+          "p95_ms": 28.95971
         },
         "input": {
-          "mean_ms": 1.1217471994750658,
-          "p95_ms": 4.264927
+          "mean_ms": 1.5040323498694514,
+          "p95_ms": 4.8608
         },
         "sync": {
-          "mean_ms": 0.2668085853018373,
-          "p95_ms": 0.515069
+          "mean_ms": 0.22171853785900786,
+          "p95_ms": 0.34602
         },
         "commands": {
-          "mean_ms": 1.2675657322834644,
-          "p95_ms": 3.801797
+          "mean_ms": 1.416533864229765,
+          "p95_ms": 4.48626
         },
         "swap": {
-          "mean_ms": 59.220623916010474,
-          "p95_ms": 69.812683
+          "mean_ms": 54.87821211488247,
+          "p95_ms": 65.75959
         }
       }
     }
   },
   "main_automatic_checks": {
-    "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507353",
-    "source_commit": "fad1c618c891ff13da8878ecf797990e85366c9f",
+    "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493",
+    "source_commit": "5f5f672edfe9db37293a68e7af3272f527119e82",
     "status": "in_progress",
     "conclusion": null,
     "jobs": [
       {
-        "name": "device-tests",
-        "status": "in_progress",
-        "conclusion": null,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507353/job/136200688471",
-        "id": 136200688471
+        "name": "search-back-gestures",
+        "status": "completed",
+        "conclusion": "failure",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278284564",
+        "id": 136278284564
       },
       {
         "name": "six-column-display (phone, Nexus S)",
         "status": "completed",
         "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507353/job/136200688768",
-        "id": 136200688768
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278284791",
+        "id": 136278284791
       },
       {
         "name": "build",
         "status": "in_progress",
         "conclusion": null,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507353/job/136200688829",
-        "id": 136200688829
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278284909",
+        "id": 136278284909
+      },
+      {
+        "name": "device-tests",
+        "status": "in_progress",
+        "conclusion": null,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278284912",
+        "id": 136278284912
       },
       {
         "name": "six-column-display (landscape, pixel_c)",
         "status": "completed",
         "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507353/job/136200689015",
-        "id": 136200689015
-      },
-      {
-        "name": "search-back-gestures",
-        "status": "completed",
-        "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507353/job/136200689042",
-        "id": 136200689042
-      },
-      {
-        "name": "documentation-screenshots",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507353/job/136200690422",
-        "id": 136200690422
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278285047",
+        "id": 136278285047
       },
       {
         "name": "signed-candidate",
         "status": "completed",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507353/job/136200690827",
-        "id": 136200690827
-      },
-      {
-        "name": "release-preflight",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507353/job/136200690833",
-        "id": 136200690833
-      },
-      {
-        "name": "candidate-evidence",
-        "status": "completed",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507353/job/136200690937",
-        "id": 136200690937
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278286068",
+        "id": 136278286068
       },
       {
         "name": "candidate-upgrade-install",
         "status": "completed",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507353/job/136200690948",
-        "id": 136200690948
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278286308",
+        "id": 136278286308
+      },
+      {
+        "name": "documentation-screenshots",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278286710",
+        "id": 136278286710
       },
       {
         "name": "release-signing",
         "status": "completed",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507353/job/136200691679",
-        "id": 136200691679
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278286813",
+        "id": 136278286813
+      },
+      {
+        "name": "candidate-evidence",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278287133",
+        "id": 136278287133
+      },
+      {
+        "name": "release-preflight",
+        "status": "completed",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278287331",
+        "id": 136278287331
       }
     ],
     "artifacts": [
       {
-        "name": "six-column-phone-reports",
-        "bytes": 206984,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507353/artifacts/14617855563"
-      },
-      {
-        "name": "six-column-landscape-reports",
-        "bytes": 2441413,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507353/artifacts/14617581890"
+        "name": "check-reports",
+        "bytes": 233744,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/artifacts/14628046446"
       },
       {
         "name": "search-back-gesture-reports",
-        "bytes": 1518238,
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44710507353/artifacts/14616913103"
+        "bytes": 1113627,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/artifacts/14627886627"
+      },
+      {
+        "name": "sakugapp-debug",
+        "bytes": 18930958,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/artifacts/14627841844"
+      },
+      {
+        "name": "sakugapp-source",
+        "bytes": 2821525,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/artifacts/14627717397"
+      },
+      {
+        "name": "six-column-landscape-reports",
+        "bytes": 2554149,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/artifacts/14627327664"
+      },
+      {
+        "name": "six-column-phone-reports",
+        "bytes": 126233,
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/artifacts/14626564778"
       }
     ],
     "test_counts": {
-      "six-column-phone-reports": {
+      "check-reports": {
+        "debug_unit": {
+          "tests": 230,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        "release_unit": {
+          "tests": 230,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      },
+      "search-back-gesture-reports": {
         "device": {
           "tests": 2,
-          "failures": 0,
+          "failures": 1,
           "errors": 0,
           "skipped": 0
         }
@@ -277,7 +306,7 @@
           "skipped": 0
         }
       },
-      "search-back-gesture-reports": {
+      "six-column-phone-reports": {
         "device": {
           "tests": 2,
           "failures": 0,
@@ -286,7 +315,27 @@
         }
       }
     },
-    "lint": {},
-    "failures": []
+    "lint": {
+      "check-reports/reports/lint-results-debug.xml": {
+        "errors": 0,
+        "warnings": 74
+      },
+      "check-reports/reports/lint-results-release.xml": {
+        "errors": 0,
+        "warnings": 77
+      }
+    },
+    "failures": [
+      {
+        "job": "search-back-gestures",
+        "conclusion": "failure",
+        "message": "2026-11-20T12:13:35.8174920Z com.sakugapp.SearchNavigationDeviceTest > combinedHistoryOnlyFillsDraftAndBackRestoresTheOriginalResultAndBrowseLists[emulator-5554 - 15] FAILED \n2026-11-20T12:13:35.8176382Z \tjava.lang.AssertionError: Failed: assertDoesNotExist.\n2026-11-20T12:14:02.0124632Z > Task :app:connectedDebugAndroidTest FAILED\n2026-11-20T12:14:02.1140601Z * What went wrong:\n2026-11-20T12:14:02.1210915Z BUILD FAILED in 3m 39s\n2026-11-20T12:14:02.7149906Z ##[error]The process '/usr/bin/sh' failed with exit code 1"
+      },
+      {
+        "test": "com.sakugapp.SearchNavigationDeviceTest.combinedHistoryOnlyFillsDraftAndBackRestoresTheOriginalResultAndBrowseLists",
+        "report": "search-back-gesture-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 15-_app-.xml",
+        "message": "java.lang.AssertionError: Failed: assertDoesNotExist.\nReason: Did not expect any node but found '1' node that satisfies: (TestTag = 'query-expression')\nNode found:\nNode #1150 at (l=96.0, t=633.0, r=984.0, b=864.0)px, Tag: 'query-expression'\nContentDataType = 'AndroidContentDataType(androidAutofillType=1)'\nEditableText = 'id:322328'\nFocused = 'false'\nImeAction = 'Default'\nInputText = 'id:322328'\nIsEditable = 'true'\nText = '[Query]'\nTextSelectionRange = 'TextRange(9, 9)'\nActions = [ClearTextSubstitution, GetTextLayoutResult, InsertTextAtCursor, OnAutofillText, OnClick, OnLongClick, PasteText, PerformImeAction, RequestFocus, SetSelection, SetText, SetTextSubstitution, ShowTextSubstitution]\nMergeDescendants = 'true'\nHas 6 siblings\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.assertDoesNotExist(SemanticsNodeInteraction.kt:101)\nat com.sakugapp.SearchNavigationDeviceTest.combinedHistoryOnlyFillsDraftAndBackRestoresTheOriginalResultAndBrowseLists(SearchNavigationDeviceTest.kt:79)\n"
+      }
+    ]
   }
 }
