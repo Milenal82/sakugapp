@@ -27,8 +27,9 @@ class SearchNavigationDeviceTest {
     private fun back(){
         if(InstrumentationRegistry.getArguments().getString("gestural")=="true"){
             rightEdge=!rightEdge
-            val w=device.displayWidth;val h=device.displayHeight
-            assertTrue(device.swipe(if(rightEdge)w-1 else 1,h/2,if(rightEdge)w*2/3 else w/3,h/2,24))
+            val w=device.displayWidth;val y=device.displayHeight/4
+            // Match the real-clock IME check: start above the keyboard's gesture area.
+            assertTrue(device.swipe(if(rightEdge)w-1 else 1,y,if(rightEdge)w*2/3 else w/3,y,24))
         }else device.pressBack()
         ui.waitForIdle()
     }
