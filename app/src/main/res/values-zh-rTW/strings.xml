@@ -487,4 +487,6 @@
     <string name="ui_queue_progress">%1$d / %2$d · %3$s</string>
     <string name="ui_queue_empty">暫無下載任務</string>
     <string name="ui_queue_start_error">無法啟動背景下載，請重新開啟應用程式再試。</string>
+    <string name="ui_chinese_detail_translation">中文標籤翻譯</string>
+    <string name="ui_chinese_detail_translation_source">詳情頁的作品、原畫及可確認的來源名稱由 Sakugabot 提供。翻譯可能不完整，始終保留原文。</string>
 </resources>

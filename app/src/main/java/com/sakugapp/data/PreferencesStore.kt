@@ -21,7 +21,7 @@ data class AppSettings(
     val columns: Int = 2, val themeMode:String = "system", val cardSpacing:Float = 8f,
     val librarySort:Int = 0,val gestures:Boolean = true, val showOtherTags:Boolean = true,
     val fontScale:Float = 1f, val tagVerticalSpacing:Float = 16f,
-    val accent:String = "default",
+    val accent:String = "default", val chineseDetailTranslations:Boolean = false,
 )
 
 object PreferenceRules {
@@ -59,7 +59,8 @@ object PreferenceRules {
     }
 }
 
-class PreferencesStore(context: Context,private val store:DataStore<Preferences> = context.applicationContext.preferences) {
+class PreferencesStore(private val store:DataStore<Preferences>) {
+    constructor(context:Context,store:DataStore<Preferences> = context.applicationContext.preferences):this(store)
     private val data = store.data.catch { if (it is IOException) emit(emptyPreferences()) else throw it }
     private fun Preferences.flag(key: String, default: Boolean) = this[booleanPreferencesKey(key)] ?: default
     val settings: Flow<AppSettings> = data.map { p ->
@@ -77,7 +78,8 @@ class PreferencesStore(context: Context,private val store:DataStore<Preferences>
             librarySort=(p[intPreferencesKey("librarySort")] ?: 0).coerceIn(0,3),showOtherTags=p.flag("otherTags",true),
             fontScale=p[floatPreferencesKey("fontScale")]?.takeIf{it.isFinite() && it in 0.75f..1.25f} ?: 1f,
             tagVerticalSpacing=p[floatPreferencesKey("tagVerticalSpacing")]?.takeIf{it.isFinite() && it in 0f..20f} ?: 16f,
-            accent=PreferenceRules.palette(p[stringPreferencesKey("accent")]))
+            accent=PreferenceRules.palette(p[stringPreferencesKey("accent")]),
+            chineseDetailTranslations=p.flag("sakugabotDetailTranslations",false))
     }
     val quiz:Flow<QuizSettings> = data.map{p->QuizSettings((p[intPreferencesKey("quiz_count")] ?: 20).takeIf{it in QuizSettings.counts} ?: 20,p[booleanPreferencesKey("quiz_custom")] ?: false,p[stringPreferencesKey("quiz_pool")]?.split('\n').orEmpty().filter{LibraryCodec.tagName(it)}.distinct().take(QuizSettings.MAX_WORKS))}
     suspend fun quizWork(value:String){require(LibraryCodec.tagName(value));store.edit{p->val previous=p[stringPreferencesKey("quiz_pool")]?.split('\n').orEmpty().filter{LibraryCodec.tagName(it)};p[stringPreferencesKey("quiz_pool")]=QuizPoolRules.add(previous,value).joinToString("\n")}}
@@ -97,6 +99,7 @@ class PreferencesStore(context: Context,private val store:DataStore<Preferences>
         p[stringPreferencesKey("accent")]=PreferenceRules.palette(p[stringPreferencesKey("accent")])
     }}
     suspend fun recordAppliedLocale(value:String){store.edit{it[stringPreferencesKey("locale_last_applied")]=value}}
+    suspend fun chineseDetailTranslations(enabled:Boolean){store.edit{it[booleanPreferencesKey("sakugabotDetailTranslations")]=enabled}}
     suspend fun remember(query: String) { store.edit { p ->
         val previous=p[stringPreferencesKey("history")]?.split('\n').orEmpty()
         p[stringPreferencesKey("history")] = PreferenceRules.history(previous,query.replace('\n',' ')).joinToString("\n")

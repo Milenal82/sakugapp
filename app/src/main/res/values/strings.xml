@@ -499,4 +499,6 @@
     <string name="ui_queue_progress">%1$d / %2$d · %3$s</string>
     <string name="ui_queue_empty">No download tasks</string>
     <string name="ui_queue_start_error">Cannot start background downloads. Reopen the app and retry.</string>
+    <string name="ui_chinese_detail_translation">Chinese tag translation</string>
+    <string name="ui_chinese_detail_translation_source">Sakugabot names for work, artist and verified source mappings in post details. Coverage is incomplete; original text stays visible.</string>
 </resources>

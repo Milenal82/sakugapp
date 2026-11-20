@@ -1,0 +1,30 @@
+{
+  "name": "yutaka_nakamura",
+  "type": 1,
+  "detail": [
+    {
+      "attribute": {
+        "code": "name_main"
+      },
+      "value": "中村豊"
+    },
+    {
+      "attribute": {
+        "code": "name_en"
+      },
+      "value": "Yutaka Nakamura"
+    },
+    {
+      "attribute": {
+        "code": "name_ja"
+      },
+      "value": "中村豊"
+    },
+    {
+      "attribute": {
+        "code": "name_zh"
+      },
+      "value": "中村丰"
+    }
+  ]
+}

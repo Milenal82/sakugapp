@@ -6,6 +6,8 @@
 
 开发分支的 Debug 测试更新：六按钮详情栏、所有列数一致的 0–10 dp 卡片间距、Artist 统计联动及标签收藏多选。集数内 Artist 查询仅使用已加载的集数样本。[检查记录与限制](docs/debug-actions-grid-artist.md)。另见本轮[性能与导航诊断](docs/performance-navigation.md)。
 
+本轮开发版增加默认关闭的 Sakugabot 中文详情名称开关，支持作品、原画及可确认的来源映射；原始标签始终可见，搜索仍使用原文。首页减少重复媒体格式判断。[支持范围与检查](docs/sakugabot-details.md)。
+
 Sakugapp（Sakuga Mobile）是 Sakugabooru 的非官方原生 Android 客户端，使用 Kotlin、Compose 和 Media3，不以 WebView 实现帖子列表。
 
 - 搜索首页、Posts 与个人资料三个主入口；标签联想、组合条件、日期范围、搜索历史及 14 个发现入口。
@@ -24,6 +26,8 @@ Sakugapp（Sakuga Mobile）是 Sakugabooru 的非官方原生 Android 客户端�
 
 Debug development update: six detail actions, consistent 0–10 dp grid spacing at every column count, artist-statistics links and saved-tag multi-selection. Episode artist results are limited to the loaded episode sample. [Checks and limitations](docs/debug-actions-grid-artist.md). See the [performance/navigation investigation](docs/performance-navigation.md).
 
+This development build adds optional Sakugabot Chinese detail names for works, artists and verified source mappings. Original tags remain visible and searches stay unchanged. Post cards avoid repeated media classification. [Scope and checks](docs/sakugabot-details.md).
+
 Sakugapp (Sakuga Mobile) is an unofficial native Android client for Sakugabooru, built with Kotlin, Compose and Media3.
 
 - Search, Posts and Profile navigation; tag suggestions, combined conditions, date ranges, search history and 14 discovery entries.
@@ -41,6 +45,8 @@ Download the official APK from [Releases](https://github.com/Milenal82/sakugapp/
 ## 日本語
 
 開発ブランチの Debug 更新：詳細の6操作、全列数共通の 0–10 dp カード間隔、原画家統計への連携、保存タグの複数選択。話数内の原画家検索は読み込み済みの標本に限定されます。[確認記録と制限](docs/debug-actions-grid-artist.md)。今回の[性能・ナビゲーション調査](docs/performance-navigation.md)も参照してください。
+
+開発版に Sakugabot の中国語名表示を追加しました（初期値はオフ）。詳細の作品・原画家・確認できた出典名が対象で、元タグと検索条件は保持します。カードの動画形式判定の重複も削減しました。[範囲と確認](docs/sakugabot-details.md)。
 
 Sakugapp（Sakuga Mobile）は Kotlin、Compose、Media3 を使用した Sakugabooru 非公式の Android ネイティブクライアントです。
 
@@ -75,4 +81,4 @@ Debug APK: `app/build/outputs/apk/debug/app-debug.apk`. Official signing is rest
 
 ## Limits / 限制 / 制限
 
-Sakugabooru availability, authentication and request limits apply. Missing classifications and Scores are not invented. Sources are free text, so episode grouping can be incomplete; statistics cover sampled posts. Frame stepping distinguishes decoded indices from estimates; A–B playback and re-encoded clip boundaries have decoder/format limits. Offline batches retain the 20-item, 200 MiB/file and 1 GiB protections. History is bounded to 500 entries or 8 MiB. Website tags, comments and Sources remain original. Translations have resource checks, without native-speaker review. See [v1.3.0 verification and limits](docs/v1.3.0.md).
+Sakugabooru availability, authentication and request limits apply. Missing classifications and Scores are not invented. Sources are free text, so episode grouping can be incomplete; statistics cover sampled posts. Frame stepping distinguishes decoded indices from estimates; A–B playback and re-encoded clip boundaries have decoder/format limits. Offline batches retain the 20-item, 200 MiB/file and 1 GiB protections. History is bounded to 500 entries or 8 MiB. Original website tags, comments and Sources are preserved; optional detail names use the verified mappings described above. Translations have resource checks, without native-speaker review. See [v1.3.0 verification and limits](docs/v1.3.0.md).

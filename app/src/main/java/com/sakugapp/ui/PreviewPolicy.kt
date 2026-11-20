@@ -17,6 +17,9 @@ internal data class PreviewSelection(val id:Long?=null,val automatic:Boolean=fal
 }
 
 internal const val AUTO_PREVIEW_SETTLE_MS=450L
+/** With previews off and no manual selection, scrolling need not enumerate visible cards. */
+internal fun needsPreviewViewport(automatic:Boolean,active:Boolean,selection:PreviewSelection)=
+    active && (automatic || selection.id!=null || selection.pausedByUser)
 /** collectLatest cancels this wait on scrolling, navigation, lifecycle or a manual action. */
 internal suspend fun settledPreview(view:PreviewViewport,selection:()->PreviewSelection,posts:()->List<Post>):PreviewSelection? {
     if(!selection().canStart(view))return null

@@ -25,9 +25,11 @@ data class Post(
     val durationMs:Long? = null,
 ) {
     val pageUrl: String get() = "https://www.sakugabooru.com/post/show/$id"
-    val isVideo: Boolean get() = fileUrl != null &&
-        (fileExt ?: runCatching { URI(fileUrl).path.substringAfterLast('.') }.getOrNull())
-            ?.lowercase() in setOf("mp4", "webm", "mkv")
+    val isVideo: Boolean get() {
+        if(fileUrl==null)return false
+        val extension=fileExt ?: runCatching { URI(fileUrl).path?.substringAfterLast('.') }.getOrNull()
+        return extension.equals("mp4",ignoreCase=true) || extension.equals("webm",ignoreCase=true) || extension.equals("mkv",ignoreCase=true)
+    }
     val aspectRatio: Float? get() {
         val w = previewWidth ?: width
         val h = previewHeight ?: height

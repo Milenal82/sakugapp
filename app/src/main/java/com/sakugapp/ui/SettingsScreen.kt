@@ -91,6 +91,8 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel,language:()->Unit,abo
             SettingSwitch(text(R.string.ui_animator_tags),settings.showArtist){model.flag("artist",it)}
             SettingSwitch(text(R.string.ui_show_other_tags),settings.showOtherTags){model.flag("otherTags",it)}
             SettingSwitch(text(R.string.ui_score),settings.showScore){model.flag("score",it)}
+            SettingSwitch(text(R.string.ui_chinese_detail_translation),settings.chineseDetailTranslations,
+                description=text(R.string.ui_chinese_detail_translation_source),modifier=Modifier.testTag("setting-chinese-detail-translations")){model.chineseDetailTranslations(it)}
         }
         SettingsGroup(R.drawable.ic_tune,text(R.string.ui_browsing_search)){
             SettingControl{
@@ -159,9 +161,12 @@ fun SettingsScreen(settings:AppSettings,model:AppViewModel,language:()->Unit,abo
     HorizontalDivider(color=MaterialTheme.colorScheme.outlineVariant.copy(alpha=.55f))
 }
 
-@Composable private fun SettingSwitch(label:String,value:Boolean,change:(Boolean)->Unit){
-    Row(Modifier.fillMaxWidth().toggleable(value=value,role=Role.Switch,onValueChange=change).semantics{contentDescription=label}.padding(vertical=6.dp),verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(12.dp)){
-        Text(label,Modifier.weight(1f),style=MaterialTheme.typography.bodyLarge)
+@Composable private fun SettingSwitch(label:String,value:Boolean,modifier:Modifier=Modifier,description:String?=null,change:(Boolean)->Unit){
+    Row(modifier.fillMaxWidth().toggleable(value=value,role=Role.Switch,onValueChange=change).semantics{contentDescription=label}.padding(vertical=6.dp),verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(12.dp)){
+        Column(Modifier.weight(1f)){
+            Text(label,style=MaterialTheme.typography.bodyLarge)
+            if(description!=null)Text(description,style=MaterialTheme.typography.bodySmall,color=MaterialTheme.colorScheme.onSurfaceVariant)
+        }
         Switch(checked=value,onCheckedChange=null)
     }
     HorizontalDivider(color=MaterialTheme.colorScheme.outlineVariant.copy(alpha=.55f))

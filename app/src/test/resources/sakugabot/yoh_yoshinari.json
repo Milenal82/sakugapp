@@ -1,0 +1,36 @@
+{
+  "name": "yoh_yoshinari",
+  "type": 1,
+  "detail": [
+    {
+      "attribute": {
+        "code": "name_en"
+      },
+      "value": "Yoh Yoshinari"
+    },
+    {
+      "attribute": {
+        "code": "name_ja"
+      },
+      "value": "吉成曜"
+    },
+    {
+      "attribute": {
+        "code": "name_zh"
+      },
+      "value": "吉成曜"
+    },
+    {
+      "attribute": {
+        "code": "wiki_zh"
+      },
+      "value": "https://zh.wikipedia.org/zh-cn/%E5%90%89%E6%88%90%E6%9B%9C"
+    },
+    {
+      "attribute": {
+        "code": "name_main"
+      },
+      "value": "吉成曜"
+    }
+  ]
+}

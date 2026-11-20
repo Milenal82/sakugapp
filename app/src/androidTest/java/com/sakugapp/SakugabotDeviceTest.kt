@@ -1,0 +1,88 @@
+// SPDX-License-Identifier: GPL-3.0-only
+package com.sakugapp
+
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.test.*
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.sakugapp.data.*
+import com.sakugapp.ui.*
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.flow.first
+import org.junit.Assert.*
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+
+/** Deterministic UI checks; public API responses are verified separately, never required here. */
+@RunWith(AndroidJUnit4::class)
+class SakugabotDeviceTest {
+    @get:Rule val ui=createAndroidComposeRule<MainActivity>()
+    private fun app():AppViewModel {
+        lateinit var result:AppViewModel
+        ui.runOnUiThread{result=ViewModelProvider(ui.activity)[AppViewModel::class.java]}
+        return result
+    }
+    @Test fun actualSettingsSwitchCanBeChangedAndReopened(){
+        val app=app();val before=app.settings.value.chineseDetailTranslations
+        try{
+            runBlocking{app.preferences.chineseDetailTranslations(false)}
+            ui.waitUntil(5000){!app.settings.value.chineseDetailTranslations}
+            ui.runOnUiThread{ui.activity.setContent{val settings by app.settings.collectAsStateWithLifecycle()
+                SakugappTheme(settings.lightTheme){Surface{SettingsScreen(settings,app,{},{})}}
+            }}
+            ui.onNodeWithTag("setting-chinese-detail-translations").performScrollTo().assertIsOff().performClick()
+            ui.waitUntil(5000){app.settings.value.chineseDetailTranslations}
+            assertTrue(runBlocking{PreferencesStore(ui.activity).settings.first().chineseDetailTranslations})
+            ui.onNodeWithTag("setting-chinese-detail-translations").assertIsOn().performClick()
+            ui.waitUntil(5000){!app.settings.value.chineseDetailTranslations}
+        }finally{runBlocking{app.preferences.chineseDetailTranslations(before)}}
+    }
+    @Test fun togglingUpdatesDetailImmediatelyKeepsRawSearchAndOfflineFallback(){
+        val app=app();val before=app.settings.value.chineseDetailTranslations
+        val tags=listOf(Tag("mob_psycho_100",TagCategory.COPYRIGHT),Tag("yutaka_nakamura",TagCategory.ARTIST),Tag("mokmok",TagCategory.ARTIST))
+        val calls=mutableListOf<String>();var searched:String?=null
+        val source=object:DetailTranslationSource {
+            override suspend fun lookup(tag:Tag):ChineseTagName? {
+                calls+=tag.name
+                val chinese=when(tag.name){"mob_psycho_100"->"灵能百分百";"yutaka_nakamura"->"中村丰";else->return null}
+                return ChineseTagName(tag.name,tag.category,chinese,setOf(tag.name))
+            }
+        }
+        var light by mutableStateOf(false)
+        try{
+            runBlocking{app.preferences.chineseDetailTranslations(false)}
+            ui.waitUntil(5000){!app.settings.value.chineseDetailTranslations}
+            ui.runOnUiThread{ui.activity.setContent{
+                val settings by app.settings.collectAsStateWithLifecycle()
+                val names=detailNames(1,tags,settings.chineseDetailTranslations,source)
+                SakugappTheme(light){Surface{Column(Modifier.fillMaxSize().systemBarsPadding().padding(12.dp)){
+                    Switch(settings.chineseDetailTranslations,app::chineseDetailTranslations,Modifier.testTag("translation-toggle"))
+                    DetailTags(tags,light,{searched=it},{},names.mapValues{it.value.chinese})
+                }}}
+            }}
+            ui.waitForIdle();assertTrue(calls.isEmpty())
+            ui.onNodeWithTag("translation-toggle").performClick()
+            ui.waitUntil(5000){ui.onAllNodesWithTag("translated-tag-mob_psycho_100").fetchSemanticsNodes().isNotEmpty()}
+            ui.onNodeWithText("灵能百分百").assertIsDisplayed();ui.onNodeWithText("中村丰").assertIsDisplayed()
+            ui.onNodeWithTag("tag-mob_psycho_100").assertIsDisplayed().performTouchInput{click()}
+            assertEquals("mob_psycho_100",searched)
+            ui.onNodeWithTag("tag-yutaka_nakamura").assertIsDisplayed()
+            ui.onNodeWithTag("tag-mokmok").assertIsDisplayed()
+            UiEvidence.capture("sakugabot-details-dark.png")
+            ui.runOnUiThread{light=true};ui.waitForIdle();UiEvidence.capture("sakugabot-details-light.png")
+            ui.onNodeWithTag("translation-toggle").performClick()
+            ui.waitUntil(5000){ui.onAllNodesWithTag("translated-tag-mob_psycho_100").fetchSemanticsNodes().isEmpty()}
+            ui.onNodeWithTag("tag-mob_psycho_100").assertIsDisplayed()
+        }finally{runBlocking{app.preferences.chineseDetailTranslations(before)}}
+    }
+}
+

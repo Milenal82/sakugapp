@@ -493,4 +493,6 @@
     <string name="ui_queue_progress">%1$d / %2$d · %3$s</string>
     <string name="ui_queue_empty">No hay descargas</string>
     <string name="ui_queue_start_error">No se puede iniciar. Abre la aplicación e inténtalo de nuevo.</string>
+    <string name="ui_chinese_detail_translation">Traducción china de etiquetas</string>
+    <string name="ui_chinese_detail_translation_source">Nombres de obras, artistas y fuentes verificadas de Sakugabot en los detalles. La cobertura es parcial; se conserva el texto original.</string>
 </resources>

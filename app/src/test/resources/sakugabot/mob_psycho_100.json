@@ -1,0 +1,30 @@
+{
+  "name": "mob_psycho_100",
+  "type": 3,
+  "detail": [
+    {
+      "attribute": {
+        "code": "name_en"
+      },
+      "value": "Mob Psycho 100"
+    },
+    {
+      "attribute": {
+        "code": "name_ja"
+      },
+      "value": "モブサイコ100"
+    },
+    {
+      "attribute": {
+        "code": "name_zh"
+      },
+      "value": "灵能百分百"
+    },
+    {
+      "attribute": {
+        "code": "name_main"
+      },
+      "value": "灵能百分百"
+    }
+  ]
+}

@@ -281,8 +281,13 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
         }.distinctUntilChanged().filter{it}.collect{loadMore()}
     }
     LaunchedEffect(grid,settings.autoPreview,allowedPreview,isActive,lifecycleState){
-        snapshotFlow{PreviewViewport(grid.layoutInfo.visibleItemsInfo.mapNotNull{it.key as? Long},grid.isScrollInProgress,isActive,
-            lifecycleState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED),settings.autoPreview && allowedPreview,manualRevision)}
+        snapshotFlow{
+            val revision=manualRevision
+            val automatic=settings.autoPreview && allowedPreview
+            val observe=needsPreviewViewport(automatic,isActive,preview)
+            PreviewViewport(if(observe)grid.layoutInfo.visibleItemsInfo.mapNotNull{it.key as? Long}else emptyList(),
+                observe && grid.isScrollInProgress,isActive,lifecycleState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED),automatic,revision)
+        }
             .collectLatest{view->
                 preview=preview.retain(view)
                 settledPreview(view,{preview},{latestState.posts})?.let{preview=it}
@@ -405,6 +410,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable internal fun PostCard(post:Post,settings:AppSettings,metered:Boolean,preview:Boolean,open:()->Unit,search:(String)->Unit,toggle:()->Unit,onDuration:(Long)->Unit,previewPaused:Boolean=false,onClassify:(()->Unit)?=null){
+    val isVideo=remember(post.fileUrl,post.fileExt){post.isVideo}
     val previewApp=LocalTagActions.current
     val previewUrl=if(preview)produceState<String?>(null,post.id,post.fileUrl){value=withContext(Dispatchers.IO){previewApp?.offlineUri(post)?.toString() ?: post.fileUrl}}.value else null
     val contextDescriptionDurationUnknown=text(R.string.ui_duration_unknown)
@@ -418,7 +424,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
             if(preview && previewUrl!=null)CompositionLocalProvider(LocalSaveableStateRegistry provides null){VideoPanel(previewUrl!!,settings,preview=true,onDurationChanged=onDuration,previewPaused=previewPaused)}
             else PostImage(post,Modifier.fillMaxSize(),settings,metered)
             Row(Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(2.dp),horizontalArrangement=Arrangement.SpaceBetween,verticalAlignment=Alignment.Bottom){
-                if(post.isVideo && settings.columns<6)Surface(color=MaterialTheme.colorScheme.surface.copy(alpha=0.96f),shape=RoundedCornerShape(3.dp)){
+                if(isVideo && settings.columns<6)Surface(color=MaterialTheme.colorScheme.surface.copy(alpha=0.96f),shape=RoundedCornerShape(3.dp)){
                     Text(post.durationMs?.let(::mediaTime) ?: "—",maxLines=1,overflow=TextOverflow.Ellipsis,fontSize=appTextSize(if(settings.columns>=6)9.sp else 11.sp),
                         lineHeight=appTextSize(if(settings.columns>=6)11.sp else 13.sp),
                         modifier=Modifier.padding(horizontal=3.dp,vertical=1.dp).semantics{if(post.durationMs==null)contentDescription=contextDescriptionDurationUnknown})
@@ -434,7 +440,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
             TileMenu(options,{options=false}){
                 AppMenuItem(icon=R.drawable.ic_open,text={Text(text(R.string.ui_open_original_post))},onClick={options=false;open()})
                 if(onClassify!=null)AppMenuItem(icon=R.drawable.ic_folder,text={Text(text(R.string.ui_add_to_subfolder))},onClick={options=false;onClassify()})
-                if(post.isVideo)AppMenuItem(icon=R.drawable.ic_next,text={Text(text(if(preview)R.string.ui_stop_preview else R.string.ui_play_preview))},onClick={options=false;toggle()})
+                if(isVideo)AppMenuItem(icon=R.drawable.ic_next,text={Text(text(if(preview)R.string.ui_stop_preview else R.string.ui_play_preview))},onClick={options=false;toggle()})
             }
         }
         Box(Modifier.padding(horizontal=if(settings.columns>=6)2.dp else 6.dp,vertical=3.dp)){PostCaption(post,settings,search)}
@@ -481,6 +487,9 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
 
 @Composable internal fun PostDetail(post:Post,settings:AppSettings,metered:Boolean,app:AppViewModel,localSnapshot:Boolean,search:(String)->Unit,wiki:(String)->Unit,login:()->Unit,onScore:(Int?)->Unit,onDuration:(Long)->Unit,hasPrevious:Boolean,hasNext:Boolean,onNavigate:(Int)->Boolean){
     val context=LocalContext.current
+    val names=detailNames(post.id,post.tags,settings.chineseDetailTranslations,app.detailTranslations)
+    val translatedTags=remember(names){names.mapValues{it.value.chinese}}
+    val sourceName=remember(post.source,names){translatedSource(post.source,names.values)}
 
     val uri=LocalUriHandler.current;var linkError by remember{mutableStateOf(false)}
     val playback by produceState<Pair<Boolean,String?>>(false to null,post.id,post.fileUrl){value=true to withContext(Dispatchers.IO){app.offlineUri(post)?.toString() ?: post.fileUrl}}
@@ -504,15 +513,15 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
             },Modifier.testTag("share-post"))}
             Box(Modifier.weight(1f),contentAlignment=Alignment.Center){if(post.isVideo)VideoDownloadButton(post)else ActionIcon(R.drawable.ic_download,text(R.string.ui_download_video),{},enabled=false)}
         }
-        PostMetadata(post,settings.lightTheme){url->linkError=runCatching{uri.openUri(url)}.isFailure}
+        PostMetadata(post,settings.lightTheme,sourceName){url->linkError=runCatching{uri.openUri(url)}.isFailure}
         if(linkError)Text(text(R.string.ui_no_browser_available))
-        DetailTags(post.tags,settings.lightTheme,search,wiki)
+        DetailTags(post.tags,settings.lightTheme,search,wiki,translatedTags)
         CommentsPanel(post,app,login){time->seek=time to ((seek?.second ?: 0)+1)}
     }}
 }
 
 @OptIn(ExperimentalLayoutApi::class)
-@Composable private fun PostMetadata(post:Post,light:Boolean,open:(String)->Unit){
+@Composable private fun PostMetadata(post:Post,light:Boolean,translatedSource:String?=null,open:(String)->Unit){
     val context=LocalContext.current
     val fields=buildList{
         post.uploader?.let{add(text(R.string.ui_uploader) to it)}
@@ -527,7 +536,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
         Text("${text(R.string.ui_post_id)} #${post.id}",style=MaterialTheme.typography.bodySmall,color=MaterialTheme.colorScheme.primary,modifier=Modifier.testTag("detail-post-id").clickable{open(post.pageUrl)})
         post.source?.takeIf{it.isNotBlank()}?.let{source->
             val url=PostParser.safeUrl(source)
-            Text("${text(R.string.ui_source)}: $source",style=MaterialTheme.typography.bodySmall,
+            Text("${text(R.string.ui_source)}: ${translatedSource?.let{"$it\n"} ?: ""}$source",style=MaterialTheme.typography.bodySmall,
                 color=if(url==null)MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.primary,
                 maxLines=2,overflow=TextOverflow.Ellipsis,
                 modifier=Modifier.widthIn(max=280.dp).testTag("post-source").then(if(url==null)Modifier else Modifier.clickable{open(url)}))

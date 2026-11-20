@@ -18,7 +18,7 @@ import com.sakugapp.data.Tag
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable internal fun OriginalTag(tag:Tag,color:Color,search:(String)->Unit,
-    modifier:Modifier=Modifier,fontSize:TextUnit=14.sp,maxLines:Int=Int.MAX_VALUE,showNote:Boolean=false,previewSpacing:Float?=null){
+    modifier:Modifier=Modifier,fontSize:TextUnit=14.sp,maxLines:Int=Int.MAX_VALUE,showNote:Boolean=false,previewSpacing:Float?=null,displayName:String?=null){
     val app=LocalTagActions.current;var options by remember(tag.name){mutableStateOf(false)}
     val notes=if(app!=null && showNote)app.tagNotes.collectAsStateWithLifecycle().value else emptyList()
     val note=notes.firstOrNull{it.name==tag.name}?.note
@@ -30,6 +30,7 @@ import com.sakugapp.data.Tag
     if(previewSpacing!=null && !showNote){
         Text(tag.name,color=color,fontSize=textSize,style=style,maxLines=maxLines,overflow=TextOverflow.Ellipsis,modifier=modifier.then(action).testTag("tag-${tag.name}"))
     }else Column(modifier.then(action).padding(vertical=if(previewSpacing==null)3.dp else 0.dp)){
+        if(!displayName.isNullOrBlank() && displayName!=tag.name)Text(displayName,color=color,fontSize=textSize,style=style,modifier=Modifier.testTag("translated-tag-${tag.name}"))
         Text(tag.name,color=color,fontSize=textSize,style=style,maxLines=maxLines,overflow=TextOverflow.Ellipsis,modifier=Modifier.testTag("tag-${tag.name}"))
         if(!note.isNullOrBlank())Text(note,style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.onSurfaceVariant,maxLines=2,overflow=TextOverflow.Ellipsis)
     }

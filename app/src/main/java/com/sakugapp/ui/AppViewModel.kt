@@ -10,12 +10,14 @@ import kotlinx.coroutines.flow.*
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
-class AppViewModel @JvmOverloads constructor(application:Application,discoveryOverride:DiscoveryRepository?=null,quizOverride:QuizRepository?=null,favoritesOverride:WebsiteFavoritesSource?=null,suggestionsOverride:SuggestionSource?=null):AndroidViewModel(application) {
+class AppViewModel @JvmOverloads constructor(application:Application,discoveryOverride:DiscoveryRepository?=null,quizOverride:QuizRepository?=null,favoritesOverride:WebsiteFavoritesSource?=null,suggestionsOverride:SuggestionSource?=null,translationsOverride:DetailTranslationSource?=null):AndroidViewModel(application) {
     val localProfileStore=LocalProfileStore(application)
     val localProfile=localProfileStore.profile.catch{emit(LocalProfile())}.stateIn(viewModelScope,SharingStarted.Eagerly,LocalProfile())
     val topics=TopicRepository()
     val discovery=discoveryOverride ?: DiscoveryRepository()
     val preferences=PreferencesStore(application)
+    val detailTranslations:DetailTranslationSource=translationsOverride ?: SakugabotTranslations()
+    fun chineseDetailTranslations(enabled:Boolean){viewModelScope.launch{preferences.chineseDetailTranslations(enabled)}}
     val settings=preferences.settings.stateIn(viewModelScope,SharingStarted.Eagerly,AppSettings())
     val quizSettings=preferences.quiz.stateIn(viewModelScope,SharingStarted.Eagerly,QuizSettings())
     val quizRepository=quizOverride ?: QuizRepository()

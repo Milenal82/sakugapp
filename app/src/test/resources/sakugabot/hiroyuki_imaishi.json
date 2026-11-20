@@ -1,0 +1,36 @@
+{
+  "name": "hiroyuki_imaishi",
+  "type": 1,
+  "detail": [
+    {
+      "attribute": {
+        "code": "name_en"
+      },
+      "value": "Hiroyuki Imaishi"
+    },
+    {
+      "attribute": {
+        "code": "name_ja"
+      },
+      "value": "今石洋之"
+    },
+    {
+      "attribute": {
+        "code": "name_zh"
+      },
+      "value": "今石洋之"
+    },
+    {
+      "attribute": {
+        "code": "wiki_zh"
+      },
+      "value": "https://zh.wikipedia.org/zh-cn/%E4%BB%8A%E7%9F%B3%E6%B4%8B%E4%B9%8B"
+    },
+    {
+      "attribute": {
+        "code": "name_main"
+      },
+      "value": "今石洋之"
+    }
+  ]
+}

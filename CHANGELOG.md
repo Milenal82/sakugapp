@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.1-dev (17)
+
+- Add an opt-in, immediately applied Sakugabot Chinese-name setting for verified Copyright/Artist detail tags and exact Source-name mappings; retain all original values and searches.
+- Bound unauthenticated translation requests and cache names, missing entries and failures with cancellation and rate-limit fallback.
+- Skip per-scroll preview viewport enumeration when previews are unused, and avoid repeated media classification/temporary collections in Posts cards; retain image quality, pagination and grid state.
+- Add real-response fixtures, cache/settings tests and detail UI checks; keep published versions, signing and user data unchanged.
+
 ## Unreleased — scrolling and main navigation diagnosis
 
 - Keep the Posts viewport stable while sliding bottom chrome.

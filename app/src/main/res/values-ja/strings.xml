@@ -487,4 +487,6 @@
     <string name="ui_queue_progress">%1$d / %2$d · %3$s</string>
     <string name="ui_queue_empty">ダウンロードはありません</string>
     <string name="ui_queue_start_error">バックグラウンド処理を開始できません。アプリを開き直してください。</string>
+    <string name="ui_chinese_detail_translation">中国語のタグ名</string>
+    <string name="ui_chinese_detail_translation_source">詳細の作品名・原画家名と確認できた出典名を Sakugabot から取得します。未登録の場合があり、元の表記も残ります。</string>
 </resources>
