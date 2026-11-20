@@ -8,6 +8,7 @@
       "conclusion": "failure",
       "jobs": [
         {
+          "id": 136182985632,
           "name": "build",
           "status": "completed",
           "conclusion": "success",
@@ -144,6 +145,7 @@
           ]
         },
         {
+          "id": 136182986056,
           "name": "search-back-gestures",
           "status": "completed",
           "conclusion": "failure",
@@ -248,6 +250,7 @@
           ]
         },
         {
+          "id": 136182986147,
           "name": "six-column-display (phone, Nexus S)",
           "status": "completed",
           "conclusion": "success",
@@ -360,6 +363,7 @@
           ]
         },
         {
+          "id": 136182986198,
           "name": "device-tests",
           "status": "completed",
           "conclusion": "success",
@@ -472,6 +476,7 @@
           ]
         },
         {
+          "id": 136182986264,
           "name": "six-column-display (landscape, pixel_c)",
           "status": "completed",
           "conclusion": "success",
@@ -584,6 +589,7 @@
           ]
         },
         {
+          "id": 136182987209,
           "name": "release-signing",
           "status": "completed",
           "conclusion": "skipped",
@@ -591,6 +597,7 @@
           "steps": []
         },
         {
+          "id": 136182987455,
           "name": "signed-candidate",
           "status": "completed",
           "conclusion": "skipped",
@@ -598,6 +605,7 @@
           "steps": []
         },
         {
+          "id": 136182987666,
           "name": "documentation-screenshots",
           "status": "completed",
           "conclusion": "skipped",
@@ -605,6 +613,7 @@
           "steps": []
         },
         {
+          "id": 136182987989,
           "name": "release-preflight",
           "status": "completed",
           "conclusion": "skipped",
@@ -612,6 +621,7 @@
           "steps": []
         },
         {
+          "id": 136182988690,
           "name": "candidate-upgrade-install",
           "status": "completed",
           "conclusion": "skipped",
@@ -619,6 +629,7 @@
           "steps": []
         },
         {
+          "id": 136182988963,
           "name": "candidate-evidence",
           "status": "completed",
           "conclusion": "skipped",
@@ -626,6 +637,7 @@
           "steps": []
         },
         {
+          "id": 136186376412,
           "name": "checks-evidence",
           "status": "completed",
           "conclusion": "skipped",
@@ -1662,6 +1674,7 @@
       "conclusion": "failure",
       "jobs": [
         {
+          "id": 136183168044,
           "name": "metadata",
           "status": "completed",
           "conclusion": "success",
@@ -1750,6 +1763,7 @@
           ]
         },
         {
+          "id": 136183168327,
           "name": "devices (28, Nexus S)",
           "status": "completed",
           "conclusion": "success",
@@ -1854,6 +1868,7 @@
           ]
         },
         {
+          "id": 136183168426,
           "name": "devices (35, pixel_c)",
           "status": "completed",
           "conclusion": "failure",
@@ -1958,6 +1973,7 @@
           ]
         },
         {
+          "id": 136187264105,
           "name": "evidence",
           "status": "completed",
           "conclusion": "success",
@@ -2077,6 +2093,7 @@
       "conclusion": "success",
       "jobs": [
         {
+          "id": 136183134910,
           "name": "scroll-profile",
           "status": "completed",
           "conclusion": "success",
@@ -2181,6 +2198,7 @@
           ]
         },
         {
+          "id": 136183135208,
           "name": "validation",
           "status": "completed",
           "conclusion": "success",
@@ -2317,6 +2335,7 @@
           ]
         },
         {
+          "id": 136186269861,
           "name": "evidence",
           "status": "completed",
           "conclusion": "success",
@@ -2504,5 +2523,7 @@
         }
       ]
     }
-  ]
+  ],
+  "tablet_job_id": 136183168426,
+  "failed_job_log_error": "Command '['gh', 'api', 'repos/Milenal82/sakugapp/actions/jobs/136183168426/logs']' returned non-zero exit status 1."
 }
