@@ -1,0 +1,113 @@
+{
+  "verified_at": "2026-11-20T07:58:50.895444+00:00",
+  "requests": [
+    {
+      "tag": "mob_psycho_100",
+      "url": "https://sakugabot.pw/api/tags/mob_psycho_100/",
+      "status": 200,
+      "content_type": "application/json",
+      "response": {
+        "type": 3,
+        "name": "mob_psycho_100",
+        "override_name": null,
+        "is_editable": true,
+        "like_count": 0,
+        "detail": [
+          {
+            "attribute": {
+              "name": "MyAnimeList",
+              "code": "mal_aid"
+            },
+            "value": 32182,
+            "formatted_value": "https://myanimelist.net/anime/32182/"
+          },
+          {
+            "attribute": {
+              "name": "英文名称",
+              "code": "name_en"
+            },
+            "value": "Mob Psycho 100",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "日文名称",
+              "code": "name_ja"
+            },
+            "value": "モブサイコ100",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "番组计划",
+              "code": "bgm_sid"
+            },
+            "value": 158316,
+            "formatted_value": "http://bgm.tv/subject/158316"
+          },
+          {
+            "attribute": {
+              "name": "中文名称",
+              "code": "name_zh"
+            },
+            "value": "灵能百分百",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "アニメ@wiki",
+              "code": "anime_wiki_id"
+            },
+            "value": 21348,
+            "formatted_value": "https://www7.atwiki.jp/anime_wiki/pages/21348.html"
+          },
+          {
+            "attribute": {
+              "name": "アニメスタッフデータベース",
+              "code": "anime_staff_database_link"
+            },
+            "value": "http://seesaawiki.jp/w/radioi_34/d/%a5%e2%a5%d6%a5%b5%a5%a4%a5%b3100",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "简介",
+              "code": "description"
+            },
+            "value": "平凡的中学二年级少年影山茂夫，因其微弱的存在感与名字茂夫的谐音被周遭人称为龙套（モブ），但不起眼的他其实是强大的天生超能力者。历经每一次的成长，龙套开始认为自己的超能力是危险的存在，为了不让超能力失控，龙套无意识的压抑著情感。虽然只想平凡的度过每一天，但各种麻烦却接二连三找上他，随着被压抑的情感在内心一点点膨胀，龙套体内积累的力量似乎也正蠢蠢欲动......",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "名称",
+              "code": "name_main"
+            },
+            "value": "灵能百分百",
+            "formatted_value": null
+          }
+        ],
+        "last_edit_user": "System"
+      }
+    },
+    {
+      "tag": "yoshinari_you",
+      "url": "https://sakugabot.pw/api/tags/yoshinari_you/",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "tag": "mokmok",
+      "url": "https://sakugabot.pw/api/tags/mokmok/",
+      "status": 200,
+      "content_type": "application/json",
+      "response": {
+        "type": 1,
+        "name": "mokmok",
+        "override_name": null,
+        "is_editable": true,
+        "like_count": 0,
+        "detail": [],
+        "last_edit_user": "System"
+      }
+    }
+  ]
+}
