@@ -45,6 +45,9 @@ jobs:
                           if short.startswith('sakugabot-')and short.endswith('.png'):
                               (out/(name+'-'+short)).write_bytes(z.read(p))
               report['runs'].append(item)
+          raw=api('actions/jobs/136183168426/logs')
+          text=raw.decode(errors='replace')
+          report['api35_failed_log_tail']=[line if not re.search(r'password|authorization|cookie|secret|token',line,re.I) else '[redacted]' for line in text.splitlines()[-100:]]
           (out/'report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
           PY
       - name: Save public validation evidence separately from application source
