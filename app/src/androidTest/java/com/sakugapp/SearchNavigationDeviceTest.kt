@@ -25,13 +25,16 @@ class SearchNavigationDeviceTest {
     private val device get()=UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
     private var rightEdge=false
     private fun back(){
+        device.waitForIdle()
         if(InstrumentationRegistry.getArguments().getString("gestural")=="true"){
             rightEdge=!rightEdge
             val w=device.displayWidth;val y=device.displayHeight/4
             // Match the real-clock IME check: start above the keyboard's gesture area.
             assertTrue(device.swipe(if(rightEdge)w-1 else 1,y,if(rightEdge)w*2/3 else w/3,y,24))
         }else device.pressBack()
-        ui.waitForIdle()
+        // A committed platform gesture/window animation can finish after Compose is idle.
+        // Match the real-clock IME test: await accessibility/window idle as well.
+        device.waitForIdle();ui.waitForIdle()
     }
     private fun position()=ui.onNodeWithTag("post-grid").fetchSemanticsNode().config[SemanticsProperties.VerticalScrollAxisRange].value()
     private fun openCombined(){
@@ -76,6 +79,7 @@ class SearchNavigationDeviceTest {
         // Keep the real system gesture and all state/position assertions, after that handoff.
         Thread.sleep(350);ui.waitForIdle()
         back()
+        ui.waitUntil(10000){ui.onAllNodesWithTag("query-expression").fetchSemanticsNodes().isEmpty()}
         ui.onNodeWithTag("query-expression").assertDoesNotExist()
         assertEquals(query,feed.state.value.query);assertEquals(results,feed.state.value.posts.map{it.id})
         assertEquals(resultPosition.toDouble(),position().toDouble(),2.0)

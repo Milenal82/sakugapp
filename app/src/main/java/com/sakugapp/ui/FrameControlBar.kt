@@ -42,7 +42,7 @@ import java.util.Locale
                         val time=frame?.timeMs ?: position
                         val label=frame?.let{(if(!it.decoded)"~"else"")+(it.index+1)} ?: "—"
                         Column(Modifier.width(infoWidth).height(48.dp),verticalArrangement=Arrangement.Center,horizontalAlignment=Alignment.CenterHorizontally){
-                            Text(text(R.string.ui_frame_tools),fontSize=9.sp,lineHeight=12.sp,maxLines=1,overflow=TextOverflow.Ellipsis,
+                            Text(text(R.string.ui_frame_tools),fontSize=appTextSize(9.sp),lineHeight=appTextSize(12.sp),maxLines=1,overflow=TextOverflow.Ellipsis,
                                 color=if(active)MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,modifier=Modifier.testTag("frame-tool-title"))
                             Text(if(!wide)"$label·${String.format(Locale.ROOT,"%.3f",time/1000.0)}"else "$label/${frame?.count ?: "—"} · ${formatClipTime(time)}",
                                 Modifier.testTag("frame-counter"),fontSize=MaterialTheme.typography.labelSmall.fontSize,lineHeight=14.sp,

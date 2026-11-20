@@ -61,7 +61,7 @@ class PreviewToolsBackDeviceTest {
 
     @Test fun frameTilesStayInOneRowAndReflectTheSelectedDirection(){
         val deltas=mutableListOf<Int>();var width by mutableStateOf(320.dp)
-        ui.runOnUiThread{ui.activity.setContent{SakugappTheme(false){Surface(Modifier.fillMaxSize()){
+        ui.runOnUiThread{ui.activity.setContent{SakugappTheme(false,1.25f){Surface(Modifier.fillMaxSize()){
             Box(Modifier.systemBarsPadding().width(width)){
                 FrameControlBar(null,0,0,true,{deltas+=it},active=true,actions={Row{
                     ActionIcon(R.drawable.ic_unlock,"Lock",{},touchSize=36.dp)

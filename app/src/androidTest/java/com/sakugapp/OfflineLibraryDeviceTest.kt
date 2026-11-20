@@ -56,7 +56,7 @@ class OfflineLibraryDeviceTest {
                     val planned=VideoDownloadPlan.from(variant).filename
                     val expected=if(index==1)planned.removeSuffix(".mp4")+" (2).mp4"else planned
                     val named=store.download(variant);assertEquals(expected,named.name)
-                    assertArrayEquals(data,named.readBytes());assertTrue(named.name.contains("_${variant.id}"));assertTrue(named.name.endsWith(".mp4"))
+                    assertArrayEquals(data,named.readBytes());assertTrue(named.name.contains("#${variant.id}"));assertTrue(named.name.endsWith(".mp4"))
                     assertEquals(file,store.existing(good))
                 }
                 val collision=good.copy(fileUrl=post("/same-name.mp4").fileUrl)
