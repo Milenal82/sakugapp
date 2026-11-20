@@ -1,0 +1,333 @@
+{
+  "verified_at": "2026-11-20T08:02:23.603458+00:00",
+  "requests": [
+    {
+      "tag": "yutaka_nakamura",
+      "url": "https://sakugabot.pw/api/tags/yutaka_nakamura/",
+      "status": 200,
+      "content_type": "application/json",
+      "response": {
+        "type": 1,
+        "name": "yutaka_nakamura",
+        "override_name": null,
+        "is_editable": true,
+        "like_count": 0,
+        "detail": [
+          {
+            "attribute": {
+              "name": "名称",
+              "code": "name_main"
+            },
+            "value": "中村豊",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "动画新闻网",
+              "code": "ann_pid"
+            },
+            "value": 3474,
+            "formatted_value": "https://www.animenewsnetwork.com/encyclopedia/people.php?id=3474"
+          },
+          {
+            "attribute": {
+              "name": "Google Knowledge Graph Search",
+              "code": "kgs_url"
+            },
+            "value": "http://g.co/kg/m/0130xkqq",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "英文名称",
+              "code": "name_en"
+            },
+            "value": "Yutaka Nakamura",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "日文名称",
+              "code": "name_ja"
+            },
+            "value": "中村豊",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "中文名称",
+              "code": "name_zh"
+            },
+            "value": "中村丰",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "英文维基",
+              "code": "wiki_en"
+            },
+            "value": "https://en.wikipedia.org/wiki/Yutaka_Nakamura",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "日文维基",
+              "code": "wiki_ja"
+            },
+            "value": "https://ja.wikipedia.org/wiki/%E4%B8%AD%E6%9D%91%E8%B1%8A_(%E3%82%A2%E3%83%8B%E3%83%A1%E3%83%BC%E3%82%BF%E3%83%BC)",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "简介",
+              "code": "description"
+            },
+            "value": "中村 豊は、福岡県出身の男性アニメーター、アニメーション演出家である。\n高校卒業後、面白そうだという理由で代々木アニメーション学院に入学。同学院卒業後、アドコスモに入社し、『魁!!男塾』で原画マンとしてデビューする。\n注目を浴びるきっかけとなった『カウボーイビバップ』では数多くの格闘シーンを担当し、劇場版では演出デビューも果たした。エフェクト作画では、キューブの集合体のような個性的なエフェクトを描くのが特徴。近年はBONES作品への参加が多い。",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "アニメ@wiki",
+              "code": "anime_wiki_id"
+            },
+            "value": 313,
+            "formatted_value": "https://www7.atwiki.jp/anime_wiki/pages/313.html"
+          },
+          {
+            "attribute": {
+              "name": "作画@wiki",
+              "code": "sakuga_wiki_id"
+            },
+            "value": 107,
+            "formatted_value": "https://www18.atwiki.jp/sakuga/pages/107.html"
+          }
+        ],
+        "last_edit_user": "System"
+      }
+    },
+    {
+      "tag": "yoh_yoshinari",
+      "url": "https://sakugabot.pw/api/tags/yoh_yoshinari/",
+      "status": 200,
+      "content_type": "application/json",
+      "response": {
+        "type": 1,
+        "name": "yoh_yoshinari",
+        "override_name": null,
+        "is_editable": true,
+        "like_count": 0,
+        "detail": [
+          {
+            "attribute": {
+              "name": "动画新闻网",
+              "code": "ann_pid"
+            },
+            "value": 3702,
+            "formatted_value": "https://www.animenewsnetwork.com/encyclopedia/people.php?id=3702"
+          },
+          {
+            "attribute": {
+              "name": "英文名称",
+              "code": "name_en"
+            },
+            "value": "Yoh Yoshinari",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "日文名称",
+              "code": "name_ja"
+            },
+            "value": "吉成曜",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "アニメ@wiki",
+              "code": "anime_wiki_id"
+            },
+            "value": 41,
+            "formatted_value": "https://www7.atwiki.jp/anime_wiki/pages/41.html"
+          },
+          {
+            "attribute": {
+              "name": "作画@wiki",
+              "code": "sakuga_wiki_id"
+            },
+            "value": 45,
+            "formatted_value": "https://www18.atwiki.jp/sakuga/pages/45.html"
+          },
+          {
+            "attribute": {
+              "name": "Google Knowledge Graph Search",
+              "code": "kgs_url"
+            },
+            "value": "http://g.co/kg/m/0rf858h",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "简介",
+              "code": "description"
+            },
+            "value": "吉成曜，日本动画导演、动画师、插画家。东京都出身。东京设计师学院毕业",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "中文名称",
+              "code": "name_zh"
+            },
+            "value": "吉成曜",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "中文维基",
+              "code": "wiki_zh"
+            },
+            "value": "https://zh.wikipedia.org/zh-cn/%E5%90%89%E6%88%90%E6%9B%9C",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "日文维基",
+              "code": "wiki_ja"
+            },
+            "value": "https://ja.wikipedia.org/wiki/%E5%90%89%E6%88%90%E6%9B%9C",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "英文维基",
+              "code": "wiki_en"
+            },
+            "value": "https://en.wikipedia.org/wiki/Yoh_Yoshinari",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "名称",
+              "code": "name_main"
+            },
+            "value": "吉成曜",
+            "formatted_value": null
+          }
+        ],
+        "last_edit_user": "System"
+      }
+    },
+    {
+      "tag": "hiroyuki_imaishi",
+      "url": "https://sakugabot.pw/api/tags/hiroyuki_imaishi/",
+      "status": 200,
+      "content_type": "application/json",
+      "response": {
+        "type": 1,
+        "name": "hiroyuki_imaishi",
+        "override_name": null,
+        "is_editable": true,
+        "like_count": 0,
+        "detail": [
+          {
+            "attribute": {
+              "name": "动画新闻网",
+              "code": "ann_pid"
+            },
+            "value": 915,
+            "formatted_value": "https://www.animenewsnetwork.com/encyclopedia/people.php?id=915"
+          },
+          {
+            "attribute": {
+              "name": "英文名称",
+              "code": "name_en"
+            },
+            "value": "Hiroyuki Imaishi",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "日文名称",
+              "code": "name_ja"
+            },
+            "value": "今石洋之",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "作画@wiki",
+              "code": "sakuga_wiki_id"
+            },
+            "value": 310,
+            "formatted_value": "https://www18.atwiki.jp/sakuga/pages/310.html"
+          },
+          {
+            "attribute": {
+              "name": "アニメ@wiki",
+              "code": "anime_wiki_id"
+            },
+            "value": 90,
+            "formatted_value": "https://www7.atwiki.jp/anime_wiki/pages/90.html"
+          },
+          {
+            "attribute": {
+              "name": "Google Knowledge Graph Search",
+              "code": "kgs_url"
+            },
+            "value": "http://g.co/kg/m/03_n1j",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "简介",
+              "code": "description"
+            },
+            "value": "今石洋之，日本动画导演。东京都出身。",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "中文名称",
+              "code": "name_zh"
+            },
+            "value": "今石洋之",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "中文维基",
+              "code": "wiki_zh"
+            },
+            "value": "https://zh.wikipedia.org/zh-cn/%E4%BB%8A%E7%9F%B3%E6%B4%8B%E4%B9%8B",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "日文维基",
+              "code": "wiki_ja"
+            },
+            "value": "https://ja.wikipedia.org/wiki/%E4%BB%8A%E7%9F%B3%E6%B4%8B%E4%B9%8B",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "英文维基",
+              "code": "wiki_en"
+            },
+            "value": "https://en.wikipedia.org/wiki/Hiroyuki_Imaishi",
+            "formatted_value": null
+          },
+          {
+            "attribute": {
+              "name": "名称",
+              "code": "name_main"
+            },
+            "value": "今石洋之",
+            "formatted_value": null
+          }
+        ],
+        "last_edit_user": "System"
+      }
+    }
+  ]
+}
