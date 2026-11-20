@@ -48,6 +48,11 @@ jobs:
           raw=api('actions/jobs/136183168426/logs')
           text=raw.decode(errors='replace')
           report['api35_failed_log_tail']=[line if not re.search(r'password|authorization|cookie|secret|token',line,re.I) else '[redacted]' for line in text.splitlines()[-100:]]
+          try:
+              raw=api('actions/jobs/136183168426/logs')
+              tail=raw.decode(errors='replace').splitlines()[-100:]
+              report['failed_job_log_tail']='\n'.join('[redacted]' if re.search(r'password|token|cookie|authorization|secret',line,re.I)else line for line in tail)[-18000:]
+          except Exception as error:report['failed_job_log_error']=str(error)
           (out/'report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
           PY
       - name: Save public validation evidence separately from application source
