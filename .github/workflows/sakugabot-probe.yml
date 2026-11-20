@@ -1,41 +1,59 @@
-name: Read public Sakugabot tag schema
+name: Read Sakugabot development CI evidence
 on:
   push:
     branches: [ci/sakugabot-read]
 permissions:
   contents: write
+  actions: read
 jobs:
   read:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
-      - name: Read three public tags without authentication or retries
+      - name: Read exact-commit checks and bounded test reports
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          python3 - <<'PYCODE'
-          import urllib.request,urllib.parse,json,time,pathlib,datetime
-          results=[]
-          for name in ['yutaka_nakamura','yoh_yoshinari','hiroyuki_imaishi']:
-              url='https://sakugabot.pw/api/tags/'+urllib.parse.quote(name,safe='')+'/'
-              item={'tag':name,'url':url}
-              try:
-                  with urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'Sakugapp read-only schema verification'}),timeout=20) as r:
-                      raw=r.read(1048577)
-                      assert len(raw)<=1048576
-                      item.update(status=r.status,content_type=r.headers.get('Content-Type'))
-                      try:item['response']=json.loads(raw)
-                      except json.JSONDecodeError:item['body_excerpt']=raw[:500].decode(errors='replace')
-              except Exception as e:item['error']=str(e)
-              results.append(item)
-              time.sleep(1)
-          pathlib.Path('/tmp/sakugabot-artists.json').write_text(json.dumps({'verified_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'requests':results},ensure_ascii=False,indent=2)+'\n')
-          PYCODE
-      - name: Save bounded public read results on an isolated branch
+          python3 - <<'PY'
+          import subprocess,json,pathlib,zipfile,io,xml.etree.ElementTree as ET,re
+          def api(path):return subprocess.check_output(['gh','api','repos/Milenal82/sakugapp/'+path])
+          out=pathlib.Path('/tmp/ci-evidence');out.mkdir()
+          report={'sha':'eae1a81a5001921a30c3b93b900c4176b580aa7f','runs':[]}
+          for run in ['44705167696','44705167606','44705167531']:
+              data=json.loads(api('actions/runs/'+run));assert data['head_sha']==report['sha']
+              item={'run':run,'url':data['html_url'],'status':data['status'],'conclusion':data['conclusion'],'jobs':[],'artifacts':[],'reports':[]}
+              for job in json.loads(api(f'actions/runs/{run}/jobs?per_page=100'))['jobs']:
+                  item['jobs'].append({k:job[k] for k in ['name','status','conclusion','html_url','steps']})
+              for artifact in json.loads(api(f'actions/runs/{run}/artifacts?per_page=100'))['artifacts']:
+                  name=artifact['name'];item['artifacts'].append({'name':name,'url':f'https://github.com/Milenal82/sakugapp/actions/runs/{run}/artifacts/{artifact["id"]}'})
+                  if 'report' not in name or artifact['size_in_bytes']>64*1024*1024:continue
+                  with zipfile.ZipFile(io.BytesIO(api(f'actions/artifacts/{artifact["id"]}/zip')))as z:
+                      for p in z.infolist():
+                          if p.file_size>4*1024*1024:continue
+                          short=pathlib.PurePosixPath(p.filename).name
+                          if short.startswith('TEST-')and short.endswith('.xml'):
+                              try:r=ET.fromstring(z.read(p))
+                              except ET.ParseError:continue
+                              failures=[]
+                              for case in r.iter('testcase'):
+                                  for f in list(case.findall('failure'))+list(case.findall('error')):
+                                      message=f.text or f.get('message','')
+                                      message='\n'.join(line for line in message.splitlines()if not re.search(r'password|authorization:|cookie:|bearer ',line,re.I))[:9000]
+                                      failures.append({'test':case.get('classname','')+'.'+case.get('name',''),'message':message})
+                              item['reports'].append({'file':name+'/'+p.filename,'counts':r.attrib,'failures':failures})
+                          if short=='sakugabot-network.json':item.setdefault('sakugabot_network',[]).append(json.loads(z.read(p)))
+                          if short.startswith('sakugabot-')and short.endswith('.png'):
+                              (out/(name+'-'+short)).write_bytes(z.read(p))
+              report['runs'].append(item)
+          (out/'report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
+          PY
+      - name: Save public validation evidence separately from application source
         run: |
-          git fetch origin evidence/sakugabot-api:refs/remotes/origin/evidence/sakugabot-api || true
-          if git show-ref --verify --quiet refs/remotes/origin/evidence/sakugabot-api; then git switch -c evidence origin/evidence/sakugabot-api; else git switch --orphan evidence; git rm -rf --ignore-unmatch .; fi
-          cp /tmp/sakugabot-artists.json sakugabot-artists.json
+          git fetch origin evidence/sakugabot-ci:refs/remotes/origin/evidence/sakugabot-ci || true
+          if git show-ref --verify --quiet refs/remotes/origin/evidence/sakugabot-ci; then git switch -c evidence origin/evidence/sakugabot-ci; else git switch --orphan evidence; git rm -rf --ignore-unmatch .; fi
+          cp /tmp/ci-evidence/* .
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add sakugabot-artists.json
-          git commit -m 'Record bounded public Sakugabot schema verification' || true
-          git push origin HEAD:refs/heads/evidence/sakugabot-api
+          git add report.json '*.png'
+          git commit -m 'Record bounded checks for Sakugabot development' || true
+          git push origin HEAD:refs/heads/evidence/sakugabot-ci
