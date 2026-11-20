@@ -14,7 +14,7 @@ jobs:
           python3 - <<'PYCODE'
           import urllib.request,urllib.parse,json,time,pathlib,datetime
           results=[]
-          for name in ['mob_psycho_100','yoshinari_you','mokmok']:
+          for name in ['yutaka_nakamura','yoh_yoshinari','hiroyuki_imaishi']:
               url='https://sakugabot.pw/api/tags/'+urllib.parse.quote(name,safe='')+'/'
               item={'tag':name,'url':url}
               try:
@@ -27,15 +27,15 @@ jobs:
               except Exception as e:item['error']=str(e)
               results.append(item)
               time.sleep(1)
-          pathlib.Path('/tmp/sakugabot-probe.json').write_text(json.dumps({'verified_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'requests':results},ensure_ascii=False,indent=2)+'\n')
+          pathlib.Path('/tmp/sakugabot-artists.json').write_text(json.dumps({'verified_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'requests':results},ensure_ascii=False,indent=2)+'\n')
           PYCODE
       - name: Save bounded public read results on an isolated branch
         run: |
           git fetch origin evidence/sakugabot-api:refs/remotes/origin/evidence/sakugabot-api || true
           if git show-ref --verify --quiet refs/remotes/origin/evidence/sakugabot-api; then git switch -c evidence origin/evidence/sakugabot-api; else git switch --orphan evidence; git rm -rf --ignore-unmatch .; fi
-          cp /tmp/sakugabot-probe.json sakugabot-probe.json
+          cp /tmp/sakugabot-artists.json sakugabot-artists.json
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add sakugabot-probe.json
+          git add sakugabot-artists.json
           git commit -m 'Record bounded public Sakugabot schema verification' || true
           git push origin HEAD:refs/heads/evidence/sakugabot-api
