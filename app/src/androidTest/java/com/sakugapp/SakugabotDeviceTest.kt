@@ -96,7 +96,9 @@ class SakugabotDeviceTest {
         val name=online.lookup(tag)
         val dnsCalls=AtomicInteger()
         val offline=SakugabotTranslations(client=okhttp3.OkHttpClient.Builder().retryOnConnectionFailure(false)
-            .dns{dnsCalls.incrementAndGet();throw UnknownHostException("Offline test")}.build())
+            .dns(object:okhttp3.Dns{
+                override fun lookup(hostname:String):List<java.net.InetAddress>{dnsCalls.incrementAndGet();throw UnknownHostException("Offline test")}
+            }).build())
         var source by mutableStateOf<DetailTranslationSource>(online)
         ui.runOnUiThread{ui.activity.setContent{
             val names=detailNames(2,listOf(tag),true,source)
