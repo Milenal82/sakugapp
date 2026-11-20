@@ -1,709 +1,661 @@
 {
-  "sha": "8764c4103435a7dd0c430105600ba20cc298f059",
+  "sha": "5f5f672edfe9db37293a68e7af3272f527119e82",
   "runs": [
     {
-      "run": "44708064937",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937",
-      "status": "completed",
-      "conclusion": "failure",
+      "run": "44733309493",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493",
+      "status": "in_progress",
+      "conclusion": null,
       "jobs": [
         {
-          "id": 136192504635,
-          "name": "six-column-display (landscape, pixel_c)",
-          "status": "completed",
-          "conclusion": "success",
-          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192504635",
-          "steps": [
-            {
-              "name": "Set up job",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 1,
-              "started_at": "2026-11-20T09:07:45Z",
-              "completed_at": "2026-11-20T09:07:50Z"
-            },
-            {
-              "name": "Run actions/checkout@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 2,
-              "started_at": "2026-11-20T09:07:50Z",
-              "completed_at": "2026-11-20T09:07:56Z"
-            },
-            {
-              "name": "Run actions/setup-java@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 3,
-              "started_at": "2026-11-20T09:07:56Z",
-              "completed_at": "2026-11-20T09:07:56Z"
-            },
-            {
-              "name": "Run gradle/actions/setup-gradle@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 4,
-              "started_at": "2026-11-20T09:07:56Z",
-              "completed_at": "2026-11-20T09:08:06Z"
-            },
-            {
-              "name": "Run sudo chmod a+rw /dev/kvm",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 5,
-              "started_at": "2026-11-20T09:08:06Z",
-              "completed_at": "2026-11-20T09:08:06Z"
-            },
-            {
-              "name": "Run ./scripts/ci-android-sdk.sh",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 6,
-              "started_at": "2026-11-20T09:08:06Z",
-              "completed_at": "2026-11-20T09:08:15Z"
-            },
-            {
-              "name": "Test a fresh physical display without wm overrides",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 7,
-              "started_at": "2026-11-20T09:08:15Z",
-              "completed_at": "2026-11-20T09:11:32Z"
-            },
-            {
-              "name": "Export captures even after an assertion failure",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 8,
-              "started_at": "2026-11-20T09:11:32Z",
-              "completed_at": "2026-11-20T09:11:32Z"
-            },
-            {
-              "name": "Run actions/upload-artifact@v4",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 9,
-              "started_at": "2026-11-20T09:11:32Z",
-              "completed_at": "2026-11-20T09:11:35Z"
-            },
-            {
-              "name": "Post Run gradle/actions/setup-gradle@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 16,
-              "started_at": "2026-11-20T09:11:35Z",
-              "completed_at": "2026-11-20T09:11:49Z"
-            },
-            {
-              "name": "Post Run actions/setup-java@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 17,
-              "started_at": "2026-11-20T09:11:49Z",
-              "completed_at": "2026-11-20T09:11:49Z"
-            },
-            {
-              "name": "Post Run actions/checkout@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 18,
-              "started_at": "2026-11-20T09:11:49Z",
-              "completed_at": "2026-11-20T09:11:49Z"
-            },
-            {
-              "name": "Complete job",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 19,
-              "started_at": "2026-11-20T09:11:49Z",
-              "completed_at": "2026-11-20T09:11:49Z"
-            }
-          ]
-        },
-        {
-          "id": 136192505098,
-          "name": "build",
-          "status": "completed",
-          "conclusion": "success",
-          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192505098",
-          "steps": [
-            {
-              "name": "Set up job",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 1,
-              "started_at": "2026-11-20T09:07:44Z",
-              "completed_at": "2026-11-20T09:07:48Z"
-            },
-            {
-              "name": "Run actions/checkout@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 2,
-              "started_at": "2026-11-20T09:07:48Z",
-              "completed_at": "2026-11-20T09:07:52Z"
-            },
-            {
-              "name": "Run actions/setup-java@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 3,
-              "started_at": "2026-11-20T09:07:52Z",
-              "completed_at": "2026-11-20T09:07:52Z"
-            },
-            {
-              "name": "Prepare Android SDK",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 4,
-              "started_at": "2026-11-20T09:07:52Z",
-              "completed_at": "2026-11-20T09:08:04Z"
-            },
-            {
-              "name": "Run gradle/actions/setup-gradle@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 5,
-              "started_at": "2026-11-20T09:08:04Z",
-              "completed_at": "2026-11-20T09:08:08Z"
-            },
-            {
-              "name": "Verify native localization resources",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 6,
-              "started_at": "2026-11-20T09:08:08Z",
-              "completed_at": "2026-11-20T09:08:08Z"
-            },
-            {
-              "name": "Unit tests, Android Lint and Debug APK",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 7,
-              "started_at": "2026-11-20T09:08:08Z",
-              "completed_at": "2026-11-20T09:13:29Z"
-            },
-            {
-              "name": "Verify APK signature and list packaged ABIs",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 8,
-              "started_at": "2026-11-20T09:13:29Z",
-              "completed_at": "2026-11-20T09:13:29Z"
-            },
-            {
-              "name": "Package project source",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 9,
-              "started_at": "2026-11-20T09:13:29Z",
-              "completed_at": "2026-11-20T09:13:29Z"
-            },
-            {
-              "name": "Run actions/upload-artifact@v4",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 10,
-              "started_at": "2026-11-20T09:13:29Z",
-              "completed_at": "2026-11-20T09:13:31Z"
-            },
-            {
-              "name": "Run actions/upload-artifact@v4",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 11,
-              "started_at": "2026-11-20T09:13:31Z",
-              "completed_at": "2026-11-20T09:13:32Z"
-            },
-            {
-              "name": "Run actions/upload-artifact@v4",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 12,
-              "started_at": "2026-11-20T09:13:32Z",
-              "completed_at": "2026-11-20T09:13:32Z"
-            },
-            {
-              "name": "Post Run gradle/actions/setup-gradle@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 22,
-              "started_at": "2026-11-20T09:13:32Z",
-              "completed_at": "2026-11-20T09:13:47Z"
-            },
-            {
-              "name": "Post Run actions/setup-java@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 23,
-              "started_at": "2026-11-20T09:13:47Z",
-              "completed_at": "2026-11-20T09:13:47Z"
-            },
-            {
-              "name": "Post Run actions/checkout@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 24,
-              "started_at": "2026-11-20T09:13:47Z",
-              "completed_at": "2026-11-20T09:13:47Z"
-            },
-            {
-              "name": "Complete job",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 25,
-              "started_at": "2026-11-20T09:13:47Z",
-              "completed_at": "2026-11-20T09:13:47Z"
-            }
-          ]
-        },
-        {
-          "id": 136192505180,
+          "id": 136278284564,
           "name": "search-back-gestures",
           "status": "completed",
           "conclusion": "failure",
-          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192505180",
+          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278284564",
           "steps": [
             {
               "name": "Set up job",
               "status": "completed",
               "conclusion": "success",
               "number": 1,
-              "started_at": "2026-11-20T09:07:44Z",
-              "completed_at": "2026-11-20T09:07:47Z"
+              "started_at": "2026-11-20T12:08:36Z",
+              "completed_at": "2026-11-20T12:08:38Z"
             },
             {
               "name": "Run actions/checkout@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 2,
-              "started_at": "2026-11-20T09:07:47Z",
-              "completed_at": "2026-11-20T09:07:50Z"
+              "started_at": "2026-11-20T12:08:38Z",
+              "completed_at": "2026-11-20T12:08:39Z"
             },
             {
               "name": "Run actions/setup-java@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 3,
-              "started_at": "2026-11-20T09:07:50Z",
-              "completed_at": "2026-11-20T09:07:51Z"
+              "started_at": "2026-11-20T12:08:39Z",
+              "completed_at": "2026-11-20T12:08:39Z"
             },
             {
               "name": "Run gradle/actions/setup-gradle@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 4,
-              "started_at": "2026-11-20T09:07:51Z",
-              "completed_at": "2026-11-20T09:07:55Z"
+              "started_at": "2026-11-20T12:08:39Z",
+              "completed_at": "2026-11-20T12:08:44Z"
             },
             {
               "name": "Run sudo chmod a+rw /dev/kvm",
               "status": "completed",
               "conclusion": "success",
               "number": 5,
-              "started_at": "2026-11-20T09:07:55Z",
-              "completed_at": "2026-11-20T09:07:55Z"
+              "started_at": "2026-11-20T12:08:44Z",
+              "completed_at": "2026-11-20T12:08:44Z"
             },
             {
               "name": "Run ./scripts/ci-android-sdk.sh",
               "status": "completed",
               "conclusion": "success",
               "number": 6,
-              "started_at": "2026-11-20T09:07:55Z",
-              "completed_at": "2026-11-20T09:08:04Z"
+              "started_at": "2026-11-20T12:08:44Z",
+              "completed_at": "2026-11-20T12:08:56Z"
             },
             {
               "name": "Verify real edge gestures, IME back and cancelled predictive back",
               "status": "completed",
               "conclusion": "failure",
               "number": 7,
-              "started_at": "2026-11-20T09:08:04Z",
-              "completed_at": "2026-11-20T09:12:34Z"
+              "started_at": "2026-11-20T12:08:56Z",
+              "completed_at": "2026-11-20T12:14:11Z"
             },
             {
               "name": "Run actions/upload-artifact@v4",
               "status": "completed",
               "conclusion": "success",
               "number": 8,
-              "started_at": "2026-11-20T09:12:34Z",
-              "completed_at": "2026-11-20T09:12:35Z"
+              "started_at": "2026-11-20T12:14:11Z",
+              "completed_at": "2026-11-20T12:14:12Z"
             },
             {
               "name": "Post Run gradle/actions/setup-gradle@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 14,
-              "started_at": "2026-11-20T09:12:35Z",
-              "completed_at": "2026-11-20T09:12:37Z"
+              "started_at": "2026-11-20T12:14:12Z",
+              "completed_at": "2026-11-20T12:14:20Z"
             },
             {
               "name": "Post Run actions/setup-java@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 15,
-              "started_at": "2026-11-20T09:12:37Z",
-              "completed_at": "2026-11-20T09:12:37Z"
+              "started_at": "2026-11-20T12:14:20Z",
+              "completed_at": "2026-11-20T12:14:20Z"
             },
             {
               "name": "Post Run actions/checkout@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 16,
-              "started_at": "2026-11-20T09:12:37Z",
-              "completed_at": "2026-11-20T09:12:38Z"
+              "started_at": "2026-11-20T12:14:20Z",
+              "completed_at": "2026-11-20T12:14:21Z"
             },
             {
               "name": "Complete job",
               "status": "completed",
               "conclusion": "success",
               "number": 17,
-              "started_at": "2026-11-20T09:12:38Z",
-              "completed_at": "2026-11-20T09:12:38Z"
+              "started_at": "2026-11-20T12:14:21Z",
+              "completed_at": "2026-11-20T12:14:21Z"
             }
           ]
         },
         {
-          "id": 136192505267,
-          "name": "device-tests",
-          "status": "completed",
-          "conclusion": "success",
-          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192505267",
-          "steps": [
-            {
-              "name": "Set up job",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 1,
-              "started_at": "2026-11-20T09:07:45Z",
-              "completed_at": "2026-11-20T09:07:50Z"
-            },
-            {
-              "name": "Run actions/checkout@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 2,
-              "started_at": "2026-11-20T09:07:50Z",
-              "completed_at": "2026-11-20T09:07:54Z"
-            },
-            {
-              "name": "Run actions/setup-java@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 3,
-              "started_at": "2026-11-20T09:07:54Z",
-              "completed_at": "2026-11-20T09:07:54Z"
-            },
-            {
-              "name": "Run gradle/actions/setup-gradle@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 4,
-              "started_at": "2026-11-20T09:07:54Z",
-              "completed_at": "2026-11-20T09:08:04Z"
-            },
-            {
-              "name": "Enable runner KVM",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 5,
-              "started_at": "2026-11-20T09:08:04Z",
-              "completed_at": "2026-11-20T09:08:05Z"
-            },
-            {
-              "name": "Install build SDK",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 6,
-              "started_at": "2026-11-20T09:08:05Z",
-              "completed_at": "2026-11-20T09:08:15Z"
-            },
-            {
-              "name": "Run exact-frame, secure-session, persistence and native UI tests",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 7,
-              "started_at": "2026-11-20T09:08:15Z",
-              "completed_at": "2026-11-20T09:15:17Z"
-            },
-            {
-              "name": "Explain failed device assertions",
-              "status": "completed",
-              "conclusion": "skipped",
-              "number": 8,
-              "started_at": "2026-11-20T09:15:17Z",
-              "completed_at": "2026-11-20T09:15:17Z"
-            },
-            {
-              "name": "Run actions/upload-artifact@v4",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 9,
-              "started_at": "2026-11-20T09:15:17Z",
-              "completed_at": "2026-11-20T09:15:19Z"
-            },
-            {
-              "name": "Post Run gradle/actions/setup-gradle@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 16,
-              "started_at": "2026-11-20T09:15:19Z",
-              "completed_at": "2026-11-20T09:15:35Z"
-            },
-            {
-              "name": "Post Run actions/setup-java@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 17,
-              "started_at": "2026-11-20T09:15:35Z",
-              "completed_at": "2026-11-20T09:15:35Z"
-            },
-            {
-              "name": "Post Run actions/checkout@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 18,
-              "started_at": "2026-11-20T09:15:35Z",
-              "completed_at": "2026-11-20T09:15:35Z"
-            },
-            {
-              "name": "Complete job",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 19,
-              "started_at": "2026-11-20T09:15:35Z",
-              "completed_at": "2026-11-20T09:15:35Z"
-            }
-          ]
-        },
-        {
-          "id": 136192505304,
+          "id": 136278284791,
           "name": "six-column-display (phone, Nexus S)",
           "status": "completed",
           "conclusion": "success",
-          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192505304",
+          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278284791",
           "steps": [
             {
               "name": "Set up job",
               "status": "completed",
               "conclusion": "success",
               "number": 1,
-              "started_at": "2026-11-20T09:07:44Z",
-              "completed_at": "2026-11-20T09:07:46Z"
+              "started_at": "2026-11-20T12:08:37Z",
+              "completed_at": "2026-11-20T12:08:41Z"
             },
             {
               "name": "Run actions/checkout@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 2,
-              "started_at": "2026-11-20T09:07:46Z",
-              "completed_at": "2026-11-20T09:07:49Z"
+              "started_at": "2026-11-20T12:08:41Z",
+              "completed_at": "2026-11-20T12:08:46Z"
             },
             {
               "name": "Run actions/setup-java@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 3,
-              "started_at": "2026-11-20T09:07:49Z",
-              "completed_at": "2026-11-20T09:07:49Z"
+              "started_at": "2026-11-20T12:08:46Z",
+              "completed_at": "2026-11-20T12:08:47Z"
             },
             {
               "name": "Run gradle/actions/setup-gradle@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 4,
-              "started_at": "2026-11-20T09:07:49Z",
-              "completed_at": "2026-11-20T09:07:54Z"
+              "started_at": "2026-11-20T12:08:47Z",
+              "completed_at": "2026-11-20T12:08:57Z"
             },
             {
               "name": "Run sudo chmod a+rw /dev/kvm",
               "status": "completed",
               "conclusion": "success",
               "number": 5,
-              "started_at": "2026-11-20T09:07:54Z",
-              "completed_at": "2026-11-20T09:07:54Z"
+              "started_at": "2026-11-20T12:08:57Z",
+              "completed_at": "2026-11-20T12:08:57Z"
             },
             {
               "name": "Run ./scripts/ci-android-sdk.sh",
               "status": "completed",
               "conclusion": "success",
               "number": 6,
-              "started_at": "2026-11-20T09:07:54Z",
-              "completed_at": "2026-11-20T09:08:03Z"
+              "started_at": "2026-11-20T12:08:57Z",
+              "completed_at": "2026-11-20T12:09:07Z"
             },
             {
               "name": "Test a fresh physical display without wm overrides",
               "status": "completed",
               "conclusion": "success",
               "number": 7,
-              "started_at": "2026-11-20T09:08:03Z",
-              "completed_at": "2026-11-20T09:11:18Z"
+              "started_at": "2026-11-20T12:09:07Z",
+              "completed_at": "2026-11-20T12:12:13Z"
             },
             {
               "name": "Export captures even after an assertion failure",
               "status": "completed",
               "conclusion": "success",
               "number": 8,
-              "started_at": "2026-11-20T09:11:18Z",
-              "completed_at": "2026-11-20T09:11:18Z"
+              "started_at": "2026-11-20T12:12:13Z",
+              "completed_at": "2026-11-20T12:12:13Z"
             },
             {
               "name": "Run actions/upload-artifact@v4",
               "status": "completed",
               "conclusion": "success",
               "number": 9,
-              "started_at": "2026-11-20T09:11:18Z",
-              "completed_at": "2026-11-20T09:11:19Z"
+              "started_at": "2026-11-20T12:12:13Z",
+              "completed_at": "2026-11-20T12:12:15Z"
             },
             {
               "name": "Post Run gradle/actions/setup-gradle@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 16,
-              "started_at": "2026-11-20T09:11:19Z",
-              "completed_at": "2026-11-20T09:11:30Z"
+              "started_at": "2026-11-20T12:12:15Z",
+              "completed_at": "2026-11-20T12:12:34Z"
             },
             {
               "name": "Post Run actions/setup-java@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 17,
-              "started_at": "2026-11-20T09:11:30Z",
-              "completed_at": "2026-11-20T09:11:30Z"
+              "started_at": "2026-11-20T12:12:34Z",
+              "completed_at": "2026-11-20T12:12:35Z"
             },
             {
               "name": "Post Run actions/checkout@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 18,
-              "started_at": "2026-11-20T09:11:30Z",
-              "completed_at": "2026-11-20T09:11:30Z"
+              "started_at": "2026-11-20T12:12:35Z",
+              "completed_at": "2026-11-20T12:12:35Z"
             },
             {
               "name": "Complete job",
               "status": "completed",
               "conclusion": "success",
               "number": 19,
-              "started_at": "2026-11-20T09:11:30Z",
-              "completed_at": "2026-11-20T09:11:30Z"
+              "started_at": "2026-11-20T12:12:35Z",
+              "completed_at": "2026-11-20T12:12:35Z"
             }
           ]
         },
         {
-          "id": 136192506675,
-          "name": "documentation-screenshots",
+          "id": 136278284909,
+          "name": "build",
           "status": "completed",
-          "conclusion": "skipped",
-          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192506675",
-          "steps": []
+          "conclusion": "success",
+          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278284909",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-11-20T12:08:36Z",
+              "completed_at": "2026-11-20T12:08:39Z"
+            },
+            {
+              "name": "Run actions/checkout@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-11-20T12:08:39Z",
+              "completed_at": "2026-11-20T12:08:40Z"
+            },
+            {
+              "name": "Run actions/setup-java@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-11-20T12:08:40Z",
+              "completed_at": "2026-11-20T12:08:40Z"
+            },
+            {
+              "name": "Prepare Android SDK",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-11-20T12:08:40Z",
+              "completed_at": "2026-11-20T12:08:51Z"
+            },
+            {
+              "name": "Run gradle/actions/setup-gradle@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-11-20T12:08:51Z",
+              "completed_at": "2026-11-20T12:08:58Z"
+            },
+            {
+              "name": "Verify native localization resources",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-11-20T12:08:58Z",
+              "completed_at": "2026-11-20T12:08:58Z"
+            },
+            {
+              "name": "Unit tests, Android Lint and Debug APK",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7,
+              "started_at": "2026-11-20T12:08:58Z",
+              "completed_at": "2026-11-20T12:14:13Z"
+            },
+            {
+              "name": "Verify APK signature and list packaged ABIs",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8,
+              "started_at": "2026-11-20T12:14:13Z",
+              "completed_at": "2026-11-20T12:14:14Z"
+            },
+            {
+              "name": "Package project source",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-11-20T12:14:14Z",
+              "completed_at": "2026-11-20T12:14:14Z"
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10,
+              "started_at": "2026-11-20T12:14:14Z",
+              "completed_at": "2026-11-20T12:14:16Z"
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11,
+              "started_at": "2026-11-20T12:14:16Z",
+              "completed_at": "2026-11-20T12:14:17Z"
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12,
+              "started_at": "2026-11-20T12:14:17Z",
+              "completed_at": "2026-11-20T12:14:18Z"
+            },
+            {
+              "name": "Post Run gradle/actions/setup-gradle@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 22,
+              "started_at": "2026-11-20T12:14:18Z",
+              "completed_at": "2026-11-20T12:14:45Z"
+            },
+            {
+              "name": "Post Run actions/setup-java@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 23,
+              "started_at": "2026-11-20T12:14:45Z",
+              "completed_at": "2026-11-20T12:14:45Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 24,
+              "started_at": "2026-11-20T12:14:45Z",
+              "completed_at": "2026-11-20T12:14:46Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 25,
+              "started_at": "2026-11-20T12:14:46Z",
+              "completed_at": "2026-11-20T12:14:46Z"
+            }
+          ]
         },
         {
-          "id": 136192507017,
+          "id": 136278284912,
+          "name": "device-tests",
+          "status": "in_progress",
+          "conclusion": null,
+          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278284912",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-11-20T12:08:37Z",
+              "completed_at": "2026-11-20T12:08:40Z"
+            },
+            {
+              "name": "Run actions/checkout@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-11-20T12:08:40Z",
+              "completed_at": "2026-11-20T12:08:41Z"
+            },
+            {
+              "name": "Run actions/setup-java@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-11-20T12:08:41Z",
+              "completed_at": "2026-11-20T12:08:41Z"
+            },
+            {
+              "name": "Run gradle/actions/setup-gradle@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-11-20T12:08:41Z",
+              "completed_at": "2026-11-20T12:09:00Z"
+            },
+            {
+              "name": "Enable runner KVM",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-11-20T12:09:00Z",
+              "completed_at": "2026-11-20T12:09:00Z"
+            },
+            {
+              "name": "Install build SDK",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-11-20T12:09:00Z",
+              "completed_at": "2026-11-20T12:09:13Z"
+            },
+            {
+              "name": "Run exact-frame, secure-session, persistence and native UI tests",
+              "status": "in_progress",
+              "conclusion": null,
+              "number": 7,
+              "started_at": "2026-11-20T12:09:13Z",
+              "completed_at": null
+            },
+            {
+              "name": "Explain failed device assertions",
+              "status": "pending",
+              "conclusion": null,
+              "number": 8,
+              "started_at": null,
+              "completed_at": null
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "pending",
+              "conclusion": null,
+              "number": 9,
+              "started_at": null,
+              "completed_at": null
+            },
+            {
+              "name": "Post Run gradle/actions/setup-gradle@v5",
+              "status": "pending",
+              "conclusion": null,
+              "number": 16,
+              "started_at": null,
+              "completed_at": null
+            },
+            {
+              "name": "Post Run actions/setup-java@v5",
+              "status": "pending",
+              "conclusion": null,
+              "number": 17,
+              "started_at": null,
+              "completed_at": null
+            },
+            {
+              "name": "Post Run actions/checkout@v5",
+              "status": "pending",
+              "conclusion": null,
+              "number": 18,
+              "started_at": null,
+              "completed_at": null
+            }
+          ]
+        },
+        {
+          "id": 136278285047,
+          "name": "six-column-display (landscape, pixel_c)",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278285047",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-11-20T12:08:37Z",
+              "completed_at": "2026-11-20T12:08:41Z"
+            },
+            {
+              "name": "Run actions/checkout@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-11-20T12:08:41Z",
+              "completed_at": "2026-11-20T12:08:47Z"
+            },
+            {
+              "name": "Run actions/setup-java@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-11-20T12:08:47Z",
+              "completed_at": "2026-11-20T12:08:47Z"
+            },
+            {
+              "name": "Run gradle/actions/setup-gradle@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-11-20T12:08:47Z",
+              "completed_at": "2026-11-20T12:08:59Z"
+            },
+            {
+              "name": "Run sudo chmod a+rw /dev/kvm",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-11-20T12:08:59Z",
+              "completed_at": "2026-11-20T12:08:59Z"
+            },
+            {
+              "name": "Run ./scripts/ci-android-sdk.sh",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-11-20T12:08:59Z",
+              "completed_at": "2026-11-20T12:09:08Z"
+            },
+            {
+              "name": "Test a fresh physical display without wm overrides",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7,
+              "started_at": "2026-11-20T12:09:08Z",
+              "completed_at": "2026-11-20T12:12:28Z"
+            },
+            {
+              "name": "Export captures even after an assertion failure",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8,
+              "started_at": "2026-11-20T12:12:28Z",
+              "completed_at": "2026-11-20T12:12:28Z"
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-11-20T12:12:28Z",
+              "completed_at": "2026-11-20T12:12:31Z"
+            },
+            {
+              "name": "Post Run gradle/actions/setup-gradle@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16,
+              "started_at": "2026-11-20T12:12:31Z",
+              "completed_at": "2026-11-20T12:12:47Z"
+            },
+            {
+              "name": "Post Run actions/setup-java@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17,
+              "started_at": "2026-11-20T12:12:47Z",
+              "completed_at": "2026-11-20T12:12:47Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18,
+              "started_at": "2026-11-20T12:12:47Z",
+              "completed_at": "2026-11-20T12:12:47Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19,
+              "started_at": "2026-11-20T12:12:47Z",
+              "completed_at": "2026-11-20T12:12:47Z"
+            }
+          ]
+        },
+        {
+          "id": 136278286068,
           "name": "signed-candidate",
           "status": "completed",
           "conclusion": "skipped",
-          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192507017",
+          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278286068",
           "steps": []
         },
         {
-          "id": 136192507216,
-          "name": "release-signing",
-          "status": "completed",
-          "conclusion": "skipped",
-          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192507216",
-          "steps": []
-        },
-        {
-          "id": 136192507226,
-          "name": "release-preflight",
-          "status": "completed",
-          "conclusion": "skipped",
-          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192507226",
-          "steps": []
-        },
-        {
-          "id": 136192507441,
+          "id": 136278286308,
           "name": "candidate-upgrade-install",
           "status": "completed",
           "conclusion": "skipped",
-          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192507441",
+          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278286308",
           "steps": []
         },
         {
-          "id": 136192507692,
+          "id": 136278286710,
+          "name": "documentation-screenshots",
+          "status": "completed",
+          "conclusion": "skipped",
+          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278286710",
+          "steps": []
+        },
+        {
+          "id": 136278286813,
+          "name": "release-signing",
+          "status": "completed",
+          "conclusion": "skipped",
+          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278286813",
+          "steps": []
+        },
+        {
+          "id": 136278287133,
           "name": "candidate-evidence",
           "status": "completed",
           "conclusion": "skipped",
-          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192507692",
+          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278287133",
           "steps": []
         },
         {
-          "id": 136196271358,
-          "name": "checks-evidence",
+          "id": 136278287331,
+          "name": "release-preflight",
           "status": "completed",
           "conclusion": "skipped",
-          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136196271358",
+          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/job/136278287331",
           "steps": []
         }
       ],
       "artifacts": [
         {
-          "name": "six-column-phone-reports",
-          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/artifacts/14616680252"
-        },
-        {
-          "name": "six-column-landscape-reports",
-          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/artifacts/14616650372"
-        },
-        {
-          "name": "sakugapp-source",
-          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/artifacts/14616525859"
-        },
-        {
           "name": "check-reports",
-          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/artifacts/14616077990"
-        },
-        {
-          "name": "sakugapp-debug",
-          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/artifacts/14615813738"
-        },
-        {
-          "name": "device-test-reports",
-          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/artifacts/14615734491"
+          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/artifacts/14628046446"
         },
         {
           "name": "search-back-gesture-reports",
-          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/artifacts/14615529020"
+          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/artifacts/14627886627"
+        },
+        {
+          "name": "sakugapp-debug",
+          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/artifacts/14627841844"
+        },
+        {
+          "name": "sakugapp-source",
+          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/artifacts/14627717397"
+        },
+        {
+          "name": "six-column-landscape-reports",
+          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/artifacts/14627327664"
+        },
+        {
+          "name": "six-column-phone-reports",
+          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309493/artifacts/14626564778"
         }
       ],
       "reports": [
-        {
-          "file": "six-column-phone-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-          "counts": {
-            "name": "com.sakugapp.SixColumnDeviceTest",
-            "tests": "2",
-            "failures": "0",
-            "errors": "0",
-            "skipped": "0",
-            "time": "24.565",
-            "timestamp": "2026-11-20T09:11:14",
-            "hostname": "localhost"
-          },
-          "failures": []
-        },
-        {
-          "file": "six-column-landscape-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-          "counts": {
-            "name": "com.sakugapp.SixColumnDeviceTest",
-            "tests": "2",
-            "failures": "0",
-            "errors": "0",
-            "skipped": "0",
-            "time": "28.835",
-            "timestamp": "2026-11-20T09:11:28",
-            "hostname": "localhost"
-          },
-          "failures": []
-        },
         {
           "file": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.AppearanceAndDownloadTest.xml",
           "counts": {
@@ -712,9 +664,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:09:52.238Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "3.016"
+            "timestamp": "2026-11-20T12:10:41.113Z",
+            "hostname": "runnervm8axu0",
+            "time": "2.763"
           },
           "failures": []
         },
@@ -726,9 +678,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:09:55.263Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.265"
+            "timestamp": "2026-11-20T12:10:43.878Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.216"
           },
           "failures": []
         },
@@ -740,9 +692,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:09:55.532Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.048"
+            "timestamp": "2026-11-20T12:10:44.105Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.061"
           },
           "failures": []
         },
@@ -754,9 +706,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:09:55.586Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.096"
+            "timestamp": "2026-11-20T12:10:44.171Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.136"
           },
           "failures": []
         },
@@ -768,9 +720,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:09:55.685Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "14.471"
+            "timestamp": "2026-11-20T12:10:44.312Z",
+            "hostname": "runnervm8axu0",
+            "time": "14.49"
           },
           "failures": []
         },
@@ -782,9 +734,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:10.158Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "9.13"
+            "timestamp": "2026-11-20T12:10:58.807Z",
+            "hostname": "runnervm8axu0",
+            "time": "9.118"
           },
           "failures": []
         },
@@ -796,23 +748,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:19.293Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.009"
-          },
-          "failures": []
-        },
-        {
-          "file": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DebugLinksTest.xml",
-          "counts": {
-            "name": "com.sakugapp.DebugLinksTest",
-            "tests": "10",
-            "skipped": "0",
-            "failures": "0",
-            "errors": "0",
-            "timestamp": "2026-11-20T09:10:19.327Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.083"
+            "timestamp": "2026-11-20T12:11:07.927Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.006"
           },
           "failures": []
         },
@@ -824,9 +762,23 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:19.309Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.012"
+            "timestamp": "2026-11-20T12:11:07.939Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.013"
+          },
+          "failures": []
+        },
+        {
+          "file": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DebugLinksTest.xml",
+          "counts": {
+            "name": "com.sakugapp.DebugLinksTest",
+            "tests": "10",
+            "skipped": "0",
+            "failures": "0",
+            "errors": "0",
+            "timestamp": "2026-11-20T12:11:07.958Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.067"
           },
           "failures": []
         },
@@ -838,9 +790,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:19.415Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.198"
+            "timestamp": "2026-11-20T12:11:08.027Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.165"
           },
           "failures": []
         },
@@ -852,9 +804,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:19.618Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.066"
+            "timestamp": "2026-11-20T12:11:08.195Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.08"
           },
           "failures": []
         },
@@ -866,9 +818,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:19.686Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "1.53"
+            "timestamp": "2026-11-20T12:11:08.276Z",
+            "hostname": "runnervm8axu0",
+            "time": "1.579"
           },
           "failures": []
         },
@@ -876,13 +828,13 @@
           "file": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.FeedViewModelTest.xml",
           "counts": {
             "name": "com.sakugapp.FeedViewModelTest",
-            "tests": "13",
+            "tests": "17",
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:21.218Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.062"
+            "timestamp": "2026-11-20T12:11:09.861Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.059"
           },
           "failures": []
         },
@@ -894,9 +846,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:21.282Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.015"
+            "timestamp": "2026-11-20T12:11:09.922Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.014"
           },
           "failures": []
         },
@@ -908,9 +860,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:21.302Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.006"
+            "timestamp": "2026-11-20T12:11:09.939Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.009"
           },
           "failures": []
         },
@@ -922,9 +874,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:21.311Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.018"
+            "timestamp": "2026-11-20T12:11:09.954Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.026"
           },
           "failures": []
         },
@@ -936,9 +888,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:21.332Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.056"
+            "timestamp": "2026-11-20T12:11:09.982Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.017"
           },
           "failures": []
         },
@@ -950,8 +902,8 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:21.389Z",
-            "hostname": "ip-10-0-143-39",
+            "timestamp": "2026-11-20T12:11:10.003Z",
+            "hostname": "runnervm8axu0",
             "time": "0.001"
           },
           "failures": []
@@ -964,9 +916,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:21.394Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.01"
+            "timestamp": "2026-11-20T12:11:10.008Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.013"
           },
           "failures": []
         },
@@ -978,9 +930,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:21.405Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.038"
+            "timestamp": "2026-11-20T12:11:10.025Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.015"
           },
           "failures": []
         },
@@ -992,9 +944,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:21.446Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.181"
+            "timestamp": "2026-11-20T12:11:10.041Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.124"
           },
           "failures": []
         },
@@ -1006,9 +958,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:21.633Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.009"
+            "timestamp": "2026-11-20T12:11:10.167Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.01"
           },
           "failures": []
         },
@@ -1020,9 +972,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:21.644Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.001"
+            "timestamp": "2026-11-20T12:11:10.183Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.005"
           },
           "failures": []
         },
@@ -1034,9 +986,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:21.647Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.0"
+            "timestamp": "2026-11-20T12:11:10.188Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.001"
           },
           "failures": []
         },
@@ -1048,9 +1000,23 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:21.649Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.006"
+            "timestamp": "2026-11-20T12:11:10.190Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.004"
+          },
+          "failures": []
+        },
+        {
+          "file": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PreviewNamingTest.xml",
+          "counts": {
+            "name": "com.sakugapp.PreviewNamingTest",
+            "tests": "8",
+            "skipped": "0",
+            "failures": "0",
+            "errors": "0",
+            "timestamp": "2026-11-20T12:11:10.195Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.059"
           },
           "failures": []
         },
@@ -1062,9 +1028,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:21.657Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.0"
+            "timestamp": "2026-11-20T12:11:10.255Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.001"
           },
           "failures": []
         },
@@ -1076,9 +1042,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:21.660Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.154"
+            "timestamp": "2026-11-20T12:11:10.257Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.186"
           },
           "failures": []
         },
@@ -1090,9 +1056,23 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:21.815Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.045"
+            "timestamp": "2026-11-20T12:11:10.447Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.027"
+          },
+          "failures": []
+        },
+        {
+          "file": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.SakugabotTranslationsTest.xml",
+          "counts": {
+            "name": "com.sakugapp.SakugabotTranslationsTest",
+            "tests": "11",
+            "skipped": "0",
+            "failures": "0",
+            "errors": "0",
+            "timestamp": "2026-11-20T12:11:17.020Z",
+            "hostname": "runnervm8axu0",
+            "time": "2.787"
           },
           "failures": []
         },
@@ -1104,23 +1084,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:21.864Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "6.519"
-          },
-          "failures": []
-        },
-        {
-          "file": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.SakugabotTranslationsTest.xml",
-          "counts": {
-            "name": "com.sakugapp.SakugabotTranslationsTest",
-            "tests": "9",
-            "skipped": "0",
-            "failures": "0",
-            "errors": "0",
-            "timestamp": "2026-11-20T09:10:28.388Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "2.703"
+            "timestamp": "2026-11-20T12:11:10.475Z",
+            "hostname": "runnervm8axu0",
+            "time": "6.543"
           },
           "failures": []
         },
@@ -1132,9 +1098,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:31.093Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "24.719"
+            "timestamp": "2026-11-20T12:11:19.809Z",
+            "hostname": "runnervm8axu0",
+            "time": "24.72"
           },
           "failures": []
         },
@@ -1146,9 +1112,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:55.813Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.013"
+            "timestamp": "2026-11-20T12:11:44.530Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.027"
           },
           "failures": []
         },
@@ -1160,9 +1126,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:10:55.827Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.093"
+            "timestamp": "2026-11-20T12:11:44.559Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.1"
           },
           "failures": []
         },
@@ -1174,9 +1140,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:11:33.512Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "3.047"
+            "timestamp": "2026-11-20T12:12:18.983Z",
+            "hostname": "runnervm8axu0",
+            "time": "2.805"
           },
           "failures": []
         },
@@ -1188,9 +1154,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:11:36.567Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.28"
+            "timestamp": "2026-11-20T12:12:21.794Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.258"
           },
           "failures": []
         },
@@ -1202,9 +1168,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:11:36.855Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.057"
+            "timestamp": "2026-11-20T12:12:22.054Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.052"
           },
           "failures": []
         },
@@ -1216,9 +1182,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:11:36.916Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.176"
+            "timestamp": "2026-11-20T12:12:22.111Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.122"
           },
           "failures": []
         },
@@ -1230,9 +1196,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:11:37.097Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "14.464"
+            "timestamp": "2026-11-20T12:12:22.235Z",
+            "hostname": "runnervm8axu0",
+            "time": "14.441"
           },
           "failures": []
         },
@@ -1244,9 +1210,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:11:51.562Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "9.102"
+            "timestamp": "2026-11-20T12:12:36.677Z",
+            "hostname": "runnervm8axu0",
+            "time": "9.1"
           },
           "failures": []
         },
@@ -1258,8 +1224,8 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:00.665Z",
-            "hostname": "ip-10-0-143-39",
+            "timestamp": "2026-11-20T12:12:45.780Z",
+            "hostname": "runnervm8axu0",
             "time": "0.005"
           },
           "failures": []
@@ -1272,9 +1238,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:00.671Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.005"
+            "timestamp": "2026-11-20T12:12:45.789Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.006"
           },
           "failures": []
         },
@@ -1286,9 +1252,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:00.678Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.026"
+            "timestamp": "2026-11-20T12:12:45.797Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.031"
           },
           "failures": []
         },
@@ -1300,9 +1266,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:00.704Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.063"
+            "timestamp": "2026-11-20T12:12:45.829Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.089"
           },
           "failures": []
         },
@@ -1314,9 +1280,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:00.768Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.045"
+            "timestamp": "2026-11-20T12:12:45.922Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.058"
           },
           "failures": []
         },
@@ -1328,9 +1294,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:00.815Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "1.791"
+            "timestamp": "2026-11-20T12:12:45.981Z",
+            "hostname": "runnervm8axu0",
+            "time": "1.738"
           },
           "failures": []
         },
@@ -1338,13 +1304,13 @@
           "file": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.FeedViewModelTest.xml",
           "counts": {
             "name": "com.sakugapp.FeedViewModelTest",
-            "tests": "13",
+            "tests": "17",
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:02.608Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.023"
+            "timestamp": "2026-11-20T12:12:47.721Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.038"
           },
           "failures": []
         },
@@ -1356,8 +1322,8 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:02.632Z",
-            "hostname": "ip-10-0-143-39",
+            "timestamp": "2026-11-20T12:12:47.760Z",
+            "hostname": "runnervm8axu0",
             "time": "0.006"
           },
           "failures": []
@@ -1370,9 +1336,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:02.639Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.003"
+            "timestamp": "2026-11-20T12:12:47.767Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.005"
           },
           "failures": []
         },
@@ -1384,23 +1350,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:02.644Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.012"
-          },
-          "failures": []
-        },
-        {
-          "file": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.LiveFixtureTest.xml",
-          "counts": {
-            "name": "com.sakugapp.LiveFixtureTest",
-            "tests": "2",
-            "skipped": "0",
-            "failures": "0",
-            "errors": "0",
-            "timestamp": "2026-11-20T09:12:02.671Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.002"
+            "timestamp": "2026-11-20T12:12:47.775Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.007"
           },
           "failures": []
         },
@@ -1412,9 +1364,23 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:02.658Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.012"
+            "timestamp": "2026-11-20T12:12:47.784Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.011"
+          },
+          "failures": []
+        },
+        {
+          "file": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.LiveFixtureTest.xml",
+          "counts": {
+            "name": "com.sakugapp.LiveFixtureTest",
+            "tests": "2",
+            "skipped": "0",
+            "failures": "0",
+            "errors": "0",
+            "timestamp": "2026-11-20T12:12:47.797Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.001"
           },
           "failures": []
         },
@@ -1426,9 +1392,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:02.674Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.008"
+            "timestamp": "2026-11-20T12:12:47.799Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.006"
           },
           "failures": []
         },
@@ -1440,8 +1406,8 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:02.683Z",
-            "hostname": "ip-10-0-143-39",
+            "timestamp": "2026-11-20T12:12:47.806Z",
+            "hostname": "runnervm8axu0",
             "time": "0.018"
           },
           "failures": []
@@ -1454,23 +1420,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:02.702Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.082"
-          },
-          "failures": []
-        },
-        {
-          "file": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.PersonalizationTest.xml",
-          "counts": {
-            "name": "com.sakugapp.PersonalizationTest",
-            "tests": "4",
-            "skipped": "0",
-            "failures": "0",
-            "errors": "0",
-            "timestamp": "2026-11-20T09:12:02.785Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.008"
+            "timestamp": "2026-11-20T12:12:47.825Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.071"
           },
           "failures": []
         },
@@ -1482,8 +1434,8 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:02.794Z",
-            "hostname": "ip-10-0-143-39",
+            "timestamp": "2026-11-20T12:12:47.910Z",
+            "hostname": "runnervm8axu0",
             "time": "0.002"
           },
           "failures": []
@@ -1496,9 +1448,23 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:02.797Z",
-            "hostname": "ip-10-0-143-39",
+            "timestamp": "2026-11-20T12:12:47.913Z",
+            "hostname": "runnervm8axu0",
             "time": "0.0"
+          },
+          "failures": []
+        },
+        {
+          "file": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.PersonalizationTest.xml",
+          "counts": {
+            "name": "com.sakugapp.PersonalizationTest",
+            "tests": "4",
+            "skipped": "0",
+            "failures": "0",
+            "errors": "0",
+            "timestamp": "2026-11-20T12:12:47.897Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.012"
           },
           "failures": []
         },
@@ -1510,9 +1476,23 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:02.798Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.003"
+            "timestamp": "2026-11-20T12:12:47.914Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.002"
+          },
+          "failures": []
+        },
+        {
+          "file": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.PreviewNamingTest.xml",
+          "counts": {
+            "name": "com.sakugapp.PreviewNamingTest",
+            "tests": "8",
+            "skipped": "0",
+            "failures": "0",
+            "errors": "0",
+            "timestamp": "2026-11-20T12:12:47.921Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.035"
           },
           "failures": []
         },
@@ -1524,8 +1504,8 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:02.802Z",
-            "hostname": "ip-10-0-143-39",
+            "timestamp": "2026-11-20T12:12:47.957Z",
+            "hostname": "runnervm8axu0",
             "time": "0.0"
           },
           "failures": []
@@ -1538,9 +1518,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:02.803Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.119"
+            "timestamp": "2026-11-20T12:12:47.958Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.126"
           },
           "failures": []
         },
@@ -1552,9 +1532,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:02.923Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.015"
+            "timestamp": "2026-11-20T12:12:48.086Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.016"
           },
           "failures": []
         },
@@ -1566,9 +1546,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:02.939Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "6.821"
+            "timestamp": "2026-11-20T12:12:48.103Z",
+            "hostname": "runnervm8axu0",
+            "time": "6.769"
           },
           "failures": []
         },
@@ -1576,13 +1556,13 @@
           "file": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.SakugabotTranslationsTest.xml",
           "counts": {
             "name": "com.sakugapp.SakugabotTranslationsTest",
-            "tests": "9",
+            "tests": "11",
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:09.761Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "2.616"
+            "timestamp": "2026-11-20T12:12:54.875Z",
+            "hostname": "runnervm8axu0",
+            "time": "4.682"
           },
           "failures": []
         },
@@ -1594,9 +1574,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:12.379Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "24.715"
+            "timestamp": "2026-11-20T12:12:59.558Z",
+            "hostname": "runnervm8axu0",
+            "time": "24.722"
           },
           "failures": []
         },
@@ -1608,9 +1588,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:37.095Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.013"
+            "timestamp": "2026-11-20T12:13:24.281Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.015"
           },
           "failures": []
         },
@@ -1622,23 +1602,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:12:37.109Z",
-            "hostname": "ip-10-0-143-39",
-            "time": "0.095"
-          },
-          "failures": []
-        },
-        {
-          "file": "device-test-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-          "counts": {
-            "name": "com.sakugapp.DeviceTests",
-            "tests": "35",
-            "failures": "0",
-            "errors": "0",
-            "skipped": "0",
-            "time": "253.506",
-            "timestamp": "2026-11-20T09:15:12",
-            "hostname": "localhost"
+            "timestamp": "2026-11-20T12:13:24.297Z",
+            "hostname": "runnervm8axu0",
+            "time": "0.102"
           },
           "failures": []
         },
@@ -1650,760 +1616,679 @@
             "failures": "1",
             "errors": "0",
             "skipped": "0",
-            "time": "42.615",
-            "timestamp": "2026-11-20T09:12:24",
+            "time": "43.751",
+            "timestamp": "2026-11-20T12:14:00",
             "hostname": "localhost"
           },
           "failures": [
             {
               "test": "com.sakugapp.SearchNavigationDeviceTest.combinedHistoryOnlyFillsDraftAndBackRestoresTheOriginalResultAndBrowseLists",
-              "message": "java.lang.AssertionError: Failed: assertDoesNotExist.\nReason: Did not expect any node but found '1' node that satisfies: (TestTag = 'query-expression')\nNode found:\nNode #1201 at (l=96.0, t=633.0, r=984.0, b=864.0)px, Tag: 'query-expression'\nContentDataType = 'AndroidContentDataType(androidAutofillType=1)'\nEditableText = 'id:322323'\nFocused = 'false'\nImeAction = 'Default'\nInputText = 'id:322323'\nIsEditable = 'true'\nText = '[Query]'\nTextSelectionRange = 'TextRange(9, 9)'\nActions = [ClearTextSubstitution, GetTextLayoutResult, InsertTextAtCursor, OnAutofillText, OnClick, OnLongClick, PasteText, PerformImeAction, RequestFocus, SetSelection, SetText, SetTextSubstitution, ShowTextSubstitution]\nMergeDescendants = 'true'\nHas 6 siblings\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.assertDoesNotExist(SemanticsNodeInteraction.kt:101)\nat com.sakugapp.SearchNavigationDeviceTest.combinedHistoryOnlyFillsDraftAndBackRestoresTheOriginalResultAndBrowseLists(SearchNavigationDeviceTest.kt:78)"
+              "message": "java.lang.AssertionError: Failed: assertDoesNotExist.\nReason: Did not expect any node but found '1' node that satisfies: (TestTag = 'query-expression')\nNode found:\nNode #1150 at (l=96.0, t=633.0, r=984.0, b=864.0)px, Tag: 'query-expression'\nContentDataType = 'AndroidContentDataType(androidAutofillType=1)'\nEditableText = 'id:322328'\nFocused = 'false'\nImeAction = 'Default'\nInputText = 'id:322328'\nIsEditable = 'true'\nText = '[Query]'\nTextSelectionRange = 'TextRange(9, 9)'\nActions = [ClearTextSubstitution, GetTextLayoutResult, InsertTextAtCursor, OnAutofillText, OnClick, OnLongClick, PasteText, PerformImeAction, RequestFocus, SetSelection, SetText, SetTextSubstitution, ShowTextSubstitution]\nMergeDescendants = 'true'\nHas 6 siblings\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.assertDoesNotExist(SemanticsNodeInteraction.kt:101)\nat com.sakugapp.SearchNavigationDeviceTest.combinedHistoryOnlyFillsDraftAndBackRestoresTheOriginalResultAndBrowseLists(SearchNavigationDeviceTest.kt:79)"
             }
           ]
+        },
+        {
+          "file": "six-column-landscape-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+          "counts": {
+            "name": "com.sakugapp.SixColumnDeviceTest",
+            "tests": "2",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0",
+            "time": "27.804",
+            "timestamp": "2026-11-20T12:12:24",
+            "hostname": "localhost"
+          },
+          "failures": []
+        },
+        {
+          "file": "six-column-phone-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+          "counts": {
+            "name": "com.sakugapp.SixColumnDeviceTest",
+            "tests": "2",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0",
+            "time": "22.112",
+            "timestamp": "2026-11-20T12:12:10",
+            "hostname": "localhost"
+          },
+          "failures": []
         }
       ]
     },
     {
-      "run": "44708064882",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064882",
+      "run": "44733309456",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309456",
       "status": "in_progress",
       "conclusion": null,
       "jobs": [
         {
-          "id": 136192503649,
-          "name": "devices (28, Nexus S)",
-          "status": "completed",
-          "conclusion": "success",
-          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064882/job/136192503649",
-          "steps": [
-            {
-              "name": "Set up job",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 1,
-              "started_at": "2026-11-20T09:07:45Z",
-              "completed_at": "2026-11-20T09:07:49Z"
-            },
-            {
-              "name": "Run actions/checkout@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 2,
-              "started_at": "2026-11-20T09:07:49Z",
-              "completed_at": "2026-11-20T09:07:54Z"
-            },
-            {
-              "name": "Run actions/setup-java@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 3,
-              "started_at": "2026-11-20T09:07:54Z",
-              "completed_at": "2026-11-20T09:07:54Z"
-            },
-            {
-              "name": "Run ./scripts/ci-android-sdk.sh",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 4,
-              "started_at": "2026-11-20T09:07:54Z",
-              "completed_at": "2026-11-20T09:08:05Z"
-            },
-            {
-              "name": "Run gradle/actions/setup-gradle@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 5,
-              "started_at": "2026-11-20T09:08:05Z",
-              "completed_at": "2026-11-20T09:08:14Z"
-            },
-            {
-              "name": "Run sudo chmod a+rw /dev/kvm",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 6,
-              "started_at": "2026-11-20T09:08:14Z",
-              "completed_at": "2026-11-20T09:08:14Z"
-            },
-            {
-              "name": "Run reactivecircus/android-emulator-runner@v2",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 7,
-              "started_at": "2026-11-20T09:08:14Z",
-              "completed_at": "2026-11-20T09:14:59Z"
-            },
-            {
-              "name": "Run actions/upload-artifact@v4",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 8,
-              "started_at": "2026-11-20T09:14:59Z",
-              "completed_at": "2026-11-20T09:15:02Z"
-            },
-            {
-              "name": "Post Run gradle/actions/setup-gradle@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 14,
-              "started_at": "2026-11-20T09:15:02Z",
-              "completed_at": "2026-11-20T09:15:17Z"
-            },
-            {
-              "name": "Post Run actions/setup-java@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 15,
-              "started_at": "2026-11-20T09:15:17Z",
-              "completed_at": "2026-11-20T09:15:17Z"
-            },
-            {
-              "name": "Post Run actions/checkout@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 16,
-              "started_at": "2026-11-20T09:15:17Z",
-              "completed_at": "2026-11-20T09:15:17Z"
-            },
-            {
-              "name": "Complete job",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 17,
-              "started_at": "2026-11-20T09:15:17Z",
-              "completed_at": "2026-11-20T09:15:17Z"
-            }
-          ]
-        },
-        {
-          "id": 136192504080,
-          "name": "devices (35, pixel_c)",
-          "status": "completed",
-          "conclusion": "failure",
-          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064882/job/136192504080",
-          "steps": [
-            {
-              "name": "Set up job",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 1,
-              "started_at": "2026-11-20T09:07:44Z",
-              "completed_at": "2026-11-20T09:07:47Z"
-            },
-            {
-              "name": "Run actions/checkout@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 2,
-              "started_at": "2026-11-20T09:07:47Z",
-              "completed_at": "2026-11-20T09:07:51Z"
-            },
-            {
-              "name": "Run actions/setup-java@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 3,
-              "started_at": "2026-11-20T09:07:51Z",
-              "completed_at": "2026-11-20T09:07:51Z"
-            },
-            {
-              "name": "Run ./scripts/ci-android-sdk.sh",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 4,
-              "started_at": "2026-11-20T09:07:51Z",
-              "completed_at": "2026-11-20T09:08:01Z"
-            },
-            {
-              "name": "Run gradle/actions/setup-gradle@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 5,
-              "started_at": "2026-11-20T09:08:01Z",
-              "completed_at": "2026-11-20T09:08:02Z"
-            },
-            {
-              "name": "Run sudo chmod a+rw /dev/kvm",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 6,
-              "started_at": "2026-11-20T09:08:02Z",
-              "completed_at": "2026-11-20T09:08:02Z"
-            },
-            {
-              "name": "Run reactivecircus/android-emulator-runner@v2",
-              "status": "completed",
-              "conclusion": "failure",
-              "number": 7,
-              "started_at": "2026-11-20T09:08:02Z",
-              "completed_at": "2026-11-20T09:09:18Z"
-            },
-            {
-              "name": "Run actions/upload-artifact@v4",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 8,
-              "started_at": "2026-11-20T09:09:18Z",
-              "completed_at": "2026-11-20T09:09:18Z"
-            },
-            {
-              "name": "Post Run gradle/actions/setup-gradle@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 14,
-              "started_at": "2026-11-20T09:09:18Z",
-              "completed_at": "2026-11-20T09:09:19Z"
-            },
-            {
-              "name": "Post Run actions/setup-java@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 15,
-              "started_at": "2026-11-20T09:09:19Z",
-              "completed_at": "2026-11-20T09:09:19Z"
-            },
-            {
-              "name": "Post Run actions/checkout@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 16,
-              "started_at": "2026-11-20T09:09:19Z",
-              "completed_at": "2026-11-20T09:09:19Z"
-            },
-            {
-              "name": "Complete job",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 17,
-              "started_at": "2026-11-20T09:09:19Z",
-              "completed_at": "2026-11-20T09:09:19Z"
-            }
-          ]
-        },
-        {
-          "id": 136192504228,
+          "id": 136278283128,
           "name": "metadata",
           "status": "completed",
           "conclusion": "success",
-          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064882/job/136192504228",
+          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309456/job/136278283128",
           "steps": [
             {
               "name": "Set up job",
               "status": "completed",
               "conclusion": "success",
               "number": 1,
-              "started_at": "2026-11-20T09:07:44Z",
-              "completed_at": "2026-11-20T09:07:45Z"
+              "started_at": "2026-11-20T12:08:37Z",
+              "completed_at": "2026-11-20T12:08:38Z"
             },
             {
               "name": "Run actions/checkout@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 2,
-              "started_at": "2026-11-20T09:07:45Z",
-              "completed_at": "2026-11-20T09:07:48Z"
+              "started_at": "2026-11-20T12:08:38Z",
+              "completed_at": "2026-11-20T12:08:41Z"
             },
             {
               "name": "Run actions/setup-java@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 3,
-              "started_at": "2026-11-20T09:07:48Z",
-              "completed_at": "2026-11-20T09:07:48Z"
+              "started_at": "2026-11-20T12:08:41Z",
+              "completed_at": "2026-11-20T12:08:41Z"
             },
             {
               "name": "Run python3 scripts/check-localization.py",
               "status": "completed",
               "conclusion": "success",
               "number": 4,
-              "started_at": "2026-11-20T09:07:48Z",
-              "completed_at": "2026-11-20T09:07:48Z"
+              "started_at": "2026-11-20T12:08:41Z",
+              "completed_at": "2026-11-20T12:08:42Z"
             },
             {
               "name": "Run python3 -m unittest discover -s scripts/tests -v",
               "status": "completed",
               "conclusion": "success",
               "number": 5,
-              "started_at": "2026-11-20T09:07:48Z",
-              "completed_at": "2026-11-20T09:07:48Z"
+              "started_at": "2026-11-20T12:08:42Z",
+              "completed_at": "2026-11-20T12:08:42Z"
             },
             {
               "name": "Verify released version metadata without accessing signing material",
               "status": "completed",
               "conclusion": "success",
               "number": 6,
-              "started_at": "2026-11-20T09:07:48Z",
-              "completed_at": "2026-11-20T09:07:51Z"
+              "started_at": "2026-11-20T12:08:42Z",
+              "completed_at": "2026-11-20T12:08:46Z"
             },
             {
               "name": "Run actions/upload-artifact@v4",
               "status": "completed",
               "conclusion": "success",
               "number": 7,
-              "started_at": "2026-11-20T09:07:51Z",
-              "completed_at": "2026-11-20T09:07:54Z"
+              "started_at": "2026-11-20T12:08:46Z",
+              "completed_at": "2026-11-20T12:08:48Z"
             },
             {
               "name": "Post Run actions/setup-java@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 13,
-              "started_at": "2026-11-20T09:07:54Z",
-              "completed_at": "2026-11-20T09:07:54Z"
+              "started_at": "2026-11-20T12:08:48Z",
+              "completed_at": "2026-11-20T12:08:48Z"
             },
             {
               "name": "Post Run actions/checkout@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 14,
-              "started_at": "2026-11-20T09:07:54Z",
-              "completed_at": "2026-11-20T09:07:54Z"
+              "started_at": "2026-11-20T12:08:48Z",
+              "completed_at": "2026-11-20T12:08:48Z"
             },
             {
               "name": "Complete job",
               "status": "completed",
               "conclusion": "success",
               "number": 15,
-              "started_at": "2026-11-20T09:07:54Z",
-              "completed_at": "2026-11-20T09:07:54Z"
+              "started_at": "2026-11-20T12:08:48Z",
+              "completed_at": "2026-11-20T12:08:48Z"
             }
           ]
         },
         {
-          "id": 136196126395,
-          "name": "evidence",
+          "id": 136278283518,
+          "name": "devices (28, Nexus S)",
           "status": "in_progress",
           "conclusion": null,
-          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064882/job/136196126395",
+          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309456/job/136278283518",
           "steps": [
             {
               "name": "Set up job",
               "status": "completed",
               "conclusion": "success",
               "number": 1,
-              "started_at": "2026-11-20T09:15:24Z",
-              "completed_at": "2026-11-20T09:15:26Z"
+              "started_at": "2026-11-20T12:08:37Z",
+              "completed_at": "2026-11-20T12:08:41Z"
             },
             {
               "name": "Run actions/checkout@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 2,
-              "started_at": "2026-11-20T09:15:26Z",
-              "completed_at": "2026-11-20T09:15:30Z"
-            },
-            {
-              "name": "Run actions/download-artifact@v4",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 3,
-              "started_at": "2026-11-20T09:15:30Z",
-              "completed_at": "2026-11-20T09:15:32Z"
-            },
-            {
-              "name": "Read actual scoped and standard checks for this exact commit",
-              "status": "in_progress",
-              "conclusion": null,
-              "number": 4,
-              "started_at": "2026-11-20T09:15:32Z",
-              "completed_at": null
-            },
-            {
-              "name": "Run actions/upload-artifact@v4",
-              "status": "pending",
-              "conclusion": null,
-              "number": 5,
-              "started_at": null,
-              "completed_at": null
-            },
-            {
-              "name": "Keep original captures and bounded reports independently of app source",
-              "status": "pending",
-              "conclusion": null,
-              "number": 6,
-              "started_at": null,
-              "completed_at": null
-            },
-            {
-              "name": "Post Run actions/checkout@v5",
-              "status": "pending",
-              "conclusion": null,
-              "number": 12,
-              "started_at": null,
-              "completed_at": null
-            }
-          ]
-        }
-      ],
-      "artifacts": [
-        {
-          "name": "v130-device-reports-28",
-          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064882/artifacts/14616975054"
-        },
-        {
-          "name": "v130-metadata",
-          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064882/artifacts/14615682409"
-        }
-      ],
-      "reports": [
-        {
-          "file": "v130-device-reports-28/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-          "counts": {
-            "name": "com.sakugapp.ReleaseUiDeviceTest",
-            "tests": "45",
-            "failures": "0",
-            "errors": "0",
-            "skipped": "0",
-            "time": "243.483",
-            "timestamp": "2026-11-20T09:14:54",
-            "hostname": "localhost"
-          },
-          "failures": []
-        }
-      ],
-      "sakugabot_network": [
-        {
-          "android_api": 28,
-          "original_tag": "yutaka_nakamura",
-          "public_api_result": "translated",
-          "chinese": "中村丰",
-          "offline_original_visible": true
-        }
-      ]
-    },
-    {
-      "run": "44708065060",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708065060",
-      "status": "completed",
-      "conclusion": "success",
-      "jobs": [
-        {
-          "id": 136192506232,
-          "name": "validation",
-          "status": "completed",
-          "conclusion": "success",
-          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44708065060/job/136192506232",
-          "steps": [
-            {
-              "name": "Set up job",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 1,
-              "started_at": "2026-11-20T09:07:44Z",
-              "completed_at": "2026-11-20T09:07:48Z"
-            },
-            {
-              "name": "Run actions/checkout@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 2,
-              "started_at": "2026-11-20T09:07:48Z",
-              "completed_at": "2026-11-20T09:07:53Z"
+              "started_at": "2026-11-20T12:08:41Z",
+              "completed_at": "2026-11-20T12:08:48Z"
             },
             {
               "name": "Run actions/setup-java@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 3,
-              "started_at": "2026-11-20T09:07:53Z",
-              "completed_at": "2026-11-20T09:07:54Z"
+              "started_at": "2026-11-20T12:08:48Z",
+              "completed_at": "2026-11-20T12:08:48Z"
             },
             {
               "name": "Run ./scripts/ci-android-sdk.sh",
               "status": "completed",
               "conclusion": "success",
               "number": 4,
-              "started_at": "2026-11-20T09:07:54Z",
-              "completed_at": "2026-11-20T09:08:05Z"
+              "started_at": "2026-11-20T12:08:48Z",
+              "completed_at": "2026-11-20T12:09:00Z"
             },
             {
               "name": "Run gradle/actions/setup-gradle@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 5,
-              "started_at": "2026-11-20T09:08:05Z",
-              "completed_at": "2026-11-20T09:08:08Z"
-            },
-            {
-              "name": "Check all supported native UI languages",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 6,
-              "started_at": "2026-11-20T09:08:08Z",
-              "completed_at": "2026-11-20T09:08:09Z"
-            },
-            {
-              "name": "Verify backup data, lint and compile installable Debug APKs",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 7,
-              "started_at": "2026-11-20T09:08:09Z",
-              "completed_at": "2026-11-20T09:10:57Z"
-            },
-            {
-              "name": "Check only this stability update and compile the test APK",
-              "status": "completed",
-              "conclusion": "skipped",
-              "number": 8,
-              "started_at": "2026-11-20T09:10:57Z",
-              "completed_at": "2026-11-20T09:10:57Z"
-            },
-            {
-              "name": "Enable runner KVM",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 9,
-              "started_at": "2026-11-20T09:10:57Z",
-              "completed_at": "2026-11-20T09:10:57Z"
-            },
-            {
-              "name": "Verify fresh-install restore and the changed native screens",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 10,
-              "started_at": "2026-11-20T09:10:57Z",
-              "completed_at": "2026-11-20T09:13:19Z"
-            },
-            {
-              "name": "Run actions/upload-artifact@v4",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 11,
-              "started_at": "2026-11-20T09:13:19Z",
-              "completed_at": "2026-11-20T09:13:21Z"
-            },
-            {
-              "name": "Run actions/upload-artifact@v4",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 12,
-              "started_at": "2026-11-20T09:13:21Z",
-              "completed_at": "2026-11-20T09:13:22Z"
-            },
-            {
-              "name": "Post Run gradle/actions/setup-gradle@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 22,
-              "started_at": "2026-11-20T09:13:22Z",
-              "completed_at": "2026-11-20T09:13:38Z"
-            },
-            {
-              "name": "Post Run actions/setup-java@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 23,
-              "started_at": "2026-11-20T09:13:38Z",
-              "completed_at": "2026-11-20T09:13:38Z"
-            },
-            {
-              "name": "Post Run actions/checkout@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 24,
-              "started_at": "2026-11-20T09:13:38Z",
-              "completed_at": "2026-11-20T09:13:38Z"
-            },
-            {
-              "name": "Complete job",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 25,
-              "started_at": "2026-11-20T09:13:38Z",
-              "completed_at": "2026-11-20T09:13:38Z"
-            }
-          ]
-        },
-        {
-          "id": 136192506339,
-          "name": "scroll-profile",
-          "status": "completed",
-          "conclusion": "success",
-          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44708065060/job/136192506339",
-          "steps": [
-            {
-              "name": "Set up job",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 1,
-              "started_at": "2026-11-20T09:07:44Z",
-              "completed_at": "2026-11-20T09:07:47Z"
-            },
-            {
-              "name": "Run actions/checkout@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 2,
-              "started_at": "2026-11-20T09:07:47Z",
-              "completed_at": "2026-11-20T09:07:52Z"
-            },
-            {
-              "name": "Run actions/setup-java@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 3,
-              "started_at": "2026-11-20T09:07:52Z",
-              "completed_at": "2026-11-20T09:07:52Z"
-            },
-            {
-              "name": "Run ./scripts/ci-android-sdk.sh",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 4,
-              "started_at": "2026-11-20T09:07:52Z",
-              "completed_at": "2026-11-20T09:08:02Z"
-            },
-            {
-              "name": "Run gradle/actions/setup-gradle@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 5,
-              "started_at": "2026-11-20T09:08:02Z",
-              "completed_at": "2026-11-20T09:08:06Z"
+              "started_at": "2026-11-20T12:09:00Z",
+              "completed_at": "2026-11-20T12:09:12Z"
             },
             {
               "name": "Run sudo chmod a+rw /dev/kvm",
               "status": "completed",
               "conclusion": "success",
               "number": 6,
-              "started_at": "2026-11-20T09:08:06Z",
-              "completed_at": "2026-11-20T09:08:06Z"
+              "started_at": "2026-11-20T12:09:12Z",
+              "completed_at": "2026-11-20T12:09:12Z"
             },
             {
-              "name": "Compare only short layout scrolling against the previous development build",
-              "status": "completed",
-              "conclusion": "success",
+              "name": "Run reactivecircus/android-emulator-runner@v2",
+              "status": "in_progress",
+              "conclusion": null,
               "number": 7,
-              "started_at": "2026-11-20T09:08:06Z",
-              "completed_at": "2026-11-20T09:13:17Z"
+              "started_at": "2026-11-20T12:09:12Z",
+              "completed_at": null
             },
             {
               "name": "Run actions/upload-artifact@v4",
-              "status": "completed",
-              "conclusion": "success",
+              "status": "pending",
+              "conclusion": null,
               "number": 8,
-              "started_at": "2026-11-20T09:13:17Z",
-              "completed_at": "2026-11-20T09:13:18Z"
+              "started_at": null,
+              "completed_at": null
             },
             {
               "name": "Post Run gradle/actions/setup-gradle@v5",
-              "status": "completed",
-              "conclusion": "success",
+              "status": "pending",
+              "conclusion": null,
               "number": 14,
-              "started_at": "2026-11-20T09:13:18Z",
-              "completed_at": "2026-11-20T09:13:30Z"
+              "started_at": null,
+              "completed_at": null
             },
             {
               "name": "Post Run actions/setup-java@v5",
-              "status": "completed",
-              "conclusion": "success",
+              "status": "pending",
+              "conclusion": null,
               "number": 15,
-              "started_at": "2026-11-20T09:13:30Z",
-              "completed_at": "2026-11-20T09:13:30Z"
+              "started_at": null,
+              "completed_at": null
             },
             {
               "name": "Post Run actions/checkout@v5",
-              "status": "completed",
-              "conclusion": "success",
+              "status": "pending",
+              "conclusion": null,
               "number": 16,
-              "started_at": "2026-11-20T09:13:30Z",
-              "completed_at": "2026-11-20T09:13:30Z"
-            },
-            {
-              "name": "Complete job",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 17,
-              "started_at": "2026-11-20T09:13:30Z",
-              "completed_at": "2026-11-20T09:13:30Z"
+              "started_at": null,
+              "completed_at": null
             }
           ]
         },
         {
-          "id": 136195332677,
-          "name": "evidence",
-          "status": "completed",
-          "conclusion": "success",
-          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44708065060/job/136195332677",
+          "id": 136278283579,
+          "name": "devices (35, pixel_c)",
+          "status": "in_progress",
+          "conclusion": null,
+          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309456/job/136278283579",
           "steps": [
             {
               "name": "Set up job",
               "status": "completed",
               "conclusion": "success",
               "number": 1,
-              "started_at": "2026-11-20T09:13:42Z",
-              "completed_at": "2026-11-20T09:13:43Z"
+              "started_at": "2026-11-20T12:08:37Z",
+              "completed_at": "2026-11-20T12:08:42Z"
             },
             {
               "name": "Run actions/checkout@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 2,
-              "started_at": "2026-11-20T09:13:43Z",
-              "completed_at": "2026-11-20T09:13:45Z"
+              "started_at": "2026-11-20T12:08:42Z",
+              "completed_at": "2026-11-20T12:08:49Z"
             },
             {
-              "name": "Run actions/download-artifact@v4",
+              "name": "Run actions/setup-java@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 3,
-              "started_at": "2026-11-20T09:13:45Z",
-              "completed_at": "2026-11-20T09:13:46Z"
+              "started_at": "2026-11-20T12:08:49Z",
+              "completed_at": "2026-11-20T12:08:49Z"
             },
             {
-              "name": "Run actions/download-artifact@v4",
+              "name": "Run ./scripts/ci-android-sdk.sh",
               "status": "completed",
               "conclusion": "success",
               "number": 4,
-              "started_at": "2026-11-20T09:13:46Z",
-              "completed_at": "2026-11-20T09:13:46Z"
+              "started_at": "2026-11-20T12:08:49Z",
+              "completed_at": "2026-11-20T12:08:59Z"
             },
             {
-              "name": "Record focused checks and existing same-commit automatic CI",
+              "name": "Run gradle/actions/setup-gradle@v5",
               "status": "completed",
               "conclusion": "success",
               "number": 5,
-              "started_at": "2026-11-20T09:13:46Z",
-              "completed_at": "2026-11-20T09:13:51Z"
+              "started_at": "2026-11-20T12:08:59Z",
+              "completed_at": "2026-11-20T12:09:07Z"
             },
             {
-              "name": "Save reports and original captures on the separate evidence branch",
+              "name": "Run sudo chmod a+rw /dev/kvm",
               "status": "completed",
               "conclusion": "success",
               "number": 6,
-              "started_at": "2026-11-20T09:13:51Z",
-              "completed_at": "2026-11-20T09:13:53Z"
+              "started_at": "2026-11-20T12:09:07Z",
+              "completed_at": "2026-11-20T12:09:07Z"
+            },
+            {
+              "name": "Run reactivecircus/android-emulator-runner@v2",
+              "status": "in_progress",
+              "conclusion": null,
+              "number": 7,
+              "started_at": "2026-11-20T12:09:07Z",
+              "completed_at": null
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "pending",
+              "conclusion": null,
+              "number": 8,
+              "started_at": null,
+              "completed_at": null
+            },
+            {
+              "name": "Post Run gradle/actions/setup-gradle@v5",
+              "status": "pending",
+              "conclusion": null,
+              "number": 14,
+              "started_at": null,
+              "completed_at": null
+            },
+            {
+              "name": "Post Run actions/setup-java@v5",
+              "status": "pending",
+              "conclusion": null,
+              "number": 15,
+              "started_at": null,
+              "completed_at": null
             },
             {
               "name": "Post Run actions/checkout@v5",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 12,
-              "started_at": "2026-11-20T09:13:53Z",
-              "completed_at": "2026-11-20T09:13:53Z"
-            },
-            {
-              "name": "Complete job",
-              "status": "completed",
-              "conclusion": "success",
-              "number": 13,
-              "started_at": "2026-11-20T09:13:53Z",
-              "completed_at": "2026-11-20T09:13:53Z"
+              "status": "pending",
+              "conclusion": null,
+              "number": 16,
+              "started_at": null,
+              "completed_at": null
             }
           ]
         }
       ],
       "artifacts": [
         {
-          "name": "maintenance-test-reports",
-          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708065060/artifacts/14616905151"
+          "name": "v130-metadata",
+          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309456/artifacts/14626639190"
+        }
+      ],
+      "reports": []
+    },
+    {
+      "run": "44733309665",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309665",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "id": 136278284587,
+          "name": "scroll-profile",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309665/job/136278284587",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-11-20T12:08:36Z",
+              "completed_at": "2026-11-20T12:08:39Z"
+            },
+            {
+              "name": "Run actions/checkout@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-11-20T12:08:39Z",
+              "completed_at": "2026-11-20T12:08:42Z"
+            },
+            {
+              "name": "Run actions/setup-java@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-11-20T12:08:42Z",
+              "completed_at": "2026-11-20T12:08:42Z"
+            },
+            {
+              "name": "Run ./scripts/ci-android-sdk.sh",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-11-20T12:08:42Z",
+              "completed_at": "2026-11-20T12:08:53Z"
+            },
+            {
+              "name": "Run gradle/actions/setup-gradle@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-11-20T12:08:53Z",
+              "completed_at": "2026-11-20T12:08:58Z"
+            },
+            {
+              "name": "Run sudo chmod a+rw /dev/kvm",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-11-20T12:08:58Z",
+              "completed_at": "2026-11-20T12:08:59Z"
+            },
+            {
+              "name": "Compare only short layout scrolling against the previous development build",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7,
+              "started_at": "2026-11-20T12:08:59Z",
+              "completed_at": "2026-11-20T12:14:18Z"
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8,
+              "started_at": "2026-11-20T12:14:18Z",
+              "completed_at": "2026-11-20T12:14:19Z"
+            },
+            {
+              "name": "Post Run gradle/actions/setup-gradle@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14,
+              "started_at": "2026-11-20T12:14:19Z",
+              "completed_at": "2026-11-20T12:14:38Z"
+            },
+            {
+              "name": "Post Run actions/setup-java@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15,
+              "started_at": "2026-11-20T12:14:38Z",
+              "completed_at": "2026-11-20T12:14:38Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16,
+              "started_at": "2026-11-20T12:14:38Z",
+              "completed_at": "2026-11-20T12:14:38Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17,
+              "started_at": "2026-11-20T12:14:38Z",
+              "completed_at": "2026-11-20T12:14:38Z"
+            }
+          ]
         },
         {
+          "id": 136278284929,
+          "name": "validation",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309665/job/136278284929",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-11-20T12:08:36Z",
+              "completed_at": "2026-11-20T12:08:40Z"
+            },
+            {
+              "name": "Run actions/checkout@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-11-20T12:08:40Z",
+              "completed_at": "2026-11-20T12:08:44Z"
+            },
+            {
+              "name": "Run actions/setup-java@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-11-20T12:08:44Z",
+              "completed_at": "2026-11-20T12:08:44Z"
+            },
+            {
+              "name": "Run ./scripts/ci-android-sdk.sh",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-11-20T12:08:44Z",
+              "completed_at": "2026-11-20T12:08:59Z"
+            },
+            {
+              "name": "Run gradle/actions/setup-gradle@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-11-20T12:08:59Z",
+              "completed_at": "2026-11-20T12:09:02Z"
+            },
+            {
+              "name": "Check all supported native UI languages",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-11-20T12:09:02Z",
+              "completed_at": "2026-11-20T12:09:02Z"
+            },
+            {
+              "name": "Verify backup data, lint and compile installable Debug APKs",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7,
+              "started_at": "2026-11-20T12:09:02Z",
+              "completed_at": "2026-11-20T12:12:03Z"
+            },
+            {
+              "name": "Check only this stability update and compile the test APK",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 8,
+              "started_at": "2026-11-20T12:12:03Z",
+              "completed_at": "2026-11-20T12:12:03Z"
+            },
+            {
+              "name": "Enable runner KVM",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-11-20T12:12:03Z",
+              "completed_at": "2026-11-20T12:12:04Z"
+            },
+            {
+              "name": "Verify fresh-install restore and the changed native screens",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10,
+              "started_at": "2026-11-20T12:12:04Z",
+              "completed_at": "2026-11-20T12:14:23Z"
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11,
+              "started_at": "2026-11-20T12:14:23Z",
+              "completed_at": "2026-11-20T12:14:25Z"
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12,
+              "started_at": "2026-11-20T12:14:25Z",
+              "completed_at": "2026-11-20T12:14:25Z"
+            },
+            {
+              "name": "Post Run gradle/actions/setup-gradle@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 22,
+              "started_at": "2026-11-20T12:14:25Z",
+              "completed_at": "2026-11-20T12:14:41Z"
+            },
+            {
+              "name": "Post Run actions/setup-java@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 23,
+              "started_at": "2026-11-20T12:14:41Z",
+              "completed_at": "2026-11-20T12:14:41Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 24,
+              "started_at": "2026-11-20T12:14:41Z",
+              "completed_at": "2026-11-20T12:14:41Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 25,
+              "started_at": "2026-11-20T12:14:41Z",
+              "completed_at": "2026-11-20T12:14:41Z"
+            }
+          ]
+        },
+        {
+          "id": 136281193551,
+          "name": "evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309665/job/136281193551",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-11-20T12:14:45Z",
+              "completed_at": "2026-11-20T12:14:46Z"
+            },
+            {
+              "name": "Run actions/checkout@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-11-20T12:14:46Z",
+              "completed_at": "2026-11-20T12:14:46Z"
+            },
+            {
+              "name": "Run actions/download-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-11-20T12:14:46Z",
+              "completed_at": "2026-11-20T12:14:47Z"
+            },
+            {
+              "name": "Run actions/download-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-11-20T12:14:47Z",
+              "completed_at": "2026-11-20T12:14:47Z"
+            },
+            {
+              "name": "Record focused checks and existing same-commit automatic CI",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-11-20T12:14:47Z",
+              "completed_at": "2026-11-20T12:14:52Z"
+            },
+            {
+              "name": "Save reports and original captures on the separate evidence branch",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-11-20T12:14:52Z",
+              "completed_at": "2026-11-20T12:14:54Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12,
+              "started_at": "2026-11-20T12:14:54Z",
+              "completed_at": "2026-11-20T12:14:54Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13,
+              "started_at": "2026-11-20T12:14:54Z",
+              "completed_at": "2026-11-20T12:14:54Z"
+            }
+          ]
+        }
+      ],
+      "artifacts": [
+        {
           "name": "post-scroll-profile",
-          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708065060/artifacts/14616785371"
+          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309665/artifacts/14628110924"
+        },
+        {
+          "name": "maintenance-test-reports",
+          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309665/artifacts/14627911906"
         },
         {
           "name": "maintenance-debug-apk",
-          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708065060/artifacts/14616346141"
+          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44733309665/artifacts/14627637327"
         }
       ],
       "reports": [
@@ -2415,9 +2300,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:09:33.141Z",
-            "hostname": "ip-10-0-131-235",
-            "time": "0.327"
+            "timestamp": "2026-11-20T12:10:33.949Z",
+            "hostname": "ip-10-0-135-149",
+            "time": "0.202"
           },
           "failures": []
         },
@@ -2429,23 +2314,9 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:09:33.473Z",
-            "hostname": "ip-10-0-131-235",
-            "time": "0.067"
-          },
-          "failures": []
-        },
-        {
-          "file": "maintenance-test-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.LibraryCodecTest.xml",
-          "counts": {
-            "name": "com.sakugapp.LibraryCodecTest",
-            "tests": "5",
-            "skipped": "0",
-            "failures": "0",
-            "errors": "0",
-            "timestamp": "2026-11-20T09:09:33.577Z",
-            "hostname": "ip-10-0-131-235",
-            "time": "0.03"
+            "timestamp": "2026-11-20T12:10:34.154Z",
+            "hostname": "ip-10-0-135-149",
+            "time": "0.037"
           },
           "failures": []
         },
@@ -2457,23 +2328,23 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:09:33.543Z",
-            "hostname": "ip-10-0-131-235",
-            "time": "0.03"
+            "timestamp": "2026-11-20T12:10:34.193Z",
+            "hostname": "ip-10-0-135-149",
+            "time": "0.019"
           },
           "failures": []
         },
         {
-          "file": "maintenance-test-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PersonalDataTest.xml",
+          "file": "maintenance-test-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.LibraryCodecTest.xml",
           "counts": {
-            "name": "com.sakugapp.PersonalDataTest",
-            "tests": "9",
+            "name": "com.sakugapp.LibraryCodecTest",
+            "tests": "5",
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:09:33.610Z",
-            "hostname": "ip-10-0-131-235",
-            "time": "0.156"
+            "timestamp": "2026-11-20T12:10:34.216Z",
+            "hostname": "ip-10-0-135-149",
+            "time": "0.031"
           },
           "failures": []
         },
@@ -2485,9 +2356,23 @@
             "skipped": "0",
             "failures": "0",
             "errors": "0",
-            "timestamp": "2026-11-20T09:09:33.768Z",
-            "hostname": "ip-10-0-131-235",
-            "time": "0.028"
+            "timestamp": "2026-11-20T12:10:34.412Z",
+            "hostname": "ip-10-0-135-149",
+            "time": "0.02"
+          },
+          "failures": []
+        },
+        {
+          "file": "maintenance-test-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PersonalDataTest.xml",
+          "counts": {
+            "name": "com.sakugapp.PersonalDataTest",
+            "tests": "9",
+            "skipped": "0",
+            "failures": "0",
+            "errors": "0",
+            "timestamp": "2026-11-20T12:10:34.248Z",
+            "hostname": "ip-10-0-135-149",
+            "time": "0.163"
           },
           "failures": []
         },
@@ -2499,15 +2384,13 @@
             "failures": "0",
             "errors": "0",
             "skipped": "0",
-            "time": "66.087",
-            "timestamp": "2026-11-20T09:13:14",
+            "time": "65.032",
+            "timestamp": "2026-11-20T12:14:19",
             "hostname": "localhost"
           },
           "failures": []
         }
       ]
     }
-  ],
-  "tablet_job_id": 136192504080,
-  "log_download_error": "Command '['gh', 'api', 'repos/Milenal82/sakugapp/actions/runs/44708064882/logs']' returned non-zero exit status 1."
+  ]
 }
