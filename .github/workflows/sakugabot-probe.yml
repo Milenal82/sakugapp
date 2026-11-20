@@ -18,13 +18,13 @@ jobs:
           import subprocess,json,pathlib,zipfile,io,xml.etree.ElementTree as ET,re
           def api(path):return subprocess.check_output(['gh','api','repos/Milenal82/sakugapp/'+path])
           out=pathlib.Path('/tmp/ci-evidence');out.mkdir()
-          report={'sha':'eae1a81a5001921a30c3b93b900c4176b580aa7f','runs':[]}
-          for run in ['44705167696','44705167606','44705167531']:
+          report={'sha':'8764c4103435a7dd0c430105600ba20cc298f059','runs':[]}
+          for run in ['44708064937','44708064882','44708065060']:
               data=json.loads(api('actions/runs/'+run));assert data['head_sha']==report['sha']
               item={'run':run,'url':data['html_url'],'status':data['status'],'conclusion':data['conclusion'],'jobs':[],'artifacts':[],'reports':[]}
               for job in json.loads(api(f'actions/runs/{run}/jobs?per_page=100'))['jobs']:
                   item['jobs'].append({k:job[k] for k in ['id','name','status','conclusion','html_url','steps']})
-                  if job['html_url'].endswith('/136183168426'):report['tablet_job_id']=job['id']
+                  if job['html_url'].endswith('/136192504080'):report['tablet_job_id']=job['id']
               for artifact in json.loads(api(f'actions/runs/{run}/artifacts?per_page=100'))['artifacts']:
                   name=artifact['name'];item['artifacts'].append({'name':name,'url':f'https://github.com/Milenal82/sakugapp/actions/runs/{run}/artifacts/{artifact["id"]}'})
                   if 'report' not in name or artifact['size_in_bytes']>64*1024*1024:continue
@@ -47,10 +47,15 @@ jobs:
                               (out/(name+'-'+short)).write_bytes(z.read(p))
               report['runs'].append(item)
           try:
-              raw=api('actions/jobs/'+str(report['tablet_job_id'])+'/logs')
-              tail=raw.decode(errors='replace').splitlines()[-100:]
-              report['failed_job_log_tail']='\n'.join('[redacted]' if re.search(r'password|token|cookie|authorization|secret',line,re.I)else line for line in tail)[-18000:]
-          except Exception as error:report['failed_job_log_error']=str(error)
+              raw=api('actions/runs/44708064882/logs')
+              with zipfile.ZipFile(io.BytesIO(raw))as logs:
+                  report['log_files']=logs.namelist()
+                  report['tablet_log_tail']=[]
+                  for file in logs.infolist():
+                      if '35' not in file.filename or file.file_size>8*1024*1024:continue
+                      tail=logs.read(file).decode(errors='replace').splitlines()[-80:]
+                      report['tablet_log_tail'].append({'file':file.filename,'lines':[line if not re.search(r'password|token|cookie|authorization|secret',line,re.I)else '[redacted]' for line in tail]})
+          except Exception as error:report['log_download_error']=str(error)
           (out/'report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
           PY
       - name: Save public validation evidence separately from application source
