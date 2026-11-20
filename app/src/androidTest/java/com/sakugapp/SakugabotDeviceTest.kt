@@ -71,17 +71,17 @@ class SakugabotDeviceTest {
             }}
             ui.waitForIdle();assertTrue(calls.isEmpty())
             ui.onNodeWithTag("translation-toggle").performClick()
-            ui.waitUntil(5000){ui.onAllNodesWithTag("translated-tag-mob_psycho_100").fetchSemanticsNodes().isNotEmpty()}
+            ui.waitUntil(5000){ui.onAllNodesWithTag("translated-tag-mob_psycho_100",useUnmergedTree=true).fetchSemanticsNodes().isNotEmpty()}
             ui.onNodeWithText("灵能百分百").assertIsDisplayed();ui.onNodeWithText("中村丰").assertIsDisplayed()
-            ui.onNodeWithTag("tag-mob_psycho_100").assertIsDisplayed().performTouchInput{click()}
+            ui.onNodeWithTag("tag-mob_psycho_100",useUnmergedTree=true).assertIsDisplayed().performTouchInput{click()}
             assertEquals("mob_psycho_100",searched)
-            ui.onNodeWithTag("tag-yutaka_nakamura").assertIsDisplayed()
-            ui.onNodeWithTag("tag-mokmok").assertIsDisplayed()
+            ui.onNodeWithTag("tag-yutaka_nakamura",useUnmergedTree=true).assertIsDisplayed()
+            ui.onNodeWithTag("tag-mokmok",useUnmergedTree=true).assertIsDisplayed()
             UiEvidence.capture("sakugabot-details-dark.png")
             ui.runOnUiThread{light=true};ui.waitForIdle();UiEvidence.capture("sakugabot-details-light.png")
             ui.onNodeWithTag("translation-toggle").performClick()
-            ui.waitUntil(5000){ui.onAllNodesWithTag("translated-tag-mob_psycho_100").fetchSemanticsNodes().isEmpty()}
-            ui.onNodeWithTag("tag-mob_psycho_100").assertIsDisplayed()
+            ui.waitUntil(5000){ui.onAllNodesWithTag("translated-tag-mob_psycho_100",useUnmergedTree=true).fetchSemanticsNodes().isEmpty()}
+            ui.onNodeWithTag("tag-mob_psycho_100",useUnmergedTree=true).assertIsDisplayed()
         }finally{runBlocking{app.preferences.chineseDetailTranslations(before)}}
     }
 }
