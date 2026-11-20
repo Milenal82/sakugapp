@@ -1,6 +1,6 @@
 {
-  "source_commit": "eae1a81a5001921a30c3b93b900c4176b580aa7f",
-  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167606",
+  "source_commit": "8764c4103435a7dd0c430105600ba20cc298f059",
+  "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064882",
   "validation_result": "failure",
   "reports": [
     {
@@ -11,8 +11,8 @@
         "failures": "0",
         "errors": "0",
         "skipped": "0",
-        "time": "245.882",
-        "timestamp": "2026-11-20T08:55:42",
+        "time": "243.483",
+        "timestamp": "2026-11-20T09:14:54",
         "hostname": "localhost"
       },
       "failures": []
@@ -182,18 +182,46 @@
   "artifacts": [
     {
       "name": "v130-device-reports-28",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167606/artifacts/14615870024"
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064882/artifacts/14616975054"
     },
     {
       "name": "v130-metadata",
-      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167606/artifacts/14614268106"
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064882/artifacts/14615682409"
     }
   ],
   "standard_checks": {
-    "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167696",
+    "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937",
     "conclusion": "failure",
     "status": "completed",
     "reports": [
+      {
+        "report": "six-column-phone-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+        "counts": {
+          "name": "com.sakugapp.SixColumnDeviceTest",
+          "tests": "2",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0",
+          "time": "24.565",
+          "timestamp": "2026-11-20T09:11:14",
+          "hostname": "localhost"
+        },
+        "failures": []
+      },
+      {
+        "report": "six-column-landscape-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+        "counts": {
+          "name": "com.sakugapp.SixColumnDeviceTest",
+          "tests": "2",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0",
+          "time": "28.835",
+          "timestamp": "2026-11-20T09:11:28",
+          "hostname": "localhost"
+        },
+        "failures": []
+      },
       {
         "report": "check-reports/reports/lint-results-debug.xml",
         "errors": 0,
@@ -212,9 +240,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:48:39.594Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "2.838"
+          "timestamp": "2026-11-20T09:09:52.238Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "3.016"
         },
         "failures": []
       },
@@ -226,9 +254,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:48:42.439Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.221"
+          "timestamp": "2026-11-20T09:09:55.263Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.265"
         },
         "failures": []
       },
@@ -240,9 +268,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:48:42.666Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.033"
+          "timestamp": "2026-11-20T09:09:55.532Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.048"
         },
         "failures": []
       },
@@ -254,9 +282,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:48:42.700Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.115"
+          "timestamp": "2026-11-20T09:09:55.586Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.096"
         },
         "failures": []
       },
@@ -268,9 +296,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:48:42.818Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "14.441"
+          "timestamp": "2026-11-20T09:09:55.685Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "14.471"
         },
         "failures": []
       },
@@ -282,9 +310,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:48:57.260Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "9.14"
+          "timestamp": "2026-11-20T09:10:10.158Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "9.13"
         },
         "failures": []
       },
@@ -296,23 +324,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:06.402Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.017"
-        },
-        "failures": []
-      },
-      {
-        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DateAndTopicsTest.xml",
-        "counts": {
-          "name": "com.sakugapp.DateAndTopicsTest",
-          "tests": "4",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-20T08:49:06.421Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.017"
+          "timestamp": "2026-11-20T09:10:19.293Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.009"
         },
         "failures": []
       },
@@ -324,9 +338,23 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:06.443Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.09"
+          "timestamp": "2026-11-20T09:10:19.327Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.083"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DateAndTopicsTest.xml",
+        "counts": {
+          "name": "com.sakugapp.DateAndTopicsTest",
+          "tests": "4",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-20T09:10:19.309Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.012"
         },
         "failures": []
       },
@@ -338,8 +366,8 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:06.537Z",
-          "hostname": "ip-10-0-131-177",
+          "timestamp": "2026-11-20T09:10:19.415Z",
+          "hostname": "ip-10-0-143-39",
           "time": "0.198"
         },
         "failures": []
@@ -352,9 +380,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:06.737Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.069"
+          "timestamp": "2026-11-20T09:10:19.618Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.066"
         },
         "failures": []
       },
@@ -366,9 +394,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:06.807Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "1.509"
+          "timestamp": "2026-11-20T09:10:19.686Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "1.53"
         },
         "failures": []
       },
@@ -380,9 +408,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:08.322Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.045"
+          "timestamp": "2026-11-20T09:10:21.218Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.062"
         },
         "failures": []
       },
@@ -394,8 +422,8 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:08.371Z",
-          "hostname": "ip-10-0-131-177",
+          "timestamp": "2026-11-20T09:10:21.282Z",
+          "hostname": "ip-10-0-143-39",
           "time": "0.015"
         },
         "failures": []
@@ -408,9 +436,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:08.387Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.01"
+          "timestamp": "2026-11-20T09:10:21.302Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.006"
         },
         "failures": []
       },
@@ -422,8 +450,8 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:08.399Z",
-          "hostname": "ip-10-0-131-177",
+          "timestamp": "2026-11-20T09:10:21.311Z",
+          "hostname": "ip-10-0-143-39",
           "time": "0.018"
         },
         "failures": []
@@ -436,9 +464,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:08.418Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.041"
+          "timestamp": "2026-11-20T09:10:21.332Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.056"
         },
         "failures": []
       },
@@ -450,9 +478,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:08.460Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.005"
+          "timestamp": "2026-11-20T09:10:21.389Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.001"
         },
         "failures": []
       },
@@ -464,9 +492,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:08.467Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.008"
+          "timestamp": "2026-11-20T09:10:21.394Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.01"
         },
         "failures": []
       },
@@ -478,9 +506,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:08.478Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.045"
+          "timestamp": "2026-11-20T09:10:21.405Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.038"
         },
         "failures": []
       },
@@ -492,9 +520,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:08.526Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.149"
+          "timestamp": "2026-11-20T09:10:21.446Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.181"
         },
         "failures": []
       },
@@ -506,9 +534,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:08.677Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.008"
+          "timestamp": "2026-11-20T09:10:21.633Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.009"
         },
         "failures": []
       },
@@ -520,9 +548,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:08.686Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.002"
+          "timestamp": "2026-11-20T09:10:21.644Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.001"
         },
         "failures": []
       },
@@ -534,9 +562,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:08.688Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.002"
+          "timestamp": "2026-11-20T09:10:21.647Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.0"
         },
         "failures": []
       },
@@ -548,8 +576,8 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:08.691Z",
-          "hostname": "ip-10-0-131-177",
+          "timestamp": "2026-11-20T09:10:21.649Z",
+          "hostname": "ip-10-0-143-39",
           "time": "0.006"
         },
         "failures": []
@@ -562,9 +590,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:08.698Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.001"
+          "timestamp": "2026-11-20T09:10:21.657Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.0"
         },
         "failures": []
       },
@@ -576,9 +604,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:08.700Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.135"
+          "timestamp": "2026-11-20T09:10:21.660Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.154"
         },
         "failures": []
       },
@@ -590,9 +618,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:08.839Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.023"
+          "timestamp": "2026-11-20T09:10:21.815Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.045"
         },
         "failures": []
       },
@@ -604,9 +632,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:08.866Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "6.61"
+          "timestamp": "2026-11-20T09:10:21.864Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "6.519"
         },
         "failures": []
       },
@@ -618,9 +646,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:15.477Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "2.687"
+          "timestamp": "2026-11-20T09:10:28.388Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "2.703"
         },
         "failures": []
       },
@@ -632,9 +660,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:18.169Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "24.725"
+          "timestamp": "2026-11-20T09:10:31.093Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "24.719"
         },
         "failures": []
       },
@@ -646,8 +674,8 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:42.895Z",
-          "hostname": "ip-10-0-131-177",
+          "timestamp": "2026-11-20T09:10:55.813Z",
+          "hostname": "ip-10-0-143-39",
           "time": "0.013"
         },
         "failures": []
@@ -660,9 +688,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:49:42.909Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.094"
+          "timestamp": "2026-11-20T09:10:55.827Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.093"
         },
         "failures": []
       },
@@ -674,9 +702,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:19.753Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "2.785"
+          "timestamp": "2026-11-20T09:11:33.512Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "3.047"
         },
         "failures": []
       },
@@ -688,9 +716,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:22.546Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.362"
+          "timestamp": "2026-11-20T09:11:36.567Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.28"
         },
         "failures": []
       },
@@ -702,9 +730,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:22.913Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.06"
+          "timestamp": "2026-11-20T09:11:36.855Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.057"
         },
         "failures": []
       },
@@ -716,9 +744,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:22.982Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.155"
+          "timestamp": "2026-11-20T09:11:36.916Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.176"
         },
         "failures": []
       },
@@ -730,9 +758,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:23.140Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "14.447"
+          "timestamp": "2026-11-20T09:11:37.097Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "14.464"
         },
         "failures": []
       },
@@ -744,23 +772,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:37.588Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "9.104"
-        },
-        "failures": []
-      },
-      {
-        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.DateAndTopicsTest.xml",
-        "counts": {
-          "name": "com.sakugapp.DateAndTopicsTest",
-          "tests": "4",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-20T08:50:46.699Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.004"
+          "timestamp": "2026-11-20T09:11:51.562Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "9.102"
         },
         "failures": []
       },
@@ -772,9 +786,23 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:46.693Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.004"
+          "timestamp": "2026-11-20T09:12:00.665Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.005"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.DateAndTopicsTest.xml",
+        "counts": {
+          "name": "com.sakugapp.DateAndTopicsTest",
+          "tests": "4",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-20T09:12:00.671Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.005"
         },
         "failures": []
       },
@@ -786,9 +814,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:46.704Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.033"
+          "timestamp": "2026-11-20T09:12:00.678Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.026"
         },
         "failures": []
       },
@@ -800,9 +828,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:46.738Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.078"
+          "timestamp": "2026-11-20T09:12:00.704Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.063"
         },
         "failures": []
       },
@@ -814,9 +842,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:46.818Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.042"
+          "timestamp": "2026-11-20T09:12:00.768Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.045"
         },
         "failures": []
       },
@@ -828,9 +856,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:46.861Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "1.775"
+          "timestamp": "2026-11-20T09:12:00.815Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "1.791"
         },
         "failures": []
       },
@@ -842,9 +870,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:48.637Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.024"
+          "timestamp": "2026-11-20T09:12:02.608Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.023"
         },
         "failures": []
       },
@@ -856,9 +884,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:48.662Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.008"
+          "timestamp": "2026-11-20T09:12:02.632Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.006"
         },
         "failures": []
       },
@@ -870,9 +898,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:48.671Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.004"
+          "timestamp": "2026-11-20T09:12:02.639Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.003"
         },
         "failures": []
       },
@@ -884,23 +912,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:48.676Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.007"
-        },
-        "failures": []
-      },
-      {
-        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.LibraryCodecTest.xml",
-        "counts": {
-          "name": "com.sakugapp.LibraryCodecTest",
-          "tests": "5",
-          "skipped": "0",
-          "failures": "0",
-          "errors": "0",
-          "timestamp": "2026-11-20T08:50:48.684Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.019"
+          "timestamp": "2026-11-20T09:12:02.644Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.012"
         },
         "failures": []
       },
@@ -912,9 +926,23 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:48.704Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.007"
+          "timestamp": "2026-11-20T09:12:02.671Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.002"
+        },
+        "failures": []
+      },
+      {
+        "report": "check-reports/test-results/testReleaseUnitTest/TEST-com.sakugapp.LibraryCodecTest.xml",
+        "counts": {
+          "name": "com.sakugapp.LibraryCodecTest",
+          "tests": "5",
+          "skipped": "0",
+          "failures": "0",
+          "errors": "0",
+          "timestamp": "2026-11-20T09:12:02.658Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.012"
         },
         "failures": []
       },
@@ -926,9 +954,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:48.711Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.007"
+          "timestamp": "2026-11-20T09:12:02.674Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.008"
         },
         "failures": []
       },
@@ -940,9 +968,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:48.720Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.017"
+          "timestamp": "2026-11-20T09:12:02.683Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.018"
         },
         "failures": []
       },
@@ -954,9 +982,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:48.738Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.058"
+          "timestamp": "2026-11-20T09:12:02.702Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.082"
         },
         "failures": []
       },
@@ -968,9 +996,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:48.797Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.006"
+          "timestamp": "2026-11-20T09:12:02.785Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.008"
         },
         "failures": []
       },
@@ -982,8 +1010,8 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:48.803Z",
-          "hostname": "ip-10-0-131-177",
+          "timestamp": "2026-11-20T09:12:02.794Z",
+          "hostname": "ip-10-0-143-39",
           "time": "0.002"
         },
         "failures": []
@@ -996,9 +1024,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:48.805Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.001"
+          "timestamp": "2026-11-20T09:12:02.797Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.0"
         },
         "failures": []
       },
@@ -1010,9 +1038,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:48.807Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.007"
+          "timestamp": "2026-11-20T09:12:02.798Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.003"
         },
         "failures": []
       },
@@ -1024,9 +1052,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:48.815Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.001"
+          "timestamp": "2026-11-20T09:12:02.802Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.0"
         },
         "failures": []
       },
@@ -1038,9 +1066,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:48.817Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.112"
+          "timestamp": "2026-11-20T09:12:02.803Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.119"
         },
         "failures": []
       },
@@ -1052,8 +1080,8 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:48.930Z",
-          "hostname": "ip-10-0-131-177",
+          "timestamp": "2026-11-20T09:12:02.923Z",
+          "hostname": "ip-10-0-143-39",
           "time": "0.015"
         },
         "failures": []
@@ -1066,9 +1094,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:48.946Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "6.842"
+          "timestamp": "2026-11-20T09:12:02.939Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "6.821"
         },
         "failures": []
       },
@@ -1080,9 +1108,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:55.789Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "2.615"
+          "timestamp": "2026-11-20T09:12:09.761Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "2.616"
         },
         "failures": []
       },
@@ -1094,9 +1122,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:50:58.406Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "24.717"
+          "timestamp": "2026-11-20T09:12:12.379Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "24.715"
         },
         "failures": []
       },
@@ -1108,9 +1136,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:51:23.124Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.011"
+          "timestamp": "2026-11-20T09:12:37.095Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.013"
         },
         "failures": []
       },
@@ -1122,9 +1150,9 @@
           "skipped": "0",
           "failures": "0",
           "errors": "0",
-          "timestamp": "2026-11-20T08:51:23.136Z",
-          "hostname": "ip-10-0-131-177",
-          "time": "0.093"
+          "timestamp": "2026-11-20T09:12:37.109Z",
+          "hostname": "ip-10-0-143-39",
+          "time": "0.095"
         },
         "failures": []
       },
@@ -1136,22 +1164,8 @@
           "failures": "0",
           "errors": "0",
           "skipped": "0",
-          "time": "255.117",
-          "timestamp": "2026-11-20T08:53:46",
-          "hostname": "localhost"
-        },
-        "failures": []
-      },
-      {
-        "report": "six-column-landscape-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-        "counts": {
-          "name": "com.sakugapp.SixColumnDeviceTest",
-          "tests": "2",
-          "failures": "0",
-          "errors": "0",
-          "skipped": "0",
-          "time": "35.645",
-          "timestamp": "2026-11-20T08:50:40",
+          "time": "253.506",
+          "timestamp": "2026-11-20T09:15:12",
           "hostname": "localhost"
         },
         "failures": []
@@ -1161,129 +1175,111 @@
         "counts": {
           "name": "com.sakugapp.SearchNavigationDeviceTest",
           "tests": "2",
-          "failures": "2",
+          "failures": "1",
           "errors": "0",
           "skipped": "0",
-          "time": "49.195",
-          "timestamp": "2026-11-20T08:51:31",
+          "time": "42.615",
+          "timestamp": "2026-11-20T09:12:24",
           "hostname": "localhost"
         },
         "failures": [
           {
             "test": "com.sakugapp.SearchNavigationDeviceTest.combinedHistoryOnlyFillsDraftAndBackRestoresTheOriginalResultAndBrowseLists",
-            "message": "androidx.test.espresso.base.RootViewPicker$RootViewWithoutFocusException: Waited for the root of the view hierarchy to have window focus and not request layout for 10 seconds. If you specified a non default root matcher, it may be picking a root that never takes focus. Root:\nRoot{application-window-token=android.view.ViewRootImpl$W@24400f5, window-token=android.view.ViewRootImpl$W@24400f5, has-window-focus=false, layout-params-type=2, layout-params-string={(0,0)(fillxfill) gr=CENTER sim={adjust=nothing} ty=APPLICATION fmt=TRANSPARENT wanim=0x1030309\nfl=DIM_BEHIND LAYOUT_IN_SCREEN LAYOUT_INSET_DECOR SPLIT_TOUCH HARDWARE_ACCELERATED DRAWS_SYSTEM_BAR_BACKGROUNDS\npfl=NO_MOVE_ANIMATION EDGE_TO_EDGE_ENFORCED FORCE_DRAW_STATUS_BAR_BACKGROUND FIT_INSETS_CONTROLLED\nbhv=DEFAULT\nfitSides=\nframeRateBoostOnTouch=true\ndvrrWindowFrameRateHint=true}, decor-view-string=DecorView{id=-1, visibility=VISIBLE, width=1080, height=1920, has-focus=false, has-focusable=true, has-window-focus=false, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, layout-params={(0,0)(fillxfill) gr=CENTER sim={adjust=nothing} ty=APPLICATION fmt=TRANSPARENT wanim=0x1030309\nfl=DIM_BEHIND LAYOUT_IN_SCREEN LAYOUT_INSET_DECOR SPLIT_TOUCH HARDWARE_ACCELERATED DRAWS_SYSTEM_BAR_BACKGROUNDS\npfl=NO_MOVE_ANIMATION EDGE_TO_EDGE_ENFORCED FORCE_DRAW_STATUS_BAR_BACKGROUND FIT_INSETS_CONTROLLED\nbhv=DEFAULT\nfitSides=\nframeRateBoostOnTouch=true\ndvrrWindowFrameRateHint=true}, tag=null, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=1}}\nat dalvik.system.VMStack.getThreadStackTrace(Native Method)\nat java.lang.Thread.getStackTrace(Thread.java:1841)\nat androidx.test.espresso.base.EspressoExceptionHandler.handleSafely(EspressoExceptionHandler.java:34)\nat androidx.test.espresso.base.EspressoExceptionHandler.handleSafely(EspressoExceptionHandler.java:26)\nat androidx.test.espresso.base.DefaultFailureHandler$TypedFailureHandler.handle(DefaultFailureHandler.java:158)\nat androidx.test.espresso.base.DefaultFailureHandler.handle(DefaultFailureHandler.java:120)\nat androidx.test.espresso.ViewInteraction.waitForAndHandleInteractionResults(ViewInteraction.java:385)\nat androidx.test.espresso.ViewInteraction.desugaredPerform(ViewInteraction.java:212)\nat androidx.test.espresso.ViewInteraction.perform(ViewInteraction.java:140)\nat com.sakugapp.DialogTestActionsKt.dialogImeHeight(DialogTestActions.kt:15)\nat com.sakugapp.SearchNavigationDeviceTest.combinedHistoryOnlyFillsDraftAndBackRestoresTheOriginalResultAndBrowseLists$lambda$9(SearchNavigationDeviceTest.kt:73)\nat com.sakugapp.SearchNavigationDeviceTest.$r8$lambda$Y-iZ0mGy37InEvs6QcHnzqaq4EY(Unknown Source:0)\nat com.sakugapp.SearchNavigationDeviceTest$$ExternalSyntheticLambda5.invoke(D8$$SyntheticClass:0)\nat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$AndroidComposeUiTestImpl.waitUntil(ComposeUiTest.android.kt:497)\nat androidx.compose.ui.test.junit4.AndroidComposeTestRule.waitUntil(AndroidComposeTestRule.android.kt:339)\nat com.sakugapp.SearchNavigationDeviceTest.combinedHistoryOnlyFillsDraftAndBackRestoresTheOriginalResultAndBrowseLists(SearchNavigationDeviceTest.kt:73)\n"
-          },
-          {
-            "test": "com.sakugapp.SearchImeGestureDeviceTest.actualImeEdgeBackKeepsRootAndSearchResultsWithoutFinishingOrSubmitting",
-            "message": "java.lang.AssertionError: Underlying Post page\nat org.junit.Assert.fail(Assert.java:89)\nat org.junit.Assert.assertTrue(Assert.java:42)\nat org.junit.Assert.assertNotNull(Assert.java:713)\nat com.sakugapp.SearchImeGestureDeviceTest.entry(SearchImeGestureDeviceTest.kt:24)\nat com.sakugapp.SearchImeGestureDeviceTest.actualImeEdgeBackKeepsRootAndSearchResultsWithoutFinishingOrSubmitting(SearchImeGestureDeviceTest.kt:50)\n"
+            "message": "java.lang.AssertionError: Failed: assertDoesNotExist.\nReason: Did not expect any node but found '1' node that satisfies: (TestTag = 'query-expression')\nNode found:\nNode #1201 at (l=96.0, t=633.0, r=984.0, b=864.0)px, Tag: 'query-expression'\nContentDataType = 'AndroidContentDataType(androidAutofillType=1)'\nEditableText = 'id:322323'\nFocused = 'false'\nImeAction = 'Default'\nInputText = 'id:322323'\nIsEditable = 'true'\nText = '[Query]'\nTextSelectionRange = 'TextRange(9, 9)'\nActions = [ClearTextSubstitution, GetTextLayoutResult, InsertTextAtCursor, OnAutofillText, OnClick, OnLongClick, PasteText, PerformImeAction, RequestFocus, SetSelection, SetText, SetTextSubstitution, ShowTextSubstitution]\nMergeDescendants = 'true'\nHas 6 siblings\n\nat androidx.compose.ui.test.SemanticsNodeInteraction.assertDoesNotExist(SemanticsNodeInteraction.kt:101)\nat com.sakugapp.SearchNavigationDeviceTest.combinedHistoryOnlyFillsDraftAndBackRestoresTheOriginalResultAndBrowseLists(SearchNavigationDeviceTest.kt:78)\n"
           }
         ]
-      },
-      {
-        "report": "six-column-phone-reports/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
-        "counts": {
-          "name": "com.sakugapp.SixColumnDeviceTest",
-          "tests": "2",
-          "failures": "0",
-          "errors": "0",
-          "skipped": "0",
-          "time": "24.459",
-          "timestamp": "2026-11-20T08:50:03",
-          "hostname": "localhost"
-        },
-        "failures": []
       }
     ],
     "artifacts": [
       {
-        "name": "sakugapp-source",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167696/artifacts/14615600338"
-      },
-      {
-        "name": "check-reports",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167696/artifacts/14614876826"
-      },
-      {
-        "name": "device-test-reports",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167696/artifacts/14614669137"
-      },
-      {
-        "name": "sakugapp-debug",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167696/artifacts/14614632538"
+        "name": "six-column-phone-reports",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/artifacts/14616680252"
       },
       {
         "name": "six-column-landscape-reports",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167696/artifacts/14614607822"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/artifacts/14616650372"
+      },
+      {
+        "name": "sakugapp-source",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/artifacts/14616525859"
+      },
+      {
+        "name": "check-reports",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/artifacts/14616077990"
+      },
+      {
+        "name": "sakugapp-debug",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/artifacts/14615813738"
+      },
+      {
+        "name": "device-test-reports",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/artifacts/14615734491"
       },
       {
         "name": "search-back-gesture-reports",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167696/artifacts/14614378560"
-      },
-      {
-        "name": "six-column-phone-reports",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167696/artifacts/14614378285"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/artifacts/14615529020"
       }
     ],
     "jobs": [
       {
+        "name": "six-column-display (landscape, pixel_c)",
+        "conclusion": "success",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192504635"
+      },
+      {
         "name": "build",
         "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167696/job/136182985632"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192505098"
       },
       {
         "name": "search-back-gestures",
         "conclusion": "failure",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167696/job/136182986056"
-      },
-      {
-        "name": "six-column-display (phone, Nexus S)",
-        "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167696/job/136182986147"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192505180"
       },
       {
         "name": "device-tests",
         "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167696/job/136182986198"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192505267"
       },
       {
-        "name": "six-column-display (landscape, pixel_c)",
+        "name": "six-column-display (phone, Nexus S)",
         "conclusion": "success",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167696/job/136182986264"
-      },
-      {
-        "name": "release-signing",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167696/job/136182987209"
-      },
-      {
-        "name": "signed-candidate",
-        "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167696/job/136182987455"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192505304"
       },
       {
         "name": "documentation-screenshots",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167696/job/136182987666"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192506675"
+      },
+      {
+        "name": "signed-candidate",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192507017"
+      },
+      {
+        "name": "release-signing",
+        "conclusion": "skipped",
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192507216"
       },
       {
         "name": "release-preflight",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167696/job/136182987989"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192507226"
       },
       {
         "name": "candidate-upgrade-install",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167696/job/136182988690"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192507441"
       },
       {
         "name": "candidate-evidence",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167696/job/136182988963"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136192507692"
       },
       {
         "name": "checks-evidence",
         "conclusion": "skipped",
-        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167696/job/136186376412"
+        "url": "https://github.com/Milenal82/sakugapp/actions/runs/44708064937/job/136196271358"
       }
     ]
   }
