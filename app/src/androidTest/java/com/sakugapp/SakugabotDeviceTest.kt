@@ -21,6 +21,11 @@ import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.File
+import java.net.UnknownHostException
+import java.util.concurrent.atomic.AtomicInteger
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.UiDevice
 
 /** Deterministic UI checks; public API responses are verified separately, never required here. */
 @RunWith(AndroidJUnit4::class)
@@ -83,6 +88,41 @@ class SakugabotDeviceTest {
             ui.waitUntil(5000){ui.onAllNodesWithTag("translated-tag-mob_psycho_100",useUnmergedTree=true).fetchSemanticsNodes().isEmpty()}
             ui.onNodeWithTag("tag-mob_psycho_100",useUnmergedTree=true).assertIsDisplayed()
         }finally{runBlocking{app.preferences.chineseDetailTranslations(before)}}
+    }
+    @Test fun publicApiOnAndroidAndOfflineClientBothKeepTheOriginalTag()=runBlocking {
+        val tag=Tag("yutaka_nakamura",TagCategory.ARTIST)
+        val online=SakugabotTranslations()
+        // One bounded public GET. A real outage is recorded as fallback, never invented data.
+        val name=online.lookup(tag)
+        val dnsCalls=AtomicInteger()
+        val offline=SakugabotTranslations(client=okhttp3.OkHttpClient.Builder().retryOnConnectionFailure(false)
+            .dns{dnsCalls.incrementAndGet();throw UnknownHostException("Offline test")}.build())
+        var source by mutableStateOf<DetailTranslationSource>(online)
+        ui.runOnUiThread{ui.activity.setContent{
+            val names=detailNames(2,listOf(tag),true,source)
+            SakugappTheme(false){Surface{Box(Modifier.fillMaxSize().systemBarsPadding().padding(12.dp)){
+                DetailTags(listOf(tag),false,{},{},names.mapValues{it.value.chinese})
+            }}}
+        }}
+        if(name!=null){
+            ui.waitUntil(5000){ui.onAllNodesWithTag("translated-tag-${tag.name}",useUnmergedTree=true).fetchSemanticsNodes().isNotEmpty()}
+            ui.onNodeWithText(name.chinese).assertIsDisplayed()
+        }
+        ui.onNodeWithTag("tag-${tag.name}",useUnmergedTree=true).assertIsDisplayed()
+        UiEvidence.capture("sakugabot-real-api.png")
+        ui.runOnUiThread{source=offline}
+        ui.waitUntil(5000){dnsCalls.get()>0}
+        ui.waitForIdle()
+        ui.onAllNodesWithTag("translated-tag-${tag.name}",useUnmergedTree=true).assertCountEquals(0)
+        ui.onNodeWithTag("tag-${tag.name}",useUnmergedTree=true).assertIsDisplayed()
+        UiEvidence.capture("sakugabot-offline.png")
+        val instrumentation=InstrumentationRegistry.getInstrumentation()
+        val directory=File(instrumentation.targetContext.getExternalFilesDir(null),"ui-evidence").apply{mkdirs()}
+        val record=File(directory,"sakugabot-network.json")
+        record.writeText(com.google.gson.Gson().toJson(mapOf("android_api" to android.os.Build.VERSION.SDK_INT,
+            "original_tag" to tag.name,"public_api_result" to if(name==null)"raw_fallback" else "translated",
+            "chinese" to name?.chinese,"offline_original_visible" to true)))
+        UiDevice.getInstance(instrumentation).executeShellCommand("cp ${record.absolutePath} /sdcard/Download/sakugapp-ui-evidence/${record.name}")
     }
 }
 
