@@ -37,7 +37,17 @@ class SearchImeGestureDeviceTest {
         assertTrue(device.swipe(if(right)width-1 else 1,y,if(right)width*2/3 else width/3,y,24))
         device.waitForIdle()
     }
-    @Before fun selectPostsEntry(){device.wait(Until.findObject(By.res("nav-posts")),10000)?.click()}
+    @Before fun selectPostsEntry(){
+        // Startup is Search. Explicitly select ordinary Posts rather than silently skipping
+        // a missing/animating tab and testing the wrong underlying page.
+        val menu=device.wait(Until.findObject(By.res("main-menu")),10000);assertNotNull("Main menu",menu);menu.click()
+        val context=InstrumentationRegistry.getInstrumentation().targetContext
+        assertNotNull("Navigation menu",device.wait(Until.findObject(By.text(context.getString(com.sakugapp.R.string.ui_menu_legal))),10000))
+        // Popup windows have their own semantics owner; use their localized visible text.
+        val posts=device.findObjects(By.text(context.getString(com.sakugapp.R.string.ui_menu_posts))).minByOrNull{it.visibleBounds.top}
+        assertNotNull("Posts entry",posts);posts!!.click()
+        assertNotNull("Posts grid",device.wait(Until.findObject(By.res("post-grid")),10000))
+    }
     @Test fun actualImeEdgeBackKeepsRootAndSearchResultsWithoutFinishingOrSubmitting(){
         assertEquals("2",device.executeShellCommand("settings get secure navigation_mode").trim())
         for(context in listOf("root","results")){
