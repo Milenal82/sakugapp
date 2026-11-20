@@ -89,7 +89,7 @@ class SakugabotDeviceTest {
             ui.onNodeWithTag("tag-mob_psycho_100",useUnmergedTree=true).assertIsDisplayed()
         }finally{runBlocking{app.preferences.chineseDetailTranslations(before)}}
     }
-    @Test fun publicApiOnAndroidAndOfflineClientBothKeepTheOriginalTag()=runBlocking {
+    @Test fun publicApiOnAndroidAndOfflineClientBothKeepTheOriginalTag():Unit=runBlocking {
         val tag=Tag("yutaka_nakamura",TagCategory.ARTIST)
         val online=SakugabotTranslations()
         // One bounded public GET. A real outage is recorded as fallback, never invented data.
