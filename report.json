@@ -1658,8 +1658,8 @@
     {
       "run": "44705167606",
       "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167606",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "failure",
       "jobs": [
         {
           "name": "metadata",
@@ -1751,8 +1751,8 @@
         },
         {
           "name": "devices (28, Nexus S)",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167606/job/136183168327",
           "steps": [
             {
@@ -1805,43 +1805,51 @@
             },
             {
               "name": "Run reactivecircus/android-emulator-runner@v2",
-              "status": "in_progress",
-              "conclusion": null,
+              "status": "completed",
+              "conclusion": "success",
               "number": 7,
               "started_at": "2026-11-20T08:47:20Z",
-              "completed_at": null
+              "completed_at": "2026-11-20T08:55:47Z"
             },
             {
               "name": "Run actions/upload-artifact@v4",
-              "status": "pending",
-              "conclusion": null,
+              "status": "completed",
+              "conclusion": "success",
               "number": 8,
-              "started_at": null,
-              "completed_at": null
+              "started_at": "2026-11-20T08:55:47Z",
+              "completed_at": "2026-11-20T08:55:49Z"
             },
             {
               "name": "Post Run gradle/actions/setup-gradle@v5",
-              "status": "pending",
-              "conclusion": null,
+              "status": "completed",
+              "conclusion": "success",
               "number": 14,
-              "started_at": null,
-              "completed_at": null
+              "started_at": "2026-11-20T08:55:49Z",
+              "completed_at": "2026-11-20T08:56:06Z"
             },
             {
               "name": "Post Run actions/setup-java@v5",
-              "status": "pending",
-              "conclusion": null,
+              "status": "completed",
+              "conclusion": "success",
               "number": 15,
-              "started_at": null,
-              "completed_at": null
+              "started_at": "2026-11-20T08:56:06Z",
+              "completed_at": "2026-11-20T08:56:06Z"
             },
             {
               "name": "Post Run actions/checkout@v5",
-              "status": "pending",
-              "conclusion": null,
+              "status": "completed",
+              "conclusion": "success",
               "number": 16,
-              "started_at": null,
-              "completed_at": null
+              "started_at": "2026-11-20T08:56:06Z",
+              "completed_at": "2026-11-20T08:56:06Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17,
+              "started_at": "2026-11-20T08:56:06Z",
+              "completed_at": "2026-11-20T08:56:06Z"
             }
           ]
         },
@@ -1948,15 +1956,119 @@
               "completed_at": "2026-11-20T08:53:37Z"
             }
           ]
+        },
+        {
+          "name": "evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167606/job/136187264105",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-11-20T08:56:14Z",
+              "completed_at": "2026-11-20T08:56:16Z"
+            },
+            {
+              "name": "Run actions/checkout@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-11-20T08:56:16Z",
+              "completed_at": "2026-11-20T08:56:19Z"
+            },
+            {
+              "name": "Run actions/download-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-11-20T08:56:19Z",
+              "completed_at": "2026-11-20T08:56:21Z"
+            },
+            {
+              "name": "Read actual scoped and standard checks for this exact commit",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-11-20T08:56:21Z",
+              "completed_at": "2026-11-20T08:56:31Z"
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-11-20T08:56:31Z",
+              "completed_at": "2026-11-20T08:56:33Z"
+            },
+            {
+              "name": "Keep original captures and bounded reports independently of app source",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-11-20T08:56:33Z",
+              "completed_at": "2026-11-20T08:56:35Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12,
+              "started_at": "2026-11-20T08:56:35Z",
+              "completed_at": "2026-11-20T08:56:35Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13,
+              "started_at": "2026-11-20T08:56:35Z",
+              "completed_at": "2026-11-20T08:56:35Z"
+            }
+          ]
         }
       ],
       "artifacts": [
+        {
+          "name": "v130-device-reports-28",
+          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167606/artifacts/14615870024"
+        },
+        {
+          "name": "v130-validation-evidence",
+          "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167606/artifacts/14614987867"
+        },
         {
           "name": "v130-metadata",
           "url": "https://github.com/Milenal82/sakugapp/actions/runs/44705167606/artifacts/14614268106"
         }
       ],
-      "reports": []
+      "reports": [
+        {
+          "file": "v130-device-reports-28/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
+          "counts": {
+            "name": "com.sakugapp.ReleaseUiDeviceTest",
+            "tests": "45",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0",
+            "time": "245.882",
+            "timestamp": "2026-11-20T08:55:42",
+            "hostname": "localhost"
+          },
+          "failures": []
+        }
+      ],
+      "sakugabot_network": [
+        {
+          "android_api": 28,
+          "original_tag": "yutaka_nakamura",
+          "public_api_result": "translated",
+          "chinese": "中村丰",
+          "offline_original_visible": true
+        }
+      ]
     },
     {
       "run": "44705167531",
