@@ -123,6 +123,61 @@ class FeedViewModelTest {
         model.beginSearch("animated");runCurrent();model.restoreBrowse();stale.complete(Unit);advanceUntilIdle()
         assertEquals(original,model.state.value)
     }
+    @Test fun committedResultBackClearsQueryAndRestoresDefaultCacheAndNextPage()=runTest(dispatcher){
+        val requests=mutableListOf<Pair<String,Int>>()
+        val repo=object:PostRepository{override val pageSize=1;override suspend fun page(query:String,page:Int):PostPage{
+            requests+=query to page;return page(if(query.isBlank())page.toLong() else 100)
+        }}
+        val saved=SavedStateHandle();val model=FeedViewModel(saved,repo)
+        advanceUntilIdle();model.loadMore();advanceUntilIdle();val original=model.state.value
+        model.beginSearch("artist_tag score:>=3");advanceUntilIdle()
+        model.open(model.state.value.posts.single());model.close()
+        assertEquals("artist_tag score:>=3",model.state.value.query)
+        val count=requests.size;model.returnToDefaultPosts();advanceUntilIdle()
+        assertEquals(original,model.state.value);assertEquals(count,requests.size)
+        assertEquals("",saved.get<String>("query"));assertEquals("",saved.get<String>("browseQuery"))
+        assertFalse(model.searchMode.value);assertNull(model.resultSession.value)
+        model.resumeSearch();assertEquals(original,model.state.value)
+        model.loadMore();advanceUntilIdle();assertEquals("" to 3,requests.last())
+    }
+    @Test fun lateSearchAndRefreshCannotReplaceDefaultPostsAfterResultBack()=runTest(dispatcher){
+        for(refresh in listOf(false,true)){
+            val stale=CompletableDeferred<Unit>();var searchCalls=0
+            val repo=object:PostRepository{override suspend fun page(query:String,page:Int):PostPage{
+                if(query.isNotEmpty() && (!refresh || searchCalls++>0))withContext(NonCancellable){stale.await()}
+                return page(if(query.isBlank())1 else 99)
+            }}
+            val model=FeedViewModel(SavedStateHandle(),repo);runCurrent();val original=model.state.value
+            model.beginSearch("animated");runCurrent()
+            if(refresh){model.refresh();runCurrent()}
+            model.returnToDefaultPosts();stale.complete(Unit);advanceUntilIdle()
+            assertEquals(original,model.state.value);assertNull(model.resultSession.value)
+        }
+    }
+    @Test fun aLegacyFilteredBrowseIsNotRestoredAsTheDefaultHomepage()=runTest(dispatcher){
+        val requests=mutableListOf<String>()
+        val repo=object:PostRepository{override suspend fun page(query:String,page:Int):PostPage{
+            requests+=query;return page(if(query.isBlank())1 else 99)
+        }}
+        val saved=SavedStateHandle(mapOf("browseQuery" to "old_query","query" to "old_query"))
+        val model=FeedViewModel(saved,repo);advanceUntilIdle()
+        model.beginSampleSearch("artist_tag",page(77).posts);model.returnToDefaultPosts();advanceUntilIdle()
+        assertEquals(listOf("old_query",""),requests)
+        assertEquals("",model.state.value.query);assertEquals(listOf(1L),model.state.value.posts.map{it.id})
+        assertFalse(model.state.value.sampleOnly);assertEquals("",saved.get<String>("browseQuery"))
+    }
+    @Test fun resultBackResumesThePendingDefaultPageWithoutAppendingItsCancelledResponse()=runTest(dispatcher){
+        val stale=CompletableDeferred<Unit>();var second=0
+        val repo=object:PostRepository{override val pageSize=1;override suspend fun page(query:String,page:Int):PostPage{
+            if(query.isEmpty() && page==2 && second++==0){withContext(NonCancellable){stale.await()};return page(99)}
+            return page(if(query.isEmpty())page.toLong() else 77)
+        }}
+        val model=FeedViewModel(SavedStateHandle(),repo);runCurrent();model.loadMore();runCurrent()
+        model.beginSearch("artist_tag");runCurrent();model.returnToDefaultPosts();runCurrent()
+        stale.complete(Unit);advanceUntilIdle()
+        assertEquals(listOf(1L,2L),model.state.value.posts.map{it.id});assertEquals(3,model.state.value.nextPage)
+        assertEquals(2,second);assertFalse(model.state.value.loading)
+    }
     @Test fun refreshKeepsTheQueryReplacesFirstPageDeduplicatesAndResetsPagination()=runTest(dispatcher){
         var refreshed=false
         val repo=object:PostRepository{override val pageSize=2;override suspend fun page(query:String,page:Int):PostPage{

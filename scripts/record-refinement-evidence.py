@@ -18,6 +18,7 @@ for p in root.rglob('*'):
  if p.name.startswith('TEST-')and p.suffix=='.xml':report['reports'].append(summarize(str(p.relative_to(root)),p.read_bytes()))
  if p.name.startswith('v130-')and p.suffix=='.png':shutil.copyfile(p,out/'screenshots'/(('phone-' if 'reports-28' in str(p) else 'tablet-')+p.name))
  if p.name.startswith('sakugabot-')and p.suffix=='.png':shutil.copyfile(p,out/'screenshots'/(('phone-' if 'reports-28' in str(p) else 'tablet-')+p.name))
+ if p.name.startswith('preview-tools-')and p.suffix=='.png':shutil.copyfile(p,out/'screenshots'/(('phone-' if 'reports-28' in str(p) else 'tablet-')+p.name))
  if p.name=='sakugabot-network.json':report.setdefault('sakugabot_network',[]).append(json.loads(p.read_text()))
  if p.name=='v130-layout-matrix.json':report.setdefault('layout_matrices',[]).append({'report':str(p.relative_to(root)),'cases':json.loads(p.read_text())})
 report['artifacts']=artifact_urls(run)

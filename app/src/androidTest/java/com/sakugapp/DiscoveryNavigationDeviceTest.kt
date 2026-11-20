@@ -35,6 +35,7 @@ class DiscoveryNavigationDeviceTest {
   scene();ui.onNodeWithTag("home-artists").performScrollTo().performClick();ui.onNodeWithTag("discovery-query").performTextInput("test_artist")
   ui.waitUntil(10000){ui.onAllNodesWithTag("candidate-test_artist").fetchSemanticsNodes().isNotEmpty()};ui.onNodeWithTag("candidate-test_artist").performClick()
   ui.onNodeWithText(ui.activity.getString(R.string.ui_view_posts)).performScrollTo().performClick();ui.onNodeWithTag("nav-posts").assertIsSelected()
+  ui.runOnUiThread{ui.activity.onBackPressedDispatcher.onBackPressed()};ui.onNodeWithTag("post-grid").assertIsDisplayed()
   ui.runOnUiThread{ui.activity.onBackPressedDispatcher.onBackPressed()};ui.onNodeWithTag("artist-stats").assertIsDisplayed()
  }
  @Test fun worksEpisodeDetailAndReturnUseExistingPlayer(){

@@ -11,6 +11,9 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
@@ -25,6 +28,20 @@ data class ChineseTagName(val original:String, val category:TagCategory, val chi
 
 interface DetailTranslationSource {
     suspend fun lookup(tag:Tag):ChineseTagName?
+    /** Cache-only reads never wait for HTTP; downloads must not fetch names. */
+    fun cached(tag:Tag):ChineseTagName?=cachedNames.value[tag]
+    val cachedNames:StateFlow<Map<Tag,ChineseTagName>> get()=emptyChineseNames
+}
+private val emptyChineseNames=MutableStateFlow<Map<Tag,ChineseTagName>>(emptyMap()).asStateFlow()
+
+object TranslationLabels {
+    fun preview(tag:Tag,enabled:Boolean,names:Map<Tag,ChineseTagName>):String =
+        if(enabled && tag.category==TagCategory.COPYRIGHT)verified(tag,names[tag]) ?: tag.name else tag.name
+    fun verified(tag:Tag,value:ChineseTagName?):String?=value?.takeIf{
+        (tag.category==TagCategory.ARTIST || tag.category==TagCategory.COPYRIGHT) && it.original==tag.name && it.category==tag.category
+    }?.chinese?.takeIf{it.isNotBlank()}
+    fun download(tags:List<Tag>,enabled:Boolean,source:DetailTranslationSource):Map<Tag,String> =
+        if(!enabled)emptyMap()else tags.distinct().mapNotNull{tag->verified(tag,source.cached(tag))?.let{tag to it}}.toMap()
 }
 
 /** Only explicit Chinese names, or a main name corroborated by the record's Chinese wiki title. */
@@ -68,7 +85,7 @@ fun translatedSource(source:String?,names:Collection<ChineseTagName>):String? {
         .map{it.chinese}.distinct().singleOrNull()?.takeIf{it!=original}
 }
 
-/** App-scoped, bounded memory cache. No account client, cookies, writes, disk index or feed lookups. */
+/** Shared bounded memory cache. No account client, cookies, writes or persistent index. */
 class SakugabotTranslations(
     private val base:HttpUrl="https://sakugabot.pw/api/".toHttpUrl(),
     private val client:OkHttpClient=OkHttpClient.Builder().connectTimeout(4,TimeUnit.SECONDS)
@@ -82,6 +99,13 @@ class SakugabotTranslations(
     private data class Reply(val code:Int,val body:String?,val retryAfterMs:Long)
     private val mutex=Mutex()
     private val cache=LinkedHashMap<Tag,Entry>(16,0.75f,true)
+    private val _cachedNames=MutableStateFlow<Map<Tag,ChineseTagName>>(emptyMap())
+    override val cachedNames=_cachedNames.asStateFlow()
+    override fun cached(tag:Tag):ChineseTagName?=synchronized(cache){cache[tag]?.takeIf{clock()<it.expires}?.name}
+    private fun publish(){
+        val now=clock()
+        _cachedNames.value=cache.mapNotNull{(tag,entry)->entry.name?.takeIf{now<entry.expires}?.let{tag to it}}.toMap()
+    }
     private var nextRequest=0L
     private var cooldown=0L
     init { require(intervalMs>=0 && capacity in 1..256) }
@@ -91,7 +115,8 @@ class SakugabotTranslations(
             !LibraryCodec.tagName(tag.name) || tag.name in setOf(".",".."))return null
         return mutex.withLock {
             val now=clock()
-            cache[tag]?.let{if(now<it.expires)return@withLock it.name else cache.remove(tag)}
+            val hit=synchronized(cache){cache[tag]?.takeIf{now<it.expires}.also{if(it==null && cache.remove(tag)!=null)publish()}}
+            if(hit!=null)return@withLock hit.name
             if(now<cooldown)return@withLock null
             delay((nextRequest-now).coerceAtLeast(0))
             nextRequest=clock()+intervalMs
@@ -109,9 +134,10 @@ class SakugabotTranslations(
         }
     }
 
-    private fun remember(tag:Tag,entry:Entry){
+    private fun remember(tag:Tag,entry:Entry)=synchronized(cache){
         cache[tag]=entry
         while(cache.size>capacity)cache.remove(cache.keys.first())
+        publish()
     }
 
     private suspend fun fetch(url:HttpUrl):Reply=suspendCancellableCoroutine { continuation->

@@ -16,7 +16,7 @@ class AppViewModel @JvmOverloads constructor(application:Application,discoveryOv
     val topics=TopicRepository()
     val discovery=discoveryOverride ?: DiscoveryRepository()
     val preferences=PreferencesStore(application)
-    val detailTranslations:DetailTranslationSource=translationsOverride ?: SakugabotTranslations()
+    val detailTranslations:DetailTranslationSource=translationsOverride ?: (application as com.sakugapp.SakugappApplication).tagTranslations
     fun chineseDetailTranslations(enabled:Boolean){viewModelScope.launch{preferences.chineseDetailTranslations(enabled)}}
     val settings=preferences.settings.stateIn(viewModelScope,SharingStarted.Eagerly,AppSettings())
     val quizSettings=preferences.quiz.stateIn(viewModelScope,SharingStarted.Eagerly,QuizSettings())

@@ -54,7 +54,7 @@ class PlayerLockDeviceTest {
     }
     @Test fun oneRowToolbarFitsNarrowAndTabletWidthsWithNoFrameDescriptions(){
         var width by mutableStateOf(296.dp)
-        ui.runOnUiThread{ui.activity.setContent{SakugappTheme(false,1.25f){Box(Modifier.width(width)){FrameControlBar(null,0,0,true,{},{repeat(3){androidx.compose.material3.IconButton(onClick={},modifier=Modifier.size(36.dp)){}}})}}}}
+        ui.runOnUiThread{ui.activity.setContent{SakugappTheme(false,1.25f){Box(Modifier.width(width)){FrameControlBar(null,0,0,true,{},actions={repeat(3){androidx.compose.material3.IconButton(onClick={},modifier=Modifier.size(36.dp)){}}})}}}}
         for(w in listOf(296.dp,360.dp,600.dp,840.dp)){
             ui.runOnUiThread{width=w};ui.waitForIdle()
             val nodes=listOf(-3,-2,-1,1,2,3).map{ui.onNodeWithTag("step-$it").fetchSemanticsNode()}

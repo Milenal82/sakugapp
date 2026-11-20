@@ -18,6 +18,7 @@ class DownloadStorage(private val context:Context,private val downloader:VideoDo
     enum class Kind(val path:String){SINGLE("Movies/Sakugapp/"),CLIP("Movies/Sakugapp/Clips/"),BATCH("Movies/Sakugapp/Batch/")}
     private val prefs=context.getSharedPreferences("download_destinations_v1",Context.MODE_PRIVATE)
     private val resolver=context.contentResolver
+    private val naming=DownloadNaming(context)
     companion object {
         private val lock=Mutex()
         private val active=mutableMapOf<String,CompletableDeferred<Uri>>()
@@ -33,8 +34,8 @@ class DownloadStorage(private val context:Context,private val downloader:VideoDo
     }
     fun reset(kind:Kind){prefs.edit().remove("tree_${kind.name}").commit()}
     fun needsLegacyPermission(kind:Kind)=Build.VERSION.SDK_INT<29 && directory(kind)==null
-    private fun oldKey(post:Post)="${post.id}-${key(post,Kind.BATCH).substringAfter("BATCH_").take(24)}.${VideoDownloadPlan.from(post).filename.substringAfterLast('.')}"
-    private fun key(post:Post,kind:Kind)=kind.name+"_"+MessageDigest.getInstance("SHA-256").digest(VideoDownloadPlan.from(post).url.toString().toByteArray()).joinToString(""){"%02x".format(it)}
+    private fun oldKey(post:Post)="${post.id}-${key(post,Kind.BATCH).substringAfter("BATCH_").take(24)}.${VideoDownloadPlan.media(post).extension}"
+    private fun key(post:Post,kind:Kind)=kind.name+"_"+MessageDigest.getInstance("SHA-256").digest(VideoDownloadPlan.media(post).url.toString().toByteArray()).joinToString(""){"%02x".format(it)}
     private fun readable(uri:Uri)=runCatching{resolver.query(uri,arrayOf(android.provider.OpenableColumns.SIZE),null,null,null)?.use{it.moveToFirst() && (it.isNull(0) || it.getLong(0)!=0L)}==true}.getOrDefault(false)
     fun existing(post:Post,kind:Kind):Uri?=runCatching{
         val stored=prefs.getString(key(post,kind),null) ?: if(kind==Kind.BATCH)prefs.getString("old_"+oldKey(post),null)else null
@@ -77,6 +78,7 @@ class DownloadStorage(private val context:Context,private val downloader:VideoDo
         if(!owner)return@withContext transfer.await()
         var target:Target?=null;var max=Long.MAX_VALUE;var received=0L
         try{
+            val plan=VideoDownloadPlan.from(post,naming.names(post))
             lock.withLock{
                 if(kind==Kind.BATCH){
                     val used=prefs.all.filter{it.key.startsWith("bytes_BATCH_")}.entries.sumOf{(name,value)->
@@ -90,10 +92,10 @@ class DownloadStorage(private val context:Context,private val downloader:VideoDo
                     if(max<=0 || (declared ?: 0)>max)throw LibraryFailure("media_limit")
                     max=declared ?: max;reservations[identity]=max
                 }
-                target=VideoDownloadPlan.from(post).let{create(it.filename,it.mime,kind)}
+                target=create(plan.filename,plan.mime,kind)
                 if(!prefs.edit().putString("partial_"+identity,target!!.uri.toString()).commit())throw IOException()
             }
-            val own=checkNotNull(target);val plan=VideoDownloadPlan.from(post)
+            val own=checkNotNull(target)
             DownloadBackoff.await(plan.url.host);PublicReadThrottle.awaitTurn()
             downloader.download(plan,open={object:FilterOutputStream((output?.invoke(own.uri) ?: resolver.openOutputStream(own.uri,"w")) ?: throw IOException()){
                 override fun write(buffer:ByteArray,offset:Int,count:Int){if(count.toLong()>max-received)throw LibraryFailure("media_limit");out.write(buffer,offset,count);received+=count}

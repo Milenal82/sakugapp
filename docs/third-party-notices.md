@@ -37,4 +37,6 @@ Room 2.7.1 / AndroidX SQLite（runtime 与编译器）：Apache-2.0，https://de
 
 Sakuga Enhancer / Sakuga Enhancer App — Punyesh, MIT, https://github.com/Punyesh/sakugaEnhancer and https://github.com/Punyesh/sakugaEnhancerApp . The frame-bar and trim-mode interaction was inspected as a reference; no source code or runtime is copied. Native implementation: Sakugapp contributors. Media3 Transformer 1.6.1 (Android Open Source Project, Apache-2.0) supplies explicitly re-encoded clip export; Media3 in-app MP4 muxing and a platform WebM muxer adapter supply stream copy.
 
+The App's grid/card/pagination implementation was additionally reviewed at `e0b4e1a67a3e9d97c5b7cd9a74192e55aae55f24` (MIT, Copyright 2026 Punyesh). Sakugapp independently implements the small native allocation/cache changes described in [the development notes](preview-naming-frame-back.md); no React Native source, runtime, artwork or dependencies were copied.
+
 Booru — weekanya, GPL-3.0, https://github.com/weekanya/Booru at `077ae27d1db4b6cc20715ed35a96beab65965ef0`. Its offline queue/store/service were inspected as a reference. No source or binary is copied; Sakugapp keeps its own storage format, limits and independently written implementation.

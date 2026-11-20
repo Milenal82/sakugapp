@@ -73,6 +73,34 @@ class SakugabotTranslationsTest {
             assertNull(repo.lookup(artist.copy(category=TagCategory.UNKNOWN)));assertEquals(5,server.requestCount)
         }
     }
+    @Test fun cacheOnlyNamesExpireAndPublishedNamesExcludeFailuresAndEvictions():Unit=runBlocking{
+        MockWebServer().use{server->
+            var now=0L
+            val repo=SakugabotTranslations(server.url("/api/").newBuilder().host("127.0.0.1").build(),clock={now},intervalMs=0,capacity=1)
+            assertNull(repo.cached(artist));assertTrue(repo.cachedNames.value.isEmpty());assertEquals(0,server.requestCount)
+            server.enqueue(response(fixture(artist.name)));assertNotNull(repo.lookup(artist))
+            assertEquals("中村丰",repo.cached(artist)?.chinese);assertEquals(setOf(artist),repo.cachedNames.value.keys)
+            assertEquals(1,server.requestCount)
+            now=24*60*60_000L+1
+            assertNull(repo.cached(artist));assertEquals(1,server.requestCount)
+            server.enqueue(response(fixture(work.name)));repo.lookup(work)
+            assertEquals(setOf(work),repo.cachedNames.value.keys);assertNull(repo.cached(artist))
+            server.enqueue(MockResponse().setResponseCode(404));repo.lookup(artist)
+            assertTrue(repo.cachedNames.value.isEmpty());assertEquals(3,server.requestCount)
+        }
+    }
+    @Test fun cachedDownloadNamesNeverWaitForAnUnrelatedNetworkLookup():Unit=runBlocking{
+        MockWebServer().use{server->
+            val repo=SakugabotTranslations(server.url("/api/").newBuilder().host("127.0.0.1").build(),intervalMs=0)
+            server.enqueue(response(fixture(artist.name)));repo.lookup(artist);server.takeRequest()
+            server.enqueue(response(fixture(work.name)).setBodyDelay(2,TimeUnit.SECONDS))
+            val pending=launch{repo.lookup(work)}
+            withContext(Dispatchers.IO){assertNotNull(server.takeRequest(2,TimeUnit.SECONDS))}
+            val cached=withTimeout(500){withContext(Dispatchers.Default){TranslationLabels.download(listOf(artist,work),true,repo)}}
+            assertEquals(mapOf(artist to "中村丰"),cached);assertFalse(pending.isCompleted)
+            pending.cancelAndJoin()
+        }
+    }
     @Test fun missingAndBadResponsesAreCachedWithoutAffectingBrowsing()=runBlocking{
         MockWebServer().use{server->
             var now=0L;val repo=SakugabotTranslations(server.url("/api/").newBuilder().host("127.0.0.1").build(),clock={now},intervalMs=0)

@@ -28,7 +28,7 @@ import com.sakugapp.data.Tag
         lineHeight=(textSize.value*1.2f+with(density){previewSpacing.dp.toSp().value}).sp,
         lineHeightStyle=LineHeightStyle(LineHeightStyle.Alignment.Center,LineHeightStyle.Trim.Both))}
     if(previewSpacing!=null && !showNote){
-        Text(tag.name,color=color,fontSize=textSize,style=style,maxLines=maxLines,overflow=TextOverflow.Ellipsis,modifier=modifier.then(action).testTag("tag-${tag.name}"))
+        Text(displayName ?: tag.name,color=color,fontSize=textSize,style=style,maxLines=maxLines,overflow=TextOverflow.Ellipsis,modifier=modifier.then(action).testTag("tag-${tag.name}"))
     }else Column(modifier.then(action).padding(vertical=if(previewSpacing==null)3.dp else 0.dp)){
         if(!displayName.isNullOrBlank() && displayName!=tag.name)Text(displayName,color=color,fontSize=textSize,style=style,modifier=Modifier.testTag("translated-tag-${tag.name}"))
         Text(tag.name,color=color,fontSize=textSize,style=style,maxLines=maxLines,overflow=TextOverflow.Ellipsis,modifier=Modifier.testTag("tag-${tag.name}"))

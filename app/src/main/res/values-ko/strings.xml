@@ -488,5 +488,6 @@
     <string name="ui_queue_empty">다운로드 작업 없음</string>
     <string name="ui_queue_start_error">백그라운드 다운로드를 시작할 수 없습니다. 앱을 다시 열어 재시도하세요.</string>
     <string name="ui_chinese_detail_translation">태그 중국어 번역</string>
-    <string name="ui_chinese_detail_translation_source">상세 화면의 작품, 원화가 및 확인된 출처 이름을 Sakugabot에서 가져옵니다. 번역이 없을 수 있으며 원문도 표시합니다.</string>
+    <string name="ui_chinese_detail_translation_source">Sakugabot 번역은 불완전할 수 있습니다. 미리보기는 작품명만 번역하고 상세 화면에는 원문도 표시합니다. 새 다운로드는 캐시된 이름을 사용합니다.</string>
+    <string name="ui_frame_tools">프레임</string>
 </resources>

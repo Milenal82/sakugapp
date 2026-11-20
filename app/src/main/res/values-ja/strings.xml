@@ -488,5 +488,6 @@
     <string name="ui_queue_empty">ダウンロードはありません</string>
     <string name="ui_queue_start_error">バックグラウンド処理を開始できません。アプリを開き直してください。</string>
     <string name="ui_chinese_detail_translation">中国語のタグ名</string>
-    <string name="ui_chinese_detail_translation_source">詳細の作品名・原画家名と確認できた出典名を Sakugabot から取得します。未登録の場合があり、元の表記も残ります。</string>
+    <string name="ui_chinese_detail_translation_source">Sakugabot の訳名には欠落があります。プレビューは作品名のみ、詳細は原文も表示。新規保存名にはキャッシュを使います。</string>
+    <string name="ui_frame_tools">コマ送り</string>
 </resources>

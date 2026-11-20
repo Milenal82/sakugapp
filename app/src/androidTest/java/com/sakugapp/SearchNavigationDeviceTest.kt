@@ -87,12 +87,15 @@ class SearchNavigationDeviceTest {
             assertTrue(device.swipe(arrayOf(android.graphics.Point(1,y),android.graphics.Point(device.displayWidth/3,y),android.graphics.Point(2,y)),18))
             ui.waitForIdle();assertEquals("Cancelled predictive back must retain results",changed,feed.state.value.query)
         }
-        ui.onNodeWithTag("nav-posts").performClick();ui.waitUntil(10000){feed.state.value.query==browse.query}
+        back();ui.waitUntil(10000){feed.state.value.query.isEmpty()}
+        assertFalse(feed.searchMode.value);assertNull(feed.resultSession.value)
         ui.onNodeWithTag("search-entry").assertExists()
         assertEquals(browse.posts.map{it.id},feed.state.value.posts.take(browse.posts.size).map{it.id})
         assertEquals(browsePosition.toDouble(),position().toDouble(),2.0)
         assertFalse(ui.activity.isFinishing)
         UiEvidence.capture("search-return-$label.png")
+        ui.onNodeWithTag("search-entry").performClick()
+        assertEquals("",ui.onNodeWithTag("search-input").fetchSemanticsNode().config[SemanticsProperties.EditableText].text)
     }
     @Test fun systemBackClosesTheImeThenTheEditorWithoutFinishingTheActivity(){
         fun ime():Boolean{var shown=false;ui.runOnUiThread{shown=ViewCompat.getRootWindowInsets(ui.activity.window.decorView)?.isVisible(WindowInsetsCompat.Type.ime())==true};return shown}

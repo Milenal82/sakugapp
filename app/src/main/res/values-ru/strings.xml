@@ -497,5 +497,6 @@
     <string name="ui_queue_empty">Нет загрузок</string>
     <string name="ui_queue_start_error">Не удалось запустить загрузку. Откройте приложение и повторите.</string>
     <string name="ui_chinese_detail_translation">Китайские названия тегов</string>
-    <string name="ui_chinese_detail_translation_source">Названия произведений, художников и подтверждённых источников из Sakugabot в сведениях о посте. Перевод неполный; оригинал остаётся видимым.</string>
+    <string name="ui_chinese_detail_translation_source">Переводы Sakugabot могут быть неполными. В превью переводятся только произведения, в деталях остаётся оригинал. Для загрузок используются имена из кэша.</string>
+    <string name="ui_frame_tools">Кадры</string>
 </resources>

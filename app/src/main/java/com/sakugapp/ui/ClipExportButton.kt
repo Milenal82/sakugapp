@@ -28,7 +28,7 @@ import java.io.File
                 prepare()
                 val exporter=ClipExporter(context.applicationContext);val input=exporter.stage(url,cache,folder)
                 val result=exporter.export(input,folder,selected,selectedMode)
-                val filename=MediaFileNames.forClip(post,result.file.extension,selected,selectedMode)
+                val filename=MediaFileNames.forClip(post,result.file.extension,selected,selectedMode,DownloadNaming(context).names(post))
                 storage.saveClip(result.file,filename,result.mime)
                 message=context.getString(R.string.ui_clip_saved,formatClipTime(result.actualStartUs/1000),formatClipTime(result.actualEndUs/1000),formatClipTime(result.outputDurationUs/1000))
             }catch(e:CancellationException){message=context.getString(R.string.ui_download_cancelled);throw e}

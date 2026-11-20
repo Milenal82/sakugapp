@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.2-dev (18)
+
+- Style the existing inline frame tools as compact rounded tiles with direction selection feedback; retain frame decoding, counters and errors.
+- With Chinese names enabled, Posts previews show one verified Chinese Copyright name or its original tag; Artist names remain original. Details retain the existing dual-name display and raw searches.
+- Name new single/batch/clip downloads using `#artist#source#copyright#PostID`, preserving format and optional clip range. Translation reads verified cached names only; retain old download receipts and files.
+- Reuse unchanged preview label maps, defer visible Copyright lookups until idle, and avoid filename generation during offline media identity checks. Preserve image sizing, stable grid keys, paging, previews and scroll state.
+- Committed system back from Posts results restores the ordinary feed and clears the search editor, rejecting obsolete requests. Detail back still restores the same results.
+
 ## 1.3.1-dev (17)
 
 - Add an opt-in, immediately applied Sakugabot Chinese-name setting for verified Copyright/Artist detail tags and exact Source-name mappings; retain all original values and searches.

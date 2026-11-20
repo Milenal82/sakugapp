@@ -25,14 +25,14 @@ The setting is **off by default**, saved under a new DataStore key (`sakugabotDe
 
 - **Work / Copyright and Artist:** only tags already classified by Sakugabooru as Copyright or Artist are queried. Response name and type must match. Prefer a nonempty `detail` value with code `name_zh`. A `name_main` fallback is accepted only when the same record's `wiki_zh` URL has a matching Chinese Wikipedia title and the name contains Han characters. Merely containing Han, a Japanese main name or the top-level `main_name` is insufficient. This deliberately conservative rule can leave untranslated names that cannot be corroborated.
 - **Source:** never sent to the tag endpoint. Only a whole-field, unique match to an in-post Copyright record's original name or verified naming aliases is replaced with that record's Chinese name. For example, `Mob Psycho 100` can map to 灵能百分百. URLs, `Mob Psycho 100 #12`, arbitrary source text and ambiguous matches stay unchanged; no guessed substring or episode replacements.
-- Only post **details** display these names. Original tags remain visible and retain search, statistics, favorites, notes and wiki actions using the original tag. A translated Source also retains the original Source. Feed cards, search expressions, comments, API models and stored favorites are unchanged.
+- Details retain the Chinese-plus-original display and search, statistics, favorites, notes and wiki actions using the original tag. A translated Source also retains the original Source. Since 1.3.2-dev, Posts preview cards use only the verified Chinese Copyright name (or original fallback), always the original Artist name; new download names may use cached verified Artist/Copyright names. See [current behavior](preview-naming-frame-back.md). Search expressions, comments, API models and stored favorites remain unchanged.
 - Missing fields, wrong types/names, malformed JSON, oversized responses, unavailable names, network errors and rate limits fall back silently to the original. Translation never blocks post loading.
 
 ## Requests and cache
 
-An independent, unauthenticated OkHttp client uses GET only, no redirects/automatic retries, 4 s connect, 6 s read and 8 s total timeouts. Responses are limited to 512 KiB. Only visible details request names; stopping/leaving the page or disabling the setting cancels outstanding calls.
+An independent, unauthenticated OkHttp client uses GET only, no redirects/automatic retries, 4 s connect, 6 s read and 8 s total timeouts. Responses are limited to 512 KiB. Visible details and settled visible Posts Copyright tags request names; stopping/leaving their page or disabling the setting cancels outstanding calls. Preview scrolling cancels pending lookups. Download naming does not request names.
 
-One application-ViewModel cache holds at most 256 tag/category records, with LRU eviction: names expire after 24 h, missing/malformed records after 1 h and transport/HTTP errors after 5 min. Concurrent lookups share cached results; requests are serialized with at least one second between starts. HTTP 421/429 applies a cross-tag cooldown using `Retry-After` (bounded to one hour; default one minute). Other transport/HTTP failures cool down for one minute. The cache is memory-only and clears when the app process ends; no periodic retry or feed-scroll lookup is added.
+One application-scoped cache holds at most 256 tag/category records, with LRU eviction: names expire after 24 h, missing/malformed records after 1 h and transport/HTTP errors after 5 min. Concurrent lookups share cached results; requests are serialized with at least one second between starts. HTTP 421/429 applies a cross-tag cooldown using `Retry-After` (bounded to one hour; default one minute). Other transport/HTTP failures cool down for one minute. The cache is memory-only and clears when the app process ends; no periodic retry is added. Cache-only download reads neither wait for HTTP nor fetch a missing name.
 
 ## Posts review
 
@@ -42,7 +42,7 @@ A second confirmed hot path enumerated visible grid IDs and allocated preview vi
 
 Another redundant operation was media classification: each card called `Post.isVideo` more than once, allocating a set/lowercase value and sometimes parsing its URL each time. The getter now compares supported extensions without a temporary collection, and cards remember the result by media URL/extension. Score/duration updates cannot cause repeated media-URL parsing. No image quality, real content, aspect ratio, card spacing or paging behavior is reduced. This small allocation reduction does not establish a measured frame-rate improvement.
 
-## Validation
+## 1.3.1-dev validation (historical)
 
 - Baseline localization, Debug unit tests, Lint and APK build passed before edits.
 - Targeted tests cover real-response priority, independently verified main-name fallback, raw fallback, exact Source mapping, URL encoding, concurrent cache hits, LRU/expiry, HTTP cooldown, cancellation, real DataStore recreation and isolation from legacy preferences.

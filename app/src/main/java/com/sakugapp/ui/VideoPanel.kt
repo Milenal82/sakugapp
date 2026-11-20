@@ -288,7 +288,7 @@ AndroidView(factory={VideoGestureHost(it)},modifier=videoModifier.clipToBounds()
     }
     val ratio=if(mediaWidth>0 && mediaHeight>0)mediaWidth.toFloat()/mediaHeight else 16f/9f
     val toolbar:@Composable ()->Unit={
-        FrameControlBar(stepper.confirmed,position,stepper.pending,duration>0 && !stepper.exporting,{delta->controlsVisible=false;hostView?.cancelPendingTouches();view?.hideController();abEnabled=false;resumeRequested=false;stepper.step(delta)},primaryControls)
+        FrameControlBar(stepper.confirmed,position,stepper.pending,duration>0 && !stepper.exporting,{delta->controlsVisible=false;hostView?.cancelPendingTouches();view?.hideController();abEnabled=false;resumeRequested=false;stepper.step(delta)},active=(stepper.confirmed!=null || stepper.pending>0) && !resumeRequested,actions=primaryControls)
         stepper.failure?.let{Text(translateMessage(it),color=MaterialTheme.colorScheme.error)}
     }
     if(fullscreen){

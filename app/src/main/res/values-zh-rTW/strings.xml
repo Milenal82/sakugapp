@@ -488,5 +488,6 @@
     <string name="ui_queue_empty">暫無下載任務</string>
     <string name="ui_queue_start_error">無法啟動背景下載，請重新開啟應用程式再試。</string>
     <string name="ui_chinese_detail_translation">中文標籤翻譯</string>
-    <string name="ui_chinese_detail_translation_source">詳情頁的作品、原畫及可確認的來源名稱由 Sakugabot 提供。翻譯可能不完整，始終保留原文。</string>
+    <string name="ui_chinese_detail_translation_source">Sakugabot 翻譯可能不完整。預覽僅翻譯作品，詳情保留原文；新下載使用快取譯名。</string>
+    <string name="ui_frame_tools">逐格</string>
 </resources>

@@ -17,7 +17,7 @@ class FramePositionTest {
         val value=PostParser.posts(javaClass.getResource("/live/posts.json")!!.readText()).first().copy(tags=listOf(Tag("長".repeat(100),TagCategory.ARTIST)),source="episode 12")
         for(mode in ClipMode.entries){val name=MediaFileNames.forClip(value,"webm",ClipRange(600,1400),mode)
             assertTrue(name.toByteArray().size<=MediaFileNames.MAX_BYTES)
-            assertTrue(name.contains("_${value.id}_AB_600-1400_"));assertTrue(name.endsWith(".webm"));assertFalse(name.contains('/'))
+            assertTrue(name.contains("#${value.id}_AB_600-1400_"));assertTrue(name.endsWith(".webm"));assertFalse(name.contains('/'))
         }
         assertThrows(IllegalArgumentException::class.java){ClipRange(100,100)}
         assertThrows(IllegalArgumentException::class.java){ClipRange(-1,100)}

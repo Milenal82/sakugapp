@@ -165,13 +165,22 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
                 val searchMode by model.searchMode.collectAsStateWithLifecycle()
                 val resultSession by model.resultSession.collectAsStateWithLifecycle()
                 val token by postsEntry.savedStateHandle.getStateFlow<String?>("resultToken",null).collectAsStateWithLifecycle()
+                val editorReset by postsEntry.savedStateHandle.getStateFlow<String?>("editorReset",null).collectAsStateWithLifecycle()
+                BackHandler(enabled=entry?.id==postsEntry.id && token!=null){
+                    model.returnToDefaultPosts()
+                    postsEntry.savedStateHandle["resultToken"]=null
+                    postsEntry.savedStateHandle["resultQuery"]=""
+                    postsEntry.savedStateHandle["sampleOnly"]=false
+                    postsEntry.savedStateHandle["editorReset"]=java.util.UUID.randomUUID().toString()
+                    bottomVisible=true
+                }
                 val searchGrid=rememberLazyGridState()
                 androidx.lifecycle.compose.LifecycleEventEffect(androidx.lifecycle.Lifecycle.Event.ON_START){if(entry?.id==postsEntry.id){if(token!=null)model.activateSearch(token!!,postsEntry.savedStateHandle["resultQuery"] ?: "",postsEntry.savedStateHandle["sampleOnly"] ?: false)else model.restoreBrowse()}}
                 LaunchedEffect(entry?.id,token){if(entry?.id==postsEntry.id){if(token!=null)model.activateSearch(token!!,postsEntry.savedStateHandle["resultQuery"] ?: "",postsEntry.savedStateHandle["sampleOnly"] ?: false)else model.restoreBrowse()}}
                 if(token==resultSession)
                 {
                 val body:@Composable ()->Unit={Column(Modifier.fillMaxSize()){
-                    key(token){PostsScreen(feed,if(searchMode)searchGrid else grid,settings,history,metered,app,runSearch,openPost,model::loadMore,model::refresh,isActive=entry?.id==postsEntry.id,onChromeVisibility={bottomVisible=it})}
+                    key(token){PostsScreen(feed,if(searchMode)searchGrid else grid,settings,history,metered,app,runSearch,openPost,model::loadMore,model::refresh,isActive=entry?.id==postsEntry.id,searchResetToken=editorReset,onChromeVisibility={bottomVisible=it})}
                 }}
                 if(token==null)mainStates.Content("posts",postsEntry.id,entry?.id==postsEntry.id,body)else body()
                 }
@@ -232,7 +241,7 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
 
 @OptIn(ExperimentalLayoutApi::class,ExperimentalMaterial3Api::class)
 @Composable
-internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,history:List<String>,metered:Boolean,app:AppViewModel,search:(String)->Unit,open:(Post)->Unit,loadMore:()->Unit,refresh:()->Unit,isActive:Boolean=true,onChromeVisibility:(Boolean)->Unit={}) {
+internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,history:List<String>,metered:Boolean,app:AppViewModel,search:(String)->Unit,open:(Post)->Unit,loadMore:()->Unit,refresh:()->Unit,isActive:Boolean=true,searchResetToken:String?=null,onChromeVisibility:(Boolean)->Unit={}) {
     var query by rememberSaveable(state.query,key="posts-query",stateSaver=TextFieldValue.Saver){mutableStateOf(TextFieldValue(state.query,TextRange(state.query.length)))}
     var preview by remember{mutableStateOf(PreviewSelection())}
     val active=preview.id
@@ -254,6 +263,11 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
     val scope=rememberCoroutineScope();val focus=LocalFocusManager.current
     val keyboard=LocalSoftwareKeyboardController.current
     val imeVisible=WindowInsets.isImeVisible
+    var handledReset by rememberSaveable(key="posts-editor-reset"){mutableStateOf<String?>(null)}
+    LaunchedEffect(searchResetToken){if(searchResetToken!=null && searchResetToken!=handledReset){
+        query=TextFieldValue("");searchExpanded=false;historyOpen=false;chromeVisible=true
+        keyboard?.hide();focus.clearFocus();handledReset=searchResetToken
+    }}
     var scrollQuery by rememberSaveable(key="posts-scrollQuery"){mutableStateOf(state.query)}
     LaunchedEffect(state.query){if(scrollQuery!=state.query){grid.scrollToItem(0);scrollQuery=state.query}}
     val allowedPreview=true
@@ -273,6 +287,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
     LaunchedEffect(pinned){if(pinned){chromeVisible=true;chrome.reset()}}
     LaunchedEffect(grid,state.query){snapshotFlow{!grid.canScrollBackward}.collect{if(it){chromeVisible=true;chrome.reset()}}}
     val latestState by rememberUpdatedState(state)
+    val translatedNames=previewTranslations(state.posts,grid,settings.chineseDetailTranslations,isActive,app.detailTranslations)
     LaunchedEffect(grid,settings.columns,isActive){
         snapshotFlow {
             val current=latestState
@@ -324,7 +339,10 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
                 Text(translateMessage(it),style=MaterialTheme.typography.labelSmall)
                 TextButton(enabled=!state.loading,onClick={submit(state.query)}){Text(text(R.string.ui_reload_posts_and_tags))}
             }}}
-            items(state.posts,key={it.id},contentType={"post"}){post->PostCard(post,settings,metered,isActive && active==post.id,{preview=PreviewSelection();collapseSearch();open(post)},tagSearch,{if(!allowedPreview)policy=true else{manualRevision++;preview=preview.manual(post.id)}},{actual->app.duration(post.fileUrl.orEmpty(),actual)},previewPaused=active==post.id && preview.automatic && grid.isScrollInProgress)}
+            items(state.posts,key={it.id},contentType={"post"}){post->
+                val labels=remember(post.tags){PreviewLabels()}.present(post.tags,settings.chineseDetailTranslations,translatedNames)
+                PostCard(post,settings,metered,isActive && active==post.id,{preview=PreviewSelection();collapseSearch();open(post)},tagSearch,{if(!allowedPreview)policy=true else{manualRevision++;preview=preview.manual(post.id)}},{actual->app.duration(post.fileUrl.orEmpty(),actual)},previewPaused=active==post.id && preview.automatic && grid.isScrollInProgress,previewNames=labels)
+            }
             if(state.loading && state.posts.isEmpty())items(settings.columns.coerceAtLeast(6),key={"skeleton-$it"}){SkeletonCard()}
             item(span={GridItemSpan(maxLineSpan)}){Column(Modifier.fillMaxWidth().padding(vertical=8.dp)){
                 if(state.discardedPosts>0)Text(text(R.string.ui_feed_window_hint,FeedState.MAX_RETAINED_POSTS),style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.onSurfaceVariant)
@@ -409,7 +427,7 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
 }
 
 @OptIn(ExperimentalFoundationApi::class)
-@Composable internal fun PostCard(post:Post,settings:AppSettings,metered:Boolean,preview:Boolean,open:()->Unit,search:(String)->Unit,toggle:()->Unit,onDuration:(Long)->Unit,previewPaused:Boolean=false,onClassify:(()->Unit)?=null){
+@Composable internal fun PostCard(post:Post,settings:AppSettings,metered:Boolean,preview:Boolean,open:()->Unit,search:(String)->Unit,toggle:()->Unit,onDuration:(Long)->Unit,previewPaused:Boolean=false,onClassify:(()->Unit)?=null,previewNames:Map<String,String> = emptyMap()){
     val isVideo=remember(post.fileUrl,post.fileExt){post.isVideo}
     val previewApp=LocalTagActions.current
     val previewUrl=if(preview)produceState<String?>(null,post.id,post.fileUrl){value=withContext(Dispatchers.IO){previewApp?.offlineUri(post)?.toString() ?: post.fileUrl}}.value else null
@@ -443,26 +461,27 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
                 if(isVideo)AppMenuItem(icon=R.drawable.ic_next,text={Text(text(if(preview)R.string.ui_stop_preview else R.string.ui_play_preview))},onClick={options=false;toggle()})
             }
         }
-        Box(Modifier.padding(horizontal=if(settings.columns>=6)2.dp else 6.dp,vertical=3.dp)){PostCaption(post,settings,search)}
+        Box(Modifier.padding(horizontal=if(settings.columns>=6)2.dp else 6.dp,vertical=3.dp)){PostCaption(post,settings,search,previewNames)}
     }}
 }
 
 @OptIn(ExperimentalLayoutApi::class)
-@Composable private fun PostCaption(post:Post,settings:AppSettings,search:(String)->Unit){
+@Composable private fun PostCaption(post:Post,settings:AppSettings,search:(String)->Unit,names:Map<String,String>){
     val size=when(settings.columns){1->14.sp;2->12.sp;else->11.sp}
+    fun display(tag:Tag)=names[tag.name]?.takeIf{settings.chineseDetailTranslations && tag.category==TagCategory.COPYRIGHT}
     val tags=remember(post.tags,settings.columns,settings.wrapTags,settings.showCopyright,settings.showArtist,settings.showOtherTags){captionTags(post,settings).let{if(settings.columns>=6)it.take(2)else it}}
     if(!settings.wrapTags || settings.columns>=6){
         Column(Modifier.fillMaxWidth().padding(top=5.dp).testTag("post-caption-${post.id}").semantics(mergeDescendants=true){}){
             Row(horizontalArrangement=Arrangement.spacedBy(4.dp)){
                 tags.forEach{tag->OriginalTag(tag,search=search,modifier=Modifier.weight(1f),
-                    color=when(tag.category){TagCategory.COPYRIGHT->copyrightColor(settings.lightTheme);TagCategory.ARTIST->artistColor(settings.lightTheme);else->MaterialTheme.colorScheme.onSurfaceVariant},fontSize=size,maxLines=1,previewSpacing=0f)}
+                    color=when(tag.category){TagCategory.COPYRIGHT->copyrightColor(settings.lightTheme);TagCategory.ARTIST->artistColor(settings.lightTheme);else->MaterialTheme.colorScheme.onSurfaceVariant},fontSize=size,maxLines=1,previewSpacing=0f,displayName=display(tag))}
             }
         }
         return
     }
     FlowRow(Modifier.fillMaxWidth().padding(top=5.dp).testTag("post-caption-${post.id}").semantics(mergeDescendants=true){},horizontalArrangement=Arrangement.spacedBy(4.dp),verticalArrangement=Arrangement.spacedBy(settings.tagVerticalSpacing.dp)){
         for(tag in tags)OriginalTag(tag,search=search,color=when(tag.category){TagCategory.COPYRIGHT->copyrightColor(settings.lightTheme);TagCategory.ARTIST->artistColor(settings.lightTheme);else->MaterialTheme.colorScheme.onSurfaceVariant},fontSize=size,
-            maxLines=if(settings.wrapTags && settings.columns<=2)Int.MAX_VALUE else 2,previewSpacing=settings.tagVerticalSpacing)
+            maxLines=if(settings.wrapTags && settings.columns<=2)Int.MAX_VALUE else 2,previewSpacing=settings.tagVerticalSpacing,displayName=display(tag))
     }
 }
 

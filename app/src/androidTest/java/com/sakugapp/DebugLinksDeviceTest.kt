@@ -110,6 +110,7 @@ class DebugLinksDeviceTest {
         ui.waitUntil(10000){ui.onAllNodesWithTag("frequency-test_show").fetchSemanticsNodes().isNotEmpty()}
         ui.onAllNodesWithTag("frequency-test_show")[0].performScrollTo().performClick()
         ui.waitUntil(10000){model.state.value.query=="artist_a test_show" && !model.state.value.loading}
+        back();assertEquals("",model.state.value.query)
         back();ui.onNodeWithTag("artist-stats").assertIsDisplayed();UiEvidence.capture("debug-linked-artist.png")
     }
     @Test fun episodeArtistFilterKeepsSampleScopeAndDetailBackKeepsScroll(){
@@ -127,6 +128,7 @@ class DebugLinksDeviceTest {
         ui.onNodeWithTag("post-grid").performScrollToIndex(18)
         ui.onNodeWithTag("post-media-18").performClick();ui.onNodeWithTag("detail-actions").assertExists()
         back();ui.onNodeWithTag("post-media-18").assertIsDisplayed();assertTrue(model.state.value.sampleOnly)
+        back();assertEquals("",model.state.value.query)
         back();ui.onNodeWithTag("episode-posts").assertIsDisplayed();UiEvidence.capture("debug-episode-artists.png")
     }
     @Test fun tagSelectionSurvivesAndAndSearchAndEditorShareTheSameRawQuery()=runBlocking<Unit>{
@@ -138,6 +140,7 @@ class DebugLinksDeviceTest {
             ui.onNodeWithTag("edit-selected-tags").performClick();ui.onNodeWithTag("query-expression").assertTextContains("artist_a test_show")
             ui.onNodeWithText(ui.activity.getString(R.string.ui_cancel),substring=false).performClick()
             ui.onNodeWithTag("search-selected-tags").performClick();ui.waitUntil(10000){model.state.value.query=="artist_a test_show" && !model.state.value.loading}
+            back();assertEquals("",model.state.value.query)
             back();ui.onNodeWithTag("select-tag-artist_a").assertIsOn();ui.onNodeWithTag("select-tag-test_show").assertIsOn()
             UiEvidence.capture("debug-tags-multi.png")
         }finally{app.personal.removeTag("artist_a");app.personal.removeTag("test_show")}

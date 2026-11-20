@@ -25,9 +25,9 @@ object MediaFileNames {
             val host=uri.host ?: runCatching{java.net.IDN.toASCII(authority.substringAfterLast('@').substringBefore(':'))}.getOrNull() ?: return ""
             return limit(clean(host.lowercase().removePrefix("www.")),72)
         }
-        // Text sources can also carry accidental URL credentials; discard assignments and query/fragment suffixes.
+        // Text sources may contain URLs or credentials. Preserve real text such as "Series #12".
         val withoutUrls=urls.replace(raw){match->source(if(match.value.startsWith("www.",true))"https://"+match.value else match.value)}
-        val text=withoutUrls.substringBefore('?').substringBefore('#').replace(Regex("(?i)(?:token|auth|session|password|secret|api[_-]?key|signature|credential)\\s*[:=]\\s*\\S+"),"")
+        val text=withoutUrls.substringBefore('?').replace(Regex("(?i)(?:token|auth|session|password|secret|api[_-]?key|signature|credential)\\s*[:=]\\s*\\S+"),"")
         return limit(clean(text),72)
     }
     /** Only explicit episode markers count. URL IDs, query values and fragments are not episodes. */
@@ -44,27 +44,32 @@ object MediaFileNames {
         val numbers=markers.flatMap{it.findAll(text).map{match->match.groupValues[1].toInt()}.toList()}.distinct()
         return numbers.singleOrNull()?.let{"ep_$it"}
     }
-    fun forPost(post:Post,extension:String):String {
+    fun forPost(post:Post,extension:String,names:Map<Tag,String> = emptyMap()):String = compose(post,extension,names,"")
+
+    private fun compose(post:Post,extension:String,names:Map<Tag,String>,suffix:String):String {
         require(post.id>0 && extension.lowercase(Locale.ROOT) in setOf("mp4","webm","mkv"))
-        fun part(value:String)=value.replace(Regex("\\s+"),"_")
-        val artists=post.tags.filter{it.category==TagCategory.ARTIST}.map{part(clean(it.name))}.filter{it.isNotBlank()}.distinct().joinToString("__")
-        val artist=limit(artists,64).ifBlank{"unknown_artist"}
-        val origin=episode(post.source) ?: part(source(post.source)).ifBlank{"unknown_source"}
-        return "${artist}_${origin}_${post.id}."+extension.lowercase(Locale.ROOT)
+        fun part(value:String)=clean(value).replace('#',' ').replace(Regex("\\s+"),"_").trim('_',' ','.')
+        fun tags(category:TagCategory)=post.tags.filter{it.category==category}.distinctBy{it.name}
+            .map{part(names[it].orEmpty()).ifBlank{part(it.name)}}.filter(String::isNotBlank)
+        val parts=tags(TagCategory.ARTIST)+listOfNotNull(part(source(post.source)).takeIf(String::isNotBlank))+tags(TagCategory.COPYRIGHT)
+        val tail="#${post.id}$suffix.${extension.lowercase(Locale.ROOT)}"
+        val budget=MAX_BYTES-tail.toByteArray(Charsets.UTF_8).size
+        val perPart=if(parts.isEmpty())0 else ((budget-parts.size)/parts.size).coerceAtLeast(0)
+        return parts.map{limit(it,perPart).trimEnd('_')}.filter(String::isNotBlank).joinToString(""){"#$it"}+tail
     }
     fun unique(name:String,exists:(String)->Boolean):String {
         require(name.toByteArray().size<=MAX_BYTES && !name.contains('/') && !name.contains('\\'))
         if(!exists(name))return name
         val ext=name.substringAfterLast('.');val stem=name.substringBeforeLast('.')
         for(index in 2..10000){
-            val suffix=" ($index).$ext";val candidate=limit(stem,MAX_BYTES-suffix.toByteArray().size)+suffix
+            val suffix=" ($index).$ext"
+            val idTail=stem.substringAfterLast('#').takeIf{it.matches(Regex("[0-9]+(?:_AB_[0-9]+-[0-9]+_[a-z]+)?"))}?.let{"#$it"}.orEmpty()
+            val head=if(idTail.isEmpty())stem else stem.removeSuffix(idTail)
+            val candidate=limit(head,MAX_BYTES-(idTail+suffix).toByteArray(Charsets.UTF_8).size).trimEnd('#','_',' ','.')+idTail+suffix
             if(!exists(candidate))return candidate
         }
         throw LibraryFailure("media_limit")
     }
-    fun forClip(post:Post,extension:String,range:ClipRange,mode:ClipMode):String {
-        val original=forPost(post,extension).substringBeforeLast('.').removeSuffix("_${post.id}")
-        val suffix="_${post.id}_AB_${range.startMs}-${range.endMs}_${mode.name.lowercase(Locale.ROOT)}.${extension.lowercase(Locale.ROOT)}"
-        return limit(original,MAX_BYTES-suffix.toByteArray(Charsets.UTF_8).size)+suffix
-    }
+    fun forClip(post:Post,extension:String,range:ClipRange,mode:ClipMode,names:Map<Tag,String> = emptyMap()):String =
+        compose(post,extension,names,"_AB_${range.startMs}-${range.endMs}_${mode.name.lowercase(Locale.ROOT)}")
 }

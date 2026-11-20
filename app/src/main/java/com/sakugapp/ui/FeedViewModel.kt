@@ -78,6 +78,15 @@ class FeedViewModel @JvmOverloads constructor(
         _state.value=original.copy(loading=false,refreshing=false)
         if(original.refreshing)refresh()else if(original.loading)loadMore()
     }
+    /** Explicit committed back from a result: default feed only, never resume that query. */
+    fun returnToDefaultPosts(){
+        val original=(browseSnapshot ?: _state.value.takeIf{!_searchMode.value})?.takeIf{it.query.isBlank()}
+        saveResult();request?.cancel();generation++;close()
+        _resultSession.value=null;_searchMode.value=false;searchSnapshot=null;browseSnapshot=null
+        savedState["query"]="";savedState["browseQuery"]=""
+        _state.value=original?.copy(query="",loading=false,refreshing=false) ?: FeedState()
+        if(original?.refreshing==true)refresh()else if(original==null || original.loading)loadMore()
+    }
     fun search(query: String) {
         request?.cancel()
         close()

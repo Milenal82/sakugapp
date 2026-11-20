@@ -494,5 +494,6 @@
     <string name="ui_queue_empty">Aucun téléchargement</string>
     <string name="ui_queue_start_error">Impossible de démarrer. Rouvrez l’application et réessayez.</string>
     <string name="ui_chinese_detail_translation">Traduction chinoise des tags</string>
-    <string name="ui_chinese_detail_translation_source">Noms chinois fournis par Sakugabot dans les détails : œuvres, artistes et sources identifiées. Couverture partielle ; le texte original reste visible.</string>
+    <string name="ui_chinese_detail_translation_source">Traductions Sakugabot partielles. Aperçus : œuvres uniquement. Détails : original conservé. Téléchargements : noms en cache.</string>
+    <string name="ui_frame_tools">Images</string>
 </resources>

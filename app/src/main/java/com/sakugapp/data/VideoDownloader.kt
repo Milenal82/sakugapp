@@ -10,14 +10,18 @@ import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import kotlin.coroutines.resumeWithException
 
+data class VideoMedia(val url:HttpUrl,val extension:String,val mime:String)
 data class VideoDownloadPlan(val url:HttpUrl,val filename:String,val mime:String) {
     companion object {
-        fun from(post:Post):VideoDownloadPlan {
+        fun media(post:Post):VideoMedia {
             require(post.isVideo && post.id>0)
             val url=checkNotNull(PostParser.safeUrl(post.fileUrl)).toHttpUrl()
             val ext=(post.fileExt ?: url.pathSegments.last().substringAfterLast('.')).lowercase()
             val mime=when(ext){"mp4"->"video/mp4";"webm"->"video/webm";"mkv"->"video/x-matroska";else->error("Unsupported video format.")}
-            return VideoDownloadPlan(url,MediaFileNames.forPost(post,ext),mime)
+            return VideoMedia(url,ext,mime)
+        }
+        fun from(post:Post,names:Map<Tag,String> = emptyMap()):VideoDownloadPlan = media(post).let{
+            VideoDownloadPlan(it.url,MediaFileNames.forPost(post,it.extension,names),it.mime)
         }
     }
 }

@@ -488,5 +488,6 @@
     <string name="ui_queue_empty">暂无下载任务</string>
     <string name="ui_queue_start_error">无法启动后台下载，请重新打开应用重试。</string>
     <string name="ui_chinese_detail_translation">中文标签翻译</string>
-    <string name="ui_chinese_detail_translation_source">详情页的作品、原画及可确认的来源名称由 Sakugabot 提供。翻译可能不完整，始终保留原文。</string>
+    <string name="ui_chinese_detail_translation_source">Sakugabot 翻译可能不完整。预览仅翻译作品，详情保留原文；新下载使用缓存译名。</string>
+    <string name="ui_frame_tools">逐帧</string>
 </resources>

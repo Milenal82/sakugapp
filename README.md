@@ -6,7 +6,7 @@
 
 开发分支的 Debug 测试更新：六按钮详情栏、所有列数一致的 0–10 dp 卡片间距、Artist 统计联动及标签收藏多选。集数内 Artist 查询仅使用已加载的集数样本。[检查记录与限制](docs/debug-actions-grid-artist.md)。另见本轮[性能与导航诊断](docs/performance-navigation.md)。
 
-本轮开发版增加默认关闭的 Sakugabot 中文详情名称开关，支持作品、原画及可确认的来源映射；原始标签始终可见，搜索仍使用原文。首页减少重复媒体格式判断。[支持范围与检查](docs/sakugabot-details.md)。
+开发版的 Sakugabot 中文名称开关默认关闭。开启后，Posts 卡片仅作品显示可靠中文名，原画保持原标签；详情仍保留原文。新下载统一使用 `#原画#来源#作品#PostID.扩展名`，译名只读缓存。逐帧按钮采用紧凑浮块；在 Posts 搜索结果返回会恢复默认列表。[改动与检查](docs/preview-naming-frame-back.md)。
 
 Sakugapp（Sakuga Mobile）是 Sakugabooru 的非官方原生 Android 客户端，使用 Kotlin、Compose 和 Media3，不以 WebView 实现帖子列表。
 
@@ -26,7 +26,7 @@ Sakugapp（Sakuga Mobile）是 Sakugabooru 的非官方原生 Android 客户端�
 
 Debug development update: six detail actions, consistent 0–10 dp grid spacing at every column count, artist-statistics links and saved-tag multi-selection. Episode artist results are limited to the loaded episode sample. [Checks and limitations](docs/debug-actions-grid-artist.md). See the [performance/navigation investigation](docs/performance-navigation.md).
 
-This development build adds optional Sakugabot Chinese detail names for works, artists and verified source mappings. Original tags remain visible and searches stay unchanged. Post cards avoid repeated media classification. [Scope and checks](docs/sakugabot-details.md).
+Sakugabot Chinese names are optional and off by default. Posts cards translate only verified work names; artists stay raw and details retain originals. New downloads use `#artist#source#work#PostID.ext`, with translated names read only from cache. Frame controls use compact tiles. Back from Posts results restores the default feed. [Changes and checks](docs/preview-naming-frame-back.md).
 
 Sakugapp (Sakuga Mobile) is an unofficial native Android client for Sakugabooru, built with Kotlin, Compose and Media3.
 
@@ -46,7 +46,7 @@ Download the official APK from [Releases](https://github.com/Milenal82/sakugapp/
 
 開発ブランチの Debug 更新：詳細の6操作、全列数共通の 0–10 dp カード間隔、原画家統計への連携、保存タグの複数選択。話数内の原画家検索は読み込み済みの標本に限定されます。[確認記録と制限](docs/debug-actions-grid-artist.md)。今回の[性能・ナビゲーション調査](docs/performance-navigation.md)も参照してください。
 
-開発版に Sakugabot の中国語名表示を追加しました（初期値はオフ）。詳細の作品・原画家・確認できた出典名が対象で、元タグと検索条件は保持します。カードの動画形式判定の重複も削減しました。[範囲と確認](docs/sakugabot-details.md)。
+Sakugabot の中国語名表示は初期値オフです。Posts カードでは確認済みの作品名だけを訳し、原画家は元タグ、詳細は原文も表示します。新規保存名は `#原画家#出典#作品#PostID.拡張子` で、訳名はキャッシュのみ参照します。コマ送りを小さなタイルに整理し、Posts 検索結果で戻ると通常一覧を復元します。[変更と確認](docs/preview-naming-frame-back.md)。
 
 Sakugapp（Sakuga Mobile）は Kotlin、Compose、Media3 を使用した Sakugabooru 非公式の Android ネイティブクライアントです。
 

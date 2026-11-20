@@ -9,6 +9,7 @@ import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 
 class SakugappApplication:Application(),ImageLoaderFactory {
+    val tagTranslations by lazy { com.sakugapp.data.SakugabotTranslations() }
     val batchDownloads by lazy { com.sakugapp.data.BatchDownloadQueue(this) }
     override fun onCreate(){super.onCreate();java.util.concurrent.Executors.newSingleThreadExecutor().apply{execute{com.sakugapp.data.PageVideoCache.cleanOrphans(this@SakugappApplication)};shutdown()}}
     override fun newImageLoader():ImageLoader = ImageLoader.Builder(this)
