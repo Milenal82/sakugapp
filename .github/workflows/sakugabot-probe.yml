@@ -18,8 +18,8 @@ jobs:
           import subprocess,json,pathlib,zipfile,io,xml.etree.ElementTree as ET,re
           def api(path):return subprocess.check_output(['gh','api','repos/Milenal82/sakugapp/'+path])
           out=pathlib.Path('/tmp/ci-evidence');out.mkdir()
-          report={'sha':'8764c4103435a7dd0c430105600ba20cc298f059','runs':[]}
-          for run in ['44708064937','44708064882','44708065060']:
+          report={'sha':'5f5f672edfe9db37293a68e7af3272f527119e82','runs':[]}
+          for run in ['44733309493','44733309456','44733309665']:
               data=json.loads(api('actions/runs/'+run));assert data['head_sha']==report['sha']
               item={'run':run,'url':data['html_url'],'status':data['status'],'conclusion':data['conclusion'],'jobs':[],'artifacts':[],'reports':[]}
               for job in json.loads(api(f'actions/runs/{run}/jobs?per_page=100'))['jobs']:
@@ -43,19 +43,9 @@ jobs:
                                       failures.append({'test':case.get('classname','')+'.'+case.get('name',''),'message':message})
                               item['reports'].append({'file':name+'/'+p.filename,'counts':r.attrib,'failures':failures})
                           if short=='sakugabot-network.json':item.setdefault('sakugabot_network',[]).append(json.loads(z.read(p)))
-                          if short.startswith('sakugabot-')and short.endswith('.png'):
+                          if short.startswith(('sakugabot-','search-','preview-tools-'))and short.endswith('.png'):
                               (out/(name+'-'+short)).write_bytes(z.read(p))
               report['runs'].append(item)
-          try:
-              raw=api('actions/runs/44708064882/logs')
-              with zipfile.ZipFile(io.BytesIO(raw))as logs:
-                  report['log_files']=logs.namelist()
-                  report['tablet_log_tail']=[]
-                  for file in logs.infolist():
-                      if '35' not in file.filename or file.file_size>8*1024*1024:continue
-                      tail=logs.read(file).decode(errors='replace').splitlines()[-80:]
-                      report['tablet_log_tail'].append({'file':file.filename,'lines':[line if not re.search(r'password|token|cookie|authorization|secret',line,re.I)else '[redacted]' for line in tail]})
-          except Exception as error:report['log_download_error']=str(error)
           (out/'report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
           PY
       - name: Save public validation evidence separately from application source
