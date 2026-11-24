@@ -36,7 +36,7 @@ import kotlinx.coroutines.*
     val scroll=rememberSaveable(key="home-scroll",saver=ScrollState.Saver){ScrollState(0)}
     val suggestions=rememberSuggestions(query,focused,app.suggestions)
     fun submit(value:String){keyboard?.hide();search(value)}
-    Box(Modifier.fillMaxSize(),contentAlignment=Alignment.TopCenter){Column(Modifier.widthIn(max=600.dp).fillMaxWidth().verticalScroll(scroll).imePadding().padding(16.dp).testTag("search-home"),verticalArrangement=Arrangement.spacedBy(FeatureStyle.gap)){
+    Box(Modifier.fillMaxSize(),contentAlignment=Alignment.TopCenter){Column(Modifier.widthIn(max=600.dp).fillMaxSize().searchElasticScroll(scroll).imePadding().padding(16.dp).testTag("search-home"),verticalArrangement=Arrangement.spacedBy(FeatureStyle.gap)){
         OutlinedTextField(query,{query=it},modifier=Modifier.fillMaxWidth().onFocusChanged{focused=it.isFocused}.testTag("home-search-input"),placeholder={Text(text(R.string.ui_home_search_hint),maxLines=1,overflow=TextOverflow.Ellipsis)},singleLine=true,
             leadingIcon={Icon(painterResource(R.drawable.ic_search),null)},trailingIcon={Row{if(query.text.isNotEmpty())ActionIcon(R.drawable.ic_close,text(R.string.ui_clear_search),{query=TextFieldValue("")});ActionIcon(R.drawable.ic_search,text(R.string.ui_search),{submit(query.text)},Modifier.testTag("home-submit"))}},keyboardOptions=KeyboardOptions(imeAction=ImeAction.Search),keyboardActions=KeyboardActions(onSearch={submit(query.text)}))
         SearchSyntax.warnings(query.text).forEach{Text(translateMessage(it),style=MaterialTheme.typography.labelSmall)}
