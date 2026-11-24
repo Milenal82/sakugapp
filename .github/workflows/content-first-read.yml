@@ -14,7 +14,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           github-token: ${{ github.token }}
-          run-id: 45314643565
+          run-id: 45318263928
           pattern: content-first-*-reports*
           path: ${{ runner.temp }}/reports
       - name: Read available bounded reports, without building any variant
@@ -26,8 +26,8 @@ jobs:
         run: |
           python3 - <<'PY'
           import json, os, subprocess, runpy
-          data=json.loads(subprocess.check_output(['gh','api','repos/Milenal82/sakugapp/actions/runs/45314643565']))
-          assert data['head_sha']=='58e378ec04bda8dc3713b65623ab3ec2afd47795'
+          data=json.loads(subprocess.check_output(['gh','api','repos/Milenal82/sakugapp/actions/runs/45318263928']))
+          assert data['head_sha']=='70dd8b80297d0b711225dd516aad7c376d2e0026'
           os.environ.update(GITHUB_SHA=data['head_sha'],GITHUB_REF_NAME=data['head_branch'],GITHUB_RUN_ID=str(data['id']))
           runpy.run_path('scripts/record-content-first-evidence.py',run_name='__main__')
           PY
