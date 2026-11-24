@@ -37,21 +37,24 @@ import kotlinx.coroutines.delay
 @RunWith(AndroidJUnit4::class)
 @OptIn(ExperimentalComposeUiApi::class)
 class PostScrollDeviceTest {
-    @get:Rule val activityRule=ActivityScenarioRule(MainActivity::class.java)
+    @get:Rule val activityRule=ActivityScenarioRule(PerformanceHostActivity::class.java)
     @Test fun rapidUpAndDownScrollCollectsActualFrameDurations(){
         val instrumentation=InstrumentationRegistry.getInstrumentation();val assets=instrumentation.context.assets
+        val columns=InstrumentationRegistry.getArguments().getString("columns")?.toIntOrNull() ?: 2
+        require(columns in listOf(2,4,6,8,12))
+        if(columns>=8)org.junit.Assume.assumeTrue(instrumentation.targetContext.resources.configuration.smallestScreenWidthDp>=600)
         val types=assets.open("personal-tag-summary.json").bufferedReader().use{PostParser.tagSummary(it.readText())}
         val posts=assets.open("posts-five-pages.json").bufferedReader().use{reader->JsonParser.parseString(reader.readText()).asJsonArray.flatMap{PostParser.posts(it.toString(),types)}}
             .distinctBy{it.id}.map{it.copy(previewUrl=null)}
         assertEquals(300,posts.size)
-        val state=FeedState(posts=posts,endReached=true);lateinit var activity:MainActivity
+        val state=FeedState(posts=posts,endReached=true);lateinit var activity:PerformanceHostActivity
         val warmed=CountDownLatch(1)
         activityRule.scenario.onActivity{current->activity=current
             val app=ViewModelProvider(current)[AppViewModel::class.java];current.setContent{
             SakugappTheme(false){Surface(Modifier.fillMaxSize().systemBarsPadding().semantics{testTagsAsResourceId=true}){
                 val grid=rememberLazyGridState()
                 LaunchedEffect(Unit){grid.scrollToItem(100);delay(200);grid.scrollToItem(0);delay(600);warmed.countDown()}
-                PostsScreen(state,grid,AppSettings(tagVerticalSpacing=0f),emptyList(),false,app,{},{},{},{})
+                PostsScreen(state,grid,AppSettings(columns=columns,tagVerticalSpacing=0f),emptyList(),false,app,{},{},{},{})
             }}
         }}
         assertTrue(warmed.await(20,TimeUnit.SECONDS))
@@ -79,12 +82,13 @@ class PostScrollDeviceTest {
         }
         val measured=synchronized(samples){samples.toList()};val sorted=measured.map{it.getValue("total")}.sorted();assertTrue("Actual UI frame samples collected",sorted.size>20)
         val components=measured.first().keys.associateWith{key->val values=measured.map{it.getValue(key)}.sorted();mapOf("mean_ms" to values.average(),"p95_ms" to values[(values.size*.95).toInt().coerceAtMost(values.lastIndex)])}
-        val result=mapOf("label" to label,"scope" to "API 28 Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; not a real-device/network benchmark",
+        val result=mapOf("label" to label,"columns" to columns,"api" to android.os.Build.VERSION.SDK_INT,"scope" to "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
             "frames" to sorted.size,"mean_ms" to sorted.average(),"p50_ms" to sorted[sorted.size/2],"p95_ms" to sorted[(sorted.size*.95).toInt().coerceAtMost(sorted.lastIndex)],
             "max_ms" to sorted.last(),"over_34ms" to sorted.count{it>34},"over_700ms" to sorted.count{it>700},"components" to components)
         val folder=File(activity.getExternalFilesDir(null),"ui-evidence").apply{mkdirs()};val file=File(folder,"scroll-$label.json");file.writeText(Gson().toJson(result))
         device.executeShellCommand("mkdir -p /sdcard/Download/sakugapp-ui-evidence")
         device.executeShellCommand("cp ${file.absolutePath} /sdcard/Download/sakugapp-ui-evidence/scroll-$label.json")
+        device.executeShellCommand("cp ${file.absolutePath} /sdcard/Download/sakugapp-ui-evidence/content-first-scroll-$label-$columns.json")
         println("Short scroll frame metrics: "+file.readText())
         assertTrue(device.hasObject(By.res("post-grid")))
     }

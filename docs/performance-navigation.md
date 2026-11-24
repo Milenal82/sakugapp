@@ -1,5 +1,7 @@
 # Posts and navigation performance investigation
 
+Historical investigation and results. The fixed bottom-bar reservation described below is superseded on `ui/content-first-refresh` by a settled-transition space release. See [content-first UI](content-first.md) for the new behavior and its separately scoped measurements; the earlier results are not measurements of that branch.
+
 Baseline application: `65124526ed12726f06fa41249dd78f4f7e368a1a`. Development branch: `dev/performance-navigation`. Debug only; package, version, signing and user-data formats are unchanged.
 
 ## Evidence and changes

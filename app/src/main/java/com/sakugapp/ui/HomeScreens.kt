@@ -83,7 +83,7 @@ import kotlinx.coroutines.*
                         ActionIcon(R.drawable.ic_edit,text(R.string.ui_edit_nickname),{name=displayedName;edit=true},Modifier.testTag("edit-nickname"),iconSize=22.dp)
                         ActionIcon(R.drawable.ic_rotate,text(R.string.ui_default_avatar),{scope.launch{try{app.localProfileStore.resetAvatar();error=false}catch(e:CancellationException){throw e}catch(_:Exception){error=true}}},Modifier.testTag("reset-avatar"),enabled=!busy,iconSize=20.dp)
                         ActionIcon(R.drawable.ic_close,text(R.string.ui_default_nickname),{scope.launch{try{app.localProfileStore.nickname(null);error=false}catch(e:CancellationException){throw e}catch(_:Exception){error=true}}},Modifier.testTag("reset-nickname"),iconSize=20.dp)
-        }}
+        }}}
         val identity:@Composable ()->Unit={
             FeatureSurface(Modifier.fillMaxWidth().testTag("profile-card")){Column(Modifier.padding(FeatureStyle.inset),verticalArrangement=Arrangement.spacedBy(8.dp)){
                 if(wide)Column(Modifier.fillMaxWidth(),horizontalAlignment=Alignment.CenterHorizontally,verticalArrangement=Arrangement.spacedBy(8.dp)){

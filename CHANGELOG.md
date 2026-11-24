@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased — content-first UI
+
+- Release bottom navigation's 72 dp layout space after its exit animation, retaining the system navigation inset. Restore space once on entry rather than resizing the Posts grid every animation frame.
+- Explicit bottom Posts taps refresh the default first page and return to the top; coalesce in-flight taps and retain cached posts on failure. Search navigation, menu navigation and detail return keep their existing behavior.
+- Add a bounded, 24 dp search-home edge drag and rebound, disabled while the input method is visible.
+- Thin the existing frame strip and Explore chips without changing stepping, playback or the 14 discovery queries.
+- Use six profile rows, with a 35/65 two-column layout at a 600 dp window width; retain local profile data and edit state.
+- Align line icons and add isolated Debug layout, navigation, playback-resource and paired layout-frame checks. No version, signing, data-schema or release changes. [Evidence and limitations](docs/content-first.md).
+
 ## 1.3.2-dev (18)
 
 - Style the existing inline frame tools as compact rounded tiles with direction selection feedback; retain frame decoding, counters and errors.
@@ -17,7 +26,7 @@
 
 ## Unreleased — scrolling and main navigation diagnosis
 
-- Keep the Posts viewport stable while sliding bottom chrome.
+- Historical strategy: keep the Posts viewport stable while sliding bottom chrome. The content-first UI branch now releases that space after the exit settles; see the entry above.
 - Use one main-tab navigation action, retaining page drafts and ordinary/result state separately. Save UI state before child providers unregister, using stable main-page field keys.
 - Delay automatic preview until stable idle; pause onscreen auto previews while scrolling without rebuilding their player. Manual preview remains immediate.
 - Scope feed/fact/detail collection to their pages and preserve unchanged presentation identities.

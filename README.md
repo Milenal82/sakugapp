@@ -4,6 +4,8 @@
 
 ## 简体中文
 
+内容优先 UI 测试分支：底部导航隐藏后释放 Posts 空间；主动点击底部 Posts 刷新最新列表。搜索首页增加轻微回弹，逐帧和专题标签更紧凑，个人资料在窄窗口用单行列表、宽窗口用双栏。[实现与 Debug 检查](docs/content-first.md)。此分支不发布正式版。
+
 开发分支的 Debug 测试更新：六按钮详情栏、所有列数一致的 0–10 dp 卡片间距、Artist 统计联动及标签收藏多选。集数内 Artist 查询仅使用已加载的集数样本。[检查记录与限制](docs/debug-actions-grid-artist.md)。另见本轮[性能与导航诊断](docs/performance-navigation.md)。
 
 开发版的 Sakugabot 中文名称开关默认关闭。开启后，Posts 卡片仅作品显示可靠中文名，原画保持原标签；详情仍保留原文。新下载统一使用 `#原画#来源#作品#PostID.扩展名`，译名只读缓存。逐帧按钮采用紧凑浮块；在 Posts 搜索结果返回会恢复默认列表。[改动与检查](docs/preview-naming-frame-back.md)。
@@ -24,6 +26,8 @@ Sakugapp（Sakuga Mobile）是 Sakugabooru 的非官方原生 Android 客户端�
 
 ## English
 
+Content-first UI test branch: hiding bottom navigation releases Posts space, and explicitly tapping Posts refreshes the latest feed. Search has a small edge rebound; frame tools and topic chips are thinner. Profile uses single rows or two columns according to window width. [Implementation and Debug checks](docs/content-first.md). This branch does not publish a release.
+
 Debug development update: six detail actions, consistent 0–10 dp grid spacing at every column count, artist-statistics links and saved-tag multi-selection. Episode artist results are limited to the loaded episode sample. [Checks and limitations](docs/debug-actions-grid-artist.md). See the [performance/navigation investigation](docs/performance-navigation.md).
 
 Sakugabot Chinese names are optional and off by default. Posts cards translate only verified work names; artists stay raw and details retain originals. New downloads use `#artist#source#work#PostID.ext`, with translated names read only from cache. Frame controls use compact tiles. Back from Posts results restores the default feed. [Changes and checks](docs/preview-naming-frame-back.md).
@@ -43,6 +47,8 @@ Download the official APK from [Releases](https://github.com/Milenal82/sakugapp/
 [Signing and installation](docs/release-signing.md) · [v1.3.0](docs/v1.3.0.md) · [Backup format](docs/backup-format.md) · [License](LICENSE) · [Third-party notices](docs/third-party-notices.md)
 
 ## 日本語
+
+コンテンツ優先 UI のテストブランチです。下部ナビを隠すと Posts の表示領域が広がり、Posts タブを押すと最新一覧を更新します。検索の端で軽く戻る動き、薄いコマ送り・トピック表示、ウィンドウ幅に応じたプロフィールを追加しました。[実装と Debug 確認](docs/content-first.md)。このブランチから正式版は公開しません。
 
 開発ブランチの Debug 更新：詳細の6操作、全列数共通の 0–10 dp カード間隔、原画家統計への連携、保存タグの複数選択。話数内の原画家検索は読み込み済みの標本に限定されます。[確認記録と制限](docs/debug-actions-grid-artist.md)。今回の[性能・ナビゲーション調査](docs/performance-navigation.md)も参照してください。
 
