@@ -80,12 +80,24 @@ class FeedViewModel @JvmOverloads constructor(
     }
     /** Explicit committed back from a result: default feed only, never resume that query. */
     fun returnToDefaultPosts(){
+        val original=resetDefaultPosts()
+        if(original?.refreshing==true)refresh()else if(original==null || original.loading)loadMore()
+    }
+    /** Explicit bottom-tab intent only. Navigation/restoration must never call this implicitly. */
+    fun refreshLatest(){
+        val current=_state.value
+        if(!_searchMode.value && _resultSession.value==null && current.query.isBlank() &&
+            (current.refreshing || (current.loading && current.nextPage==1)))return
+        resetDefaultPosts()
+        refresh()
+    }
+    private fun resetDefaultPosts():FeedState?{
         val original=(browseSnapshot ?: _state.value.takeIf{!_searchMode.value})?.takeIf{it.query.isBlank()}
         saveResult();request?.cancel();generation++;close()
         _resultSession.value=null;_searchMode.value=false;searchSnapshot=null;browseSnapshot=null
         savedState["query"]="";savedState["browseQuery"]=""
         _state.value=original?.copy(query="",loading=false,refreshing=false) ?: FeedState()
-        if(original?.refreshing==true)refresh()else if(original==null || original.loading)loadMore()
+        return original
     }
     fun search(query: String) {
         request?.cancel()

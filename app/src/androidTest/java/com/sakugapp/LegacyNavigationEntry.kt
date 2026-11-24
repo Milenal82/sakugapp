@@ -2,10 +2,12 @@
 package com.sakugapp
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.ComposeTestRule
-/** Existing Posts regressions explicitly select their page now that startup is Search. */
+/** Legacy restoration checks enter via the menu; bottom-tab refresh is tested separately. */
 internal fun enterPostsForLegacyTest(ui:ComposeTestRule){
     ui.waitForIdle()
-    if(ui.onAllNodesWithTag("nav-posts").fetchSemanticsNodes().isNotEmpty())ui.onNodeWithTag("nav-posts").performClick()
+    if(ui.onAllNodesWithTag("nav-posts").fetchSemanticsNodes().isNotEmpty()){
+        ui.onNodeWithTag("main-menu").performClick();ui.onNodeWithTag("menu-posts").performClick()
+    }
 }
 
 /** Removed overflow entries retain their proper page entry, without adding them back to production. */

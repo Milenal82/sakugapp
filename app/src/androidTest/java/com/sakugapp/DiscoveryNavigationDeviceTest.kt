@@ -29,7 +29,7 @@ class DiscoveryNavigationDeviceTest {
   ui.waitUntil(10000){model.state.value.query=="test_artist" && !model.state.value.loading};assertTrue(model.searchMode.value)
   ui.onNodeWithTag("nav-profile").performClick();ui.onNodeWithTag("profile-home").assertIsDisplayed();ui.mainClock.advanceTimeBy(500);ui.waitForIdle();UiEvidence.capture("discovery-profile.png");ui.onNodeWithTag("top-profile").assertDoesNotExist()
   ui.onNodeWithTag("nav-posts").performClick();assertEquals("",model.state.value.query)
-  ui.runOnUiThread{model.resumeSearch()};assertEquals("test_artist",model.state.value.query)
+  ui.runOnUiThread{model.resumeSearch()};assertEquals("Explicit latest intent must not resurrect the result","",model.state.value.query)
  }
  @Test fun artistToPostsAndBackPreservesStatistics(){
   scene();ui.onNodeWithTag("home-artists").performScrollTo().performClick();ui.onNodeWithTag("discovery-query").performTextInput("test_artist")

@@ -104,6 +104,16 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
         navigatePrimary(nav,route)
         if(route=="posts")nav.currentBackStackEntry?.savedStateHandle?.set<String?>("resultToken",null)
     }
+    fun selectPrimaryTab(route:String){
+        if(route!="posts"){primary(route);return}
+        model.refreshLatest()
+        primary(route)
+        nav.currentBackStackEntry?.savedStateHandle?.apply{
+            set("resultQuery","");set("sampleOnly",false)
+            val intent=java.util.UUID.randomUUID().toString()
+            set("editorReset",intent);set("latestTap",intent)
+        }
+    }
     fun go(route:String){mainStates.capture();nav.navigate(route){launchSingleTop=true}}
     fun detail(post:Post,order:List<Post>?=null){
         if(order==null)model.open(post)else model.openLocal(post,order)
@@ -130,7 +140,7 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
     val openSite:(String)->Unit={url->browser.launch(Intent(context,BrowserActivity::class.java).putExtra("url",url))}
     SakugappTheme(settings.lightTheme,settings.fontScale,settings.accent){CompositionLocalProvider(LocalLanguage provides language,LocalTagActions provides app,LocalTagSearch provides runSearch,LocalArtistStats provides {artist->go("artist_stats?artist="+android.net.Uri.encode(artist))}){
         if(about)AboutDialog{about=false}
-        Scaffold(modifier=Modifier.semantics{testTagsAsResourceId=true},bottomBar={MainNavigationChrome(entry?.destination?.route,entry?.destination?.route!="posts" || bottomVisible,::primary)},topBar={Column(Modifier.statusBarsPadding()){
+        Scaffold(modifier=Modifier.semantics{testTagsAsResourceId=true},bottomBar={MainNavigationChrome(entry?.destination?.route,entry?.destination?.route!="posts" || bottomVisible,::selectPrimaryTab)},topBar={Column(Modifier.statusBarsPadding()){
             Row(Modifier.fillMaxWidth().padding(horizontal=8.dp),verticalAlignment=Alignment.CenterVertically){
                 if(entry?.destination?.route !in AppRoutes.main)ActionIcon(R.drawable.ic_back,text(R.string.ui_back_to_app),{nav.popBackStack()},touchSize=40.dp)
                 BrandAndProfile(localProfile,entry?.destination?.route!="profile"){go("profile")}
@@ -166,6 +176,7 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
                 val resultSession by model.resultSession.collectAsStateWithLifecycle()
                 val token by postsEntry.savedStateHandle.getStateFlow<String?>("resultToken",null).collectAsStateWithLifecycle()
                 val editorReset by postsEntry.savedStateHandle.getStateFlow<String?>("editorReset",null).collectAsStateWithLifecycle()
+                val latestTap by postsEntry.savedStateHandle.getStateFlow<String?>("latestTap",null).collectAsStateWithLifecycle()
                 BackHandler(enabled=entry?.id==postsEntry.id && token!=null){
                     model.returnToDefaultPosts()
                     postsEntry.savedStateHandle["resultToken"]=null
@@ -180,7 +191,7 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
                 if(token==resultSession)
                 {
                 val body:@Composable ()->Unit={Column(Modifier.fillMaxSize()){
-                    key(token){PostsScreen(feed,if(searchMode)searchGrid else grid,settings,history,metered,app,runSearch,openPost,model::loadMore,model::refresh,isActive=entry?.id==postsEntry.id,searchResetToken=editorReset,onChromeVisibility={bottomVisible=it})}
+                    key(token){PostsScreen(feed,if(searchMode)searchGrid else grid,settings,history,metered,app,runSearch,openPost,model::loadMore,model::refresh,isActive=entry?.id==postsEntry.id,searchResetToken=editorReset,scrollToTopToken=latestTap,onChromeVisibility={bottomVisible=it})}
                 }}
                 if(token==null)mainStates.Content("posts",postsEntry.id,entry?.id==postsEntry.id,body)else body()
                 }
@@ -241,7 +252,7 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
 
 @OptIn(ExperimentalLayoutApi::class,ExperimentalMaterial3Api::class)
 @Composable
-internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,history:List<String>,metered:Boolean,app:AppViewModel,search:(String)->Unit,open:(Post)->Unit,loadMore:()->Unit,refresh:()->Unit,isActive:Boolean=true,searchResetToken:String?=null,onChromeVisibility:(Boolean)->Unit={}) {
+internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,history:List<String>,metered:Boolean,app:AppViewModel,search:(String)->Unit,open:(Post)->Unit,loadMore:()->Unit,refresh:()->Unit,isActive:Boolean=true,searchResetToken:String?=null,scrollToTopToken:String?=null,onChromeVisibility:(Boolean)->Unit={}) {
     var query by rememberSaveable(state.query,key="posts-query",stateSaver=TextFieldValue.Saver){mutableStateOf(TextFieldValue(state.query,TextRange(state.query.length)))}
     var preview by remember{mutableStateOf(PreviewSelection())}
     val active=preview.id
@@ -264,6 +275,10 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
     val keyboard=LocalSoftwareKeyboardController.current
     val imeVisible=WindowInsets.isImeVisible
     var handledReset by rememberSaveable(key="posts-editor-reset"){mutableStateOf<String?>(null)}
+    var handledLatest by rememberSaveable(key="posts-latest-tap"){mutableStateOf<String?>(null)}
+    LaunchedEffect(scrollToTopToken,isActive){if(isActive && scrollToTopToken!=null && scrollToTopToken!=handledLatest){
+        grid.scrollToItem(0);handledLatest=scrollToTopToken;chromeVisible=true
+    }}
     LaunchedEffect(searchResetToken){if(searchResetToken!=null && searchResetToken!=handledReset){
         query=TextFieldValue("");searchExpanded=false;historyOpen=false;chromeVisible=true
         keyboard?.hide();focus.clearFocus();handledReset=searchResetToken

@@ -59,14 +59,15 @@ class NavigationPerformanceDeviceTest {
         ui.onNodeWithTag("main-bottom-nav").assertIsDisplayed()
         assertEquals(before.height,ui.onNodeWithTag("post-grid").fetchSemanticsNode().boundsInRoot.height,.5f)
     }
-    @Test fun draftsFeedAndScrollSurviveRepeatedPrimarySwitches(){
+    @Test fun draftsSurvivePrimarySwitchesWhileExplicitPostsTapsRefreshAtTheTop(){
         val(model,calls)=scene();ui.onNodeWithTag("home-search-input").performTextInput("draft artist_tag score:>=3")
         ui.onNodeWithTag("home-search-input").assertTextContains("draft artist_tag score:>=3")
+        val initial=calls.get()
         ui.onNodeWithTag("nav-posts").performClick();ui.onNodeWithTag("post-grid").performScrollToIndex(20)
         val before=ui.onNodeWithTag("post-grid").fetchSemanticsNode().config[SemanticsProperties.VerticalScrollAxisRange].value()
         repeat(5){ui.onNodeWithTag("nav-profile").performClick();ui.onNodeWithTag("profile-home").assertIsDisplayed();ui.onNodeWithTag("nav-posts").performClick()}
         val after=ui.onNodeWithTag("post-grid").fetchSemanticsNode().config[SemanticsProperties.VerticalScrollAxisRange].value()
-        assertEquals(before,after,.01f);assertEquals(80,model.state.value.posts.size);assertEquals(1,calls.get())
+        assertTrue(before>0);assertEquals(0f,after,.01f);assertEquals(80,model.state.value.posts.size);assertEquals(initial+6,calls.get())
         ui.onNodeWithTag("nav-search_home").performClick();ui.onNodeWithTag("home-search-input").assertTextContains("draft artist_tag score:>=3")
     }
     @Test fun outgoingContentIsKeptForTheActualNavigationAnimation(){
