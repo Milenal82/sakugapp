@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.*
@@ -44,13 +45,16 @@ class NavigationPerformanceDeviceTest {
         assertEquals("search_home",nav.previousBackStackEntry?.destination?.route)
         ui.runOnUiThread{navigatePrimary(nav,"posts")};assertEquals(before+1,events.size)
     }
-    @Test fun scrollingChromeNeverChangesTheGridViewport(){
+    @Test fun settledChromeReleasesItsSpaceAndRestoresTheGridViewport(){
         scene();ui.onNodeWithTag("nav-posts").performClick();ui.waitForIdle()
         val before=ui.onNodeWithTag("post-grid").fetchSemanticsNode().boundsInRoot
         ui.onNodeWithTag("post-grid").performTouchInput{swipeUp()};ui.mainClock.advanceTimeBy(700);ui.waitForIdle()
         ui.onNodeWithTag("main-bottom-nav").assertDoesNotExist()
         val hidden=ui.onNodeWithTag("post-grid").fetchSemanticsNode().boundsInRoot
-        assertEquals(before.top,hidden.top,.5f);assertEquals(before.bottom,hidden.bottom,.5f)
+        assertEquals(before.top,hidden.top,.5f)
+        assertEquals(with(ui.density){72.dp.toPx()},hidden.bottom-before.bottom,1f)
+        val slot=ui.onNodeWithTag("main-nav-slot").fetchSemanticsNode().boundsInRoot
+        assertEquals(hidden.bottom,slot.top,1f)
         ui.onNodeWithTag("post-grid").performTouchInput{swipeDown()};ui.mainClock.advanceTimeBy(700);ui.waitForIdle()
         ui.onNodeWithTag("main-bottom-nav").assertIsDisplayed()
         assertEquals(before.height,ui.onNodeWithTag("post-grid").fetchSemanticsNode().boundsInRoot.height,.5f)
