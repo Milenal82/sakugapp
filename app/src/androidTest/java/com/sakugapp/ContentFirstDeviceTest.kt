@@ -117,8 +117,10 @@ class ContentFirstDeviceTest {
             layouts+=mapOf("check" to "released_posts_space","columns" to count,"light" to light,"released_px" to released,
                 "shown_viewport_px" to listOf(shown.top,shown.bottom),"hidden_viewport_px" to listOf(hidden.top,hidden.bottom),"cards_in_released_band" to true)
         }
-        ui.onNodeWithTag("nav-profile").performClick();UiEvidence.capture("content-first-profile-root.png")
-        ui.onNodeWithTag("nav-search_home").performClick();UiEvidence.capture("content-first-search-root.png")
+        ui.onNodeWithTag("nav-profile").performClick();ui.onNodeWithTag("profile-home").assertIsDisplayed()
+        UiEvidence.capture("content-first-profile-root.png")
+        ui.onNodeWithTag("nav-search_home").performClick();ui.onNodeWithTag("search-home").assertIsDisplayed()
+        UiEvidence.capture("content-first-search-root.png")
     }
     @Test fun postsTabIssuesLatestRequestsCoalescesAndDetailBackKeepsTheResult(){
         val values=posts().take(60);val requests=CopyOnWriteArrayList<Pair<String,Int>>()
