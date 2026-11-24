@@ -25,6 +25,8 @@ Local checks: 238 unit tests passed with no failures/skips; localization verifie
 
 `ContentFirstDeviceTest` checks the released band contains actual Post cards in 2/4/6 columns on phone and additionally 8/12 on tablet, in light/dark modes. It records shown/hidden viewport rectangles and screenshots. Other cases cover refresh intents/detail return, both short-content drag directions, IME behavior, profile width/draft/state changes, all step/topic callbacks and unchanged player/page-cache identity across settled chrome changes. Existing navigation, media, search, profile, library, migration, backup, community and download Debug tests remain enabled.
 
+New content-first and navigation checks run with system animations enabled. Existing regressions then run in a separate instrumentation session with the same zero-animation setup as the baseline `performance-debug.yml`; no test is dropped. Both sessions' JUnit results are retained. Initial runs exposed empty clipped bounds for a zero-height slot, a test container inheriting the tablet's minimum width, legitimate IME bring-into-view offsets and unsynchronized legacy back actions. These checks use unclipped bounds, a genuinely resizable test window, an explicit scroll origin and settled navigation before asserting. The older optional profiling harness now distinguishes intentional latest-tab requests from unrequested navigation fetches.
+
 Test screens use captured public response metadata and clearly identified generated local posters/media. They are native emulator captures, not screenshots of live account data. Window-width checks are distinct from physical foldable/split-screen validation. Existing strict-frame and A/B tests exercise the playback algorithms; styling does not change them.
 
 ```sh

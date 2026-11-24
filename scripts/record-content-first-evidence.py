@@ -23,6 +23,10 @@ for path in root.rglob('*'):
         issues=ET.parse(path).getroot().findall('issue')
         report['lint']={'errors':sum(i.get('severity') in ['Error','Fatal'] for i in issues),
                         'warnings':sum(i.get('severity')=='Warning' for i in issues)}
+    if name.endswith('-runner.log') and 'content-first-diagnostics' in relative:
+        lines=path.read_text(errors='replace').splitlines()
+        bounded='\n'.join(line for line in lines if not re.search(r'password|authorization:|cookie:|bearer ',line,re.I))[-24000:]
+        report.setdefault('diagnostics',[]).append({'file':relative,'log':bounded})
     if name in ['content-first-layouts.json','content-first-performance.json','scroll-current.json','scroll-baseline.json'] or (name.startswith('content-first-scroll-') and name.endswith('.json')):
         report['layouts' if 'layouts' in name else 'performance'].append({'file':relative,'data':json.loads(path.read_text())})
     if name.startswith('content-first-') and name.endswith('.png'):

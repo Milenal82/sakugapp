@@ -1,6 +1,6 @@
 # 许可证与来源
 
-本项目新编写的应用代码按 **GPL-3.0-only** 发布，完整许可证见根目录 `LICENSE`，APK 同时包含 `assets/licenses/GPL-3.0.txt`。修改、再分发时请保留许可证并按 GPL 提供对应源码；每次 CI 构建和正式 Release 提供同一提交的完整源码 ZIP，含 Wrapper、构建脚本、资源、测试和签名配置方法。官方私有签名密钥不公开，接收者可使用自己的密钥构建。Debug 与正式签名严格区分，密钥均不随源码或 APK 附件分发。
+本项目新编写的应用代码按 **GPL-3.0-only** 发布，完整许可证见根目录 `LICENSE`，APK 同时包含 `assets/licenses/GPL-3.0.txt`。修改、再分发时请保留许可证并按 GPL 提供对应源码。正式 Release 提供同一提交的完整源码 ZIP；Debug APK 可通过其 Actions 关联提交取得完整源码，含 Wrapper、构建脚本、资源、测试和签名配置方法。官方私有签名密钥不公开，接收者可使用自己的密钥构建。Debug 与正式签名严格区分，密钥均不随源码或 APK 附件分发。
 
 ## Sakuga Extended 调查
 

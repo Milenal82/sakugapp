@@ -107,7 +107,9 @@ class ContentFirstDeviceTest {
             assertEquals(with(ui.density){72.dp.toPx()},released,1.5f);assertTrue(position()>0)
             val cards=ui.onAllNodes(SemanticsMatcher("post card"){it.config.getOrNull(SemanticsProperties.TestTag)?.startsWith("post-card-")==true}).fetchSemanticsNodes()
             assertTrue("The released band must contain actual cards, not only the grid background",cards.any{it.boundsInRoot.bottom>shown.bottom+1 && it.boundsInRoot.top<hidden.bottom})
-            assertEquals(hidden.bottom,ui.onNodeWithTag("main-nav-slot").fetchSemanticsNode().boundsInRoot.top,1.5f)
+            // A completely collapsed slot has empty clipped semantics bounds (Rect.Zero).
+            val slot=ui.onNodeWithTag("main-nav-slot").getUnclippedBoundsInRoot()
+            assertEquals(hidden.bottom,with(ui.density){slot.top.toPx()},1.5f)
             UiEvidence.capture("content-first-grid-$count-${if(light)"light"else"dark"}-hidden.png")
             ui.onNodeWithTag("post-grid").performTouchInput{swipeDown(startY=height*.35f,endY=height*.7f,durationMillis=450)}
             ui.mainClock.advanceTimeBy(700);ui.waitForIdle();ui.onNodeWithTag("main-bottom-nav").assertIsDisplayed()
@@ -173,7 +175,17 @@ class ContentFirstDeviceTest {
         listOf("home-combined","home-history","home-browsing","home-shows","home-artists","home-explore","home-quiz").forEach{ui.onNodeWithTag(it).performScrollTo().assertIsDisplayed()}
         ui.onNodeWithTag("home-search-input").performScrollTo().performClick().performTextInput("animated")
         fun ime():Boolean{var visible=false;ui.runOnUiThread{visible=ViewCompat.getRootWindowInsets(ui.activity.window.decorView)?.isVisible(WindowInsetsCompat.Type.ime())==true};return visible}
-        ui.waitUntil(15000){ime()};val before=ui.onNodeWithTag("home-search-input").fetchSemanticsNode().boundsInRoot.top
+        ui.waitUntil(15000){ime()};device.waitForIdle();Thread.sleep(350)
+        // bring-into-view may leave a legitimate scroll offset after visiting the lower tools.
+        ui.onNodeWithTag("search-home").performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.ScrollBy){it(0f,-10000f)}
+        ui.waitForIdle()
+        val input=ui.onNodeWithTag("home-search-input")
+        val textX=with(ui.density){80.dp.toPx()}
+        input.performTouchInput{longClick(Offset(textX,centerY))}
+        ui.waitUntil(10000){!input.fetchSemanticsNode().config[SemanticsProperties.TextSelectionRange].collapsed}
+        input.performTouchInput{click(Offset(textX,centerY))}
+        ui.waitUntil(10000){input.fetchSemanticsNode().config[SemanticsProperties.TextSelectionRange].collapsed}
+        val before=input.fetchSemanticsNode().boundsInRoot.top
         ui.onNodeWithTag("search-home").performTouchInput{swipeDown(startY=height*.2f,endY=height*.35f,durationMillis=400)}
         ui.waitForIdle();assertEquals(before,ui.onNodeWithTag("home-search-input").fetchSemanticsNode().boundsInRoot.top,1f)
         device.waitForIdle();Thread.sleep(350);device.pressBack();ui.waitUntil(10000){!ime()};assertFalse(ui.activity.isFinishing)
@@ -188,7 +200,9 @@ class ContentFirstDeviceTest {
         try{
             runBlocking{app.localProfileStore.nickname("ContentFirst ユーザー")}
             ui.runOnUiThread{ui.activity.setContent{SakugappTheme(true,1.25f,"pink"){Surface(Modifier.fillMaxSize().systemBarsPadding()){
-                Box(Modifier.width(width).fillMaxHeight()){ProfileHomeScreen(app,{routes+=it},{sites+=it})}
+                // Surface propagates its minimum width. A loose outer Box lets this inner
+                // window really shrink across 600 dp instead of being clamped to the tablet.
+                Box(Modifier.fillMaxSize()){Box(Modifier.width(width).fillMaxHeight()){ProfileHomeScreen(app,{routes+=it},{sites+=it})}}
             }}}}
             ui.waitUntil(10000){app.localProfile.value.nickname=="ContentFirst ユーザー"}
             val wide=width>=600.dp

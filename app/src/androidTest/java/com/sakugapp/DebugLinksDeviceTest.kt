@@ -33,7 +33,7 @@ class DebugLinksDeviceTest {
         ui.waitUntil(10000){!model.state.value.loading}
         return model to app
     }
-    private fun back(){ui.runOnUiThread{ui.activity.onBackPressedDispatcher.onBackPressed()};ui.mainClock.advanceTimeBy(500);ui.waitForIdle()}
+    private fun back(){ui.waitForIdle();ui.runOnUiThread{ui.activity.onBackPressedDispatcher.onBackPressed()};ui.mainClock.advanceTimeBy(500);ui.waitForIdle()}
     @Test fun sixEqualActionsKeepFixedHeightAndFavoriteAndGuestVoteWork(){
         var login=0;lateinit var app:AppViewModel
         val file=File(ui.activity.cacheDir,"six-actions.mp4").apply{writeBytes(instrumentation.context.assets.open("frame-index-vfr.mp4").use{it.readBytes()})}
@@ -110,6 +110,7 @@ class DebugLinksDeviceTest {
         ui.waitUntil(10000){ui.onAllNodesWithTag("frequency-test_show").fetchSemanticsNodes().isNotEmpty()}
         ui.onAllNodesWithTag("frequency-test_show")[0].performScrollTo().performClick()
         ui.waitUntil(10000){model.state.value.query=="artist_a test_show" && !model.state.value.loading}
+        ui.onNodeWithTag("post-grid").assertIsDisplayed()
         back();assertEquals("",model.state.value.query)
         back();ui.onNodeWithTag("artist-stats").assertIsDisplayed();UiEvidence.capture("debug-linked-artist.png")
     }
@@ -140,6 +141,7 @@ class DebugLinksDeviceTest {
             ui.onNodeWithTag("edit-selected-tags").performClick();ui.onNodeWithTag("query-expression").assertTextContains("artist_a test_show")
             ui.onNodeWithText(ui.activity.getString(R.string.ui_cancel),substring=false).performClick()
             ui.onNodeWithTag("search-selected-tags").performClick();ui.waitUntil(10000){model.state.value.query=="artist_a test_show" && !model.state.value.loading}
+            ui.onNodeWithTag("post-grid").assertIsDisplayed()
             back();assertEquals("",model.state.value.query)
             back();ui.onNodeWithTag("select-tag-artist_a").assertIsOn();ui.onNodeWithTag("select-tag-test_show").assertIsOn()
             UiEvidence.capture("debug-tags-multi.png")

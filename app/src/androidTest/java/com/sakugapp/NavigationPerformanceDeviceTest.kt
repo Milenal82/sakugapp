@@ -53,8 +53,8 @@ class NavigationPerformanceDeviceTest {
         val hidden=ui.onNodeWithTag("post-grid").fetchSemanticsNode().boundsInRoot
         assertEquals(before.top,hidden.top,.5f)
         assertEquals(with(ui.density){72.dp.toPx()},hidden.bottom-before.bottom,1f)
-        val slot=ui.onNodeWithTag("main-nav-slot").fetchSemanticsNode().boundsInRoot
-        assertEquals(hidden.bottom,slot.top,1f)
+        val slot=ui.onNodeWithTag("main-nav-slot").getUnclippedBoundsInRoot()
+        assertEquals(hidden.bottom,with(ui.density){slot.top.toPx()},1f)
         ui.onNodeWithTag("post-grid").performTouchInput{swipeDown()};ui.mainClock.advanceTimeBy(700);ui.waitForIdle()
         ui.onNodeWithTag("main-bottom-nav").assertIsDisplayed()
         assertEquals(before.height,ui.onNodeWithTag("post-grid").fetchSemanticsNode().boundsInRoot.height,.5f)

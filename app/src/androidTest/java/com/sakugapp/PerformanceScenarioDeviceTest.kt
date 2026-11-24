@@ -239,9 +239,12 @@ class PerformanceScenarioDeviceTest {
             tap("post-media-${posts.first().id}");node("detail-actions");Thread.sleep(350);device.pressBack();node("post-grid")
         };report["detail_grid_before"]=gridBefore;report["detail_grid_after"]=bounds("post-grid")
         val navigationRequests=requests.get()
+        // This harness is also copied into the pinned historical baseline, which has no
+        // explicit latest-tab intent. Current builds must count the ten deliberate taps.
+        val expectedLatestRequests=if(FeedViewModel::class.java.methods.any{it.name=="refreshLatest" && it.parameterTypes.isEmpty()})10 else 0
         measure("twenty-main-switches"){repeat(5){for(route in listOf("search_home","posts","profile","posts")){tap("nav-$route");Thread.sleep(260)}}}
-        report["phases"]=phases;report["memory_end"]=memory();report["repository_requests"]=requests.get();report["repository_request_log"]=requestLog.toList();report["navigation_requests_delta"]=requests.get()-navigationRequests;report["players_end"]=players()
+        report["phases"]=phases;report["memory_end"]=memory();report["repository_requests"]=requests.get();report["repository_request_log"]=requestLog.toList();report["navigation_requests_delta"]=requests.get()-navigationRequests;report["navigation_expected_latest_requests"]=expectedLatestRequests;report["players_end"]=players()
         val file=File(output,"perf-$label.json");file.writeText(Gson().toJson(report));println("PERFORMANCE_REPORT "+file.readText())
-        assertEquals("Tab switches must not fetch an unchanged feed",navigationRequests,requests.get());report["scenario_completed"]=true
+        assertEquals("Only deliberate Posts taps may fetch the latest feed",navigationRequests+expectedLatestRequests,requests.get());report["scenario_completed"]=true
     }
 }

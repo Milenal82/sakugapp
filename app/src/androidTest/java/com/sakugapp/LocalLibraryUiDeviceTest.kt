@@ -47,6 +47,7 @@ class LocalLibraryUiDeviceTest {
             ui.onNodeWithTag("favorite-action").assertIsSelected()
             ui.runOnUiThread{ui.activity.setContent{SakugappTheme(false){LibraryScreen(app){_,_->}}}}
             val id=app.library.value.folders.single{it.name==folderName}.id
+            ui.onNodeWithTag("local-library").performScrollToNode(hasTestTag("folder-entry-$id"))
             ui.onNodeWithText(folderName,substring=false).assertExists()
             ui.onNodeWithTag("post-media-${post.id}").assertDoesNotExist()
             ui.onNode(hasSetTextAction()).assertDoesNotExist()
