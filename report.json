@@ -5,6 +5,552 @@
   "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/45318263928",
   "reports": [
     {
+      "file": "content-first-device-reports-35/reports/content-first-diagnostics/animated-results/debug/TEST-emulator-5554 - 15-_app-.xml",
+      "counts": {
+        "name": "com.sakugapp.ContentFirstDeviceTest",
+        "tests": "15",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "158.822",
+        "timestamp": "2026-11-24T03:22:29",
+        "hostname": "localhost"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-device-reports-35/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 15-_app-.xml",
+      "counts": {
+        "name": "com.sakugapp.FrameControlsDeviceTest",
+        "tests": "57",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0",
+        "time": "574.769",
+        "timestamp": "2026-11-24T03:32:22",
+        "hostname": "localhost"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DataTest.xml",
+      "counts": {
+        "name": "com.sakugapp.DataTest",
+        "tests": "15",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:06.498Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.019"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.BackupImportTest.xml",
+      "counts": {
+        "name": "com.sakugapp.BackupImportTest",
+        "tests": "8",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:19:42.146Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.398"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.BrowsingUpgradeTest.xml",
+      "counts": {
+        "name": "com.sakugapp.BrowsingUpgradeTest",
+        "tests": "7",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:19:42.625Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.236"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.LiveFixtureTest.xml",
+      "counts": {
+        "name": "com.sakugapp.LiveFixtureTest",
+        "tests": "2",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:11.211Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.001"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.CommunityStateTest.xml",
+      "counts": {
+        "name": "com.sakugapp.CommunityStateTest",
+        "tests": "3",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:19:42.863Z",
+        "hostname": "runnervmeozm8",
+        "time": "14.511"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.RepositoryTest.xml",
+      "counts": {
+        "name": "com.sakugapp.RepositoryTest",
+        "tests": "7",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:11.742Z",
+        "hostname": "runnervmeozm8",
+        "time": "6.542"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PerformancePolicyTest.xml",
+      "counts": {
+        "name": "com.sakugapp.PerformancePolicyTest",
+        "tests": "6",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:11.231Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.037"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.BatchQueueTest.xml",
+      "counts": {
+        "name": "com.sakugapp.BatchQueueTest",
+        "tests": "4",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:19:42.549Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.07"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.LibraryCodecTest.xml",
+      "counts": {
+        "name": "com.sakugapp.LibraryCodecTest",
+        "tests": "5",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:11.180Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.029"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.AppearanceAndDownloadTest.xml",
+      "counts": {
+        "name": "com.sakugapp.AppearanceAndDownloadTest",
+        "tests": "11",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:19:38.703Z",
+        "hostname": "runnervmeozm8",
+        "time": "3.436"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.CommunityTest.xml",
+      "counts": {
+        "name": "com.sakugapp.CommunityTest",
+        "tests": "16",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:19:57.377Z",
+        "hostname": "runnervmeozm8",
+        "time": "9.117"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.TagSuggestionsTest.xml",
+      "counts": {
+        "name": "com.sakugapp.TagSuggestionsTest",
+        "tests": "3",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:47.808Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.104"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.HierarchyBackupTest.xml",
+      "counts": {
+        "name": "com.sakugapp.HierarchyBackupTest",
+        "tests": "5",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:08.596Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.02"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DateAndTopicsTest.xml",
+      "counts": {
+        "name": "com.sakugapp.DateAndTopicsTest",
+        "tests": "4",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:06.520Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.014"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.SearchElasticPolicyTest.xml",
+      "counts": {
+        "name": "com.sakugapp.SearchElasticPolicyTest",
+        "tests": "2",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:47.788Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.0"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.FeedViewModelTest.xml",
+      "counts": {
+        "name": "com.sakugapp.FeedViewModelTest",
+        "tests": "17",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:08.425Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.086"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.SakugabotTranslationsTest.xml",
+      "counts": {
+        "name": "com.sakugapp.SakugabotTranslationsTest",
+        "tests": "11",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:18.285Z",
+        "hostname": "runnervmeozm8",
+        "time": "4.779"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PreferencesAndFramesTest.xml",
+      "counts": {
+        "name": "com.sakugapp.PreferencesAndFramesTest",
+        "tests": "9",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:11.452Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.011"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DebugLinksTest.xml",
+      "counts": {
+        "name": "com.sakugapp.DebugLinksTest",
+        "tests": "10",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:06.537Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.052"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.StabilityRegressionTest.xml",
+      "counts": {
+        "name": "com.sakugapp.StabilityRegressionTest",
+        "tests": "1",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:47.789Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.018"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.FramePositionTest.xml",
+      "counts": {
+        "name": "com.sakugapp.FramePositionTest",
+        "tests": "2",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:08.513Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.059"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.QuizPoolSamplingTest.xml",
+      "counts": {
+        "name": "com.sakugapp.QuizPoolSamplingTest",
+        "tests": "7",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:11.700Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.04"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.MainPageStateTest.xml",
+      "counts": {
+        "name": "com.sakugapp.MainPageStateTest",
+        "tests": "3",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:11.214Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.015"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PersonalizationTest.xml",
+      "counts": {
+        "name": "com.sakugapp.PersonalizationTest",
+        "tests": "4",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:11.425Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.009"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.SearchAndCaptionTest.xml",
+      "counts": {
+        "name": "com.sakugapp.SearchAndCaptionTest",
+        "tests": "10",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:23.066Z",
+        "hostname": "runnervmeozm8",
+        "time": "24.721"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.QuizAndFavoritesTest.xml",
+      "counts": {
+        "name": "com.sakugapp.QuizAndFavoritesTest",
+        "tests": "11",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:11.551Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.146"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.FullThemeTest.xml",
+      "counts": {
+        "name": "com.sakugapp.FullThemeTest",
+        "tests": "3",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:08.578Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.012"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.LatestPostsTest.xml",
+      "counts": {
+        "name": "com.sakugapp.LatestPostsTest",
+        "tests": "5",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:11.135Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.04"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PreviewViewportObservationTest.xml",
+      "counts": {
+        "name": "com.sakugapp.PreviewViewportObservationTest",
+        "tests": "2",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:11.549Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.0"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PersonalDataTest.xml",
+      "counts": {
+        "name": "com.sakugapp.PersonalDataTest",
+        "tests": "9",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:11.269Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.151"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DiscoveryTest.xml",
+      "counts": {
+        "name": "com.sakugapp.DiscoveryTest",
+        "tests": "18",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:06.806Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.077"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PreviewNamingTest.xml",
+      "counts": {
+        "name": "com.sakugapp.PreviewNamingTest",
+        "tests": "8",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:11.467Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.075"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.LatestPostsHttpTest.xml",
+      "counts": {
+        "name": "com.sakugapp.LatestPostsHttpTest",
+        "tests": "1",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:08.621Z",
+        "hostname": "runnervmeozm8",
+        "time": "2.512"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DetailTranslationSettingsTest.xml",
+      "counts": {
+        "name": "com.sakugapp.DetailTranslationSettingsTest",
+        "tests": "2",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:06.591Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.211"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PlayerToolsTest.xml",
+      "counts": {
+        "name": "com.sakugapp.PlayerToolsTest",
+        "tests": "3",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:11.444Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.003"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.ExtensionHttpTest.xml",
+      "counts": {
+        "name": "com.sakugapp.ExtensionHttpTest",
+        "tests": "2",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:06.884Z",
+        "hostname": "runnervmeozm8",
+        "time": "1.537"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PostMediaClassificationTest.xml",
+      "counts": {
+        "name": "com.sakugapp.PostMediaClassificationTest",
+        "tests": "2",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T03:20:11.450Z",
+        "hostname": "runnervmeozm8",
+        "time": "0.001"
+      },
+      "failures": []
+    },
+    {
       "file": "content-first-device-reports-28/reports/content-first-diagnostics/animated-results/debug/TEST-emulator-5554 - 9-_app-.xml",
       "counts": {
         "name": "com.sakugapp.ContentFirstDeviceTest",
@@ -31,527 +577,246 @@
         "hostname": "localhost"
       },
       "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.LatestPostsTest.xml",
-      "counts": {
-        "name": "com.sakugapp.LatestPostsTest",
-        "tests": "5",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:11.135Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.04"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.TagSuggestionsTest.xml",
-      "counts": {
-        "name": "com.sakugapp.TagSuggestionsTest",
-        "tests": "3",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:47.808Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.104"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.SakugabotTranslationsTest.xml",
-      "counts": {
-        "name": "com.sakugapp.SakugabotTranslationsTest",
-        "tests": "11",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:18.285Z",
-        "hostname": "runnervmeozm8",
-        "time": "4.779"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PostMediaClassificationTest.xml",
-      "counts": {
-        "name": "com.sakugapp.PostMediaClassificationTest",
-        "tests": "2",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:11.450Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.001"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.CommunityTest.xml",
-      "counts": {
-        "name": "com.sakugapp.CommunityTest",
-        "tests": "16",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:19:57.377Z",
-        "hostname": "runnervmeozm8",
-        "time": "9.117"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.LatestPostsHttpTest.xml",
-      "counts": {
-        "name": "com.sakugapp.LatestPostsHttpTest",
-        "tests": "1",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:08.621Z",
-        "hostname": "runnervmeozm8",
-        "time": "2.512"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PreviewViewportObservationTest.xml",
-      "counts": {
-        "name": "com.sakugapp.PreviewViewportObservationTest",
-        "tests": "2",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:11.549Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.0"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PreferencesAndFramesTest.xml",
-      "counts": {
-        "name": "com.sakugapp.PreferencesAndFramesTest",
-        "tests": "9",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:11.452Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.011"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.LiveFixtureTest.xml",
-      "counts": {
-        "name": "com.sakugapp.LiveFixtureTest",
-        "tests": "2",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:11.211Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.001"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PerformancePolicyTest.xml",
-      "counts": {
-        "name": "com.sakugapp.PerformancePolicyTest",
-        "tests": "6",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:11.231Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.037"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.QuizPoolSamplingTest.xml",
-      "counts": {
-        "name": "com.sakugapp.QuizPoolSamplingTest",
-        "tests": "7",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:11.700Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.04"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.LibraryCodecTest.xml",
-      "counts": {
-        "name": "com.sakugapp.LibraryCodecTest",
-        "tests": "5",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:11.180Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.029"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.RepositoryTest.xml",
-      "counts": {
-        "name": "com.sakugapp.RepositoryTest",
-        "tests": "7",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:11.742Z",
-        "hostname": "runnervmeozm8",
-        "time": "6.542"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PreviewNamingTest.xml",
-      "counts": {
-        "name": "com.sakugapp.PreviewNamingTest",
-        "tests": "8",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:11.467Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.075"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DebugLinksTest.xml",
-      "counts": {
-        "name": "com.sakugapp.DebugLinksTest",
-        "tests": "10",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:06.537Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.052"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.BackupImportTest.xml",
-      "counts": {
-        "name": "com.sakugapp.BackupImportTest",
-        "tests": "8",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:19:42.146Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.398"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.ExtensionHttpTest.xml",
-      "counts": {
-        "name": "com.sakugapp.ExtensionHttpTest",
-        "tests": "2",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:06.884Z",
-        "hostname": "runnervmeozm8",
-        "time": "1.537"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DiscoveryTest.xml",
-      "counts": {
-        "name": "com.sakugapp.DiscoveryTest",
-        "tests": "18",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:06.806Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.077"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.MainPageStateTest.xml",
-      "counts": {
-        "name": "com.sakugapp.MainPageStateTest",
-        "tests": "3",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:11.214Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.015"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.CommunityStateTest.xml",
-      "counts": {
-        "name": "com.sakugapp.CommunityStateTest",
-        "tests": "3",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:19:42.863Z",
-        "hostname": "runnervmeozm8",
-        "time": "14.511"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DataTest.xml",
-      "counts": {
-        "name": "com.sakugapp.DataTest",
-        "tests": "15",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:06.498Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.019"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.FramePositionTest.xml",
-      "counts": {
-        "name": "com.sakugapp.FramePositionTest",
-        "tests": "2",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:08.513Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.059"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.SearchAndCaptionTest.xml",
-      "counts": {
-        "name": "com.sakugapp.SearchAndCaptionTest",
-        "tests": "10",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:23.066Z",
-        "hostname": "runnervmeozm8",
-        "time": "24.721"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PersonalDataTest.xml",
-      "counts": {
-        "name": "com.sakugapp.PersonalDataTest",
-        "tests": "9",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:11.269Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.151"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.FeedViewModelTest.xml",
-      "counts": {
-        "name": "com.sakugapp.FeedViewModelTest",
-        "tests": "17",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:08.425Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.086"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PersonalizationTest.xml",
-      "counts": {
-        "name": "com.sakugapp.PersonalizationTest",
-        "tests": "4",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:11.425Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.009"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.HierarchyBackupTest.xml",
-      "counts": {
-        "name": "com.sakugapp.HierarchyBackupTest",
-        "tests": "5",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:08.596Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.02"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PlayerToolsTest.xml",
-      "counts": {
-        "name": "com.sakugapp.PlayerToolsTest",
-        "tests": "3",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:11.444Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.003"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.SearchElasticPolicyTest.xml",
-      "counts": {
-        "name": "com.sakugapp.SearchElasticPolicyTest",
-        "tests": "2",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:47.788Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.0"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.BatchQueueTest.xml",
-      "counts": {
-        "name": "com.sakugapp.BatchQueueTest",
-        "tests": "4",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:19:42.549Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.07"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.FullThemeTest.xml",
-      "counts": {
-        "name": "com.sakugapp.FullThemeTest",
-        "tests": "3",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:08.578Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.012"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.QuizAndFavoritesTest.xml",
-      "counts": {
-        "name": "com.sakugapp.QuizAndFavoritesTest",
-        "tests": "11",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:11.551Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.146"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DateAndTopicsTest.xml",
-      "counts": {
-        "name": "com.sakugapp.DateAndTopicsTest",
-        "tests": "4",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:06.520Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.014"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.AppearanceAndDownloadTest.xml",
-      "counts": {
-        "name": "com.sakugapp.AppearanceAndDownloadTest",
-        "tests": "11",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:19:38.703Z",
-        "hostname": "runnervmeozm8",
-        "time": "3.436"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.BrowsingUpgradeTest.xml",
-      "counts": {
-        "name": "com.sakugapp.BrowsingUpgradeTest",
-        "tests": "7",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:19:42.625Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.236"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DetailTranslationSettingsTest.xml",
-      "counts": {
-        "name": "com.sakugapp.DetailTranslationSettingsTest",
-        "tests": "2",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:06.591Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.211"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.StabilityRegressionTest.xml",
-      "counts": {
-        "name": "com.sakugapp.StabilityRegressionTest",
-        "tests": "1",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T03:20:47.789Z",
-        "hostname": "runnervmeozm8",
-        "time": "0.018"
-      },
-      "failures": []
     }
   ],
   "layouts": [
+    {
+      "file": "content-first-device-reports-35/reports/ui-evidence/content-first-layouts.json",
+      "data": {
+        "api": 35,
+        "fixture": "public metadata, generated local poster",
+        "cases": [
+          {
+            "check": "profile_responsive_rows",
+            "initial_wide": true,
+            "narrow_requested_width_dp": 480,
+            "narrow_effective_width_dp": 480.0,
+            "destinations": [
+              "library",
+              "website_favorites",
+              "account",
+              "settings"
+            ],
+            "sites": [
+              "https://blog.sakugabooru.com/",
+              "https://www.sakugabooru.com/forum"
+            ],
+            "draft_preserved": true
+          },
+          {
+            "check": "settled_layout_and_player_reuse",
+            "viewport_heights_px": [
+              1496,
+              1640,
+              1496
+            ],
+            "distinct_heights": 2,
+            "player_instances": 1,
+            "page_cache_reused": true
+          },
+          {
+            "check": "short_search_rebound",
+            "directions": 2,
+            "limit_dp": 24,
+            "scroll_value": 0
+          },
+          {
+            "check": "compact_tools",
+            "steps": [
+              -3,
+              -2,
+              -1,
+              1,
+              2,
+              3
+            ],
+            "explore_entries": 14,
+            "touch_height_dp": 48,
+            "visual_height_dp": 32
+          },
+          {
+            "check": "latest_tab_requests",
+            "requests": [
+              {
+                "query": "",
+                "page": 1
+              },
+              {
+                "query": "",
+                "page": 1
+              },
+              {
+                "query": "animated order:score",
+                "page": 1
+              },
+              {
+                "query": "",
+                "page": 1
+              },
+              {
+                "query": "",
+                "page": 1
+              },
+              {
+                "query": "",
+                "page": 1
+              }
+            ],
+            "detail_return_extra_requests": 0
+          },
+          {
+            "check": "released_posts_space",
+            "columns": 2,
+            "light": false,
+            "released_px": 144.0,
+            "shown_viewport_px": [
+              128.0,
+              1544.0
+            ],
+            "hidden_viewport_px": [
+              128.0,
+              1688.0
+            ],
+            "cards_in_released_band": true
+          },
+          {
+            "check": "released_posts_space",
+            "columns": 4,
+            "light": false,
+            "released_px": 144.0,
+            "shown_viewport_px": [
+              128.0,
+              1544.0
+            ],
+            "hidden_viewport_px": [
+              128.0,
+              1688.0
+            ],
+            "cards_in_released_band": true
+          },
+          {
+            "check": "released_posts_space",
+            "columns": 6,
+            "light": false,
+            "released_px": 144.0,
+            "shown_viewport_px": [
+              128.0,
+              1544.0
+            ],
+            "hidden_viewport_px": [
+              128.0,
+              1688.0
+            ],
+            "cards_in_released_band": true
+          },
+          {
+            "check": "released_posts_space",
+            "columns": 8,
+            "light": false,
+            "released_px": 144.0,
+            "shown_viewport_px": [
+              128.0,
+              1544.0
+            ],
+            "hidden_viewport_px": [
+              128.0,
+              1688.0
+            ],
+            "cards_in_released_band": true
+          },
+          {
+            "check": "released_posts_space",
+            "columns": 12,
+            "light": false,
+            "released_px": 144.0,
+            "shown_viewport_px": [
+              128.0,
+              1544.0
+            ],
+            "hidden_viewport_px": [
+              128.0,
+              1688.0
+            ],
+            "cards_in_released_band": true
+          },
+          {
+            "check": "released_posts_space",
+            "columns": 2,
+            "light": true,
+            "released_px": 144.0,
+            "shown_viewport_px": [
+              128.0,
+              1544.0
+            ],
+            "hidden_viewport_px": [
+              128.0,
+              1688.0
+            ],
+            "cards_in_released_band": true
+          },
+          {
+            "check": "released_posts_space",
+            "columns": 4,
+            "light": true,
+            "released_px": 144.0,
+            "shown_viewport_px": [
+              128.0,
+              1544.0
+            ],
+            "hidden_viewport_px": [
+              128.0,
+              1688.0
+            ],
+            "cards_in_released_band": true
+          },
+          {
+            "check": "released_posts_space",
+            "columns": 6,
+            "light": true,
+            "released_px": 144.0,
+            "shown_viewport_px": [
+              128.0,
+              1544.0
+            ],
+            "hidden_viewport_px": [
+              128.0,
+              1688.0
+            ],
+            "cards_in_released_band": true
+          },
+          {
+            "check": "released_posts_space",
+            "columns": 8,
+            "light": true,
+            "released_px": 144.0,
+            "shown_viewport_px": [
+              128.0,
+              1544.0
+            ],
+            "hidden_viewport_px": [
+              128.0,
+              1688.0
+            ],
+            "cards_in_released_band": true
+          },
+          {
+            "check": "released_posts_space",
+            "columns": 12,
+            "light": true,
+            "released_px": 144.0,
+            "shown_viewport_px": [
+              128.0,
+              1544.0
+            ],
+            "hidden_viewport_px": [
+              128.0,
+              1688.0
+            ],
+            "cards_in_released_band": true
+          }
+        ]
+      }
+    },
     {
       "file": "content-first-device-reports-28/reports/ui-evidence/content-first-layouts.json",
       "data": {
@@ -732,6 +997,106 @@
   ],
   "performance": [
     {
+      "file": "content-first-device-reports-35/reports/ui-evidence/scroll-current.json",
+      "data": {
+        "label": "current",
+        "columns": 2,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 386,
+        "mean_ms": 178.9509272746113,
+        "p50_ms": 200.678665,
+        "p95_ms": 239.369046,
+        "max_ms": 267.824966,
+        "over_34ms": 386,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 178.9509272746113,
+            "p95_ms": 239.369046
+          },
+          "layout": {
+            "mean_ms": 0.19345087823834195,
+            "p95_ms": 0.078649
+          },
+          "draw": {
+            "mean_ms": 0.8003454352331605,
+            "p95_ms": 3.08599
+          },
+          "animation": {
+            "mean_ms": 2.278550813471503,
+            "p95_ms": 9.360365
+          },
+          "input": {
+            "mean_ms": 1.768534207253886,
+            "p95_ms": 6.050842
+          },
+          "sync": {
+            "mean_ms": 0.33683736010362697,
+            "p95_ms": 1.701112
+          },
+          "commands": {
+            "mean_ms": 15.40289158031089,
+            "p95_ms": 29.540303
+          },
+          "swap": {
+            "mean_ms": 55.50051872538859,
+            "p95_ms": 73.204074
+          }
+        }
+      }
+    },
+    {
+      "file": "content-first-device-reports-35/reports/ui-evidence/content-first-scroll-current-2.json",
+      "data": {
+        "label": "current",
+        "columns": 2,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 386,
+        "mean_ms": 178.9509272746113,
+        "p50_ms": 200.678665,
+        "p95_ms": 239.369046,
+        "max_ms": 267.824966,
+        "over_34ms": 386,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 178.9509272746113,
+            "p95_ms": 239.369046
+          },
+          "layout": {
+            "mean_ms": 0.19345087823834195,
+            "p95_ms": 0.078649
+          },
+          "draw": {
+            "mean_ms": 0.8003454352331605,
+            "p95_ms": 3.08599
+          },
+          "animation": {
+            "mean_ms": 2.278550813471503,
+            "p95_ms": 9.360365
+          },
+          "input": {
+            "mean_ms": 1.768534207253886,
+            "p95_ms": 6.050842
+          },
+          "sync": {
+            "mean_ms": 0.33683736010362697,
+            "p95_ms": 1.701112
+          },
+          "commands": {
+            "mean_ms": 15.40289158031089,
+            "p95_ms": 29.540303
+          },
+          "swap": {
+            "mean_ms": 55.50051872538859,
+            "p95_ms": 73.204074
+          }
+        }
+      }
+    },
+    {
       "file": "content-first-device-reports-28/reports/ui-evidence/scroll-current.json",
       "data": {
         "label": "current",
@@ -842,6 +1207,10 @@
       "url": "https://github.com/Milenal82/sakugapp/actions/runs/45318263928/artifacts/14887141081"
     },
     {
+      "name": "content-first-device-reports-35",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/45318263928/artifacts/14886214208"
+    },
+    {
       "name": "content-first-build-reports",
       "url": "https://github.com/Milenal82/sakugapp/actions/runs/45318263928/artifacts/14886212594"
     },
@@ -868,8 +1237,8 @@
     },
     {
       "name": "devices (35, pixel_c)",
-      "status": "in_progress",
-      "conclusion": null
+      "status": "completed",
+      "conclusion": "success"
     }
   ]
 }
