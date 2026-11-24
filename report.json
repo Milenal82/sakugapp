@@ -5,524 +5,6 @@
   "run_url": "https://github.com/Milenal82/sakugapp/actions/runs/45314643565",
   "reports": [
     {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DataTest.xml",
-      "counts": {
-        "name": "com.sakugapp.DataTest",
-        "tests": "15",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:08.730Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.01"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.BackupImportTest.xml",
-      "counts": {
-        "name": "com.sakugapp.BackupImportTest",
-        "tests": "8",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:47:44.652Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.266"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.BrowsingUpgradeTest.xml",
-      "counts": {
-        "name": "com.sakugapp.BrowsingUpgradeTest",
-        "tests": "7",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:47:44.970Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.171"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.LiveFixtureTest.xml",
-      "counts": {
-        "name": "com.sakugapp.LiveFixtureTest",
-        "tests": "2",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:13.390Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.001"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.CommunityStateTest.xml",
-      "counts": {
-        "name": "com.sakugapp.CommunityStateTest",
-        "tests": "3",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:47:45.143Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "14.46"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.RepositoryTest.xml",
-      "counts": {
-        "name": "com.sakugapp.RepositoryTest",
-        "tests": "7",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:13.810Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "6.7"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PerformancePolicyTest.xml",
-      "counts": {
-        "name": "com.sakugapp.PerformancePolicyTest",
-        "tests": "6",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:13.406Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.031"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.BatchQueueTest.xml",
-      "counts": {
-        "name": "com.sakugapp.BatchQueueTest",
-        "tests": "4",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:47:44.924Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.044"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.LibraryCodecTest.xml",
-      "counts": {
-        "name": "com.sakugapp.LibraryCodecTest",
-        "tests": "5",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:13.376Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.013"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.AppearanceAndDownloadTest.xml",
-      "counts": {
-        "name": "com.sakugapp.AppearanceAndDownloadTest",
-        "tests": "11",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:47:41.731Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "2.916"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.CommunityTest.xml",
-      "counts": {
-        "name": "com.sakugapp.CommunityTest",
-        "tests": "16",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:47:59.609Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "9.117"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.TagSuggestionsTest.xml",
-      "counts": {
-        "name": "com.sakugapp.TagSuggestionsTest",
-        "tests": "3",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:49.896Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.091"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.HierarchyBackupTest.xml",
-      "counts": {
-        "name": "com.sakugapp.HierarchyBackupTest",
-        "tests": "5",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:10.717Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.007"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DateAndTopicsTest.xml",
-      "counts": {
-        "name": "com.sakugapp.DateAndTopicsTest",
-        "tests": "4",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:08.741Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.011"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.SearchElasticPolicyTest.xml",
-      "counts": {
-        "name": "com.sakugapp.SearchElasticPolicyTest",
-        "tests": "2",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:49.882Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.0"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.FeedViewModelTest.xml",
-      "counts": {
-        "name": "com.sakugapp.FeedViewModelTest",
-        "tests": "17",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:10.650Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.046"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.SakugabotTranslationsTest.xml",
-      "counts": {
-        "name": "com.sakugapp.SakugabotTranslationsTest",
-        "tests": "11",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:20.512Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "4.653"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PreferencesAndFramesTest.xml",
-      "counts": {
-        "name": "com.sakugapp.PreferencesAndFramesTest",
-        "tests": "9",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:13.578Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.005"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DebugLinksTest.xml",
-      "counts": {
-        "name": "com.sakugapp.DebugLinksTest",
-        "tests": "10",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:08.753Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.075"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.StabilityRegressionTest.xml",
-      "counts": {
-        "name": "com.sakugapp.StabilityRegressionTest",
-        "tests": "1",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:49.883Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.012"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.FramePositionTest.xml",
-      "counts": {
-        "name": "com.sakugapp.FramePositionTest",
-        "tests": "2",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:10.697Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.013"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.QuizPoolSamplingTest.xml",
-      "counts": {
-        "name": "com.sakugapp.QuizPoolSamplingTest",
-        "tests": "7",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:13.775Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.034"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.MainPageStateTest.xml",
-      "counts": {
-        "name": "com.sakugapp.MainPageStateTest",
-        "tests": "3",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:13.391Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.013"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PersonalizationTest.xml",
-      "counts": {
-        "name": "com.sakugapp.PersonalizationTest",
-        "tests": "4",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:13.563Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.008"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.SearchAndCaptionTest.xml",
-      "counts": {
-        "name": "com.sakugapp.SearchAndCaptionTest",
-        "tests": "10",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:25.167Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "24.714"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.QuizAndFavoritesTest.xml",
-      "counts": {
-        "name": "com.sakugapp.QuizAndFavoritesTest",
-        "tests": "11",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:13.637Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.137"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.FullThemeTest.xml",
-      "counts": {
-        "name": "com.sakugapp.FullThemeTest",
-        "tests": "3",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:10.711Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.004"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.LatestPostsTest.xml",
-      "counts": {
-        "name": "com.sakugapp.LatestPostsTest",
-        "tests": "5",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:13.363Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.012"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PreviewViewportObservationTest.xml",
-      "counts": {
-        "name": "com.sakugapp.PreviewViewportObservationTest",
-        "tests": "2",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:13.636Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.0"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PersonalDataTest.xml",
-      "counts": {
-        "name": "com.sakugapp.PersonalDataTest",
-        "tests": "9",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:13.438Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.123"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DiscoveryTest.xml",
-      "counts": {
-        "name": "com.sakugapp.DiscoveryTest",
-        "tests": "18",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:09.018Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.061"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PreviewNamingTest.xml",
-      "counts": {
-        "name": "com.sakugapp.PreviewNamingTest",
-        "tests": "8",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:13.584Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.048"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.LatestPostsHttpTest.xml",
-      "counts": {
-        "name": "com.sakugapp.LatestPostsHttpTest",
-        "tests": "1",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:10.726Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "2.633"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DetailTranslationSettingsTest.xml",
-      "counts": {
-        "name": "com.sakugapp.DetailTranslationSettingsTest",
-        "tests": "2",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:08.830Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.186"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PlayerToolsTest.xml",
-      "counts": {
-        "name": "com.sakugapp.PlayerToolsTest",
-        "tests": "3",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:13.572Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.003"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.ExtensionHttpTest.xml",
-      "counts": {
-        "name": "com.sakugapp.ExtensionHttpTest",
-        "tests": "2",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:09.082Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "1.566"
-      },
-      "failures": []
-    },
-    {
-      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PostMediaClassificationTest.xml",
-      "counts": {
-        "name": "com.sakugapp.PostMediaClassificationTest",
-        "tests": "2",
-        "skipped": "0",
-        "failures": "0",
-        "errors": "0",
-        "timestamp": "2026-11-24T02:48:13.576Z",
-        "hostname": "ip-10-0-136-197",
-        "time": "0.0"
-      },
-      "failures": []
-    },
-    {
       "file": "content-first-device-reports-28/outputs/androidTest-results/connected/debug/TEST-emulator-5554 - 9-_app-.xml",
       "counts": {
         "name": "com.sakugapp.ContentFirstDeviceTest",
@@ -560,6 +42,524 @@
           "message": "org.junit.ComparisonFailure: expected:<[]> but was:<[artist_a test_show]>\nat org.junit.Assert.assertEquals(Assert.java:117)\nat org.junit.Assert.assertEquals(Assert.java:146)\nat com.sakugapp.DebugLinksDeviceTest.verifiedArtistOpensStatsAndJointSearchReturnsToSameStatistics(DebugLinksDeviceTest.kt:113)"
         }
       ]
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.LatestPostsTest.xml",
+      "counts": {
+        "name": "com.sakugapp.LatestPostsTest",
+        "tests": "5",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:13.363Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.012"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.TagSuggestionsTest.xml",
+      "counts": {
+        "name": "com.sakugapp.TagSuggestionsTest",
+        "tests": "3",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:49.896Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.091"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.SakugabotTranslationsTest.xml",
+      "counts": {
+        "name": "com.sakugapp.SakugabotTranslationsTest",
+        "tests": "11",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:20.512Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "4.653"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PostMediaClassificationTest.xml",
+      "counts": {
+        "name": "com.sakugapp.PostMediaClassificationTest",
+        "tests": "2",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:13.576Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.0"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.CommunityTest.xml",
+      "counts": {
+        "name": "com.sakugapp.CommunityTest",
+        "tests": "16",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:47:59.609Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "9.117"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.LatestPostsHttpTest.xml",
+      "counts": {
+        "name": "com.sakugapp.LatestPostsHttpTest",
+        "tests": "1",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:10.726Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "2.633"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PreviewViewportObservationTest.xml",
+      "counts": {
+        "name": "com.sakugapp.PreviewViewportObservationTest",
+        "tests": "2",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:13.636Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.0"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PreferencesAndFramesTest.xml",
+      "counts": {
+        "name": "com.sakugapp.PreferencesAndFramesTest",
+        "tests": "9",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:13.578Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.005"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.LiveFixtureTest.xml",
+      "counts": {
+        "name": "com.sakugapp.LiveFixtureTest",
+        "tests": "2",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:13.390Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.001"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PerformancePolicyTest.xml",
+      "counts": {
+        "name": "com.sakugapp.PerformancePolicyTest",
+        "tests": "6",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:13.406Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.031"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.QuizPoolSamplingTest.xml",
+      "counts": {
+        "name": "com.sakugapp.QuizPoolSamplingTest",
+        "tests": "7",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:13.775Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.034"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.LibraryCodecTest.xml",
+      "counts": {
+        "name": "com.sakugapp.LibraryCodecTest",
+        "tests": "5",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:13.376Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.013"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.RepositoryTest.xml",
+      "counts": {
+        "name": "com.sakugapp.RepositoryTest",
+        "tests": "7",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:13.810Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "6.7"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PreviewNamingTest.xml",
+      "counts": {
+        "name": "com.sakugapp.PreviewNamingTest",
+        "tests": "8",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:13.584Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.048"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DebugLinksTest.xml",
+      "counts": {
+        "name": "com.sakugapp.DebugLinksTest",
+        "tests": "10",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:08.753Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.075"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.BackupImportTest.xml",
+      "counts": {
+        "name": "com.sakugapp.BackupImportTest",
+        "tests": "8",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:47:44.652Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.266"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.ExtensionHttpTest.xml",
+      "counts": {
+        "name": "com.sakugapp.ExtensionHttpTest",
+        "tests": "2",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:09.082Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "1.566"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DiscoveryTest.xml",
+      "counts": {
+        "name": "com.sakugapp.DiscoveryTest",
+        "tests": "18",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:09.018Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.061"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.MainPageStateTest.xml",
+      "counts": {
+        "name": "com.sakugapp.MainPageStateTest",
+        "tests": "3",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:13.391Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.013"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.CommunityStateTest.xml",
+      "counts": {
+        "name": "com.sakugapp.CommunityStateTest",
+        "tests": "3",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:47:45.143Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "14.46"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DataTest.xml",
+      "counts": {
+        "name": "com.sakugapp.DataTest",
+        "tests": "15",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:08.730Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.01"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.FramePositionTest.xml",
+      "counts": {
+        "name": "com.sakugapp.FramePositionTest",
+        "tests": "2",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:10.697Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.013"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.SearchAndCaptionTest.xml",
+      "counts": {
+        "name": "com.sakugapp.SearchAndCaptionTest",
+        "tests": "10",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:25.167Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "24.714"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PersonalDataTest.xml",
+      "counts": {
+        "name": "com.sakugapp.PersonalDataTest",
+        "tests": "9",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:13.438Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.123"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.FeedViewModelTest.xml",
+      "counts": {
+        "name": "com.sakugapp.FeedViewModelTest",
+        "tests": "17",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:10.650Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.046"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PersonalizationTest.xml",
+      "counts": {
+        "name": "com.sakugapp.PersonalizationTest",
+        "tests": "4",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:13.563Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.008"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.HierarchyBackupTest.xml",
+      "counts": {
+        "name": "com.sakugapp.HierarchyBackupTest",
+        "tests": "5",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:10.717Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.007"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.PlayerToolsTest.xml",
+      "counts": {
+        "name": "com.sakugapp.PlayerToolsTest",
+        "tests": "3",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:13.572Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.003"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.SearchElasticPolicyTest.xml",
+      "counts": {
+        "name": "com.sakugapp.SearchElasticPolicyTest",
+        "tests": "2",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:49.882Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.0"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.BatchQueueTest.xml",
+      "counts": {
+        "name": "com.sakugapp.BatchQueueTest",
+        "tests": "4",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:47:44.924Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.044"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.FullThemeTest.xml",
+      "counts": {
+        "name": "com.sakugapp.FullThemeTest",
+        "tests": "3",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:10.711Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.004"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.QuizAndFavoritesTest.xml",
+      "counts": {
+        "name": "com.sakugapp.QuizAndFavoritesTest",
+        "tests": "11",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:13.637Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.137"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DateAndTopicsTest.xml",
+      "counts": {
+        "name": "com.sakugapp.DateAndTopicsTest",
+        "tests": "4",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:08.741Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.011"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.AppearanceAndDownloadTest.xml",
+      "counts": {
+        "name": "com.sakugapp.AppearanceAndDownloadTest",
+        "tests": "11",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:47:41.731Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "2.916"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.BrowsingUpgradeTest.xml",
+      "counts": {
+        "name": "com.sakugapp.BrowsingUpgradeTest",
+        "tests": "7",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:47:44.970Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.171"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.DetailTranslationSettingsTest.xml",
+      "counts": {
+        "name": "com.sakugapp.DetailTranslationSettingsTest",
+        "tests": "2",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:08.830Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.186"
+      },
+      "failures": []
+    },
+    {
+      "file": "content-first-build-reports/test-results/testDebugUnitTest/TEST-com.sakugapp.StabilityRegressionTest.xml",
+      "counts": {
+        "name": "com.sakugapp.StabilityRegressionTest",
+        "tests": "1",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-24T02:48:49.883Z",
+        "hostname": "ip-10-0-136-197",
+        "time": "0.012"
+      },
+      "failures": []
     }
   ],
   "layouts": [
@@ -652,6 +652,1006 @@
     }
   ],
   "performance": [
+    {
+      "file": "content-first-performance-reports/trial-4-baseline-8/content-first-scroll-baseline-8.json",
+      "data": {
+        "label": "baseline",
+        "columns": 8,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 416,
+        "mean_ms": 216.26014885336534,
+        "p50_ms": 200.540274,
+        "p95_ms": 334.940922,
+        "max_ms": 516.83331,
+        "over_34ms": 416,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 216.26014885336534,
+            "p95_ms": 334.940922
+          },
+          "layout": {
+            "mean_ms": 0.06487160576923073,
+            "p95_ms": 0.066582
+          },
+          "draw": {
+            "mean_ms": 2.368906747596154,
+            "p95_ms": 7.900675
+          },
+          "animation": {
+            "mean_ms": 9.688472252403848,
+            "p95_ms": 59.460741
+          },
+          "input": {
+            "mean_ms": 1.0730498100961536,
+            "p95_ms": 3.92786
+          },
+          "sync": {
+            "mean_ms": 0.5931537764423076,
+            "p95_ms": 2.825569
+          },
+          "commands": {
+            "mean_ms": 25.01672875961538,
+            "p95_ms": 61.572409
+          },
+          "swap": {
+            "mean_ms": 52.24306860576929,
+            "p95_ms": 75.968074
+          }
+        }
+      }
+    },
+    {
+      "file": "content-first-performance-reports/trial-2-current-2/content-first-scroll-current-2.json",
+      "data": {
+        "label": "current",
+        "columns": 2,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 390,
+        "mean_ms": 156.38683526153852,
+        "p50_ms": 176.25738,
+        "p95_ms": 227.613541,
+        "max_ms": 283.517416,
+        "over_34ms": 390,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 156.38683526153852,
+            "p95_ms": 227.613541
+          },
+          "layout": {
+            "mean_ms": 0.060767638461538445,
+            "p95_ms": 0.074355
+          },
+          "draw": {
+            "mean_ms": 1.625672494871795,
+            "p95_ms": 5.324823
+          },
+          "animation": {
+            "mean_ms": 3.1139326743589746,
+            "p95_ms": 16.511294
+          },
+          "input": {
+            "mean_ms": 1.210749169230769,
+            "p95_ms": 4.197258
+          },
+          "sync": {
+            "mean_ms": 0.5204540358974359,
+            "p95_ms": 2.733963
+          },
+          "commands": {
+            "mean_ms": 10.866949958974361,
+            "p95_ms": 29.502464
+          },
+          "swap": {
+            "mean_ms": 55.37535526666669,
+            "p95_ms": 72.363495
+          }
+        }
+      }
+    },
+    {
+      "file": "content-first-performance-reports/trial-1-baseline-4/content-first-scroll-baseline-4.json",
+      "data": {
+        "label": "baseline",
+        "columns": 4,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 415,
+        "mean_ms": 181.4010385301205,
+        "p50_ms": 201.008667,
+        "p95_ms": 243.903867,
+        "max_ms": 267.918904,
+        "over_34ms": 415,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 181.4010385301205,
+            "p95_ms": 243.903867
+          },
+          "layout": {
+            "mean_ms": 0.048473787951807255,
+            "p95_ms": 0.055402
+          },
+          "draw": {
+            "mean_ms": 1.459702930120482,
+            "p95_ms": 6.237771
+          },
+          "animation": {
+            "mean_ms": 5.00994468674699,
+            "p95_ms": 32.156253
+          },
+          "input": {
+            "mean_ms": 1.4676970144578319,
+            "p95_ms": 5.662911
+          },
+          "sync": {
+            "mean_ms": 0.4316248746987951,
+            "p95_ms": 2.230139
+          },
+          "commands": {
+            "mean_ms": 12.495517720481923,
+            "p95_ms": 30.922662
+          },
+          "swap": {
+            "mean_ms": 61.55633178554213,
+            "p95_ms": 77.795445
+          }
+        }
+      }
+    },
+    {
+      "file": "content-first-performance-reports/trial-1-baseline-2/content-first-scroll-baseline-2.json",
+      "data": {
+        "label": "baseline",
+        "columns": 2,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 399,
+        "mean_ms": 159.4827210050125,
+        "p50_ms": 175.68721,
+        "p95_ms": 234.827722,
+        "max_ms": 260.739682,
+        "over_34ms": 399,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 159.4827210050125,
+            "p95_ms": 234.827722
+          },
+          "layout": {
+            "mean_ms": 0.06960727568922308,
+            "p95_ms": 0.064857
+          },
+          "draw": {
+            "mean_ms": 1.468652679197995,
+            "p95_ms": 7.299941
+          },
+          "animation": {
+            "mean_ms": 3.0875057293233086,
+            "p95_ms": 12.341912
+          },
+          "input": {
+            "mean_ms": 1.463053025062656,
+            "p95_ms": 5.657052
+          },
+          "sync": {
+            "mean_ms": 0.5493494686716792,
+            "p95_ms": 2.185716
+          },
+          "commands": {
+            "mean_ms": 10.977697694235589,
+            "p95_ms": 28.96163
+          },
+          "swap": {
+            "mean_ms": 56.418526280701776,
+            "p95_ms": 75.50474
+          }
+        }
+      }
+    },
+    {
+      "file": "content-first-performance-reports/trial-1-baseline-6/content-first-scroll-baseline-6.json",
+      "data": {
+        "label": "baseline",
+        "columns": 6,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 423,
+        "mean_ms": 166.86086523167856,
+        "p50_ms": 183.43667,
+        "p95_ms": 216.864719,
+        "max_ms": 237.659112,
+        "over_34ms": 423,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 166.86086523167856,
+            "p95_ms": 216.864719
+          },
+          "layout": {
+            "mean_ms": 0.15305117257683215,
+            "p95_ms": 0.043363
+          },
+          "draw": {
+            "mean_ms": 1.7417844657210406,
+            "p95_ms": 7.105911
+          },
+          "animation": {
+            "mean_ms": 7.023337529550829,
+            "p95_ms": 36.65413
+          },
+          "input": {
+            "mean_ms": 0.8087851182033097,
+            "p95_ms": 3.630875
+          },
+          "sync": {
+            "mean_ms": 0.625760160756501,
+            "p95_ms": 3.25112
+          },
+          "commands": {
+            "mean_ms": 13.720073503546097,
+            "p95_ms": 30.584687
+          },
+          "swap": {
+            "mean_ms": 51.139576165484605,
+            "p95_ms": 68.689744
+          }
+        }
+      }
+    },
+    {
+      "file": "content-first-performance-reports/trial-4-baseline-12/content-first-scroll-baseline-12.json",
+      "data": {
+        "label": "baseline",
+        "columns": 12,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 426,
+        "mean_ms": 260.0511762323945,
+        "p50_ms": 239.606498,
+        "p95_ms": 361.259079,
+        "max_ms": 550.180292,
+        "over_34ms": 426,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 260.0511762323945,
+            "p95_ms": 361.259079
+          },
+          "layout": {
+            "mean_ms": 0.07000301877934272,
+            "p95_ms": 0.067342
+          },
+          "draw": {
+            "mean_ms": 1.7529226173708918,
+            "p95_ms": 6.913149
+          },
+          "animation": {
+            "mean_ms": 7.400392065727702,
+            "p95_ms": 48.585451
+          },
+          "input": {
+            "mean_ms": 0.9066487629107985,
+            "p95_ms": 3.736043
+          },
+          "sync": {
+            "mean_ms": 1.0207788122065728,
+            "p95_ms": 3.610368
+          },
+          "commands": {
+            "mean_ms": 39.40454679342723,
+            "p95_ms": 72.104145
+          },
+          "swap": {
+            "mean_ms": 49.61301739906106,
+            "p95_ms": 74.795391
+          }
+        }
+      }
+    },
+    {
+      "file": "content-first-performance-reports/trial-1-baseline-8/content-first-scroll-baseline-8.json",
+      "data": {
+        "label": "baseline",
+        "columns": 8,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 424,
+        "mean_ms": 216.06630859669806,
+        "p50_ms": 201.703059,
+        "p95_ms": 335.057648,
+        "max_ms": 566.84268,
+        "over_34ms": 424,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 216.06630859669806,
+            "p95_ms": 335.057648
+          },
+          "layout": {
+            "mean_ms": 0.06283811556603774,
+            "p95_ms": 0.067805
+          },
+          "draw": {
+            "mean_ms": 1.9910870872641506,
+            "p95_ms": 8.09585
+          },
+          "animation": {
+            "mean_ms": 9.006037188679251,
+            "p95_ms": 53.020852
+          },
+          "input": {
+            "mean_ms": 1.2764884316037741,
+            "p95_ms": 3.840754
+          },
+          "sync": {
+            "mean_ms": 0.8393171886792452,
+            "p95_ms": 3.729501
+          },
+          "commands": {
+            "mean_ms": 25.201577455188662,
+            "p95_ms": 63.906372
+          },
+          "swap": {
+            "mean_ms": 52.09199350235846,
+            "p95_ms": 73.60258
+          }
+        }
+      }
+    },
+    {
+      "file": "content-first-performance-reports/trial-3-current-2/content-first-scroll-current-2.json",
+      "data": {
+        "label": "current",
+        "columns": 2,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 381,
+        "mean_ms": 156.6482508346457,
+        "p50_ms": 168.538599,
+        "p95_ms": 234.291193,
+        "max_ms": 304.088647,
+        "over_34ms": 381,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 156.6482508346457,
+            "p95_ms": 234.291193
+          },
+          "layout": {
+            "mean_ms": 0.0510351364829396,
+            "p95_ms": 0.073836
+          },
+          "draw": {
+            "mean_ms": 1.9368412493438323,
+            "p95_ms": 7.054322
+          },
+          "animation": {
+            "mean_ms": 3.5427140341207353,
+            "p95_ms": 19.008534
+          },
+          "input": {
+            "mean_ms": 1.5168074146981632,
+            "p95_ms": 5.63157
+          },
+          "sync": {
+            "mean_ms": 0.32149944619422577,
+            "p95_ms": 1.84006
+          },
+          "commands": {
+            "mean_ms": 10.66667577952756,
+            "p95_ms": 27.864294
+          },
+          "swap": {
+            "mean_ms": 56.86235534120737,
+            "p95_ms": 74.910381
+          }
+        }
+      }
+    },
+    {
+      "file": "content-first-performance-reports/trial-3-current-8/content-first-scroll-current-8.json",
+      "data": {
+        "label": "current",
+        "columns": 8,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 417,
+        "mean_ms": 215.518287294964,
+        "p50_ms": 200.355446,
+        "p95_ms": 337.075837,
+        "max_ms": 517.006048,
+        "over_34ms": 417,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 215.518287294964,
+            "p95_ms": 337.075837
+          },
+          "layout": {
+            "mean_ms": 0.11091137170263791,
+            "p95_ms": 0.071456
+          },
+          "draw": {
+            "mean_ms": 2.0241886978417267,
+            "p95_ms": 8.216648
+          },
+          "animation": {
+            "mean_ms": 9.740882244604318,
+            "p95_ms": 60.799016
+          },
+          "input": {
+            "mean_ms": 1.3387833717026378,
+            "p95_ms": 3.844453
+          },
+          "sync": {
+            "mean_ms": 0.5083957338129497,
+            "p95_ms": 2.537572
+          },
+          "commands": {
+            "mean_ms": 24.860646374100714,
+            "p95_ms": 62.88372
+          },
+          "swap": {
+            "mean_ms": 52.43913158513191,
+            "p95_ms": 76.217585
+          }
+        }
+      }
+    },
+    {
+      "file": "content-first-performance-reports/trial-2-current-12/content-first-scroll-current-12.json",
+      "data": {
+        "label": "current",
+        "columns": 12,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 418,
+        "mean_ms": 268.4124056937801,
+        "p50_ms": 250.155382,
+        "p95_ms": 368.368207,
+        "max_ms": 533.495571,
+        "over_34ms": 418,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 268.4124056937801,
+            "p95_ms": 368.368207
+          },
+          "layout": {
+            "mean_ms": 0.24609848086124403,
+            "p95_ms": 0.068375
+          },
+          "draw": {
+            "mean_ms": 1.9079360861244021,
+            "p95_ms": 8.402884
+          },
+          "animation": {
+            "mean_ms": 8.528291210526318,
+            "p95_ms": 59.553494
+          },
+          "input": {
+            "mean_ms": 1.093635311004784,
+            "p95_ms": 4.079559
+          },
+          "sync": {
+            "mean_ms": 1.0363676889952154,
+            "p95_ms": 4.65947
+          },
+          "commands": {
+            "mean_ms": 40.44863837799044,
+            "p95_ms": 73.240776
+          },
+          "swap": {
+            "mean_ms": 51.17979182296654,
+            "p95_ms": 76.932205
+          }
+        }
+      }
+    },
+    {
+      "file": "content-first-performance-reports/trial-4-baseline-6/content-first-scroll-baseline-6.json",
+      "data": {
+        "label": "baseline",
+        "columns": 6,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 410,
+        "mean_ms": 173.26161700000014,
+        "p50_ms": 185.594912,
+        "p95_ms": 233.467635,
+        "max_ms": 266.841293,
+        "over_34ms": 410,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 173.26161700000014,
+            "p95_ms": 233.467635
+          },
+          "layout": {
+            "mean_ms": 0.15409045853658537,
+            "p95_ms": 0.068037
+          },
+          "draw": {
+            "mean_ms": 2.1722896536585363,
+            "p95_ms": 8.874647
+          },
+          "animation": {
+            "mean_ms": 10.287377209756096,
+            "p95_ms": 58.620651
+          },
+          "input": {
+            "mean_ms": 1.413088295121951,
+            "p95_ms": 3.981292
+          },
+          "sync": {
+            "mean_ms": 0.7232658682926831,
+            "p95_ms": 3.52097
+          },
+          "commands": {
+            "mean_ms": 14.131829317073167,
+            "p95_ms": 32.390556
+          },
+          "swap": {
+            "mean_ms": 51.974900043902444,
+            "p95_ms": 68.835994
+          }
+        }
+      }
+    },
+    {
+      "file": "content-first-performance-reports/trial-3-current-12/content-first-scroll-current-12.json",
+      "data": {
+        "label": "current",
+        "columns": 12,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 425,
+        "mean_ms": 266.7156058988236,
+        "p50_ms": 251.564103,
+        "p95_ms": 360.745601,
+        "max_ms": 533.459346,
+        "over_34ms": 425,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 266.7156058988236,
+            "p95_ms": 360.745601
+          },
+          "layout": {
+            "mean_ms": 0.059857444705882376,
+            "p95_ms": 0.064462
+          },
+          "draw": {
+            "mean_ms": 1.4948620705882356,
+            "p95_ms": 5.943731
+          },
+          "animation": {
+            "mean_ms": 7.661019614117646,
+            "p95_ms": 50.1099
+          },
+          "input": {
+            "mean_ms": 1.270623468235294,
+            "p95_ms": 3.799106
+          },
+          "sync": {
+            "mean_ms": 0.9672121411764708,
+            "p95_ms": 3.772271
+          },
+          "commands": {
+            "mean_ms": 41.04675085882354,
+            "p95_ms": 71.547206
+          },
+          "swap": {
+            "mean_ms": 50.11471417882352,
+            "p95_ms": 75.612301
+          }
+        }
+      }
+    },
+    {
+      "file": "content-first-performance-reports/trial-4-baseline-4/content-first-scroll-baseline-4.json",
+      "data": {
+        "label": "baseline",
+        "columns": 4,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 412,
+        "mean_ms": 193.87017172330098,
+        "p50_ms": 211.365205,
+        "p95_ms": 254.298557,
+        "max_ms": 352.964462,
+        "over_34ms": 412,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 193.87017172330098,
+            "p95_ms": 254.298557
+          },
+          "layout": {
+            "mean_ms": 0.08572410679611651,
+            "p95_ms": 0.074704
+          },
+          "draw": {
+            "mean_ms": 1.5079780655339807,
+            "p95_ms": 5.756984
+          },
+          "animation": {
+            "mean_ms": 6.52231020145631,
+            "p95_ms": 45.100569
+          },
+          "input": {
+            "mean_ms": 1.585612453883496,
+            "p95_ms": 6.129093
+          },
+          "sync": {
+            "mean_ms": 0.553657344660194,
+            "p95_ms": 2.782495
+          },
+          "commands": {
+            "mean_ms": 13.45944108737863,
+            "p95_ms": 32.710625
+          },
+          "swap": {
+            "mean_ms": 62.55851749271842,
+            "p95_ms": 81.241663
+          }
+        }
+      }
+    },
+    {
+      "file": "content-first-performance-reports/trial-1-baseline-12/content-first-scroll-baseline-12.json",
+      "data": {
+        "label": "baseline",
+        "columns": 12,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 426,
+        "mean_ms": 256.42069355164324,
+        "p50_ms": 232.889682,
+        "p95_ms": 366.802502,
+        "max_ms": 568.308314,
+        "over_34ms": 426,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 256.42069355164324,
+            "p95_ms": 366.802502
+          },
+          "layout": {
+            "mean_ms": 0.08041504694835686,
+            "p95_ms": 0.074679
+          },
+          "draw": {
+            "mean_ms": 1.454087645539906,
+            "p95_ms": 6.447656
+          },
+          "animation": {
+            "mean_ms": 7.814403194835681,
+            "p95_ms": 47.350026
+          },
+          "input": {
+            "mean_ms": 0.9117860821596242,
+            "p95_ms": 3.05089
+          },
+          "sync": {
+            "mean_ms": 0.9048838333333336,
+            "p95_ms": 3.668645
+          },
+          "commands": {
+            "mean_ms": 37.21672046478872,
+            "p95_ms": 69.64611
+          },
+          "swap": {
+            "mean_ms": 50.881635485915496,
+            "p95_ms": 75.338402
+          }
+        }
+      }
+    },
+    {
+      "file": "content-first-performance-reports/trial-4-baseline-2/content-first-scroll-baseline-2.json",
+      "data": {
+        "label": "baseline",
+        "columns": 2,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 395,
+        "mean_ms": 165.16105903291145,
+        "p50_ms": 183.451171,
+        "p95_ms": 233.776885,
+        "max_ms": 517.791694,
+        "over_34ms": 395,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 165.16105903291145,
+            "p95_ms": 233.776885
+          },
+          "layout": {
+            "mean_ms": 0.08353700506329113,
+            "p95_ms": 0.08462
+          },
+          "draw": {
+            "mean_ms": 1.3289105468354436,
+            "p95_ms": 5.436973
+          },
+          "animation": {
+            "mean_ms": 3.910737825316456,
+            "p95_ms": 12.698128
+          },
+          "input": {
+            "mean_ms": 1.8345350126582276,
+            "p95_ms": 6.290885
+          },
+          "sync": {
+            "mean_ms": 0.5577279848101265,
+            "p95_ms": 2.667637
+          },
+          "commands": {
+            "mean_ms": 12.19054637974684,
+            "p95_ms": 29.951284
+          },
+          "swap": {
+            "mean_ms": 56.416915435443045,
+            "p95_ms": 74.064289
+          }
+        }
+      }
+    },
+    {
+      "file": "content-first-performance-reports/trial-2-current-4/content-first-scroll-current-4.json",
+      "data": {
+        "label": "current",
+        "columns": 4,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 400,
+        "mean_ms": 192.1343175674999,
+        "p50_ms": 206.320883,
+        "p95_ms": 254.503475,
+        "max_ms": 305.822546,
+        "over_34ms": 400,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 192.1343175674999,
+            "p95_ms": 254.503475
+          },
+          "layout": {
+            "mean_ms": 0.08389100500000002,
+            "p95_ms": 0.072732
+          },
+          "draw": {
+            "mean_ms": 1.6029949924999993,
+            "p95_ms": 5.990619
+          },
+          "animation": {
+            "mean_ms": 6.31546469,
+            "p95_ms": 42.149891
+          },
+          "input": {
+            "mean_ms": 1.5435111875,
+            "p95_ms": 4.113995
+          },
+          "sync": {
+            "mean_ms": 0.5123369975000002,
+            "p95_ms": 2.230401
+          },
+          "commands": {
+            "mean_ms": 13.087123100000001,
+            "p95_ms": 30.989549
+          },
+          "swap": {
+            "mean_ms": 62.4253641375,
+            "p95_ms": 81.246377
+          }
+        }
+      }
+    },
+    {
+      "file": "content-first-performance-reports/trial-3-current-4/content-first-scroll-current-4.json",
+      "data": {
+        "label": "current",
+        "columns": 4,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 413,
+        "mean_ms": 190.05135203147705,
+        "p50_ms": 206.039669,
+        "p95_ms": 253.02588,
+        "max_ms": 299.217082,
+        "over_34ms": 413,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 190.05135203147705,
+            "p95_ms": 253.02588
+          },
+          "layout": {
+            "mean_ms": 0.09343319370460047,
+            "p95_ms": 0.076425
+          },
+          "draw": {
+            "mean_ms": 1.9368468716707021,
+            "p95_ms": 6.729252
+          },
+          "animation": {
+            "mean_ms": 5.966042070217918,
+            "p95_ms": 38.730823
+          },
+          "input": {
+            "mean_ms": 1.3166256852300242,
+            "p95_ms": 3.930543
+          },
+          "sync": {
+            "mean_ms": 0.47842367070217945,
+            "p95_ms": 2.103194
+          },
+          "commands": {
+            "mean_ms": 13.462241893462465,
+            "p95_ms": 30.758657
+          },
+          "swap": {
+            "mean_ms": 63.7653937917676,
+            "p95_ms": 83.012625
+          }
+        }
+      }
+    },
+    {
+      "file": "content-first-performance-reports/trial-3-current-6/content-first-scroll-current-6.json",
+      "data": {
+        "label": "current",
+        "columns": 6,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 433,
+        "mean_ms": 168.14184821939963,
+        "p50_ms": 183.80015,
+        "p95_ms": 219.963178,
+        "max_ms": 241.689504,
+        "over_34ms": 433,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 168.14184821939963,
+            "p95_ms": 219.963178
+          },
+          "layout": {
+            "mean_ms": 0.057903133949191714,
+            "p95_ms": 0.066114
+          },
+          "draw": {
+            "mean_ms": 2.325528351039261,
+            "p95_ms": 7.289268
+          },
+          "animation": {
+            "mean_ms": 8.995274371824479,
+            "p95_ms": 54.680078
+          },
+          "input": {
+            "mean_ms": 1.6385580577367207,
+            "p95_ms": 3.589285
+          },
+          "sync": {
+            "mean_ms": 0.515299154734411,
+            "p95_ms": 2.875275
+          },
+          "commands": {
+            "mean_ms": 13.60314084526558,
+            "p95_ms": 32.649347
+          },
+          "swap": {
+            "mean_ms": 52.470051859122414,
+            "p95_ms": 70.333026
+          }
+        }
+      }
+    },
+    {
+      "file": "content-first-performance-reports/trial-2-current-8/content-first-scroll-current-8.json",
+      "data": {
+        "label": "current",
+        "columns": 8,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 433,
+        "mean_ms": 212.75683176212448,
+        "p50_ms": 200.990823,
+        "p95_ms": 338.37819,
+        "max_ms": 550.218983,
+        "over_34ms": 433,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 212.75683176212448,
+            "p95_ms": 338.37819
+          },
+          "layout": {
+            "mean_ms": 0.22273003464203234,
+            "p95_ms": 0.079636
+          },
+          "draw": {
+            "mean_ms": 2.2559867944572747,
+            "p95_ms": 8.243574
+          },
+          "animation": {
+            "mean_ms": 9.553290799076214,
+            "p95_ms": 53.739825
+          },
+          "input": {
+            "mean_ms": 1.237014272517321,
+            "p95_ms": 4.094783
+          },
+          "sync": {
+            "mean_ms": 0.6803915473441107,
+            "p95_ms": 3.228566
+          },
+          "commands": {
+            "mean_ms": 24.12872544803697,
+            "p95_ms": 62.507303
+          },
+          "swap": {
+            "mean_ms": 53.24045127482678,
+            "p95_ms": 77.36457
+          }
+        }
+      }
+    },
+    {
+      "file": "content-first-performance-reports/trial-2-current-6/content-first-scroll-current-6.json",
+      "data": {
+        "label": "current",
+        "columns": 6,
+        "api": 35,
+        "scope": "Debug on real Android frame clock (ActivityScenario); 300 real response posts; zero tag spacing; thumbnails deliberately absent in both revisions to isolate layout; 24 identical swipes; excludes global navigation and live-network performance",
+        "frames": 419,
+        "mean_ms": 171.15715112887835,
+        "p50_ms": 183.997974,
+        "p95_ms": 220.664218,
+        "max_ms": 250.36649,
+        "over_34ms": 419,
+        "over_700ms": 0,
+        "components": {
+          "total": {
+            "mean_ms": 171.15715112887835,
+            "p95_ms": 220.664218
+          },
+          "layout": {
+            "mean_ms": 0.07498028878281619,
+            "p95_ms": 0.07803
+          },
+          "draw": {
+            "mean_ms": 2.6731139069212415,
+            "p95_ms": 9.846604
+          },
+          "animation": {
+            "mean_ms": 9.92174085680191,
+            "p95_ms": 65.332167
+          },
+          "input": {
+            "mean_ms": 1.2423800787589492,
+            "p95_ms": 4.330183
+          },
+          "sync": {
+            "mean_ms": 0.543022828162291,
+            "p95_ms": 2.563798
+          },
+          "commands": {
+            "mean_ms": 14.216222145584721,
+            "p95_ms": 32.99179
+          },
+          "swap": {
+            "mean_ms": 52.39016149642009,
+            "p95_ms": 70.119761
+          }
+        }
+      }
+    },
     {
       "file": "content-first-device-reports-28/reports/ui-evidence/scroll-current.json",
       "data": {
@@ -759,6 +1759,10 @@
   },
   "artifacts": [
     {
+      "name": "content-first-performance-reports",
+      "url": "https://github.com/Milenal82/sakugapp/actions/runs/45314643565/artifacts/14886525007"
+    },
+    {
       "name": "content-first-device-reports-28",
       "url": "https://github.com/Milenal82/sakugapp/actions/runs/45314643565/artifacts/14884953291"
     },
@@ -774,8 +1778,8 @@
   "jobs": [
     {
       "name": "performance",
-      "status": "in_progress",
-      "conclusion": null
+      "status": "completed",
+      "conclusion": "success"
     },
     {
       "name": "devices (35, pixel_c)",
