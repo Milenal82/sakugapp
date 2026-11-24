@@ -27,7 +27,7 @@ import kotlinx.coroutines.*
         }
         Text(text(R.string.ui_discover_tags),style=MaterialTheme.typography.titleMedium)
         FlowRow(horizontalArrangement=Arrangement.spacedBy(6.dp)){
-            listOf(Triple("artist","date",R.string.ui_new_artist),Triple("artist","count",R.string.ui_pop_artist),Triple("copyright","date",R.string.ui_new_copyright),Triple("copyright","count",R.string.ui_pop_copyright)).forEach{(type,order,label)->ExploreChip(R.drawable.ic_book,text(label),{route("topic_tags/$type/$order")},Modifier.testTag("topic-$type-$order"))}
+            listOf(Triple("artist","date",R.string.ui_new_artist),Triple("artist","count",R.string.ui_pop_artist),Triple("copyright","date",R.string.ui_new_copyright),Triple("copyright","count",R.string.ui_pop_copyright)).forEach{(type,order,label)->ExploreChip(if(type=="artist")R.drawable.ic_groups else R.drawable.ic_movie,text(label),{route("topic_tags/$type/$order")},Modifier.testTag("topic-$type-$order"))}
         }
         Text(text(R.string.ui_animation_categories),style=MaterialTheme.typography.titleMedium)
         FlowRow(horizontalArrangement=Arrangement.spacedBy(6.dp)){

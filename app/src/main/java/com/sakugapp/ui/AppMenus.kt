@@ -43,11 +43,11 @@ import com.sakugapp.R
 @Composable internal fun MainOverflowMenu(expanded:Boolean,current:String?,dismiss:()->Unit,navigate:(String)->Unit,legal:()->Unit){
     TileMenu(expanded,dismiss,Modifier.widthIn(max=280.dp).testTag("main-overflow")){
         val entries=listOf(
-            Triple("posts",R.drawable.ic_book,R.string.ui_menu_posts),
+            Triple("posts",R.drawable.ic_grid,R.string.ui_menu_posts),
             Triple("search_home",R.drawable.ic_search,R.string.ui_menu_search),
             Triple("account",R.drawable.ic_profile,R.string.ui_menu_account),
             Triple("library",R.drawable.ic_folder,R.string.ui_menu_library),
-            Triple("settings",R.drawable.ic_tune,R.string.ui_menu_settings))
+            Triple("settings",R.drawable.ic_settings,R.string.ui_menu_settings))
         entries.forEach{(route,icon,label)->AppMenuItem(icon=icon,selected=current==route || (route=="posts" && current=="post/{id}"),text={Text(text(label))},modifier=Modifier.testTag("menu-$route"),onClick={dismiss();navigate(route)})}
         MenuDivider()
         AppMenuItem(icon=R.drawable.ic_book,text={Text(text(R.string.ui_menu_legal))},modifier=Modifier.testTag("menu-legal"),onClick={dismiss();legal()})

@@ -48,11 +48,11 @@ import kotlinx.coroutines.*
         }
         Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min),horizontalArrangement=Arrangement.spacedBy(FeatureStyle.gap)){
             HomeTile(R.drawable.ic_history,text(R.string.ui_home_browsing),text(R.string.ui_home_browsing_sub),Modifier.weight(1f).fillMaxHeight().testTag("home-browsing")){route("history")}
-            HomeTile(R.drawable.ic_book,text(R.string.ui_home_shows),text(R.string.ui_home_shows_sub),Modifier.weight(1f).fillMaxHeight().testTag("home-shows")){route("show_browser")}
+            HomeTile(R.drawable.ic_movie,text(R.string.ui_home_shows),text(R.string.ui_home_shows_sub),Modifier.weight(1f).fillMaxHeight().testTag("home-shows")){route("show_browser")}
         }
         Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min),horizontalArrangement=Arrangement.spacedBy(FeatureStyle.gap)){
-            HomeTile(R.drawable.ic_profile,text(R.string.ui_home_artists),text(R.string.ui_home_artists_sub),Modifier.weight(1f).fillMaxHeight().testTag("home-artists")){route("artist_stats")}
-            HomeTile(R.drawable.ic_search,text(R.string.ui_explore),text(R.string.ui_explore_sub),Modifier.weight(1f).fillMaxHeight().testTag("home-explore")){route("explore")}
+            HomeTile(R.drawable.ic_groups,text(R.string.ui_home_artists),text(R.string.ui_home_artists_sub),Modifier.weight(1f).fillMaxHeight().testTag("home-artists")){route("artist_stats")}
+            HomeTile(R.drawable.ic_explore,text(R.string.ui_explore),text(R.string.ui_explore_sub),Modifier.weight(1f).fillMaxHeight().testTag("home-explore")){route("explore")}
         }
         BoxWithConstraints(Modifier.fillMaxWidth(),contentAlignment=Alignment.Center){HomeTile(R.drawable.ic_star,text(R.string.ui_quiz),text(R.string.ui_quiz_sub),Modifier.width((maxWidth-FeatureStyle.gap)/2).testTag("home-quiz")){route("quiz")}}
     }}
@@ -115,7 +115,7 @@ import kotlinx.coroutines.*
         Column{
             ProfileLinkRow(R.drawable.ic_folder,text(R.string.ui_my_folders),"profile-folders"){route("library")}
             ProfileRowDivider()
-            ProfileLinkRow(R.drawable.ic_star,text(R.string.ui_website_favorites),"profile-favorites"){route("website_favorites")}
+            ProfileLinkRow(R.drawable.ic_star_outline,text(R.string.ui_website_favorites),"profile-favorites"){route("website_favorites")}
             ProfileRowDivider()
             ProfileLinkRow(R.drawable.ic_profile,text(if(signedIn)R.string.ui_website_account else R.string.ui_account_login),"profile-account",subtitle="Sakugabooru"){route("account")}
             ProfileRowDivider()
@@ -123,7 +123,7 @@ import kotlinx.coroutines.*
             ProfileRowDivider()
             ProfileLinkRow(R.drawable.ic_book,text(R.string.ui_forum),"profile-forum"){site("https://www.sakugabooru.com/forum")}
             ProfileRowDivider()
-            ProfileLinkRow(R.drawable.ic_tune,text(R.string.ui_settings),"profile-settings"){route("settings")}
+            ProfileLinkRow(R.drawable.ic_settings,text(R.string.ui_settings),"profile-settings"){route("settings")}
         }
     }
 }
