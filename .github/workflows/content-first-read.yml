@@ -1,0 +1,50 @@
+name: Read content-first Debug diagnostics
+on:
+  push:
+    branches: [ci/content-first-read]
+permissions:
+  actions: read
+  contents: write
+jobs:
+  read:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: 45314643565
+          pattern: content-first-*-reports*
+          path: ${{ runner.temp }}/reports
+      - name: Read available bounded reports, without building any variant
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CONTENT_FIRST_INPUT: ${{ runner.temp }}/reports
+          CONTENT_FIRST_OUTPUT: ${{ runner.temp }}/diagnostics
+          CONTENT_FIRST_RESULT: partial
+        run: |
+          python3 - <<'PY'
+          import json, os, subprocess, runpy
+          data=json.loads(subprocess.check_output(['gh','api','repos/Milenal82/sakugapp/actions/runs/45314643565']))
+          assert data['head_sha']=='58e378ec04bda8dc3713b65623ab3ec2afd47795'
+          os.environ.update(GITHUB_SHA=data['head_sha'],GITHUB_REF_NAME=data['head_branch'],GITHUB_RUN_ID=str(data['id']))
+          runpy.run_path('scripts/record-content-first-evidence.py',run_name='__main__')
+          PY
+      - name: Save diagnostics outside the application branch
+        run: |
+          git fetch origin evidence/content-first-diagnostics:refs/remotes/origin/evidence/content-first-diagnostics || true
+          if git show-ref --verify --quiet refs/remotes/origin/evidence/content-first-diagnostics; then
+            git switch -c evidence origin/evidence/content-first-diagnostics
+          else
+            git switch --orphan evidence
+            git rm -rf --ignore-unmatch .
+          fi
+          cp "$RUNNER_TEMP/diagnostics/report.json" report.json
+          mkdir -p screenshots
+          cp "$RUNNER_TEMP/diagnostics/screenshots/"*.png screenshots/ 2>/dev/null || true
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add report.json screenshots
+          git commit -m 'Record available content-first Debug diagnostics' || true
+          git push origin HEAD:refs/heads/evidence/content-first-diagnostics
