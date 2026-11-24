@@ -191,9 +191,9 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
             Row{
                 ActionIcon(if(isPlayerLocked)R.drawable.ic_lock else R.drawable.ic_unlock,text(if(isPlayerLocked)R.string.ui_unlock_player else R.string.ui_lock_player),{
                     isPlayerLocked=!isPlayerLocked;hostView?.cancelPendingTouches();controlsVisible=false;view?.hideController();if(isPlayerLocked)more=false
-                },Modifier.testTag("lock-player"),selected=isPlayerLocked,touchSize=36.dp)
-                ActionIcon(if(fullscreen)R.drawable.ic_fullscreen_exit else R.drawable.ic_fullscreen,text(if(fullscreen)R.string.ui_exit_full_screen else R.string.ui_full_screen),{if(fullscreen)exitFullscreen()else enterFullscreen()},Modifier.testTag("toggle-fullscreen"),touchSize=36.dp)
-                ActionIcon(R.drawable.ic_more,text(if(more)R.string.ui_fewer_controls else R.string.ui_more_controls),{more=!more},Modifier.testTag("more-controls").semantics{selected=more},selected=more,touchSize=36.dp)
+                },Modifier.width(36.dp).height(48.dp).testTag("lock-player"),selected=isPlayerLocked,touchSize=36.dp)
+                ActionIcon(if(fullscreen)R.drawable.ic_fullscreen_exit else R.drawable.ic_fullscreen,text(if(fullscreen)R.string.ui_exit_full_screen else R.string.ui_full_screen),{if(fullscreen)exitFullscreen()else enterFullscreen()},Modifier.width(36.dp).height(48.dp).testTag("toggle-fullscreen"),touchSize=36.dp)
+                ActionIcon(R.drawable.ic_more,text(if(more)R.string.ui_fewer_controls else R.string.ui_more_controls),{more=!more},Modifier.width(36.dp).height(48.dp).testTag("more-controls").semantics{selected=more},selected=more,touchSize=36.dp)
             }
         }
     }

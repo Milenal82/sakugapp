@@ -7,6 +7,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontFamily
@@ -22,21 +23,25 @@ import java.util.Locale
 @Composable internal fun FrameControlBar(frame:ConfirmedFrame?,position:Long,pending:Int,enabled:Boolean,step:(Int)->Unit,active:Boolean=frame!=null,actions:@Composable ()->Unit){
     var chosen by remember{mutableIntStateOf(0)}
     CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides Dp.Unspecified){
-        Surface(shape=RoundedCornerShape(12.dp),color=MaterialTheme.colorScheme.surfaceContainerLow,modifier=Modifier.fillMaxWidth().testTag("frame-toolbar")){
-            BoxWithConstraints{
+        BoxWithConstraints(Modifier.fillMaxWidth().height(48.dp).testTag("frame-toolbar")){
+            Surface(shape=RoundedCornerShape(11.dp),color=MaterialTheme.colorScheme.surfaceContainerLow,
+                modifier=Modifier.fillMaxWidth().height(42.dp).align(Alignment.Center)){}
                 val wide=maxWidth>=440.dp
                 val infoWidth=(maxWidth*.16f).coerceIn(36.dp,140.dp)
                 val cell=((maxWidth-108.dp-infoWidth)/6).coerceAtMost(48.dp)
                 val font=minOf(MaterialTheme.typography.labelSmall.fontSize.value,cell.value/1.85f/LocalDensity.current.fontScale).sp
                 @Composable fun button(delta:Int){
                     val current=active && chosen==delta
-                    TextButton(enabled=enabled,onClick={chosen=delta;step(delta)},shape=RoundedCornerShape(10.dp),
-                        colors=ButtonDefaults.textButtonColors(containerColor=if(current)MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainerHigh,
-                            contentColor=if(current)MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface),
+                    TextButton(enabled=enabled,onClick={chosen=delta;step(delta)},shape=RoundedCornerShape(8.dp),
+                        colors=ButtonDefaults.textButtonColors(containerColor=Color.Transparent,contentColor=MaterialTheme.colorScheme.onSurface),
                         contentPadding=PaddingValues(0.dp),modifier=Modifier.width(cell).height(48.dp).testTag("step-$delta").semantics{selected=current}){
-                    Text((if(delta<0)"<"else">").repeat(kotlin.math.abs(delta)),fontSize=font,fontFamily=FontFamily.Monospace,maxLines=1)
+                        Surface(shape=RoundedCornerShape(8.dp),color=if(current)MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
+                            contentColor=if(current)MaterialTheme.colorScheme.onPrimaryContainer else LocalContentColor.current,
+                            modifier=Modifier.fillMaxWidth().padding(horizontal=1.dp).height(32.dp).testTag("step-visual-$delta")){
+                            Box(contentAlignment=Alignment.Center){Text((if(delta<0)"<"else">").repeat(kotlin.math.abs(delta)),fontSize=font,fontFamily=FontFamily.Monospace,maxLines=1)}
+                        }
                 }}
-                Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.SpaceBetween){
+                Row(Modifier.fillMaxWidth().height(48.dp),verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.SpaceBetween){
                     Row(verticalAlignment=Alignment.CenterVertically){
                         for(delta in listOf(-3,-2,-1))button(delta)
                         val time=frame?.timeMs ?: position
@@ -53,6 +58,5 @@ import java.util.Locale
                     actions()
                 }
             }
-        }
     }
 }
