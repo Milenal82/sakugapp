@@ -1,4 +1,4 @@
-name: Read v1.3.4 PR diagnostics
+name: Read v1.3.4 release recovery evidence
 on:
   push:
     branches: [ci/content-first-read]
@@ -8,44 +8,42 @@ permissions:
 jobs:
   read:
     runs-on: ubuntu-24.04
-    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v5
       - uses: actions/download-artifact@v4
         with:
           github-token: ${{ github.token }}
-          run-id: 45981883142
-          pattern: '*reports*'
-          path: ${{ runner.temp }}/reports
-      - name: Record available bounded test failures only; no builds or signing
+          run-id: 46001134300
+          name: signed-release-v1.3.4
+          path: ${{ runner.temp }}/original-signed
+      - name: Record original signed metadata and Maven failure (no builds, keys or publication)
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           python3 - <<'PY'
-          import json,os,pathlib,subprocess,xml.etree.ElementTree as ET,re
+          import json,os,pathlib,subprocess,re,hashlib
           api=lambda path:json.loads(subprocess.check_output(['gh','api','repos/Milenal82/sakugapp/'+path]))
-          run=api('actions/runs/45981883142')
-          assert run['head_sha']=='99cd1e5d6f2f7614902cd61686b5e46a0312d9dd'
-          result={'run':run['html_url'],'commit':run['head_sha'],'status':run['status'],'conclusion':run['conclusion'],'reports':[]}
-          result['jobs']=[{'name':j['name'],'conclusion':j['conclusion']}for j in api('actions/runs/45981883142/jobs?per_page=100')['jobs']]
-          for p in (pathlib.Path(os.environ['RUNNER_TEMP'])/'reports').rglob('TEST-*.xml'):
-              if p.stat().st_size>4*1024*1024:continue
-              root=ET.parse(p).getroot();failed=[]
-              for c in root.iter('testcase'):
-                  for e in list(c.findall('failure'))+list(c.findall('error')):
-                      text='\n'.join(line for line in (e.text or e.get('message','')).splitlines() if not re.search(r'password|authorization:|cookie:|bearer ',line,re.I))[:12000]
-                      failed.append({'case':c.get('classname','')+'.'+c.get('name',''),'message':text})
-              result['reports'].append({'path':str(p.relative_to(pathlib.Path(os.environ['RUNNER_TEMP'])/'reports')),'counts':root.attrib,'failures':failed})
+          run=api('actions/runs/46001134300');assert run['head_sha']=='a92f78d67e663f5fa7c271fbd0e65fec1770eac0'
+          folder=pathlib.Path(os.environ['RUNNER_TEMP'])/'original-signed'
+          result={'run':run['html_url'],'source':run['head_sha'],'signed':json.loads((folder/'release-verification.json').read_text()),'checksums':(folder/'SHA256SUMS.txt').read_text()}
+          result['actual_apk_sha256']=hashlib.sha256((folder/'Sakugapp-v1.3.4-release.apk').read_bytes()).hexdigest()
+          jobs=api('actions/runs/46001134300/jobs?per_page=100')['jobs']
+          result['jobs']=[{'id':j['id'],'name':j['name'],'conclusion':j['conclusion']}for j in jobs]
+          for job in jobs:
+              if job['name']=='upgrade-install':
+                  log=subprocess.check_output(['gh','api',f'repos/Milenal82/sakugapp/actions/jobs/{job["id"]}/logs'],text=True)
+                  result['maven_failure']='\n'.join(line for line in log.splitlines() if any(x in line for x in ['429','Could not resolve','Could not GET','Could not HEAD','Too Many Requests']))[-15000:]
+          release=api('releases/tags/v1.3.4');result['release']={k:release.get(k)for k in ['id','draft','target_commitish','html_url','tag_name']}
           (pathlib.Path(os.environ['RUNNER_TEMP'])/'report.json').write_text(json.dumps(result,indent=2)+'\n')
           PY
-      - name: Save diagnostics outside application source
+      - name: Preserve bounded public recovery evidence
         run: |
-          git fetch origin evidence/v134-pr-diagnostics:refs/remotes/origin/evidence/v134-pr-diagnostics || true
-          if git show-ref --verify --quiet refs/remotes/origin/evidence/v134-pr-diagnostics; then git switch -c evidence origin/evidence/v134-pr-diagnostics
+          git fetch origin evidence/v134-recovery-diagnostics:refs/remotes/origin/evidence/v134-recovery-diagnostics || true
+          if git show-ref --verify --quiet refs/remotes/origin/evidence/v134-recovery-diagnostics; then git switch -c evidence origin/evidence/v134-recovery-diagnostics
           else git switch --orphan evidence; git rm -rf --ignore-unmatch .; fi
           cp "$RUNNER_TEMP/report.json" report.json
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add report.json
-          git commit -m 'Record passing PR 4 CI for 99cd1e5' || true
-          git push origin HEAD:refs/heads/evidence/v134-pr-diagnostics
+          git commit -m 'Record original v1.3.4 signed release and Maven 429 evidence' || true
+          git push origin HEAD:refs/heads/evidence/v134-recovery-diagnostics
