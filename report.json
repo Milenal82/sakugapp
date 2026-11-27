@@ -8,7 +8,7 @@
   "readonly": {
     "result": "verified-read-only",
     "source_commit": "a92f78d67e663f5fa7c271fbd0e65fec1770eac0",
-    "validation_commit": "75088b5f163912feb333ad5f2105aff12f527b4a",
+    "validation_commit": "fd85ace97ddc8a54fb65497dabc4cb51a70b1c74",
     "signed_and_upgrade_run": 46021416067,
     "upgrade_validation_commit": "a92f78d67e663f5fa7c271fbd0e65fec1770eac0",
     "apk_sha256": "221e87745c322d0a2f7ebb55986c4c94de1f6b6a3737fe4c09c03f1d63c7b3ce",
