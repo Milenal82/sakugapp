@@ -1,4 +1,4 @@
-name: Read v1.3.4 final publication evidence
+name: Read v1.3.4 protected publication handoff
 on:
   push:
     branches: [ci/content-first-read]
@@ -13,48 +13,31 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           github-token: ${{ github.token }}
-          run-id: 46021416067
-          name: signed-release-v1.3.4
-          path: ${{ runner.temp }}/signed
+          run-id: 46026535912
+          name: v134-handoff-46026535912-1
+          path: ${{ runner.temp }}/handoff
       - uses: actions/download-artifact@v4
         with:
           github-token: ${{ github.token }}
-          run-id: 46021416067
-          name: release-upgrade-install-report
-          path: ${{ runner.temp }}/upgrade
-      - name: Read IDs, exact signed bytes, upgrade proof and failure; no state changes
-        env:
-          GH_TOKEN: ${{ github.token }}
+          run-id: 46026535907
+          name: v134-readonly-check-46026535907-1
+          path: ${{ runner.temp }}/readonly
+      - name: Preserve exact authorization outcome and passing original-byte verification
         run: |
           python3 - <<'PY'
-          import json,os,pathlib,subprocess,hashlib,re
-          repo='Milenal82/sakugapp'
-          def api(path):return json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/'+path]))
-          root=pathlib.Path(os.environ['RUNNER_TEMP']);folder=root/'signed'
-          result={'run':api('actions/runs/46021416067'),'signed':json.loads((folder/'release-verification.json').read_text()),'upgrade':json.loads((root/'upgrade/upgrade-install.json').read_text()),'checksums':(folder/'SHA256SUMS.txt').read_text()}
-          result['files']={p.name:{'size':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}for p in folder.iterdir()if p.is_file()}
-          result['jobs']=[{'name':j['name'],'conclusion':j['conclusion'],'id':j['id']}for j in api('actions/runs/46021416067/jobs?per_page=100')['jobs']]
-          for name,path in [('by_tag','releases/tags/v1.3.4'),('by_id','releases/460623144'),('list','releases?per_page=100')]:
-              process=subprocess.run(['gh','api',f'repos/{repo}/'+path],text=True,capture_output=True)
-              if process.returncode:
-                  result[name]={'read_error':process.stderr[-1500:]}
-              else:
-                  data=json.loads(process.stdout)
-                  result[name]=[r for r in data if r['tag_name']=='v1.3.4']if name=='list'else data
-          log=subprocess.run(['gh','run','view','46021416067','--repo',repo,'--log-failed'],text=True,capture_output=True)
-          result['failed_log']='\n'.join(line for line in (log.stdout or log.stderr).splitlines()if not re.search(r'password|authorization:|cookie:|bearer ',line,re.I))[-18000:]
-          # Only fixture/public metadata are preserved, never credentials or raw media.
-          result['run']={k:result['run'].get(k)for k in ['id','head_sha','event','status','conclusion','html_url','head_branch']}
+          import pathlib,os,json
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])
+          result={'handoff':json.loads((root/'handoff/v134-handoff.json').read_text()),'readonly':json.loads((root/'readonly/draft-readonly.json').read_text())}
           (root/'report.json').write_text(json.dumps(result,indent=2)+'\n')
           PY
-      - name: Preserve read-only release evidence outside application source
+      - name: Save result outside application source
         run: |
-          git fetch origin evidence/v134-final-publication:refs/remotes/origin/evidence/v134-final-publication || true
-          if git show-ref --verify --quiet refs/remotes/origin/evidence/v134-final-publication; then git switch -c evidence origin/evidence/v134-final-publication
+          git fetch origin evidence/v134-handoff:refs/remotes/origin/evidence/v134-handoff || true
+          if git show-ref --verify --quiet refs/remotes/origin/evidence/v134-handoff; then git switch -c evidence origin/evidence/v134-handoff
           else git switch --orphan evidence; git rm -rf --ignore-unmatch .; fi
           cp "$RUNNER_TEMP/report.json" report.json
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add report.json
-          git commit -m 'Record original signed upgrade proof and exact Draft 460623144 identity' || true
-          git push origin HEAD:refs/heads/evidence/v134-final-publication
+          git commit -m 'Record exact v1.3.4 handoff authorization and successful byte verification' || true
+          git push origin HEAD:refs/heads/evidence/v134-handoff
