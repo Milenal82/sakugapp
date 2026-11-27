@@ -1,0 +1,26 @@
+// Public official repositories only; applies solely to the isolated upgrade checker build.
+settingsEvaluated { settings ->
+    def googleGroups = { filter ->
+        filter.includeGroupByRegex('androidx\\..*')
+        filter.includeGroupByRegex('com\\.android.*')
+        filter.includeGroupByRegex('com\\.google\\.testing\\.platform.*')
+        filter.includeGroup('com.google.android.material')
+    }
+    settings.pluginManagement.repositories.clear()
+    settings.pluginManagement.repositories {
+        exclusiveContent {
+            forRepository { google() }
+            filter { googleGroups(delegate) }
+        }
+        mavenCentral()
+        gradlePluginPortal { content { includeGroupByRegex('org\\.jetbrains.*') } }
+    }
+    settings.dependencyResolutionManagement.repositories.clear()
+    settings.dependencyResolutionManagement.repositories {
+        exclusiveContent {
+            forRepository { google() }
+            filter { googleGroups(delegate) }
+        }
+        mavenCentral()
+    }
+}
