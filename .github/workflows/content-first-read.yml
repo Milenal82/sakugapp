@@ -1,4 +1,4 @@
-name: Read v1.3.4 release recovery evidence
+name: Read v1.3.4 final publication evidence
 on:
   push:
     branches: [ci/content-first-read]
@@ -11,43 +11,50 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: actions/download-artifact@v4
-        continue-on-error: true
         with:
           github-token: ${{ github.token }}
-          run-id: 46001134300
+          run-id: 46021416067
           name: signed-release-v1.3.4
-          path: ${{ runner.temp }}/original-signed
-      - name: Record original signed metadata and Maven failure (no builds, keys or publication)
+          path: ${{ runner.temp }}/signed
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: 46021416067
+          name: release-upgrade-install-report
+          path: ${{ runner.temp }}/upgrade
+      - name: Read IDs, exact signed bytes, upgrade proof and failure; no state changes
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           python3 - <<'PY'
-          import json,os,pathlib,subprocess,re,hashlib
-          api=lambda path:json.loads(subprocess.check_output(['gh','api','repos/Milenal82/sakugapp/'+path]))
-          run=api('actions/runs/46001134300')
-          folder=pathlib.Path(os.environ['RUNNER_TEMP'])/'original-signed'
-          result={'run':run['html_url'],'source':run['head_sha'],'artifacts':api('actions/runs/46001134300/artifacts')['artifacts']}
-          if (folder/'release-verification.json').exists():
-              result.update(signed=json.loads((folder/'release-verification.json').read_text()),checksums=(folder/'SHA256SUMS.txt').read_text(),actual_apk_sha256=hashlib.sha256((folder/'Sakugapp-v1.3.4-release.apk').read_bytes()).hexdigest())
-          jobs=api('actions/runs/46001134300/jobs?per_page=100')['jobs']
-          result['jobs']=[{'id':j['id'],'name':j['name'],'conclusion':j['conclusion']}for j in jobs]
-          for job in jobs:
-              if job['name']=='upgrade-install':
-                  log=subprocess.run(['gh','api',f'repos/Milenal82/sakugapp/actions/jobs/{job["id"]}/logs'],capture_output=True).stdout.decode(errors='replace')
-                  result['maven_failure']='\n'.join(line for line in log.splitlines() if any(x in line for x in ['429','Could not resolve','Could not GET','Could not HEAD','Too Many Requests']))[-15000:]
-          try:
-              release=api('releases/tags/v1.3.4');result['release']={k:release.get(k)for k in ['id','draft','target_commitish','html_url','tag_name']}
-          except Exception:result['release_query_failed']=True
-          (pathlib.Path(os.environ['RUNNER_TEMP'])/'report.json').write_text(json.dumps(result,indent=2)+'\n')
+          import json,os,pathlib,subprocess,hashlib,re
+          repo='Milenal82/sakugapp'
+          def api(path):return json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/'+path]))
+          root=pathlib.Path(os.environ['RUNNER_TEMP']);folder=root/'signed'
+          result={'run':api('actions/runs/46021416067'),'signed':json.loads((folder/'release-verification.json').read_text()),'upgrade':json.loads((root/'upgrade/upgrade-install.json').read_text()),'checksums':(folder/'SHA256SUMS.txt').read_text()}
+          result['files']={p.name:{'size':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}for p in folder.iterdir()if p.is_file()}
+          result['jobs']=[{'name':j['name'],'conclusion':j['conclusion'],'id':j['id']}for j in api('actions/runs/46021416067/jobs?per_page=100')['jobs']]
+          for name,path in [('by_tag','releases/tags/v1.3.4'),('by_id','releases/460623144'),('list','releases?per_page=100')]:
+              process=subprocess.run(['gh','api',f'repos/{repo}/'+path],text=True,capture_output=True)
+              if process.returncode:
+                  result[name]={'read_error':process.stderr[-1500:]}
+              else:
+                  data=json.loads(process.stdout)
+                  result[name]=[r for r in data if r['tag_name']=='v1.3.4']if name=='list'else data
+          log=subprocess.run(['gh','run','view','46021416067','--repo',repo,'--log-failed'],text=True,capture_output=True)
+          result['failed_log']='\n'.join(line for line in (log.stdout or log.stderr).splitlines()if not re.search(r'password|authorization:|cookie:|bearer ',line,re.I))[-18000:]
+          # Only fixture/public metadata are preserved, never credentials or raw media.
+          result['run']={k:result['run'].get(k)for k in ['id','head_sha','event','status','conclusion','html_url','head_branch']}
+          (root/'report.json').write_text(json.dumps(result,indent=2)+'\n')
           PY
-      - name: Preserve bounded public recovery evidence
+      - name: Preserve read-only release evidence outside application source
         run: |
-          git fetch origin evidence/v134-recovery-diagnostics:refs/remotes/origin/evidence/v134-recovery-diagnostics || true
-          if git show-ref --verify --quiet refs/remotes/origin/evidence/v134-recovery-diagnostics; then git switch -c evidence origin/evidence/v134-recovery-diagnostics
+          git fetch origin evidence/v134-final-publication:refs/remotes/origin/evidence/v134-final-publication || true
+          if git show-ref --verify --quiet refs/remotes/origin/evidence/v134-final-publication; then git switch -c evidence origin/evidence/v134-final-publication
           else git switch --orphan evidence; git rm -rf --ignore-unmatch .; fi
           cp "$RUNNER_TEMP/report.json" report.json
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add report.json
-          git commit -m 'Record original v1.3.4 signed release and Maven 429 evidence' || true
-          git push origin HEAD:refs/heads/evidence/v134-recovery-diagnostics
+          git commit -m 'Record original signed upgrade proof and exact Draft 460623144 identity' || true
+          git push origin HEAD:refs/heads/evidence/v134-final-publication
