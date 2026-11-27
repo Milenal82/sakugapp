@@ -14,7 +14,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           github-token: ${{ github.token }}
-          run-id: 45980373724
+          run-id: 45981883142
           pattern: '*reports*'
           path: ${{ runner.temp }}/reports
       - name: Record available bounded test failures only; no builds or signing
@@ -24,10 +24,10 @@ jobs:
           python3 - <<'PY'
           import json,os,pathlib,subprocess,xml.etree.ElementTree as ET,re
           api=lambda path:json.loads(subprocess.check_output(['gh','api','repos/Milenal82/sakugapp/'+path]))
-          run=api('actions/runs/45980373724')
-          assert run['head_sha']=='c5f2a9951a7fef6a89cbc2f5ae2925905c27fab9'
+          run=api('actions/runs/45981883142')
+          assert run['head_sha']=='99cd1e5d6f2f7614902cd61686b5e46a0312d9dd'
           result={'run':run['html_url'],'commit':run['head_sha'],'status':run['status'],'conclusion':run['conclusion'],'reports':[]}
-          result['jobs']=[{'name':j['name'],'conclusion':j['conclusion']}for j in api('actions/runs/45980373724/jobs?per_page=100')['jobs']]
+          result['jobs']=[{'name':j['name'],'conclusion':j['conclusion']}for j in api('actions/runs/45981883142/jobs?per_page=100')['jobs']]
           for p in (pathlib.Path(os.environ['RUNNER_TEMP'])/'reports').rglob('TEST-*.xml'):
               if p.stat().st_size>4*1024*1024:continue
               root=ET.parse(p).getroot();failed=[]
@@ -47,5 +47,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add report.json
-          git commit -m 'Record bounded PR 4 CI failures for c5f2a99' || true
+          git commit -m 'Record passing PR 4 CI for 99cd1e5' || true
           git push origin HEAD:refs/heads/evidence/v134-pr-diagnostics
