@@ -1,0 +1,100 @@
+{
+  "handoff": {
+    "stage": "owner_pr_required",
+    "error": "pull request create failed: GraphQL: GitHub Actions is not permitted to create or approve pull requests (createPullRequest)\n",
+    "published": false,
+    "url": "https://github.com/Milenal82/sakugapp/compare/main...fix/v134-draft-publication?expand=1"
+  },
+  "readonly": {
+    "result": "verified-read-only",
+    "source_commit": "a92f78d67e663f5fa7c271fbd0e65fec1770eac0",
+    "validation_commit": "75088b5f163912feb333ad5f2105aff12f527b4a",
+    "signed_and_upgrade_run": 46021416067,
+    "upgrade_validation_commit": "a92f78d67e663f5fa7c271fbd0e65fec1770eac0",
+    "apk_sha256": "221e87745c322d0a2f7ebb55986c4c94de1f6b6a3737fe4c09c03f1d63c7b3ce",
+    "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff",
+    "release_id": 460623144,
+    "draft_snapshot": {
+      "release": {
+        "id": 460623144,
+        "tag_name": "v1.3.4",
+        "target_commitish": "a92f78d67e663f5fa7c271fbd0e65fec1770eac0",
+        "draft": true,
+        "prerelease": false,
+        "name": "Sakuga Mobile v1.3.4",
+        "body": "# Sakugapp v1.3.4\n\n- \u533a\u5206\u641c\u7d22\u5386\u53f2\u4e0e\u6d4f\u89c8\u8bb0\u5f55\u7684\u56fe\u6807\u548c\u5217\u8868\uff0c\u4fdd\u7559\u539f\u6709\u8bb0\u5f55\u53ca\u7ba1\u7406\u64cd\u4f5c\u3002\n- \u7cbe\u7b80\u641c\u7d22\u9996\u9875\u548c\u4e2a\u4eba\u8d44\u6599\u6587\u6848\u3002\n- \u8c03\u6574 Posts \u641c\u7d22\u7ed3\u679c\u5de5\u5177\u680f\uff0c\u4fdd\u7559\u7f16\u8f91\u3001\u641c\u7d22\u5de5\u5177\u3001\u9000\u51fa\u641c\u7d22\u548c\u5217\u8868\u72b6\u6001\u6062\u590d\u3002\n- \u5c06 A\u2013B \u5faa\u73af\u7f6e\u4e8e\u64ad\u653e\u5668\u201c\u66f4\u591a\u529f\u80fd\u201d\u9876\u90e8\uff0c\u4fdd\u7559\u533a\u95f4\u6ed1\u5757\u53ca\u88c1\u526a\u3002\n- \u533a\u5206 Blog\u3001Forum \u56fe\u6807\uff0c\u9002\u914d\u624b\u673a\u548c\u5e73\u677f\u3002\n\n\u6cbf\u7528\u5b98\u65b9\u8bc1\u4e66\u53ca `com.sakugapp` \u5305\u540d\u3002\u652f\u6301\u4ece v1.3.0 \u8986\u76d6\u5b89\u88c5\uff1b\u8bf7\u52ff\u5378\u8f7d\u65e7\u7248\u6216\u6e05\u9664\u6570\u636e\u3002\n\n\u975e\u5b98\u65b9 Sakugabooru \u5ba2\u6237\u7aef\u3002\u5f00\u6e90\u8bb8\u53ef\u8bc1\u548c\u7b2c\u4e09\u65b9\u58f0\u660e\u968f APK \u53ca\u5b8c\u6574\u6e90\u7801\u63d0\u4f9b\u3002\n\n\u7b7e\u540d\u8bc1\u4e66 SHA-256\uff1a`9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff`\n\n\u5bf9\u5e94\u6e90\u7801\u63d0\u4ea4\uff1a`a92f78d67e663f5fa7c271fbd0e65fec1770eac0`\u3002\u5355\u5143\u6d4b\u8bd5 230 \u9879\u901a\u8fc7\uff1bRelease Lint \u65e0\u9519\u8bef\u3002\u5b9e\u9645 ABI\uff1aarm64-v8a, armeabi-v7a, x86, x86_64\u3002\n\n\u8bf7\u4f7f\u7528 SHA256SUMS.txt \u6821\u9a8c\u9644\u4ef6\uff1b\u9a8c\u8bc1\u62a5\u544a\u660e\u786e\u5217\u51fa\u7b7e\u540d\u4e0e\u9a8c\u8bc1\u8303\u56f4\u3002\n",
+        "updated_at": "2026-11-27T15:12:32Z",
+        "published_at": null
+      },
+      "assets": [
+        {
+          "id": 800955309,
+          "name": "Sakugapp-v1.3.4-release.apk",
+          "size": 14954167,
+          "state": "uploaded",
+          "digest": "sha256:221e87745c322d0a2f7ebb55986c4c94de1f6b6a3737fe4c09c03f1d63c7b3ce",
+          "updated_at": "2026-11-27T15:12:32Z",
+          "content_type": "application/vnd.android.package-archive"
+        },
+        {
+          "id": 800955322,
+          "name": "Sakugapp-v1.3.4-source.zip",
+          "size": 2928629,
+          "state": "uploaded",
+          "digest": "sha256:33770bd1fef3cdb8522d6314ed450033087a6e151d4433fbcb612ee6ef8d8954",
+          "updated_at": "2026-11-27T15:12:31Z",
+          "content_type": "application/zip"
+        },
+        {
+          "id": 800955323,
+          "name": "SHA256SUMS.txt",
+          "size": 362,
+          "state": "uploaded",
+          "digest": "sha256:233451faa76e59326695e5644217deb5aa702c2b677bc8e81e909d46f601d308",
+          "updated_at": "2026-11-27T15:12:31Z",
+          "content_type": "text/plain; charset=utf-8"
+        },
+        {
+          "id": 800955326,
+          "name": "release-notes.md",
+          "size": 981,
+          "state": "uploaded",
+          "digest": "sha256:f351cc80bbec94583df985cbcbe8cd69a655faaee0ba96316b0424bace28ba82",
+          "updated_at": "2026-11-27T15:12:31Z",
+          "content_type": "text/markdown; charset=utf-8"
+        },
+        {
+          "id": 800955328,
+          "name": "release-verification.json",
+          "size": 1834,
+          "state": "uploaded",
+          "digest": "sha256:9e9e911c4a2da3c7116c357f006fd1e91ed96ddfbd6a9f5f3d443daa88164e83",
+          "updated_at": "2026-11-27T15:12:31Z",
+          "content_type": "application/json"
+        }
+      ]
+    },
+    "files": {
+      "Sakugapp-v1.3.4-release.apk": {
+        "size": 14954167,
+        "sha256": "221e87745c322d0a2f7ebb55986c4c94de1f6b6a3737fe4c09c03f1d63c7b3ce"
+      },
+      "Sakugapp-v1.3.4-source.zip": {
+        "size": 2928629,
+        "sha256": "33770bd1fef3cdb8522d6314ed450033087a6e151d4433fbcb612ee6ef8d8954"
+      },
+      "release-notes.md": {
+        "size": 981,
+        "sha256": "f351cc80bbec94583df985cbcbe8cd69a655faaee0ba96316b0424bace28ba82"
+      },
+      "release-verification.json": {
+        "size": 1834,
+        "sha256": "9e9e911c4a2da3c7116c357f006fd1e91ed96ddfbd6a9f5f3d443daa88164e83"
+      },
+      "SHA256SUMS.txt": {
+        "size": 362,
+        "sha256": "233451faa76e59326695e5644217deb5aa702c2b677bc8e81e909d46f601d308"
+      }
+    }
+  }
+}
