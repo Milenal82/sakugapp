@@ -1,4 +1,4 @@
-name: Read content-first Debug diagnostics
+name: Read v1.3.4 PR diagnostics
 on:
   push:
     branches: [ci/content-first-read]
@@ -14,37 +14,38 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           github-token: ${{ github.token }}
-          run-id: 45318263928
-          pattern: content-first-*-reports*
+          run-id: 45980373724
+          pattern: '*reports*'
           path: ${{ runner.temp }}/reports
-      - name: Read available bounded reports, without building any variant
+      - name: Record available bounded test failures only; no builds or signing
         env:
           GH_TOKEN: ${{ github.token }}
-          CONTENT_FIRST_INPUT: ${{ runner.temp }}/reports
-          CONTENT_FIRST_OUTPUT: ${{ runner.temp }}/diagnostics
-          CONTENT_FIRST_RESULT: partial
         run: |
           python3 - <<'PY'
-          import json, os, subprocess, runpy
-          data=json.loads(subprocess.check_output(['gh','api','repos/Milenal82/sakugapp/actions/runs/45318263928']))
-          assert data['head_sha']=='70dd8b80297d0b711225dd516aad7c376d2e0026'
-          os.environ.update(GITHUB_SHA=data['head_sha'],GITHUB_REF_NAME=data['head_branch'],GITHUB_RUN_ID=str(data['id']))
-          runpy.run_path('scripts/record-content-first-evidence.py',run_name='__main__')
+          import json,os,pathlib,subprocess,xml.etree.ElementTree as ET,re
+          api=lambda path:json.loads(subprocess.check_output(['gh','api','repos/Milenal82/sakugapp/'+path]))
+          run=api('actions/runs/45980373724')
+          assert run['head_sha']=='c5f2a9951a7fef6a89cbc2f5ae2925905c27fab9'
+          result={'run':run['html_url'],'commit':run['head_sha'],'status':run['status'],'conclusion':run['conclusion'],'reports':[]}
+          result['jobs']=[{'name':j['name'],'conclusion':j['conclusion']}for j in api('actions/runs/45980373724/jobs?per_page=100')['jobs']]
+          for p in (pathlib.Path(os.environ['RUNNER_TEMP'])/'reports').rglob('TEST-*.xml'):
+              if p.stat().st_size>4*1024*1024:continue
+              root=ET.parse(p).getroot();failed=[]
+              for c in root.iter('testcase'):
+                  for e in list(c.findall('failure'))+list(c.findall('error')):
+                      text='\n'.join(line for line in (e.text or e.get('message','')).splitlines() if not re.search(r'password|authorization:|cookie:|bearer ',line,re.I))[:12000]
+                      failed.append({'case':c.get('classname','')+'.'+c.get('name',''),'message':text})
+              result['reports'].append({'path':str(p.relative_to(pathlib.Path(os.environ['RUNNER_TEMP'])/'reports')),'counts':root.attrib,'failures':failed})
+          (pathlib.Path(os.environ['RUNNER_TEMP'])/'report.json').write_text(json.dumps(result,indent=2)+'\n')
           PY
-      - name: Save diagnostics outside the application branch
+      - name: Save diagnostics outside application source
         run: |
-          git fetch origin evidence/content-first-diagnostics:refs/remotes/origin/evidence/content-first-diagnostics || true
-          if git show-ref --verify --quiet refs/remotes/origin/evidence/content-first-diagnostics; then
-            git switch -c evidence origin/evidence/content-first-diagnostics
-          else
-            git switch --orphan evidence
-            git rm -rf --ignore-unmatch .
-          fi
-          cp "$RUNNER_TEMP/diagnostics/report.json" report.json
-          mkdir -p screenshots
-          cp "$RUNNER_TEMP/diagnostics/screenshots/"*.png screenshots/ 2>/dev/null || true
+          git fetch origin evidence/v134-pr-diagnostics:refs/remotes/origin/evidence/v134-pr-diagnostics || true
+          if git show-ref --verify --quiet refs/remotes/origin/evidence/v134-pr-diagnostics; then git switch -c evidence origin/evidence/v134-pr-diagnostics
+          else git switch --orphan evidence; git rm -rf --ignore-unmatch .; fi
+          cp "$RUNNER_TEMP/report.json" report.json
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add report.json screenshots
-          git commit -m 'Record available content-first Debug diagnostics' || true
-          git push origin HEAD:refs/heads/evidence/content-first-diagnostics
+          git add report.json
+          git commit -m 'Record bounded PR 4 CI failures for c5f2a99' || true
+          git push origin HEAD:refs/heads/evidence/v134-pr-diagnostics
