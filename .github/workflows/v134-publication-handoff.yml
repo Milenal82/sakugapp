@@ -1,0 +1,37 @@
+name: v1.3.4 normal PR and protected publication handoff
+on:
+  push:
+    branches: [fix/v134-draft-publication, main]
+    paths:
+      - '.github/workflows/v134-publication-handoff.yml'
+      - '.github/workflows/finish-v134.yml'
+      - 'scripts/release_draft.py'
+      - 'scripts/release_v134_publication.py'
+      - 'scripts/publish-v1.3.4.py'
+      - 'scripts/v134-publication-handoff.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+concurrency:
+  group: v134-protected-publication-handoff
+  cancel-in-progress: false
+jobs:
+  handoff:
+    if: github.repository == 'Milenal82/sakugapp'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Follow ordinary PR checks and protection, then request protected recovery
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/v134-publication-handoff.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v134-handoff-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/v134-handoff.json

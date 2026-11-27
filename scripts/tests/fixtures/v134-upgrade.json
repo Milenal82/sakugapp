@@ -1,0 +1,26 @@
+{
+  "result": "passed",
+  "previous": {
+    "package": "com.sakugapp",
+    "versionCode": 16,
+    "versionName": "1.3.0",
+    "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff"
+  },
+  "candidate": {
+    "package": "com.sakugapp",
+    "versionCode": 19,
+    "versionName": "1.3.4",
+    "certificate_sha256": "9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff"
+  },
+  "source_commit": "a92f78d67e663f5fa7c271fbd0e65fec1770eac0",
+  "uninstall_or_clear_data": false,
+  "private_data_injection": false,
+  "export_comparison": "all v4 folders, covers, positions, posts, memberships, children, saved tags and notes equal",
+  "existing_and_new_history_verified": true,
+  "preferences_retained": true,
+  "local_profile_restart_verified": true,
+  "profile_limit": "Existing v1.3.0 local nickname survives upgrade and restart. Avatar bytes and live website sessions are not exercised.",
+  "validation_commit": "a92f78d67e663f5fa7c271fbd0e65fec1770eac0",
+  "apk_sha256": "221e87745c322d0a2f7ebb55986c4c94de1f6b6a3737fe4c09c03f1d63c7b3ce",
+  "baseline_apk_sha256": "50da9e14b4c9fbcc3811f19419aedf5a2468d4d49a241cb399ba378a36ce0da1"
+}

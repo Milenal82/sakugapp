@@ -1,0 +1,65 @@
+{
+  "id": 460623144,
+  "name": "Sakuga Mobile v1.3.4",
+  "tag_name": "v1.3.4",
+  "target_commitish": "a92f78d67e663f5fa7c271fbd0e65fec1770eac0",
+  "draft": true,
+  "prerelease": false,
+  "updated_at": "2026-11-27T15:12:32Z",
+  "created_at": "2026-11-27T12:44:09Z",
+  "published_at": null,
+  "body": "# Sakugapp v1.3.4\n\n- 区分搜索历史与浏览记录的图标和列表，保留原有记录及管理操作。\n- 精简搜索首页和个人资料文案。\n- 调整 Posts 搜索结果工具栏，保留编辑、搜索工具、退出搜索和列表状态恢复。\n- 将 A–B 循环置于播放器“更多功能”顶部，保留区间滑块及裁剪。\n- 区分 Blog、Forum 图标，适配手机和平板。\n\n沿用官方证书及 `com.sakugapp` 包名。支持从 v1.3.0 覆盖安装；请勿卸载旧版或清除数据。\n\n非官方 Sakugabooru 客户端。开源许可证和第三方声明随 APK 及完整源码提供。\n\n签名证书 SHA-256：`9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff`\n\n对应源码提交：`a92f78d67e663f5fa7c271fbd0e65fec1770eac0`。单元测试 230 项通过；Release Lint 无错误。实际 ABI：arm64-v8a, armeabi-v7a, x86, x86_64。\n\n请使用 SHA256SUMS.txt 校验附件；验证报告明确列出签名与验证范围。\n",
+  "html_url": "https://github.com/Milenal82/sakugapp/releases/tag/untagged-31960ce72088119cb081",
+  "assets": [
+    {
+      "id": 800955326,
+      "name": "release-notes.md",
+      "size": 981,
+      "state": "uploaded",
+      "digest": "sha256:f351cc80bbec94583df985cbcbe8cd69a655faaee0ba96316b0424bace28ba82",
+      "created_at": "2026-11-27T15:12:31Z",
+      "updated_at": "2026-11-27T15:12:31Z",
+      "browser_download_url": "https://github.com/Milenal82/sakugapp/releases/download/untagged-31960ce72088119cb081/release-notes.md"
+    },
+    {
+      "id": 800955328,
+      "name": "release-verification.json",
+      "size": 1834,
+      "state": "uploaded",
+      "digest": "sha256:9e9e911c4a2da3c7116c357f006fd1e91ed96ddfbd6a9f5f3d443daa88164e83",
+      "created_at": "2026-11-27T15:12:31Z",
+      "updated_at": "2026-11-27T15:12:31Z",
+      "browser_download_url": "https://github.com/Milenal82/sakugapp/releases/download/untagged-31960ce72088119cb081/release-verification.json"
+    },
+    {
+      "id": 800955309,
+      "name": "Sakugapp-v1.3.4-release.apk",
+      "size": 14954167,
+      "state": "uploaded",
+      "digest": "sha256:221e87745c322d0a2f7ebb55986c4c94de1f6b6a3737fe4c09c03f1d63c7b3ce",
+      "created_at": "2026-11-27T15:12:31Z",
+      "updated_at": "2026-11-27T15:12:32Z",
+      "browser_download_url": "https://github.com/Milenal82/sakugapp/releases/download/untagged-31960ce72088119cb081/Sakugapp-v1.3.4-release.apk"
+    },
+    {
+      "id": 800955322,
+      "name": "Sakugapp-v1.3.4-source.zip",
+      "size": 2928629,
+      "state": "uploaded",
+      "digest": "sha256:33770bd1fef3cdb8522d6314ed450033087a6e151d4433fbcb612ee6ef8d8954",
+      "created_at": "2026-11-27T15:12:31Z",
+      "updated_at": "2026-11-27T15:12:31Z",
+      "browser_download_url": "https://github.com/Milenal82/sakugapp/releases/download/untagged-31960ce72088119cb081/Sakugapp-v1.3.4-source.zip"
+    },
+    {
+      "id": 800955323,
+      "name": "SHA256SUMS.txt",
+      "size": 362,
+      "state": "uploaded",
+      "digest": "sha256:233451faa76e59326695e5644217deb5aa702c2b677bc8e81e909d46f601d308",
+      "created_at": "2026-11-27T15:12:31Z",
+      "updated_at": "2026-11-27T15:12:31Z",
+      "browser_download_url": "https://github.com/Milenal82/sakugapp/releases/download/untagged-31960ce72088119cb081/SHA256SUMS.txt"
+    }
+  ]
+}

@@ -1,3 +1,66 @@
+# v1.3.4 最终 Draft 恢复：不构建、不签名、不重跑已通过升级
+
+本轮接管的是 **运行 46021416067** 已经签名并完整覆盖升级成功的发布包。此前的依赖修复分支尚未合并，main 仍为 a92f78d；因此旧运行继续执行了按 Tag 查询 Draft 的旧代码。
+
+实际只读 API 验证：`GET releases/tags/v1.3.4` 返回 404；Releases 列表及 `GET releases/460623144` 返回同一个 Draft，`draft=true`、`prerelease=false`、源码为 `a92f78d67e663f5fa7c271fbd0e65fec1770eac0`，有且只有五个附件。404 不是创建新 Release 的依据。
+
+当前已验证的 APK SHA-256 为 **221e87745c322d0a2f7ebb55986c4c94de1f6b6a3737fe4c09c03f1d63c7b3ce**。它与历史运行 46001134300 的 092b... APK 不同；本轮不重新签名、不替换当前 Draft，明确冻结最新成功运行 46021416067 的五个文件。旧签名证书常量及旧 checkpoint 保持不变，避免误把两次产物混用。
+
+## 自动恢复路径
+
+`fix/v134-draft-publication` 继承并保留前一分支的依赖恢复工具。分支 CI 会运行发布工具回归、检查器联网／离线构建，以及真实 Draft/Asset ID 的只读完整验证。资料取自已验证公开响应和原始 Artifact，不包含 Token 或账户凭据。
+
+`v1.3.4 normal PR and protected publication handoff` 只使用仓库正常授予的 Actions Token 尝试创建 PR、运行原有检查、普通合并；不使用 `--admin`，不批准 review，不更改保护或 Secrets。若 GitHub 禁止机器人创建 PR，停止并给出比较页面；若要求 review，则保留 PR 等待授权人。所有测试必须通过才能请求合并。
+
+合并后，main 上的同一 handoff 自动等待准确提交的工具 CI，再启动原 `release.yml`，输入 `tag=v1.3.4`、**`finish_v134_draft=true`**、两个旧 reuse 选项均为 false。机器人合并不会产生新的 push 工作流，因此会显式 dispatch main 工具 CI 和受保护发布；普通网页合并则由 main push 接续。
+
+最终步骤仍受 **release-signing** Environment 保护。需要审核时必须由原授权人批准；自动化不批准，也不读取签名密钥。该模式直接下载原运行 46021416067 的签名 Artifact 和通过的升级报告，验签、核对包名/版本/code/ABI/provenance、源码 ZIP、五文件 SHA-256、原三个成功 job 和升级报告原始字节，不构建应用，不修改原报告。
+
+发布器从列表唯一定位 Draft 后，按 ID 再读详情；用 Asset ID 下载五个文件，校验名称、大小、摘要和原始字节。公开前重复读取列表、Release ID 与附件快照，忽略只读下载产生的计数变化，拒绝其他并发变化。最后只 PATCH **现有 ID 460623144** 的 draft/Latest 状态，不创建 Release、不上传附件、不更新 Tag。
+
+公开后按 ID 和 Latest API 确认状态，并无 Token 下载正式 APK再次核对原字节。记录原源码 commit、修复 validator commit、升级证据 commit，不能把 main 的工具修复当成 APK 源码。
+
+## 如需网页接续
+
+- 若 automation 报 `owner_pr_required`：从它给出的 compare 页面创建并正常合并 PR；main push 会自动继续。不要直接推 main 或关闭保护。
+- 若已有 PR 待 review：在该 PR 完成原有审核和合并。
+- 若受保护发布显示 Waiting for review：打开对应 run 的 Review deployments，仅由授权人审核 release-signing。
+- 如需手动重启：main 上 Signed Release draft，`tag=v1.3.4`，仅勾选 **finish_v134_draft**；不要选旧 reuse 模式，不重跑旧提交的所有 job，不点 Draft 的 Publish。
+
+已通过的完整 v1.3.0 → v1.3.4 升级证据包含收藏、全部 v4 关系、历史、设置、旧昵称及重启检查，禁止卸载、清除数据或注入私有数据。本轮保持该证据不变；真实账户会话、头像字节和长期真机使用仍不在该短时检查范围内。
+
+以下为历史恢复记录，不适用于最新 46021416067 checkpoint。
+
+# v1.3.4：保留原签名 APK 的升级验证恢复
+
+失败运行：`46001134300`。其 preflight、signed-release 已成功；升级检查器下载 Maven Central 依赖遇到 HTTP 429。此修复只改发布验证工具，不改应用、依赖版本、签名密钥或 Tag。
+
+- 不可变源码提交：`a92f78d67e663f5fa7c271fbd0e65fec1770eac0`。
+- 不可变 Tag 对象：`3bba4027a00e2fc751eb176ad0ad335866ad990b`（`v1.3.4`）。
+- 原签名 Artifact：运行 `46001134300` 的 `signed-release-v1.3.4`。
+- 原 APK SHA-256：`092b83a05a1af372f1f55d48af557317ae82e34b592f28ade178ca08d3675d9f`。
+- 证书仍为 `9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff`。
+
+## 安全恢复操作
+
+1. 通过 PR 合并 `fix/v134-upgrade-dependencies` 到 main，遵守原有分支保护。等待 main 的 **v1.3.4 upgrade dependency recovery checks** 成功；其他原有检查仍保留。
+2. Actions → **Signed Release draft** → Run workflow，选择 **main**，`tag` 填 **v1.3.4**，勾选 **reuse_v134_signed=true**；`reuse_v130_signed=false`。不要重新运行旧提交上的“全部 jobs”，不要运行 Tag 创建工作流，不删或移动 Tag。
+3. 若 `release-signing` 等待 Review deployments，由原有授权审核人审批。恢复路径不读取任何签名 Secrets、不运行应用签名构建、不重新上传或替换 Draft 附件；只复用原签名 Artifact，重新检查证书、APK/provenance、源码 ZIP 及全部 SHA-256。
+4. 使用修复后的独立检查器完整执行官方 v1.3.0 → 原 v1.3.4 APK 覆盖升级。保留导入／导出逐项比较、收藏和二级关系、浏览历史、设置、昵称及重启检查，不卸载、不清除数据、不注入应用私有文件。
+5. 发布脚本分别记录原 APK 源码提交与 main 上审查过的验证工具提交。仅允许明确列出的验证文件变化。原源码的全部 main CI 继续是门槛，修复提交另须依赖恢复 CI 成功。只有真实升级通过，且原 Draft、附件、Tag、版本、证书、SHA-256 都一致，才公开并设为 Latest。
+
+API 返回 Forbidden 时，代理无法替你合并或 dispatch；请按上述网页操作。缺审批、权限、原 Artifact、测试或签名验证时停止，不能用新构建或临时密钥替代。若原 Artifact 已过期，停止并先核实既有 Draft 是否持有同一字节，不自动重建。
+
+## 依赖下载修复
+
+`settings.gradle.kts` 仍使用官方 Google Maven / Maven Central。检查器专用 init 脚本按已知 Android／AndroidX 分组独占路由到 Google，其他依赖继续用 Maven Central，减少无效仓库探测；没有引入镜像或更换版本。
+
+检查器使用一个 Gradle worker、无 parallel，不执行 `--refresh-dependencies`。仅 HTTP 429/502/503/504 和明确临时连接错误允许最多四轮构建，退避 30/60/120 秒加少量抖动。编译、测试、401/403/404 及离线构建失败不重试、不忽略。
+
+CI 只缓存公开的 `modules-2` 和 Gradle Wrapper 分发包，不缓存 keystore、密码、gradle.properties 或配置缓存。缓存按依赖／工具内容分组、每次运行使用新不可变键，失败下载的已完成部分也可保留，避免把半份依赖永久锁在一个固定键中。联网成功后清理检查器输出，再 `--offline` 完整重建，验证缓存确实足够。
+
+以下为此前首次发布步骤；已有签名产物后，以本节恢复步骤为准。
+
 # v1.3.4 正式发布操作
 
 目标为 `1.3.4 / versionCode 19 / com.sakugapp`，升级基线为当前公开的 `v1.3.0 / code 16`。本轮只修复发布工具和独立升级检查器，不修改已验证的 UI、数据结构或签名配置。原有证书继续使用，禁止生成替代密钥。

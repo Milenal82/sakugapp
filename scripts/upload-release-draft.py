@@ -13,6 +13,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--tag", required=True)
 parser.add_argument("--directory", type=pathlib.Path, required=True)
 args = parser.parse_args()
+if args.tag == "v1.3.4":
+    raise SystemExit("The v1.3.4 Draft already exists: use finish_v134_draft; never create or replace its assets.")
 sha = exact_tag(args.tag)
 repo = os.environ["GITHUB_REPOSITORY"]
 if not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repo):
