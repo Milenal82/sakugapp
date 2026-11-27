@@ -25,7 +25,7 @@ class RecoverySafetyTests(unittest.TestCase):
         self.assertEqual('092b83a05a1af372f1f55d48af557317ae82e34b592f28ade178ca08d3675d9f',recovery.APK_SHA256)
 
     def test_existing_draft_is_selected_without_published_tag_endpoint(self):
-        draft={'id':12,'tag_name':'v1.3.4','draft':True,'prerelease':False,'target_commitish':recovery.SOURCE}
+        draft={'id':460623144,'tag_name':'v1.3.4','draft':True,'prerelease':False,'target_commitish':recovery.SOURCE}
         self.assertEqual(draft,recovery.select_draft([draft],recovery.SOURCE))
         for changed in [{**draft,'draft':False},{**draft,'target_commitish':'b'*40},{**draft,'prerelease':True}]:
             with self.assertRaises(ValueError):recovery.select_draft([changed],recovery.SOURCE)

@@ -51,8 +51,8 @@ def validate_public_baseline(releases):
     require(latest == 'v1.3.0', 'Latest official release changed; revalidate the upgrade baseline')
 
 
-def passing_run(runs, sha, branch='main'):
-    matching = [r for r in runs if r['head_sha'] == sha and r['head_branch'] == branch and r['event'] == 'push']
+def passing_run(runs, sha, branch='main', events=('push',)):
+    matching = [r for r in runs if r['head_sha'] == sha and r['head_branch'] == branch and r['event'] in events]
     require(matching, 'No exact-commit push checks on '+branch)
     run = max(matching, key=lambda item: item['id'])
     require(run['status'] == 'completed' and run['conclusion'] == 'success', 'Latest exact-commit check is not successful')

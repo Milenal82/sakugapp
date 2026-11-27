@@ -1,0 +1,85 @@
+name: Finish existing v1.3.4 Draft (no build or signing)
+on:
+  workflow_call:
+    inputs:
+      tag:
+        type: string
+        required: true
+permissions:
+  contents: read
+  actions: read
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    outputs:
+      validator: ${{ steps.source.outputs.validator }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Bind reviewed validator to immutable source and successful CI
+        id: source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REQUESTED_TAG: ${{ inputs.tag }}
+        run: |
+          python3 - <<'PY'
+          import os,sys,json,subprocess
+          sys.path.insert(0,'scripts')
+          from release_v134_recovery import checked_source
+          from release_v134 import passing_run
+          assert os.environ['GITHUB_REF']=='refs/heads/main' and os.environ['REQUESTED_TAG']=='v1.3.4'
+          source,validator=checked_source()
+          data=json.loads(subprocess.check_output(['gh','api',f'repos/{os.environ["GITHUB_REPOSITORY"]}/actions/workflows/v134-recovery-checks.yml/runs?head_sha={validator}&per_page=100']))
+          passing_run(data['workflow_runs'],validator,events=('push','workflow_dispatch'))
+          with open(os.environ['GITHUB_OUTPUT'],'a')as out:out.write('validator='+validator+'\n')
+          PY
+      - run: python3 -m unittest discover -s scripts/tests -v
+  publication:
+    needs: preflight
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    environment: release-signing
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.preflight.outputs.validator }}
+          fetch-depth: 0
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: ./scripts/ci-android-sdk.sh
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: 46021416067
+          name: signed-release-v1.3.4
+          path: ${{ runner.temp }}/release-dist/
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: 46021416067
+          name: release-upgrade-install-report
+          path: ${{ runner.temp }}/upgrade-install-report/
+      - name: Revalidate original signed bytes, complete passing upgrade and exact Draft assets (read only)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/verify-v134-publication.py --bundle "$RUNNER_TEMP/release-dist" --upgrade "$RUNNER_TEMP/upgrade-install-report/upgrade-install.json" --report "$RUNNER_TEMP/publication-readonly.json"
+      - name: Publish only existing Draft 460623144 after every gate and verify public download
+        env:
+          GH_TOKEN: ${{ github.token }}
+          V134_FINISH_DRAFT: 'true'
+          RELEASE_DIST: ${{ runner.temp }}/release-dist
+        run: python3 scripts/publish-v1.3.4.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v134-publication-proof-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/publication-readonly.json
+            ${{ runner.temp }}/publication-result.json
+            ${{ runner.temp }}/upgrade-install-report/upgrade-install.json

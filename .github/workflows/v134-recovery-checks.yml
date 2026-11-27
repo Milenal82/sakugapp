@@ -1,7 +1,7 @@
 name: v1.3.4 upgrade dependency recovery checks
 on:
   push:
-    branches: [fix/v134-upgrade-dependencies, main]
+    branches: [fix/v134-upgrade-dependencies, fix/v134-draft-publication, main]
   pull_request:
   workflow_dispatch:
 permissions:
@@ -58,3 +58,40 @@ jobs:
             ~/.gradle/caches/modules-2
             ~/.gradle/wrapper/dists
           key: ${{ steps.checker-cache.outputs.cache-primary-key }}
+  read-current-draft:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    # GitHub requires push access to read private Draft releases. This job performs GET/downloads only.
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: ./scripts/ci-android-sdk.sh
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: 46021416067
+          name: signed-release-v1.3.4
+          path: ${{ runner.temp }}/release-dist/
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: 46021416067
+          name: release-upgrade-install-report
+          path: ${{ runner.temp }}/upgrade-install-report/
+      - name: Real API and original-byte regression; never publishes or changes Draft
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/verify-v134-publication.py --candidate --bundle "$RUNNER_TEMP/release-dist" --upgrade "$RUNNER_TEMP/upgrade-install-report/upgrade-install.json" --report "$RUNNER_TEMP/draft-readonly.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v134-readonly-check-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/draft-readonly.json

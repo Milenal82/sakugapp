@@ -11,6 +11,9 @@ on:
       reuse_v134_signed:
         type: boolean
         default: false
+      finish_v134_draft:
+        type: boolean
+        default: false
   push:
     tags: ['v*']
   workflow_dispatch:
@@ -27,13 +30,26 @@ on:
         description: Reuse immutable v1.3.4 signed bytes from run 46001134300; validate upgrade only, no signing
         type: boolean
         default: false
+      finish_v134_draft:
+        description: Finish exact existing Draft 460623144 using signed and upgrade-tested run 46021416067; no rebuild/signing
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
   group: release-${{ inputs.tag || github.ref_name }}
   cancel-in-progress: false
 jobs:
+  finish-existing-v134:
+    if: inputs.finish_v134_draft
+    permissions:
+      contents: write
+      actions: read
+    uses: ./.github/workflows/finish-v134.yml
+    with:
+      tag: ${{ inputs.tag }}
   preflight:
+    if: ${{ !inputs.finish_v134_draft }}
     permissions:
       contents: read
       actions: read
