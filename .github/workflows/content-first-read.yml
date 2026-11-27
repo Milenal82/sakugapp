@@ -11,6 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: actions/download-artifact@v4
+        continue-on-error: true
         with:
           github-token: ${{ github.token }}
           run-id: 46001134300
@@ -23,17 +24,20 @@ jobs:
           python3 - <<'PY'
           import json,os,pathlib,subprocess,re,hashlib
           api=lambda path:json.loads(subprocess.check_output(['gh','api','repos/Milenal82/sakugapp/'+path]))
-          run=api('actions/runs/46001134300');assert run['head_sha']=='a92f78d67e663f5fa7c271fbd0e65fec1770eac0'
+          run=api('actions/runs/46001134300')
           folder=pathlib.Path(os.environ['RUNNER_TEMP'])/'original-signed'
-          result={'run':run['html_url'],'source':run['head_sha'],'signed':json.loads((folder/'release-verification.json').read_text()),'checksums':(folder/'SHA256SUMS.txt').read_text()}
-          result['actual_apk_sha256']=hashlib.sha256((folder/'Sakugapp-v1.3.4-release.apk').read_bytes()).hexdigest()
+          result={'run':run['html_url'],'source':run['head_sha'],'artifacts':api('actions/runs/46001134300/artifacts')['artifacts']}
+          if (folder/'release-verification.json').exists():
+              result.update(signed=json.loads((folder/'release-verification.json').read_text()),checksums=(folder/'SHA256SUMS.txt').read_text(),actual_apk_sha256=hashlib.sha256((folder/'Sakugapp-v1.3.4-release.apk').read_bytes()).hexdigest())
           jobs=api('actions/runs/46001134300/jobs?per_page=100')['jobs']
           result['jobs']=[{'id':j['id'],'name':j['name'],'conclusion':j['conclusion']}for j in jobs]
           for job in jobs:
               if job['name']=='upgrade-install':
-                  log=subprocess.check_output(['gh','api',f'repos/Milenal82/sakugapp/actions/jobs/{job["id"]}/logs'],text=True)
+                  log=subprocess.run(['gh','api',f'repos/Milenal82/sakugapp/actions/jobs/{job["id"]}/logs'],capture_output=True).stdout.decode(errors='replace')
                   result['maven_failure']='\n'.join(line for line in log.splitlines() if any(x in line for x in ['429','Could not resolve','Could not GET','Could not HEAD','Too Many Requests']))[-15000:]
-          release=api('releases/tags/v1.3.4');result['release']={k:release.get(k)for k in ['id','draft','target_commitish','html_url','tag_name']}
+          try:
+              release=api('releases/tags/v1.3.4');result['release']={k:release.get(k)for k in ['id','draft','target_commitish','html_url','tag_name']}
+          except Exception:result['release_query_failed']=True
           (pathlib.Path(os.environ['RUNNER_TEMP'])/'report.json').write_text(json.dumps(result,indent=2)+'\n')
           PY
       - name: Preserve bounded public recovery evidence
