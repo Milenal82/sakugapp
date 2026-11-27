@@ -4,7 +4,7 @@
     <string name="ui_home_search_hint">搜索标签、原画师或作品…</string>
     <string name="ui_home_combined">组合搜索</string>
     <string name="ui_home_combined_sub">多标签与条件筛选</string>
-    <string name="ui_home_search_history">历史搜索</string>
+    <string name="ui_home_search_history">搜索历史</string>
     <string name="ui_home_history_sub">快速找回搜索条件</string>
     <string name="ui_home_browsing">浏览记录</string>
     <string name="ui_home_browsing_sub">查看曾浏览的片段</string>

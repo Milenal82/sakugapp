@@ -54,7 +54,7 @@ def verify_checksums(folder, expected):
 
 def previous_release_tag(tag):
     """Explicit upgrade paths only; unknown versions must never fall back to v1.0.0."""
-    versions={"v1.1.0":"v1.0.0","v1.2.0":"v1.1.0","v1.2.1":"v1.2.0","v1.2.2":"v1.2.1","v1.3.0":"v1.2.2"}
+    versions={"v1.1.0":"v1.0.0","v1.2.0":"v1.1.0","v1.2.1":"v1.2.0","v1.2.2":"v1.2.1","v1.3.0":"v1.2.2","v1.3.4":"v1.3.0"}
     if tag not in versions:
         raise ValueError("No verified previous release configured for "+tag)
     return versions[tag]

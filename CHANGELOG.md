@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3.4 candidate (19)
+
+- 区分搜索历史与浏览记录，精简重复文案。
+- 搜索结果使用独立工具栏，保留编辑、联想、组合搜索和退出恢复。
+- 将 A–B 循环放在更多功能顶部，保留播放与裁剪算法。
+- 区分 Blog／Forum 图标，资料页使用六行与自适应双栏。
+- 保留底栏隐藏后的内容填充；增加手机／平板回归和未签名 Release 预检。
+- 尚未正式发布；状态与限制见 [检查说明](docs/v1.3.4.md)。
+
 ## 1.3.2-dev (18)
 
 - Style the existing inline frame tools as compact rounded tiles with direction selection feedback; retain frame decoding, counters and errors.

@@ -1,3 +1,28 @@
+# v1.3.4 正式发布操作
+
+目标为 `1.3.4 / versionCode 19 / com.sakugapp`，升级基线为当前公开的 `v1.3.0 / code 16`。本轮只修复发布工具和独立升级检查器，不修改已验证的 UI、数据结构或签名配置。原有证书继续使用，禁止生成替代密钥。
+
+## 网页操作（云端 GitHub API 返回 Forbidden 时）
+
+1. 打开 [创建 PR](https://github.com/Milenal82/sakugapp/compare/main...dev/v134-ui-polish?expand=1)，确认 **base: main**、**compare: dev/v134-ui-polish**。创建 PR，按现有分支保护完成 review 和检查后合并；不要关闭检查、强推或绕过保护。允许普通 Merge 或 Squash，后续必须使用最终 main 的完整 SHA，而不是旧的 `3b4a876`。
+2. 在 main 的 Actions 中等四个工作流对同一最终提交全部成功：`Android checks and artifacts`、`Focused maintenance validation`、`v1.3.0 UI and prerequisite validation`（保留其历史名称）、`v1.3.4 candidate validation (no publication)`。它们仍运行原有检查。v1.3.4 专项工作流会重跑 Debug/未签名 Release 检查和手机／平板回归，并验证新升级检查器能够操作旧官方 v1.3.0；后者不是新版本升级成功的证明。
+3. 打开 Actions → **v1.3.4 verified tag and release** → **Run workflow**。分支选择 **main**，`expected_commit` 填上一步通过检查的 **40 位 main 提交 SHA**。它会核对现有 Release、版本、所有精确提交的检查，拒绝已存在的 v1.3.4 Tag，再以非 force 推送创建唯一注释 Tag，显式启动正式发布工作流。Tag 推送由 GITHUB_TOKEN 执行，不依赖它触发另一条 push 工作流。
+4. 如果 Tag 已成功创建，但后续 dispatch 失败：**不要删除或重建 Tag**。打开 Actions → **Signed Release draft** → **Run workflow**；分支选择 **main**，`tag` 填 **v1.3.4**，`reuse_v130_signed` 保持 **未勾选 / false**。该选项只用于历史 v1.3.0 恢复，不能用于新版本。若 Tag 创建被权限或 ruleset 拒绝，停止并检查原有授权流程，不关闭保护、不换令牌绕过。禁止在 Releases 页面手工点 Publish 代替验证。
+5. 正式流程的 `signed-release` 使用原有 **release-signing** Environment。如果出现 **Review deployments / Waiting for review**，由有权审核的人查看源提交、预检结果后，选择该环境并按现有审批规则批准。云端代理不代替审核人批准，也不更改 Secrets、环境规则或证书。拒绝或缺少审批时保持等待／停止。
+6. 审批后，工作流用原密钥构建并校验证书、不可调试清单、真实 ABI、精确源码 ZIP 和 SHA-256，先上传 Draft。随后安装官方 v1.3.0，使用正常系统文件选择器导入测试收藏、记录浏览与设置昵称／主题，再执行 `adb install -r` 覆盖安装 v1.3.4。核对全部收藏夹、顺序、封面、帖子和多重归属、二级分类、标签收藏／备注，以及历史、设置和旧昵称重启；不卸载、不清除数据、不注入应用私有文件。
+7. 只有升级和所有门槛成功，`publish-v1-3-4` 才会核对最终 main/Tag/Commit、官方证书、APK 哈希、源码包、实际 Draft 附件和校验文件，再公开并设置 Latest。发布后从 Release 下载正式 APK 和 SHA256SUMS.txt；`release-verification.json` 记录实际提交、包名、版本、签名指纹、ABI 和 APK SHA-256。
+
+## 固定校验及失败处理
+
+- 官方证书 SHA-256：`9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff`。
+- 旧官方 v1.3.0 APK SHA-256：`50da9e14b4c9fbcc3811f19419aedf5a2468d4d49a241cb399ba378a36ce0da1`。升级检查固定旧字节，不能用另行重签的旧包代替。
+- `v1.3.4` Tag、APK provenance、源码 ZIP、测试、升级工具和升级报告必须绑定最终 main 的同一提交。旧 `3b4a876` 的 UI 通过记录保留作历史证据，不自动替代合并提交的检查。
+- 发布前后若 main 移动、最新公开版变化、测试失败、附件不一致或已有公开 v1.3.4，均拒绝修改已有版本。等待／失败时 Draft 不是正式版，不宣传已发布。
+- 原生升级记录在 `release-upgrade-install-report` Artifact；签名附件在 `signed-release-v1.3.4`。未签名预检产物不会冒充正式 APK。未验证真实账户会话、头像图片字节、OEM 真机和长时间使用；这些不能由短时模拟器测试推断。
+- 预期公开地址为 `https://github.com/Milenal82/sakugapp/releases/tag/v1.3.4`，仅在正式工作流成功公开后才是交付地址。
+
+以下为历史签名配置与 v1.3.0 发布记录；其中旧版操作不适用于 v1.3.4。
+
 # 正式签名与草稿发布
 
 ## 已确定的身份

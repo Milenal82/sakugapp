@@ -20,7 +20,7 @@
     <string name="ui_avoid_repeated_fields">相同类型栏位无法同时使用</string>
     <string name="ui_back_to_app">返回应用</string>
     <string name="ui_back_to_top">返回顶部</string>
-    <string name="ui_blog">部落格</string>
+    <string name="ui_blog">Blog</string>
     <string name="ui_both_tags_and">搜索同时有 tag1 和 tag2 的帖子</string>
     <string name="ui_brightness">亮度</string>
     <string name="ui_cache_cleared">已清除缓存。</string>
@@ -83,7 +83,7 @@
     <string name="ui_follow_rotation_lock">遵循系统旋转设置</string>
     <string name="ui_follow_system">跟随系统</string>
     <string name="ui_format">文件格式</string>
-    <string name="ui_forum">论坛</string>
+    <string name="ui_forum">Forum</string>
     <string name="ui_frame_analysis_supports_video_up_to_3840_2160_pixels">逐帧分析支援最多 3840×2160 像素的视频。</string>
     <string name="ui_frame_by_frame">逐帧播放／分析</string>
     <string name="ui_frame_number">帧编号</string>
