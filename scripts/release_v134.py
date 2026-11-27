@@ -28,8 +28,8 @@ def validate_report(report, sha):
     require(bool(re.fullmatch(r'[0-9a-f]{64}', report.get('apk_sha256', ''))), 'Invalid APK checksum')
 
 
-def validate_upgrade_report(report, sha, apk_hash):
-    expected = {'result': 'passed', 'source_commit': sha, 'validation_commit': sha,
+def validate_upgrade_report(report, sha, apk_hash, validator=None):
+    expected = {'result': 'passed', 'source_commit': sha, 'validation_commit': validator or sha,
                 'apk_sha256': apk_hash, 'baseline_apk_sha256': V130_APK_SHA256,
                 'uninstall_or_clear_data': False, 'private_data_injection': False,
                 'existing_and_new_history_verified': True, 'preferences_retained': True,

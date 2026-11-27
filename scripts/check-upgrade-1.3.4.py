@@ -19,7 +19,11 @@ assert previous['versionName']=='1.3.0' and previous['versionCode']==16
 assert current['versionName']=='1.3.4' and current['versionCode']==19
 import hashlib
 assert hashlib.sha256(old.read_bytes()).hexdigest()==V130_APK_SHA256
-source=exact_tag('v1.3.4')
+if os.environ.get('V134_RECOVERY')=='true':
+ from release_v134_recovery import checked_source
+ source,validator=checked_source()
+else:
+ source=exact_tag('v1.3.4');validator=source
 assert command('git','status','--porcelain')==''
 assert previous['certificate_sha256']==current['certificate_sha256']=='9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff'
 fixture=json.loads(pathlib.Path('upgrade-ui-check/fixtures/official-v121-favorites.json').read_text());ids=[str(p['post']['id'])for p in fixture['posts']]
@@ -51,8 +55,8 @@ try:
  assert len(after['subfolders'])==len(after['subfolderLinks'])==1
  run('adb','shell','am','force-stop','com.sakugapp');launch();helper('restart');capture('v134-restarted.png')
  report={'result':'passed','previous':previous,'candidate':current,'source_commit':json.loads((new_dir/'release-verification.json').read_text())['source_commit'],'uninstall_or_clear_data':False,'private_data_injection':False,'export_comparison':'all v4 folders, covers, positions, posts, memberships, children, saved tags and notes equal','existing_and_new_history_verified':True,'preferences_retained':True,'local_profile_restart_verified':True,'profile_limit':'Existing v1.3.0 local nickname survives upgrade and restart. Avatar bytes and live website sessions are not exercised.'}
- report.update(validation_commit=source, apk_sha256=hashlib.sha256(new.read_bytes()).hexdigest(), baseline_apk_sha256=hashlib.sha256(old.read_bytes()).hexdigest())
- validate_upgrade_report(report,source,report['apk_sha256'])
+ report.update(validation_commit=validator, apk_sha256=hashlib.sha256(new.read_bytes()).hexdigest(), baseline_apk_sha256=hashlib.sha256(old.read_bytes()).hexdigest())
+ validate_upgrade_report(report,source,report['apk_sha256'],validator)
  (out/'upgrade-install.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,sort_keys=True))
 except Exception as error:
  (out/'failure.txt').write_text(str(error)+'\n');capture('failure.png')

@@ -1,3 +1,33 @@
+# v1.3.4：保留原签名 APK 的升级验证恢复
+
+失败运行：`46001134300`。其 preflight、signed-release 已成功；升级检查器下载 Maven Central 依赖遇到 HTTP 429。此修复只改发布验证工具，不改应用、依赖版本、签名密钥或 Tag。
+
+- 不可变源码提交：`a92f78d67e663f5fa7c271fbd0e65fec1770eac0`。
+- 不可变 Tag 对象：`3bba4027a00e2fc751eb176ad0ad335866ad990b`（`v1.3.4`）。
+- 原签名 Artifact：运行 `46001134300` 的 `signed-release-v1.3.4`。
+- 原 APK SHA-256：`092b83a05a1af372f1f55d48af557317ae82e34b592f28ade178ca08d3675d9f`。
+- 证书仍为 `9c77062fa88e1fe35c443641d918d0389354b0eb85395a86504d939ebfc53fff`。
+
+## 安全恢复操作
+
+1. 通过 PR 合并 `fix/v134-upgrade-dependencies` 到 main，遵守原有分支保护。等待 main 的 **v1.3.4 upgrade dependency recovery checks** 成功；其他原有检查仍保留。
+2. Actions → **Signed Release draft** → Run workflow，选择 **main**，`tag` 填 **v1.3.4**，勾选 **reuse_v134_signed=true**；`reuse_v130_signed=false`。不要重新运行旧提交上的“全部 jobs”，不要运行 Tag 创建工作流，不删或移动 Tag。
+3. 若 `release-signing` 等待 Review deployments，由原有授权审核人审批。恢复路径不读取任何签名 Secrets、不运行应用签名构建、不重新上传或替换 Draft 附件；只复用原签名 Artifact，重新检查证书、APK/provenance、源码 ZIP 及全部 SHA-256。
+4. 使用修复后的独立检查器完整执行官方 v1.3.0 → 原 v1.3.4 APK 覆盖升级。保留导入／导出逐项比较、收藏和二级关系、浏览历史、设置、昵称及重启检查，不卸载、不清除数据、不注入应用私有文件。
+5. 发布脚本分别记录原 APK 源码提交与 main 上审查过的验证工具提交。仅允许明确列出的验证文件变化。原源码的全部 main CI 继续是门槛，修复提交另须依赖恢复 CI 成功。只有真实升级通过，且原 Draft、附件、Tag、版本、证书、SHA-256 都一致，才公开并设为 Latest。
+
+API 返回 Forbidden 时，代理无法替你合并或 dispatch；请按上述网页操作。缺审批、权限、原 Artifact、测试或签名验证时停止，不能用新构建或临时密钥替代。若原 Artifact 已过期，停止并先核实既有 Draft 是否持有同一字节，不自动重建。
+
+## 依赖下载修复
+
+`settings.gradle.kts` 仍使用官方 Google Maven / Maven Central。检查器专用 init 脚本按已知 Android／AndroidX 分组独占路由到 Google，其他依赖继续用 Maven Central，减少无效仓库探测；没有引入镜像或更换版本。
+
+检查器使用一个 Gradle worker、无 parallel，不执行 `--refresh-dependencies`。仅 HTTP 429/502/503/504 和明确临时连接错误允许最多四轮构建，退避 30/60/120 秒加少量抖动。编译、测试、401/403/404 及离线构建失败不重试、不忽略。
+
+CI 只缓存公开的 `modules-2` 和 Gradle Wrapper 分发包，不缓存 keystore、密码、gradle.properties 或配置缓存。缓存按依赖／工具内容分组、每次运行使用新不可变键，失败下载的已完成部分也可保留，避免把半份依赖永久锁在一个固定键中。联网成功后清理检查器输出，再 `--offline` 完整重建，验证缓存确实足够。
+
+以下为此前首次发布步骤；已有签名产物后，以本节恢复步骤为准。
+
 # v1.3.4 正式发布操作
 
 目标为 `1.3.4 / versionCode 19 / com.sakugapp`，升级基线为当前公开的 `v1.3.0 / code 16`。本轮只修复发布工具和独立升级检查器，不修改已验证的 UI、数据结构或签名配置。原有证书继续使用，禁止生成替代密钥。

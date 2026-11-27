@@ -29,7 +29,13 @@ jobs:
           python3 - <<'PY'
           import subprocess,json,pathlib,re,os
           releases=json.loads(subprocess.check_output(['gh','api','repos/'+os.environ['GITHUB_REPOSITORY']+'/releases?per_page=100']))
-          assert not any(r['tag_name']=='v1.3.4' for r in releases), 'v1.3.4 already exists; do not overwrite.'
+          existing=[r for r in releases if r['tag_name']=='v1.3.4']
+          if existing:
+              import sys
+              sys.path.insert(0,'scripts')
+              from scripts.release_v134_recovery import checked_source
+              source,validator=checked_source()
+              assert len(existing)==1 and existing[0]['draft'] and existing[0]['target_commitish']==source, 'Existing public/different release: stop.'
           published={}
           for r in releases:
               if r['draft'] or r['prerelease']:continue

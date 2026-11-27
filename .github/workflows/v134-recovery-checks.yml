@@ -1,0 +1,60 @@
+name: v1.3.4 upgrade dependency recovery checks
+on:
+  push:
+    branches: [fix/v134-upgrade-dependencies, main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: v134-recovery-checks-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  checker:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: ./scripts/ci-android-sdk.sh
+      - uses: gradle/actions/setup-gradle@v5
+        with:
+          cache-disabled: true
+      - uses: actions/cache/restore@v4
+        id: checker-cache
+        with:
+          path: |
+            ~/.gradle/caches/modules-2
+            ~/.gradle/wrapper/dists
+          key: upgrade-ui-deps-v1-${{ runner.os }}-jdk17-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties', 'build.gradle.kts', 'upgrade-ui-check/build.gradle.kts', 'scripts/upgrade-repositories.init.gradle') }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            upgrade-ui-deps-v1-${{ runner.os }}-jdk17-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties', 'build.gradle.kts', 'upgrade-ui-check/build.gradle.kts', 'scripts/upgrade-repositories.init.gradle') }}-
+            upgrade-ui-deps-v1-${{ runner.os }}-jdk17-
+      - name: Test recovery safety and 429 retry behavior
+        run: python3 -m unittest discover -s scripts/tests -v
+      - name: Compile checker online, then clean and rebuild fully offline
+        run: python3 scripts/build-upgrade-checker.py
+      - name: Confirm reviewed validator changes cannot alter app, key or immutable tag
+        run: |
+          python3 - <<'PY'
+          import subprocess,sys
+          sys.path.insert(0,'scripts')
+          from scripts.release_v134_recovery import SOURCE,TAG_OBJECT,validate_paths
+          assert subprocess.check_output(['git','rev-parse','v1.3.4^{commit}'],text=True).strip()==SOURCE
+          assert subprocess.check_output(['git','rev-parse','refs/tags/v1.3.4'],text=True).strip()==TAG_OBJECT
+          paths=subprocess.check_output(['git','diff','--name-only','--no-renames',SOURCE,'HEAD'],text=True).splitlines()
+          validate_paths(paths)
+          PY
+      - name: Preserve public dependency downloads, including partial progress after rate limits
+        if: always() && steps.checker-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ~/.gradle/caches/modules-2
+            ~/.gradle/wrapper/dists
+          key: ${{ steps.checker-cache.outputs.cache-primary-key }}
