@@ -96,6 +96,7 @@ import java.time.format.*
     Column(Modifier.fillMaxSize().testTag("browsing-history-page")){
         Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically){
             ActionIcon(R.drawable.ic_back,text(R.string.ui_back_to_app),back)
+            Icon(painterResource(R.drawable.ic_movie),null,Modifier.size(22.dp));Spacer(Modifier.width(8.dp))
             Text(text(R.string.ui_browsing_history),style=MaterialTheme.typography.titleLarge,modifier=Modifier.weight(1f))
             TextButton(enabled=rows.isNotEmpty(),onClick={clear=true},modifier=Modifier.testTag("clear-browsing-history")){
                 Icon(painterResource(R.drawable.ic_close),null,Modifier.size(20.dp));Spacer(Modifier.width(4.dp));Text(text(R.string.ui_clear))

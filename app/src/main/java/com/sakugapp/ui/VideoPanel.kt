@@ -203,20 +203,6 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                 val compact=MaterialTheme.typography.copy(titleSmall=MaterialTheme.typography.labelLarge,bodyLarge=MaterialTheme.typography.bodySmall,bodyMedium=MaterialTheme.typography.bodySmall,labelLarge=MaterialTheme.typography.labelMedium)
                 MaterialTheme(typography=compact){
                 Column(Modifier.fillMaxWidth().then(if(controlsHeight!=null)Modifier.heightIn(max=controlsHeight).verticalScroll(panelScroll)else Modifier).padding(horizontal=8.dp).testTag("advanced-controls"),verticalArrangement=Arrangement.spacedBy(4.dp)){
-                    if(fullscreen){ActionIcon(R.drawable.ic_rotate,text(R.string.ui_rotate_screen),{
-                    manualRotation=true;activity?.requestedOrientation=if(orientation==Configuration.ORIENTATION_LANDSCAPE)ActivityInfo.SCREEN_ORIENTATION_PORTRAIT else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                    },Modifier.testTag("rotate-video"))}
-                    if(fullscreen)TextButton(contentPadding=textButtonPadding(),onClick={manualRotation=true;activity?.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_FULL_USER}){Text(text(R.string.ui_follow_rotation_lock))}
-                    ControlGroup(text(R.string.ui_playback_speed),"speed-controls","$speed×"){
-                        Row(verticalAlignment=Alignment.CenterVertically){
-                            ActionIcon(if(playing)R.drawable.ic_pause else R.drawable.ic_play,text(if(playing)R.string.ui_pause_playback else R.string.ui_resume_playback),{if(player.playWhenReady)player.pause()else resumePlayback()},Modifier.testTag("dedicated-play"))
-                            Text(text(R.string.ui_playback_time_value,formatClipTime(position),formatClipTime(duration)),style=MaterialTheme.typography.labelSmall)
-                        }
-                        if(duration>0)Slider(value=position.toFloat().coerceIn(0f,duration.toFloat()),onValueChange={stepper.reset();player.seekTo(it.toLong());if(player.playbackState==Player.STATE_IDLE)player.prepare()},valueRange=0f..duration.toFloat(),modifier=Modifier.testTag("dedicated-seek"))
-                        FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
-                            for(value in PreferenceRules.speeds)FilterChip(selected=speed==value,onClick={speed=value},label={Text("$value×")},modifier=Modifier.testTag("speed-$value"))
-                        }
-                    }
                     ControlGroup(text(R.string.ui_ab_loop),"ab-controls"){
                     Text(text(R.string.ui_ab_interval,a?.let(::formatClipTime) ?: "—",b?.let(::formatClipTime) ?: "—"),Modifier.testTag("ab-interval"))
                     FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
@@ -232,6 +218,20 @@ fun VideoPanel(url:String,settings:AppSettings=AppSettings(),preview:Boolean=fal
                     Text(text(R.string.ui_ab_precision),style=MaterialTheme.typography.labelSmall)
                     clipControls?.invoke()
                     stepper.confirmed?.let{frame->Text(text(when{frame.decoded && frame.exactTime->R.string.ui_frame_exact;frame.decoded->R.string.ui_frame_index_estimated_time;else->R.string.ui_frame_estimate}),style=MaterialTheme.typography.labelSmall,modifier=Modifier.testTag("frame-precision"))}
+                    }
+                    if(fullscreen){ActionIcon(R.drawable.ic_rotate,text(R.string.ui_rotate_screen),{
+                    manualRotation=true;activity?.requestedOrientation=if(orientation==Configuration.ORIENTATION_LANDSCAPE)ActivityInfo.SCREEN_ORIENTATION_PORTRAIT else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                    },Modifier.testTag("rotate-video"))}
+                    if(fullscreen)TextButton(contentPadding=textButtonPadding(),onClick={manualRotation=true;activity?.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_FULL_USER}){Text(text(R.string.ui_follow_rotation_lock))}
+                    ControlGroup(text(R.string.ui_playback_speed),"speed-controls","$speed×"){
+                        Row(verticalAlignment=Alignment.CenterVertically){
+                            ActionIcon(if(playing)R.drawable.ic_pause else R.drawable.ic_play,text(if(playing)R.string.ui_pause_playback else R.string.ui_resume_playback),{if(player.playWhenReady)player.pause()else resumePlayback()},Modifier.testTag("dedicated-play"))
+                            Text(text(R.string.ui_playback_time_value,formatClipTime(position),formatClipTime(duration)),style=MaterialTheme.typography.labelSmall)
+                        }
+                        if(duration>0)Slider(value=position.toFloat().coerceIn(0f,duration.toFloat()),onValueChange={stepper.reset();player.seekTo(it.toLong());if(player.playbackState==Player.STATE_IDLE)player.prepare()},valueRange=0f..duration.toFloat(),modifier=Modifier.testTag("dedicated-seek"))
+                        FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){
+                            for(value in PreferenceRules.speeds)FilterChip(selected=speed==value,onClick={speed=value},label={Text("$value×")},modifier=Modifier.testTag("speed-$value"))
+                        }
                     }
                     ControlGroup(text(R.string.ui_audio_display),"audio-controls"){
                     FlowRow(horizontalArrangement=Arrangement.spacedBy(4.dp)){

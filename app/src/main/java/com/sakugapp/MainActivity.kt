@@ -166,7 +166,7 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
                 val resultSession by model.resultSession.collectAsStateWithLifecycle()
                 val token by postsEntry.savedStateHandle.getStateFlow<String?>("resultToken",null).collectAsStateWithLifecycle()
                 val editorReset by postsEntry.savedStateHandle.getStateFlow<String?>("editorReset",null).collectAsStateWithLifecycle()
-                BackHandler(enabled=entry?.id==postsEntry.id && token!=null){
+                fun exitResults(){
                     model.returnToDefaultPosts()
                     postsEntry.savedStateHandle["resultToken"]=null
                     postsEntry.savedStateHandle["resultQuery"]=""
@@ -174,13 +174,14 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
                     postsEntry.savedStateHandle["editorReset"]=java.util.UUID.randomUUID().toString()
                     bottomVisible=true
                 }
+                BackHandler(enabled=entry?.id==postsEntry.id && token!=null){exitResults()}
                 val searchGrid=rememberLazyGridState()
                 androidx.lifecycle.compose.LifecycleEventEffect(androidx.lifecycle.Lifecycle.Event.ON_START){if(entry?.id==postsEntry.id){if(token!=null)model.activateSearch(token!!,postsEntry.savedStateHandle["resultQuery"] ?: "",postsEntry.savedStateHandle["sampleOnly"] ?: false)else model.restoreBrowse()}}
                 LaunchedEffect(entry?.id,token){if(entry?.id==postsEntry.id){if(token!=null)model.activateSearch(token!!,postsEntry.savedStateHandle["resultQuery"] ?: "",postsEntry.savedStateHandle["sampleOnly"] ?: false)else model.restoreBrowse()}}
                 if(token==resultSession)
                 {
                 val body:@Composable ()->Unit={Column(Modifier.fillMaxSize()){
-                    key(token){PostsScreen(feed,if(searchMode)searchGrid else grid,settings,history,metered,app,runSearch,openPost,model::loadMore,model::refresh,isActive=entry?.id==postsEntry.id,searchResetToken=editorReset,onChromeVisibility={bottomVisible=it})}
+                    key(token){PostsScreen(feed,if(searchMode)searchGrid else grid,settings,history,metered,app,runSearch,openPost,model::loadMore,model::refresh,isActive=entry?.id==postsEntry.id,searchResetToken=editorReset,onChromeVisibility={bottomVisible=it},onExitResults=::exitResults)}
                 }}
                 if(token==null)mainStates.Content("posts",postsEntry.id,entry?.id==postsEntry.id,body)else body()
                 }
@@ -241,7 +242,7 @@ internal fun Sakugapp(model:FeedViewModel=viewModel(),app:AppViewModel=viewModel
 
 @OptIn(ExperimentalLayoutApi::class,ExperimentalMaterial3Api::class)
 @Composable
-internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,history:List<String>,metered:Boolean,app:AppViewModel,search:(String)->Unit,open:(Post)->Unit,loadMore:()->Unit,refresh:()->Unit,isActive:Boolean=true,searchResetToken:String?=null,onChromeVisibility:(Boolean)->Unit={}) {
+internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings,history:List<String>,metered:Boolean,app:AppViewModel,search:(String)->Unit,open:(Post)->Unit,loadMore:()->Unit,refresh:()->Unit,isActive:Boolean=true,searchResetToken:String?=null,onChromeVisibility:(Boolean)->Unit={},onExitResults:()->Unit={search("")}) {
     var query by rememberSaveable(state.query,key="posts-query",stateSaver=TextFieldValue.Saver){mutableStateOf(TextFieldValue(state.query,TextRange(state.query.length)))}
     var preview by remember{mutableStateOf(PreviewSelection())}
     val active=preview.id
@@ -357,17 +358,18 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
         }){Column{Text(text(R.string.ui_refresh_failed));Text(translateMessage(failure),style=MaterialTheme.typography.bodySmall)}}}
         Surface(Modifier.fillMaxWidth().offset{IntOffset(0,offset.toInt())}.zIndex(1f).onSizeChanged{fullHeight=it.height},tonalElevation=0.dp){
             Column(Modifier.padding(horizontal=10.dp).heightIn(max=with(LocalConfiguration.current){screenHeightDp.dp*0.7f})){
-                Row(Modifier.fillMaxWidth().height(64.dp).onSizeChanged{baseHeight=it.height},verticalAlignment=Alignment.CenterVertically){
+                Row(Modifier.fillMaxWidth().height(64.dp).testTag(if(state.query.isNotBlank())"search-results-toolbar" else "browse-toolbar").onSizeChanged{baseHeight=it.height},verticalAlignment=Alignment.CenterVertically){
+                    if(state.query.isNotBlank())ActionIcon(R.drawable.ic_back,text(R.string.ui_back_to_app),{collapseSearch();onExitResults()},Modifier.testTag("exit-search-results"))
                     if(searchExpanded){
                         OutlinedTextField(query,{query=it},modifier=Modifier.weight(1f).focusRequester(searchFocus).onFocusChanged{searchFocused=it.isFocused}.testTag("search-input"),singleLine=true,
-                            label={Text(text(R.string.ui_search))},keyboardOptions=KeyboardOptions(imeAction=ImeAction.Search),
+                            shape=RoundedCornerShape(12.dp),label={Text(text(R.string.ui_search))},keyboardOptions=KeyboardOptions(imeAction=ImeAction.Search),
                             keyboardActions=KeyboardActions(onSearch={submit(query.text)}),
                             trailingIcon={ActionIcon(R.drawable.ic_close,text(R.string.ui_clear_search),{query=TextFieldValue("")},Modifier.testTag("clear-search"))})
                         // Explicit search accepts the visible draft; only suggestions defer IME composition.
                         ActionIcon(R.drawable.ic_search,text(R.string.ui_search),{submit(query.text)},Modifier.testTag("submit-search"))
                         ActionIcon(R.drawable.ic_close,text(R.string.ui_close),::collapseSearch,Modifier.testTag("collapse-search"))
                     }else{
-                        Row(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(8.dp))
+                        Row(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(12.dp)).background(if(state.query.isNotBlank())MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surface)
                             .clickable(role=Role.Button){chromeVisible=true;historyOpen=false;searchExpanded=true}
                             .testTag("search-entry").semantics(mergeDescendants=true){contentDescription=context.getString(R.string.ui_search)}
                             .padding(horizontal=12.dp),verticalAlignment=Alignment.CenterVertically){
@@ -375,7 +377,11 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
                             Spacer(Modifier.width(8.dp))
                             Text(state.query.ifBlank{text(R.string.ui_search)},maxLines=1,overflow=TextOverflow.Ellipsis,modifier=Modifier.weight(1f),color=MaterialTheme.colorScheme.onSurfaceVariant)
                         }
-                        if(state.query.isNotBlank())SearchTagFavorite(state.query,state.posts,app)else Box{
+                        if(state.query.isNotBlank()){
+                            ActionIcon(R.drawable.ic_close,text(R.string.ui_clear_search),{collapseSearch();onExitResults()},Modifier.testTag("clear-search-results"))
+                            ActionIcon(R.drawable.ic_search,text(R.string.ui_search),{submit(state.query)},Modifier.testTag("repeat-search"))
+                            SearchTagFavorite(state.query,state.posts,app)
+                        }else Box{
                             TextButton(onClick={gridMenu=true},modifier=Modifier.testTag("grid-columns").semantics{contentDescription=context.getString(R.string.ui_grid_selection,settings.columns)}){Text("▦ ${settings.columns}")}
                             TileMenu(expanded=gridMenu,onDismissRequest={gridMenu=false}){for(columns in GridPolicy.options(LocalConfiguration.current.smallestScreenWidthDp))AppMenuItem(icon=R.drawable.ic_tune,selected=settings.columns==columns,text={Text(text(R.string.ui_columns_count,columns))},onClick={
                                 val index=grid.firstVisibleItemIndex;val scroll=grid.firstVisibleItemScrollOffset
@@ -388,9 +394,9 @@ internal fun PostsScreen(state:FeedState,grid:LazyGridState,settings:AppSettings
                     Column(Modifier.verticalScroll(rememberScrollState()).testTag("search-expanded")){
                         SearchSyntax.warnings(query.text).forEach{Text(translateMessage(it),style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.tertiary)}
                         FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp),verticalArrangement=Arrangement.spacedBy(8.dp),modifier=Modifier.padding(vertical=8.dp)){
-                            SearchToolTile(R.drawable.ic_tune,text(R.string.ui_search_tools),onClick={collapseSearch();advanced=true},modifier=Modifier.testTag("open-combined-search"))
-                            SearchToolTile(R.drawable.ic_history,text(R.string.ui_search_history),onClick={historyOpen=!historyOpen;focus.clearFocus()},selected=historyOpen,modifier=Modifier.testTag("search-history-toggle"))
-                            SearchToolTile(R.drawable.ic_palette,text(R.string.ui_average_color),enabled=!averaging && state.posts.isNotEmpty(),onClick={scope.launch{
+                            SearchResultTool(R.drawable.ic_tune,text(R.string.ui_search_tools),onClick={collapseSearch();advanced=true},modifier=Modifier.testTag("open-combined-search"))
+                            SearchResultTool(R.drawable.ic_history,text(R.string.ui_search_history),onClick={historyOpen=!historyOpen;focus.clearFocus()},selected=historyOpen,modifier=Modifier.testTag("search-history-toggle"))
+                            SearchResultTool(R.drawable.ic_palette,text(R.string.ui_average_color),enabled=!averaging && state.posts.isNotEmpty(),onClick={scope.launch{
                                 averaging=true
                                 try{val visible=grid.layoutInfo.visibleItemsInfo.mapNotNull{it.key as? Long}.toHashSet();val urls=state.posts.filter{it.id in visible}.mapNotNull{it.previewUrl};val result=averagePreviewColor(context,urls);average="${result.first} (${result.second}/${urls.size})"}
                                 catch(e:CancellationException){throw e}catch(e:Exception){average=localizedMessage(context,e.message.orEmpty())}finally{averaging=false}
