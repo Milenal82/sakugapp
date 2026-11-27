@@ -24,6 +24,9 @@ for path in root.rglob('*'):
         report.setdefault('lint',{})[name]={'errors':sum(i.get('severity') in ['Error','Fatal'] for i in issues),
                         'warnings':sum(i.get('severity')=='Warning' for i in issues)}
     if name=='v134-unsigned.json':report['unsigned_preflight']=json.loads(path.read_text())
+    if 'upgrade-baseline' in relative and path.suffix in ['.txt','.json']:
+        bounded='\n'.join(line for line in path.read_text(errors='replace').splitlines() if not re.search(r'password|authorization:|cookie:|bearer ',line,re.I))[-16000:]
+        report.setdefault('baseline_checker',[]).append({'file':relative,'text':bounded})
     if name.endswith('-runner.log') and 'content-first-diagnostics' in relative:
         lines=path.read_text(errors='replace').splitlines()
         bounded='\n'.join(line for line in lines if not re.search(r'password|authorization:|cookie:|bearer ',line,re.I))[-24000:]

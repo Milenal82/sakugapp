@@ -1,0 +1,45 @@
+name: v1.3.4 verified tag and release
+on:
+  workflow_dispatch:
+    inputs:
+      expected_commit:
+        description: 'Full 40-character main merge commit SHA; all four main checks must already be green'
+        type: string
+        required: true
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: create-v134-tag
+  cancel-in-progress: false
+jobs:
+  tag:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Check the owner's exact main commit and all prerequisite checks
+        env:
+          EXPECTED_COMMIT: ${{ inputs.expected_commit }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import os,re,subprocess
+          sha=os.environ['EXPECTED_COMMIT']
+          assert re.fullmatch('[0-9a-f]{40}',sha), 'Use the full main merge SHA.'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()==sha
+          PY
+          python3 scripts/check-release-1.3.4.py --before-tag
+      - name: Create one immutable annotated tag, without force
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git tag -a v1.3.4 -m 'Sakugapp v1.3.4'
+          git push origin refs/tags/v1.3.4
+      - name: Explicitly dispatch protected release (GITHUB_TOKEN tag pushes do not trigger push workflows)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run release.yml --repo "$GITHUB_REPOSITORY" --ref main -f tag=v1.3.4 -f reuse_v130_signed=false
