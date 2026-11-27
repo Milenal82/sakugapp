@@ -15,7 +15,7 @@ SOURCE='a'*40;HEAD='b'*40
 
 
 class HandoffTests(unittest.TestCase):
-    def env(self,root,branch=h.BRANCH):return {'GITHUB_REPOSITORY':h.REPO,'GITHUB_REF':'refs/heads/'+branch,'RUNNER_TEMP':root,'GITHUB_STEP_SUMMARY':root+'/summary'}
+    def env(self,root,branch=h.BRANCH):return {'GITHUB_REPOSITORY':h.REPO,'GITHUB_EVENT_NAME':'push','GITHUB_REF':'refs/heads/'+branch,'RUNNER_TEMP':root,'GITHUB_STEP_SUMMARY':root+'/summary'}
 
     def test_pr_creation_policy_denial_requires_owner_and_never_merges_or_dispatches(self):
         with tempfile.TemporaryDirectory()as root:
@@ -41,10 +41,11 @@ class HandoffTests(unittest.TestCase):
             def api(path):
                 if path.startswith('releases/'):return {'id':460623144,'tag_name':'v1.3.4','target_commitish':SOURCE,'draft':True,'prerelease':False}
                 return {'workflow_runs':[]}
-            with patch.dict(os.environ,self.env(root,'main')),patch.object(h,'checked_candidate_source',return_value=(SOURCE,HEAD)),patch.object(h,'checked_source',return_value=(SOURCE,HEAD)),patch.object(h,'wait_checks'),patch.object(h,'api',side_effect=api),patch.object(h,'gh')as gh:
+            with patch.dict(os.environ,self.env(root,'main')),patch.object(h,'checked_candidate_source',return_value=(SOURCE,HEAD)),patch.object(h,'checked_source',return_value=(SOURCE,HEAD)),patch.object(h,'wait_checks')as wait,patch.object(h,'api',side_effect=api),patch.object(h,'gh')as gh:
                 h.main()
                 command=gh.call_args.args
                 self.assertEqual(('workflow','run','release.yml'),command[:3]);self.assertIn('finish_v134_draft=true',command)
+                self.assertFalse(wait.call_args.kwargs['dispatch'])
             self.assertEqual('protected_release_requested',json.loads((pathlib.Path(root)/'v134-handoff.json').read_text())['stage'])
 
     def test_stale_other_branch_and_fork_runs_do_not_qualify(self):

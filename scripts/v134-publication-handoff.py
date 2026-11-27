@@ -103,7 +103,10 @@ def main():
         subprocess.run(['git','fetch','origin','main:refs/remotes/origin/main'],check=True)
         subprocess.run(['git','checkout','--detach',merged],check=True)
     source,validator=checked_source()
-    wait_checks('v134-recovery-checks.yml',validator,'main',dispatch=True)
+    # Owner merges already trigger main push CI. Dispatch only for bot merges/manual handoff,
+    # avoiding a duplicate dispatch cancelling the real main push run during indexing.
+    dispatch_main = ref!='refs/heads/main' or os.environ.get('GITHUB_EVENT_NAME')=='workflow_dispatch'
+    wait_checks('v134-recovery-checks.yml',validator,'main',dispatch=dispatch_main)
     release=api(f'releases/{DRAFT_ID}')
     if not release.get('draft'):
         identity(release,source,draft=False)
