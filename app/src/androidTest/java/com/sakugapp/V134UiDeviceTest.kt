@@ -37,13 +37,14 @@ class V134UiDeviceTest {
    ui.runOnUiThread{ui.activity.setContent{SakugappTheme(false){SearchHistoryScreen(model){searched=it}}}}
    ui.onNodeWithTag("search-history-page").assertExists()
    ui.onNodeWithText(query).performScrollTo().performClick();assertEquals(query,searched)
+   UiEvidence.capture("v134-search-history.png")
    ui.onNodeWithTag("viewed-post-${post.id}").assertDoesNotExist()
    ui.runOnUiThread{ui.activity.setContent{SakugappTheme(true){BrowsingHistoryScreen(model,{},{p,_->opened=p.id})}}}
    ui.onNodeWithTag("browsing-history-list").performScrollToNode(hasTestTag("viewed-post-${post.id}"))
    ui.onNodeWithTag("viewed-post-${post.id}").performClick();assertEquals(post.id,opened)
    assertTrue(query in model.history.value)
-   model.personal.removeHistory(post.id);assertTrue(query in model.preferences.history.first())
    UiEvidence.capture("v134-browsing-history.png")
+   model.personal.removeHistory(post.id);assertTrue(query in model.preferences.history.first())
   }finally{model.preferences.deleteHistory(query);model.personal.removeHistory(post.id)}
  }
  @Test fun resultsToolbarEditsReturnsFromDetailAndExitsToOrdinaryFeed(){
@@ -53,6 +54,7 @@ class V134UiDeviceTest {
   ui.runOnUiThread{feed=ViewModelProvider(ui.activity,object:ViewModelProvider.Factory{override fun <T:ViewModel> create(c:Class<T>):T{@Suppress("UNCHECKED_CAST") return FeedViewModel(SavedStateHandle(),repo) as T}})[FeedViewModel::class.java];ui.activity.setContent{Sakugapp(feed,app)}}
   ui.onNodeWithTag("home-search-input").performTextReplacement("animated")
   ui.onNodeWithTag("home-submit").performClick();ui.onNodeWithTag("search-results-toolbar").assertIsDisplayed()
+  UiEvidence.capture("v134-search-results.png")
   ui.onNodeWithTag("search-entry").performClick();ui.onNodeWithTag("search-input").assertTextContains("animated")
   ui.onNodeWithTag("collapse-search").performClick()
   ui.onNodeWithTag("post-grid").performScrollToIndex(10)
@@ -96,9 +98,11 @@ class V134UiDeviceTest {
  }
  @Test fun abIsTheFirstAdvancedGroupAndMoreKeepsVideoGeometry(){
   val file=File(ui.activity.cacheDir,"v134-frame.mp4")
+  var player:androidx.media3.common.Player?=null
   InstrumentationRegistry.getInstrumentation().context.assets.open("frame-index-vfr.mp4").use{input->file.outputStream().use{input.copyTo(it)}}
   try{
-   ui.runOnUiThread{ui.activity.setContent{SakugappTheme(false){Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())){VideoPanel(file.toURI().toString())}}}}
+   ui.runOnUiThread{ui.activity.setContent{SakugappTheme(false){Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())){VideoPanel(file.toURI().toString(),onPlayerReady={player=it})}}}}
+   ui.waitUntil(20000){var ready=false;ui.runOnUiThread{ready=player?.playbackState==androidx.media3.common.Player.STATE_READY};ready}
    ui.onNodeWithTag("more-controls").performScrollTo()
    val before=ui.onNodeWithTag("video-gestures").getUnclippedBoundsInRoot()
    ui.onNodeWithTag("more-controls").performClick()
